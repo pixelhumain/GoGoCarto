@@ -1,0 +1,243 @@
+@import "libs/materialize.scss";
+
+html
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color:#FFFFFF;
+}
+
+body
+{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#fond_page
+{
+  background-color:#584545;
+  min-height: 101%
+}
+
+#page_content
+{
+	position:relative;
+  margin-top: 20px;
+	margin-left: auto;
+  margin-right: auto; 
+	width:100%;	
+  background-color : #fafafa;
+  padding: 1rem;    
+  @include transition(all 1s);
+}
+
+#form_content
+{
+  overflow: hidden;
+  @include transition(all 3s);
+}
+
+@media screen and (min-width: 600px)
+{
+   #page_content
+  {
+    max-width: 600px;
+    width:80%; 
+    padding: 1.5rem 2.5rem 1.5rem 1.5rem;    
+  } 
+}
+
+// ---------------------------------------
+//          MISE EN PAGE GENERALE
+// --------------------------------------- 
+h2, h1
+{
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 110%;
+  margin: 0.5rem 0 1.3rem 0;
+}
+
+h2.error, h1.error
+{
+  font-weight: normal;
+}
+
+.input-field label
+{
+  left: 0 !important;
+}
+
+section
+{
+  padding-top: 1rem;
+}
+
+#titre_horaires
+{
+  margin-bottom: 0.9rem;
+}
+
+#titre_ajout
+{
+  margin-bottom: 0px;
+}
+
+#label_type_fournisseur.error, .error
+{
+  color: red;
+}
+
+#section_fournisseur
+{
+  margin-bottom: 0px;
+}
+
+#section_info_fournisseur
+{
+  padding-top: 0px; 
+}
+
+#autre_point_vente
+{
+  margin-left: 42px;
+  display:none;
+  color: rgba(0, 0, 0, 0.85);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+// ---------------------------------------
+//             GOOGLE MAP
+// ---------------------------------------
+#map
+{
+  height:13rem;
+  margin-top:1rem;
+  border: 2px solid #D0CCCC;
+}
+
+// enlever les liens et logo de google
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display:none;
+}
+.gmnoprint div {
+    //background:none !important;
+}
+
+
+// ---------------------------------------
+//             TYPE PRODUIT
+// ---------------------------------------
+[type="checkbox"] + label {
+    padding-left: 26px;
+}
+
+@media screen and (min-width: 600px)
+{
+  [type="checkbox"] + label {
+      padding-left: 32px;
+  }
+}
+
+#section_vos_infos  [type="checkbox"] + label
+{
+    padding-left: 42px;
+}
+
+#precisions
+{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.label_precision
+{
+  color:#5A5959 !important;
+  font-weight: bold !important;
+}
+
+
+// ---------------------------------------
+//               HORAIRES
+// ---------------------------------------
+.horaire_2 {
+    display: none;
+    @include transition(all 2s);
+    opacity: 0; 
+    height: 0;
+}
+
+.horaire_2.active {
+    opacity: 1;
+    display: flex;
+    height: 100%;
+
+}
+
+.horaire_jour
+{
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.horaire_container
+{
+  padding-bottom:0.8rem;  
+}
+
+.horaire_container.impair
+{
+  background-color: #EFEFEF;
+}
+
+.timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4
+{
+  height: 2rem !important;
+  margin: 0 !important;
+}
+
+.btn-floating i {
+  color: rgb(52, 52, 52) !important;
+}
+
+.col
+{
+  padding: 0 !important;
+}
+
+.ajout_plage_horaire:hover, .redo_plage_horaire:hover, .clear_plage_horaire:hover
+{
+  color: $secondary-color;
+  @include transition(color 0.5s);
+}
+
+@media only screen and (max-width: 500px)
+{
+  .modal 
+  {
+      width: 90% !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

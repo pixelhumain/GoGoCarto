@@ -1,0 +1,177 @@
+{% extends "::bundle_layout.html.twig" %}
+
+{% block title %}Fournisseur{% endblock %}
+
+{% block stylesheets %}
+	
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/libs/materialize.css') }}" />
+	<link rel='stylesheet' type='text/css'href="{{ asset('assets/css/libs/timepicki.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/header.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/ajouter_fournisseur.css') }}"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
+
+{% endblock %}
+
+{% block body_content %}
+  
+  {{ form_start(form) }}
+
+   <h1 id="titre_ajout">Ajouter un fournisseur</h1>
+	
+	<section class="row" id="section_fournisseur">
+	<!-- Select type de fournisseur -->
+		<div class="input-field col s12">
+	    {# <select id="type_fournisseur" name="type">	
+			<option id="option_choix_fournisseur" value="0" disabled selected></option>      
+			<option value="producteur">Producteur en vente directe</option>
+			<option value="marche">Marché</option>			
+			<option value="amap">AMAP</option>
+			<option value="boutique">Boutique de producteurs</option>
+			<option value="epicerie">Epicerie</option>			
+	    </select> #}
+	    {{ form_widget(form.type, {'id': "type_fournisseur"}) }}
+	    <label id="label_type_fournisseur">Type de fournisseur</label>
+	  	</div>
+	</section>
+
+	<!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
+	<div id="form_content" style="height:0px;display:none">
+
+	<!-- SECTION INFO FOURNISSEUR -->
+	<section class="row" id="section_info_fournisseur">
+
+	  	<!-- Input nom fournisseur -->
+	  	<div class="input-field col s12">
+	  	<i class="material-icons prefix">account_circle</i>	
+{# 	  	<input class="validate required" placeholder="Nom" type="text" id="inputNom" name="nom"/> #}
+	  	{{ form_widget(form.nom, {'id': 'inputNom', 'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
+		</div>
+
+		<!-- Input adresse fournisseur -->
+		<div class="input-field col s12">
+		<i class="material-icons prefix">room</i>	
+	  	{# <input class="validate required" placeholder="Adresse complète" type="text" id="inputAdresse" name="adresse"/> #}
+	  	{{ form_widget(form.adresse, {'id': 'inputAdresse',
+	  								  'attr': {'class': 'validate required',
+	  								           'placeholder':'Adresse Complète' 
+	  								  		   }}) }}
+		<div id="autre_point_vente">D'autres points de ventes (marchés, AMAP...) ? Ajouter les à notre base de donnée 
+	  		avec un nouveau formulaire !</div>
+		</div>	
+
+		<!-- HIDDEN input pour stocker valeur de la lat et lng -->
+		{{ form_widget(form.lat, {'id': 'lat'}) }}
+		{{ form_widget(form.lng, {'id': 'lng'}) }}
+{# 		<input id="lat" type="hidden" name="lat" value=""/>
+		<input id="lng" type="hidden" name="lng" value=""/>	 #}	
+		
+		<!-- input description fournisseur -->
+		<div class="input-field col s12">
+		<i class="material-icons prefix">description</i>
+	  	{{ form_widget(form.description, {'id': 'inputDescription',
+	  								      'attr': {'class': 'validate',
+	  											   'placeholder':'Description (optionnel)',
+	  											   'length':'80'   }}) }}
+		</div>
+
+		<!-- input telephone fournisseur -->
+		<div class="input-field col s12">
+		<i class="material-icons prefix">phone</i>
+	  	{# <input class="validate" placeholder="Téléphone (optionnel)" type="text" id="inputTel" name="tel" pattern='-?[0-9]*(\.[0-9]+)?'/> #}
+	  	{{ form_widget(form.tel, {'id': 'inputTel',
+	  							  'attr': {'class': 'validate',
+	  											   'placeholder':'Téléphone (optionnel)',
+	  											   'pattern':'-?[0-9]*(\.[0-9]+)?'   }}) }}
+		</div>		
+
+		<!-- Carte google map -->
+		<div id="map" class="col s12"></div>	
+
+	 </section>
+	 <div class="divider"></div>
+
+	 <!-- SECTION PRODUITS -->
+	<section id="section_produits">
+		
+		<h2 id="title_produits">Produits du fournisseur</h2>
+		<div class="row ">
+			{% for produit in form.produits %}
+			    <div class="col s6 m4">		        
+			        {{ form_widget(produit) }}
+			        {{ form_label(produit) }}
+			    </div>
+			{% endfor %}
+
+			<div class="col s{{ (form.produits|length % 2)*6 }} m{{(3-(form.produits|length % 3))*(form.produits|length % 3)*4}}"></div>	
+		</div>
+
+		<!-- Espace pour préciser les type de produits -->
+		<div id="precisions">
+{# 		<?php
+		// on crée un input textpour chaque produits et on les cache tous
+		// quand on check un produit on rend visible l'input correspondant
+		$produits = $bdd->query('SELECT * FROM produits');
+		$produit = $produits->fetch();
+		do 
+		{
+			echo '<div class="input-field" id="div_precision_'.$produit['nom'].'" style="display:none">';	  	
+		  	echo '<input placeholder="Précisez si nécessaire : '.$produit['precisions'].'" id="input_precision_'.$produit['nom'] .'" name="precision_'.$produit['nom'].'" type="text" length="80">';
+	      	echo '<label class="active label_precision" for="input_precision_'.$produit['nom'].'">'. $produit["nom_formate"] .'</label>';
+			echo '</div>';	
+		}			
+		while ($produit = $produits->fetch());	   		
+		?>	 #}   		
+		</div>
+	</section>
+	<div class="divider" id="divider_produits"></div>
+
+
+	 <!-- SECTION INFOS UTILISATEUR -->
+	<section class="row" id="section_vos_infos">
+		<h2 id="titre_informations">Vos informations</h2>
+		
+		<!-- etes vous le producteur -->
+		<div class="col s12">
+			<input type="checkbox" name="estLeProducteur" id="estLeProducteur"/>
+			<label for="estLeProducteur">Vous êtes ou travaillez chez le fournisseur en question </label> 
+			{{ form_widget(form.contributeur) }}
+		</div>
+
+		<!-- S'engager à bla bla bla -->
+		<div class="col s12"><input type="checkbox"  name="agree" id="agree"/> 
+			<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce fournisseur propose des produits bio (avec ou sans label) </label>
+		</div>
+
+		<!-- E mail pour validation -->
+		<div class="input-field col s12">
+			<i class="material-icons prefix">mail</i>	
+			{# <input class="validate required" placeholder="Votre adresse mail" type="email" id="inputMail" name="mail"/> #}
+			{{ form_widget(form.contributeurMail, {'id': 'inputMail',
+	  								      		   'attr': {'class': 'validate requiered',
+	  											   			'placeholder':'Votre Adresse Mail' }}) }}
+		</div>
+
+	</section>
+	
+	<!-- bouton validation -->
+	<center>
+		{{ form_widget(form.envoyer, {'attr': {'class':'btn waves-effect waves-light'}}) }}
+	</center>
+
+	{{ form_rest(form) }}
+
+	{# Fermeture de la balise <form> du formulaire HTML #}
+	{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/libs/materialize/bin/materialize.js') }}"></script>
+	<script type='text/javascript'src="{{ asset('assets/js/libs/timepicki.js') }}"></script>
+	<script src="{{ asset('assets/js/ajouter_fournisseur.js') }}"></script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+	</script>
+{% endblock %}
