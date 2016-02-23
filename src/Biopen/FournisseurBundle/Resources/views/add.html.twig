@@ -56,9 +56,11 @@
 	  								  'attr': {'class': 'validate required',
 	  								           'placeholder':'Adresse Complète' 
 	  								  		   }}) }}
+		
+		</div>	
+
 		<div id="autre_point_vente">D'autres points de ventes (marchés, AMAP...) ? Ajouter les à notre base de donnée 
 	  		avec un nouveau formulaire !</div>
-		</div>	
 
 		<!-- HIDDEN input pour stocker valeur de la lat et lng -->
 		{{ form_widget(form.lat, {'id': 'lat'}) }}
@@ -108,7 +110,7 @@
 
 		<!-- Espace pour préciser les type de produits -->
 		<div id="precisions">
-{# 		<?php
+{# 		<?p
 		// on crée un input textpour chaque produits et on les cache tous
 		// quand on check un produit on rend visible l'input correspondant
 		$produits = $bdd->query('SELECT * FROM produits');
@@ -125,6 +127,54 @@
 		</div>
 	</section>
 	<div class="divider" id="divider_produits"></div>
+
+		<!-- SECTION HORAIRES -->
+	<section id="horaires" class="">
+		<h2 id="titre_horaires">Horaires (optionnel)</h2>
+		<div class="row ">
+		
+		{% set semaine = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"] %} 
+
+		{# // pour chaque jour de la semaine on crée un ligne pour entrée une plage horaire
+		// une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
+		{% for key,jour in semaine %}
+			{# // div englobante pour un jour donnée, on la marque paire ou impaire pour 
+			// changer la couleur de fond #}
+			{% if key%2 == 0 %} <div id="{{ key }}_horaire" class="horaire_container">
+			{% else %} <div id="{{ key }}_horaire" class="horaire_container impair"> {% endif %}
+
+			{# // première ligne de plage horaire #}
+			<div id="{{ key }}_horaire_1" class="valign-wrapper">	
+		  		
+		  		{% if (jour == "Lundi") %} 
+		  			<div class="col s3">{{ jour }}</div>
+		  		{% else %}
+		  			<div class="col s2 horaire_jour">{{ jour }}</div>
+		  			<div class="col s1 center-align"><a id="{{ key }}_redo" class="redo_plage_horaire btn-flat tooltipped" data-position="bottom" data-delay="250" data-tooltip="Recopier les horaires précédentes" style="padding:0;"><i class="material-icons">redo</i></a></div>	 
+		  		{% endif %}
+
+		  		<div class="col s1 center-align">De</div>
+		  		<div class="col s3 center-align"><input class="timepicker_1 " placeholder="" type="time" id="{{ key }}_input_1" name="{{ key }}_horaire_1" style=""/></div>
+				<div class="col s1 center-align">à</div>
+				<div class="col s3 center-align"><input class="timepicker_2" placeholder="" type="time" id="{{ key }}_input_2" name="{{ key }}_horaire_2" /></div>
+				<div class="col s1 center-align"><a id="{{ key }}_ajout" class="ajout_plage_horaire btn-flat tooltipped" data-position="bottom" data-delay="250" data-tooltip="Ajouter plage horaire" style="padding:0;"><i class="material-icons">add_circle</i></a></div>
+			</div>	
+
+			{# // deuxième ligne de plagehoraire (cachée) #}
+			<div id="{{ key }}_horaire_2" class="horaire_2 valign-wrapper">	
+				<div class="col s1 offset-s3 center-align">Et</div>
+		  		<div class="col s3 center-align"><input class="timepicker_3 " placeholder="" type="time" id="{{ key }}_input_3" name="{{ key }}_horaire_3" style=""/></div>
+				<div class="col s1 center-align">à</div>
+				<div class="col s3 center-align"><input class="timepicker_4" placeholder="" type="time" id="{{ key }}_input_4" name="{{ key }}_horaire_4" /></div>
+				<div class="col s1 center-align"><a id="{{ key }}_clear" class="clear_plage_horaire btn-flat" style="padding:0;"><i class="material-icons">clear</i></a></div>
+			</div>
+
+			</div> {# // fin div englobante #}
+		{% endfor %}
+	  	
+	</div>
+	</section>
+	<div class="divider"></div>
 
 
 	 <!-- SECTION INFOS UTILISATEUR -->
