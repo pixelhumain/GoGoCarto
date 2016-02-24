@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use Biopen\FournisseurBundle\Form\HoraireType;
+
 use Doctrine\ORM\EntityRepository;
 
 
@@ -29,7 +31,7 @@ class FournisseurType extends AbstractType
       $builder
           ->add('nom', TextType::class)
           ->add('adresse', TextType::class)
-          ->add('description', TextType::class)
+          ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class) 
           ->add('lat', HiddenType::class)   
           ->add('lng', HiddenType::class)      
@@ -40,7 +42,7 @@ class FournisseurType extends AbstractType
                   'expanded' =>'true',
                   'multiple' =>'true'
                ))
-          //->add('horaires')
+          ->add('horaires', HoraireType::class, array('required' => false))
           ->add('type', ChoiceType::class, array(
                           'choices'  => array(
                                 '' => null,
