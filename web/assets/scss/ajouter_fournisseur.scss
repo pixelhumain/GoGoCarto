@@ -167,7 +167,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 //               HORAIRES
 // ---------------------------------------
 .horaire_2 {
-    display: none ;
+    display: none !important;
     @include transition(all 1s);
     opacity: 0; 
     height: 0;
