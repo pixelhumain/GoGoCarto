@@ -1,38 +1,40 @@
 {% extends "::bundle_layout.html.twig" %}
 
-{% form_theme form 'form/fields.html.twig' %}
-
 {% block title %}Fournisseur{% endblock %}
 
+{# Stylessheets #}
 {% block stylesheets %}
-	
-    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/libs/materialize.css') }}" />
-	<link rel='stylesheet' type='text/css'href="{{ asset('assets/css/libs/timepicki.css') }}"/>
-	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/header.css') }}"/>
-	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/ajouter_fournisseur.css') }}"/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	
+
+ 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ 	<link rel="stylesheet" href="{{ asset('assets/css/libs/timepicki.css') }}">
+
+	{% stylesheets filter='scssphp' output="css/app.css"
+            "assets/scss/ajouter_fournisseur.scss"
+            "assets/scss/header.scss"
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}	
 
 {% endblock %}
 
+
+{# BODY CONTENT #}
 {% block body_content %}
+
+	{% for flash_message in app.session.flashbag.get('notice') %}
+	    <div class="flash-notice">
+	        {{ flash_message | raw }}
+	    </div>
+	{% endfor %}
   
-  {{ form_start(form) }}
+  {{ form_start(form, {'id': 'formFournisseur'}) }}
 
    <h1 id="titre_ajout">Ajouter un fournisseur</h1>
 	
 	<section class="row" id="section_fournisseur">
 	<!-- Select type de fournisseur -->
 		<div class="input-field col s12">
-	    {# <select id="type_fournisseur" name="type">	
-			<option id="option_choix_fournisseur" value="0" disabled selected></option>      
-			<option value="producteur">Producteur en vente directe</option>
-			<option value="marche">Marché</option>			
-			<option value="amap">AMAP</option>
-			<option value="boutique">Boutique de producteurs</option>
-			<option value="epicerie">Epicerie</option>			
-	    </select> #}
-	    {{ form_widget(form.type, {'id': "type_fournisseur"}) }}
+	    	{{ form_widget(form.type, {'id': "type_fournisseur"}) }}
 	    <label id="label_type_fournisseur">Type de fournisseur</label>
 	  	</div>
 	</section>
@@ -45,15 +47,14 @@
 
 	  	<!-- Input nom fournisseur -->
 	  	<div class="input-field col s12">
-	  	<i class="material-icons prefix">account_circle</i>	
-{# 	  	<input class="validate required" placeholder="Nom" type="text" id="inputNom" name="nom"/> #}
-	  	{{ form_widget(form.nom, {'id': 'inputNom', 'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
+	  		<i class="material-icons prefix">account_circle</i>	
+	  		{{ form_widget(form.nom, {'id': 'inputNom', 
+	  							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
 		</div>
 
 		<!-- Input adresse fournisseur -->
 		<div class="input-field col s12">
 		<i class="material-icons prefix">room</i>	
-	  	{# <input class="validate required" placeholder="Adresse complète" type="text" id="inputAdresse" name="adresse"/> #}
 	  	{{ form_widget(form.adresse, {'id': 'inputAdresse',
 	  								  'attr': {'class': 'validate required',
 	  								           'placeholder':'Adresse Complète' 
@@ -67,24 +68,21 @@
 		<!-- HIDDEN input pour stocker valeur de la lat et lng -->
 		{{ form_widget(form.lat, {'id': 'lat'}) }}
 		{{ form_widget(form.lng, {'id': 'lng'}) }}
-{# 		<input id="lat" type="hidden" name="lat" value=""/>
-		<input id="lng" type="hidden" name="lng" value=""/>	 #}	
 		
 		<!-- input description fournisseur -->
 		<div class="input-field col s12">
-		<i class="material-icons prefix">description</i>
-	  	{{ form_widget(form.description, {'id': 'inputDescription',
-	  								      'attr': {'class': 'validate',
+			<i class="material-icons prefix">description</i>
+		  	{{ form_widget(form.description, {'id': 'inputDescription',
+	  								          'attr': {'class': 'validate',
 	  											   'placeholder':'Description (optionnel)',
 	  											   'length':'80'   }}) }}
 		</div>
 
 		<!-- input telephone fournisseur -->
 		<div class="input-field col s12">
-		<i class="material-icons prefix">phone</i>
-	  	{# <input class="validate" placeholder="Téléphone (optionnel)" type="text" id="inputTel" name="tel" pattern='-?[0-9]*(\.[0-9]+)?'/> #}
-	  	{{ form_widget(form.tel, {'id': 'inputTel',
-	  							  'attr': {'class': 'validate',
+			<i class="material-icons prefix">phone</i>
+		  	{{ form_widget(form.tel, {'id': 'inputTel',
+	  							      'attr': {'class': 'validate',
 	  											   'placeholder':'Téléphone (optionnel)',
 	  											   'pattern':'-?[0-9]*(\.[0-9]+)?'   }}) }}
 		</div>		
@@ -95,38 +93,70 @@
 	 </section>
 	 <div class="divider"></div>
 
+	 <section id="section_AMAP" style="display:none">
+	 	<h2 id="title_AMAP">Contact dans l'AMAP (renseignez un téléphone et/ou un e-mail)</h2>
+   		<div class="row ">
+		 	<!-- inputNom du contact de l'AMAP -->
+			<div class="input-field col s12" id="AMAP_contact">
+			  	<i class="material-icons prefix">account_circle</i>	
+			  	{{ form_widget(form.contactAmap.children.nom, 
+					  				{ 'id' : 'inputNomContactAMAP',									
+				  					  'attr': {'placeholder':'Nom du Contact de l\'AMAP',
+				  							   'name' : 'nomAMAP',
+				  					}}) }}
+			</div>
+			<!-- input telephone contact de l'AMAP -->
+			<div class="input-field col s12">
+				<i class="material-icons prefix">phone</i>
+			  	{{ form_widget(form.contactAmap.children.tel, 
+					  				{ 'id' : 'inputTelAMAP',									
+				  					  'attr': {'placeholder':'Téléphone du contact',
+				  							   'name' : 'telAMAP',
+				  							   'pattern': '-?[0-9]*(\.[0-9]+)?'
+				  					}}) }}
+			</div>			
+			<!-- input Mail du contact de l'AMAP -->
+		  	<div class="input-field col s12"  id="AMAP_mail">
+				<i class="material-icons prefix">mail</i>	
+				{{ form_widget(form.contactAmap.children.mail, 
+					  				{ 'id' : 'inputMailAMAP',									
+				  					  'attr': {'type' : 'email',
+				  					  		   'placeholder':'Adresse mail du contact',
+				  							   'name' : 'mailAMAP'
+				  					}}) }}
+			</div>
+		</div>
+	</section>
+	<div class="divider" style="display:none"></div>
+
 	 <!-- SECTION PRODUITS -->
 	<section id="section_produits">
 		
 		<h2 id="title_produits">Produits du fournisseur</h2>
-		<div class="row ">
-			{% for produit in form.produits %}
-			    <div class="col s6 m4">		        
-			        {{ form_widget(produit) }}
-			        {{ form_label(produit) }}
+		<div class="row ">			
+			{% for produit in form.listeProduits %}
+			    <div class="col s6 m4">	
+			        {{ form_widget(produit, {'attr': {'class': 'checkbox_produits'}}) }}
+			        {{ form_label(produit) }} 
 			    </div>
 			{% endfor %}
 
-			<div class="col s{{ (form.produits|length % 2)*6 }} m{{(3-(form.produits|length % 3))*(form.produits|length % 3)*4}}"></div>	
+			{# on compl?te avec des div vide le tableau de produit #}
+			<div class="col s{{ (form.listeProduits|length % 2)*6 }} m{{(3-(form.listeProduits|length % 3))*(form.listeProduits|length % 3)*4}}"></div>	
 		</div>
 
 		<!-- Espace pour préciser les type de produits -->
 		<div id="precisions">
-{# 		<?p
-		// on crée un input textpour chaque produits et on les cache tous
-		// quand on check un produit on rend visible l'input correspondant
-		$produits = $bdd->query('SELECT * FROM produits');
-		$produit = $produits->fetch();
-		do 
-		{
-			echo '<div class="input-field" id="div_precision_'.$produit['nom'].'" style="display:none">';	  	
-		  	echo '<input placeholder="Précisez si nécessaire : '.$produit['precisions'].'" id="input_precision_'.$produit['nom'] .'" name="precision_'.$produit['nom'].'" type="text" length="80">';
-	      	echo '<label class="active label_precision" for="input_precision_'.$produit['nom'].'">'. $produit["nom_formate"] .'</label>';
-			echo '</div>';	
-		}			
-		while ($produit = $produits->fetch());	   		
-		?>	 #}   		
+			{# on cr?e un input textpour chaque produits et on les cache tous
+			quand on check un produit on rend visible l'input correspondant #}
+			{% for produit in form.listeProduits %}			
+				<div class="input-field" id="div_precision_{{ produit.vars.value }}" style="display:none">	
+				  	<input placeholder="Précisez si nécessaire :" id="input_precision_{{ produit.vars.value }}" name="precision_{{ produit.vars.value }}" type="text" length="80">
+			      	<label class="active label_precision" for="input_precision_{{ produit.vars.value }}">{{ produit.vars.label }}</label>
+				</div> 
+			{% endfor %}   
 		</div>
+
 	</section>
 	<div class="divider" id="divider_produits"></div>
 
@@ -136,13 +166,14 @@
 		<div class="row ">
 		
 		{% set key = 0 %}
-		{# // pour chaque jour de la semaine on crée un ligne pour entrée une plage horaire
-		// une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
+		{# pour chaque jour de la semaine on crée un ligne pour entrée une plage horaire
+		   une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
 		{% for jour in form.horaires %}
 			{# // div englobante pour un jour donnée, on la marque paire ou impaire pour 
 			// changer la couleur de fond #}
-			{% if key%2 == 0 %} <div id="{{ key }}_horaire" class="horaire_container">
-			{% else %} <div id="{{ key }}_horaire" class="horaire_container impair"> {% endif %}
+			{% set class = key%2 == 0 ? 'horaire_container' : 'horaire_container impair' %}
+			<div id="{{ key }}_horaire" class="{{ class }}">
+			
 
 			{# // première ligne de plage horaire #}
 			<div id="{{ key }}_horaire_1" class="valign-wrapper">	
@@ -156,7 +187,6 @@
 		  		
 		  		<div class="col s1 center-align">De</div>
 		  		<div class="col s3 center-align">
-		  			{# <input class="timepicker_1 " placeholder="" type="time" id="{{ key }}_input_1" name="{{ key }}_horaire_1" style=""/> #}
 		  			{{ form_widget(jour.children.plage1debut, { 'id' : key ~'_input_1',
 		  														
 	  							  'attr': {'class': 'timepicker_1',
@@ -167,7 +197,6 @@
 		  		</div>
 				<div class="col s1 center-align">à</div>
 				<div class="col s3 center-align">
-					{# <input class="timepicker_2" placeholder="" type="time" id="{{ key }}_input_2" name="{{ key }}_horaire_2" /> #}
 					{{ form_widget(jour.children.plage1fin, {'id': key ~'_input_2',
 	  							  'attr': {'class': 'timepicker_2',
 	  									   'placeholder':'',
@@ -181,7 +210,6 @@
 			<div id="{{ key }}_horaire_2" class="horaire_2 valign-wrapper">	
 				<div class="col s1 offset-s3 center-align">Et</div>
 		  		<div class="col s3 center-align">
-		  			{# <input class="timepicker_3 " placeholder="" type="time" id="{{ key }}_input_3" name="{{ key }}_horaire_3" style=""/></div> #}
 		  			{{ form_widget(jour.children.plage2debut, {'id': key ~'_input_3',
 	  							  'attr': {'class': 'timepicker_3',
 	  									   'placeholder':'',
@@ -189,7 +217,6 @@
 	  			</div>
 				<div class="col s1 center-align">à</div>
 				<div class="col s3 center-align">
-					{# <input class="timepicker_4" placeholder="" type="time" id="{{ key }}_input_4" name="{{ key }}_horaire_4" /></div> #}
 					{{ form_widget(jour.children.plage2fin, {'id': key ~'_input_4',
 	  							  'attr': {'class': 'timepicker_4',
 	  									   'placeholder':'',
@@ -216,31 +243,29 @@
 		<div class="col s12">
 			<input type="checkbox" name="estLeProducteur" id="estLeProducteur"/>
 			<label for="estLeProducteur">Vous êtes ou travaillez chez le fournisseur en question </label> 
-			{{ form_widget(form.contributeur) }}
+			{{ form_widget(form.contributeur) }}			
 		</div>
 
 		<!-- S'engager à bla bla bla -->
-		<div class="col s12"><input type="checkbox"  name="agree" id="agree"/> 
+		<div class="col s12">			
+			{{ form_widget(form.engagement, {'id' : 'agree' }) }}
 			<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce fournisseur propose des produits bio (avec ou sans label) </label>
 		</div>
 
 		<!-- E mail pour validation -->
 		<div class="input-field col s12">
 			<i class="material-icons prefix">mail</i>	
-			{# <input class="validate required" placeholder="Votre adresse mail" type="email" id="inputMail" name="mail"/> #}
 			{{ form_widget(form.contributeurMail, {'id': 'inputMail',
-	  								      		   'attr': {'class': 'validate requiered',
+	  								      		   'attr': {'class': 'validate required',
 	  											   			'placeholder':'Votre Adresse Mail' }}) }}
 		</div>
 
 	</section>
 	
-	<!-- bouton validation -->
+	
 	<center>
-		{{ form_widget(form.envoyer, {'attr': {'class':'btn waves-effect waves-light'}}) }}
+		<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
 	</center>
-
-
 	
 	{{ form_rest(form) }}
 
@@ -249,12 +274,49 @@
 
 {% endblock %}
 
+
+
 {% block javascripts %}
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script type="text/javascript" src="{{ asset('assets/js/libs/materialize/bin/materialize.js') }}"></script>
-	<script type='text/javascript'src="{{ asset('assets/js/libs/timepicki.js') }}"></script>
-	<script src="{{ asset('assets/js/ajouter_fournisseur.js') }}"></script>
+
+	{% javascripts filter="?jsqueeze" output="js/app.js"
+        "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/libs/timepicki.js"
+        "assets/js/ajouter_fournisseur.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
 	</script>
+{% endblock %}
+
+{% block modals %}
+<!-- Pop up plusieurs jours de marchés -->
+<div id="modal_marche" class="modal">
+	<div class="modal-content">
+	  <h5>Plusieurs jours de marchés</h5>
+	  <p>Vous avez renseigné plusieurs jours d'ouverture pour ce marché, êtes vous certain que
+	  	l'on retrouve les même produits à ces différentes date?</p>
+	  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque jour
+	  		de marché</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
+	 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
+	</div>
+</div>
+
+<!-- Pop up message alerte-->
+<div id="popup" class="modal">
+	<div class="modal-content">
+	  <h5 id="popup_title"></h5>
+	  <p id="popup_content"></p>
+	</div>
+	<div class="modal-footer">
+		<span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
+	</div>
+</div>
+
 {% endblock %}

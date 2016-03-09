@@ -54,10 +54,10 @@ body
 // --------------------------------------- 
 h2, h1
 {
-  font-weight: bold;
-  font-size: 1rem;
-  line-height: 110%;
-  margin: 0.5rem 0 1.3rem 0;
+  font-weight: bold !important;
+  font-size: 1rem !important; 
+  line-height: 110% !important;
+  margin: 0.5rem 0 1.3rem 0 ;
 }
 
 h2.error, h1.error
@@ -77,12 +77,12 @@ section
 
 #titre_horaires
 {
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.9rem !important;
 }
 
 #titre_ajout
 {
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
 }
 
 #label_type_fournisseur.error, .error
@@ -167,15 +167,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 //               HORAIRES
 // ---------------------------------------
 .horaire_2 {
-    display: none;
-    @include transition(all 2s);
+    display: none ;
+    @include transition(all 1s);
     opacity: 0; 
     height: 0;
 }
 
 .horaire_2.active {
     opacity: 1;
-    display: flex;
+    display: flex !important;
     height: 100%;
 
 }
@@ -225,6 +225,13 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   }
 }
 
+//   FLASHBAG
+.flash-notice
+{
+    text-align: center;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
 
 
 

@@ -59,7 +59,7 @@ class Fournisseur
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
+     * @ORM\Column(name="tel", type="string", length=255)
      */
     private $tel;
 
@@ -125,6 +125,7 @@ class Fournisseur
         $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
     }
+
 
     /**
      * Get id

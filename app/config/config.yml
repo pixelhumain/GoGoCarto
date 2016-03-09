@@ -75,9 +75,11 @@ swiftmailer:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
-    bundles: ['BiopenFournisseurBundle']
     filters:
         cssrewrite: ~
+        jsqueeze: ~
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
         sass:    ~
         compass: ~
         uglifyjs2:
