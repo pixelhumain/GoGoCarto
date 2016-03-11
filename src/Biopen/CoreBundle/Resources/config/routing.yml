@@ -1,0 +1,3 @@
+biopen_core_homepage:
+    path:     /
+    defaults: { _controller: BiopenCoreBundle:Core:index }

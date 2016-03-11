@@ -1,0 +1,3 @@
+biopen_listing_homepage:
+    path:     /
+    defaults: { _controller: BiopenListingBundle:Default:index }

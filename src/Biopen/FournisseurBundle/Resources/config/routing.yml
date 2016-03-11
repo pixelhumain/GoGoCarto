@@ -1,0 +1,3 @@
+biopen_fournisseur_add:
+    path:     /add
+    defaults: { _controller: BiopenFournisseurBundle:Fournisseur:add }

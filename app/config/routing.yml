@@ -1,3 +1,17 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+biopen_core:
+    resource: "@BiopenCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+biopen_fournisseur:
+    resource: "@BiopenFournisseurBundle/Resources/config/routing.yml"
+    prefix:   /fournisseur
+
+biopen_listing:
+    resource: "@BiopenListingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+biopen_constellation:
+    resource: "@BiopenConstellationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
