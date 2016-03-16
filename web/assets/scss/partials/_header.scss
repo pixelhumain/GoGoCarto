@@ -1,9 +1,7 @@
-@import "libs/materialize.scss";
-
 header 
 {	
 	color: white ;
-	//@extend .z-depth-4;	
+	@extend .z-depth-2;	
 
 	#menu
 	{

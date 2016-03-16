@@ -6,14 +6,7 @@
 {% block stylesheets %}
 
  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
- 	<link rel="stylesheet" href="{{ asset('assets/css/libs/timepicki.css') }}">
-
-	{% stylesheets filter='scssphp' output="css/app.css"
-            "assets/scss/ajouter_fournisseur.scss"
-            "assets/scss/header.scss"
-        %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}	
+ 	<link rel="stylesheet" href="{{ asset('assets/css/fournisseur-add.css') }}">
 
 {% endblock %}
 

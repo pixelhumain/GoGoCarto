@@ -181,7 +181,7 @@
 				}
 			});
 
-			$(".timepicker_wrap").on('keydown', function(e) 
+			$(".timepicker_wrap").on('keydown', function(keyevent) 
 			{				
 				// close quand escape
 				if (keyevent.keyCode == 27) 

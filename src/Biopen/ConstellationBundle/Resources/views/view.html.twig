@@ -1,0 +1,57 @@
+{% extends "::base_layout.html.twig" %}
+
+{% block title %}Pages Vertes {% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="{{ asset('assets/css/constellation.css') }}">
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body %}
+  
+  <section id="section_carte">
+  <div id="map"> </div>
+  <div id="bandeau_detail"></div>
+  <div id="bandeau_option"></div>
+
+  <div id="div_recherche_contener" class="valign-wrapper">
+    <div class="valign" style="width:100%"> 
+    <div id="div_recherche">
+    <div class="input-field"> 
+      <input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
+    </div>
+    </div>
+  </div>
+  </div> 
+
+  <div id="btn_menu"><i class='material-icons'>menu</i></div> 
+  <div id="overlay"></div>
+</section>
+
+<div id="bandeau_plus_resultats"></div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    
+  {% javascripts filter="?jsqueeze"
+        "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/constellation.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+  </script>
+
+{% endblock %}
+

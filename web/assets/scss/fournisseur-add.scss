@@ -1,25 +1,6 @@
-@import "libs/materialize.scss";
-
-html
-{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color:#FFFFFF;
-}
-
-body
-{
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
-#fond_page
-{
-  background-color:#584545;
-  min-height: 101%
-}
+@import 'partials/base_bundle';
+@import 'vendors/timepicki';
+@import 'vendors/materialize';
 
 #page_content
 {
