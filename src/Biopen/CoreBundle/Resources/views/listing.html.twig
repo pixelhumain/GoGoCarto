@@ -1,0 +1,37 @@
+{% extends "::bundle_layout.html.twig" %}
+
+{% block title %}Listing {% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+  {# <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> #}
+  {# <link rel="stylesheet" href="{{ asset('assets/css/listing.css') }}"> #}
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body %}
+  
+  
+{% endblock %}
+
+
+
+{% block javascripts %}
+    
+  {% javascripts filter="?jsqueeze"
+        "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/constellation.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+  </script>
+
+{% endblock %}
+

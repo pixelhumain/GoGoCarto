@@ -1,3 +1,11 @@
-biopen_core_homepage:
+biopen_homepage:
     path:     /
     defaults: { _controller: BiopenCoreBundle:Core:index }
+
+biopen_constellation:
+    path:     /constellation/{slug}
+    defaults: { _controller: BiopenCoreBundle:Core:constellation }
+
+biopen_listing:
+    path:     /list/{slug}
+    defaults: { _controller: BiopenCoreBundle:Core:listing }

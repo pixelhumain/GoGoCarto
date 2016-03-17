@@ -1,4 +1,0 @@
-services:
-#    biopen_listing.example:
-#        class: Biopen\ListingBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]

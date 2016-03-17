@@ -2,8 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@BiopenConstellationBundle/Resources/config/services.yml" }
-    - { resource: "@BiopenListingBundle/Resources/config/services.yml" }
     - { resource: "@BiopenCoreBundle/Resources/config/services.yml" }
     - { resource: "@BiopenFournisseurBundle/Resources/config/services.yml" }
 
@@ -76,13 +74,13 @@ assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
     filters:
-        cssrewrite: ~
+        # cssrewrite: ~
         jsqueeze: ~
-        scssphp:
-            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
-        sass:    ~
-        compass: ~
+        # scssphp:
+        #     formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+        # sass:    ~
+        # compass: ~
         uglifyjs2:
             bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifyjs
-        uglifycss:
-            bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifycss
+        # uglifycss:
+        #     bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifycss

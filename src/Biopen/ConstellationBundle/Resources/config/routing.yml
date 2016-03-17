@@ -1,7 +1,0 @@
-biopen_constellation_homepage:
-    path:     /index
-    defaults: { _controller: BiopenConstellationBundle:Constellation:index }
-
-biopen_constellation_view:
-    path:     /constellation/{slug}
-    defaults: { _controller: BiopenConstellationBundle:Constellation:view }
