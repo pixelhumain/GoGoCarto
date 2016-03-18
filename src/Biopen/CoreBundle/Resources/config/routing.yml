@@ -5,6 +5,8 @@ biopen_homepage:
 biopen_constellation:
     path:     /constellation/{slug}
     defaults: { _controller: BiopenCoreBundle:Core:constellation, slug:'' }
+    options:
+        expose: true
 
 biopen_constellation_ajax:
     path:     /constellationAjax
@@ -17,3 +19,5 @@ biopen_constellation_ajax:
 biopen_listing:
     path:     /list/{slug}
     defaults: { _controller: BiopenCoreBundle:Core:listing, slug:'' }
+    options:
+        expose: true

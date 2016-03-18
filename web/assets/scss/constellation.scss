@@ -91,6 +91,12 @@ $icon-sprite-dimensions: true;
 	@extend .z-depth-2;
 }
 
+.flash-error
+{	
+    color: #BD0101;
+    font-weight: 500;
+}
+
 @media screen and (min-width: 600px)
 {
 	#div_recherche { width: 400px }
@@ -133,3 +139,19 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .gmnoprint div {
     //background:none !important;
 }*/
+
+//google map autocomplete
+.pac-icon{ display: none;}
+.pac-item{ 
+	margin-left: 1rem;
+	margin-right: 1rem;
+	height: 2rem;
+	font-family: "Roboto";
+}
+
+.pac-container:after {
+    /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+
+    background-image: none !important;
+    height: 0px;
+}

@@ -20,8 +20,17 @@
   <div id="bandeau_option"></div>
 
   <div id="div_recherche_contener" class="valign-wrapper" style="display:none">
+    
+
+
     <div class="valign" style="width:100%"> 
+    
     <div id="div_recherche">
+    {% for flash_message in app.session.flashbag.get('error') %}
+      <p class="flash-error">
+          {{ flash_message | raw }}
+      </p>
+    {% endfor %}
     <div class="input-field"> 
       <input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
     </div>
@@ -58,13 +67,16 @@
     {% endjavascripts %}
 
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
   </script>
 
   <script>
-    var listFournisseur = {{ listFournisseur | serialize("json") | raw }};
+    var listFournisseur = null;
+    {% if listFournisseur != null %}
+    listFournisseur = {{ listFournisseur | serialize("json") | raw }};
     var lat = {{ lat | raw }};
     var lng = {{ lng | raw }};
+    {% endif %}
   </script>
 
 {% endblock %}

@@ -30,20 +30,31 @@ class CoreController extends Controller
         }
         else
         {
-        	// geocode
-        	$result = $this->container
+        	$geocode_ok = true;
+        	try 
+        	{
+        		$result = $this->container
             	->get('bazinga_geocoder.geocoder')
             	->using('openstreetmap')
             	->geocode($slug);
-
-            $address = $result->first();
-            $logger->info('geocode result : ' + $address->getLatitude() +' - ' + $address->getLongitude());
-
+        	}
+        	catch (\Exception $e) 
+        	{ 
+        		$geocode_ok = false;        		
+        	}
+        	
+        	if (!$geocode_ok)
+        	{
+        		$logger->error('no result : ' + $e->getMessage()); 
+        		$this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
+        		return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => null));
+        	}
+            $address = $result->first();            
         	$em = $this->getDoctrine()->getManager();
 
 			// On récupère la liste des candidatures de cette annonce
 			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
-							  ->findAll();
+			->findAll();
         }		
 
         return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur,'lat' => $address->getLatitude(), 'lng' => $address->getLongitude()));
@@ -57,7 +68,7 @@ class CoreController extends Controller
 
 			// On récupère la liste des candidatures de cette annonce
 			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
-							  ->findAll();
+			->findAll();
 
 			$serializer = $this->container->get('jms_serializer');
 			$listJson = $serializer->serialize($listFournisseur, 'json');

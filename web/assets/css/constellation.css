@@ -4836,17 +4836,6 @@ select {
 /*@import "components/date_picker/default.scss";
 @import "components/date_picker/default.date.scss";
 @import "components/date_picker/default.time.scss"; */
-html {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: #FFFFFF; }
-
-body {
-  position: absolute;
-  height: 100%;
-  width: 100%; }
-
 #overlay {
   position: absolute;
   top: 0;
@@ -4944,6 +4933,10 @@ body {
   background-color: white;
   border: 1px solid #bdbdbd; }
 
+.flash-error {
+  color: #BD0101;
+  font-weight: 500; }
+
 @media screen and (min-width: 600px) {
   #div_recherche {
     width: 400px; } }
@@ -4977,3 +4970,16 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 .gmnoprint div {
     //background:none !important;
 }*/
+.pac-icon {
+  display: none; }
+
+.pac-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 2rem;
+  font-family: "Roboto"; }
+
+.pac-container:after {
+  /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+  background-image: none !important;
+  height: 0px; }

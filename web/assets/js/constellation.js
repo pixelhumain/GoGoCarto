@@ -31,6 +31,11 @@ var geocoding_ok;
 // Google map initialisation
 function initMap() 
 {	
+	var options = {
+	  componentRestrictions: {country: 'fr'}
+	};
+	var autocomplete = new google.maps.places.Autocomplete(document.getElementById('inputAdresse', options));
+
 	geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(46.897045, 2.425235);
 	var mapOptions = {

@@ -1,14 +1,3 @@
 @import 'base';
 @import 'header';
 
-#page_content
-{
-	position:relative;
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto; 
-	width:100%;	
-	background-color : #fafafa;
-	padding: 1rem;    
-	@include transition(all 1s);
-}
