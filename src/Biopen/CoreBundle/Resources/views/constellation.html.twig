@@ -33,13 +33,19 @@
   <div id="overlay"></div>
 </section>
 
-<div id="bandeau_plus_resultats"></div>
+<div id="bandeau_plus_resultats">
+  {# {% for fournisseur in listFournisseur %}
+      <p>{{ fournisseur.nom }}</p>
+  {% endfor %}  #}
+</div>
 
 {% endblock %}
 
 
 
 {% block javascripts %}
+
+  
     
   {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"
@@ -51,6 +57,25 @@
 
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+  </script>
+
+  <script>
+    var listJson = '{{ listJson | raw }}';
+
+    var listAjax = {{ listFournisseur | serialize("json") | raw}};
+    var listJson;
+
+    $.ajax({
+        type: "POST",
+        url: "{{ path('biopen_constellation_ajax')}}",
+        data: '',
+        cache: false,
+        success: function(data)
+        {
+          listJson = data;
+        }
+    });    
+
   </script>
 
 {% endblock %}

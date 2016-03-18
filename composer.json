@@ -1,5 +1,5 @@
 {
-    "name": "mariette/pages-vertes",
+    "name": "biopenlandes/pages-vertes",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -33,9 +33,9 @@
         "coresphere/console-bundle": "dev-master",
         "symfony/assetic-bundle": "^2.7",
         "patchwork/jsqueeze":"~1.0",
-        "leafo/scssphp":"^0.6",
-        "friendsofsymfony/jsrouting-bundle":"dev-master",
-        "willdurand/geocoder-bundle":"^4.1"
+        "leafo/scssphp":"^0.6",        
+        "willdurand/geocoder-bundle":"^4.1",
+        "jms/serializer-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

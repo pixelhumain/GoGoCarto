@@ -16,6 +16,13 @@ jQuery(document).ready(function()
 			geocodeAddress($('#inputAdresse').val());
 		}
 	});
+
+	/*var out = '';
+    for (var i in listFournisseur) {
+        out += i + ": " + i.nom + "\n";
+    }
+
+    alert(out);*/
 });
 
 var map;
