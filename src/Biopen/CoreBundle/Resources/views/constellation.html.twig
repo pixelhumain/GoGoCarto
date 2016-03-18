@@ -19,7 +19,7 @@
   <div id="bandeau_detail"></div>
   <div id="bandeau_option"></div>
 
-  <div id="div_recherche_contener" class="valign-wrapper">
+  <div id="div_recherche_contener" class="valign-wrapper" style="display:none">
     <div class="valign" style="width:100%"> 
     <div id="div_recherche">
     <div class="input-field"> 
@@ -28,6 +28,7 @@
     </div>
   </div>
   </div> 
+
 
   <div id="btn_menu"><i class='material-icons'>menu</i></div> 
   <div id="overlay"></div>
@@ -45,7 +46,8 @@
 
 {% block javascripts %}
 
-  
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     
   {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"
@@ -60,22 +62,9 @@
   </script>
 
   <script>
-    var listJson = '{{ listJson | raw }}';
-
-    var listAjax = {{ listFournisseur | serialize("json") | raw}};
-    var listJson;
-
-    $.ajax({
-        type: "POST",
-        url: "{{ path('biopen_constellation_ajax')}}",
-        data: '',
-        cache: false,
-        success: function(data)
-        {
-          listJson = data;
-        }
-    });    
-
+    var listFournisseur = {{ listFournisseur | serialize("json") | raw }};
+    var lat = {{ lat | raw }};
+    var lng = {{ lng | raw }};
   </script>
 
 {% endblock %}

@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new Biopen\FournisseurBundle\BiopenFournisseurBundle(),
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            //new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

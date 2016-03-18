@@ -33,3 +33,6 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+bazinga_geocoder:
+    fake_ip:    123.345.643.133

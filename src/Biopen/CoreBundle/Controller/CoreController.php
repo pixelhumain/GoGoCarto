@@ -20,29 +20,33 @@ class CoreController extends Controller
 
     public function constellationAction($slug)
     {
-        // Retrieve information from the current user (by its IP address)
-       /* $result = $this->container
-            ->get('bazinga_geocoder.geocoder')
-            ->using('google_maps')
-            ->geocode($request->server->get('REMOTE_ADDR'));*/
+        
 
-        // Find the 5 nearest objects (15km) from the current user.
-        /*$address = $result->first();
-        $objects = ObjectQuery::create()
-            ->filterByDistanceFrom($address->getLatitude(), $address->getLongitude(), 15)
-            ->limit(5)
-            ->find();*/
+        $logger = $this->get('logger');
 
-		$em = $this->getDoctrine()->getManager();
+        if ($slug == '')
+        {
+        	$listFournisseur = null;
+        }
+        else
+        {
+        	// geocode
+        	$result = $this->container
+            	->get('bazinga_geocoder.geocoder')
+            	->using('openstreetmap')
+            	->geocode($slug);
 
-		// On récupère la liste des candidatures de cette annonce
-		$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
+            $address = $result->first();
+            $logger->info('geocode result : ' + $address->getLatitude() +' - ' + $address->getLongitude());
+
+        	$em = $this->getDoctrine()->getManager();
+
+			// On récupère la liste des candidatures de cette annonce
+			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
 							  ->findAll();
+        }		
 
-		$serializer = $this->container->get('jms_serializer');
-		$listJson = $serializer->serialize($listFournisseur, 'json');
-
-        return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur, 'listJson' => $listJson));
+        return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur,'lat' => $address->getLatitude(), 'lng' => $address->getLongitude()));
     }
 
     public function constellationAjaxAction(Request $request)
@@ -54,6 +58,7 @@ class CoreController extends Controller
 			// On récupère la liste des candidatures de cette annonce
 			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
 							  ->findAll();
+
 			$serializer = $this->container->get('jms_serializer');
 			$listJson = $serializer->serialize($listFournisseur, 'json');
 

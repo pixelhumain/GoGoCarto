@@ -12,17 +12,16 @@ jQuery(document).ready(function()
 	$('#inputAdresse').keyup(function(e) 
 	{    
 		if(e.keyCode == 13) // touche entrée
-		{ 
+		{ 			 
 			geocodeAddress($('#inputAdresse').val());
 		}
 	});
 
-	/*var out = '';
-    for (var i in listFournisseur) {
-        out += i + ": " + i.nom + "\n";
-    }
-
-    alert(out);*/
+	if (listFournisseur == null)
+	{
+		$('#div_recherche_contener').css('display','flex');	
+	}
+	
 });
 
 var map;
@@ -65,7 +64,16 @@ function initMap()
 
   	map.addListener('click', function() {
     	animate_down_bandeau_detail();
-  });
+  	});
+
+  	if (listFournisseur != null)
+  	{
+  		var latlng = new google.maps.LatLng(lat, lng);
+		map.panTo(latlng);
+		map.setZoom(16);
+		marker.setPosition(latlng);
+  	}
+  	
 
 }
 
@@ -76,11 +84,22 @@ function geocodeAddress( address ) {
 
 	if (status == google.maps.GeocoderStatus.OK) 
 	{
-		map.panTo(results[0].geometry.location);
-		map.setZoom(16);
-		marker.setPosition(results[0].geometry.location);
+		$.ajax({
+	        type: "POST",
+	        url: Routing.generate('biopen_constellation_ajax'),
+	        data: '',
+	        cache: false,
+	        success: function(data)
+	        {
+	          	listFounisseur = data;
 
-		animate_from_search_to_result();		
+	          	map.panTo(results[0].geometry.location);
+				map.setZoom(16);
+				marker.setPosition(results[0].geometry.location);
+
+				animate_from_search_to_result();	
+	        }
+    	}); 			
 	} 
 	else 
 	{
