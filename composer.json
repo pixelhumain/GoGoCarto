@@ -36,12 +36,20 @@
         "leafo/scssphp":"^0.6",        
         "willdurand/geocoder-bundle":"^4.1",
         "jms/serializer-bundle": "^1.1",
-        "friendsofsymfony/jsrouting-bundle": "^1.6"
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "Wantlet": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^2.7"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jhartikainen/doctrine2-spatial",
+            "comment": "Doctrine Spatial Data Types"
+        }
+    ],
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",

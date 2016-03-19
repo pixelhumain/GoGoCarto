@@ -49,12 +49,13 @@ class CoreController extends Controller
         		$this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
         		return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => null));
         	}
+
             $address = $result->first();            
         	$em = $this->getDoctrine()->getManager();
 
 			// On récupère la liste des candidatures de cette annonce
 			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
-			->findAll();
+			->myfindAll();
         }		
 
         return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur,'lat' => $address->getLatitude(), 'lng' => $address->getLongitude()));

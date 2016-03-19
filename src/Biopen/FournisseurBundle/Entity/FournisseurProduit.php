@@ -117,4 +117,9 @@ class FournisseurProduit
     {
         return $this->produit;
     }
+
+    public function getNom()
+    {
+        return $this->produit->getNom();
+    }
 }

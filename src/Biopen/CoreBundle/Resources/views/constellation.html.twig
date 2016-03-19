@@ -44,8 +44,10 @@
 </section>
 
 <div id="bandeau_plus_resultats">
-  {# {% for fournisseur in listFournisseur %}
-      <p>{{ fournisseur.nom }}</p>
+  {# {{ dump(listFournisseur)}}
+
+  {% for fournisseur in listFournisseur %}
+      <p>{{ fournisseur.id }} => {% for produit in fournisseur.produits %} {{ produit.nom }} : {{ produit.descriptif }} , {% endfor %}</p>
   {% endfor %}  #}
 </div>
 

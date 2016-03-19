@@ -1,0 +1,5 @@
+Ajout champs mail dans fournisseur
+Améliorer géocoding (mont d emarsan) et url rewriting sur le slug avec la bonne adresse
+
+
+
