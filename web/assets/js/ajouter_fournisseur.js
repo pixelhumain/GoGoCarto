@@ -95,8 +95,8 @@ function initMap()
 
 	marker.addListener('dragend', function() 
 	{
-	    $('#lat').attr('value',marker.getPosition().lat());
-		$('#lng').attr('value',marker.getPosition().lng());	
+	    $('#fournisseur_latlng_latitude').attr('value',marker.getPosition().lat());
+		$('#fournisseur_latlng_longitude').attr('value',marker.getPosition().lng());	
     });
 }
 
@@ -110,8 +110,8 @@ function geocodeAddress( address ) {
 		map.panTo(results[0].geometry.location);
 		map.setZoom(16);
 		marker.setPosition(results[0].geometry.location);
-		$('#lat').attr('value',marker.getPosition().lat());
-		$('#lng').attr('value',marker.getPosition().lng());	
+		$('#fournisseur_latlng_latitude').attr('value',marker.getPosition().lat());
+		$('#fournisseur_latlng_longitude').attr('value',marker.getPosition().lng());	
 
 		geocoding_ok = true;	
 	} 
@@ -295,7 +295,7 @@ function check_and_send()
 		else if (value_2) $(this).addClass('invalid');		
 	});		
 
-	if( !$('#lat').val() && !$('lng').val() )	
+	if( !$('#fournisseur_latlng_latitude').val() && !$('fournisseur_latlng_longitude').val() )	
 	{
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");

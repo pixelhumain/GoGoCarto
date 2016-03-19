@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Wantlet\ORM\Point;
+
 class CoreController extends Controller
 {
     public function indexAction()
@@ -27,6 +29,7 @@ class CoreController extends Controller
         if ($slug == '')
         {
         	$listFournisseur = null;
+            $address = null;
         }
         else
         {
@@ -55,10 +58,12 @@ class CoreController extends Controller
 
 			// On récupère la liste des candidatures de cette annonce
 			$listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
-			->myfindAll();
+			->findFromPoint(10, new Point($address->getLatitude(), $address->getLongitude()) );
+
+            dump($listFournisseur);
         }		
 
-        return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur,'lat' => $address->getLatitude(), 'lng' => $address->getLongitude()));
+        return $this->render('BiopenCoreBundle:constellation.html.twig', array('listFournisseur' => $listFournisseur, 'adresse'=>$address));
     }
 
     public function constellationAjaxAction(Request $request)

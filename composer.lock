@@ -4,9 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "26555017cf0cd1259c04f109dd390696",
-    "content-hash": "df016f68185e7364b9a5eddf882361ad",
+    "hash": "5138e944cbaf345b5954764eceab1254",
+    "content-hash": "ca9a90074e5e33701f4cacea7c6bec67",
     "packages": [
+        {
+            "name": "Wantlet",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jhartikainen/doctrine2-spatial.git",
+                "reference": "1c1d55dee7939729620f061c7f8aca3747a0c6c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jhartikainen/doctrine2-spatial/zipball/1c1d55dee7939729620f061c7f8aca3747a0c6c7",
+                "reference": "1c1d55dee7939729620f061c7f8aca3747a0c6c7",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "php": ">=5.3.3"
+            },
+            "type": "doctrine-orm",
+            "autoload": {
+                "psr-0": {
+                    "Wantlet\\ORM": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Some spatial data related classes developed for Doctrine 2",
+            "keywords": [
+                "doctrine",
+                "mysql",
+                "spatial"
+            ],
+            "support": {
+                "source": "https://github.com/jhartikainen/doctrine2-spatial/tree/master",
+                "issues": "https://github.com/jhartikainen/doctrine2-spatial/issues"
+            },
+            "time": "2014-08-17 09:01:34"
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.1.0",
@@ -1854,16 +1893,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v1.2.2",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "b3313b618f4edd76523572531d5d7e22fe747430"
+                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b3313b618f4edd76523572531d5d7e22fe747430",
-                "reference": "b3313b618f4edd76523572531d5d7e22fe747430",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c7e26a21ba357863de030f0b9e701c7d04593774",
+                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774",
                 "shasum": ""
             },
             "require": {
@@ -1898,7 +1937,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-03-11 19:54:08"
+            "time": "2016-03-18 20:34:03"
         },
         {
             "name": "patchwork/jsqueeze",
@@ -3219,16 +3258,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.3.4",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "960a8cdfe129ca5353461b300d79680ac6ff2e0f"
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/960a8cdfe129ca5353461b300d79680ac6ff2e0f",
-                "reference": "960a8cdfe129ca5353461b300d79680ac6ff2e0f",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/b1d59735b672865dbeb930805029c24f226e3e77",
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77",
                 "shasum": ""
             },
             "require": {
@@ -3265,7 +3304,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2016-03-17 14:10:10"
+            "time": "2016-03-17 18:02:05"
         }
     ],
     "packages-dev": [
@@ -3381,7 +3420,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "friendsofsymfony/user-bundle": 20,
-        "coresphere/console-bundle": 20
+        "coresphere/console-bundle": 20,
+        "wantlet": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

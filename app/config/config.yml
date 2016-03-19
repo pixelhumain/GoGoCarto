@@ -50,6 +50,9 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        types:
+            point:
+                class:  Wantlet\ORM\PointType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -61,6 +64,10 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            numeric_functions:
+                DISTANCE: Wantlet\ORM\Distance
+                POINT_STR: Wantlet\ORM\PointStr
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -31,16 +31,9 @@ class Fournisseur
     /**
      * @var string
      *
-     * @ORM\Column(name="lat", type="string", length=255)
+     * @ORM\Column(name="point")
      */
-    private $lat;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lng", type="string", length=255)
-     */
-    private $lng;
+    private $latlng;
 
     /**
      * @var string
@@ -158,54 +151,6 @@ class Fournisseur
     public function getNom()
     {
         return $this->nom;
-    }
-
-    /**
-     * Set lat
-     *
-     * @param string $lat
-     *
-     * @return Fournisseur
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return string
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
-
-    /**
-     * Set lng
-     *
-     * @param string $lng
-     *
-     * @return Fournisseur
-     */
-    public function setLng($lng)
-    {
-        $this->lng = $lng;
-
-        return $this;
-    }
-
-    /**
-     * Get lng
-     *
-     * @return string
-     */
-    public function getLng()
-    {
-        return $this->lng;
     }
 
     /**
@@ -497,5 +442,29 @@ class Fournisseur
     public function removeProduit(\Biopen\FournisseurBundle\Entity\FournisseurProduit $produit)
     {
         $this->produits->removeElement($produit);
+    }
+
+    /**
+     * Set latlng
+     *
+     * @param string $latlng
+     *
+     * @return Fournisseur
+     */
+    public function setLatlng($latlng)
+    {
+        $this->latlng = $latlng;
+
+        return $this;
+    }
+
+    /**
+     * Get latlng
+     *
+     * @return string
+     */
+    public function getLatlng()
+    {
+        return $this->latlng;
     }
 }

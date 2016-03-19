@@ -44,9 +44,9 @@
 </section>
 
 <div id="bandeau_plus_resultats">
-  {# {{ dump(listFournisseur)}}
+   {{ dump(listFournisseur) }}
 
-  {% for fournisseur in listFournisseur %}
+{#   {% for fournisseur in listFournisseur %}
       <p>{{ fournisseur.id }} => {% for produit in fournisseur.produits %} {{ produit.nom }} : {{ produit.descriptif }} , {% endfor %}</p>
   {% endfor %}  #}
 </div>
@@ -76,8 +76,8 @@
     var listFournisseur = null;
     {% if listFournisseur != null %}
     listFournisseur = {{ listFournisseur | serialize("json") | raw }};
-    var lat = {{ lat | raw }};
-    var lng = {{ lng | raw }};
+    var lat = {{ adresse.latitude | raw }};
+    var lng = {{ adresse.longitude | raw }};
     {% endif %}
   </script>
 

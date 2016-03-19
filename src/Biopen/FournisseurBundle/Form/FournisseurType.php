@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormInterface;
 use Biopen\FournisseurBundle\Form\HoraireType;
 use Biopen\FournisseurBundle\Form\FournisseurProduitType;
 use Biopen\FournisseurBundle\Form\ContactAmapType;
+use Biopen\FournisseurBundle\Form\PointType;
 use Biopen\FournisseurBundle\Entity\Produit;
 
 use Doctrine\ORM\EntityRepository;
@@ -49,8 +50,7 @@ class FournisseurType extends AbstractType
           ->add('adresse', TextType::class, array('required' => false))
           ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
-          ->add('lat', HiddenType::class)   
-          ->add('lng', HiddenType::class)  
+          ->add('latlng', PointType::class) 
           ->add('contactAmap', ContactAmapType::class, array('required' => false))    
           ->add('listeProduits', EntityType::class, array(
                   'class' => 'Biopen\FournisseurBundle\Entity\Produit',

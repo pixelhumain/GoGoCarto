@@ -11,13 +11,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class FournisseurRepository extends EntityRepository
 {
-	public function myfindAll()
-	{
+	public function findFromPoint($distance, $point)
+	{	 
+   $qb = $this->createQueryBuilder('fournisseur');
 
-	 $qb = $this->createQueryBuilder('fournisseur');
-
-    // On fait une jointure avec l'entité Advert avec pour alias « adv »
-    $qb
+    $qb = $this->_em->createQueryBuilder()
+      ->select('fournisseur, DISTANCE(POINT_STR(fournisseur.latlng), POINT_STR(:point))*100 AS DISTANCE')
+      ->setParameter('point',$point)
+      ->from($this->_entityName, 'fournisseur')
+      ->where('fournisseur.valide = 0')
+      ->andwhere('DISTANCE(POINT_STR(fournisseur.latlng), POINT_STR(:point))*100 < :distance')
+      ->setParameter('distance', $distance)
+      ->orderBy('DISTANCE')  
       ->join('fournisseur.produits', 'fourisseurProduit')
       ->addSelect('fourisseurProduit')
       ->join('fourisseurProduit.produit', 'produit')
