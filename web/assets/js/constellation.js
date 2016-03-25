@@ -13,11 +13,38 @@ jQuery(document).ready(function()
 	{    
 		if(e.keyCode == 13) // touche entrée
 		{ 			 
-			geocodeAddress($('#inputAdresse').val());
+			//geocodeAddress($('#inputAdresse').val());
+			$.ajax({
+		        type: "POST",
+		        url: Routing.generate('biopen_constellation_ajax'),
+		        data: { adresse: $('#inputAdresse').val()},
+		        cache: false,
+		        success: function(data)
+		        {
+		          	if (data != null)
+		          	{
+		          		constellation = data; 
+						animate_from_search_to_result();	
+						drawConstellation();
+		          	}
+		          	else
+		          	{
+						// TODO
+		          		alert('erreur geocoding coté ajax');
+		          	}
+		          	
+		        },
+		        error: function(jqXHR)
+		        {
+		        	// TODO
+		        	alert('erreur lors de l execution ajax');
+		        }
+
+    		}); 
 		}
 	});
 
-	if (listFournisseur == null)
+	if (constellation == null)
 	{
 		$('#div_recherche_contener').css('display','flex');	
 	}
@@ -25,9 +52,8 @@ jQuery(document).ready(function()
 });
 
 var map;
-var geocoder;
-var marker;
-var geocoding_ok;
+var marker_home, markers;
+
 // Google map initialisation
 function initMap() 
 {	
@@ -36,7 +62,6 @@ function initMap()
 	};
 	var autocomplete = new google.maps.places.Autocomplete(document.getElementById('inputAdresse', options));
 
-	geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(46.897045, 2.425235);
 	var mapOptions = {
 		zoom: 6,
@@ -44,9 +69,18 @@ function initMap()
 		disableDefaultUI: true,
 		zoomControl: true
 	}
-	
+
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
-	
+
+	// une fois la carte chargée, si la constellation existe on la dessine
+  	if (constellation != null)	drawConstellation();
+
+}
+
+function drawConstellation()
+{	
+	markers = [];
+
 	var image = {
 	    url: 'img/icon/maison.png',
 	    // This marker is 20 pixels wide by 32 pixels high.
@@ -56,62 +90,60 @@ function initMap()
 	    // The anchor for this image is the base of the flagpole at (0, 32).
 	    anchor: new google.maps.Point(24, 48)
 	};
-	marker = new google.maps.Marker({
+
+	marker_home = new google.maps.Marker({
 		map: map,
+		position: new google.maps.LatLng(constellation.geocodeResult.coordinates.latitude, constellation.geocodeResult.coordinates.longitude),
 		draggable: false,
 		/*icon: image,*/
 		animation: google.maps.Animation.DROP,
 	});
 
-	marker.addListener('click', function() {
+	marker_home.addListener('click', function() {
 	    animate_up_bandeau_detail();
   	});
 
+	markers.push(marker_home);
+
   	map.addListener('click', function() {
     	animate_down_bandeau_detail();
-  	});
+  	}); 
 
-  	if (listFournisseur != null)
-  	{
-  		var latlng = new google.maps.LatLng(lat, lng);
-		map.panTo(latlng);
-		map.setZoom(16);
-		marker.setPosition(latlng);
-  	}
-  	
+	map.panTo(marker_home.getPosition());
+	map.setZoom(16);
 
-}
-
-// trouve le lat lng correspondant à une adresse donnée
-function geocodeAddress( address ) {
-
-	geocoder.geocode( { 'address': address}, function(results, status) {
-
-	if (status == google.maps.GeocoderStatus.OK) 
+	$.each(constellation.produits, function( produit, fournisseurList ) 
 	{
-		$.ajax({
-	        type: "POST",
-	        url: Routing.generate('biopen_constellation_ajax'),
-	        data: '',
-	        cache: false,
-	        success: function(data)
-	        {
-	          	listFounisseur = data;
+  		var marker = new google.maps.Marker({
+			map: map,
+			draggable: false,
+			position: new google.maps.LatLng(fournisseurList[0]['Fournisseur'].latlng.latitude, fournisseurList[0]['Fournisseur'].latlng.longitude),
+			animation: google.maps.Animation.DROP,
+			labelClass: "marker",
+		});
 
-	          	map.panTo(results[0].geometry.location);
-				map.setZoom(16);
-				marker.setPosition(results[0].geometry.location);
+  		var arr = [];
+  		arr.push(marker_home.getPosition());
+  		arr.push(marker.getPosition());
+		poly = new google.maps.Polyline({
+			path: arr,
+			strokeColor: '#000000',
+			strokeOpacity: 0.5,
+			strokeWeight: 3
+			});
+		poly.setMap(map);
 
-				animate_from_search_to_result();	
-	        }
-    	}); 			
-	} 
-	else 
-	{
-		geocoding_ok = false;
-		$('#inputAdresse').addClass('invalid');	
-	}
+		markers.push(marker);
+
 	});
+
+	
+	var bounds = new google.maps.LatLngBounds();
+	for (var i = 0; i < markers.length; i++) {
+ 		bounds.extend(markers[i].getPosition());
+	}
+
+map.fitBounds(bounds);
 }
 
 function ajuster_taille_composants()
@@ -123,8 +155,9 @@ function ajuster_taille_composants()
 function animate_from_search_to_result()
 {
 	var padding = (parseInt($('#div_recherche').css('margin-left').split('px')[0]) - parseInt($('#btn_menu').css('left').split('px')[0]) )  * 2 + 'px';
-			
+
 	$('#inputAdresse').css('display','none');
+	$('#div_recherche_error').css('display','none');
 	$('#div_recherche_contener').css('padding-right',padding);
 	$('#div_recherche').css('width',$('#btn_menu').css('width'));
 

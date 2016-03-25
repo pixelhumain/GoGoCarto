@@ -29,9 +29,9 @@ class Fournisseur
     private $nom;
 
     /**
-     * @var string
+     * 
      *
-     * @ORM\Column(name="point")
+     * @ORM\Column(type="point", name="latlng")
      */
     private $latlng;
 

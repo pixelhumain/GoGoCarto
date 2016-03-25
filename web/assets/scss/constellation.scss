@@ -5,6 +5,10 @@ $icon-sprite-dimensions: true;
 @import "partials/base_bundle";
 @import 'vendors/materialize';
 
+.marker
+{
+	background-color: #FF00FF;
+}
 #overlay {
     position: absolute;
     top: 0;

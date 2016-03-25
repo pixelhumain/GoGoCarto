@@ -26,14 +26,16 @@
     <div class="valign" style="width:100%"> 
     
     <div id="div_recherche">
-    {% for flash_message in app.session.flashbag.get('error') %}
-      <p class="flash-error">
-          {{ flash_message | raw }}
-      </p>
-    {% endfor %}
-    <div class="input-field"> 
-      <input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
-    </div>
+      <div id="div_recherche_error">
+        {% for flash_message in app.session.flashbag.get('error') %}
+          <p class="flash-error">
+              {{ flash_message | raw }}
+          </p>
+        {% endfor %}
+      </div>
+      <div class="input-field"> 
+        <input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
+      </div>
     </div>
   </div>
   </div> 
@@ -44,8 +46,8 @@
 </section>
 
 <div id="bandeau_plus_resultats">
-   {{ dump(listFournisseur) }}
-
+   {# {{ dump(listFournisseur) }}
+ #}
 {#   {% for fournisseur in listFournisseur %}
       <p>{{ fournisseur.id }} => {% for produit in fournisseur.produits %} {{ produit.nom }} : {{ produit.descriptif }} , {% endfor %}</p>
   {% endfor %}  #}
@@ -73,11 +75,9 @@
   </script>
 
   <script>
-    var listFournisseur = null;
-    {% if listFournisseur != null %}
-    listFournisseur = {{ listFournisseur | serialize("json") | raw }};
-    var lat = {{ adresse.latitude | raw }};
-    var lng = {{ adresse.longitude | raw }};
+    var constellation = null;
+    {% if constellation != null %}
+      constellation = {{ constellation | serialize("json") | raw }};
     {% endif %}
   </script>
 

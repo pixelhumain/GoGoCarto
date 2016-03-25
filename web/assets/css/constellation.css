@@ -4836,6 +4836,9 @@ select {
 /*@import "components/date_picker/default.scss";
 @import "components/date_picker/default.date.scss";
 @import "components/date_picker/default.time.scss"; */
+.marker {
+  background-color: #FF00FF; }
+
 #overlay {
   position: absolute;
   top: 0;

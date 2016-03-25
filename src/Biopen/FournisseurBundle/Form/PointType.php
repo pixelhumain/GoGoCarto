@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 class PointType extends AbstractType
 {
@@ -38,4 +39,20 @@ class PointType extends AbstractType
   {
     return 'biopen_fournisseurbundle_point';
   }
+
+  public function convertToPHPValue($value, AbstractPlatform $platform) {
+        //Null fields come in as empty strings
+        if($value == '') {
+            return null;
+        }
+
+        $data = unpack('x/x/x/x/corder/Ltype/dlat/dlon', $value);
+        return new \Wantlet\ORM\Point($data['lat'], $data['lon']);
+    }
+
+    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+        if (!$value) return;
+        
+        return pack('xxxxcLdd', '0', 1, $value->getLatitude(), $value->getLongitude());
+    }
 }
