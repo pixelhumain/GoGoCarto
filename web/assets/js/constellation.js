@@ -1,5 +1,29 @@
+// créer un evenement déclenché à la modification du style d'un evenement
+(function() {
+    var ev = new $.Event('style'),
+        orig = $.fn.css;
+    $.fn.css = function() {
+        $(this).trigger(ev);
+        return orig.apply(this, arguments);
+    }
+})();
+
 jQuery(document).ready(function()
 {	
+	$('.collapsible').collapsible({
+      accordion : true 
+    });
+
+	$('#bandeau_detail').bind('style', ajuster_taille_carte);
+    $('#detail_fournisseur .collapsible-header').click(toggleFournisseurDetailsComplet);
+
+
+    $('a[href^="#"]').click(function(){  
+	    var target = $(this).attr("href");
+	    $('html, body').animate({scrollTop: $(target).offset().top}, 2000);
+	    return false;  
+	}); 
+
 	$('#btn_menu').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);
 
@@ -7,48 +31,7 @@ jQuery(document).ready(function()
 	window.onresize = function() 
 	{
 		ajuster_taille_composants();
-	}
-
-	$('#inputAdresse').keyup(function(e) 
-	{    
-		if(e.keyCode == 13) // touche entrée
-		{ 			 
-			//geocodeAddress($('#inputAdresse').val());
-			$.ajax({
-		        type: "POST",
-		        url: Routing.generate('biopen_constellation_ajax'),
-		        data: { adresse: $('#inputAdresse').val()},
-		        cache: false,
-		        success: function(data)
-		        {
-		          	if (data != null)
-		          	{
-		          		constellation = data; 
-						animate_from_search_to_result();	
-						drawConstellation();
-		          	}
-		          	else
-		          	{
-						// TODO
-		          		alert('erreur geocoding coté ajax');
-		          	}
-		          	
-		        },
-		        error: function(jqXHR)
-		        {
-		        	// TODO
-		        	alert('erreur lors de l execution ajax');
-		        }
-
-    		}); 
-		}
-	});
-
-	if (constellation == null)
-	{
-		$('#div_recherche_contener').css('display','flex');	
-	}
-	
+	}	
 });
 
 var map;
@@ -77,6 +60,23 @@ function initMap()
 
 }
 
+function getMarkerPosition(marker)
+{
+	var scale = Math.pow(2, map.getZoom());
+	var nw = new google.maps.LatLng(
+	    map.getBounds().getNorthEast().lat(),
+	    map.getBounds().getSouthWest().lng()
+	);
+	var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+	var worldCoordinate = map.getProjection().fromLatLngToPoint(marker.getPosition());
+	var pixelOffset = new google.maps.Point(
+	    Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+	    Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+	);
+
+	return pixelOffset;
+}
+
 function drawConstellation()
 {	
 	markers = [];
@@ -97,11 +97,7 @@ function drawConstellation()
 		draggable: false,
 		/*icon: image,*/
 		animation: google.maps.Animation.DROP,
-	});
-
-	marker_home.addListener('click', function() {
-	    animate_up_bandeau_detail();
-  	});
+	});	
 
 	markers.push(marker_home);
 
@@ -112,88 +108,131 @@ function drawConstellation()
 	map.panTo(marker_home.getPosition());
 	map.setZoom(16);
 
-	$.each(constellation.produits, function( produit, fournisseurList ) 
+	$.each(constellation.etoiles, function( nom_etoile, etoile ) 
 	{
+  		var fournisseur = etoile.fournisseurList[etoile.index];
+
   		var marker = new google.maps.Marker({
 			map: map,
 			draggable: false,
-			position: new google.maps.LatLng(fournisseurList[0]['Fournisseur'].latlng.latitude, fournisseurList[0]['Fournisseur'].latlng.longitude),
-			animation: google.maps.Animation.DROP,
-			labelClass: "marker",
+			position: new google.maps.LatLng(fournisseur.latlng.latitude, fournisseur.latlng.longitude),
 		});
 
-  		var arr = [];
-  		arr.push(marker_home.getPosition());
-  		arr.push(marker.getPosition());
-		poly = new google.maps.Polyline({
-			path: arr,
-			strokeColor: '#000000',
-			strokeOpacity: 0.5,
-			strokeWeight: 3
-			});
-		poly.setMap(map);
+		marker.addListener('click', function() {
+	    	//$('#bandeau_detail').text(fournisseur.nom);
+	    	animate_up_bandeau_detail();
+  		});
+
+  		var polyline = drawLineBetweenMarkers(marker_home, marker);
+
+  		etoile['marker'] = marker;
+  		etoile['line'] = polyline;
 
 		markers.push(marker);
 
 	});
 
+	fitMarkersBounds();
 	
+	
+}
+
+function fitMarkersBounds()
+{
+	// Bound la carte pour que l'on voit tous les marqueurs
 	var bounds = new google.maps.LatLngBounds();
 	for (var i = 0; i < markers.length; i++) {
  		bounds.extend(markers[i].getPosition());
 	}
-
-map.fitBounds(bounds);
+	map.fitBounds(bounds);
 }
+
+function drawLineBetweenMarkers(marker1, marker2)
+{
+	var ratio = 1/10;
+
+	var LineStartLat = marker1.getPosition().lat() + (marker2.getPosition().lat() - marker1.getPosition().lat())*ratio;
+	var LineStartLng = marker1.getPosition().lng() + (marker2.getPosition().lng() - marker1.getPosition().lng())*ratio;
+	var LineEndLat = marker1.getPosition().lat() + (marker2.getPosition().lat() - marker1.getPosition().lat())*(1-ratio);
+	var LineEndLng = marker1.getPosition().lng() + (marker2.getPosition().lng() - marker1.getPosition().lng())*(1-ratio);
+
+	var LineArray = [
+    	{lat: LineStartLat, lng: LineStartLng},
+    	{lat: LineEndLat, lng: LineEndLng}
+  	];
+
+	var poly = new google.maps.Polyline({
+		path: LineArray,
+		strokeColor: '#000000',
+		strokeOpacity: 0.5,
+		strokeWeight: 3,
+	});
+	
+	poly.setMap(map);
+
+	return poly;  		
+}
+
+function toggleFournisseurDetailsComplet()
+{	
+	if ( $('#bandeau_detail .moreDetails').is(':visible') )
+	{
+		hideFournisseurDetailsComplet();
+	}
+	else
+	{
+		var bandeau_detail_new_height = $( window ).height()
+		-$('header').height()
+		-$('#bandeau_plus_resultats').outerHeight(true);
+
+		$('#bandeau_detail').css('height', bandeau_detail_new_height);
+		ajuster_taille_carte(bandeau_detail_new_height);	
+
+		$("#btn_menu").hide();
+		$('#bandeau_detail .moreDetails').show();
+	}
+	
+}
+
+function hideFournisseurDetailsComplet()
+{
+	setTimeout(function(){$("#btn_menu").show();},1000);
+	$('#bandeau_detail .moreDetails').hide();
+
+	var bandeau_detail_new_height = $('#detail_fournisseur').height();
+
+	$('#bandeau_detail').css('height', bandeau_detail_new_height);
+	ajuster_taille_carte(bandeau_detail_new_height);	
+}
+
 
 function ajuster_taille_composants()
-{
-	$("#map").css('height',$( window ).height()-$('header').height()-$('#bandeau_detail').height());
+{	
 	$("#bandeau_option").css('height',$( window ).height()-$('header').height());
+	ajuster_taille_carte();
 }
 
-function animate_from_search_to_result()
-{
-	var padding = (parseInt($('#div_recherche').css('margin-left').split('px')[0]) - parseInt($('#btn_menu').css('left').split('px')[0]) )  * 2 + 'px';
-
-	$('#inputAdresse').css('display','none');
-	$('#div_recherche_error').css('display','none');
-	$('#div_recherche_contener').css('padding-right',padding);
-	$('#div_recherche').css('width',$('#btn_menu').css('width'));
-
-	$('#div_recherche_contener').css('width',$('#btn_menu').css('width'));
-	$('#div_recherche_contener').css('left',$('#btn_menu').css('left'));
-
-	$('#div_recherche_contener').css('height',$('#section_carte').css('height'));
-	$('#div_recherche').css('height',$('#btn_menu').css('height'));			
-	$('#div_recherche_contener').css('height',$('#div_recherche').css('height'));			
-	$('#div_recherche_contener').css('top',$('#btn_menu').css('top'));	
-
-	setTimeout(function () {
-		$('#btn_menu').css('opacity','1');
-		$('#div_recherche_contener').css('opacity','0');	
-	}, 1000);
-
-	setTimeout(function () {
-		$('#div_recherche_contener').css('display','none');	
-		
-		$('#btn_menu').css('background-color','#26A69A');
-		setTimeout(function () {
-			$('#btn_menu').css('background-color','white');			
-		}, 500);				
-	}, 1500);
+function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
+{	
+	$("#map").css('height',$( window ).height()
+		-$('header').height()
+		-$('#bandeau_plus_resultats').outerHeight(true)
+		-bandeau_detail_height);
 }
 
 function animate_up_bandeau_detail()
 {
-	$('#bandeau_detail').css('height','200px');
-	$("#map").css('height',$( window ).height()-$('header').height()-200);		
+	var bandeau_detail_new_height = $('#detail_fournisseur').height();
+
+	$('#bandeau_detail').css('height', bandeau_detail_new_height);
+	ajuster_taille_carte(bandeau_detail_new_height);	
 }
 
 function animate_down_bandeau_detail()
 {
-	$('#bandeau_detail').css('height','0px');
-	$("#map").css('height',$( window ).height()-$('header').height());
+	hideFournisseurDetailsComplet();
+	$('#bandeau_detail').css('height','0');
+	ajuster_taille_carte(0);	
 }
 
 function animate_up_bandeau_options()

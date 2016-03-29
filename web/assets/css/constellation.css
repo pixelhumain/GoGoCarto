@@ -2017,13 +2017,18 @@ body {
 
 header {
   color: white; }
+  @media only screen and (max-width: 600px) {
+    header #menu {
+      margin: 0;
+      height: 2rem !important;
+      font-size: .85rem !important; } }
   header #menu {
     height: 2.5rem;
     font-size: 1rem;
-    margin-bottom: 0px !important; }
+    margin-bottom: 0px; }
     header #menu div {
       height: 100%;
-      text-align: center !important;
+      text-align: center;
       background-color: #26a69a;
       border-bottom: 2px solid transparent;
       color: white;
@@ -2047,11 +2052,6 @@ header {
       background-color: transparent;
       letter-spacing: .5px; }
 
-@media only screen and (max-width: 600px) {
-  #menu {
-    margin: 0 !important;
-    height: 2rem !important;
-    font-size: 0.8rem !important; } }
 html {
   box-sizing: border-box; }
 
@@ -2062,7 +2062,7 @@ ul {
   list-style-type: none; }
 
 a {
-  color: #039be5;
+  color: #26A69A;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent; }
 
@@ -4836,9 +4836,6 @@ select {
 /*@import "components/date_picker/default.scss";
 @import "components/date_picker/default.date.scss";
 @import "components/date_picker/default.time.scss"; */
-.marker {
-  background-color: #FF00FF; }
-
 #overlay {
   position: absolute;
   top: 0;
@@ -4857,13 +4854,13 @@ select {
 
 #btn_menu {
   position: absolute;
-  left: 30px;
-  top: 30px;
+  left: 1rem;
+  top: 1rem;
   background-color: white;
   padding: 8px 8px 2px 8px;
   z-index: 11;
   color: #555;
-  opacity: 0;
+  opacity: 1;
   -webkit-transition: opacity 1s;
   -moz-transition: opacity 1s;
   -o-transition: opacity 1s;
@@ -4885,29 +4882,74 @@ select {
   width: 200px;
   background-color: green;
   z-index: 20;
-  -webkit-transition: left 1s;
-  -moz-transition: left 1s;
-  -o-transition: left 1s;
-  -ms-transition: left 1s;
-  transition: left 1s;
   will-change: left; }
 
 #section_carte {
   position: relative; }
 
+#bandeau_plus_resultats {
+  background-color: #fcfcfc;
+  text-align: center !important;
+  padding: .5rem;
+  margin-top: .5rem;
+  margin-bottom: .5rem; }
+  #bandeau_plus_resultats a {
+    color: #26A69A;
+    font-weight: 500; }
+  #bandeau_plus_resultats .valign-wrapper {
+    width: 180px;
+    margin: auto; }
+
 #bandeau_detail {
-  height: 0px;
+  height: 0;
+  background-color: #EAEAEA;
+  will-change: height;
+  z-index: 400;
+  overflow: hidden;
   -webkit-transition: height 1s;
   -moz-transition: height 1s;
   -o-transition: height 1s;
   -ms-transition: height 1s;
-  transition: height 1s;
-  background-color: white;
-  will-change: height; }
+  transition: height 1s; }
 
-#bandeau_plus_resultats {
-  height: 600px;
-  background-color: blue; }
+#detail_fournisseur .collapsible-body {
+  border-bottom: 0; }
+#detail_fournisseur .moreDetails {
+  display: none; }
+
+#bandeau_resultats .collapsible, #bandeau_detail .collapsible {
+  margin: 0; }
+#bandeau_resultats .collapsible-header i, #bandeau_detail .collapsible-header i {
+  margin-right: 0;
+  padding-left: 0.3rem; }
+#bandeau_resultats .collapsible-header-title, #bandeau_detail .collapsible-header-title {
+  margin-bottom: 0rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 3rem; }
+#bandeau_resultats .collapsible-header-more, #bandeau_detail .collapsible-header-more {
+  line-height: 1.5rem; }
+  #bandeau_resultats .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
+    margin-top: .5rem;
+    font-weight: 500;
+    color: #525252;
+    font-style: italic; }
+#bandeau_resultats .collapsible-body, #bandeau_detail .collapsible-body {
+  background-color: #EAEAEA;
+  padding: 0 1rem 1rem 1rem; }
+  #bandeau_resultats .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    line-height: 110% !important;
+    margin: 0.5rem 0 0.8rem 0; }
+  #bandeau_resultats .collapsible-body .row, #bandeau_detail .collapsible-body .row {
+    margin-bottom: 0; }
+  #bandeau_resultats .collapsible-body .section, #bandeau_detail .collapsible-body .section {
+    padding-bottom: 0; }
+  #bandeau_resultats .collapsible-body .categorie, #bandeau_resultats .collapsible-body .adresse, #bandeau_resultats .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
+    padding-left: 1.3rem; }
+  #bandeau_resultats .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
+    text-decoration: underline; }
 
 #div_recherche_contener {
   position: absolute;
@@ -4935,6 +4977,10 @@ select {
   padding: 0.1rem 1rem 0 1rem;
   background-color: white;
   border: 1px solid #bdbdbd; }
+  #div_recherche .icon-search {
+    font-size: 2rem;
+    color: #26A69A;
+    vertical-align: middle; }
 
 .flash-error {
   color: #BD0101;
@@ -4944,7 +4990,8 @@ select {
   #div_recherche {
     width: 400px; } }
 #inputAdresse {
-  text-align: center; }
+  text-align: center;
+  width: calc(100% - 4rem); }
 
 input:-moz-placeholder, textarea:-moz-placeholder {
   color: #555; }
@@ -4958,21 +5005,23 @@ input.placeholder, textarea.placeholder {
 #map {
   background-color: #9e9e9e;
   z-index: 10;
+  height: 200px;
+  width: 100%;
   -webkit-transition: height 1s;
   -moz-transition: height 1s;
   -o-transition: height 1s;
   -ms-transition: height 1s;
   transition: height 1s; }
 
-/*a[href^="http://maps.google.com/maps"]{display:none !important}
+/* a[href^="http://maps.google.com/maps"]{display:none !important}
 a[href^="https://maps.google.com/maps"]{display:none !important}
 
 .gmnoprint a, .gmnoprint span, .gm-style-cc {
     display:none;
-}
-.gmnoprint div {
+} */
+/* .gmnoprint div {
     //background:none !important;
-}*/
+} */
 .pac-icon {
   display: none; }
 

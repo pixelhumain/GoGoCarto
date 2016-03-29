@@ -110,6 +110,9 @@ class Fournisseur
      */
     private $contactAmap;
 
+
+    private $distance;
+
     /**
      * Constructor
      */
@@ -132,7 +135,31 @@ class Fournisseur
     /**
      * Set nom
      *
-     * @param string $nom
+     * @param float $distance
+     *
+     * @return Fournisseur
+     */
+    public function setDistance($distance)
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return float
+     */
+    public function getDistance()
+    {
+        return $this->distance;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $distance
      *
      * @return Fournisseur
      */

@@ -29,7 +29,7 @@ class CoreController extends Controller
     { 
         if ($slug == '')
         {
-        	$constellation = null;
+        	return $this->render('BiopenCoreBundle:index.html.twig');
         }
         else
         {
@@ -79,24 +79,35 @@ class CoreController extends Controller
  
         $constellation['geocodeResult'] = $geocodeResponse;
 
+        // Pour chaque fournisseur de la liste, on remplit les etoiles
+        // de la constellation
         foreach ($listFournisseur as $i => $fournisseurReponse) 
         {                
+            // le fournissurReponse a 1 champ Fournisseur et 1 champ Distance
+            // on regroupe les deux dans un simple objet fournisseur
+            $fournisseur = $fournisseurReponse['Fournisseur']->setDistance($fournisseurReponse['distance']);
+
             // switch sur le Type du fournisseur
             switch($fournisseurReponse['Fournisseur']->getType())
             {
                 // Producteur ou AMAP 
                 case 'amap':
                 case 'producteur':
-                    foreach ($fournisseurReponse['Fournisseur']->getProduits() as $i => $produit) 
+                    foreach ($fournisseur->getProduits() as $i => $produit) 
                     {
-                        $constellation['produits'][$produit->getNom()][] = $fournisseurReponse;
+                        $constellation['etoiles'][$produit->getNom()]['fournisseurList'][] = $fournisseur;
                     }
                     break;
                 //Le reste
                 default:
-                    $constellation[$fournisseurReponse['Fournisseur']->getType()][] = $fournisseurReponse;
+                    $constellation['etoiles'][$fournisseur->getType()]['fournisseurList'][] = $fournisseur;
                     break;
             }
+        }
+
+        foreach ($constellation['etoiles'] as $nom_etoile => $etoile) 
+        {
+            $constellation['etoiles'][$nom_etoile]['index'] = 0;
         }
 
         return $constellation;            

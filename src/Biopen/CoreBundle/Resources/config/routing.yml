@@ -18,6 +18,6 @@ biopen_constellation_ajax:
 
 biopen_listing:
     path:     /list/{slug}
-    defaults: { _controller: BiopenCoreBundle:Core:listing, slug:'' }
+    defaults: { _controller: BiopenCoreBundle:Core:listing, slug:'France' }
     options:
         expose: true

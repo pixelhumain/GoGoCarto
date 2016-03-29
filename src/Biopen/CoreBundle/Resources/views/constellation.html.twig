@@ -15,37 +15,108 @@
 {% block body_content %}
   
   <section id="section_carte">
-  <div id="map"> </div>
-  <div id="bandeau_detail"></div>
-  <div id="bandeau_option"></div>
+  <div id="map"></div>
 
-  <div id="div_recherche_contener" class="valign-wrapper" style="display:none">
-    
+  <div id="bandeau_detail">
 
 
-    <div class="valign" style="width:100%"> 
-    
-    <div id="div_recherche">
-      <div id="div_recherche_error">
-        {% for flash_message in app.session.flashbag.get('error') %}
-          <p class="flash-error">
-              {{ flash_message | raw }}
-          </p>
-        {% endfor %}
+
+    <div id="detail_fournisseur">
+
+      <div id="collapsible-menu" class="moreDetails">Le menu</div>
+
+      <div class="collapsible-header">
+        <div class='collapsible-header-title row'>
+          <i class="material-icons col s1">filter_drama</i>
+          <span class="col s9"><b>Jardin de Sophie</b></span>
+          <span class="col s2 right-align">44km</span>
+        </div>
+        <div class='collapsible-header-more row'>
+          <span class="description col s12">Petite ferme qui fait des bons produits. Vente à la ferme le mercredi et le vendredi soir</span>
+          {# <span class="produits col s12 right-align">Légumes, volailles</span> #}
+        </div>
       </div>
-      <div class="input-field"> 
-        <input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
+
+      <div class="collapsible-body moreDetails" >
+        
+        <div class="section row">
+          <h2>Produits</h2>
+          <span class="col s3 categorie">Légumes</span>
+          <span class="col s9 detail">Les bons petits légumes de sophie qui prennent plein de place en ecrivant</span>
+          <span class="col s3 categorie">Viande</span>
+          <span class="col s9 detail">Quelquespoulets le dimanche</span>
+        </div>
+        <div class="section row">
+          <h2>Coordonnées</h2>
+          <span class="col s12 adresse">960 chemin de la lande, 40420 Labrit</span>
+          <span class="col s12 tel">06 77 74 87 56</span>
+        </div>
+
       </div>
-    </div>
+
+</div>
+
   </div>
-  </div> 
-
+  <div id="bandeau_option"></div>
 
   <div id="btn_menu"><i class='material-icons'>menu</i></div> 
   <div id="overlay"></div>
 </section>
 
-<div id="bandeau_plus_resultats">
+<div id="bandeau_plus_resultats">  
+  <a href='#bandeau_resultats'>
+    <div class="valign-wrapper">
+    <i class="material-icons">expand_more</i>
+    <div class="">Liste des résultats</div>
+    <i class="material-icons">expand_more</i>
+    </div>
+  </a>
+</div>
+
+<div id="bandeau_resultats">
+
+  <ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header">
+        <div class='collapsible-header-title row'>
+          <i class="material-icons col s1">filter_drama</i>
+          <span class="col s9"><b>Jardin de Sophie</b></span>
+          <span class="col s2 right-align">44km</span>
+        </div>
+        <div class='collapsible-header-more row'>
+          <span class="description col s12">Petite ferme qui fait des bons produits. Vente à la ferme le mercredi et le vendredi soir</span>
+          {# <span class="produits col s12 right-align">Légumes, volailles</span> #}
+        </div>
+      </div>
+
+      <div class="collapsible-body">
+        
+        <div class="section row">
+          <h2>Produits</h2>
+          <span class="col s3 categorie">Légumes</span>
+          <span class="col s9 detail">Les bons petits légumes de sophie qui prennent plein de place en ecrivant</span>
+          <span class="col s3 categorie">Viande</span>
+          <span class="col s9 detail">Quelquespoulets le dimanche</span>
+        </div>
+        <div class="section row">
+          <h2>Coordonnées</h2>
+          <span class="col s12 adresse">960 chemin de la lande, 40420 Labrit</span>
+          <span class="col s12 tel">06 77 74 87 56</span>
+        </div>
+
+      </div>
+    </li>
+
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+    </li>
+  </ul>
+
    {# {{ dump(listFournisseur) }}
  #}
 {#   {% for fournisseur in listFournisseur %}

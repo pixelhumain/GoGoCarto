@@ -3,16 +3,26 @@ header
 	color: white ;
 	@extend .z-depth-2;	
 
+	@media #{$small-and-down} 
+	{
+		#menu 
+		{ 
+			margin: 0 ; 
+			height: 2rem !important;
+	    	font-size: .85rem !important;
+		}
+	}
+
 	#menu
 	{
 		height: 2.5rem;
 		font-size:1rem;
-		margin-bottom: 0px !important;
+		margin-bottom: 0px ;
 		
 		div 
 		{ 
 			height: 100%;
-			text-align:center !important;
+			text-align:center ;
 			background-color: #26a69a ;			
 			border-bottom: 2px solid rgba(0, 0, 0, 0);
 			color: white;
@@ -44,12 +54,3 @@ header
 	}
 }
 
-@media #{$small-and-down} 
-{
-	#menu 
-	{ 
-		margin: 0 !important; 
-		height: 2rem !important;
-		font-size: 0.8rem !important;
-	}
-}

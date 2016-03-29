@@ -2013,13 +2013,18 @@ body {
 
 header {
   color: white; }
+  @media only screen and (max-width: 600px) {
+    header #menu {
+      margin: 0;
+      height: 2rem !important;
+      font-size: .85rem !important; } }
   header #menu {
     height: 2.5rem;
     font-size: 1rem;
-    margin-bottom: 0px !important; }
+    margin-bottom: 0px; }
     header #menu div {
       height: 100%;
-      text-align: center !important;
+      text-align: center;
       background-color: #26a69a;
       border-bottom: 2px solid transparent;
       color: white;
@@ -2043,11 +2048,6 @@ header {
       background-color: transparent;
       letter-spacing: .5px; }
 
-@media only screen and (max-width: 600px) {
-  #menu {
-    margin: 0 !important;
-    height: 2rem !important;
-    font-size: 0.8rem !important; } }
 /* 
 Created on: 17 Sep, 2014, 4:29:37 PM
 Author: senthil
@@ -2141,7 +2141,7 @@ ul {
   list-style-type: none; }
 
 a {
-  color: #039be5;
+  color: #26A69A;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent; }
 
