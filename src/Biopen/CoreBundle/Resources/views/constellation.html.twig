@@ -11,58 +11,25 @@
 {% endblock %}
 
 
+
+
 {# BODY CONTENT #}
 {% block body_content %}
   
-  <section id="section_carte">
+<section id="section_carte">
   <div id="map"></div>
 
   <div id="bandeau_detail">
-
-
-
-    <div id="detail_fournisseur">
-
-      <div id="collapsible-menu" class="moreDetails">Le menu</div>
-
-      <div class="collapsible-header">
-        <div class='collapsible-header-title row'>
-          <i class="material-icons col s1">filter_drama</i>
-          <span class="col s9"><b>Jardin de Sophie</b></span>
-          <span class="col s2 right-align">44km</span>
-        </div>
-        <div class='collapsible-header-more row'>
-          <span class="description col s12">Petite ferme qui fait des bons produits. Vente à la ferme le mercredi et le vendredi soir</span>
-          {# <span class="produits col s12 right-align">Légumes, volailles</span> #}
-        </div>
-      </div>
-
-      <div class="collapsible-body moreDetails" >
-        
-        <div class="section row">
-          <h2>Produits</h2>
-          <span class="col s3 categorie">Légumes</span>
-          <span class="col s9 detail">Les bons petits légumes de sophie qui prennent plein de place en ecrivant</span>
-          <span class="col s3 categorie">Viande</span>
-          <span class="col s9 detail">Quelquespoulets le dimanche</span>
-        </div>
-        <div class="section row">
-          <h2>Coordonnées</h2>
-          <span class="col s12 adresse">960 chemin de la lande, 40420 Labrit</span>
-          <span class="col s12 tel">06 77 74 87 56</span>
-        </div>
-
-      </div>
-
-</div>
-
+    <div id="detail_fournisseur"></div>
   </div>
+
   <div id="bandeau_option"></div>
 
   <div id="btn_menu"><i class='material-icons'>menu</i></div> 
   <div id="overlay"></div>
 </section>
 
+{# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
 <div id="bandeau_plus_resultats">  
   <a href='#bandeau_resultats'>
     <div class="valign-wrapper">
@@ -73,55 +40,66 @@
   </a>
 </div>
 
+{# Les résultats par liste #}
 <div id="bandeau_resultats">
+  <ul class="collapsible popout" data-collapsible="accordion">
 
-  <ul class="collapsible" data-collapsible="accordion">
-    <li>
+    {% for nom_etoile, etoile in constellation.etoiles %}      
+      {% for key, fournisseur in etoile.fournisseurList %}
+         
+      <li id="{{ nom_etoile ~ '-' ~ key }}" 
+        {% if key != etoile.index %} style="display:none" {% endif %}>
+
       <div class="collapsible-header">
-        <div class='collapsible-header-title row'>
-          <i class="material-icons col s1">filter_drama</i>
-          <span class="col s9"><b>Jardin de Sophie</b></span>
-          <span class="col s2 right-align">44km</span>
-        </div>
-        <div class='collapsible-header-more row'>
-          <span class="description col s12">Petite ferme qui fait des bons produits. Vente à la ferme le mercredi et le vendredi soir</span>
-          {# <span class="produits col s12 right-align">Légumes, volailles</span> #}
-        </div>
+          
+          <div class='collapsible-header-title row'>
+            <i class="material-icons col s1">filter_drama</i>
+            <span class="col s8"><b>{{ fournisseur.nom|capitalize }}</b></span>
+            <span class="col s3 right-align">{{ fournisseur.distance|round(1) }} km</span>
+          </div>
+
+          <div class='collapsible-header-more row'>
+            <span class="description col s12">{{ fournisseur.description }}</span> 
+            <span class="list_produits col s8 produits">
+              {% for produit in fournisseur.produits %} 
+                  {{ produit.nom }}{% if not loop.last %}, {% endif %}
+              {% endfor %}
+            </span>
+            <a><span class=" col s4 right-align">Plus d'infos</span></a>
+          </div>
+
       </div>
 
-      <div class="collapsible-body">
+      <div class="collapsible-body moreDetails" > 
         
-        <div class="section row">
-          <h2>Produits</h2>
-          <span class="col s3 categorie">Légumes</span>
-          <span class="col s9 detail">Les bons petits légumes de sophie qui prennent plein de place en ecrivant</span>
-          <span class="col s3 categorie">Viande</span>
-          <span class="col s9 detail">Quelquespoulets le dimanche</span>
+        <div class="section row"> 
+          {% for produit in fournisseur.produits %} 
+              <span class="col s3 categorie">{{ produit.nom }}</span>
+              <span class="col s9 detail">{{ produit.descriptif }}</span>
+          {% endfor %}          
+          
+        </div>       
+        <div class="divider"></div>
+
+        <div class="section row">          
+          <span class="col s12 adresse">{{ fournisseur.adresse|capitalize }}</span>
+          <span class="col s12 tel">{{ fournisseur.tel|split('',2)|join(' ') }}</span>
         </div>
-        <div class="section row">
-          <h2>Coordonnées</h2>
-          <span class="col s12 adresse">960 chemin de la lande, 40420 Labrit</span>
-          <span class="col s12 tel">06 77 74 87 56</span>
-        </div>
+
+         <div id="collapsible-menu" class="row">
+          <center>
+            <button id="" class=" btn waves-effect waves-light">Modifier les informations</button>
+          </center>          
+        </div> 
+
+        {# <div> Autres résultats </div> #}
 
       </div>
-    </li>
+      </li>
+      {% endfor %}
+    {% endfor %}   
 
-    <li>
-      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
-    <li>
-      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-    </li>
   </ul>
-
-   {# {{ dump(listFournisseur) }}
- #}
-{#   {% for fournisseur in listFournisseur %}
-      <p>{{ fournisseur.id }} => {% for produit in fournisseur.produits %} {{ produit.nom }} : {{ produit.descriptif }} , {% endfor %}</p>
-  {% endfor %}  #}
 </div>
 
 {% endblock %}
@@ -142,7 +120,7 @@
     {% endjavascripts %}
 
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
   </script>
 
   <script>

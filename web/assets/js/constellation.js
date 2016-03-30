@@ -15,7 +15,7 @@ jQuery(document).ready(function()
     });
 
 	$('#bandeau_detail').bind('style', ajuster_taille_carte);
-    $('#detail_fournisseur .collapsible-header').click(toggleFournisseurDetailsComplet);
+    
 
 
     $('a[href^="#"]').click(function(){  
@@ -40,11 +40,6 @@ var marker_home, markers;
 // Google map initialisation
 function initMap() 
 {	
-	var options = {
-	  componentRestrictions: {country: 'fr'}
-	};
-	var autocomplete = new google.maps.places.Autocomplete(document.getElementById('inputAdresse', options));
-
 	var latlng = new google.maps.LatLng(46.897045, 2.425235);
 	var mapOptions = {
 		zoom: 6,
@@ -119,7 +114,9 @@ function drawConstellation()
 		});
 
 		marker.addListener('click', function() {
-	    	//$('#bandeau_detail').text(fournisseur.nom);
+	    	$('#detail_fournisseur').empty();
+	    	$('#'+nom_etoile+'-'+etoile.index).clone().appendTo($('#detail_fournisseur'));
+	    	$('#detail_fournisseur .collapsible-header').click(toggleFournisseurDetailsComplet);
 	    	animate_up_bandeau_detail();
   		});
 
@@ -175,6 +172,7 @@ function drawLineBetweenMarkers(marker1, marker2)
 
 function toggleFournisseurDetailsComplet()
 {	
+	window.console.log('toggle');
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
 		hideFournisseurDetailsComplet();
@@ -214,6 +212,7 @@ function ajuster_taille_composants()
 
 function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
 {	
+	/*window.console.log('taille carte: detail -> ' + bandeau_detail_height);*/
 	$("#map").css('height',$( window ).height()
 		-$('header').height()
 		-$('#bandeau_plus_resultats').outerHeight(true)
