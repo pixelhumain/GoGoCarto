@@ -113,7 +113,11 @@
     
   {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/markerclusterer.js"
         "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/constellation-map.js"
+        "assets/js/constellation-animation.js"
+        "assets/js/constellation-images.js"
         "assets/js/constellation.js"
     %}
         <script src="{{ asset_url }}"></script>
@@ -124,6 +128,9 @@
   </script>
 
   <script>
+
+    var iconDirectory = "{{ asset('assets/img/icon/') }}"
+
     var constellation = null;
     {% if constellation != null %}
       constellation = {{ constellation | serialize("json") | raw }};
