@@ -108,12 +108,24 @@
 
 {% block javascripts %}
 
+  <script>
+
+    var iconDirectory = "{{ asset('assets/img/icon/') }}"
+
+    var constellation = null;
+    {% if constellation != null %}
+      constellation = {{ constellation | serialize("json") | raw }};
+    {% endif %}
+  </script>
+
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     
   {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"
-        "assets/js/libs/markerclusterer.js"
+        "assets/js/libs/cluster/clustericon.js"
+        "assets/js/libs/cluster/cluster.js"
+        "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/constellation-map.js"
         "assets/js/constellation-animation.js"
@@ -127,15 +139,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
   </script>
 
-  <script>
-
-    var iconDirectory = "{{ asset('assets/img/icon/') }}"
-
-    var constellation = null;
-    {% if constellation != null %}
-      constellation = {{ constellation | serialize("json") | raw }};
-    {% endif %}
-  </script>
+  
 
 {% endblock %}
 

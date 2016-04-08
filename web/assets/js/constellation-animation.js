@@ -16,8 +16,7 @@ function toggleFournisseurDetailsComplet()
 
 		$("#btn_menu").hide();
 		$('#bandeau_detail .moreDetails').show();
-	}
-	
+	}	
 }
 
 function hideFournisseurDetailsComplet()

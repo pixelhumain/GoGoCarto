@@ -1,11 +1,10 @@
+
+
 function initIcons()
 {
-  /*var image = {
-      url: iconDirectory + 'maison.png',
-      size: new google.maps.Size(24, 24),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(12, 12)
-  };*/
+
+  
+  
 
   var mon_image = document.createElement("IMG");
   mon_image.setAttribute("src", iconDirectory + 'maison.png');
