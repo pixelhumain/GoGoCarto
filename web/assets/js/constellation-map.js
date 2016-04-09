@@ -80,7 +80,7 @@ function initMap()
 
 		markers.push(marker);
 
-		cluster.addMarker(marker,false, marker_home);
+		cluster.addMarker(marker,false);
   	}); 
   	//map.addListener('tilesloaded', function(){ cluster.repaint();});
 
@@ -93,9 +93,7 @@ function initMap()
 
 function drawConstellation()
 {	
-	markers = [];
-
-		
+	markers = [];		
 
 	$.each(constellation.etoiles, function( nom_etoile, etoile ) 
 	{

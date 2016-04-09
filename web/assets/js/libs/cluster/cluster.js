@@ -21,6 +21,7 @@ function Cluster(mc) {
   this.bounds_ = null;
   this.clusterIcon_ = new ClusterIcon(this, mc.getStyles());
   this.isShownAsCluster_ = false;
+  this.isChecked_ = false;
 }
 
 
@@ -37,6 +38,18 @@ Cluster.prototype.getSize = function () {
 
 Cluster.prototype.setLabel = function (label) {
   return this.label_ = label.toString() ;
+};
+
+Cluster.prototype.getLabel = function () {
+  return this.label_;
+};
+
+Cluster.prototype.isShownAsCluster = function () {
+  return this.isShownAsCluster_;
+};
+
+Cluster.prototype.isChecked = function () {
+  return this.isChecked_;
 };
 
 
@@ -146,7 +159,7 @@ Cluster.prototype.addMarker = function (marker, distance) {
     this.center_ = marker.getPosition();
     this.calculateBounds_();
 
-    var cityCircle = new google.maps.Circle({
+    /*var cityCircle = new google.maps.Circle({
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -155,7 +168,7 @@ Cluster.prototype.addMarker = function (marker, distance) {
       map: this.map_,
       center: this.center_,
       radius: 1000*2048/Math.pow(2,this.map_.getZoom())
-    });
+    });*/
 
   } 
   else 
@@ -183,51 +196,66 @@ Cluster.prototype.addMarker = function (marker, distance) {
       window.console.log("Adding Electron Marker : " + distance);
   }
 
+  return true;
+};
+
+Cluster.prototype.checkForClusteringGlobal = function () 
+{
   // premier trie grossier des clusters à minimiser
+  //window.console.log("check global cluster " + this.label_ + "visible fake : " + this.getVisibleFakeMarkers());
   if (this.kernelMarkers_.length >= 4 || (this.getSize() + this.getVisibleFakeMarkers().length) >= 6)
   {
       this.showAsCluster();
   }
+}
 
-  return true;
-};
-
-
-
-Cluster.prototype.getVisibleFakeMarkers = function () 
+// lorsqu'il y a 3markers dans le kernel, on vérifie
+// qu'il ne touche aucun autre pour pouvoir les
+// afficher
+Cluster.prototype.checkForClusteringKernel = function () 
 {
-  var markers = [];  
-  for( var i = 0; i < this.fakeMarkers_.length; i++)
+  var orbiteMarkers = this.electronMarkers_.concat(this.getVisibleFakeMarkers());
+
+  // si le cluster contient au plus 3 marqueur dans le noyau et aucun en 
+  // périphérie, on peut les dessiner
+  if (this.kernelMarkers_.length <= 3 && orbiteMarkers.length == 0) 
   {
-    if (fakeMarkers_[i].isVisible()) markers.push(fakeMarkers_[i]);
+    window.console.log ('Cluster '+this.label_+' Juste marqueur dans kernel -> expanded');
+    updateMarkersAnchor(this.kernelMarkers_);
+    this.isChecked_ = true;
   }
-  return markers;
-};
-
-Cluster.prototype.updateDrawing = function () 
-{
-  var mCount = this.kernelMarkers_.length;
-  var mz = this.markerClusterer_.getMaxZoom();
-  var haveToShowAsCluster = false;
 
   
-  var orbiteMarkers = this.electronMarkers_.concat(this.getVisibleFakeMarkers());
-  window.console.log(orbiteMarkers);
+
+/*  window.console.log("check kernel cluster " + this.label_ + "kernel : " + this.kernelMarkers_.length + ", electrons " + orbiteMarkers.length);
   
   for( var i = 0; i < this.kernelMarkers_.length; i++)
   {
-    for( var j = 0; j < orbiteMarkers.length; j++)
+    var markerKerknelPosition = this.kernelMarkers_[i].getPosition();
+    if (markerKerknelPosition != this.center_)
     {
-        var markerKerknelPosition = this.kernelMarkers_[i].getPosition();
-        var markerOrbitePosition = orbiteMarkers[j].getPosition();
-        var distance = this.markerClusterer_.distancePixelBetweenPoints( markerKerknelPosition, markerOrbitePosition);
+      for( var j = 0; j < orbiteMarkers.length; j++)
+      {          
+          var markerOrbitePosition = orbiteMarkers[j].getPosition();
+          window.console.log("   analyse electron : " + markerOrbitePosition);
+          var distance = distancePixelBetweenPoints( markerKerknelPosition, markerOrbitePosition, this.markerClusterer_.getProjection());
 
-        if ( distance < this.kernelRadius_)  return true;
-    }
+          if ( distance < this.kernelRadius_)  
+          {
+            this.showAsCluster();
+            return true;
+          }
+      }  
+    }    
   }
-  
 
-  
+  updateMarkersAnchor(this.kernelMarkers_);
+
+  return false;*/
+}  
+
+Cluster.prototype.updateDrawing = function () 
+{  
   /*Si electron collisionne fake -> minClusterSize_
   si electron collisionne markeur cluster adjacant -> minClusterSize_
   sinon si pas collision entre kernel et electron -> updateMArkerAnchor*/
@@ -267,7 +295,8 @@ Cluster.prototype.updateDrawing = function ()
     /*if (marker.getMap() !== this.map_) {
       marker.setMap(this.map_);
     }
-    this.updateMarkersAnchor_();*/
+
+    updateMarkersAnchor();*/
   } 
   // si trop de marqueurs, on affiche le cluster
   // pour cela on cache d'abords les markers
@@ -282,6 +311,16 @@ Cluster.prototype.updateDrawing = function ()
 
   //this.updateIcon_();  
 
+};
+
+Cluster.prototype.getVisibleFakeMarkers = function () 
+{
+  var markers = [];  
+  for( var i = 0; i < this.fakeMarkers_.length; i++)
+  {
+    if (this.fakeMarkers_[i].getVisible()) markers.push(this.fakeMarkers_[i]);
+  }
+  return markers;
 };
 
 Cluster.prototype.removeElectronMarker = function (marker) 
@@ -318,15 +357,23 @@ Cluster.prototype.calculateBounds_ = function () {
   this.bounds_ = this.markerClusterer_.getExtendedBounds(bounds);
 };
 
-Cluster.prototype.updateMarkersAnchor_ = function () 
+function updateMarkersAnchor(markers) 
 {
-  window.console.log('Debut updateMArkerAnchor');
-  
-  var righterMarker = this.markers_[0];
-  var lefterMarker = this.markers_[0];
-  for (i = 0; i < this.markers_.length; i++) {
+  //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
+  if (markers == null || markers.length == 0) return;
+
+  for (i= 0; i < markers.length; i++)
+  {
+     markers[i].isFree = true;
+  }
+
+  if (markers.length == 1) return;
+
+  var righterMarker = markers[0];
+  var lefterMarker = markers[0];
+  for (i = 0; i < markers.length; i++) {
       
-      var curr_marker= this.markers_[i];
+      var curr_marker= markers[i];
 
       if(curr_marker.getPosition().lng() < lefterMarker.getPosition().lng())
       {
@@ -335,8 +382,7 @@ Cluster.prototype.updateMarkersAnchor_ = function ()
       else if (curr_marker.getPosition().lng() > righterMarker.getPosition().lng())
       {
           righterMarker = curr_marker;
-      }
-      
+      }      
   }
 
   var img_width = 32;
@@ -354,38 +400,52 @@ Cluster.prototype.updateMarkersAnchor_ = function ()
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(img_width, img_height)
   });
-  /*lefterMarker.setIcon({
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                scale: 5,
-                strokeWeight: 2,
-                fillColor: '#009933',
-                fillOpacity: 1,
-                anchor: new google.maps.Point(-5,0)
-      });*/
 
+  
 }
 
+Cluster.prototype.showExpanded = function () 
+{  
+    this.clusterIcon_.hide();
+    this.isShownAsCluster_ = false;
+
+    for (i = 0; i < this.getMarkers().length; i++)
+    {
+      var marker = this.getMarkers()[i];
+      marker.setVisible(true);
+    }
+
+};
 
 /**
  * Updates the cluster icon.
  */
 Cluster.prototype.showAsCluster = function () 
 {   
-  var mz = this.markerClusterer_.getMaxZoom();
+  window.console.log("show as cluster " + this.label_ + "nbre markers "+ this.getMarkers().length);
 
-  if (mz !== null && this.map_.getZoom() > mz) {
-    this.clusterIcon_.hide();
-    this.isShownAsCluster_ = false;
+/*  var mz = this.markerClusterer_.getMaxZoom();
+
+  if (mz !== null && this.map_.getZoom() > mz) 
+  {    
+    this.showExpanded();
     return;
+  }*/
+
+  for (i = 0; i < this.getMarkers().length; i++)
+  {
+    var marker = this.getMarkers()[i];
+    marker.setVisible(false);
   }
 
   var numStyles = this.markerClusterer_.getStyles().length;
-  var sums = this.markerClusterer_.getCalculator()(this.markers_, numStyles);
+  var sums = this.markerClusterer_.getCalculator()(this.getMarkers(), numStyles);
   this.clusterIcon_.setCenter(this.center_);
   // Sebastian
   this.clusterIcon_.useStyle(sums);
   this.clusterIcon_.show();
   this.isShownAsCluster_ = true;
+  this.isChecked_ = true;
 };
 
 

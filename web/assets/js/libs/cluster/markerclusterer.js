@@ -141,8 +141,8 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.activeMap_ = null;
   this.ready_ = false;
 
-  this.kernelRadius_ = opt_options.kernelRadius || 40;
-  this.clusterRadius_ = opt_options.clusterRadius || 80;
+  this.kernelRadius_ = opt_options.kernelRadius || 30;
+  this.clusterRadius_ = opt_options.clusterRadius || 60;
   this.gridSize_ = opt_options.gridSize || 60;
   this.minClusterSize_ = opt_options.minimumClusterSize || 4;
   this.maxZoom_ = opt_options.maxZoom || null;
@@ -647,10 +647,11 @@ MarkerClusterer.prototype.getTotalClusters = function () {
  * @param {google.maps.Marker} marker The marker to add.
  * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
  */
-MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw, marker_home) {
-  if (marker_home) this.distancePixelBetweenPoints_(marker.getPosition(), marker_home.getPosition());
+MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw) 
+{  
   this.pushMarkerTo_(marker);
   if (!opt_nodraw) {
+    this.resetViewport_(false);
     this.redraw_();
   }
 };
@@ -693,6 +694,7 @@ MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
     });
   }
   marker.isAdded = false;
+  marker.isFree = false;
   this.markers_.push(marker);
 };
 
@@ -865,14 +867,18 @@ MarkerClusterer.prototype.resetViewport_ = function (opt_hide) {
   }
   this.clusters_ = [];
 
-
+  window.console.clear();
+  window.console.log("resetviewport nbre marker " + this.markers_.length);
   // Reset the markers to not be added and to be removed from the map.
   for (i = 0; i < this.markers_.length; i++) {
     marker = this.markers_[i];
     marker.isAdded = false;
-    if (opt_hide) {
+    marker.isFree = false;
+    marker.setIcon(null);
+    //marker.setVisible(true);
+    /*if (opt_hide) {
       marker.setMap(null);
-    }
+    }*/
   }
 };
 
@@ -897,10 +903,10 @@ MarkerClusterer.prototype.distanceBetweenPoints_ = function (p1, p2) {
   return d;
 };
 
-MarkerClusterer.prototype.distancePixelBetweenPoints_ = function (p1, p2) {
-  
-  var projection = this.getProjection();
 
+
+function distancePixelBetweenPoints(p1, p2, projection) 
+{
   // Convert the points to pixels and the extend out by the grid size.
   var p1pix = projection.fromLatLngToDivPixel(p1);
 
@@ -914,7 +920,7 @@ MarkerClusterer.prototype.distancePixelBetweenPoints_ = function (p1, p2) {
 
   return distance;
   
-};
+}
 
 
 /**
@@ -946,7 +952,7 @@ MarkerClusterer.prototype.addToClosestCluster_ = function (marker) {
     center = cluster.getCenter();
     if (center) 
     {
-      curr_distance = this.distancePixelBetweenPoints_(center, marker.getPosition());
+      curr_distance = distancePixelBetweenPoints(center, marker.getPosition(), this.getProjection());
       
       if (curr_distance < this.clusterRadius_) 
       {
@@ -1013,7 +1019,7 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
     }
   }
 
-  window.console.log("--> Create clusters,nbre markers " + this.markers_.length);
+  
 
   // Get our current map view bounds.
   // Create a new bounds object so we don't affect the map.
@@ -1033,28 +1039,48 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
 
   for (i = iFirst; i < iLast; i++) {
     marker = this.markers_[i];
-window.console.log("ADDTOCLOSEST " + marker.getLabel());
+    //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
       if (!this.ignoreHidden_ || (this.ignoreHidden_ && marker.getVisible())) {
-        window.console.log("    addToClosest ");
+        //window.console.log("    addToClosest ");
         this.addToClosestCluster_(marker);
       }
       else
       {
-        window.console.log("     marqueur non visible");
+        //window.console.log("     marqueur non visible");
       }
     }
     else
     {
-      window.console.log("      isAdded: " + marker.isAdded + ", isInBound:" + this.isMarkerInBounds_(marker, bounds));
+      //window.console.log("      isAdded: " + marker.isAdded + ", isInBound:" + this.isMarkerInBounds_(marker, bounds));
     }
   }
 
+  // on re repartit un peu mieux les markers dans les clusters
   this.captureElectronsMarkersInKernelClusters_();
-  for (i = 0; i < this.clusters_.length - 1; i++) 
+  
+  // première passer grossière pour voir si on minimise les clusters
+  for (i = 0; i < this.clusters_.length; i++) 
   {
-      this.clusters_[i].updateDrawing();
+      this.clusters_[i].checkForClusteringGlobal();
   }
+
+  // deuxième passe ou on regarde les noyaux
+  for (i = 0; i < this.clusters_.length; i++) 
+  {
+      if (!this.clusters_[i].isChecked()) this.clusters_[i].checkForClusteringKernel();
+  }
+
+  // troisième passe on analyse les electrons qui restent
+  this.checkAdjacentsClusters();
+
+  // a la fin si aucun clustering nécessaire, on met normal
+  // deuxième passe ou on regarde les noyaux
+  for (i = 0; i < this.clusters_.length; i++) 
+  {
+      if (!this.clusters_[i].isShownAsCluster()) this.clusters_[i].showExpanded();
+  }
+
 
   if (iLast < this.markers_.length) {
     this.timerRefStatic = setTimeout(function () {
@@ -1076,25 +1102,24 @@ window.console.log("ADDTOCLOSEST " + marker.getLabel());
 
 MarkerClusterer.prototype.captureElectronsMarkersInKernelClusters_ = function () 
 {
-  window.console.log("CaptureElectron, nbre clusters : " + this.clusters_.length);
+  //window.console.log("CaptureElectron, nbre clusters : " + this.clusters_.length);
   for (i = 0; i < this.clusters_.length - 1; i++) 
   {
     var cluster1 = this.clusters_[i];
     for (j = i+1; j < this.clusters_.length; j++) 
     {
       var cluster2 = this.clusters_[j];
-      var distance = this.distancePixelBetweenPoints_(cluster1.getCenter(), cluster2.getCenter());
+      var distance = distancePixelBetweenPoints(cluster1.getCenter(), cluster2.getCenter(), this.getProjection());
       //window.console.log("distance entre cluster : " + distance);
       
       // si les deux clusters se chevauchent
       if  (distance < 2 * this.clusterRadius_ )
       {
-        window.console.log("cluster collision");
+        //window.console.log("cluster collision");
         // on va regarder si des electrons du cluster 2 ne sont pas dans le noyau
         // du cluster1
         this.checkIfElectronInKernel_(cluster1, cluster2);
         this.checkIfElectronInKernel_(cluster2, cluster1);
-        window.console.log("cluster fin collision");
       }
     }
   
@@ -1109,11 +1134,11 @@ MarkerClusterer.prototype.checkIfElectronInKernel_ = function (cluster1, cluster
     for( k = 0; k < electrons.length; k++)
     {
       var electron = electrons[k];
-      var distElectron = this.distancePixelBetweenPoints_(cluster1.getCenter(), electron.getPosition());
+      var distElectron = distancePixelBetweenPoints(cluster1.getCenter(), electron.getPosition(), this.getProjection());
       //window.console.log("Check electron " + electron.getTitle() + "  distance : " + distElectron);
       if ( distElectron < this.kernelRadius_ )
       {
-        window.console.log("Capture du marker " + electron.getLabel());
+        //window.console.log("Capture du marker " + electron.getLabel());
         cluster2.remove(electron);
         cluster1.addMarker(electron, distElectron);
       }
@@ -1121,6 +1146,121 @@ MarkerClusterer.prototype.checkIfElectronInKernel_ = function (cluster1, cluster
 
     return true;
 };
+
+MarkerClusterer.prototype.checkAdjacentsClusters = function () 
+{
+  for (i = 0; i < this.clusters_.length; i++) 
+  {
+    
+    var cluster1 = this.clusters_[i];
+    window.console.log("Analyse Cluster " + cluster1.getLabel() +" ischecked " + cluster1.isChecked());
+
+    if (!cluster1.isChecked())
+    {
+      var adjacentClusters = [];
+
+      // on récupère les clusters adjacents
+      for (j = 0; j < this.clusters_.length; j++) 
+      {
+        var cluster2 = this.clusters_[j];
+
+        if (!cluster2.isShownAsCluster() && cluster2 != cluster1 )
+        {
+          var distance = distancePixelBetweenPoints(cluster1.getCenter(), cluster2.getCenter(), this.getProjection());
+          //window.console.log("distance entre cluster : " + distance);
+          
+          // si les deux clusters se chevauchent
+          if  (distance < 2 * this.clusterRadius_ + this.kernelRadius_)
+          {
+            adjacentClusters.push(cluster2);
+          }
+        }
+      }
+
+      window.console.log("  -> Nombre cluster adjacent " + adjacentClusters.length);
+
+      // tous les marqueurs des clusters adjacents réunis
+      var markers = [];
+      markers = markers.concat(cluster1.getMarkers());
+      for (j = 0;j < adjacentClusters.length; j++)
+      {
+        markers = markers.concat(adjacentClusters[j].getMarkers());
+      }
+
+      window.console.log("  -> Nombre markers " + markers.length);
+
+      // on cherche les regroupements d'au plus trois marqueurs isolés
+      // des autres
+      
+      for (i=0;i < cluster1.getMarkers().length; i++)
+      {          
+          var marker = cluster1.getMarkers()[i];
+          window.console.log("  -> check autour marker " + i + " isFree " + marker.isFree);
+          if (!marker.isFree)
+          {  
+              // les marqueurs adjacents près du marqueur principal
+              var adjacentMarkers = [];
+              adjacentMarkers.push(marker);
+              
+              var new_adjacentMarkers = this.checkAutour(marker, markers, adjacentMarkers);              
+              if (new_adjacentMarkers == null) cluster1.showAsCluster();
+              else 
+              {
+                  updateMarkersAnchor(new_adjacentMarkers.concat(adjacentMarkers));  
+                  window.console.log("  -> check autour marker " + i + " result " + new_adjacentMarkers.length);
+              }    
+          } 
+      }
+    }    
+  }
+};
+
+MarkerClusterer.prototype.checkAutour = function (marker, markers, curr_adjacentMarkers)
+{
+    console.group("checkAutour");
+
+    var new_adjacentMarkers =[];
+
+    for( j = 0; j < markers.length; j++)
+    {
+      markerToCompare = markers[j];
+      window.console.log('     - MarkerToCompare. Free: ' + markerToCompare.isFree + " index " + curr_adjacentMarkers.indexOf(markerToCompare));
+      if (!markerToCompare.isFree && curr_adjacentMarkers.indexOf(markerToCompare) == -1 )
+      {
+        var distance = distancePixelBetweenPoints(marker.getPosition(), markerToCompare.getPosition(), this.getProjection());
+        //window.console.log("Check electron " + electron.getTitle() + "  distance : " + distElectron);
+        window.console.log('     - MarkerToCompare. Distance: ' + distance);
+        if ( distance < this.kernelRadius_ )
+        {
+          new_adjacentMarkers.push(markerToCompare);
+          if (curr_adjacentMarkers.length + new_adjacentMarkers.length > 3) 
+            {
+              window.console.log("   Return null");
+              return null;
+            }
+        }
+      }
+    }
+
+    window.console.log('     - curr adjacents ' + curr_adjacentMarkers.length);
+    window.console.log('     - new adjacents ' + new_adjacentMarkers.length);
+
+    var result = [];
+    result = result.concat(new_adjacentMarkers);
+
+    for( j = 0; j < new_adjacentMarkers.length; j++)
+    {
+      
+      child_adjacentsMarker = this.checkAutour(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker == null) return null; 
+      result = result.concat(child_adjacentsMarker);
+    }
+
+    console.groupEnd();
+    
+    return result;
+};
+
 
 
 /**
