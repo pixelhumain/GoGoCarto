@@ -44,11 +44,11 @@
 <div id="bandeau_resultats">
   <ul class="collapsible popout" data-collapsible="accordion">
 
-    {% for nom_etoile, etoile in constellation.etoiles %}      
+    {% for nom_etoile, etoile in constellationPhp.etoiles %}      
       {% for key, fournisseur in etoile.fournisseurList %}
          
-      <li id="{{ nom_etoile ~ '-' ~ key }}" 
-        {% if key != etoile.index %} style="display:none" {% endif %}>
+      <li id="infoFournisseur-{{ fournisseur.id }}" 
+        {% if key != 0 %} style="display:none" {% endif %}>
 
       <div class="collapsible-header">
           
@@ -112,9 +112,9 @@
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}"
 
-    var constellation = null;
-    {% if constellation != null %}
-      constellation = {{ constellation | serialize("json") | raw }};
+    var constellationRawJson = null;
+    {% if constellationPhp != null %}
+      constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
     {% endif %}
   </script>
 
@@ -123,10 +123,15 @@
     
   {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/cluster/cluster-commons.js"
         "assets/js/libs/cluster/clustericon.js"
         "assets/js/libs/cluster/cluster.js"
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/map-utils.js"
+        "assets/js/map-drawing.js"
+        "assets/js/constellation.class.js"
+        "assets/js/constellation-star.class.js"
         "assets/js/constellation-map.js"
         "assets/js/constellation-animation.js"
         "assets/js/constellation-images.js"

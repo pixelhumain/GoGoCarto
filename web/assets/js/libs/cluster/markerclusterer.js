@@ -131,6 +131,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   // look for it at the last possible moment. If it doesn't exist now then
   // there is no point going ahead :)
   this.extend(MarkerClusterer, google.maps.OverlayView);
+  this.map_ = map;
 
   opt_markers = opt_markers || [];
   opt_options = opt_options || {};
@@ -143,9 +144,9 @@ function MarkerClusterer(map, opt_markers, opt_options) {
 
   this.kernelRadius_ = opt_options.kernelRadius || 30;
   this.clusterRadius_ = opt_options.clusterRadius || 60;
-  this.gridSize_ = opt_options.gridSize || 60;
   this.minClusterSize_ = opt_options.minimumClusterSize || 4;
   this.maxZoom_ = opt_options.maxZoom || null;
+  this.minZoom_ = opt_options.minZoom || null;
   this.styles_ = opt_options.styles || [];
   this.title_ = opt_options.title || "";
   this.zoomOnClick_ = true;
@@ -188,7 +189,8 @@ function MarkerClusterer(map, opt_markers, opt_options) {
  * Implementation of the onAdd interface method.
  * @ignore
  */
-MarkerClusterer.prototype.onAdd = function () {
+MarkerClusterer.prototype.onAdd = function () 
+{
   var cMarkerClusterer = this;
 
   this.activeMap_ = this.getMap();
@@ -227,9 +229,7 @@ MarkerClusterer.prototype.onRemove = function () {
 
   // Put all the managed markers back on the map:
   for (i = 0; i < this.markers_.length; i++) {
-    if (this.markers_[i].getMap() !== this.activeMap_) {
-      this.markers_[i].setMap(this.activeMap_);
-    }
+      this.markers_[i].setVisible(true);
   }
 
   // Remove all clusters:
@@ -290,16 +290,6 @@ MarkerClusterer.prototype.fitMapToMarkers = function () {
   this.getMap().fitBounds(bounds);
 };
 
-
-/**
- * Returns the value of the <code>gridSize</code> property.
- *
- * @return {number} The grid size.
- */
-MarkerClusterer.prototype.getGridSize = function () {
-  return this.gridSize_;
-};
-
 MarkerClusterer.prototype.getKernelRadius = function () {
   return this.kernelRadius_;
 };
@@ -307,37 +297,6 @@ MarkerClusterer.prototype.getKernelRadius = function () {
 MarkerClusterer.prototype.getClusterRadius = function () {
   return this.clusterRadius_;
 };
-
-
-
-/**
- * Sets the value of the <code>gridSize</code> property.
- *
- * @param {number} gridSize The grid size.
- */
-MarkerClusterer.prototype.setGridSize = function (gridSize) {
-  this.gridSize_ = gridSize;
-};
-
-
-/**
- * Returns the value of the <code>minimumClusterSize</code> property.
- *
- * @return {number} The minimum cluster size.
- */
-MarkerClusterer.prototype.getMinimumClusterSize = function () {
-  return this.minClusterSize_;
-};
-
-/**
- * Sets the value of the <code>minimumClusterSize</code> property.
- *
- * @param {number} minimumClusterSize The minimum cluster size.
- */
-MarkerClusterer.prototype.setMinimumClusterSize = function (minimumClusterSize) {
-  this.minClusterSize_ = minimumClusterSize;
-};
-
 
 /**
  *  Returns the value of the <code>maxZoom</code> property.
@@ -629,6 +588,17 @@ MarkerClusterer.prototype.getClusters = function () {
   return this.clusters_;
 };
 
+/* returns the clusters visibles as clusters */
+MarkerClusterer.prototype.getMinimizedClusters = function () 
+{
+  var array = [];
+  for (var i = 0; i < this.clusters_.length; i++)
+  {
+    if (this.clusters_[i].isShownAsCluster()) array.push(this.clusters_[i]);
+  }
+  return array;
+};
+
 
 /**
  * Returns the number of clusters formed by the clusterer.
@@ -694,7 +664,7 @@ MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
     });
   }
   marker.isAdded = false;
-  marker.isFree = false;
+  marker.isInIndependantGroup = false;
   this.markers_.push(marker);
 };
 
@@ -770,7 +740,7 @@ MarkerClusterer.prototype.removeMarker_ = function (marker) {
     return false;
   }
 
-  marker.setMap(null);
+  marker.setVisible(false);
   this.markers_.splice(index, 1); // Remove the marker from the list of managed markers
   return true;
 };
@@ -780,7 +750,8 @@ MarkerClusterer.prototype.removeMarker_ = function (marker) {
  * Removes all clusters and markers from the map and also removes all markers
  *  managed by the clusterer.
  */
-MarkerClusterer.prototype.clearMarkers = function () {
+MarkerClusterer.prototype.clearMarkers = function () 
+{
   this.resetViewport_(true);
   this.markers_ = [];
 };
@@ -790,7 +761,8 @@ MarkerClusterer.prototype.clearMarkers = function () {
  * Recalculates and redraws all the marker clusters from scratch.
  *  Call this after changing any properties.
  */
-MarkerClusterer.prototype.repaint = function () {
+MarkerClusterer.prototype.repaint = function () 
+{
   var oldClusters = this.clusters_.slice();
   this.clusters_ = [];
   this.resetViewport_(false);
@@ -800,7 +772,8 @@ MarkerClusterer.prototype.repaint = function () {
   // Do it in a timeout to prevent blinking effect.
   setTimeout(function () {
     var i;
-    for (i = 0; i < oldClusters.length; i++) {
+    for (i = 0; i < oldClusters.length; i++) 
+    {
       oldClusters[i].remove();
     }
   }, 0);
@@ -814,7 +787,8 @@ MarkerClusterer.prototype.repaint = function () {
  * @return {google.maps.LatLngBounds} The extended bounds.
  * @ignore
  */
-MarkerClusterer.prototype.getExtendedBounds = function (bounds) {
+MarkerClusterer.prototype.getExtendedBounds = function (bounds) 
+{
   var projection = this.getProjection();
 
   // Turn the bounds into latlng.
@@ -825,12 +799,12 @@ MarkerClusterer.prototype.getExtendedBounds = function (bounds) {
 
   // Convert the points to pixels and the extend out by the grid size.
   var trPix = projection.fromLatLngToDivPixel(tr);
-  trPix.x += this.gridSize_;
-  trPix.y -= this.gridSize_;
+  trPix.x += this.kernelRadius_;
+  trPix.y -= this.kernelRadius_;
 
   var blPix = projection.fromLatLngToDivPixel(bl);
-  blPix.x -= this.gridSize_;
-  blPix.y += this.gridSize_;
+  blPix.x -= this.kernelRadius_;
+  blPix.y += this.kernelRadius_;
 
   // Convert the pixel points back to LatLng
   var ne = projection.fromDivPixelToLatLng(trPix);
@@ -859,7 +833,8 @@ MarkerClusterer.prototype.redraw_ = function () {
  * @param {boolean} [opt_hide] Set to <code>true</code> to also remove the markers
  *  from the map.
  */
-MarkerClusterer.prototype.resetViewport_ = function (opt_hide) {
+MarkerClusterer.prototype.resetViewport_ = function (opt_hide) 
+{
   var i, marker;
   // Remove all the clusters
   for (i = 0; i < this.clusters_.length; i++) {
@@ -867,18 +842,12 @@ MarkerClusterer.prototype.resetViewport_ = function (opt_hide) {
   }
   this.clusters_ = [];
 
-  window.console.clear();
-  window.console.log("resetviewport nbre marker " + this.markers_.length);
   // Reset the markers to not be added and to be removed from the map.
   for (i = 0; i < this.markers_.length; i++) {
     marker = this.markers_[i];
     marker.isAdded = false;
-    marker.isFree = false;
-    marker.setIcon(null);
-    //marker.setVisible(true);
-    /*if (opt_hide) {
-      marker.setMap(null);
-    }*/
+    marker.isInIndependantGroup = false;
+    if (opt_hide) marker.setVisible(false);
   }
 };
 
@@ -902,26 +871,6 @@ MarkerClusterer.prototype.distanceBetweenPoints_ = function (p1, p2) {
   var d = R * c;
   return d;
 };
-
-
-
-function distancePixelBetweenPoints(p1, p2, projection) 
-{
-  // Convert the points to pixels and the extend out by the grid size.
-  var p1pix = projection.fromLatLngToDivPixel(p1);
-
-  var p2pix = projection.fromLatLngToDivPixel(p2);
-
-  var distance = Math.sqrt(Math.pow(p1pix.x-p2pix.x,2)+Math.pow(p1pix.y -p2pix.y,2));
-
-  /*window.console.log("1 : " + p1pix.x + ',' + p1pix.y);
-  window.console.log("2 : " + p2pix.x + ',' + p2pix.y );
-  window.console.log("distance: " + distance);*/
-
-  return distance;
-  
-}
-
 
 /**
  * Determines if a marker is contained in a bounds.
@@ -1002,6 +951,12 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
     return;
   }
 
+  // A une certaine valeur de zoom, on arrete le clustering
+  var mz = this.getMaxZoom();
+  if (mz !== null && this.map_.getZoom() > mz) return;
+  if (mz !== null && this.map_.getZoom() > mz) return;
+
+
   // Cancel previous batch processing if we're working on the first batch:
   if (iFirst === 0) {
     /**
@@ -1059,26 +1014,20 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
   // on re repartit un peu mieux les markers dans les clusters
   this.captureElectronsMarkersInKernelClusters_();
   
-  // première passer grossière pour voir si on minimise les clusters
+  // première passe grossière pour voir si on minimise les clusters
   for (i = 0; i < this.clusters_.length; i++) 
   {
-      this.clusters_[i].checkForClusteringGlobal();
+      this.clusters_[i].checkForSimpleClustering();
   }
 
-  // deuxième passe ou on regarde les noyaux
-  for (i = 0; i < this.clusters_.length; i++) 
-  {
-      if (!this.clusters_[i].isChecked()) this.clusters_[i].checkForClusteringKernel();
-  }
-
-  // troisième passe on analyse les electrons qui restent
+  // deuxième passe: on analyse les electrons qui restent
   this.checkAdjacentsClusters();
 
-  // a la fin si aucun clustering nécessaire, on met normal
-  // deuxième passe ou on regarde les noyaux
+  // Si les clusters n'ont pas eu besoin d'être minimisés
+  // on peut afficher les marqueurs
   for (i = 0; i < this.clusters_.length; i++) 
   {
-      if (!this.clusters_[i].isShownAsCluster()) this.clusters_[i].showExpanded();
+      if (!this.clusters_[i].isShownAsCluster()) this.clusters_[i].showMarkers();
   }
 
 
@@ -1150,12 +1099,11 @@ MarkerClusterer.prototype.checkIfElectronInKernel_ = function (cluster1, cluster
 MarkerClusterer.prototype.checkAdjacentsClusters = function () 
 {
   for (i = 0; i < this.clusters_.length; i++) 
-  {
-    
+  {    
     var cluster1 = this.clusters_[i];
-    window.console.log("Analyse Cluster " + cluster1.getLabel() +" ischecked " + cluster1.isChecked());
+    //window.console.log("Analyse Cluster " + cluster1.getLabel() +" ischecked " + cluster1.isProcessDone());
 
-    if (!cluster1.isChecked())
+    if (!cluster1.isProcessDone())
     {
       var adjacentClusters = [];
 
@@ -1177,7 +1125,7 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
         }
       }
 
-      window.console.log("  -> Nombre cluster adjacent " + adjacentClusters.length);
+      //window.console.log("  -> Nombre cluster adjacent " + adjacentClusters.length);
 
       // tous les marqueurs des clusters adjacents réunis
       var markers = [];
@@ -1187,81 +1135,109 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
         markers = markers.concat(adjacentClusters[j].getMarkers());
       }
 
-      window.console.log("  -> Nombre markers " + markers.length);
+      //window.console.log("  -> Nombre markers " + markers.length);
 
       // on cherche les regroupements d'au plus trois marqueurs isolés
       // des autres
       
-      for (i=0;i < cluster1.getMarkers().length; i++)
+      for (k=0;k < cluster1.getMarkers().length; k++)
       {          
-          var marker = cluster1.getMarkers()[i];
-          window.console.log("  -> check autour marker " + i + " isFree " + marker.isFree);
-          if (!marker.isFree)
+          var marker = cluster1.getMarkers()[k];
+          //window.console.log("  -> check autour marker " + k + " isInIndependantGroup " + marker.isInIndependantGroup);
+          if (!marker.isInIndependantGroup)
           {  
-              // les marqueurs adjacents près du marqueur principal
               var adjacentMarkers = [];
-              adjacentMarkers.push(marker);
+              adjacentMarkers.push(marker);              
+              var new_adjacentMarkers = this.lookForMarkersGroupAround(marker, markers, adjacentMarkers);              
               
-              var new_adjacentMarkers = this.checkAutour(marker, markers, adjacentMarkers);              
-              if (new_adjacentMarkers == null) cluster1.showAsCluster();
+              // return null signifie qu'on a rencontré un groupe d'au moins 4 marqueurs
+              if (new_adjacentMarkers == null) 
+              {
+                cluster1.showAsCluster();
+                break;
+              }
+              // sinon on met à jour les icones d'un groupe plus petit que 4
+              // et on continue l'analyse 
               else 
               {
-                  updateMarkersAnchor(new_adjacentMarkers.concat(adjacentMarkers));  
-                  window.console.log("  -> check autour marker " + i + " result " + new_adjacentMarkers.length);
+                  updateIconOfIndependantMarkersGroup(new_adjacentMarkers.concat(adjacentMarkers));  
+                 //window.console.log("  -> check autour marker " + k + " result " + new_adjacentMarkers.length);
               }    
           } 
       }
-    }    
+    }
+
+    // on en a terminé avec ce cluster
+    cluster1.setProcessDone(true);    
   }
 };
 
-MarkerClusterer.prototype.checkAutour = function (marker, markers, curr_adjacentMarkers)
+MarkerClusterer.prototype.lookForMarkersGroupAround = function (marker, markers, curr_adjacentMarkers)
 {
-    console.group("checkAutour");
+    //console.group("lookForMarkersGroupAround");
 
     var new_adjacentMarkers =[];
 
     for( j = 0; j < markers.length; j++)
     {
       markerToCompare = markers[j];
-      window.console.log('     - MarkerToCompare. Free: ' + markerToCompare.isFree + " index " + curr_adjacentMarkers.indexOf(markerToCompare));
-      if (!markerToCompare.isFree && curr_adjacentMarkers.indexOf(markerToCompare) == -1 )
+     //window.console.log('     - MarkerToCompare. Free: ' + markerToCompare.isInIndependantGroup + " index " + curr_adjacentMarkers.indexOf(markerToCompare));
+      if (!markerToCompare.isInIndependantGroup && curr_adjacentMarkers.indexOf(markerToCompare) == -1 )
       {
         var distance = distancePixelBetweenPoints(marker.getPosition(), markerToCompare.getPosition(), this.getProjection());
         //window.console.log("Check electron " + electron.getTitle() + "  distance : " + distElectron);
-        window.console.log('     - MarkerToCompare. Distance: ' + distance);
+       //window.console.log('     - MarkerToCompare. Distance: ' + distance);
         if ( distance < this.kernelRadius_ )
         {
           new_adjacentMarkers.push(markerToCompare);
           if (curr_adjacentMarkers.length + new_adjacentMarkers.length > 3) 
             {
-              window.console.log("   Return null");
+             //window.console.log("   Return null");
               return null;
             }
         }
       }
     }
 
-    window.console.log('     - curr adjacents ' + curr_adjacentMarkers.length);
-    window.console.log('     - new adjacents ' + new_adjacentMarkers.length);
+   //window.console.log('     - curr adjacents ' + curr_adjacentMarkers.length);
+   //window.console.log('     - new adjacents ' + new_adjacentMarkers.length);
 
     var result = [];
     result = result.concat(new_adjacentMarkers);
 
-    for( j = 0; j < new_adjacentMarkers.length; j++)
+    // Très moche.
+    // Problème dans la boucle qui permettrait de faire ça de manière plus propre
+    // parfois elle compute à l'infini
+    if (new_adjacentMarkers.length == 1)
     {
-      
-      child_adjacentsMarker = this.checkAutour(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
+      var child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
       if (child_adjacentsMarker == null) return null; 
       result = result.concat(child_adjacentsMarker);
     }
+    else if (new_adjacentMarkers.length == 2)
+    {
+      var child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker == null) return null; 
+      result = result.concat(child_adjacentsMarker);
 
-    console.groupEnd();
+      var child_adjacentsMarker2 = this.lookForMarkersGroupAround(new_adjacentMarkers[1], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker2 == null) return null; 
+      result = result.concat(child_adjacentsMarker2);
+    }
+    else if (new_adjacentMarkers.length > 2) return null;
+
+    // TODO trouver pourquoi cette boucle beuge de temps en temps
+    /*for( j = 0; j < new_adjacentMarkers.length; j++)
+    {      
+      child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker == null) return null; 
+      result = result.concat(child_adjacentsMarker);
+    }*/
+
+    //console.groupEnd();
     
     return result;
 };
-
-
 
 /**
  * Extends an object's prototype by another's.

@@ -36,7 +36,7 @@ class CoreController extends Controller
         	$constellation = $this->buildConstellation($slug);
         }		
 
-        return $this->render('BiopenCoreBundle:constellation.html.twig', array('constellation' => $constellation));
+        return $this->render('BiopenCoreBundle:constellation.html.twig', array('constellationPhp' => $constellation));
     }    
 
     public function constellationAjaxAction(Request $request)
@@ -105,10 +105,7 @@ class CoreController extends Controller
             }
         }
 
-        foreach ($constellation['etoiles'] as $nom_etoile => $etoile) 
-        {
-            $constellation['etoiles'][$nom_etoile]['index'] = 0;
-        }
+        dump($constellation);
 
         return $constellation;            
     }

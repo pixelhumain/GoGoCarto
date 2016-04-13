@@ -1,6 +1,5 @@
 jQuery(document).ready(function()
 {	
-	initIcons();
 
 	$('.collapsible').collapsible({
       accordion : true 

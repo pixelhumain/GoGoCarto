@@ -1,12 +1,18 @@
-
+ 
+var base_marker_image
 
 function initIcons()
 {
 
-  
+  base_marker_image = {
+      url: iconDirectory + 'map2.png',
+      size: new google.maps.Size(32, 38),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(16, 38)
+  }; 
   
 
-  var mon_image = document.createElement("IMG");
+ /* var mon_image = document.createElement("IMG");
   mon_image.setAttribute("src", iconDirectory + 'maison.png');
   mon_image.setAttribute("width", "24");
     mon_image.setAttribute("width", "24");
@@ -19,7 +25,7 @@ function initIcons()
   document.body.appendChild(mon_image2);
 
   var imgs = [mon_image,mon_image2];
-  url = concatenateImages(imgs);
+  url = concatenateImages(imgs);*/
   //window.console.log(url);
 }
 
