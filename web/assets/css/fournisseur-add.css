@@ -2000,7 +2000,7 @@ html {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #FFFFFF; }
+  background-color: #584545; }
 
 body {
   position: absolute;
@@ -2008,8 +2008,7 @@ body {
   width: 100%; }
 
 #fond_page {
-  background-color: #584545;
-  min-height: 101%; }
+  height: 100%; }
 
 header {
   color: white; }
@@ -2047,6 +2046,9 @@ header {
       border: none;
       background-color: transparent;
       letter-spacing: .5px; }
+
+#page_content {
+  position: relative; }
 
 /* 
 Created on: 17 Sep, 2014, 4:29:37 PM

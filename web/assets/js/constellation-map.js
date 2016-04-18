@@ -1,7 +1,24 @@
-var map;
-var constellation;
-var cluster;
+"use strict";
 var constellationDrawn = false;
+var GLOBAL;
+
+function Global(map, constellation, manager)
+{
+	this.map_ = map;
+	this.constellation_ = constellation;
+	this.listFournisseurManager_ = manager;
+	this.clusterer_ = null;
+}
+
+Global.prototype.getMap = function() { return this.map_ }
+Global.prototype.setMap = function(map) { return this.map_ = map }
+Global.prototype.getConstellation = function() { return this.constellation_ }
+Global.prototype.setConstellation = function(constellation) { return this.constellation_ = constellation}
+Global.prototype.getListFournisseurManager = function() { return this.listFournisseurManager_ }
+Global.prototype.setListFournisseurManager = function(manager) { return this.listFournisseurManager_ = manager }
+Global.prototype.getClusterer = function() { return this.clusterer_ }
+Global.prototype.setClusterer = function(clusterer) { return this.clusterer_ = clusterer }
+
 
 function initMap() 
 {	
@@ -16,11 +33,14 @@ function initMap()
 		zoomControl: true
 	}		
 
-	map = new google.maps.Map(document.getElementById("map"), mapOptions);
-	
-	constellation = new Constellation(map, constellationRawJson);	
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);	
+	var constellation = new Constellation(constellationRawJson);	
+	var listFournisseurManager = new ListFournisseurManager();
 
-	map.panTo(constellation.getOrigin());
+	GLOBAL = new Global(map, constellation, listFournisseurManager);
+
+
+	map.panTo(GLOBAL.getConstellation().getOrigin());
 	map.setZoom(16);
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
@@ -37,10 +57,10 @@ function initMap()
   		if (constellation != null && constellationDrawn == false)	
 		{
 			constellationDrawn = true;
-			constellation.draw();
-			fitMarkersBounds(map, constellation.getMarkersIncludingHome());
-			initCluster(constellation.getMarkers());
-			constellation.drawLines(cluster);
+			GLOBAL.getConstellation().draw();
+			fitMarkersBounds(map, GLOBAL.getConstellation().getMarkersIncludingHome());
+			initCluster(GLOBAL.getConstellation().getMarkers());
+			GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getConstellation().drawLines(); });
 		}
 	    
 	} );
@@ -51,24 +71,24 @@ function initMap()
     	addMarkerForTest(e);
   	}); 
 
-  	//map.addListener('tilesloaded', function(){ cluster.repaint();});
+  	//map.addListener('tilesloaded', function(){ GLOBAL.getClusterer().repaint();});
 }
 
 function addMarkerForTest(e)
 {
 	var marker = new google.maps.Marker({
 		icon: base_marker_image,
-		label: labels[labelIndex++ % labels.length],
-		map: map,
+		//label: labels[labelIndex++ % labels.length],
+		map: GLOBAL.getMap(),
 		draggable: true,
 		position: e.latLng,
 	});
 
-		var polyline = drawLineBetweenPoints(marker_home, marker);
+	//var polyline = drawLineBetweenPoints(marker_home, marker);
 
-	markers.push(marker);
+	//markers.push(marker);
 
-	cluster.addMarker(marker,false);
+	GLOBAL.getClusterer().addMarker(marker,false);
 }
 
 
@@ -98,7 +118,7 @@ function initCluster(markersToCluster)
 	        height: 33,
 	    }	    
 		];
-		cluster.setStyles(styles);
+		GLOBAL.getClusterer().setStyles(styles);
 	    return{ text: markers.length.toString(), index:1};
 	};*/
 
@@ -113,10 +133,11 @@ function initCluster(markersToCluster)
 	}
 
     
-    cluster = new MarkerClusterer(map, markersToCluster, clusterOptions);
-    //cluster.addListener()
-    //cluster.resetViewPort();
-    //cluster.clearMarkers();
+    var cluster = new MarkerClusterer(GLOBAL.getMap(), markersToCluster, clusterOptions);
+    GLOBAL.setClusterer(cluster);
+    //GLOBAL.getClusterer().addListener()
+    //GLOBAL.getClusterer().resetViewPort();
+    //GLOBAL.getClusterer().clearMarkers();
 
 }
 

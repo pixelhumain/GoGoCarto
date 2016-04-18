@@ -1,6 +1,6 @@
 function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', map_)
 {
-	var origine = latlngToPoint(point1);
+	/*var origine = latlngToPoint(point1);
 	var destination = latlngToPoint(point2);
 
 	var vecteurX = destination.x - origine.x;
@@ -17,7 +17,10 @@ function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', m
   	destination.y -= vecteurUnitaireY * offset;
 
   	var LineStart = pointToLatlng(origine);
-  	var LineEnd = pointToLatlng(destination);
+  	var LineEnd = pointToLatlng(destination);*/
+
+  	var LineStart = point1;
+  	var LineEnd = point2;
 
 	var LineArray = [
     	{lat: LineStart.lat(), lng: LineStart.lng()},
@@ -50,7 +53,7 @@ function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', m
 		strokeWeight: weight
 	});
 	
-	poly.setMap(map_);
+	poly.setMap(GLOBAL.getMap());
 
 	return poly;  		
 }
@@ -59,7 +62,7 @@ function createMarker(position, fournisseurId)
 {
 	var marker = new google.maps.Marker({
 		icon: base_marker_image,
-		map: map,
+		map: GLOBAL.getMap(),
 		draggable: false,
 		position: position,
 	});
@@ -76,7 +79,7 @@ function createMarker(position, fournisseurId)
 function markerOnClick(fournisseurId)
 {
 	$('#detail_fournisseur').empty();
-	$('#infoFournisseur'+fournisseurId).clone().appendTo($('#detail_fournisseur'));
+	$('#infoFournisseur-'+fournisseurId).clone().appendTo($('#detail_fournisseur'));
 	$('#detail_fournisseur .collapsible-header').click(toggleFournisseurDetailsComplet);
 	animate_up_bandeau_detail();
 }

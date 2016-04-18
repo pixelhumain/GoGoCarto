@@ -5,57 +5,89 @@ $icon-sprite-dimensions: true;
 @import "partials/base_bundle";
 @import 'vendors/materialize';
 
+@import "partials/section-carte";
+@import "partials/infoFournisseur";
 
-#overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-    @include transition(opacity 1s);
-    will-change: opacity;
-}
-
-#btn_menu
+#FournisseurList::-webkit-scrollbar-track
 {
-	position: absolute;
-    left: 1rem;
-    top: 1rem;
-    background-color: white;
-    padding: 8px 8px 2px 8px;
-    z-index: 11;
-    @extend .z-depth-1;
-    color: #555;
-    opacity: 1;
-    @include transition(opacity 1s);
-    @include transition(background-color 1s);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: white;
 }
 
-#btn_menu:hover {cursor: pointer;}
-
-
-#bandeau_option
+#FournisseurList::-webkit-scrollbar
 {
-	top: 0;
-	left: -200px;
-	position:absolute;
-	width: 200px;
-	background-color: green;
-	z-index: 20;
-	will-change: left;
+	width: 6px;
+	background-color: white;
 }
+
+#FournisseurList::-webkit-scrollbar-thumb
+{
+	background-color: #9E9E9E;
+}
+
+#FournisseurList
+{  
+}
+
+#ProductsList
+{
+	display: none;
+}
+
+#page_content { height: 100% }
+
+#div_map_and_products { position: relative; height: 100% }	
+
+#bandeau_goToFournisseurList {  }
 
 #section_carte
 {
-	position: relative;
+	position: relative;	
+	height: 100%;   
+	background-color: #9e9e9e;
+}
+
+@media #{$medium-and-up} 
+{
+	#ProductsList
+	{
+		display: block;
+		position: absolute;
+		background-color: white;
+		width: 200px;		
+	    top: 0;
+	    left: 0;
+	    height: 100%;   
+	}
+
+	#section_carte
+	{
+		margin-left: 200px;
+	}
+} 
+
+@media #{$large-and-up}
+{
+	#FournisseurList
+	{
+		position: absolute;
+	    width: 400px;
+	    top: 0;
+	    right: 0;	
+	    height: 100%;  
+	    overflow-y:scroll;  
+	}
+
+	#bandeau_goToFournisseurList { display:none; }
+
+	#section_carte
+	{
+		margin-right: 400px; 
+	}
 }
 
 
-
-#bandeau_plus_resultats
+#bandeau_goToFournisseurList
 {	
 	background-color: rgb(252, 252, 252);
 	text-align: center !important;
@@ -75,6 +107,7 @@ $icon-sprite-dimensions: true;
     }
 }
 
+
 #bandeau_detail
 {
 	height:0;
@@ -85,83 +118,9 @@ $icon-sprite-dimensions: true;
 	@include transition(height 1s);	
 }
 
-#detail_fournisseur
-{
-	.collapsible-body { border-bottom: 0 }
-	.moreDetails { display : none; }
-	li { list-style-type: none; }
-}
 
-#bandeau_resultats, #bandeau_detail
-{	
-	.collapsible.popout > li
-	{ 
-		margin: 0;
-		margin-bottom: 1px; 
-	}
-	.collapsible.popout > li.active
-	{ 
-		margin: 1rem 0; 
-	}
 
-	.btn
-	{
-		height: 2rem;
-    	line-height: 2rem;
-    	padding: 0 1rem;
-	}
-	//background-color: rgb(252, 252, 252);
-	.collapsible{ margin :0 }
-	.collapsible-header i { margin-right: 0; padding-left: 0.3rem; }
-	.collapsible-header
-	{
-		padding: 0 .5rem;
-	}
-	.collapsible-header-title 
-	{ 		
-		margin-bottom: 0rem; 
-		overflow: hidden;
-		text-overflow: ellipsis;
-		height: 3rem;
-	}
-	.collapsible-header-more 
-	{ 
-		line-height: 1.5rem; 
-		.produits 
-		{ 
-		    font-weight: 500;
-		    color: #525252;
-		    font-style: italic;
-		}
-		.description
-		{
-		    margin-bottom: .7rem;
-		    text-align: justify;
-		}
-	}
-	.collapsible-body
-	{
-		background-color: #F7F7F7;
-		padding: 0 .5rem 1rem .5rem;
 
-		h2
-		{
-		  font-weight: bold !important;
-		  font-size: 1rem !important; 
-		  line-height: 110% !important;
-		  margin: 0.5rem 0 .8rem 0 ;
-		}
-		.row { margin-bottom: 0 }
-		.section{ /* padding-bottom: 0; */ }
-		.categorie,.adresse, .tel
-		{
-			/* padding-left: 1.3rem; */
-		}
-		.categorie { text-decoration: underline; }
-		.description,.detail { text-align: justify; }
-	}
-	
-}
 
 #div_recherche_contener
 {
@@ -227,8 +186,7 @@ input.placeholder, textarea.placeholder {
 //             GOOGLE MAP
 // ---------------------------------------
 #map
-{
-	background-color: #9e9e9e;
+{	
 	z-index: 10;
 	height:200px;
 	width:100%;

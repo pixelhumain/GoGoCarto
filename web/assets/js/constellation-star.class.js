@@ -1,14 +1,14 @@
 function Star(nom, fournisseurList) 
 {
-  this.nom_ = nom;  
+  this.name_ = nom;  
   this.fournisseurList_ = fournisseurList;
   this.index_ = 0;
   this.marker_ = null;
   this.polyline_ = null;
 }
 
-Star.prototype.getNom = function () {
-  return this.nom_ ;
+Star.prototype.getName = function () {
+  return this.name_ ;
 };
 
 Star.prototype.getMarker = function () {
@@ -16,6 +16,8 @@ Star.prototype.getMarker = function () {
 };
 
 Star.prototype.setMarker = function (marker) {
+  if (this.marker_ != null) this.marker_.setMap(null);
+  delete this.marker_;
   return this.marker_ = marker;
 };
 
@@ -25,6 +27,8 @@ Star.prototype.getPolyline = function () {
 };
 
 Star.prototype.setPolyline = function (line) {
+  if (this.polyline_ != null) this.polyline_.setMap(null);
+  delete this.polyline_;
   return this.polyline_ = line ;
 };
 
@@ -40,4 +44,50 @@ Star.prototype.isVisible = function () {
   if (this.marker_ == null) return false;
   return this.marker_.getVisible() ;
 };
+
+Star.prototype.isClustered = function () 
+{
+  if (GLOBAL.getClusterer() == null) return false;
+
+  var clusters = GLOBAL.getClusterer().getMinimizedClusters();
+
+  for (j = 0; j < clusters.length; j++)
+  {
+  	if (clusters[j].getMarkers().indexOf(this.marker_) > -1) return true;
+  }
+
+  return false;
+};
+
+Star.prototype.indexForward = function ()
+{
+	this.setIndex(this.index_ + 1);
+}
+
+Star.prototype.indexBackward = function ()
+{
+	this.setIndex(this.index_ - 1);
+}
+
+Star.prototype.getIndex = function ()
+{
+	return this.index_;
+}
+
+Star.prototype.setIndex = function (newIndex)
+{
+	window.console.log("old index = " + this.index_ + " , new index = " + newIndex);
+	if (newIndex < 0 || newIndex >= this.fournisseurList_.length) return false;
+
+	var oldFournisseurId = this.getFournisseur().id;
+	
+	this.index_ = newIndex;
+	window.console.log("and now this.index_ = " + this.index_);
+	this.marker_.setPosition(this.getPosition());
+	this.setPolyline(null);
+	GLOBAL.getListFournisseurManager().removeFournisseur(oldFournisseurId);
+	GLOBAL.getListFournisseurManager().addFournisseur(this.getFournisseur().id);
+}
+
+
 

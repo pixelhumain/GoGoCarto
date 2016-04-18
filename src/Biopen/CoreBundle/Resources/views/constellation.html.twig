@@ -12,26 +12,41 @@
 
 
 
-
 {# BODY CONTENT #}
 {% block body_content %}
-  
-<section id="section_carte">
-  <div id="map"></div>
 
-  <div id="bandeau_detail">
-    <div id="detail_fournisseur"></div>
-  </div>
+<div id="div_map_and_products">
 
-  <div id="bandeau_option"></div>
+  {# La liste des produits #}
+  <section id="ProductsList"> 
+  <p>un produit</p> 
+  <p>un produit</p> 
+  <p>un produit</p> 
+  <p>un produit</p> 
+  <p>un produit</p> 
+  <p>un produit</p> 
+  </section>
 
-  <div id="btn_menu"><i class='material-icons'>menu</i></div> 
-  <div id="overlay"></div>
-</section>
+   
+  {# La Carte et les infos fournisseur #} 
+  <section id="section_carte">
+    <div id="map"></div>
+
+    <div id="bandeau_detail">
+      <div id="detail_fournisseur"></div>
+    </div>
+
+    {# <div id="bandeau_option"></div> #}
+
+    <div id="btn_menu"><i class='material-icons'>menu</i></div> 
+    <div id="overlay"></div>
+  </section>  
+
+</div>
 
 {# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
-<div id="bandeau_plus_resultats">  
-  <a href='#bandeau_resultats'>
+<div id="bandeau_goToFournisseurList">  
+  <a href='#FournisseurList'>
     <div class="valign-wrapper">
     <i class="material-icons">expand_more</i>
     <div class="">Liste des résultats</div>
@@ -41,66 +56,36 @@
 </div>
 
 {# Les résultats par liste #}
-<div id="bandeau_resultats">
+<section id="FournisseurList">
   <ul class="collapsible popout" data-collapsible="accordion">
 
-    {% for nom_etoile, etoile in constellationPhp.etoiles %}      
-      {% for key, fournisseur in etoile.fournisseurList %}
-         
-      <li id="infoFournisseur-{{ fournisseur.id }}" 
-        {% if key != 0 %} style="display:none" {% endif %}>
+    {% if constellationPhp is defined %}
+      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
 
-      <div class="collapsible-header">
-          
-          <div class='collapsible-header-title row'>
-            <i class="material-icons col s1">filter_drama</i>
-            <span class="col s8"><b>{{ fournisseur.nom|capitalize }}</b></span>
-            <span class="col s3 right-align">{{ fournisseur.distance|round(1) }} km</span>
-          </div>
+          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
+              with {'fournisseur':fournisseur, 'display':true} only %}
 
-          <div class='collapsible-header-more row'>
-            <span class="description col s12">{{ fournisseur.description }}</span> 
-            <span class="list_produits col s8 produits">
-              {% for produit in fournisseur.produits %} 
-                  {{ produit.nom }}{% if not loop.last %}, {% endif %}
-              {% endfor %}
-            </span>
-            <a><span class=" col s4 right-align">Plus d'infos</span></a>
-          </div>
+      {% endfor %}  
 
-      </div>
+      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
 
-      <div class="collapsible-body moreDetails" > 
-        
-        <div class="section row"> 
-          {% for produit in fournisseur.produits %} 
-              <span class="col s3 categorie">{{ produit.nom }}</span>
-              <span class="col s9 detail">{{ produit.descriptif }}</span>
-          {% endfor %}          
-          
-        </div>       
-        <div class="divider"></div>
+          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
+              with {'fournisseur':fournisseur, 'display':true} only %}
 
-        <div class="section row">          
-          <span class="col s12 adresse">{{ fournisseur.adresse|capitalize }}</span>
-          <span class="col s12 tel">{{ fournisseur.tel|split('',2)|join(' ') }}</span>
-        </div>
+      {% endfor %}  
 
-         <div id="collapsible-menu" class="row">
-          <center>
-            <button id="" class=" btn waves-effect waves-light">Modifier les informations</button>
-          </center>          
-        </div> 
+      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
 
-        {# <div> Autres résultats </div> #}
+          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
+              with {'fournisseur':fournisseur, 'display':true} only %}
 
-      </div>
-      </li>
-      {% endfor %}
-    {% endfor %}   
+      {% endfor %}  
+    {% endif %} 
 
   </ul>
-</div>
+</section>
+
+
 
 {% endblock %}
 
@@ -130,6 +115,7 @@
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/map-utils.js"
         "assets/js/map-drawing.js"
+        "assets/js/listFournisseurManager.class.js"
         "assets/js/constellation.class.js"
         "assets/js/constellation-star.class.js"
         "assets/js/constellation-map.js"
@@ -140,9 +126,9 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    <script async defer
+    {#<script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
-  </script>
+  </script>#}
 
   
 

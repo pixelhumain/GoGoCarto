@@ -2004,7 +2004,7 @@ html {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #FFFFFF; }
+  background-color: #584545; }
 
 body {
   position: absolute;
@@ -2012,8 +2012,7 @@ body {
   width: 100%; }
 
 #fond_page {
-  background-color: #584545;
-  min-height: 101%; }
+  height: 100%; }
 
 header {
   color: white; }
@@ -2051,6 +2050,9 @@ header {
       border: none;
       background-color: transparent;
       letter-spacing: .5px; }
+
+#page_content {
+  position: relative; }
 
 html {
   box-sizing: border-box; }
@@ -4875,28 +4877,134 @@ select {
 #btn_menu:hover {
   cursor: pointer; }
 
-#bandeau_option {
-  top: 0;
-  left: -200px;
-  position: absolute;
-  width: 200px;
-  background-color: green;
-  z-index: 20;
-  will-change: left; }
+/* #bandeau_option
+{
+	top: 0;
+	left: -200px;
+	position:absolute;
+	width: 200px;
+	background-color: green;
+	z-index: 20;
+	will-change: left;
+} */
+#detail_fournisseur .collapsible-body {
+  border-bottom: 0; }
+#detail_fournisseur .moreDetails {
+  display: none; }
+#detail_fournisseur li {
+  list-style-type: none; }
+
+#FournisseurList .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
+  margin: 0;
+  margin-bottom: 1px; }
+#FournisseurList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
+  margin: 1rem 0; }
+#FournisseurList .btn, #FournisseurList .btn-large, #bandeau_detail .btn, #bandeau_detail .btn-large {
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 1rem; }
+#FournisseurList .collapsible, #bandeau_detail .collapsible {
+  margin: 0; }
+#FournisseurList .collapsible-header i, #bandeau_detail .collapsible-header i {
+  margin-right: 0;
+  padding-left: 0.3rem; }
+#FournisseurList .collapsible-header, #bandeau_detail .collapsible-header {
+  padding: 0 .5rem; }
+#FournisseurList .collapsible-header-title, #bandeau_detail .collapsible-header-title {
+  margin-bottom: 0rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 3rem; }
+#FournisseurList .collapsible-header-more, #bandeau_detail .collapsible-header-more {
+  line-height: 1.5rem; }
+  #FournisseurList .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
+    font-weight: 500;
+    color: #525252;
+    font-style: italic; }
+  #FournisseurList .collapsible-header-more .description, #bandeau_detail .collapsible-header-more .description {
+    margin-bottom: .7rem;
+    text-align: justify; }
+#FournisseurList .collapsible-body, #bandeau_detail .collapsible-body {
+  background-color: #F7F7F7;
+  padding: 0 .5rem 1rem .5rem; }
+  #FournisseurList .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    line-height: 110% !important;
+    margin: 0.5rem 0 0.8rem 0; }
+  #FournisseurList .collapsible-body .row, #bandeau_detail .collapsible-body .row {
+    margin-bottom: 0; }
+  #FournisseurList .collapsible-body .section, #bandeau_detail .collapsible-body .section {
+    /* padding-bottom: 0; */ }
+  #FournisseurList .collapsible-body .categorie, #FournisseurList .collapsible-body .adresse, #FournisseurList .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
+    /* padding-left: 1.3rem; */ }
+  #FournisseurList .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
+    text-decoration: underline; }
+  #FournisseurList .collapsible-body .description, #FournisseurList .collapsible-body .detail, #bandeau_detail .collapsible-body .description, #bandeau_detail .collapsible-body .detail {
+    text-align: justify; }
+
+#FournisseurList::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: white; }
+
+#FournisseurList::-webkit-scrollbar {
+  width: 6px;
+  background-color: white; }
+
+#FournisseurList::-webkit-scrollbar-thumb {
+  background-color: #9E9E9E; }
+
+#ProductsList {
+  display: none; }
+
+#page_content {
+  height: 100%; }
+
+#div_map_and_products {
+  position: relative;
+  height: 100%; }
 
 #section_carte {
-  position: relative; }
+  position: relative;
+  height: 100%;
+  background-color: #9e9e9e; }
 
-#bandeau_plus_resultats {
+@media only screen and (min-width: 601px) {
+  #ProductsList {
+    display: block;
+    position: absolute;
+    background-color: white;
+    width: 200px;
+    top: 0;
+    left: 0;
+    height: 100%; }
+
+  #section_carte {
+    margin-left: 200px; } }
+@media only screen and (min-width: 993px) {
+  #FournisseurList {
+    position: absolute;
+    width: 400px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    overflow-y: scroll; }
+
+  #bandeau_goToFournisseurList {
+    display: none; }
+
+  #section_carte {
+    margin-right: 400px; } }
+#bandeau_goToFournisseurList {
   background-color: #fcfcfc;
   text-align: center !important;
   padding: .5rem;
   margin-top: .5rem;
   margin-bottom: .5rem; }
-  #bandeau_plus_resultats a {
+  #bandeau_goToFournisseurList a {
     color: #26A69A;
     font-weight: 500; }
-  #bandeau_plus_resultats .valign-wrapper {
+  #bandeau_goToFournisseurList .valign-wrapper {
     width: 180px;
     margin: auto; }
 
@@ -4911,62 +5019,6 @@ select {
   -o-transition: height 1s;
   -ms-transition: height 1s;
   transition: height 1s; }
-
-#detail_fournisseur .collapsible-body {
-  border-bottom: 0; }
-#detail_fournisseur .moreDetails {
-  display: none; }
-#detail_fournisseur li {
-  list-style-type: none; }
-
-#bandeau_resultats .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
-  margin: 0;
-  margin-bottom: 1px; }
-#bandeau_resultats .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
-  margin: 1rem 0; }
-#bandeau_resultats .btn, #bandeau_resultats .btn-large, #bandeau_detail .btn, #bandeau_detail .btn-large {
-  height: 2rem;
-  line-height: 2rem;
-  padding: 0 1rem; }
-#bandeau_resultats .collapsible, #bandeau_detail .collapsible {
-  margin: 0; }
-#bandeau_resultats .collapsible-header i, #bandeau_detail .collapsible-header i {
-  margin-right: 0;
-  padding-left: 0.3rem; }
-#bandeau_resultats .collapsible-header, #bandeau_detail .collapsible-header {
-  padding: 0 .5rem; }
-#bandeau_resultats .collapsible-header-title, #bandeau_detail .collapsible-header-title {
-  margin-bottom: 0rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 3rem; }
-#bandeau_resultats .collapsible-header-more, #bandeau_detail .collapsible-header-more {
-  line-height: 1.5rem; }
-  #bandeau_resultats .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
-    font-weight: 500;
-    color: #525252;
-    font-style: italic; }
-  #bandeau_resultats .collapsible-header-more .description, #bandeau_detail .collapsible-header-more .description {
-    margin-bottom: .7rem;
-    text-align: justify; }
-#bandeau_resultats .collapsible-body, #bandeau_detail .collapsible-body {
-  background-color: #F7F7F7;
-  padding: 0 .5rem 1rem .5rem; }
-  #bandeau_resultats .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
-    font-weight: bold !important;
-    font-size: 1rem !important;
-    line-height: 110% !important;
-    margin: 0.5rem 0 0.8rem 0; }
-  #bandeau_resultats .collapsible-body .row, #bandeau_detail .collapsible-body .row {
-    margin-bottom: 0; }
-  #bandeau_resultats .collapsible-body .section, #bandeau_detail .collapsible-body .section {
-    /* padding-bottom: 0; */ }
-  #bandeau_resultats .collapsible-body .categorie, #bandeau_resultats .collapsible-body .adresse, #bandeau_resultats .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
-    /* padding-left: 1.3rem; */ }
-  #bandeau_resultats .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
-    text-decoration: underline; }
-  #bandeau_resultats .collapsible-body .description, #bandeau_resultats .collapsible-body .detail, #bandeau_detail .collapsible-body .description, #bandeau_detail .collapsible-body .detail {
-    text-align: justify; }
 
 #div_recherche_contener {
   position: absolute;
@@ -5020,7 +5072,6 @@ input.placeholder, textarea.placeholder {
   color: #555; }
 
 #map {
-  background-color: #9e9e9e;
   z-index: 10;
   height: 200px;
   width: 100%;

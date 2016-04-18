@@ -1,0 +1,41 @@
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    @include transition(opacity 1s);
+    will-change: opacity;
+}
+
+#btn_menu
+{
+	position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background-color: white;
+    padding: 8px 8px 2px 8px;
+    z-index: 11;
+    @extend .z-depth-1;
+    color: #555;
+    opacity: 1;
+    @include transition(opacity 1s);
+    @include transition(background-color 1s);
+}
+
+#btn_menu:hover {cursor: pointer;}
+
+
+/* #bandeau_option
+{
+	top: 0;
+	left: -200px;
+	position:absolute;
+	width: 200px;
+	background-color: green;
+	z-index: 20;
+	will-change: left;
+} */

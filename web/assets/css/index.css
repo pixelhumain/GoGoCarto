@@ -2000,7 +2000,7 @@ html {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #FFFFFF; }
+  background-color: #584545; }
 
 body {
   position: absolute;
@@ -2008,8 +2008,7 @@ body {
   width: 100%; }
 
 #fond_page {
-  background-color: #584545;
-  min-height: 101%; }
+  height: 100%; }
 
 html {
   box-sizing: border-box; }

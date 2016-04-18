@@ -87,6 +87,7 @@ class CoreController extends Controller
             // on regroupe les deux dans un simple objet fournisseur
             $fournisseur = $fournisseurReponse['Fournisseur']->setDistance($fournisseurReponse['distance']);
 
+            $constellation['globalListFournisseur'][] = $fournisseur;
             // switch sur le Type du fournisseur
             switch($fournisseurReponse['Fournisseur']->getType())
             {

@@ -48,6 +48,13 @@
 //          transition-timing-function($function)
 
 
+//calc
+@mixin calc($property, $expression) {
+  #{$property}: -moz-calc(#{$expression});
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: calc(#{$expression});
+}
+
 // Animation
 
 @mixin animation($args) {
