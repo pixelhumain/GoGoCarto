@@ -1,0 +1,81 @@
+#ProductsList
+{
+	.resultNumber
+	{
+		background-color: #EE6E73;
+	    color: white;
+	    font-size: 0.8rem;
+	    border-radius: 50%;
+	    -moz-border-radius: 50%;
+	    -webkit-border-radius: 50%;
+	    display: inline-block;
+	    font-weight: 400;
+	    line-height: 1.7rem;
+	    margin-right: 5px;
+	    text-align: center;
+	    width: 1.7rem;		
+	}
+
+	.productItem
+	{
+		margin-bottom: 0;
+		line-height: 3rem;
+		padding: 0;
+		height: 3rem;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+
+	.productItem:not(.disabled):hover
+	{
+		background-color: $collection-hover-bg-color;
+	}
+
+	.disabled
+	{
+		color: #DFDFDF;
+		cursor: default;
+
+		.resultNumber
+		{
+			background-color: #DFDFDF;
+		}
+
+		:hover
+		{
+			cursor: default;
+		}
+	}
+
+	ul
+	{
+		margin: 0;
+		border: 0;
+		box-shadow: none;
+	}
+	.moreResultFournisseurItem
+	{
+		background-color: #F7F7F7;	    
+	    font-size: .95rem;
+	    padding: 1rem;
+	    border-bottom: none;
+	    font-weight: 400;
+
+		.col { padding: 0 }
+
+		b { font-weight: 500;}
+	}
+
+	.productName
+	{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+
+	.moreResultFournisseurItem:hover 
+	{ 
+		background-color: $secondary-color ;
+		color:white;
+		cursor: pointer;
+	}
+}

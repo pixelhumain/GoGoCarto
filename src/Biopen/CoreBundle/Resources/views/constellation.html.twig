@@ -19,12 +19,7 @@
 
   {# La liste des produits #}
   <section id="ProductsList"> 
-  <p>un produit</p> 
-  <p>un produit</p> 
-  <p>un produit</p> 
-  <p>un produit</p> 
-  <p>un produit</p> 
-  <p>un produit</p> 
+    {% include 'BiopenCoreBundle:product.html.twig' %}      
   </section>
 
    
@@ -63,21 +58,7 @@
       {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
 
           {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
-              with {'fournisseur':fournisseur, 'display':true} only %}
-
-      {% endfor %}  
-
-      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
-
-          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
-              with {'fournisseur':fournisseur, 'display':true} only %}
-
-      {% endfor %}  
-
-      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
-
-          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
-              with {'fournisseur':fournisseur, 'display':true} only %}
+              with {'fournisseur':fournisseur, 'display':false} only %}
 
       {% endfor %}  
     {% endif %} 
@@ -126,9 +107,9 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {#<script async defer
+    <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
-  </script>#}
+  </script>
 
   
 

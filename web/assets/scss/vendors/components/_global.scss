@@ -556,7 +556,7 @@ span.badge {
   right: 15px;
   @include box-sizing(border-box);
 
-  &.new {
+  &.more {
     font-weight: 300;
     font-size: 0.8rem;
     color: #fff;
@@ -565,6 +565,9 @@ span.badge {
   }
   &.new:after {
     content: " new";
+  }
+  &.more:after {
+    content: " more";
   }
 }
 nav ul a span.badge {

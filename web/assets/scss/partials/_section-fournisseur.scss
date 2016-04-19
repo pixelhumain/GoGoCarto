@@ -5,6 +5,11 @@
 	li { list-style-type: none; }
 }
 
+#FournisseurList
+{
+	background-color: #9E9E9E;
+}
+
 #FournisseurList, #bandeau_detail
 {	
 	.collapsible.popout > li
@@ -75,3 +80,4 @@
 	}
 	
 }
+

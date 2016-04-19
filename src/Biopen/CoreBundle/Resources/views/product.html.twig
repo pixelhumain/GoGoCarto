@@ -1,0 +1,53 @@
+{# <li id="product-{{ product.id }}" {% if provided is defined and not provided %} class="disabled" {% endif %}>   #}
+{# <li>
+  <span>{{ starName }} - {{ etoile.fournisseurList|length }}</span>
+
+</li>   #}  
+<ul class="collapsible" data-collapsible="accordion">
+{% for starName, etoile in constellationPhp.etoiles %} 
+  <li>
+    <div class="productItem collapsible-header row">
+    <span class="col s9">
+    <i class="material-icons">filter_drama</i>
+    <span class="productName">{{ starName }}</span>
+    </span>
+    <span class="col s3 ">
+    <span class="resultNumber">{{ etoile.fournisseurList|length }}</span>
+    </span>
+    </div>
+
+    <div class="collapsible-body">
+      <ul class="collection">
+      {% for key, fournisseur in etoile.fournisseurList %} 
+        <li class="row collection-item moreResultFournisseurItem"
+              data-fournisseur-index="{{ key }}"
+              data-star-name="{{ starName }}">
+          <span class="col s8"><b>{{ fournisseur.nom|capitalize }}</b></span>
+          <span class="col s4 right-align">{{ fournisseur.distance|round(1) }} km</span>
+        </li>
+        {% if not loop.last %}<div class="divider"></div>{% endif %}
+      {% endfor %}
+      <ul>
+    </div>
+  </li>
+{% endfor %} 
+
+<ul class="collection">
+{% for key, product in constellationPhp.listProductsNonProvided %} 
+  
+  <li class="row collection-item collapsible-header productItem disabled">
+    <span class="col s9">
+    <i class="material-icons">filter_drama</i>
+     <span class="productName">{{ product.nom }}</span>
+    </span>
+    <span class="col s3 ">
+    <span class="resultNumber">0</span>
+    </span>
+  </li>
+
+{% endfor %}  
+</ul>
+
+
+
+

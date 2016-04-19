@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Biopen\FournisseurBundle\Entity\Produit;
+use Biopen\FournisseurBundle\Entity\Fourniseur;
+
 use Wantlet\ORM\Point;
 
 class CoreController extends Controller
@@ -34,9 +37,10 @@ class CoreController extends Controller
         else
         {
         	$constellation = $this->buildConstellation($slug);
-        }		
+        }	    	
 
-        return $this->render('BiopenCoreBundle:constellation.html.twig', array('constellationPhp' => $constellation));
+        return $this->render('BiopenCoreBundle:constellation.html.twig', 
+            array('constellationPhp' => $constellation));
     }    
 
     public function constellationAjaxAction(Request $request)
@@ -60,7 +64,7 @@ class CoreController extends Controller
 
     public function buildConstellation($adresse, $distance = 50)
     {
-        $geocodeResponse = $this->geocodeFromAdresse($adresse);
+/*        $geocodeResponse = $this->geocodeFromAdresse($adresse);
 
         if ($geocodeResponse == null)
         {  
@@ -68,15 +72,21 @@ class CoreController extends Controller
             return null;
         } 
 
+        $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+*/
+        $geocodePoint = new Point(44.1049567, -0.5445296);
+        $geocodeResponse['coordinates']['latitude'] = 44.1049567;
+        $geocodeResponse['coordinates']['longitude'] = -0.5445296;
+
         $em = $this->getDoctrine()->getManager();
 
         // La liste des fournisseur autour de l'adresse demandée
         $listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
-        ->findFromPoint($distance, new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude()) );
+        ->findFromPoint($distance, $geocodePoint );
         
         // La liste des produits
         $listProduits = $em->getRepository('BiopenFournisseurBundle:Produit')->findAll();
- 
+
         $constellation['geocodeResult'] = $geocodeResponse;
 
         // Pour chaque fournisseur de la liste, on remplit les etoiles
@@ -105,6 +115,20 @@ class CoreController extends Controller
                     break;
             }
         }
+
+        $isProvided;
+        // on crée les liste de produits
+        foreach($listProduits as $i => $product)
+        {
+            $isProvided = false;
+            foreach ($constellation['etoiles'] as $starName => $listFournisseur)
+            {
+                if ($listProduits[$i]->getNom() == $starName)
+                    $isProvided = true;
+            }
+            if ($isProvided) $constellation['listProductsProvided'][] = $product;
+            else $constellation['listProductsNonProvided'][] = $product;
+        } 
 
         dump($constellation);
 

@@ -2525,7 +2525,7 @@ span.badge {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
-  span.badge.new {
+  span.badge.more {
     font-weight: 300;
     font-size: 0.8rem;
     color: #fff;
@@ -2533,6 +2533,8 @@ span.badge {
     border-radius: 2px; }
   span.badge.new:after {
     content: " new"; }
+  span.badge.more:after {
+    content: " more"; }
 
 nav ul a span.badge {
   position: static;

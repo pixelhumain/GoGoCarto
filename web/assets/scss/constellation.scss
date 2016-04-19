@@ -6,28 +6,8 @@ $icon-sprite-dimensions: true;
 @import 'vendors/materialize';
 
 @import "partials/section-carte";
-@import "partials/infoFournisseur";
-
-#FournisseurList::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: white;
-}
-
-#FournisseurList::-webkit-scrollbar
-{
-	width: 6px;
-	background-color: white;
-}
-
-#FournisseurList::-webkit-scrollbar-thumb
-{
-	background-color: #9E9E9E;
-}
-
-#FournisseurList
-{  
-}
+@import "partials/section-fournisseur";
+@import "partials/section-product";
 
 #ProductsList
 {
@@ -57,7 +37,8 @@ $icon-sprite-dimensions: true;
 		width: 200px;		
 	    top: 0;
 	    left: 0;
-	    height: 100%;   
+	    height: 100%; 
+	    overflow-y:auto;    
 	}
 
 	#section_carte
@@ -75,7 +56,7 @@ $icon-sprite-dimensions: true;
 	    top: 0;
 	    right: 0;	
 	    height: 100%;  
-	    overflow-y:scroll;  
+	    overflow-y:auto;  
 	}
 
 	#bandeau_goToFournisseurList { display:none; }
@@ -108,14 +89,21 @@ $icon-sprite-dimensions: true;
 }
 
 
-#bandeau_detail
+section::-webkit-scrollbar-track
 {
-	height:0;
-	background-color: #F7F7F7;
-	will-change:height;
-	z-index: 400;
-	overflow: hidden;
-	@include transition(height 1s);	
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: white;
+}
+
+section::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: white;
+}
+
+section::-webkit-scrollbar-thumb
+{
+	background-color: #9E9E9E;
 }
 
 

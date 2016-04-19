@@ -35,6 +35,17 @@ class Produit
      */
     private $precision;
 
+    /* Non-Entity attribute. If the product get some supplier on search area */
+    private $isLocalyProvided;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->isLocalyProvided = false;
+    }
+
     /**
      * Get id
      *
@@ -91,5 +102,23 @@ class Produit
     public function getPrecision()
     {
         return $this->precision;
+    }
+
+       /**
+     *
+     */
+    public function setLocalProvided($bool)
+    {
+        $this->isLocalyProvided = $bool;
+
+        return $this;
+    }
+
+    /**
+     * 
+     */
+    public function isLocalyProvided()
+    {
+        return $this->isLocalyProvided;
     }
 }

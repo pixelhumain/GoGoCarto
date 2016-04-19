@@ -1,4 +1,3 @@
-"use strict";
 var constellationDrawn = false;
 var GLOBAL;
 
@@ -39,7 +38,6 @@ function initMap()
 
 	GLOBAL = new Global(map, constellation, listFournisseurManager);
 
-
 	map.panTo(GLOBAL.getConstellation().getOrigin());
 	map.setZoom(16);
 
@@ -58,6 +56,7 @@ function initMap()
 		{
 			constellationDrawn = true;
 			GLOBAL.getConstellation().draw();
+			GLOBAL.getListFournisseurManager().draw();
 			fitMarkersBounds(map, GLOBAL.getConstellation().getMarkersIncludingHome());
 			initCluster(GLOBAL.getConstellation().getMarkers());
 			GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getConstellation().drawLines(); });

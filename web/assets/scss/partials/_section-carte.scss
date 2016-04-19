@@ -28,6 +28,16 @@
 
 #btn_menu:hover {cursor: pointer;}
 
+#bandeau_detail
+{
+    height:0;
+    background-color: #F7F7F7;
+    will-change:height;
+    z-index: 400;
+    overflow: hidden;
+    @include transition(height 1s); 
+}
+
 
 /* #bandeau_option
 {
