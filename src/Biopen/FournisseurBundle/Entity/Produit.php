@@ -35,6 +35,13 @@ class Produit
      */
     private $nomFormate;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_short", type="string", length=255, unique=true)
+     */
+    private $nomShort;
+
     /**
      * @var string
      *
@@ -151,5 +158,29 @@ class Produit
     public function isLocalyProvided()
     {
         return $this->isLocalyProvided;
+    }
+
+    /**
+     * Set nomShort
+     *
+     * @param string $nomShort
+     *
+     * @return Produit
+     */
+    public function setNomShort($nomShort)
+    {
+        $this->nomShort = $nomShort;
+
+        return $this;
+    }
+
+    /**
+     * Get nomShort
+     *
+     * @return string
+     */
+    public function getNomShort()
+    {
+        return $this->nomShort;
     }
 }

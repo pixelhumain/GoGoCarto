@@ -1,7 +1,7 @@
 .icon
 {
-	font-size: 24px;
-    color: #6D1147;
+	font-size: 22px;
+    color: $secondary-color;
     /* padding-top: 1rem; */
     /* line-height: 3rem; */
     padding-top: 3px;
@@ -18,25 +18,25 @@
 .marker-wrapper
 {
 	position: relative;
-    width: 32px;
+    width: 36px;
     height: 50px;  
 
     &.rotateRight
 	{
-		margin-left: 24px;
+		margin-left: 31px;
 		margin-top: 7px;
 	}
 
 	&.rotateLeft
 	{
-		margin-left: -24px;
+		margin-left: -31px;
 		margin-top: 7px;
 	}
 }
 
 .iconMarkerSvg
 {
-	width: 32px;
+	width: 36px;
 	position: absolute;
 	bottom: 0;
 
@@ -55,9 +55,26 @@
 .iconInsideMarker:before
 {
     position: absolute;
-    color: #541114;
+    //color: #541114;
     font-size: 18px;
-    bottom: 13.5px;
-    left: 6.5px;
+    bottom: 15px;
+    left: 9px;
 }
+
+.icon-legumes { color: #4A148C }
+.icon-fruits { color: #880E4F }
+.icon-laitiers { color: #D2B72B }
+.icon-boissons { color: #03A9F4 }
+.icon-plantes { color: #4CAF50 }
+.icon-pain { color: #795548 }
+.icon-viande { color: #961616 }
+.icon-poisson { color: #3F51B5 }
+.icon-sec { color: #4CAF50 }
+.icon-transformes { color: #37474F }
+.icon-miel { color: #E09703 }
+.icon-autre { color: #444444 }
+
+.icon-marche { color: #4A148C }
+.icon-epicerie { color: #4A148C }
+.icon-boutique { color: #4A148C }
 

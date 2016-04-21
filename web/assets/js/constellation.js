@@ -24,6 +24,13 @@ jQuery(document).ready(function()
 	window.onresize = function() 
 	{
 		ajuster_taille_composants();
+		if("matchMedia" in window) { // Détection
+		    if(window.matchMedia("(min-width:600px)").matches) {
+		     
+		    } else {
+		      
+		    }
+		  }
 	}	
 });
 

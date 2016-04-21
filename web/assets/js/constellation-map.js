@@ -69,7 +69,7 @@ function initMap()
 	map.addListener('click', function(e) 
 	{
     	animate_down_bandeau_detail();     	
-    	addMarkerForTest(e);
+    	//addMarkerForTest(e);
   	}); 
 
   	//map.addListener('tilesloaded', function(){ GLOBAL.getClusterer().repaint();});
@@ -77,13 +77,15 @@ function initMap()
 
 function addMarkerForTest(e)
 {
-	var marker = new google.maps.Marker({
+	/*var marker = new google.maps.Marker({
 		icon: base_marker_image,
 		//label: labels[labelIndex++ % labels.length],
 		map: GLOBAL.getMap(),
 		draggable: true,
 		position: e.latLng,
-	});
+	});*/
+
+	var marker = createMarker(e.latLng, 55, 'fruits');
 
 	//var polyline = drawLineBetweenPoints(marker_home, marker);
 

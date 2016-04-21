@@ -65,11 +65,8 @@
 .icon-mail:before {
   content: "\6a";
 }
-.icon-legumes3:before {
-  content: "\6e";
-}
 .icon-legumes:before {
-  content: "\70";
+  content: "\6e";
 }
 .icon-poisson:before {
   content: "\71";
@@ -100,4 +97,10 @@
 }
 .icon-expand:before {
   content: "\75";
+}
+.icon-chevron-right:before {
+  content: "\76";
+}
+.icon-angle-right:before {
+  content: "\77";
 }
