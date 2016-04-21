@@ -31,6 +31,13 @@ class Produit
     /**
      * @var string
      *
+     * @ORM\Column(name="nom_formate", type="string", length=255, unique=true)
+     */
+    private $nomFormate;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="precisions", type="string", length=255, unique=false, nullable=true)
      */
     private $precision;
@@ -78,6 +85,30 @@ class Produit
     public function getNom()
     {
         return $this->nom;
+    }
+
+     /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Produit
+     */
+    public function setNomFormate($nom)
+    {
+        $this->nomFormate = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNomFormate()
+    {
+        return $this->nomFormate;
     }
 
     /**

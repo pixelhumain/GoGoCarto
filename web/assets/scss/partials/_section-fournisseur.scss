@@ -8,6 +8,10 @@
 #FournisseurList
 {
 	background-color: #9E9E9E;
+	box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); 
+	z-index: 4000; 
 }
 
 #FournisseurList, #bandeau_detail

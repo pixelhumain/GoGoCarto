@@ -75,7 +75,7 @@ Constellation.prototype.draw = function ()
 	{
   		curr_star = this.stars_[i];
 
-  		marker = createMarker(curr_star.getPosition(), curr_star.getFournisseur().id);  		
+  		marker = createMarker(curr_star.getPosition(), curr_star.getFournisseur().id, curr_star.getName().toLowerCase());  		
 
   		//var polyline = drawLineBetweenPoints(marker_home, marker, fournisseur.type);
 

@@ -26,7 +26,12 @@ class FournisseurController extends Controller
 				$fournisseurProduit->setProduit($produit);
 				$fournisseurProduit->setDescriptif($request->request->get('precision_' . $produit->getId()));
 				$fournisseur->addProduit($fournisseurProduit);
+			}			
+			if ($fournisseur->getMainProduct() == null) // si pas un producteur ou amap
+			{
+				$fournisseur->setMainProduct($fournisseur->getType());
 			}
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($fournisseur);
 			$em->flush();

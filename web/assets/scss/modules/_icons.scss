@@ -1,0 +1,63 @@
+.icon
+{
+	font-size: 24px;
+    color: #6D1147;
+    /* padding-top: 1rem; */
+    /* line-height: 3rem; */
+    padding-top: 3px;
+    float: left;
+    margin-right: 1rem;
+}
+
+.icon.disabled
+{
+	color: #DFDFDF;
+}
+
+
+.marker-wrapper
+{
+	position: relative;
+    width: 32px;
+    height: 50px;  
+
+    &.rotateRight
+	{
+		margin-left: 24px;
+		margin-top: 7px;
+	}
+
+	&.rotateLeft
+	{
+		margin-left: -24px;
+		margin-top: 7px;
+	}
+}
+
+.iconMarkerSvg
+{
+	width: 32px;
+	position: absolute;
+	bottom: 0;
+
+	&.rotateRight
+	{
+		transform: rotate(45deg);
+	}
+
+	&.rotateLeft
+	{
+		transform: rotate(-45deg);
+	}
+}
+
+
+.iconInsideMarker:before
+{
+    position: absolute;
+    color: #541114;
+    font-size: 18px;
+    bottom: 13.5px;
+    left: 6.5px;
+}
+

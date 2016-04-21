@@ -51,7 +51,23 @@ class FournisseurType extends AbstractType
           ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
           ->add('latlng', PointType::class) 
-          ->add('contactAmap', ContactAmapType::class, array('required' => false))    
+          ->add('contactAmap', ContactAmapType::class, array('required' => false))
+          /*->add('mainProduct', EntityType::class, array(
+                  'class' => 'Biopen\FournisseurBundle\Entity\Produit',
+                  'choice_label' => 'nom',
+                  'query_builder' => function (EntityRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
+                  'expanded' =>'false',
+                  'multiple' =>'false'
+          )) */
+          ->add('mainProduct', ChoiceType::class, array(
+                          'choices'  => array(
+                                '' => null,
+                                'Légumes' => "legumes",
+                                'Fruits' => "fruits",
+                                ),
+                          'choices_as_values' => true,
+                          'required' => false
+                          ))    
           ->add('listeProduits', EntityType::class, array(
                   'class' => 'Biopen\FournisseurBundle\Entity\Produit',
                   'choice_label' => 'nom',

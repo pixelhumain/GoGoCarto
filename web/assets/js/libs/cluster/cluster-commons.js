@@ -12,18 +12,28 @@ function distancePixelBetweenPoints(p1, p2, projection)
 
 function updateIconOfIndependantMarkersGroup(markers) 
 {
+  
   //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
   if (markers == null || markers.length == 0) return;
 
+  var content;
   for (i= 0; i < markers.length; i++)
   {
      markers[i].isInIndependantGroup = true;
-     markers[i].setIcon({
+     /*markers[i].setIcon({
       url: iconDirectory + 'map2.png',
       size: new google.maps.Size(32, 38),
       origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(16, 38)
-    });
+      anchor: new google.maps.Point(16, 38),
+      scaledSize: new google.maps.Size(64, 76)
+    });*/
+    content = markers[i].getContent();   
+    $.each( $(content).find(".rotate"), function() 
+    { 
+        $(this).removeClass("rotateLeft");
+        $(this).removeClass("rotateRight");
+    } );      
+    markers[i].setContent( content );
   }
 
   if (markers.length == 1) return;
@@ -47,7 +57,24 @@ function updateIconOfIndependantMarkersGroup(markers)
   var img_width = 32;
   var img_height = 34;
 
-  righterMarker.setIcon({
+  content = righterMarker.getContent();  
+  $.each( $(content).find(".rotate"), function() 
+  {        
+      $(this).addClass("rotateRight");
+  });  
+  righterMarker.setContent( content );
+
+  content = lefterMarker.getContent(); 
+  $.each( $(content).find(".rotate"), function() 
+  {        
+      $(this).addClass("rotateLeft");
+  }); 
+  lefterMarker.setContent( content );
+
+ /* righterMarker.setContent( righterMarker.getContent().replace("rotate","rotateRight"));
+  lefterMarker.setContent( lefterMarker.getContent().replace("rotate","rotateLeft"));*/
+
+  /*righterMarker.setIcon({
     url: iconDirectory + "map2-droite.png",
     size: new google.maps.Size(img_width, img_height),
     origin: new google.maps.Point(0, 0),
@@ -58,6 +85,6 @@ function updateIconOfIndependantMarkersGroup(markers)
     size: new google.maps.Size(img_width, img_height),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(img_width-4, img_height)
-  });
+  });*/
   
 }

@@ -23,6 +23,8 @@ function initMap()
 {	
 	initIcons();
 
+	initRichMarker();
+
 	// basics settings for the map 
 	var latlng = new google.maps.LatLng(46.897045, 2.425235);
 	var mapOptions = {
@@ -47,7 +49,7 @@ function initMap()
 	    overlay.draw = function () {};
 	    overlay.setMap(map); */
 
-	    window.console.clear();
+	    //window.console.clear();
 	    window.console.log("Projection changed");
 
 

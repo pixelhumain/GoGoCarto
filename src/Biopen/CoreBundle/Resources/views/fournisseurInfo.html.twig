@@ -3,7 +3,7 @@
   <div class="collapsible-header">
 
     <div class='collapsible-header-title row'>
-      <i class="material-icons col s1">filter_drama</i>
+      <span class="col s1 icon icon-{{fournisseur.mainProduct|lower}}"></span>
       <span class="col s8"><b>{{ fournisseur.nom|capitalize }}</b></span>
       <span class="col s3 right-align">{{ fournisseur.distance|round(1) }} km</span>
     </div>

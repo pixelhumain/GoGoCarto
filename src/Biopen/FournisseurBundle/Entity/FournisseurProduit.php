@@ -122,4 +122,9 @@ class FournisseurProduit
     {
         return $this->produit->getNom();
     }
+
+    public function getNomFormate()
+    {
+        return $this->produit->getNomFormate();
+    }
 }

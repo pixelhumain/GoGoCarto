@@ -5,8 +5,10 @@
 {# Stylessheets #}
 {% block stylesheets %}
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+  {# <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> #}
   <link rel="stylesheet" href="{{ asset('assets/css/constellation.css') }}">
+  
 
 {% endblock %}
 
@@ -17,8 +19,9 @@
 
 <div id="div_map_and_products">
 
+
   {# La liste des produits #}
-  <section id="ProductsList"> 
+  <section id="ProductsList">     
     {% include 'BiopenCoreBundle:product.html.twig' %}      
   </section>
 
@@ -33,7 +36,7 @@
 
     {# <div id="bandeau_option"></div> #}
 
-    <div id="btn_menu"><i class='material-icons'>menu</i></div> 
+    <div id="btn_menu"><i class='icon-menu'></i></div> 
     <div id="overlay"></div>
   </section>  
 
@@ -43,9 +46,9 @@
 <div id="bandeau_goToFournisseurList">  
   <a href='#FournisseurList'>
     <div class="valign-wrapper">
-    <i class="material-icons">expand_more</i>
+    <i class="icon-expand"></i>
     <div class="">Liste des résultats</div>
-    <i class="material-icons">expand_more</i>
+    <i class="icon-expand"></i>
     </div>
   </a>
 </div>
@@ -88,10 +91,11 @@
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     
   {% javascripts filter="?jsqueeze"
-        "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/jquery-2.2.1.min.js"        
         "assets/js/libs/cluster/cluster-commons.js"
         "assets/js/libs/cluster/clustericon.js"
         "assets/js/libs/cluster/cluster.js"
+        "assets/js/libs/rich-marker.js"
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/map-utils.js"
@@ -107,9 +111,15 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    <script async defer
+     <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
   </script>
+
+   {#<script  src="{{ asset('assets/js/libs/rich-marker.js') }}"></script>#}
+
+
+   
+  
 
   
 

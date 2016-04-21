@@ -8,7 +8,8 @@ function initIcons()
       url: iconDirectory + 'map2.png',
       size: new google.maps.Size(32, 38),
       origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(16, 38)
+      anchor: new google.maps.Point(16, 38),
+      
   }; 
   
 

@@ -62,6 +62,13 @@ class Fournisseur
     private $produits; 
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mainProduct", type="text", nullable=false)
+     */
+    private $mainProduct;
+
+    /**
      * @var \stdClass
      *
      * @ORM\Column(name="horaires", type="object", nullable=true)
@@ -493,5 +500,29 @@ class Fournisseur
     public function getLatlng()
     {
         return $this->latlng;
+    }
+
+    /**
+     * Set mainProduct
+     *
+     * @param string $mainProduct
+     *
+     * @return Fournisseur
+     */
+    public function setMainProduct($mainProduct)
+    {
+        $this->mainProduct = $mainProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get mainProduct
+     *
+     * @return string
+     */
+    public function getMainProduct()
+    {
+        return $this->mainProduct;
     }
 }

@@ -106,12 +106,14 @@ class CoreController extends Controller
                 case 'producteur':
                     foreach ($fournisseur->getProduits() as $i => $produit) 
                     {
-                        $constellation['etoiles'][$produit->getNom()]['fournisseurList'][] = $fournisseur;
+                        $constellation['etoiles'][$produit->getNomFormate()]['fournisseurList'][] = $fournisseur;
+                        $constellation['etoiles'][$produit->getNomFormate()]['nom'] = $produit->getNom();
                     }
                     break;
                 //Le reste
                 default:
                     $constellation['etoiles'][$fournisseur->getType()]['fournisseurList'][] = $fournisseur;
+                     $constellation['etoiles'][$fournisseur->getType()]['nom'] = $fournisseur->getType();
                     break;
             }
         }
@@ -123,7 +125,7 @@ class CoreController extends Controller
             $isProvided = false;
             foreach ($constellation['etoiles'] as $starName => $listFournisseur)
             {
-                if ($listProduits[$i]->getNom() == $starName)
+                if ($listProduits[$i]->getNomFormate() == $starName)
                     $isProvided = true;
             }
             if ($isProvided) $constellation['listProductsProvided'][] = $product;

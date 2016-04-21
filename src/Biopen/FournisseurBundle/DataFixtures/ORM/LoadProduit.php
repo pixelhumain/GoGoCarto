@@ -13,25 +13,25 @@ class LoadProduit implements FixtureInterface
   {
     // Liste des noms de catégorie à ajouter
     $names = array(
-      'Légumes' => '',
-      'Fruits'=> '',
-      'Produits laitiers'=> 'Fromage, Lait, Yahourt...',
-      'Viande'=> '',
-      'Poisson'=> '',
-      'Légumes secs'=> 'Lentilles, Pois chiches',
-      'Produits transformés'=> '',
-      'Miel'=> '',
-      'Pain, farine'=> '',
-      'Boissons'=> '',
-      'Plantes'=> '',
-      'Autre' => ''
+      'Légumes' => 'legumes',
+      'Fruits'=> 'fruits',
+      'Produits laitiers' => 'laitier',/*'Fromage, Lait, Yahourt...',*/
+      'Viande'=> 'viande',
+      'Poisson'=> 'poisson',
+      'Légumes secs'=> 'secs'/*'Lentilles, Pois chiches',*/
+      'Produits transformés'=> 'transformes',
+      'Miel'=> 'miel',
+      'Pain, farine'=> 'pain',
+      'Boissons'=> 'boisson',
+      'Plantes'=> 'plantes',
+      'Autre' => 'autre'
     );
 
-    foreach ($names as $name => $precision) 
+    foreach ($names as $name => $nomFormate) 
     {
       $produit = new Produit();
       $produit->setNom($name);
-      $produit->setPrecision($precision);
+      $produit->setNomFormate($nomFormate);
       
       // On la persiste
       $manager->persist($produit);

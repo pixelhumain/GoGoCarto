@@ -58,14 +58,27 @@ function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', m
 	return poly;  		
 }
 
-function createMarker(position, fournisseurId)
+function createMarker(position, fournisseurId, produit)
 {
-	var marker = new google.maps.Marker({
+	/*var marker = new google.maps.Marker({
 		icon: base_marker_image,
 		map: GLOBAL.getMap(),
 		draggable: false,
 		position: position,
+	});*/
+	var parser = new DOMParser();
+	var contentDom = document.createElement("div");
+	contentDom.innerHTML = '<div class="marker-wrapper rotate"><img class="iconMarkerSvg rotate" src="'+ iconDirectory + 'map.svg"></img><div class="iconInsideMarker icon-'+produit+'""></div></div>' ;
+
+	var marker = new RichMarker({
+		
+		map: GLOBAL.getMap(),
+		draggable: false,
+		position: position,
+		flat: true,
+		content: contentDom
 	});
+
 
 	marker.addListener('click', function() 
 	{

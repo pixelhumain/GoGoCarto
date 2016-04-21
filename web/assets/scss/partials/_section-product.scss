@@ -1,5 +1,11 @@
 #ProductsList
 {
+	box-shadow: 5px 0px 5px 0px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 5px 0px 5px 0px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 5px 0px 5px 0px rgba(119, 119, 119, 0.75);  
+	
+	z-index: 4000;
+
 	.resultNumber
 	{
 		background-color: #EE6E73;
@@ -34,7 +40,7 @@
 	.disabled
 	{
 		color: #DFDFDF;
-		cursor: default;
+		cursor: default;		
 
 		.resultNumber
 		{

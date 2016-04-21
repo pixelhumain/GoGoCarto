@@ -4,10 +4,13 @@ $icon-sprite-dimensions: true;
 @include all-icon-sprites(true);  */
 @import "partials/base_bundle";
 @import 'vendors/materialize';
+@import 'modules/icons';
 
 @import "partials/section-carte";
 @import "partials/section-fournisseur";
 @import "partials/section-product";
+
+
 
 #ProductsList
 {
@@ -38,7 +41,9 @@ $icon-sprite-dimensions: true;
 	    top: 0;
 	    left: 0;
 	    height: 100%; 
-	    overflow-y:auto;    
+	    overflow-y:scroll;  
+
+	    
 	}
 
 	#section_carte
@@ -56,7 +61,11 @@ $icon-sprite-dimensions: true;
 	    top: 0;
 	    right: 0;	
 	    height: 100%;  
-	    overflow-y:auto;  
+	    overflow-y:scroll; 
+
+	    box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
+		-moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
+		-webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); 
 	}
 
 	#bandeau_goToFournisseurList { display:none; }
@@ -86,6 +95,12 @@ $icon-sprite-dimensions: true;
     	width: 180px;
     	margin: auto;
     }
+
+    .icon-expand
+    {
+    	font-size: 1.2rem;
+	    margin: 5px 5px 0 5px;
+    }    
 }
 
 
@@ -169,26 +184,4 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 input.placeholder, textarea.placeholder {
     color: #555;
 }
-
-// ---------------------------------------
-//             GOOGLE MAP
-// ---------------------------------------
-#map
-{	
-	z-index: 10;
-	height:200px;
-	width:100%;
-	@include transition(height 1s);
-}
-
-// enlever les liens et logo de google
-/* a[href^="http://maps.google.com/maps"]{display:none !important}
-a[href^="https://maps.google.com/maps"]{display:none !important}
-
-.gmnoprint a, .gmnoprint span, .gm-style-cc {
-    display:none;
-} */
-/* .gmnoprint div {
-    //background:none !important;
-} */
 

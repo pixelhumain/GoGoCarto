@@ -66,7 +66,7 @@
 			<i class="material-icons prefix">description</i>
 		  	{{ form_widget(form.description, {'id': 'inputDescription',
 	  								          'attr': {'class': 'validate',
-	  											   'placeholder':'Description (optionnel)',
+	  											   'placeholder':'Description du fournisseur, PAS des produits (optionnel)',
 	  											   'length':'80'   }}) }}
 		</div>
 
@@ -125,6 +125,15 @@
 	<section id="section_produits">
 		
 		<h2 id="title_produits">Produits du fournisseur</h2>
+		
+		<div class="row" id="mainProductDiv">
+		<!-- Select type de fournisseur -->
+			<div class="input-field col s12">
+		    {{ form_widget(form.mainProduct, {'id': "mainProductSelection"}) }}
+	    	<label id="label_main_product_selection">Produit principal</label>
+		  	</div>
+		</div>
+
 		<div class="row ">			
 			{% for produit in form.listeProduits %}
 			    <div class="col s6 m4">	

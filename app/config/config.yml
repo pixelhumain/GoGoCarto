@@ -50,6 +50,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        mapping_types:
+            point: string
         types:
             point:
                 class:  Wantlet\ORM\PointType

@@ -9,13 +9,12 @@ function ListFournisseurManager()
 
 ListFournisseurManager.prototype.draw = function () 
 {
-	window.console.log("fournisseurList draw, stars ");
+	
 	$('.fournisseurItem').hide();
 	var fournisseurId;
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
 	{
 		fournisseurId = GLOBAL.getConstellation().getStars()[i].getFournisseur().id;
-		window.console.log("fournisseurList draw star " + i);
 		$('#infoFournisseur-'+fournisseurId).show();
 	}
 };

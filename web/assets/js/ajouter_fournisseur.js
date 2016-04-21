@@ -23,6 +23,7 @@ jQuery(document).ready(function()
 	// AJOUT LISTENERS
 	// ---------------
 	$('#type_fournisseur').change( maj_form_with_type );
+	$("#mainProductSelection").change( maj_with_main_product );
 
 	// entr?e d'une adresse on geocode
 	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
@@ -148,6 +149,7 @@ function maj_form_with_type( init )
 	    	$('#estLeProducteur + label').text("Vous êtes ou travaillez chez ce producteur");
 	    	$('#inputAdresse').attr('placeholder',"Adresse du point de vente directe");
 	    	$('#autre_point_vente').css('display','block');
+	    	$('#mainProductDiv').css('display','block');
 	    	break;
 	    case "4": // boutique
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");
@@ -161,6 +163,7 @@ function maj_form_with_type( init )
 	        $('#section_AMAP, #section_AMAP + div.divider').css('display','block');
 	        $('#inputTel').parent().css('display','none');
 	        $('#label_agree').text("Vous vous engagez à fournir des informations exactes");
+	        $('#mainProductDiv').css('display','block');
 	        break;
 	    case "5": // epicerie
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");       
@@ -178,6 +181,11 @@ function maj_form_with_type( init )
 	}
 
 	first_maj_form_with_type_done = true;
+}
+
+function maj_with_main_product()
+{
+	
 }
 
 function ajout_plage_horaire( jour )
@@ -237,6 +245,19 @@ function check_and_send()
 		}
 	}
 
+	if ($('#mainProductDiv').is(':visible'))
+	{
+		if (!$('#mainProductSelection').val()) 
+		{
+			$('#label_main_product_selection').addClass('error'); 
+			$('#label_main_product_selection').text('Veuillez choisir un produit principal');		
+		}
+		else 
+		{
+			$('#label_main_product_selection').removeClass('error');
+			$('#label_main_product_selection').text('Produit principal');
+		}
+	}
 	// CHECK au moins un produit coch?
 	if ($(".checkbox_produits:checked" ).size() == parseInt('0'))
 	{
