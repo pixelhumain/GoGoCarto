@@ -1,0 +1,21 @@
+<li>    
+    <div class="productItem collapsible-header row">
+    <span class="icon icon-{{starName|lower}}"></span>
+    <span class="productName">{{ star.name|capitalize }}</span>
+    <span class="resultNumber">{{ star.providerList|length }}</span>
+    </div>
+
+    <div class="collapsible-body">
+      <ul class="collection">
+      {% for key, provider in star.providerList %} 
+        <li class="row collection-item moreResultProviderItem"
+              data-provider-index="{{ key }}"
+              data-star-name="{{ star.name }}">
+          <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
+          <span class="col s4 right-align">{{ provider.distance|round(1) }} km</span>
+        </li>
+        {% if not loop.last %}<div class="divider"></div>{% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+  </li>

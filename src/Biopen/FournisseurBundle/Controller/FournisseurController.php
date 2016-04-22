@@ -6,40 +6,40 @@ namespace Biopen\FournisseurBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\FournisseurBundle\Entity\Fournisseur;
-use Biopen\FournisseurBundle\Form\FournisseurType;
-use Biopen\FournisseurBundle\Entity\FournisseurProduit;
-use Biopen\FournisseurBundle\Entity\Produit;
+use Biopen\FournisseurBundle\Entity\Provider;
+use Biopen\FournisseurBundle\Form\ProviderType;
+use Biopen\FournisseurBundle\Entity\ProviderProduct;
+use Biopen\FournisseurBundle\Entity\Product;
 
 class FournisseurController extends Controller
 {
     public function addAction(Request $request)
     {
-		$fournisseur = new Fournisseur();
-		$form = $this->get('form.factory')->create(FournisseurType::class, $fournisseur);
+		$provider = new Provider();
+		$form = $this->get('form.factory')->create(ProviderType::class, $provider);
 
 		if ($form->handleRequest($request)->isValid()) 
 		{
-			foreach ($form->get('listeProduits')->getData() as $produit) 
+			foreach ($form->get('listeProducts')->getData() as $product) 
 			{
-				$fournisseurProduit = new FournisseurProduit();
-				$fournisseurProduit->setProduit($produit);
-				$fournisseurProduit->setDescriptif($request->request->get('precision_' . $produit->getId()));
-				$fournisseur->addProduit($fournisseurProduit);
+				$providerProduct = new ProviderProduct();
+				$providerProduct->setProduct($product);
+				$providerProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
+				$provider->addProduct($providerProduct);
 			}			
-			if ($fournisseur->getMainProduct() == null) // si pas un producteur ou amap
+			if ($provider->getMainProduct() == null) // si pas un producteur ou amap
 			{
-				$fournisseur->setMainProduct($fournisseur->getType());
+				$provider->setMainProduct($provider->getType());		
 			}
 
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($fournisseur);
+			$em->persist($provider);
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la saisie de ce nouveau fournisseur' );	
 			return $this->redirectToRoute('biopen_fournisseur_add');
-			/*$fournisseur = new Fournisseur();
-			$form = $this->get('form.factory')->create(FournisseurType::class, $fournisseur);		*/
+			/*$provider = new Provider();
+			$form = $this->get('form.factory')->create(ProviderType::class, $provider);		*/
 		}
 
 		return $this->render('BiopenFournisseurBundle:add.html.twig', array(

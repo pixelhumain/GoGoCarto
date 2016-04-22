@@ -4859,6 +4859,8 @@ select {
   .marker-wrapper.rotateLeft {
     margin-left: -31px;
     margin-top: 7px; }
+  .marker-wrapper:hover {
+    cursor: pointer; }
 
 .iconMarkerSvg {
   width: 36px;
@@ -4881,17 +4883,17 @@ select {
 .icon-fruits {
   color: #880E4F; }
 
-.icon-laitiers {
-  color: #D2B72B; }
+.icon-laitier {
+  color: #B77B03; }
 
 .icon-boissons {
-  color: #03A9F4; }
+  color: #258BB9; }
 
 .icon-plantes {
   color: #4CAF50; }
 
 .icon-pain {
-  color: #795548; }
+  color: #B37800; }
 
 .icon-viande {
   color: #961616; }
@@ -4899,13 +4901,19 @@ select {
 .icon-poisson {
   color: #3F51B5; }
 
-.icon-sec {
-  color: #4CAF50; }
+.icon-legumineuses {
+  color: #2F7332; }
 
 .icon-transformes {
   color: #37474F; }
 
 .icon-miel {
+  color: #E09703; }
+
+.icon-huile {
+  color: #082D09; }
+
+.icon-oeufs {
   color: #E09703; }
 
 .icon-autre {
@@ -5009,76 +5017,76 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 	z-index: 20;
 	will-change: left;
 } */
-#detail_fournisseur .collapsible-body {
+#detail_provider .collapsible-body {
   border-bottom: 0; }
-#detail_fournisseur .moreDetails {
+#detail_provider .moreDetails {
   display: none; }
-#detail_fournisseur li {
+#detail_provider li {
   list-style-type: none; }
 
-#FournisseurList {
+#ProviderList {
   background-color: #544242;
   border-left: none; }
 
 @media only screen and (min-width: 993px) {
-  #FournisseurList {
+  #ProviderList {
     background-color: white;
     border-left: 1px solid #a5a5a5;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     z-index: 4000; } }
-#FournisseurList .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
+#ProviderList .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
   margin: 0;
   margin-bottom: 1px; }
-#FournisseurList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
+#ProviderList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
   margin: 1rem 0; }
   @media only screen and (min-width: 993px) {
-    #FournisseurList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
+    #ProviderList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
       margin: 0; } }
-#FournisseurList .btn, #FournisseurList .btn-large, #bandeau_detail .btn, #bandeau_detail .btn-large {
+#ProviderList .btn, #ProviderList .btn-large, #bandeau_detail .btn, #bandeau_detail .btn-large {
   height: 2rem;
   line-height: 2rem;
   padding: 0 1rem; }
-#FournisseurList .collapsible, #bandeau_detail .collapsible {
+#ProviderList .collapsible, #bandeau_detail .collapsible {
   margin: 0; }
-#FournisseurList .collapsible-header i, #bandeau_detail .collapsible-header i {
+#ProviderList .collapsible-header i, #bandeau_detail .collapsible-header i {
   margin-right: 0;
   padding-left: 0.3rem; }
-#FournisseurList .collapsible-header, #bandeau_detail .collapsible-header {
+#ProviderList .collapsible-header, #bandeau_detail .collapsible-header {
   padding: .5rem; }
-#FournisseurList .collapsible-header-title, #bandeau_detail .collapsible-header-title {
+#ProviderList .collapsible-header-title, #bandeau_detail .collapsible-header-title {
   margin-bottom: 0rem;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 3rem; }
-#FournisseurList .collapsible-header-more, #bandeau_detail .collapsible-header-more {
+#ProviderList .collapsible-header-more, #bandeau_detail .collapsible-header-more {
   line-height: 1.5rem;
   margin-bottom: .5rem; }
-  #FournisseurList .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
+  #ProviderList .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
     font-weight: 500;
     color: #525252;
     font-style: italic; }
-  #FournisseurList .collapsible-header-more .description, #bandeau_detail .collapsible-header-more .description {
+  #ProviderList .collapsible-header-more .description, #bandeau_detail .collapsible-header-more .description {
     margin-bottom: .7rem;
     text-align: justify; }
-#FournisseurList .collapsible-body, #bandeau_detail .collapsible-body {
+#ProviderList .collapsible-body, #bandeau_detail .collapsible-body {
   background-color: #F7F7F7;
   padding: 0 .5rem 1rem .5rem; }
-  #FournisseurList .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
+  #ProviderList .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
     font-weight: bold !important;
     font-size: 1rem !important;
     line-height: 110% !important;
     margin: 0.5rem 0 0.8rem 0; }
-  #FournisseurList .collapsible-body .row, #bandeau_detail .collapsible-body .row {
+  #ProviderList .collapsible-body .row, #bandeau_detail .collapsible-body .row {
     margin-bottom: 0; }
-  #FournisseurList .collapsible-body .section, #bandeau_detail .collapsible-body .section {
+  #ProviderList .collapsible-body .section, #bandeau_detail .collapsible-body .section {
     /* padding-bottom: 0; */ }
-  #FournisseurList .collapsible-body .categorie, #FournisseurList .collapsible-body .adresse, #FournisseurList .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
+  #ProviderList .collapsible-body .categorie, #ProviderList .collapsible-body .adresse, #ProviderList .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
     /* padding-left: 1.3rem; */ }
-  #FournisseurList .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
+  #ProviderList .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
     text-decoration: underline; }
-  #FournisseurList .collapsible-body .description, #FournisseurList .collapsible-body .detail, #bandeau_detail .collapsible-body .description, #bandeau_detail .collapsible-body .detail {
+  #ProviderList .collapsible-body .description, #ProviderList .collapsible-body .detail, #bandeau_detail .collapsible-body .description, #bandeau_detail .collapsible-body .detail {
     text-align: justify; }
 
 #ProductsList {
@@ -5108,12 +5116,13 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     position: relative;
     margin-bottom: 0;
     line-height: 3rem;
+    padding: 0;
     padding-left: .7rem;
     height: 3rem;
     overflow: hidden;
     text-overflow: ellipsis; }
   #ProductsList .productItem:not(.disabled):hover {
-    background-color: #ddd; }
+    background-color: #f0f0f0; }
   #ProductsList .disabled {
     color: #DFDFDF;
     cursor: default; }
@@ -5125,20 +5134,20 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin: 0;
     border: 0;
     box-shadow: none; }
-  #ProductsList .moreResultFournisseurItem {
+  #ProductsList .moreResultProviderItem {
     background-color: #F7F7F7;
     font-size: .95rem;
     padding: 1rem;
     border-bottom: none;
     font-weight: 400; }
-    #ProductsList .moreResultFournisseurItem .col {
+    #ProductsList .moreResultProviderItem .col {
       padding: 0; }
-    #ProductsList .moreResultFournisseurItem b {
+    #ProductsList .moreResultProviderItem b {
       font-weight: 500; }
   #ProductsList .productName {
     overflow: hidden;
     text-overflow: ellipsis; }
-  #ProductsList .moreResultFournisseurItem:hover {
+  #ProductsList .moreResultProviderItem:hover {
     background-color: #734287;
     color: white;
     cursor: pointer; }
@@ -5172,7 +5181,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   #section_carte {
     margin-left: 200px; } }
 @media only screen and (min-width: 993px) {
-  #FournisseurList {
+  #ProviderList {
     position: absolute;
     width: 400px;
     top: 0;
@@ -5183,24 +5192,24 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     -moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
     -webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); }
 
-  #bandeau_goToFournisseurList {
+  #bandeau_goToProviderList {
     display: none; }
 
   #section_carte {
     margin-right: 400px; } }
-#bandeau_goToFournisseurList {
+#bandeau_goToProviderList {
   background-color: #fcfcfc;
   text-align: center !important;
   padding: .5rem;
   margin-top: .5rem;
   margin-bottom: .5rem; }
-  #bandeau_goToFournisseurList a {
+  #bandeau_goToProviderList a {
     color: #26A69A;
     font-weight: 500; }
-  #bandeau_goToFournisseurList .valign-wrapper {
+  #bandeau_goToProviderList .valign-wrapper {
     width: 180px;
     margin: auto; }
-  #bandeau_goToFournisseurList .icon-expand {
+  #bandeau_goToProviderList .icon-expand {
     font-size: 1.2rem;
     margin: 5px 5px 0 5px; }
 

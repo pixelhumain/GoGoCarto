@@ -15,9 +15,9 @@ jQuery(document).ready(function()
 	$('#btn_menu').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);
 
-	$('.moreResultFournisseurItem').click(function() {
+	$('.moreResultProviderItem').click(function() {
 		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
-		star.setIndex($(this).attr('data-fournisseur-index'));
+		star.setIndex($(this).attr('data-provider-index'));
 	});
 
 	setTimeout(ajuster_taille_composants,50);
@@ -41,7 +41,7 @@ function ajuster_taille_composants()
 	$('#page_content').css('height','auto');
 	$("#div_map_and_products").css('height',$( window ).height()
 		-$('header').height()
-		-$('#bandeau_goToFournisseurList:visible').outerHeight(true));
+		-$('#bandeau_goToProviderList:visible').outerHeight(true));
 	ajuster_taille_carte();
 }
 

@@ -3,18 +3,14 @@ function Constellation(constellationPhp)
 	this.stars_ = [];
 	var star;
 
-	//$.each(constellationPhp.etoiles, function( nom_etoile, etoile )
-	for(var nom_etoile in constellationPhp.etoiles) 
+	//$.each(constellationPhp.stars, function( name_star, star )
+	for(var name_star in constellationPhp.stars) 
 	{
-		star = new Star(nom_etoile, constellationPhp.etoiles[nom_etoile].fournisseurList);
+		star = new Star(name_star, constellationPhp.stars[name_star].providerList);
 		this.stars_.push(star);
 	}
 
-	this.geocodeResult_ = constellationPhp['geocodeResult'];    
-
-	this.markerHome_ = new google.maps.Marker({
-		position: this.getOrigin(),
-	});
+	this.geocodeResult_ = constellationPhp['geocodeResult']; 
 
 	this.clusterLines_ = [];
 }
@@ -22,11 +18,6 @@ function Constellation(constellationPhp)
 Constellation.prototype.getOrigin = function () 
 {
 	return new google.maps.LatLng(this.geocodeResult_.coordinates.latitude, this.geocodeResult_.coordinates.longitude) ;
-};
-
-Constellation.prototype.getMarkerHome = function () 
-{
-	return this.markerHome_ ;
 };
 
 Constellation.prototype.getGeocodeResult = function () 
@@ -39,33 +30,7 @@ Constellation.prototype.getStars = function ()
 	return this.stars_ ;
 };
 
-Constellation.prototype.getStar = function (nom) 
-{
-	for(var i = 0; i < this.stars_.length; i++)
-	{
-		if (this.stars_[i].getNom() == nom) return this.stars_[i]
-	}
-	return null;
-};
-
-Constellation.prototype.getMarkers = function () 
-{
-	var array = [];
-	for(var i = 0; i < this.stars_.length; i++)
-	{
-		if (this.stars_[i].getMarker() != null) array.push(this.stars_[i].getMarker());
-	}
-	return array;
-};
-
-Constellation.prototype.getMarkersIncludingHome = function () 
-{
-	var array = [];
-	array.push(this.markerHome_);
-	array = array.concat(this.getMarkers());
-	return array;
-};
-
+/*
 Constellation.prototype.draw = function () 
 {	
 	var curr_star;
@@ -75,15 +40,15 @@ Constellation.prototype.draw = function ()
 	{
   		curr_star = this.stars_[i];
 
-  		marker = createMarker(curr_star.getPosition(), curr_star.getFournisseur().id, curr_star.getName().toLowerCase());  		
+  		marker = createMarker(curr_star.getPosition(), curr_star.getProvider().id, curr_star.getName().toLowerCase());  		
 
-  		//var polyline = drawLineBetweenPoints(marker_home, marker, fournisseur.type);
+  		//var polyline = drawLineBetweenPoints(marker_home, marker, provider.type);
 
   		curr_star.setMarker(marker);
-  		//etoile['line'] = polyline;
+  		//star['line'] = polyline;
 
 	}	
-};
+};*/
 
 Constellation.prototype.drawLines = function () 
 {
@@ -104,7 +69,7 @@ Constellation.prototype.drawLines = function ()
 		
 		if (!this.stars_[i].isClustered()) 
 		{
-			line = drawLineBetweenPoints(this.getOrigin(), this.stars_[i].getPosition(), this.stars_[i].getFournisseur().type)
+			line = drawLineBetweenPoints(this.getOrigin(), this.stars_[i].getPosition(), this.stars_[i].getName())
 			this.stars_[i].setPolyline(line);
 		}
 	}

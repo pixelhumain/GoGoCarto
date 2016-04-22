@@ -7,7 +7,7 @@ $icon-sprite-dimensions: true;
 @import 'modules/icons';
 
 @import "partials/section-carte";
-@import "partials/section-fournisseur";
+@import "partials/section-provider";
 @import "partials/section-product";
 
 #ProductsList
@@ -19,7 +19,7 @@ $icon-sprite-dimensions: true;
 
 #div_map_and_products { position: relative; height: 100% }	
 
-#bandeau_goToFournisseurList {  }
+#bandeau_goToProviderList {  }
 
 #section_carte
 {
@@ -51,7 +51,7 @@ $icon-sprite-dimensions: true;
 
 @media #{$large-and-up}
 {
-	#FournisseurList
+	#ProviderList
 	{
 		position: absolute;
 	    width: 400px;
@@ -65,7 +65,7 @@ $icon-sprite-dimensions: true;
 		-webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); 
 	}
 
-	#bandeau_goToFournisseurList { display:none; }
+	#bandeau_goToProviderList { display:none; }
 
 	#section_carte
 	{
@@ -74,7 +74,7 @@ $icon-sprite-dimensions: true;
 }
 
 
-#bandeau_goToFournisseurList
+#bandeau_goToProviderList
 {	
 	background-color: rgb(252, 252, 252);
 	text-align: center !important;

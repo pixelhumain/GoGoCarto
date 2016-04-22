@@ -1,41 +1,46 @@
 {# <li id="product-{{ product.id }}" {% if provided is defined and not provided %} class="disabled" {% endif %}>   #}
 {# <li>
-  <span>{{ starName }} - {{ etoile.fournisseurList|length }}</span>
+  <span>{{ starName }} - {{ star.providerList|length }}</span>
 
 </li>   #}  
-<ul class="collapsible" data-collapsible="accordion">
-{% for starName, etoile in constellationPhp.etoiles %} 
-  <li>
-    <div class="productItem collapsible-header row">
-    {# <i class="material-icons">filter_drama</i> #}
-    <span class="icon icon-{{starName|lower}}"></span>
-    <span class="productName">{{ etoile.nom|capitalize }}</span>
-    <span class="resultNumber">{{ etoile.fournisseurList|length }}</span>
-    </div>
 
-    <div class="collapsible-body">
-      <ul class="collection">
-      {% for key, fournisseur in etoile.fournisseurList %} 
-        <li class="row collection-item moreResultFournisseurItem"
-              data-fournisseur-index="{{ key }}"
-              data-star-name="{{ starName }}">
-          <span class="col s8"><b>{{ fournisseur.nom|capitalize }}</b></span>
-          <span class="col s4 right-align">{{ fournisseur.distance|round(1) }} km</span>
-        </li>
-        {% if not loop.last %}<div class="divider"></div>{% endif %}
-      {% endfor %}
-      </ul>
-    </div>
-  </li>
+<ul class="collapsible" data-collapsible="accordion">
+
+<li class="row collection-item collapsible-header productItem ">
+  Producteurs
+</li>
+
+{% for key, product in constellationPhp.listProductsProvided %} 
+
+    {% set star = constellationPhp.stars[product.nameFormate] %}
+    {% include 'BiopenCoreBundle:starInProductList.html.twig' 
+      with {'star':star, 'starName':product.nameFormate} only %} 
+
 {% endfor %} 
+
+{% set providerTypes = ['marche', 'epicerie', 'boutique'] %}
+{% for type in providerTypes %}    
+    {% if type in constellationPhp.stars|keys %}
+        {% set star = constellationPhp.stars[type] %}
+        {% include 'BiopenCoreBundle:starInProductList.html.twig' 
+        with {'star':star, 'starName':type} only %} 
+    {% else %}
+        <li class="row collection-item collapsible-header productItem disabled">
+          <span class="icon disabled icon-{{type}}"></span>
+          <span class="productName">{{ type|capitalize }}</span>
+          <span class="resultNumber">0</span>
+        </li>
+    {% endif %}
+
+{% endfor %}
 
 <ul class="collection">
 {% for key, product in constellationPhp.listProductsNonProvided %} 
   
   <li class="row collection-item collapsible-header productItem disabled">
 
-    <span class="icon disabled icon-{{product.nomFormate}}"></span>
-     <span class="productName">{{ product.nom|capitalize }}</span>
+    <span class="icon disabled icon-{{product.nameFormate}}"></span>
+     <span class="productName">{{ product.nameShort|capitalize }}</span>
 
     <span class="resultNumber">0</span>
 

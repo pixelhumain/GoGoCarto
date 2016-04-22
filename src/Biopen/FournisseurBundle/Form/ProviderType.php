@@ -20,16 +20,16 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
 use Biopen\FournisseurBundle\Form\HoraireType;
-use Biopen\FournisseurBundle\Form\FournisseurProduitType;
+use Biopen\FournisseurBundle\Form\ProviderProductType;
 use Biopen\FournisseurBundle\Form\ContactAmapType;
 use Biopen\FournisseurBundle\Form\PointType;
-use Biopen\FournisseurBundle\Entity\Produit;
+use Biopen\FournisseurBundle\Entity\Product;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
 
-class FournisseurType extends AbstractType
+class ProviderType extends AbstractType
 {
 
   protected $em;
@@ -46,15 +46,15 @@ class FournisseurType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
       $builder
-          ->add('nom', TextType::class, array('required' => false))
+          ->add('name', TextType::class, array('required' => false))
           ->add('adresse', TextType::class, array('required' => false))
           ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
           ->add('latlng', PointType::class) 
           ->add('contactAmap', ContactAmapType::class, array('required' => false))
           /*->add('mainProduct', EntityType::class, array(
-                  'class' => 'Biopen\FournisseurBundle\Entity\Produit',
-                  'choice_label' => 'nom',
+                  'class' => 'Biopen\FournisseurBundle\Entity\Product',
+                  'choice_label' => 'name',
                   'query_builder' => function (EntityRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
                   'expanded' =>'false',
                   'multiple' =>'false'
@@ -64,20 +64,24 @@ class FournisseurType extends AbstractType
                                 '' => null,
                                 'Légumes' => "legumes",
                                 'Fruits' => "fruits",
+                                'Pain' => "pain",
+                                'viande' => "viande",
+                                'Poisson' => "poisson",
+                                'boisson' => "boison",
                                 ),
                           'choices_as_values' => true,
                           'required' => false
                           ))    
-          ->add('listeProduits', EntityType::class, array(
-                  'class' => 'Biopen\FournisseurBundle\Entity\Produit',
-                  'choice_label' => 'nom',
+          ->add('listeProducts', EntityType::class, array(
+                  'class' => 'Biopen\FournisseurBundle\Entity\Product',
+                  'choice_label' => 'name',
                   'query_builder' => function (EntityRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
                   'expanded' =>'true',
                   'multiple' =>'true',
                   'mapped'=> false
           )) 
-          /*->add('produits', CollectionType::class,array(
-                 'entry_type' => FournisseurProduitType::class,
+          /*->add('products', CollectionType::class,array(
+                 'entry_type' => ProviderProductType::class,
                  'allow_add' => true,
                  'allow_delete' => true,
                  'by_reference' => false,)) */    
@@ -94,10 +98,10 @@ class FournisseurType extends AbstractType
                           'choices_as_values' => true,
                           ))
           ->add('contributeur', CheckboxType::class, array(
-                    'label'    => 'Vous êtes ou travaillez chez le fournisseur en question',
+                    'label'    => 'Vous êtes ou travaillez chez le provider en question',
                     'required' => false))
           ->add('engagement', CheckboxType::class, array(
-                'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que ce fournisseur propose des produits bio (avec ou sans label)',
+                'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que ce provider propose des products bio (avec ou sans label)',
                 'mapped' => false,
                 'required' => false))
           ->add('contributeurMail', EmailType::class, array('required' => false));
@@ -107,9 +111,9 @@ class FournisseurType extends AbstractType
 
          /* $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($builder)
           {
-            //$repo = $this->em->getRepository('BiopenFournisseurBundle:ProduitFournisseur')
+            //$repo = $this->em->getRepository('BiopenFournisseurBundle:ProductProvider')
             dump($builder->getData());
-            //$repo->findBy(array('fournisseur' => $advert))
+            //$repo->findBy(array('provider' => $advert))
           }); */
 
         
@@ -122,7 +126,7 @@ class FournisseurType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\FournisseurBundle\Entity\Fournisseur'
+          'data_class' => 'Biopen\FournisseurBundle\Entity\Provider'
       ));
   }
 
@@ -131,6 +135,6 @@ class FournisseurType extends AbstractType
   */
   public function getName()
   {
-    return 'biopen_fournisseurbundle_fournisseur';
+    return 'biopen_fournisseurbundle_provider';
   }
 }

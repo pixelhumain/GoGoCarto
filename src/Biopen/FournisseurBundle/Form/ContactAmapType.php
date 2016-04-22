@@ -21,7 +21,7 @@ class ContactAmapType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-      $builder->add('nom', TextType::class)
+      $builder->add('name', TextType::class)
               ->add('tel', TextType::class)
               ->add('mail', TextType::class);              
   }

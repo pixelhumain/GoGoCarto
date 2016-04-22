@@ -1,11 +1,11 @@
-#detail_fournisseur
+#detail_provider
 {
 	.collapsible-body { border-bottom: 0 }
 	.moreDetails { display : none; }
 	li { list-style-type: none; }
 }
 
-#FournisseurList
+#ProviderList
 {
 	background-color: #544242;
 	border-left: none;
@@ -13,7 +13,7 @@
 
 @media #{$large-and-up}
 {
-	#FournisseurList
+	#ProviderList
 	{
 		background-color: white;
 
@@ -26,7 +26,7 @@
 		z-index: 4000; 
 	}
 }
-#FournisseurList, #bandeau_detail
+#ProviderList, #bandeau_detail
 {	
 	.collapsible.popout > li
 	{ 

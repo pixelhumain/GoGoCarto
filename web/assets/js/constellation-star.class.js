@@ -1,9 +1,12 @@
-function Star(nom, fournisseurList) 
+function Star(name, providerList) 
 {
-  this.name_ = nom;  
-  this.fournisseurList_ = fournisseurList;
+  this.name_ = name; 
+  this.providerIdList_ = [];
+  for(var i = 0; i < providerList.length; i++)
+  {
+    this.providerIdList_.push(providerList[i].id);
+  }
   this.index_ = 0;
-  this.marker_ = null;
   this.polyline_ = null;
 }
 
@@ -11,7 +14,7 @@ Star.prototype.getName = function () {
   return this.name_ ;
 };
 
-Star.prototype.getMarker = function () {
+/*Star.prototype.getMarker = function () {
   return this.marker_ ;
 };
 
@@ -19,7 +22,7 @@ Star.prototype.setMarker = function (marker) {
   if (this.marker_ != null) this.marker_.setMap(null);
   delete this.marker_;
   return this.marker_ = marker;
-};
+};*/
 
 
 Star.prototype.getPolyline = function () {
@@ -32,17 +35,26 @@ Star.prototype.setPolyline = function (line) {
   return this.polyline_ = line ;
 };
 
-Star.prototype.getFournisseur = function () {
-  return this.fournisseurList_[this.index_];
+Star.prototype.getProviderId = function () {
+  return this.providerIdList_[this.index_];
+};
+
+Star.prototype.getProvider = function () {
+  return GLOBAL.getProviderManager().getProviderById(this.getProviderId());  
 };
 
 Star.prototype.getPosition = function () {
-  return new google.maps.LatLng(this.fournisseurList_[this.index_].latlng.latitude, this.fournisseurList_[this.index_].latlng.longitude);
+  var provider = this.getProvider();
+  return new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
+};
+
+Star.prototype.getMarker = function () {
+  return GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());
 };
 
 Star.prototype.isVisible = function () {
-  if (this.marker_ == null) return false;
-  return this.marker_.getVisible() ;
+  
+  return this.getMarker().getVisible();
 };
 
 Star.prototype.isClustered = function () 
@@ -77,16 +89,16 @@ Star.prototype.getIndex = function ()
 Star.prototype.setIndex = function (newIndex)
 {
 	window.console.log("old index = " + this.index_ + " , new index = " + newIndex);
-	if (newIndex < 0 || newIndex >= this.fournisseurList_.length) return false;
+	if (newIndex < 0 || newIndex >= this.providerIdList_.length) return false;
 
-	var oldFournisseurId = this.getFournisseur().id;
+	var oldProviderId = this.getProviderId();
 	
 	this.index_ = newIndex;
 	window.console.log("and now this.index_ = " + this.index_);
-	this.marker_.setPosition(this.getPosition());
+	//this.marker_.setPosition(this.getPosition());
 	this.setPolyline(null);
-	GLOBAL.getListFournisseurManager().removeFournisseur(oldFournisseurId);
-	GLOBAL.getListFournisseurManager().addFournisseur(this.getFournisseur().id);
+	GLOBAL.getProviderManager().removeProvider(oldProviderId);
+	GLOBAL.getProviderManager().addProvider(this.getProvider().id);
 }
 
 

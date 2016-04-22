@@ -20,7 +20,7 @@ use Doctrine\ORM\EntityRepository;
 
 
 
-class FournisseurProduitType extends AbstractType
+class ProviderProductType extends AbstractType
 {
   /**
    * @param FormBuilderInterface $builder
@@ -39,10 +39,10 @@ class FournisseurProduitType extends AbstractType
                 $placeholder = 'Précisez si nécessaire : ';
                 if ($data != null)
                 {
-                  if ($data->getProduit() != null)
+                  if ($data->getProduct() != null)
                   {
-                    $label = $data->getProduit()->getNom();
-                    $placeholder += $data->getProduit()->getPrecision();
+                    $label = $data->getProduct()->getName();
+                    $placeholder += $data->getProduct()->getPrecision();
                   }
                 }
                 $form->add('descriptif', TextType::class, array(
@@ -60,7 +60,7 @@ class FournisseurProduitType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\FournisseurBundle\Entity\FournisseurProduit'
+          'data_class' => 'Biopen\FournisseurBundle\Entity\ProviderProduct'
       ));
   }
 
@@ -69,6 +69,6 @@ class FournisseurProduitType extends AbstractType
   */
   public function getName()
   {
-    return 'biopen_fournisseurbundle_fournisseurproduittype';
+    return 'biopen_fournisseurbundle_providerproducttype';
   }
 }

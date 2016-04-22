@@ -8,11 +8,11 @@ jQuery(document).ready(function()
 	$('.timepicker_3').timepicki({start_time: ["14", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	$('.timepicker_4').timepicki({start_time: ["18", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	
-	// CHECK si un type de fournisseur est d?j? donn? dans l'url
+	// CHECK si un type de provider est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
 	if (GET['type']) 
 	{
-		$('#type_fournisseur > option[value="'+GET['type']+'"]').prop('selected',true);
+		$('#type_provider > option[value="'+GET['type']+'"]').prop('selected',true);
 		maj_form_with_type(false);
 	}
 	$('select').material_select();
@@ -22,14 +22,14 @@ jQuery(document).ready(function()
 	// ---------------
 	// AJOUT LISTENERS
 	// ---------------
-	$('#type_fournisseur').change( maj_form_with_type );
+	$('#type_provider').change( maj_form_with_type );
 	$("#mainProductSelection").change( maj_with_main_product );
 
 	// entr?e d'une adresse on geocode
 	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
 
-	// quand on check un produit l'input de pr?cision apparait ou disparait
-	$('.checkbox_produits').change(function()
+	// quand on check un product l'input de pr?cision apparait ou disparait
+	$('.checkbox_products').change(function()
 	{
         if ($(this).is(':checked')) 
         {
@@ -96,8 +96,8 @@ function initMap()
 
 	marker.addListener('dragend', function() 
 	{
-	    $('#fournisseur_latlng_latitude').attr('value',marker.getPosition().lat());
-		$('#fournisseur_latlng_longitude').attr('value',marker.getPosition().lng());	
+	    $('#provider_latlng_latitude').attr('value',marker.getPosition().lat());
+		$('#provider_latlng_longitude').attr('value',marker.getPosition().lng());	
     });
 }
 
@@ -111,8 +111,8 @@ function geocodeAddress( address ) {
 		map.panTo(results[0].geometry.location);
 		map.setZoom(16);
 		marker.setPosition(results[0].geometry.location);
-		$('#fournisseur_latlng_latitude').attr('value',marker.getPosition().lat());
-		$('#fournisseur_latlng_longitude').attr('value',marker.getPosition().lng());	
+		$('#provider_latlng_latitude').attr('value',marker.getPosition().lat());
+		$('#provider_latlng_longitude').attr('value',marker.getPosition().lng());	
 
 		geocoding_ok = true;	
 	} 
@@ -128,11 +128,11 @@ function maj_form_with_type( init )
 {
 	init = typeof init !== 'undefined' ? init : true;
 	
-	if (first_maj_form_with_type_done) window.open('add?type='+ $('#type_fournisseur').val(),'_self');
+	if (first_maj_form_with_type_done) window.open('add?type='+ $('#type_provider').val(),'_self');
 	else
 	{
 		// si un type a ?t? choisi on affiche le reste de la page
-		if ($('#type_fournisseur').val()) 
+		if ($('#type_provider').val()) 
 		{			
 			$('#form_content').css('display','block');
 			// on augmente la taille de "form_content" pour l'animation
@@ -142,9 +142,9 @@ function maj_form_with_type( init )
 			if (init) initMap();
 		}
 		
-		switch($('#type_fournisseur').val()) {
+		switch($('#type_provider').val()) {
 	    case "1": //producteur
-	    	$('#title_produits').text("Produits disponibles");    	
+	    	$('#title_products').text("Produits disponibles");    	
 	    	$('#titre_horaires').text("Horaires de vente (optionnel)");
 	    	$('#estLeProducteur + label').text("Vous êtes ou travaillez chez ce producteur");
 	    	$('#inputAdresse').attr('placeholder',"Adresse du point de vente directe");
@@ -153,12 +153,12 @@ function maj_form_with_type( init )
 	    	break;
 	    case "4": // boutique
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");
-	        $('#title_produits').text("Produits locaux et raisonnés présents dans la boutique");
+	        $('#title_products').text("Produits locaux et raisonnés présents dans la boutique");
 	        $('#estLeProducteur + label').text("Vous travaillez dans cette boutique");
 	        break;
 	    case "3": // amap
 	    	$('#titre_horaires').text("Horaires de distribution (optionnel)");
-	        $('#title_produits').text("Produits présents dans cette AMAP");
+	        $('#title_products').text("Produits présents dans cette AMAP");
 	        $('#estLeProducteur + label').text("Vous faites partie de l'AMAP");
 	        $('#section_AMAP, #section_AMAP + div.divider').css('display','block');
 	        $('#inputTel').parent().css('display','none');
@@ -167,13 +167,14 @@ function maj_form_with_type( init )
 	        break;
 	    case "5": // epicerie
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");       
-	        $('#section_produits').css('display','none');    
-	        $('#divider_produits').css('display','none');     
+	        $('#section_products').css('display','none'); 
+	        $('.checkbox_products:last-child').prop('checked', true);  
+	        $('#divider_products').css('display','none');     
 	        $('#estLeProducteur + label').text("Vous travaillez dans cette boutique");
 	        $('#autre').prop('checked', true);
 	        break;
 	    case "2": // march?
-	        $('#title_produits').text("Produits locaux et raisonnés présents dans ce marché");
+	        $('#title_products').text("Produits locaux et raisonnés présents dans ce marché");
 	        $('#estLeProducteur').parent().css('display','none');
 	        break;
 		}
@@ -221,15 +222,15 @@ function redo_plage_horaire( jour )
 // v?rifie que le formulaire est correctement rempli et "submit" le cas ?ch?ant
 function check_and_send() 
 {	
-	// CHECK type fournisseur
-	if (!$('#type_fournisseur').val()) 
+	// CHECK type provider
+	if (!$('#type_provider').val()) 
 	{
-		$('#label_type_fournisseur').addClass('error'); 
-		$('#label_type_fournisseur').text('Veuillez choisir un type de fournisseur');		
+		$('#label_type_provider').addClass('error'); 
+		$('#label_type_provider').text('Veuillez choisir un type de provider');		
 	}
 	else 
 	{
-		$('#label_type_fournisseur').removeClass('error');
+		$('#label_type_provider').removeClass('error');
 	}
 
 	// CHECK contact AMAP
@@ -250,7 +251,7 @@ function check_and_send()
 		if (!$('#mainProductSelection').val()) 
 		{
 			$('#label_main_product_selection').addClass('error'); 
-			$('#label_main_product_selection').text('Veuillez choisir un produit principal');		
+			$('#label_main_product_selection').text('Veuillez choisir un product principal');		
 		}
 		else 
 		{
@@ -258,16 +259,16 @@ function check_and_send()
 			$('#label_main_product_selection').text('Produit principal');
 		}
 	}
-	// CHECK au moins un produit coch?
-	if ($(".checkbox_produits:checked" ).size() == parseInt('0'))
+	// CHECK au moins un product coch?
+	if ($(".checkbox_products:checked" ).size() == parseInt('0'))
 	{
-		$('#title_produits').addClass('error'); 
-		$('#title_produits').text('Veuillez choisir au moins un produit'); 		
+		$('#title_products').addClass('error'); 
+		$('#title_products').text('Veuillez choisir au moins un product'); 		
 	}
 	else 
 	{
-		$('#title_produits').removeClass('error');
-		$('#title_produits').text('Type de produit'); 		
+		$('#title_products').removeClass('error');
+		$('#title_products').text('Type de product'); 		
 	}
 
 	// CHECK on s'engage ? bla bla bla
@@ -316,7 +317,7 @@ function check_and_send()
 		else if (value_2) $(this).addClass('invalid');		
 	});		
 
-	if( !$('#fournisseur_latlng_latitude').val() && !$('fournisseur_latlng_longitude').val() )	
+	if( !$('#provider_latlng_latitude').val() && !$('provider_latlng_longitude').val() )	
 	{
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");
@@ -332,13 +333,13 @@ function check_and_send()
 	// CHECK les "required" sont bien remplis
 	$('.required').each(function (){ if(!$(this).val()) $(this).addClass('invalid');});
 
-	// on compte le nombre d'erreur. "invalid" est automatiquement ajout?
+	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
 	// par une input text invalide avec materialize
 	var nbre_erreur = 0;
 	$('.error:visible, .invalid:visible').each(function (){nbre_erreur+= 1;});
 
 	// CHECK contact ou horaire Producteur
-	if ($('.ouvert').length == 0 && !$('#inputTel').val() && ($('#type_fournisseur').val() != "3") && nbre_erreur == 0)
+	if ($('.ouvert').length == 0 && !$('#inputTel').val() && ($('#type_provider').val() != "3") && nbre_erreur == 0)
 	{
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Veuillez renseignez soit les horaires d'ouvertures" +
@@ -357,7 +358,7 @@ function check_and_send()
 	{
 		// si on a renseign? plusieurs jours d'ouverture pour un march?
 		// on ouvre la pop up de confirmation
-		if (( $('#type_fournisseur').val() == "2") 
+		if (( $('#type_provider').val() == "2") 
 			&& ( $('.ouvert').length > 1))
 		{
 			$('#modal_marche').openModal({

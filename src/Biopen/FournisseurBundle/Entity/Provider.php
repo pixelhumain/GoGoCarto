@@ -5,12 +5,12 @@ namespace Biopen\FournisseurBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Fournisseur
+ * Provider
  *
- * @ORM\Table(name="fournisseur")
- * @ORM\Entity(repositoryClass="Biopen\FournisseurBundle\Repository\FournisseurRepository")
+ * @ORM\Table(name="provider")
+ * @ORM\Entity(repositoryClass="Biopen\FournisseurBundle\Repository\ProviderRepository")
  */
-class Fournisseur
+class Provider
 {
     /**
      * @var int
@@ -24,9 +24,9 @@ class Fournisseur
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $nom;
+    private $name;
 
     /**
      * 
@@ -57,9 +57,9 @@ class Fournisseur
     private $tel;
 
     /**
-    * @ORM\OneToMany(targetEntity="Biopen\FournisseurBundle\Entity\FournisseurProduit", mappedBy="fournisseur", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Biopen\FournisseurBundle\Entity\ProviderProduct", mappedBy="provider", cascade={"persist"})
     */
-    private $produits; 
+    private $products; 
 
     /**
      * @var string
@@ -125,7 +125,7 @@ class Fournisseur
      */
     public function __construct()
     {
-        $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
     }
 
@@ -140,11 +140,11 @@ class Fournisseur
     }
 
     /**
-     * Set nom
+     * Set name
      *
      * @param float $distance
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setDistance($distance)
     {
@@ -164,27 +164,27 @@ class Fournisseur
     }
 
     /**
-     * Set nom
+     * Set name
      *
      * @param string $distance
      *
-     * @return Fournisseur
+     * @return Provider
      */
-    public function setNom($nom)
+    public function setName($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get nom
+     * Get name
      *
      * @return string
      */
-    public function getNom()
+    public function getName()
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
@@ -192,7 +192,7 @@ class Fournisseur
      *
      * @param string $adresse
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setAdresse($adresse)
     {
@@ -216,7 +216,7 @@ class Fournisseur
      *
      * @param string $description
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setDescription($description)
     {
@@ -240,7 +240,7 @@ class Fournisseur
      *
      * @param string $tel
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setTel($tel)
     {
@@ -260,27 +260,27 @@ class Fournisseur
     }
 
     /**
-     * Set produits
+     * Set products
      *
-     * @param array $produits
+     * @param array $products
      *
-     * @return Fournisseur
+     * @return Provider
      */
-    public function setProduits($produits)
+    public function setProducts($products)
     {
-        $this->produits = $produits;
+        $this->products = $products;
 
         return $this;
     }
 
     /**
-     * Get produits
+     * Get products
      *
      * @return array
      */
-    public function getProduits()
+    public function getProducts()
     {
-        return $this->produits;
+        return $this->products;
     }
 
     /**
@@ -288,7 +288,7 @@ class Fournisseur
      *
      * @param \stdClass $horaires
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setHoraires($horaires)
     {
@@ -312,7 +312,7 @@ class Fournisseur
      *
      * @param string $type
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setType($type)
     {
@@ -336,7 +336,7 @@ class Fournisseur
      *
      * @param string $contributeur
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setContributeur($contributeur)
     {
@@ -360,7 +360,7 @@ class Fournisseur
      *
      * @param string $contributeurMail
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setContributeurMail($contributeurMail)
     {
@@ -384,7 +384,7 @@ class Fournisseur
      *
      * @param string $validationCode
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setValidationCode($validationCode)
     {
@@ -408,7 +408,7 @@ class Fournisseur
      *
      * @param boolean $valide
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setValide($valide)
     {
@@ -432,7 +432,7 @@ class Fournisseur
      *
      * @param string $contactAmap
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setContactAmap($contactAmap)
     {
@@ -455,27 +455,27 @@ class Fournisseur
 
 
     /**
-     * Add produit
+     * Add product
      *
-     * @param \Biopen\FournisseurBundle\Entity\FournisseurProduit $produit
+     * @param \Biopen\FournisseurBundle\Entity\ProviderProduct $product
      *
-     * @return Fournisseur
+     * @return Provider
      */
-    public function addProduit(\Biopen\FournisseurBundle\Entity\FournisseurProduit $produit)
+    public function addProduct(\Biopen\FournisseurBundle\Entity\ProviderProduct $product)
     {
-        $this->produits[] = $produit;
-        $produit->setFournisseur($this);
+        $this->products[] = $product;
+        $product->setProvider($this);
         return $this;
     }
 
     /**
-     * Remove produit
+     * Remove product
      *
-     * @param \Biopen\FournisseurBundle\Entity\FournisseurProduit $produit
+     * @param \Biopen\FournisseurBundle\Entity\ProviderProduct $product
      */
-    public function removeProduit(\Biopen\FournisseurBundle\Entity\FournisseurProduit $produit)
+    public function removeProduct(\Biopen\FournisseurBundle\Entity\ProviderProduct $product)
     {
-        $this->produits->removeElement($produit);
+        $this->products->removeElement($product);
     }
 
     /**
@@ -483,7 +483,7 @@ class Fournisseur
      *
      * @param string $latlng
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setLatlng($latlng)
     {
@@ -507,7 +507,7 @@ class Fournisseur
      *
      * @param string $mainProduct
      *
-     * @return Fournisseur
+     * @return Provider
      */
     public function setMainProduct($mainProduct)
     {
@@ -525,4 +525,6 @@ class Fournisseur
     {
         return $this->mainProduct;
     }
+
+  
 }

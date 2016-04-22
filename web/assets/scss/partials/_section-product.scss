@@ -34,6 +34,7 @@
 		position: relative;
 		margin-bottom: 0;
 		line-height: 3rem;
+		padding: 0;
 		padding-left: .7rem;
 		height: 3rem;
     	overflow: hidden;
@@ -42,7 +43,7 @@
 
 	.productItem:not(.disabled):hover
 	{
-		background-color: $collection-hover-bg-color;
+		background-color: $grey-light;
 	}
 
 	.disabled
@@ -67,7 +68,7 @@
 		border: 0;
 		box-shadow: none;
 	}
-	.moreResultFournisseurItem
+	.moreResultProviderItem
 	{
 		background-color: #F7F7F7;	    
 	    font-size: .95rem;
@@ -86,7 +87,7 @@
 	    text-overflow: ellipsis;
 	}
 
-	.moreResultFournisseurItem:hover 
+	.moreResultProviderItem:hover 
 	{ 
 		background-color: $secondary-color ;
 		color:white;

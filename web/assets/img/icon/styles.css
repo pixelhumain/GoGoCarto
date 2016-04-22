@@ -38,7 +38,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-cereales:before {
+.icon-legumineuses:before {
   content: "\61";
 }
 .icon-epicerie:before {
@@ -62,20 +62,14 @@
 .icon-menu:before {
   content: "\69";
 }
-.icon-mail:before {
-  content: "\6a";
-}
 .icon-legumes:before {
   content: "\6e";
 }
 .icon-poisson:before {
   content: "\71";
 }
-.icon-laitiers:before {
+.icon-laitier:before {
   content: "\72";
-}
-.icon-sec:before {
-  content: "\73";
 }
 .icon-plantes:before {
   content: "\67";
@@ -103,4 +97,13 @@
 }
 .icon-angle-right:before {
   content: "\77";
+}
+.icon-oeufs:before {
+  content: "\78";
+}
+.icon-huile:before {
+  content: "\79";
+}
+.icon-fruits2:before {
+  content: "\70";
 }

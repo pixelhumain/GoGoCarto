@@ -20,15 +20,15 @@
 	    </div>
 	{% endfor %}
   
-  {{ form_start(form, {'id': 'formFournisseur'}) }}
+  {{ form_start(form, {'id': 'formProvider'}) }}
 
    <h1 id="titre_ajout">Ajouter un fournisseur</h1>
 	
-	<section class="row" id="section_fournisseur">
-	<!-- Select type de fournisseur -->
+	<section class="row" id="section_provider">
+	<!-- Select type de provider -->
 		<div class="input-field col s12">
-	    	{{ form_widget(form.type, {'id': "type_fournisseur"}) }}
-	    <label id="label_type_fournisseur">Type de fournisseur</label>
+	    	{{ form_widget(form.type, {'id': "type_provider"}) }}
+	    <label id="label_type_provider">Type de fournisseur</label>
 	  	</div>
 	</section>
 
@@ -36,16 +36,16 @@
 	<div id="form_content" style="height:0px;display:none">
 
 	<!-- SECTION INFO FOURNISSEUR -->
-	<section class="row" id="section_info_fournisseur">
+	<section class="row" id="section_info_provider">
 
-	  	<!-- Input nom fournisseur -->
+	  	<!-- Input name provider -->
 	  	<div class="input-field col s12">
 	  		<i class="material-icons prefix">account_circle</i>	
-	  		{{ form_widget(form.nom, {'id': 'inputNom', 
+	  		{{ form_widget(form.name, {'id': 'inputName', 
 	  							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
 		</div>
 
-		<!-- Input adresse fournisseur -->
+		<!-- Input adresse provider -->
 		<div class="input-field col s12">
 		<i class="material-icons prefix">room</i>	
 	  	{{ form_widget(form.adresse, {'id': 'inputAdresse',
@@ -61,16 +61,16 @@
 		<!-- HIDDEN input pour stocker valeur de la lat et lng -->
 		{{ form_widget(form.latlng, {'id': 'latlng'}) }}		
 		
-		<!-- input description fournisseur -->
+		<!-- input description provider -->
 		<div class="input-field col s12">
 			<i class="material-icons prefix">description</i>
 		  	{{ form_widget(form.description, {'id': 'inputDescription',
 	  								          'attr': {'class': 'validate',
-	  											   'placeholder':'Description du fournisseur, PAS des produits (optionnel)',
+	  											   'placeholder':'Description du fournisseur, PAS des products (optionnel)',
 	  											   'length':'80'   }}) }}
 		</div>
 
-		<!-- input telephone fournisseur -->
+		<!-- input telephone provider -->
 		<div class="input-field col s12">
 			<i class="material-icons prefix">phone</i>
 		  	{{ form_widget(form.tel, {'id': 'inputTel',
@@ -88,13 +88,13 @@
 	 <section id="section_AMAP" style="display:none">
 	 	<h2 id="title_AMAP">Contact dans l'AMAP (renseignez un téléphone et/ou un e-mail)</h2>
    		<div class="row ">
-		 	<!-- inputNom du contact de l'AMAP -->
+		 	<!-- inputName du contact de l'AMAP -->
 			<div class="input-field col s12" id="AMAP_contact">
 			  	<i class="material-icons prefix">account_circle</i>	
-			  	{{ form_widget(form.contactAmap.children.nom, 
-					  				{ 'id' : 'inputNomContactAMAP',									
+			  	{{ form_widget(form.contactAmap.children.name, 
+					  				{ 'id' : 'inputNameContactAMAP',									
 				  					  'attr': {'placeholder':'Nom du Contact de l\'AMAP',
-				  							   'name' : 'nomAMAP',
+				  							   'name' : 'nameAMAP',
 				  					}}) }}
 			</div>
 			<!-- input telephone contact de l'AMAP -->
@@ -122,44 +122,44 @@
 	<div class="divider" style="display:none"></div>
 
 	 <!-- SECTION PRODUITS -->
-	<section id="section_produits">
+	<section id="section_products">
 		
-		<h2 id="title_produits">Produits du fournisseur</h2>
+		<h2 id="title_products">Produits du fournisseur</h2>
 		
 		<div class="row" id="mainProductDiv">
-		<!-- Select type de fournisseur -->
+		<!-- Select type de provider -->
 			<div class="input-field col s12">
 		    {{ form_widget(form.mainProduct, {'id': "mainProductSelection"}) }}
-	    	<label id="label_main_product_selection">Produit principal</label>
+	    	<label id="label_main_product_selection">Product principal</label>
 		  	</div>
 		</div>
 
 		<div class="row ">			
-			{% for produit in form.listeProduits %}
+			{% for product in form.listeProducts %}
 			    <div class="col s6 m4">	
-			        {{ form_widget(produit, {'attr': {'class': 'checkbox_produits'}}) }}
-			        {{ form_label(produit) }} 
+			        {{ form_widget(product, {'attr': {'class': 'checkbox_products'}}) }}
+			        {{ form_label(product) }} 
 			    </div>
 			{% endfor %}
 
-			{# on compl?te avec des div vide le tableau de produit #}
-			<div class="col s{{ (form.listeProduits|length % 2)*6 }} m{{(3-(form.listeProduits|length % 3))*(form.listeProduits|length % 3)*4}}"></div>	
+			{# on compl?te avec des div vide le tableau de product #}
+			<div class="col s{{ (form.listeProducts|length % 2)*6 }} m{{(3-(form.listeProducts|length % 3))*(form.listeProducts|length % 3)*4}}"></div>	
 		</div>
 
-		<!-- Espace pour préciser les type de produits -->
+		<!-- Espace pour préciser les type de products -->
 		<div id="precisions">
-			{# on cr?e un input textpour chaque produits et on les cache tous
-			quand on check un produit on rend visible l'input correspondant #}
-			{% for produit in form.listeProduits %}			
-				<div class="input-field" id="div_precision_{{ produit.vars.value }}" style="display:none">	
-				  	<input placeholder="Précisez si nécessaire :" id="input_precision_{{ produit.vars.value }}" name="precision_{{ produit.vars.value }}" type="text" length="80">
-			      	<label class="active label_precision" for="input_precision_{{ produit.vars.value }}">{{ produit.vars.label }}</label>
+			{# on cr?e un input textpour chaque products et on les cache tous
+			quand on check un product on rend visible l'input correspondant #}
+			{% for product in form.listeProducts %}			
+				<div class="input-field" id="div_precision_{{ product.vars.value }}" style="display:none">	
+				  	<input placeholder="Précisez si nécessaire :" id="input_precision_{{ product.vars.value }}" name="precision_{{ product.vars.value }}" type="text" length="80">
+			      	<label class="active label_precision" for="input_precision_{{ product.vars.value }}">{{ product.vars.label }}</label>
 				</div> 
 			{% endfor %}   
 		</div>
 
 	</section>
-	<div class="divider" id="divider_produits"></div>
+	<div class="divider" id="divider_products"></div>
 
 	<!-- SECTION HORAIRES -->
 	<section id="horaires" class="">
@@ -250,7 +250,7 @@
 		<!-- S'engager à bla bla bla -->
 		<div class="col s12">			
 			{{ form_widget(form.engagement, {'id' : 'agree' }) }}
-			<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce fournisseur propose des produits bio (avec ou sans label) </label>
+			<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce fournisseur propose des products bio (avec ou sans label) </label>
 		</div>
 
 		<!-- E mail pour validation -->
@@ -299,7 +299,7 @@
 	<div class="modal-content">
 	  <h5>Plusieurs jours de marchés</h5>
 	  <p>Vous avez renseigné plusieurs jours d'ouverture pour ce marché, êtes vous certain que
-	  	l'on retrouve les même produits à ces différentes date?</p>
+	  	l'on retrouve les même products à ces différentes date?</p>
 	  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque jour
 	  		de marché</p>
 	</div>

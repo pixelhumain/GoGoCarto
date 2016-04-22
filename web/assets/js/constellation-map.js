@@ -1,23 +1,26 @@
 var constellationDrawn = false;
 var GLOBAL;
 
-function Global(map, constellation, manager)
+function Global(map, constellation, manager, markerManager)
 {
 	this.map_ = map;
 	this.constellation_ = constellation;
-	this.listFournisseurManager_ = manager;
+	this.providerManager_ = manager;
 	this.clusterer_ = null;
+	this.markerManager_ = markerManager;
 }
 
-Global.prototype.getMap = function() { return this.map_ }
-Global.prototype.setMap = function(map) { return this.map_ = map }
-Global.prototype.getConstellation = function() { return this.constellation_ }
-Global.prototype.setConstellation = function(constellation) { return this.constellation_ = constellation}
-Global.prototype.getListFournisseurManager = function() { return this.listFournisseurManager_ }
-Global.prototype.setListFournisseurManager = function(manager) { return this.listFournisseurManager_ = manager }
-Global.prototype.getClusterer = function() { return this.clusterer_ }
-Global.prototype.setClusterer = function(clusterer) { return this.clusterer_ = clusterer }
-
+Global.prototype.getMap = function() { return this.map_ };
+Global.prototype.setMap = function(map) { return this.map_ = map };
+Global.prototype.getConstellation = function() { return this.constellation_ };
+Global.prototype.setConstellation = function(constellation) { return this.constellation_ = constellation};
+Global.prototype.getProviderManager = function() { return this.providerManager_ };
+Global.prototype.setProviderManager = function(manager) { return this.providerManager_ = manager };
+Global.prototype.getClusterer = function() { return this.clusterer_ };
+Global.prototype.setClusterer = function(clusterer) { return this.clusterer_ = clusterer };
+Global.prototype.getProviders = function () { return this.providerManager_.getProviders();  };
+Global.prototype.getMarkerManager = function() { return this.markerManager_ };
+Global.prototype.setMarkerManager = function(markerManager) { return this.markerManager_ = markerManager };
 
 function initMap() 
 {	
@@ -36,9 +39,12 @@ function initMap()
 
 	var map = new google.maps.Map(document.getElementById("map"), mapOptions);	
 	var constellation = new Constellation(constellationRawJson);	
-	var listFournisseurManager = new ListFournisseurManager();
+	var providerManager = new ProviderManager(providerListJson);
+	var markerManager = new MarkerManager();	
 
-	GLOBAL = new Global(map, constellation, listFournisseurManager);
+	GLOBAL = new Global(map, constellation, providerManager, markerManager);
+
+	markerManager.createMarkers();
 
 	map.panTo(GLOBAL.getConstellation().getOrigin());
 	map.setZoom(16);
@@ -54,13 +60,14 @@ function initMap()
 
 
 	    // une fois la carte chargée, si la constellation existe on la dessine
-  		if (constellation != null && constellationDrawn == false)	
+  		if (constellationDrawn == false)	
 		{
 			constellationDrawn = true;
-			GLOBAL.getConstellation().draw();
-			GLOBAL.getListFournisseurManager().draw();
-			fitMarkersBounds(map, GLOBAL.getConstellation().getMarkersIncludingHome());
-			initCluster(GLOBAL.getConstellation().getMarkers());
+			
+			GLOBAL.getMarkerManager().draw();
+			GLOBAL.getProviderManager().draw();
+			fitMarkersBounds(map, GLOBAL.getMarkerManager().getMarkersIncludingHome());
+			initCluster(GLOBAL.getMarkerManager().getMarkers());
 			GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getConstellation().drawLines(); });
 		}
 	    
@@ -68,6 +75,7 @@ function initMap()
 
 	map.addListener('click', function(e) 
 	{
+    	window.console.log("clickon map");
     	animate_down_bandeau_detail();     	
     	//addMarkerForTest(e);
   	}); 

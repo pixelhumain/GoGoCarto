@@ -1,4 +1,4 @@
-function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', map_)
+function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_)
 {
 	/*var origine = latlngToPoint(point1);
 	var destination = latlngToPoint(point2);
@@ -32,7 +32,7 @@ function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', m
 	var opacity = 0.5;
 	var weight = 3;
 
-	switch(fournisseurType) {
+	switch(providerType) {
 	    case 'producteur':
 	    case 'amap':
 	        color = '#26A69A';
@@ -58,14 +58,9 @@ function drawLineBetweenPoints(point1, point2, fournisseurType = 'producteur', m
 	return poly;  		
 }
 
-function createMarker(position, fournisseurId, produit)
+/*function createMarker(position, providerId, produit)
 {
-	/*var marker = new google.maps.Marker({
-		icon: base_marker_image,
-		map: GLOBAL.getMap(),
-		draggable: false,
-		position: position,
-	});*/
+	
 	var parser = new DOMParser();
 	var contentDom = document.createElement("div");
 	contentDom.innerHTML = '<div class="marker-wrapper rotate"><img class="iconMarkerSvg rotate" src="'+ iconDirectory + 'map.svg"></img><div class="iconInsideMarker icon-'+produit+'""></div></div>' ;
@@ -82,17 +77,36 @@ function createMarker(position, fournisseurId, produit)
 
 	marker.addListener('click', function() 
 	{
-		window.console.log("marker on click, id = " + fournisseurId);
-		markerOnClick(fournisseurId);
+		window.console.log("marker on click, id = " + providerId);
+		markerOnClick(providerId);
 	});
 
 	return marker;
-}
+}*/
 
-function markerOnClick(fournisseurId)
+/*var markers;
+function createMarker(provider)
 {
-	$('#detail_fournisseur').empty();
-	$('#infoFournisseur-'+fournisseurId).clone().appendTo($('#detail_fournisseur'));
-	$('#detail_fournisseur .collapsible-header').click(toggleFournisseurDetailsComplet);
-	animate_up_bandeau_detail();
-}
+	
+	var parser = new DOMParser();
+	var contentDom = document.createElement("div");
+	contentDom.innerHTML = '<div class="marker-wrapper rotate"><img class="iconMarkerSvg rotate" src="'+ iconDirectory + 'map.svg"></img><div class="iconInsideMarker icon-'+provider.mainProduct+'""></div></div>' ;
+
+	var marker = new RichMarker({		
+		map: null,
+		draggable: false,
+		position: new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);,
+		flat: true,
+		content: contentDom
+	});
+
+
+	marker.addListener('click', function() 
+	{
+		window.console.log("marker on click, id = " + providerId);
+		markerOnClick(providerId);
+	});
+
+	return marker;
+}*/
+

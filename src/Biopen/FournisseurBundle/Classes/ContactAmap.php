@@ -6,13 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ContactAmap
 {
-	protected $nom;
+	protected $name;
 	protected $mail;
 	protected $tel;
 
-	public function getNom()
+	public function getName()
 	{
-		return $this->nom;
+		return $this->name;
 	}
 
 	public function getMail()
@@ -27,9 +27,9 @@ class ContactAmap
 
 	
 // setters
-	public function setNom($nom)
+	public function setName($name)
 	{
-		$this->nom = $nom;
+		$this->name = $name;
 		return $this;
 	}
 

@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Biopen\FournisseurBundle\Entity\Produit;
-use Biopen\FournisseurBundle\Entity\Fourniseur;
+use Biopen\FournisseurBundle\Entity\Product;
+use Biopen\FournisseurBundle\Entity\Provider;
 
 use Wantlet\ORM\Point;
 
@@ -35,12 +35,34 @@ class CoreController extends Controller
         	return $this->render('BiopenCoreBundle:index.html.twig');
         }
         else
-        {
-        	$constellation = $this->buildConstellation($slug);
+        {        	
+            /*$geocodeResponse = $this->geocodeFromAdresse($adresse);
+
+            if ($geocodeResponse == null)
+            {  
+                $this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
+                return $this->render('BiopenCoreBundle:constellation.html.twig');
+            } 
+
+            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());*/
+            
+            $geocodePoint = new Point(44.1049567, -0.5445296);
+            $geocodeResponse['coordinates']['latitude'] = 44.1049567;
+            $geocodeResponse['coordinates']['longitude'] = -0.5445296;  
+
+            $providerList = $this->getProvidersList($geocodePoint);
+
+            if( $providerList == null)
+            {
+                $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
+                return $this->render('BiopenCoreBundle:index.html.twig');
+            }
+            
+            $constellation = $this->buildConstellation($providerList, $geocodeResponse);
         }	    	
 
         return $this->render('BiopenCoreBundle:constellation.html.twig', 
-            array('constellationPhp' => $constellation));
+            array('constellationPhp' => $constellation, "providerList" => $providerList));
     }    
 
     public function constellationAjaxAction(Request $request)
@@ -62,70 +84,75 @@ class CoreController extends Controller
 		}
     }
 
-    public function buildConstellation($adresse, $distance = 50)
+    public function getProvidersList($geocodePoint, $distance = 50)
     {
-/*        $geocodeResponse = $this->geocodeFromAdresse($adresse);
-
-        if ($geocodeResponse == null)
-        {  
-            $this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
-            return null;
-        } 
-
-        $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-*/
-        $geocodePoint = new Point(44.1049567, -0.5445296);
-        $geocodeResponse['coordinates']['latitude'] = 44.1049567;
-        $geocodeResponse['coordinates']['longitude'] = -0.5445296;
-
         $em = $this->getDoctrine()->getManager();
 
-        // La liste des fournisseur autour de l'adresse demandée
-        $listFournisseur = $em->getRepository('BiopenFournisseurBundle:Fournisseur')
+        // La liste des provider autour de l'adresse demandée
+        $listProvider = $em->getRepository('BiopenFournisseurBundle:Provider')
         ->findFromPoint($distance, $geocodePoint );
         
-        // La liste des produits
-        $listProduits = $em->getRepository('BiopenFournisseurBundle:Produit')->findAll();
+        dump($listProvider);
 
+        // La liste des provider autour de l'adresse demandée
+        $listProvider2 = $em->getRepository('BiopenFournisseurBundle:Provider')->findAll();
+        dump($listProvider2);
+        
+        $providerList = null;
+        foreach ($listProvider as $i => $provider) 
+        { 
+            // le fournissurReponse a 1 champ Provider et 1 champ Distance
+            // on regroupe les deux dans un simple objet provider
+            $provider = $provider['Provider']->setDistance($provider['distance']);
+
+            $providerList[] = $provider;
+        }   
+
+        dump($providerList);
+
+        return $providerList;     
+    }
+
+    public function buildConstellation($providerList, $geocodeResponse)
+    {
         $constellation['geocodeResult'] = $geocodeResponse;
 
-        // Pour chaque fournisseur de la liste, on remplit les etoiles
+        // Pour chaque provider de la liste, on remplit les stars
         // de la constellation
-        foreach ($listFournisseur as $i => $fournisseurReponse) 
-        {                
-            // le fournissurReponse a 1 champ Fournisseur et 1 champ Distance
-            // on regroupe les deux dans un simple objet fournisseur
-            $fournisseur = $fournisseurReponse['Fournisseur']->setDistance($fournisseurReponse['distance']);
-
-            $constellation['globalListFournisseur'][] = $fournisseur;
-            // switch sur le Type du fournisseur
-            switch($fournisseurReponse['Fournisseur']->getType())
+        foreach ($providerList as $i => $provider) 
+        {   
+            // switch sur le Type du provider
+            switch($provider->getType())
             {
                 // Producteur ou AMAP 
                 case 'amap':
                 case 'producteur':
-                    foreach ($fournisseur->getProduits() as $i => $produit) 
+                    foreach ($provider->getProducts() as $i => $product) 
                     {
-                        $constellation['etoiles'][$produit->getNomFormate()]['fournisseurList'][] = $fournisseur;
-                        $constellation['etoiles'][$produit->getNomFormate()]['nom'] = $produit->getNom();
+                        $constellation['stars'][$product->getNameFormate()]['providerList'][] = $provider;
+                        $constellation['stars'][$product->getNameFormate()]['name'] = $product->getNameShort();
                     }
                     break;
                 //Le reste
                 default:
-                    $constellation['etoiles'][$fournisseur->getType()]['fournisseurList'][] = $fournisseur;
-                     $constellation['etoiles'][$fournisseur->getType()]['nom'] = $fournisseur->getType();
+                    $constellation['stars'][$provider->getType()]['providerList'][] = $provider;
+                    $constellation['stars'][$provider->getType()]['name'] = $provider->getType();
                     break;
             }
         }
 
-        $isProvided;
-        // on crée les liste de produits
-        foreach($listProduits as $i => $product)
+        $em = $this->getDoctrine()->getManager();
+        // La liste des provider autour de l'adresse demandée
+        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+        ->findAll();
+
+        // on crée les liste de products
+        foreach($listProducts as $i => $product)
         {
             $isProvided = false;
-            foreach ($constellation['etoiles'] as $starName => $listFournisseur)
+            foreach ($constellation['stars'] as $starName => $star)
             {
-                if ($listProduits[$i]->getNomFormate() == $starName)
+                if ($listProducts[$i]->getNameFormate() == $starName)
                     $isProvided = true;
             }
             if ($isProvided) $constellation['listProductsProvided'][] = $product;
@@ -159,7 +186,8 @@ class CoreController extends Controller
             return null;            
         }
 
-        return $result->first();  
+        return $result->first();
+
     }
 
     

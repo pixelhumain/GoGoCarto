@@ -32,6 +32,8 @@
 		margin-left: -31px;
 		margin-top: 7px;
 	}
+
+	&:hover { cursor: pointer }
 }
 
 .iconMarkerSvg
@@ -63,15 +65,17 @@
 
 .icon-legumes { color: #4A148C }
 .icon-fruits { color: #880E4F }
-.icon-laitiers { color: #D2B72B }
-.icon-boissons { color: #03A9F4 }
+.icon-laitier { color: #B77B03 }
+.icon-boissons { color: #258BB9 }
 .icon-plantes { color: #4CAF50 }
-.icon-pain { color: #795548 }
+.icon-pain { color: #B37800 } //#795548 brown
 .icon-viande { color: #961616 }
 .icon-poisson { color: #3F51B5 }
-.icon-sec { color: #4CAF50 }
+.icon-legumineuses { color: #2F7332 }
 .icon-transformes { color: #37474F }
 .icon-miel { color: #E09703 }
+.icon-huile { color: #082D09 }
+.icon-oeufs { color: #E09703 }
 .icon-autre { color: #444444 }
 
 .icon-marche { color: #4A148C }

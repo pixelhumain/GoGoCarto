@@ -1,15 +1,15 @@
-function toggleFournisseurDetailsComplet()
+function toggleProviderDetailsComplet()
 {	
 	window.console.log('toggle');
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
-		hideFournisseurDetailsComplet();
+		hideProviderDetailsComplet();
 	}
 	else
 	{
 		var bandeau_detail_new_height = $( window ).height()
 		-$('header').height()
-		-$('#bandeau_goToFournisseurList').outerHeight(true);
+		-$('#bandeau_goToProviderList').outerHeight(true);
 
 		$('#bandeau_detail').css('height', bandeau_detail_new_height);
 		ajuster_taille_carte(bandeau_detail_new_height);	
@@ -19,12 +19,12 @@ function toggleFournisseurDetailsComplet()
 	}	
 }
 
-function hideFournisseurDetailsComplet()
+function hideProviderDetailsComplet()
 {
 	setTimeout(function(){$("#btn_menu").show();},1000);
 	$('#bandeau_detail .moreDetails').hide();
 
-	var bandeau_detail_new_height = $('#detail_fournisseur').height();
+	var bandeau_detail_new_height = $('#detail_provider').height();
 
 	$('#bandeau_detail').css('height', bandeau_detail_new_height);
 	ajuster_taille_carte(bandeau_detail_new_height);	
@@ -32,7 +32,7 @@ function hideFournisseurDetailsComplet()
 
 function animate_up_bandeau_detail()
 {
-	var bandeau_detail_new_height = $('#detail_fournisseur').height();
+	var bandeau_detail_new_height = $('#detail_provider').height();
 
 	$('#bandeau_detail').css('height', bandeau_detail_new_height);
 	ajuster_taille_carte(bandeau_detail_new_height);	
@@ -40,7 +40,7 @@ function animate_up_bandeau_detail()
 
 function animate_down_bandeau_detail()
 {
-	hideFournisseurDetailsComplet();
+	hideProviderDetailsComplet();
 	$('#bandeau_detail').css('height','0');
 	ajuster_taille_carte(0);	
 }

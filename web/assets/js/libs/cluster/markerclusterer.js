@@ -1125,7 +1125,7 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
         }
       }
 
-      //window.console.log("  -> Nombre cluster adjacent " + adjacentClusters.length);
+      //window.console.log("  -> Namebre cluster adjacent " + adjacentClusters.length);
 
       // tous les marqueurs des clusters adjacents réunis
       var markers = [];
@@ -1135,7 +1135,7 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
         markers = markers.concat(adjacentClusters[j].getMarkers());
       }
 
-      //window.console.log("  -> Nombre markers " + markers.length);
+      //window.console.log("  -> Namebre markers " + markers.length);
 
       // on cherche les regroupements d'au plus trois marqueurs isolés
       // des autres

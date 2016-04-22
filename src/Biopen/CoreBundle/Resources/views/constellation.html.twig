@@ -19,19 +19,20 @@
 
 <div id="div_map_and_products">
 
-
-  {# La liste des produits #}
+  {% if constellationPhp is defined %}
+  {# La liste des products #}
   <section id="ProductsList">     
     {% include 'BiopenCoreBundle:product.html.twig' %}      
   </section>
+  {% endif %}
 
    
-  {# La Carte et les infos fournisseur #} 
+  {# La Carte et les infos provider #} 
   <section id="section_carte">
     <div id="map"></div>
 
     <div id="bandeau_detail">
-      <div id="detail_fournisseur"></div>
+      <div id="detail_provider"></div>
     </div>
 
     {# <div id="bandeau_option"></div> #}
@@ -43,8 +44,8 @@
 </div>
 
 {# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
-<div id="bandeau_goToFournisseurList">  
-  <a href='#FournisseurList'>
+<div id="bandeau_goToProviderList">  
+  <a href='#ProviderList'>
     <div class="valign-wrapper">
     <i class="icon-expand"></i>
     <div class="">Liste des résultats</div>
@@ -54,14 +55,14 @@
 </div>
 
 {# Les résultats par liste #}
-<section id="FournisseurList">
+<section id="ProviderList">
   <ul class="collapsible popout" data-collapsible="accordion">
 
-    {% if constellationPhp is defined %}
-      {% for key, fournisseur in constellationPhp.globalListFournisseur %} 
+    {% if providerList is defined %}
+      {% for key, provider in  providerList %} 
 
-          {% include 'BiopenCoreBundle:fournisseurInfo.html.twig' 
-              with {'fournisseur':fournisseur, 'display':false} only %}
+          {% include 'BiopenCoreBundle:provider.html.twig' 
+              with {'provider':provider, 'display':false} only %}
 
       {% endfor %}  
     {% endif %} 
@@ -81,8 +82,13 @@
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}"
 
+    var providerList = null;
+    {% if providerList is defined %}
+      providerListJson = {{ providerList | serialize("json") | raw }};
+    {% endif %}
+
     var constellationRawJson = null;
-    {% if constellationPhp != null %}
+    {% if constellationPhp is defined %}
       constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
     {% endif %}
   </script>
@@ -100,7 +106,9 @@
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/map-utils.js"
         "assets/js/map-drawing.js"
-        "assets/js/listFournisseurManager.class.js"
+        "assets/js/providerManager.class.js"
+        "assets/js/markerManager.class.js"
+        "assets/js/biopenMarker.class.js"
         "assets/js/constellation.class.js"
         "assets/js/constellation-star.class.js"
         "assets/js/constellation-map.js"
