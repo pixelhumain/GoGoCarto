@@ -157,7 +157,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   if (opt_options.averageCenter !== undefined) {
     this.averageCenter_ = opt_options.averageCenter;
   }
-  this.ignoreHidden_ = false;
+  this.ignoreHidden_ = true;
   if (opt_options.ignoreHidden !== undefined) {
     this.ignoreHidden_ = opt_options.ignoreHidden;
   }
@@ -996,18 +996,10 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
     marker = this.markers_[i];
     //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
-      if (!this.ignoreHidden_ || (this.ignoreHidden_ && marker.getVisible())) {
-        //window.console.log("    addToClosest ");
+      if (!this.ignoreHidden_ || (this.ignoreHidden_ && marker.getVisible() && marker.getMap() != null)) 
+      {
         this.addToClosestCluster_(marker);
       }
-      else
-      {
-        //window.console.log("     marqueur non visible");
-      }
-    }
-    else
-    {
-      //window.console.log("      isAdded: " + marker.isAdded + ", isInBound:" + this.isMarkerInBounds_(marker, bounds));
     }
   }
 

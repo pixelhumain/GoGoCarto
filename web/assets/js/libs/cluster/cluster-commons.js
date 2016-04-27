@@ -19,28 +19,17 @@ function updateIconOfIndependantMarkersGroup(markers)
   var content;
   for (i= 0; i < markers.length; i++)
   {
-     markers[i].isInIndependantGroup = true;
-     /*markers[i].setIcon({
-      url: iconDirectory + 'map2.png',
-      size: new google.maps.Size(32, 38),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(16, 38),
-      scaledSize: new google.maps.Size(64, 76)
-    });*/
+    markers[i].isInIndependantGroup = true;
     content = markers[i].getContent();   
-    $.each( $(content).find(".rotate"), function() 
-    { 
-        $(this).removeClass("rotateLeft");
-        $(this).removeClass("rotateRight");
-    } );      
-    markers[i].setContent( content );
+    $(content).find(".marker-wrapper").removeClass("rotateLeft").removeClass("rotateRight");
   }
 
   if (markers.length == 1) return;
 
+
   var righterMarker = markers[0];
   var lefterMarker = markers[0];
-  for (i = 0; i < markers.length; i++) {
+  for (i = 1; i < markers.length; i++) {
       
       var curr_marker= markers[i];
 
@@ -54,22 +43,12 @@ function updateIconOfIndependantMarkersGroup(markers)
       }      
   }
 
-  var img_width = 32;
-  var img_height = 34;
-
   content = righterMarker.getContent();  
-  $.each( $(content).find(".rotate"), function() 
-  {        
-      $(this).addClass("rotateRight");
-  });  
-  righterMarker.setContent( content );
+  $(content).find(".marker-wrapper").addClass("rotateRight");
 
   content = lefterMarker.getContent(); 
-  $.each( $(content).find(".rotate"), function() 
-  {        
-      $(this).addClass("rotateLeft");
-  }); 
-  lefterMarker.setContent( content );
+  $(content).find(".marker-wrapper").addClass("rotateLeft");
+
 
  /* righterMarker.setContent( righterMarker.getContent().replace("rotate","rotateRight"));
   lefterMarker.setContent( lefterMarker.getContent().replace("rotate","rotateLeft"));*/

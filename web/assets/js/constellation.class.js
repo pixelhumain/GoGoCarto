@@ -12,7 +12,7 @@ function Constellation(constellationPhp)
 
 	this.geocodeResult_ = constellationPhp['geocodeResult']; 
 
-	this.clusterLines_ = [];
+	
 }
 
 Constellation.prototype.getOrigin = function () 
@@ -50,42 +50,7 @@ Constellation.prototype.draw = function ()
 	}	
 };*/
 
-Constellation.prototype.drawLines = function () 
-{
-	var i, line;
-	if (this.stars_ == null) return;
 
-	// remove previous lines with clusters
-	for (i = 0; i < this.clusterLines_.length; i++)
-	{
-		this.clusterLines_[i].setMap(null);
-	}
-	this.clusterLines_ = [];
-		
-	// draw line between stars not in cluster and origin
-	for(var i = 0; i < this.stars_.length; i++)
-	{
-		this.stars_[i].setPolyline(null);
-		
-		if (!this.stars_[i].isClustered()) 
-		{
-			line = drawLineBetweenPoints(this.getOrigin(), this.stars_[i].getPosition(), this.stars_[i].getName())
-			this.stars_[i].setPolyline(line);
-		}
-	}
-
-	// draw lines with clusters
-	if (GLOBAL.getClusterer() != null) 
-	{
-		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
-		
-		for (i = 0; i < clusters.length; i++)
-		{
-			line = drawLineBetweenPoints(this.getOrigin(), clusters[i].getCenter(), 'cluster');
-			this.clusterLines_.push(line);
-		}
-	}
-}
 
 Constellation.prototype.getStarFromName = function(name)
 {

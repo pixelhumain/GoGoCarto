@@ -198,6 +198,7 @@ Cluster.prototype.checkForSimpleClustering = function ()
   if (this.kernelMarkers_ == null)
   {
     window.console.error("KernelMarlers null");
+    return;
   }
   // premier trie grossier des clusters à minimiser
   //window.console.log("check global cluster " + this.label_ + "visible fake : " + this.getVisibleFakeMarkers());

@@ -28,7 +28,7 @@
       function accordionOpen(object) {
         $panel_headers = $this.find('> li > .collapsible-header');
         if (object.hasClass('active')) {
-            object.parent().addClass('active');
+            object.parent().addClass('active');            
         }
         else {
             object.parent().removeClass('active');
@@ -106,6 +106,8 @@
           }
 
           element.toggleClass('active');
+          element.trigger('activationChanged');
+          window.console.log("trigger activationChanged");
           accordionOpen(element);
         });
         // Open first active
@@ -120,6 +122,8 @@
               element = getPanelHeader(element);
             }
             element.toggleClass('active');
+            element.trigger('activationChanged');
+            window.console.log("trigger activationChanged");
             expandableOpen(element);
           });
           // Open any bodies that have the active class

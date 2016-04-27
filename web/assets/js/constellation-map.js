@@ -68,7 +68,7 @@ function initMap()
 			GLOBAL.getProviderManager().draw();
 			fitMarkersBounds(map, GLOBAL.getMarkerManager().getMarkersIncludingHome());
 			initCluster(GLOBAL.getMarkerManager().getMarkers());
-			GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getConstellation().drawLines(); });
+			GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getMarkerManager().drawLines(); });
 		}
 	    
 	} );

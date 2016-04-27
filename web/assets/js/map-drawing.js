@@ -28,7 +28,7 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
   	];
 
   	// valeurs par default
-  	var color = '#FFFFFF';
+  	var color = '#AE3536';
 	var opacity = 0.5;
 	var weight = 3;
 
@@ -53,7 +53,7 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
 		strokeWeight: weight
 	});
 	
-	poly.setMap(GLOBAL.getMap());
+	poly.setMap(map_);
 
 	return poly;  		
 }

@@ -4851,31 +4851,42 @@ select {
 
 .marker-wrapper {
   position: relative;
+  z-index: 1;
   width: 36px;
   height: 50px; }
+  .marker-wrapper .iconMarkerSvg {
+    width: 36px;
+    position: absolute;
+    bottom: 0; }
+  .marker-wrapper .iconInsideMarker:before {
+    position: absolute;
+    font-size: 18px;
+    bottom: 15px;
+    left: 9px; }
+  .marker-wrapper:hover {
+    cursor: pointer; }
+  .marker-wrapper.BigSize, .marker-wrapper:hover {
+    z-index: 2;
+    width: 44px;
+    margin-left: -4px; }
+    .marker-wrapper.BigSize .iconMarkerSvg, .marker-wrapper:hover .iconMarkerSvg {
+      width: 44px; }
+    .marker-wrapper.BigSize .iconInsideMarker:before, .marker-wrapper:hover .iconInsideMarker:before {
+      font-size: 22px;
+      bottom: 18px;
+      left: 11px; }
   .marker-wrapper.rotateRight {
     margin-left: 31px;
     margin-top: 7px; }
+    .marker-wrapper.rotateRight .iconMarkerSvg {
+      transform: rotate(45deg); }
   .marker-wrapper.rotateLeft {
     margin-left: -31px;
     margin-top: 7px; }
-  .marker-wrapper:hover {
-    cursor: pointer; }
-
-.iconMarkerSvg {
-  width: 36px;
-  position: absolute;
-  bottom: 0; }
-  .iconMarkerSvg.rotateRight {
-    transform: rotate(45deg); }
-  .iconMarkerSvg.rotateLeft {
-    transform: rotate(-45deg); }
-
-.iconInsideMarker:before {
-  position: absolute;
-  font-size: 18px;
-  bottom: 15px;
-  left: 9px; }
+    .marker-wrapper.rotateLeft .iconMarkerSvg {
+      transform: rotate(-45deg); }
+  .marker-wrapper.halfHidden {
+    opacity: 0.3; }
 
 .icon-legumes {
   color: #4A148C; }

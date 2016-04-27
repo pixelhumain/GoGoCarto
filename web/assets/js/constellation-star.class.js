@@ -39,6 +39,10 @@ Star.prototype.getProviderId = function () {
   return this.providerIdList_[this.index_];
 };
 
+Star.prototype.getProviderListId = function () {
+  return this.providerIdList_;
+};
+
 Star.prototype.getProvider = function () {
   return GLOBAL.getProviderManager().getProviderById(this.getProviderId());  
 };
@@ -94,11 +98,9 @@ Star.prototype.setIndex = function (newIndex)
 	var oldProviderId = this.getProviderId();
 	
 	this.index_ = newIndex;
-	window.console.log("and now this.index_ = " + this.index_);
-	//this.marker_.setPosition(this.getPosition());
-	this.setPolyline(null);
 	GLOBAL.getProviderManager().removeProvider(oldProviderId);
 	GLOBAL.getProviderManager().addProvider(this.getProvider().id);
+  GLOBAL.getMarkerManager().draw();
 }
 
 

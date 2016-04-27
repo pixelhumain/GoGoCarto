@@ -1,4 +1,7 @@
-<li id="infoProvider-{{ provider.id }}" class="providerItem" {% if display is defined and not display %} style="display:none" {% endif %}>        
+<li id="infoProvider-{{ provider.id }}" 
+  class="providerItem" 
+  data-provider-id="{{ provider.id }}"
+  {% if display is defined and not display %} style="display:none" {% endif %}>        
 
   <div class="collapsible-header">
 
