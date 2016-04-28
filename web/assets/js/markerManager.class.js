@@ -121,7 +121,7 @@ MarkerManager.prototype.drawLines = function ()
 		
 		for (i = 0; i < clusters.length; i++)
 		{
-			line = drawLineBetweenPoints(this.getOrigin(), clusters[i].getCenter(), 'cluster');
+			line = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), clusters[i].getCenter(), 'cluster');
 			this.clusterLines_.push(line);
 		}
 	}

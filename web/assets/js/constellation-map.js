@@ -50,15 +50,8 @@ function initMap()
 	map.setZoom(16);
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
-	{        
-	    /*overlay = new google.maps.OverlayView();
-	    overlay.draw = function () {};
-	    overlay.setMap(map); */
-
-	    //window.console.clear();
-	    window.console.log("Projection changed");
-
-
+	{     
+	    window.console.log("projection changed");
 	    // une fois la carte chargée, si la constellation existe on la dessine
   		if (constellationDrawn == false)	
 		{
@@ -73,15 +66,31 @@ function initMap()
 	    
 	} );
 
+	google.maps.event.addListener(map, 'zoom_changed', function () 
+	{
+		window.console.log("zoom changed");
+	});
+
+	google.maps.event.addListener(map, 'tiles_loaded', function () 
+	{
+		window.console.log("tiles_loaded");
+	});
+
 	map.addListener('click', function(e) 
 	{
     	window.console.log("clickon map");
     	animate_down_bandeau_detail();     	
     	//addMarkerForTest(e);
   	}); 
-
-  	//map.addListener('tilesloaded', function(){ GLOBAL.getClusterer().repaint();});
 }
+
+function showProviderInfosOnMap(providerId) 
+{	
+	$('#detail_provider').empty();
+	$('#infoProvider-'+providerId).clone().appendTo($('#detail_provider'));
+	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
+	animate_up_bandeau_detail();
+};
 
 function addMarkerForTest(e)
 {

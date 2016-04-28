@@ -27,7 +27,7 @@ function BiopenMarker(provider)
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
         //window.console.log("marker on click, id = " + provider.id);
-		that.handleClick(provider.id);
+		showProviderInfosOnMap(provider.id);
 		ev.preventDefault();
 		ev.stopPropagation();
 		event.preventDefault();
@@ -38,14 +38,6 @@ function BiopenMarker(provider)
 	this.id_ = provider.id;
 	this.mainProduct_ = provider.mainProduct;
 }
-
-BiopenMarker.prototype.handleClick = function (providerId) 
-{	
-	$('#detail_provider').empty();
-	$('#infoProvider-'+providerId).clone().appendTo($('#detail_provider'));
-	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
-	animate_up_bandeau_detail();
-};
 
 BiopenMarker.prototype.addClassToRichMarker_ = function (classToAdd) 
 {		

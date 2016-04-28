@@ -6,7 +6,7 @@
     z-index: 10;
     heigh:200px;
     width:100%;
-    @include transition(height 1s);
+    @include transition(height .5s);
 
     box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
     -moz-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
@@ -69,7 +69,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     will-change:height;
     z-index: 400;
     overflow: hidden;
-    @include transition(height 1s); 
+    @include transition(height .5s); 
 
     box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
     -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);

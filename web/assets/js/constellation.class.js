@@ -30,28 +30,6 @@ Constellation.prototype.getStars = function ()
 	return this.stars_ ;
 };
 
-/*
-Constellation.prototype.draw = function () 
-{	
-	var curr_star;
-	var marker;
-
-	for(var i = 0; i < this.stars_.length; i++)
-	{
-  		curr_star = this.stars_[i];
-
-  		marker = createMarker(curr_star.getPosition(), curr_star.getProvider().id, curr_star.getName().toLowerCase());  		
-
-  		//var polyline = drawLineBetweenPoints(marker_home, marker, provider.type);
-
-  		curr_star.setMarker(marker);
-  		//star['line'] = polyline;
-
-	}	
-};*/
-
-
-
 Constellation.prototype.getStarFromName = function(name)
 {
 	for(var i = 0; i < this.stars_.length; i++)

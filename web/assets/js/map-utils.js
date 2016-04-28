@@ -16,6 +16,7 @@ var pointToLatlng = function(point)
 
 function fitMarkersBounds(map, markers)
 {
+	window.console.log("fit markers bounds nbre markers " + markers.length);
 	// Bound la carte pour que l'on voit tous les marqueurs
 	var bounds = new google.maps.LatLngBounds();
 	for (var i = 0; i < markers.length; i++) {

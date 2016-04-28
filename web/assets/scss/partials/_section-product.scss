@@ -29,7 +29,7 @@
 	    width: 1.4rem;		
 	}
 
-	.productItem
+	.productItem, .productTitle
 	{
 		position: relative;
 		margin-bottom: 0;
@@ -39,6 +39,10 @@
 		height: 3rem;
     	overflow: hidden;
     	text-overflow: ellipsis;
+	}
+
+	.productTitle{
+		font-weight: 500;
 	}
 
 	.productItem:not(.disabled):hover

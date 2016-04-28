@@ -4943,11 +4943,11 @@ select {
   z-index: 10;
   heigh: 200px;
   width: 100%;
-  -webkit-transition: height 1s;
-  -moz-transition: height 1s;
-  -o-transition: height 1s;
-  -ms-transition: height 1s;
-  transition: height 1s;
+  -webkit-transition: height 0.5s;
+  -moz-transition: height 0.5s;
+  -o-transition: height 0.5s;
+  -ms-transition: height 0.5s;
+  transition: height 0.5s;
   box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
   -moz-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
   -webkit-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75); }
@@ -5009,11 +5009,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   will-change: height;
   z-index: 400;
   overflow: hidden;
-  -webkit-transition: height 1s;
-  -moz-transition: height 1s;
-  -o-transition: height 1s;
-  -ms-transition: height 1s;
-  transition: height 1s;
+  -webkit-transition: height 0.5s;
+  -moz-transition: height 0.5s;
+  -o-transition: height 0.5s;
+  -ms-transition: height 0.5s;
+  transition: height 0.5s;
   box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
   -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
   -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); }
@@ -5123,7 +5123,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin-right: 5px;
     text-align: center;
     width: 1.4rem; }
-  #ProductsList .productItem {
+  #ProductsList .productItem, #ProductsList .productTitle {
     position: relative;
     margin-bottom: 0;
     line-height: 3rem;
@@ -5132,6 +5132,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     height: 3rem;
     overflow: hidden;
     text-overflow: ellipsis; }
+  #ProductsList .productTitle {
+    font-weight: 500; }
   #ProductsList .productItem:not(.disabled):hover {
     background-color: #f0f0f0; }
   #ProductsList .disabled {
