@@ -1,6 +1,5 @@
 jQuery(document).ready(function()
 {	
-
 	$('.collapsible').collapsible({
       accordion : true 
     });
@@ -12,15 +11,11 @@ jQuery(document).ready(function()
 	    return false;  
 	}); 
 
-	$('#btn_menu').click(animate_up_bandeau_options);
-	$('#overlay').click(animate_down_bandeau_options);
-
-	$('.moreResultProviderItem').click(function() {
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
-		star.setIndex($(this).attr('data-provider-index'));
-	});
+	/*$('#btn_menu').click(animate_up_bandeau_options);
+	$('#overlay').click(animate_down_bandeau_options);*/
 
 	setTimeout(ajuster_taille_composants,50);
+
 	window.onresize = function() 
 	{
 		ajuster_taille_composants();
@@ -33,7 +28,6 @@ jQuery(document).ready(function()
 		  }
 	}	
 });
-
 
 function ajuster_taille_composants()
 {	

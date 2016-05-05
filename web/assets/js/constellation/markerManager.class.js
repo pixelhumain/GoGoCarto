@@ -18,11 +18,94 @@ MarkerManager.prototype.createMarkers = function ()
 		marker = new BiopenMarker(list[i]);
 		this.markers_.push(marker); 
 	}
+	
 
 	this.markerHome_ = new RichMarker({
 		position: GLOBAL.getConstellation().getOrigin(),
 	});
 };
+
+MarkerManager.prototype.checkMarkersInBounds = function () 
+{
+	startDate = new Date();
+	var bounds = GLOBAL.getMap().getBounds();
+	var nbre = 0;
+	for (var i = 0, l = this.markers_.length; i < l; i++) 
+	{
+		if (bounds.contains(this.markers_[i].getPosition()))
+		{
+			nbre++;
+			this.markers_[i].show();
+		}
+			
+	}
+	endDate = new Date();
+	window.console.log('check markers in bounds : '+ nbre + ' temps : ' + (endDate - startDate) + ' ms');
+}
+
+MarkerManager.prototype.checkMarkersInBounds2 = function () 
+{
+	var startDate = new Date();
+	var bounds = GLOBAL.getMap().getBounds();
+	var nbre = 0;
+	for (var i = 0, l; i < this.markers_.length; i++) 
+	{
+		if (bounds.contains(this.markers_[i].getPosition()))
+		{
+			nbre++;
+			this.markers_[i].show();
+		}
+	}
+	var endDate = new Date();
+	window.console.log('check markers in bounds : '+ nbre + ' temps : ' +(endDate - startDate) + ' ms');
+}
+
+MarkerManager.prototype.createRandomMarkers = function () 
+{				
+	var startDate = new Date();
+	// Add markers to the map at random locations
+	var bounds = GLOBAL.getMap().getBounds();
+	var southWest = bounds.getSouthWest();
+	var northEast = bounds.getNorthEast();
+	var lngSpan = northEast.lng() - southWest.lng();
+	var latSpan = northEast.lat() - southWest.lat();				
+
+	var latlng;
+	var provider = [];
+	for (var i = 0; i < 100; i++) 
+	{		
+		provider.id = 200 + i;
+		provider.latlng = [];
+		provider.latlng.latitude = southWest.lat() + latSpan * Math.random();
+		provider.latlng.longitude = southWest.lng() + lngSpan * Math.random();
+		provider.main_product = 'fruits';
+		provider.products = [];
+		marker = new BiopenMarker(provider);
+		this.markers_.push(marker); 
+
+		marker.show();
+	} 
+	providers = [];
+	for (var i = 0; i < 30000; i++) 
+	{		
+		provider.id = 2000 + i;
+		provider.latlng = [];
+		provider.latlng.latitude = southWest.lat() + latSpan * Math.random();
+		provider.latlng.longitude = southWest.lng() + lngSpan * Math.random();
+		provider.main_product = 'fruits';
+		provider.products = [];
+		/*marker = new BiopenMarker(provider);
+		this.markers_.push(marker); */
+		providers.push(provider);
+
+		
+	} 
+
+	var endDate = new Date();
+	window.console.log('create markers : ' +(endDate - startDate) + ' ms');
+				
+			
+}
 
 function handleMarkerClick(providerId) 
 {	
@@ -94,7 +177,7 @@ MarkerManager.prototype.clearFocusOnThesesMarkers = function (idList)
 	this.draw();
 };
 
-MarkerManager.prototype.drawLines = function () 
+MarkerManager.prototype.drawLinesWithClusters = function () 
 {
 	var i, line;
 
@@ -105,18 +188,6 @@ MarkerManager.prototype.drawLines = function ()
 	}
 	this.clusterLines_ = [];	
 		
-/*	// draw line between stars not in cluster and origin
-	for(var i = 0; i < this.stars_.length; i++)
-	{
-		this.stars_[i].setPolyline(null);
-		
-		if (!this.stars_[i].isClustered()) 
-		{
-			line = drawLineBetweenPoints(this.getOrigin(), this.stars_[i].getPosition(), this.stars_[i].getName())
-			this.stars_[i].setPolyline(line);
-		}
-	}*/
-
 	// draw lines with clusters
 	if (GLOBAL.getClusterer() != null) 
 	{

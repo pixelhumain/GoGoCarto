@@ -1,0 +1,16 @@
+<ul>
+
+{% for key, product in productList %} 
+   
+    <li class="productItem collapsible-header row"  >
+	    <span class="icon icon-{{ product.nameFormate }}"></span>
+	    <span class="productName">{{ product.nameShort|capitalize }}</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in product-checkbox" id="product-checkbox-{{ product.nameFormate }}" checked="checked" data-product-name="{{ product.nameFormate }}"/>
+	      <label for="product-checkbox-{{ product.nameFormate }}"></label>
+	    </span>
+    </li>
+
+{% endfor %} 
+
+</ul>

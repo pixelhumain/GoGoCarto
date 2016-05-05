@@ -8,6 +8,14 @@
 
 	z-index: 4000;
 
+	.product-checkbox-wrapper
+	{
+		float: right;
+	    position: absolute;
+	    top: .7rem;
+	    right: 0rem;
+	}
+
 	.resultNumber
 	{
 		float: right;
@@ -26,8 +34,24 @@
 	    line-height: 1.4rem;
 	    margin-right: 5px;
 	    text-align: center;
-	    width: 1.4rem;		
+	    width: 1.4rem;	
+
+	    &:before {
+		    bottom: -10px;
+		    content: "";
+		    left: -10px;
+		    position: absolute;
+		    right: -10px;
+		    top: -10px;
+		}
+
+	    &:hover
+	    {
+	    	cursor: pointer;
+	    }	
 	}
+
+
 
 	.productItem, .productTitle
 	{
@@ -48,6 +72,7 @@
 	.productItem:not(.disabled):hover
 	{
 		background-color: $grey-light;
+		cursor: default;
 	}
 
 	.disabled
@@ -83,6 +108,11 @@
 		.col { padding: 0 }
 
 		b { font-weight: 500;}
+
+		&.active:first-child::before
+		{
+			content: "*";
+		}
 	}
 
 	.productName

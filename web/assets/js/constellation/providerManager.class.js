@@ -8,8 +8,7 @@ function ProviderManager(listProvider)
 }
 
 ProviderManager.prototype.draw = function () 
-{
-	
+{	
 	$('.providerItem').hide();
 	var providerId;
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)

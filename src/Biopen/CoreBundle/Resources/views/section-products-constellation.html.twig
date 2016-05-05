@@ -1,10 +1,4 @@
-{# <li id="product-{{ product.id }}" {% if provided is defined and not provided %} class="disabled" {% endif %}>   #}
-{# <li>
-  <span>{{ starName }} - {{ star.providerList|length }}</span>
-
-</li>   #}  
-
-<ul {# class="collapsible" data-collapsible="accordion" #}>
+<ul>
 
 <li class="row collection-item collapsible-header productTitle ">
   Producteurs
@@ -23,7 +17,7 @@
     {% if type in constellationPhp.stars|keys %}
         {% set star = constellationPhp.stars[type] %}
         {% include 'BiopenCoreBundle:starInProductList.html.twig' 
-        with {'star':star, 'starName':type} only %} 
+                  with {'star':star, 'starName':type} only %} 
     {% else %}
         <li class="row collection-item collapsible-header productItem disabled">
           <span class="icon disabled icon-{{type}}"></span>

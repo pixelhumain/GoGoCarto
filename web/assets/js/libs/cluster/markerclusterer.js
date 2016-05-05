@@ -150,6 +150,10 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.styles_ = opt_options.styles || [];
   this.title_ = opt_options.title || "";
   this.zoomOnClick_ = true;
+
+  this.automaticRepaint_ = opt_options.automaticRepaint || false;
+  window.console.log("automaticRepaint " + this.automaticRepaint_);
+
   if (opt_options.zoomOnClick !== undefined) {
     this.zoomOnClick_ = opt_options.zoomOnClick;
   }
@@ -197,24 +201,30 @@ MarkerClusterer.prototype.onAdd = function ()
   this.ready_ = true;
 
   this.repaint();
-
-  // Add the map event listeners
-  this.listeners_ = [
-    google.maps.event.addListener(this.getMap(), "zoom_changed", function () {
-      cMarkerClusterer.resetViewport_(false);
-      // Workaround for this Google bug: when map is at level 0 and "-" of
-      // zoom slider is clicked, a "zoom_changed" event is fired even though
-      // the map doesn't zoom out any further. In this situation, no "idle"
-      // event is triggered so the cluster markers that have been removed
-      // do not get redrawn. Same goes for a zoom in at maxZoom.
-      if (this.getZoom() === (this.get("minZoom") || 0) || this.getZoom() === this.get("maxZoom")) {
-        google.maps.event.trigger(this, "idle");
-      }
-    }),
-    google.maps.event.addListener(this.getMap(), "idle", function () {
-      cMarkerClusterer.redraw_();
-    })
-  ];
+  
+  if (this.automaticRepaint_)
+  {
+    window.console.log("automaticRepaint onAdd Listeners" + this.automaticRepaint_);
+    // Add the map event listeners
+    this.listeners_ = [
+      google.maps.event.addListener(this.getMap(), "zoom_changed", function () {
+        
+        cMarkerClusterer.resetViewport_(false);
+        // Workaround for this Google bug: when map is at level 0 and "-" of
+        // zoom slider is clicked, a "zoom_changed" event is fired even though
+        // the map doesn't zoom out any further. In this situation, no "idle"
+        // event is triggered so the cluster markers that have been removed
+        // do not get redrawn. Same goes for a zoom in at maxZoom.
+        if (this.getZoom() === (this.get("minZoom") || 0) || this.getZoom() === this.get("maxZoom")) {
+          google.maps.event.trigger(this, "idle");
+        }
+      }),
+      google.maps.event.addListener(this.getMap(), "idle", function () {
+        cMarkerClusterer.redraw_();
+      })
+    ];
+  }
+  
 };
 
 
@@ -634,7 +644,7 @@ MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw)
  * @param {Array.<google.maps.Marker>} markers The markers to add.
  * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
  */
-MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw) {
+MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw = true) {
   var key;
   for (key in markers) {
     if (markers.hasOwnProperty(key)) {
@@ -642,7 +652,7 @@ MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw) {
     }
   }  
   if (!opt_nodraw) {
-    this.redraw_();
+    this.repaint();
   }
 };
 
@@ -763,6 +773,7 @@ MarkerClusterer.prototype.clearMarkers = function ()
  */
 MarkerClusterer.prototype.repaint = function () 
 {
+  //window.console.log("Clusterer repaint");
   var oldClusters = this.clusters_.slice();
   this.clusters_ = [];
   this.resetViewport_(false);
@@ -947,6 +958,9 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
   var i, marker;
   var mapBounds;
   var cMarkerClusterer = this;
+
+  //window.console.log("cluster begin");
+
   if (!this.ready_) {
     return;
   }
@@ -990,17 +1004,18 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
 
   var iLast = Math.min(iFirst + this.batchSize_, this.markers_.length);
 
-
+  //window.console.log("createClusters begin " + this.markers_.length + " iLast = " + iLast);
 
   for (i = iFirst; i < iLast; i++) {
     marker = this.markers_[i];
     //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
-      if (!this.ignoreHidden_ || (this.ignoreHidden_ && marker.getVisible() && marker.getMap() != null)) 
+      if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() != null)) 
       {
         this.addToClosestCluster_(marker);
       }
     }
+    
   }
 
   // on re repartit un peu mieux les markers dans les clusters
@@ -1015,13 +1030,13 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
   // deuxième passe: on analyse les electrons qui restent
   this.checkAdjacentsClusters();
 
+
   // Si les clusters n'ont pas eu besoin d'être minimisés
   // on peut afficher les marqueurs
   for (i = 0; i < this.clusters_.length; i++) 
   {
       if (!this.clusters_[i].isShownAsCluster()) this.clusters_[i].showMarkers();
   }
-
 
   if (iLast < this.markers_.length) {
     this.timerRefStatic = setTimeout(function () {
@@ -1079,8 +1094,8 @@ MarkerClusterer.prototype.checkIfElectronInKernel_ = function (cluster1, cluster
       //window.console.log("Check electron " + electron.getTitle() + "  distance : " + distElectron);
       if ( distElectron < this.kernelRadius_ )
       {
-        //window.console.log("Capture du marker " + electron.getLabel());
-        cluster2.remove(electron);
+        window.console.log("Capture du marker ");
+        cluster2.removeElectronMarker(electron);
         cluster1.addMarker(electron, distElectron);
       }
     }

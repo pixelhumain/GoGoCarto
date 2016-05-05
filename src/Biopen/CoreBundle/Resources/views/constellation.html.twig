@@ -22,7 +22,7 @@
   {% if constellationPhp is defined %}
   {# La liste des products #}
   <section id="ProductsList">     
-    {% include 'BiopenCoreBundle:product.html.twig' %}      
+    {% include 'BiopenCoreBundle:section-products-constellation.html.twig' %}      
   </section>
   {% endif %}
 
@@ -55,26 +55,11 @@
 </div>
 
 {# Les résultats par liste #}
-<section id="ProviderList">
-  <ul class="collapsible popout" data-collapsible="accordion">
-
-    {% if providerList is defined %}
-      {% for key, provider in  providerList %} 
-
-          {% include 'BiopenCoreBundle:provider.html.twig' 
-              with {'provider':provider, 'display':false} only %}
-
-      {% endfor %}  
-    {% endif %} 
-
-  </ul>
+<section id="ProviderList"> 
+    {% include 'BiopenCoreBundle:section-providers.html.twig'  %}  
 </section>
 
-
-
 {% endblock %}
-
-
 
 {% block javascripts %}
 
@@ -91,6 +76,8 @@
     {% if constellationPhp is defined %}
       constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
     {% endif %}
+
+    var constellationMode = true;
   </script>
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -104,18 +91,7 @@
         "assets/js/libs/rich-marker.js"
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
-        "assets/js/map-utils.js"
-        "assets/js/map-drawing.js"
-        "assets/js/productList.js"
-        "assets/js/providerManager.class.js"
-        "assets/js/markerManager.class.js"
-        "assets/js/biopenMarker.class.js"
-        "assets/js/constellation.class.js"
-        "assets/js/constellation-star.class.js"
-        "assets/js/constellation-map.js"
-        "assets/js/constellation-animation.js"
-        "assets/js/constellation-images.js"
-        "assets/js/constellation.js"
+        "assets/js/constelisting/*"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -123,14 +99,6 @@
      <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
   </script>
-
-   {#<script  src="{{ asset('assets/js/libs/rich-marker.js') }}"></script>#}
-
-
-   
-  
-
-  
 
 {% endblock %}
 

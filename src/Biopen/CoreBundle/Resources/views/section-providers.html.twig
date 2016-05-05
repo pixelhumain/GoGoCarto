@@ -1,8 +1,18 @@
+{% if providerList is defined %}
+
+<ul class="collapsible popout" data-collapsible="accordion">
+
+{% for key, provider in  providerList %}    
+
+{# ------------- #}
+{# INFO PROVIDER #}
+{# ------------- #}
 <li id="infoProvider-{{ provider.id }}" 
   class="providerItem" 
   data-provider-id="{{ provider.id }}"
-  {% if display is defined and not display %} style="display:none" {% endif %}>        
+  style="display:none">
 
+  {# HEADER #}
   <div class="collapsible-header">
 
     <div class='collapsible-header-title row'>
@@ -23,6 +33,7 @@
 
   </div>
 
+  {# BODY #}
   <div class="collapsible-body moreDetails" > 
 
     <div class="section row"> 
@@ -43,9 +54,14 @@
       <center>
         <button id="" class=" btn waves-effect waves-light">Modifier les informations</button>
       </center>          
-    </div> 
-
-    {# <div> Autres résultats </div> #}
+    </div>    
 
   </div>
+
 </li>
+
+{% endfor %} 
+
+</ul>
+ 
+{% endif %} 

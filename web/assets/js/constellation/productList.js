@@ -1,8 +1,7 @@
+var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, complete: function() {}};
+	
 jQuery(document).ready(function()
 {	
-	var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, complete: function() {}};
-		
-
 	$('.productItem:not(.disabled)').mouseenter(function() {
 		if ($('.moreResultContainer:visible').size() > 0) return;
 		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
@@ -13,11 +12,11 @@ jQuery(document).ready(function()
 		star.getMarker().showNormalSize();
 	});
 
-	$('.productItem:not(.disabled)').click(function()
+	$('.resultNumber:not(.disabled)').click(function()
 	{
-		if ($(this).attr('data-providers-size') == 1)
+		if ($(this).parent().attr('data-providers-size') == 1)
 		{			
-			var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+			var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
 			showProviderInfosOnMap(star.getProviderId());
 		}
 		else
@@ -25,10 +24,10 @@ jQuery(document).ready(function()
 			animate_down_bandeau_detail(); 
 		}
 
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
 		var idToFocus = star.getProviderListId();
 		
-		var body = $(this).parent().find('.moreResultContainer');
+		var body = $(this).parent().parent().find('.moreResultContainer');
 		
 		// if the moreResultContainer si already visible
 		if (body.is(":visible")) 
@@ -40,16 +39,7 @@ jQuery(document).ready(function()
 		}
 		else
 		{
-			// if an other container is visible, we clear it
-			if ($('.moreResultContainer:visible').size() > 0)
-			{
-				var otherContainerVisible = $('.moreResultContainer:visible').first();
-				var otherStarName = otherContainerVisible.parent().find('.productItem').attr('data-star-name');
-				var otherStar = GLOBAL.getConstellation().getStarFromName(otherStarName);
-				var otherIdsToClear = otherStar.getProviderListId();
-				otherContainerVisible.stop(true,false).slideUp(slideOptions);
-				GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(otherIdsToClear);
-			}
+			clearProductList();
 
 			body.stop(true,false).slideDown(slideOptions);
 			GLOBAL.getMarkerManager().focusOnThesesMarkers(idToFocus);
@@ -70,5 +60,22 @@ jQuery(document).ready(function()
 		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		star.setIndex($(this).attr('data-provider-index'));
 		$(this).parents('li').find('.productItem').click();
+		$(this).siblings('li').removeClass('starProvider');
+		$(this).addClass("starProvider");
 	});
+
+	$('.productTitle').click(clearProductList);
 });
+
+function clearProductList()
+{
+	if ($('.moreResultContainer:visible').size() > 0)
+	{
+		var otherContainerVisible = $('.moreResultContainer:visible').first();
+		var otherStarName = otherContainerVisible.parent().find('.productItem').attr('data-star-name');
+		var otherStar = GLOBAL.getConstellation().getStarFromName(otherStarName);
+		var otherIdsToClear = otherStar.getProviderListId();
+		otherContainerVisible.stop(true,false).slideUp(slideOptions);
+		GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(otherIdsToClear);
+	}	
+}

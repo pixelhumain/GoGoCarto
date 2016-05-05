@@ -4,17 +4,17 @@
           data-providers-size="{{ star.providerList|length }}" >
     <span class="icon icon-{{starName|lower}}"></span>
     <span class="productName">{{ star.name|capitalize }}</span>
-    <span class="resultNumber">{{ star.providerList|length }}</span>
+    <span class="resultNumber tooltipped" data-position="right" data-delay="0" data-tooltip="Voir {{ star.providerList|length }} autres résultats">{{ star.providerList|length }}</span>
     </div>
 
     {# {% if star.providerList|length > 1 %} #}
     <div class="collapsible-body moreResultContainer">
       <ul class="collection">
       {% for key, provider in star.providerList %} 
-        <li class="row collection-item moreResultProviderItem"
+        <li class="row collection-item moreResultProviderItem {% if key == 0 %} starProvider {% endif %}"
               data-provider-index="{{ key }}"
               data-provider-id="{{ provider.id }}"
-              data-star-name="{{ star.name }}">
+              data-star-name="{{ starName }}">
           <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
           <span class="col s4 right-align">{{ provider.distance|round(1) }} km</span>
         </li>
@@ -23,4 +23,4 @@
       </ul>
     </div>
     {# {% endif %} #}
-  </li>
+</li>

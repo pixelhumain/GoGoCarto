@@ -12,7 +12,6 @@ function distancePixelBetweenPoints(p1, p2, projection)
 
 function updateIconOfIndependantMarkersGroup(markers) 
 {
-  
   //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
   if (markers == null || markers.length == 0) return;
 
@@ -21,7 +20,7 @@ function updateIconOfIndependantMarkersGroup(markers)
   {
     markers[i].isInIndependantGroup = true;
     content = markers[i].getContent();   
-    $(content).find(".marker-wrapper").removeClass("rotateLeft").removeClass("rotateRight");
+    $(content).find(".marker-wrapper, .moreIconContainer").removeClass("rotateLeft").removeClass("rotateRight");
   }
 
   if (markers.length == 1) return;
@@ -44,26 +43,9 @@ function updateIconOfIndependantMarkersGroup(markers)
   }
 
   content = righterMarker.getContent();  
-  $(content).find(".marker-wrapper").addClass("rotateRight");
+  $(content).find(".marker-wrapper, .moreIconContainer").addClass("rotateRight");
 
   content = lefterMarker.getContent(); 
-  $(content).find(".marker-wrapper").addClass("rotateLeft");
-
-
- /* righterMarker.setContent( righterMarker.getContent().replace("rotate","rotateRight"));
-  lefterMarker.setContent( lefterMarker.getContent().replace("rotate","rotateLeft"));*/
-
-  /*righterMarker.setIcon({
-    url: iconDirectory + "map2-droite.png",
-    size: new google.maps.Size(img_width, img_height),
-    origin: new google.maps.Point(0, 0),
-    anchor: new google.maps.Point(4, img_height)
-  });
-  lefterMarker.setIcon({
-    url: iconDirectory + "map2-gauche.png",
-    size: new google.maps.Size(img_width, img_height),
-    origin: new google.maps.Point(0, 0),
-    anchor: new google.maps.Point(img_width-4, img_height)
-  });*/
-  
+  $(content).find(".marker-wrapper, .moreIconContainer").addClass("rotateLeft");
+ 
 }

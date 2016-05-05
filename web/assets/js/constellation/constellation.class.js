@@ -30,6 +30,16 @@ Constellation.prototype.getStars = function ()
 	return this.stars_ ;
 };
 
+Constellation.prototype.getStarNamesRepresentedByProviderId = function (providerId) 
+{
+	var array= [];
+	for(var i = 0; i < this.stars_.length; i++)
+	{		
+		if (this.stars_[i].getProviderId() == providerId) array.push(this.stars_[i].getName());		
+	}
+	return array;
+};
+
 Constellation.prototype.getStarFromName = function(name)
 {
 	for(var i = 0; i < this.stars_.length; i++)

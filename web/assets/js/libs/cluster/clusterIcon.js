@@ -57,7 +57,11 @@ ClusterIcon.prototype.onAdd = function () {
       // The default click handler follows. Disable it by setting
       // the zoomOnClick property to false.
       if (mc.getZoomOnClick()) {
-        // Zoom into the cluster.
+        
+        mc.getMap().setCenter(cClusterIcon.cluster_.getCenter());
+        mc.getMap().setZoom(mc.getMap().getZoom()+1);
+
+        /*// Zoom into the cluster.
         mz = mc.getMaxZoom();
         theBounds = cClusterIcon.cluster_.getBounds();
         mc.getMap().fitBounds(theBounds);
@@ -68,7 +72,7 @@ ClusterIcon.prototype.onAdd = function () {
           if (mz !== null && (mc.getMap().getZoom() > mz)) {
             mc.getMap().setZoom(mz + 1);
           }
-        }, 100);
+        }, 100);*/
       }
 
       // Prevent event propagation to the map:

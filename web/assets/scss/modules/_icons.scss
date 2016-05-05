@@ -14,32 +14,83 @@
 	color: #DFDFDF;
 }
 
+.moreIconContainer
+{
+	display:none;
+	z-index: 10;
+	width: 400px;
+	position: absolute;
+	bottom: 0;
+	left: 40px;
+
+	&.rotateRight { left: 76px }
+	&.rotateLeft { }
+	
+
+	.moreIconWrapper
+	{
+		display: inline-block;
+    	position: relative;
+
+		.iconInsideMarker:before
+		{
+			bottom: 20px;
+		}
+	}
+	
+}
+
+.iconMarkerSvg
+{
+	width: 36px;
+	position: absolute;
+	bottom: 0;
+
+	&.moreIcon
+	{
+		display: inline-block;
+		position: relative;
+	}
+}
+
+.icon-plus-circle
+{
+	position: absolute;
+    top: 10px;
+    z-index: 5;
+    font-size: 20px;
+    /* width: 1.3rem; */
+    /* height: 1.1rem; */
+    line-height: 1.5rem;
+    right: -5px;
+    font-weight: 200;
+    color: #4A148C;
+}
+
+.halfHidden
+{
+	opacity: 0.2;
+}	
+
+.iconInsideMarker:before
+{
+    position: absolute;
+    //color: #541114;
+    font-size: 18px;
+    bottom: 15px;
+    left: 9px;    
+}
+
 .marker-wrapper
 {
 	position: relative;
 	z-index: 1;
     width: 36px;
-    height: 50px;  
-
-    .iconMarkerSvg
-	{
-		width: 36px;
-		position: absolute;
-		bottom: 0;
-	}
-
-	.iconInsideMarker:before
-	{
-	    position: absolute;
-	    //color: #541114;
-	    font-size: 18px;
-	    bottom: 15px;
-	    left: 9px;    
-	}
+    height: 50px;     
 
 	&:hover { cursor: pointer; }
 
-    &.BigSize, &:hover
+    &.BigSize, 
 	{
 		z-index: 2;
 		width: 44px;
@@ -79,11 +130,6 @@
 			transform: rotate(-45deg);
 		}
 	}
-
-	&.halfHidden
-	{
-		opacity: 0.3;
-	}	
 }	
 
 

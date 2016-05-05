@@ -3159,9 +3159,9 @@ small {
 .material-tooltip {
   padding: 10px 8px;
   font-size: 1rem;
-  z-index: 2000;
+  z-index: 5000;
   background-color: transparent;
-  border-radius: 2px;
+  border-radius: 3px;
   color: #fff;
   min-height: 36px;
   line-height: 1rem;

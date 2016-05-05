@@ -38,4 +38,28 @@ class ProviderRepository extends EntityRepository
       ->getResult()
       ;
   	}
+
+  public function findAllProviders()
+  {  
+   $qb = $this->createQueryBuilder('provider');
+
+    $qb = $this->_em->createQueryBuilder()
+      ->select('provider as Provider')
+      ->from($this->_entityName, 'provider')
+      ->where('provider.valide = 0')
+      ->leftjoin('provider.products', 'providerProduct')
+      ->addSelect('providerProduct')
+      ->leftjoin('providerProduct.product', 'product')
+      ->addSelect('product');
+    ;
+
+    // Puis on ne retourne que $limit résultats
+    //$qb->setMaxResults(10);
+
+    // Enfin, on retourne le résultat
+    return $qb
+      ->getQuery()
+      ->getResult()
+      ;
+    }
 }

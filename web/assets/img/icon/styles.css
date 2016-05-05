@@ -107,3 +107,15 @@
 .icon-fruits2:before {
   content: "\70";
 }
+.icon-multiple:before {
+  content: "\6a";
+}
+.icon-plus:before {
+  content: "\73";
+}
+.icon-plus-circle:before {
+  content: "\7a";
+}
+.icon-boutique:before {
+  content: "\41";
+}

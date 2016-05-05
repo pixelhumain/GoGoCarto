@@ -3080,9 +3080,9 @@ small {
 .material-tooltip {
   padding: 10px 8px;
   font-size: 1rem;
-  z-index: 2000;
+  z-index: 5000;
   background-color: transparent;
-  border-radius: 2px;
+  border-radius: 3px;
   color: #fff;
   min-height: 36px;
   line-height: 1rem;
@@ -4849,29 +4849,64 @@ select {
 .icon.disabled {
   color: #DFDFDF; }
 
+.moreIconContainer {
+  display: none;
+  z-index: 10;
+  width: 400px;
+  position: absolute;
+  bottom: 0;
+  left: 40px; }
+  .moreIconContainer.rotateRight {
+    left: 76px; }
+  .moreIconContainer .moreIconWrapper {
+    display: inline-block;
+    position: relative; }
+    .moreIconContainer .moreIconWrapper .iconInsideMarker:before {
+      bottom: 20px; }
+
+.iconMarkerSvg {
+  width: 36px;
+  position: absolute;
+  bottom: 0; }
+  .iconMarkerSvg.moreIcon {
+    display: inline-block;
+    position: relative; }
+
+.icon-plus-circle {
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+  font-size: 20px;
+  /* width: 1.3rem; */
+  /* height: 1.1rem; */
+  line-height: 1.5rem;
+  right: -5px;
+  font-weight: 200;
+  color: #4A148C; }
+
+.halfHidden {
+  opacity: 0.2; }
+
+.iconInsideMarker:before {
+  position: absolute;
+  font-size: 18px;
+  bottom: 15px;
+  left: 9px; }
+
 .marker-wrapper {
   position: relative;
   z-index: 1;
   width: 36px;
   height: 50px; }
-  .marker-wrapper .iconMarkerSvg {
-    width: 36px;
-    position: absolute;
-    bottom: 0; }
-  .marker-wrapper .iconInsideMarker:before {
-    position: absolute;
-    font-size: 18px;
-    bottom: 15px;
-    left: 9px; }
   .marker-wrapper:hover {
     cursor: pointer; }
-  .marker-wrapper.BigSize, .marker-wrapper:hover {
+  .marker-wrapper.BigSize {
     z-index: 2;
     width: 44px;
     margin-left: -4px; }
-    .marker-wrapper.BigSize .iconMarkerSvg, .marker-wrapper:hover .iconMarkerSvg {
+    .marker-wrapper.BigSize .iconMarkerSvg {
       width: 44px; }
-    .marker-wrapper.BigSize .iconInsideMarker:before, .marker-wrapper:hover .iconInsideMarker:before {
+    .marker-wrapper.BigSize .iconInsideMarker:before {
       font-size: 22px;
       bottom: 18px;
       left: 11px; }
@@ -4885,8 +4920,6 @@ select {
     margin-top: 7px; }
     .marker-wrapper.rotateLeft .iconMarkerSvg {
       transform: rotate(-45deg); }
-  .marker-wrapper.halfHidden {
-    opacity: 0.3; }
 
 .icon-legumes {
   color: #4A148C; }
@@ -5106,6 +5139,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -moz-box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
   z-index: 4000; }
+  #ProductsList .product-checkbox-wrapper {
+    float: right;
+    position: absolute;
+    top: .7rem;
+    right: 0rem; }
   #ProductsList .resultNumber {
     float: right;
     position: absolute;
@@ -5123,6 +5161,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin-right: 5px;
     text-align: center;
     width: 1.4rem; }
+    #ProductsList .resultNumber:before {
+      bottom: -10px;
+      content: "";
+      left: -10px;
+      position: absolute;
+      right: -10px;
+      top: -10px; }
+    #ProductsList .resultNumber:hover {
+      cursor: pointer; }
   #ProductsList .productItem, #ProductsList .productTitle {
     position: relative;
     margin-bottom: 0;
@@ -5135,7 +5182,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   #ProductsList .productTitle {
     font-weight: 500; }
   #ProductsList .productItem:not(.disabled):hover {
-    background-color: #f0f0f0; }
+    background-color: #f0f0f0;
+    cursor: default; }
   #ProductsList .disabled {
     color: #DFDFDF;
     cursor: default; }
@@ -5157,6 +5205,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       padding: 0; }
     #ProductsList .moreResultProviderItem b {
       font-weight: 500; }
+    #ProductsList .moreResultProviderItem.active:first-child::before {
+      content: "*"; }
   #ProductsList .productName {
     overflow: hidden;
     text-overflow: ellipsis; }
