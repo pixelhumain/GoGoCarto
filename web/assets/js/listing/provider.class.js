@@ -2,16 +2,16 @@ function Provider(providerPhp)
 {
 	var provider = providerPhp['Provider'];
 	
-	this.id_ = provider.id;
-	this.name_ = provider.name;
-	this.position_ = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
-	this.address_ = provider.adresse;
-	this.description_ = provider.description;	
-	this.tel_ = provider.tel;
-	this.products_ = provider.products;
-	this.mainProduct_ = provider.main_product;
-	this.horaires_ = provider.horaires;
-	this.type_ = provider.type;	
+	this.id = provider.id;
+	this.name = provider.name;
+	this.position = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
+	this.address = provider.adresse;
+	this.description = provider.description;	
+	this.tel = provider.tel;
+	this.products = provider.products;
+	this.mainProduct = provider.main_product;
+	this.horaires = provider.horaires;
+	this.type = provider.type;	
 	
 	this.isInitialized_ = false;
 
@@ -19,12 +19,14 @@ function Provider(providerPhp)
 
 	this.biopenMarker_ = null;
 	this.htmlRepresentation_ = '';
+
+	// TODO delete providerPhp['Provider'] ?
 }
 
 Provider.prototype.initialize = function () 
 {		
-	this.biopenMarker_ = new BiopenMarker(this.id_, this.position_);
-	this.htmlRepresentation_ = '<span>'+this.name_ +'</span>'
+	this.biopenMarker_ = new BiopenMarker(this.id, this.position);
+	/*this.htmlRepresentation_ = '<span>'+this.name_ +'</span>';*/
 	this.isInitialized_ = true;
 };
 
@@ -43,14 +45,27 @@ Provider.prototype.hide = function ()
 
 Provider.prototype.containsProduct = function (productName) 
 {		
-	for (var i = 0; i < this.products_.length; i++) 
+	for (var i = 0; i < this.products.length; i++) 
 	{
-		if (this.products_[i].product.name_formate == productName)
+		if (this.products[i].product.name_formate == productName)
 		{
 			return true;
 		} 
 	}
 	return false;
+};
+
+Provider.prototype.getHtmlRepresentation = function () 
+{		
+	if (this.htmlRepresentation_ == '')
+	{
+		
+		var html = Twig.render(providerTemplate, {provider : this});
+		this.htmlRepresentation_ = html;
+		return html;
+		
+	}
+	else return this.htmlRepresentation_;
 };
 
 
@@ -62,27 +77,27 @@ Provider.prototype.containsProduct = function (productName)
 
 Provider.prototype.getId = function () 
 {		
-	return this.id_;
+	return this.id;
 };
 
 Provider.prototype.getPosition = function () 
 {		
-	return this.position_;
+	return this.position;
 };
 
 Provider.prototype.getName = function () 
 {		
-	return this.name_;
+	return this.name;
 };
 
 Provider.prototype.getMainProduct = function () 
 {		
-	return this.mainProduct_;
+	return this.mainProduct;
 };
 
 Provider.prototype.getProducts = function () 
 {		
-	return this.products_;
+	return this.products;
 };
 
 Provider.prototype.getMarker= function () 
@@ -100,7 +115,4 @@ Provider.prototype.isInitialized = function ()
 	return this.isInitialized_;
 };
 
-Provider.prototype.getHtmlRepresentation = function () 
-{		
-	return this.htmlRepresentation_;
-};
+

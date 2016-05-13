@@ -20,7 +20,7 @@ class CoreController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('BiopenCoreBundle:index.html.twig');
+        return $this->render('::index.html.twig');
     }
 
     public function listingAction($slug)
@@ -66,7 +66,7 @@ class CoreController extends Controller
             
         }    
 
-        return $this->render('BiopenCoreBundle:listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts));
+        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts));
     }
 
     public function constellationAction($slug)
@@ -108,21 +108,21 @@ class CoreController extends Controller
 
     public function constellationAjaxAction(Request $request)
     {
-		if($request->isXmlHttpRequest())
-		{
-			$constellation = $this->buildConstellation($request->get('adresse'));
+        if($request->isXmlHttpRequest())
+        {
+            $constellation = $this->buildConstellation($request->get('adresse'));
 
-			$serializer = $this->container->get('jms_serializer');
-			$constellationJson = $serializer->serialize($constellation, 'json');
+            $serializer = $this->container->get('jms_serializer');
+            $constellationJson = $serializer->serialize($constellation, 'json');
 
-			$response = new Response($constellationJson); 
-		    $response->headers->set('Content-Type', 'application/json');
-		    return $response;
-		}
-		else 
-		{
-			return new JsonResponse("Ce n'est pas une requete Ajax");
-		}
+            $response = new Response($constellationJson); 
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+        else 
+        {
+            return new JsonResponse("Ce n'est pas une requete Ajax");
+        }
     }
 
     public function getProvidersList($geocodePoint, $distance = 50)

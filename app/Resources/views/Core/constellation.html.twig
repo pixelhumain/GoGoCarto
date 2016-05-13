@@ -1,6 +1,6 @@
 {% extends "::bundle_layout.html.twig" %}
 
-{% block title %}Listing{% endblock %}
+{% block title %}Constellation{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -19,12 +19,12 @@
 
 <div id="div_map_and_products">
 
-  
+  {% if constellationPhp is defined %}
   {# La liste des products #}
   <section id="ProductsList">     
-      {% include 'BiopenCoreBundle:section-products-listing.html.twig' %}    
+    {% include 'BiopenCoreBundle:section-products-constellation.html.twig' %}      
   </section>
-  
+  {% endif %}
 
    
   {# La Carte et les infos provider #} 
@@ -43,6 +43,28 @@
 
 </div>
 
+{# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
+<div id="bandeau_goToProviderList">  
+  <a href='#ProviderList'>
+    <div class="valign-wrapper">
+    <i class="icon-expand"></i>
+    <div class="">Liste des résultats</div>
+    <i class="icon-expand"></i>
+    </div>
+  </a>
+</div>
+
+{# Les résultats par liste #}
+<section id="ProviderList"> 
+  {% if providerList is defined %}
+  <ul class="collapsible popout" data-collapsible="accordion">
+      {% for key, provider in  providerList %}   
+          {% include '::Core/provider.html.twig'  %}  
+      {% endfor %} 
+  </ul>
+  {% endif %} 
+</section>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -56,9 +78,12 @@
       providerListJson = {{ providerList | serialize("json") | raw }};
     {% endif %}
 
-    var constellationMode = false;
+    var constellationRawJson = null;
+    {% if constellationPhp is defined %}
+      constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
+    {% endif %}
 
-    var geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+    var constellationMode = true;
   </script>
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -72,9 +97,7 @@
         "assets/js/libs/rich-marker.js"
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
-        "assets/js/listing/*"
         "assets/js/constelisting/*"
-        
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -82,8 +105,6 @@
      <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
   </script>
-
-   {#<script  src="{{ asset('assets/js/libs/rich-marker.js') }}"></script>#}
 
 {% endblock %}
 

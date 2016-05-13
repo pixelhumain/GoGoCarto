@@ -85,7 +85,6 @@ assetic:
     filters:
         # cssrewrite: ~
         jsqueeze: ~
-        # scssphp:
         #     formatter: 'Leafo\ScssPhp\Formatter\Compressed'
         # sass:    ~
         # compass: ~

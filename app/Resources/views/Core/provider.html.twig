@@ -1,16 +1,10 @@
-{% if providerList is defined %}
-
-<ul class="collapsible popout" data-collapsible="accordion">
-
-{% for key, provider in  providerList %}    
-
+{% twig_js name="providerTemplate" %}
 {# ------------- #}
 {# INFO PROVIDER #}
 {# ------------- #}
 <li id="infoProvider-{{ provider.id }}" 
   class="providerItem" 
-  data-provider-id="{{ provider.id }}"
-  style="display:none">
+  data-provider-id="{{ provider.id }}">
 
   {# HEADER #}
   <div class="collapsible-header">
@@ -18,7 +12,9 @@
     <div class='collapsible-header-title row'>
       <span class="col s1 icon icon-{{provider.mainProduct|lower}}"></span>
       <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
-      <span class="col s3 right-align">{{ provider.distance|round(1) }} km</span>
+       {% if provider.distance is defined %}
+          <span class="col s3 right-align">{{ provider.distance }} km</span>
+       {% endif %}
     </div>
 
     <div class='collapsible-header-more row'>
@@ -38,7 +34,7 @@
 
     <div class="section row"> 
       {% for product in provider.products %} 
-        <span class="col s3 categorie">{{ product.name }}</span>
+        <span class="col s3 categorie">{{ product.product.name }}</span>
         <span class="col s9 detail">{{ product.descriptif }}</span>
       {% endfor %}          
 
@@ -46,8 +42,8 @@
     <div class="divider"></div>
 
     <div class="section row">          
-      <span class="col s12 adresse">{{ provider.adresse|capitalize }}</span>
-      <span class="col s12 tel">{{ provider.tel|split('',2)|join(' ') }}</span>
+      <span class="col s12 adresse">{{ provider.address|capitalize }}</span>
+      <span class="col s12 tel">{{ provider.tel }}</span>
     </div>
 
     <div id="collapsible-menu" class="row">
@@ -60,8 +56,3 @@
 
 </li>
 
-{% endfor %} 
-
-</ul>
- 
-{% endif %} 
