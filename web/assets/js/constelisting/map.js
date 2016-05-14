@@ -115,7 +115,7 @@ function showProviderInfosOnMap(providerId)
 
 function toggleProviderDetailsComplet()
 {	
-	window.console.log('toggle');
+	if ($('#detail_provider').hasClass('floatRight')) return;
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
 		hideProviderDetailsComplet();
@@ -147,17 +147,31 @@ function hideProviderDetailsComplet()
 
 function animate_up_bandeau_detail()
 {
-	var bandeau_detail_new_height = $('#detail_provider').height();
+	if ($('#detail_provider').hasClass('floatRight'))
+	{
 
-	$('#bandeau_detail').css('height', bandeau_detail_new_height);
-	ajuster_taille_carte(bandeau_detail_new_height);	
+	}
+	else
+	{
+		var bandeau_detail_new_height = $('#detail_provider').height();
+
+		$('#bandeau_detail').css('height', bandeau_detail_new_height);
+		ajuster_taille_carte(bandeau_detail_new_height);	
+	}
 }
 
 function animate_down_bandeau_detail()
 {
-	hideProviderDetailsComplet();
-	$('#bandeau_detail').css('height','0');
-	ajuster_taille_carte(0);	
+	if ($('#detail_provider').hasClass('floatRight'))
+	{
+		//$('#detail_provider .moreDetails').show();
+	}
+	else
+	{
+		hideProviderDetailsComplet();
+		$('#bandeau_detail').css('height','0');
+		ajuster_taille_carte(0);	
+	}
 }
 
 

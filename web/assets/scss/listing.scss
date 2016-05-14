@@ -2,16 +2,18 @@
 
 #bandeau_detail
 {
-    height:0;
+    height:0px;
     background-color: #F7F7F7;    
     z-index: 400;
     overflow: hidden;
     will-change:height;
-    @include transition(height .5s); 
+    @include transition(height .5s);  
 
     box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
     -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
     -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); 
+
+    
 }
 
 @media #{$large-and-up}
@@ -29,8 +31,19 @@
 		-webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); 
 	}	
 
-	#section_carte
+	#map
 	{
 		margin-right: 400px; 
+		width:auto;
 	}
+
+	#detail_provider 
+	{
+		.moreDetails 
+		{
+			display:block;
+		}
+	}
+
+	
 }

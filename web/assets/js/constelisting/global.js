@@ -19,13 +19,6 @@ jQuery(document).ready(function()
 	window.onresize = function() 
 	{
 		ajuster_taille_composants();
-		if("matchMedia" in window) { // Détection
-		    if(window.matchMedia("(min-width:600px)").matches) {
-		     
-		    } else {
-		      
-		    }
-		  }
 	}	
 });
 
@@ -42,7 +35,38 @@ function ajuster_taille_composants()
 function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
 {	
 	/*window.console.log('taille carte: detail -> ' + bandeau_detail_height);*/
-	$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);
+	if("matchMedia" in window) {
+		if (window.matchMedia("(max-width: 993px)").matches) 
+		{
+		  	// Lorsqu'on passe de l'écran large vers medium
+		  	if ($('#detail_provider').hasClass('floatRight'))
+		  	{
+		  		$('#detail_provider').removeClass('floatRight');
+		  		$('#bandeau_detail .moreDetails').hide();
+
+				var bandeau_detail_height = $('#detail_provider').height();
+				$('#bandeau_detail').css('height', bandeau_detail_height);				
+		  	}
+		  	else
+		  	{
+		  		$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
+		  	}
+		  		  	
+		} 
+		else 
+		{
+			// Lorsqu'on passe de l'écran medium vers large
+		  	if (!$('#detail_provider').hasClass('floatRight'))
+		  	{
+		  		$('#detail_provider').addClass('floatRight');
+		  		$('#detail_provider .moreDetails').show();
+				$('#bandeau_detail').css('height','100%');
+		  	}
+		  	$("#map").css('height',$("#section_carte").height());
+		  	
+		}
+	}
+	
 }
 
 

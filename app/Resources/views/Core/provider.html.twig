@@ -21,7 +21,7 @@
       <span class="description col s12">{{ provider.description }}</span> 
       <span class="list_products col s8 products">
         {% for product in provider.products %} 
-          {{ product.name }}{% if not loop.last %}, {% endif %}
+          {{ product.product.name }}{% if not loop.last %}, {% endif %}
         {% endfor %}
       </span>
       <a><span class=" col s4 right-align">Plus d'infos</span></a>

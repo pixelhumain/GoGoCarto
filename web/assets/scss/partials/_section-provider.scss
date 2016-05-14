@@ -1,7 +1,11 @@
 #detail_provider
 {
 	.collapsible-body { border-bottom: 0 }
-	.moreDetails { display : none; }
+	.moreDetails 
+	{ 
+		display : none; 
+		overflow-y: auto;
+	}
 	li { list-style-type: none; }
 }
 

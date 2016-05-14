@@ -5036,21 +5036,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #btn_menu:hover {
   cursor: pointer; }
 
-#bandeau_detail {
-  height: 0;
-  background-color: #F7F7F7;
-  will-change: height;
-  z-index: 400;
-  overflow: hidden;
-  -webkit-transition: height 0.5s;
-  -moz-transition: height 0.5s;
-  -o-transition: height 0.5s;
-  -ms-transition: height 0.5s;
-  transition: height 0.5s;
-  box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-  -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-  -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); }
-
 /* #bandeau_option
 {
 	top: 0;
@@ -5064,7 +5049,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #detail_provider .collapsible-body {
   border-bottom: 0; }
 #detail_provider .moreDetails {
-  display: none; }
+  display: none;
+  overflow-y: auto; }
 #detail_provider li {
   list-style-type: none; }
 
