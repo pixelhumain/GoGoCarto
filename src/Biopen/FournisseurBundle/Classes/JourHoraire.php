@@ -16,24 +16,24 @@ class JourHoraire
 
     public function getPlage1Debut()
     {
-        return $this->plage1debut;
+        return date_format($this->plage1debut, 'H:i');
     }
     
 
     public function getPlage2Debut()
     {
-        return $this->plage2debut;
+        return date_format($this->plage2debut, 'H:i');
     }
 
     public function getPlage1Fin()
     {
-        return $this->plage1fin;
+        return date_format($this->plage1fin, 'H:i');
     }
     
 
     public function getPlage2Fin()
     {
-        return $this->plage2fin;
+        return date_format($this->getPlage2Fin, 'H:i');
     }
 
 

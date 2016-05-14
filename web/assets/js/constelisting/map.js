@@ -20,7 +20,7 @@ function initMap()
 	{
 		var center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
 		var mapOptions = {
-			zoom: 12,
+			zoom: 10,
 			center: center,
 			disableDefaultUI: true,
 			zoomControl: true
@@ -164,7 +164,6 @@ function animate_down_bandeau_detail()
 {
 	if ($('#detail_provider').hasClass('floatRight'))
 	{
-		//$('#detail_provider .moreDetails').show();
 	}
 	else
 	{

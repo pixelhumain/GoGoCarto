@@ -32,19 +32,37 @@
   {# BODY #}
   <div class="collapsible-body moreDetails" > 
 
-    <div class="section row"> 
+    <div class="section sectionDetailProducts"> 
       {% for product in provider.products %} 
-        <span class="col s3 categorie">{{ product.product.name }}</span>
-        <span class="col s9 detail">{{ product.descriptif }}</span>
+        <div class='row'>
+          <span class="col s3 categorie">{{ product.product.name }}</span>
+          <span class="col s9 detail">{{ product.descriptif }}</span>
+        </div>
       {% endfor %}          
 
     </div>       
     <div class="divider"></div>
 
-    <div class="section row">          
+    <div class="section row sectionContact">          
       <span class="col s12 adresse">{{ provider.address|capitalize }}</span>
       <span class="col s12 tel">{{ provider.tel }}</span>
     </div>
+    <div class="divider"></div>
+
+    {% if horaires is defined %}
+    <div class="section row sectionHoraires">
+    <b>Horaires d'ouverture</b>          
+      {% for key, horaire in horaires %} 
+        {% if horaire != null %}
+        <div class='row'>
+          <span class="col s3 jour">{{ key|capitalize }}</span>
+          <span class="col s9 horaires">{{ horaire }} </span>
+        </div>
+        {% endif %}
+      {% endfor %}   
+    </div>
+    <div class="divider"></div>
+    {% endif %}
 
     <div id="collapsible-menu" class="row">
       <center>

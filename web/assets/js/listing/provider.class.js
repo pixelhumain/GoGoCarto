@@ -19,6 +19,7 @@ function Provider(providerPhp)
 
 	this.biopenMarker_ = null;
 	this.htmlRepresentation_ = '';
+	this.formatedHoraire_ = null;
 
 	// TODO delete providerPhp['Provider'] ?
 }
@@ -60,13 +61,65 @@ Provider.prototype.getHtmlRepresentation = function ()
 	if (this.htmlRepresentation_ == '')
 	{
 		
-		var html = Twig.render(providerTemplate, {provider : this});
+		var html = Twig.render(providerTemplate, {provider : this, horaires : this.getFormatedHoraires()});
 		this.htmlRepresentation_ = html;
 		return html;
 		
 	}
 	else return this.htmlRepresentation_;
 };
+
+Provider.prototype.getFormatedHoraires = function () 
+{		
+	if (this.formatedHoraire_ == null )
+	{		
+		this.formatedHoraire_ = {};
+		var new_key;
+		for(key in this.horaires)
+		{
+			new_key = key.split('_')[1];
+			this.formatedHoraire_[new_key] = this.formateJourHoraire(this.horaires[key]);
+		}
+		/*this.formatedHoraire_['Mardi']	= this.formateJourHoraire(this.horaires[1]);
+		this.formatedHoraire_['Mercredi']	= this.formateJourHoraire(this.horaires[2]);
+		this.formatedHoraire_['Jeudi']	= this.formateJourHoraire(this.horaires[3]);
+		this.formatedHoraire_['Vendredi']	= this.formateJourHoraire(this.horaires[4]);
+		this.formatedHoraire_['Samedi']	= this.formateJourHoraire(this.horaires[5]);
+		this.formatedHoraire_['Dimanche']	= this.formateJourHoraire(this.horaires[6]);*/
+	}
+	window.console.log(this.formatedHoraire_);
+	return this.formatedHoraire_;
+};
+
+Provider.prototype.formateJourHoraire = function (jourHoraire) 
+{		
+	if (jourHoraire == null)
+	{		
+		return 'fermé';
+	}
+	var result = '';
+	if (jourHoraire.plage1debut != null)
+	{
+		result+= this.formateDate(jourHoraire.plage1debut);
+		result+= ' - ';
+		result+= this.formateDate(jourHoraire.plage1fin);
+	}
+	if (jourHoraire.plage2debut != null)
+	{
+		result+= ' et ';
+		result+= this.formateDate(jourHoraire.plage2debut);
+		result+= ' - ';
+		result+= this.formateDate(jourHoraire.plage2fin);
+	}
+	return result;
+};
+
+Provider.prototype.formateDate = function (date) 
+{		
+	return date.split('T')[1].split(':00+0100')[0];
+};
+
+
 
 
 
