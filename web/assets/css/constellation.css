@@ -2233,11 +2233,11 @@ ul.staggered-list li {
   .hide-on-med-only {
     display: none !important; } }
 
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1201px) {
   .hide-on-large-only {
     display: none !important; } }
 
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1201px) {
   .show-on-large {
     display: initial !important; } }
 
@@ -2643,7 +2643,7 @@ nav ul a span.badge {
 @media only screen and (min-width: 601px) {
   .container {
     width: 85%; } }
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1201px) {
   .container {
     width: 70%; } }
 .container .row {
@@ -2795,7 +2795,7 @@ nav ul a span.badge {
         margin-left: 91.66667%; }
       .row .col.offset-m12 {
         margin-left: 100%; } }
-    @media only screen and (min-width: 993px) {
+    @media only screen and (min-width: 1201px) {
       .row .col.l1 {
         width: 8.33333%;
         margin-left: 0; }
@@ -3029,7 +3029,7 @@ small {
       min-width: 30%;
       left: 5%;
       bottom: 7%; } }
-  @media only screen and (min-width: 993px) {
+  @media only screen and (min-width: 1201px) {
     #toast-container {
       min-width: 8%;
       top: 10%;
@@ -3073,7 +3073,7 @@ small {
   @media only screen and (min-width: 601px) and (max-width: 992px) {
     .toast {
       float: left; } }
-  @media only screen and (min-width: 993px) {
+  @media only screen and (min-width: 1201px) {
     .toast {
       float: right; } }
 
@@ -5053,12 +5053,18 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   overflow-y: auto; }
 #detail_provider li {
   list-style-type: none; }
+#detail_provider h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  padding-left: 0.75rem;
+  margin-bottom: 0;
+  margin-top: 1rem; }
 
 #ProviderList {
   background-color: #544242;
   border-left: none; }
 
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1201px) {
   #ProviderList {
     background-color: white;
     border-left: 1px solid #a5a5a5;
@@ -5066,18 +5072,21 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     z-index: 4000; } }
+#ProviderList .strong, #bandeau_detail .strong {
+  text-decoration: underline; }
 #ProviderList .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
   margin: 0;
   margin-bottom: 1px; }
 #ProviderList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
   margin: 1rem 0; }
-  @media only screen and (min-width: 993px) {
+  @media only screen and (min-width: 1201px) {
     #ProviderList .collapsible.popout > li.active, #bandeau_detail .collapsible.popout > li.active {
       margin: 0; } }
 #ProviderList .btn, #ProviderList .btn-large, #bandeau_detail .btn, #bandeau_detail .btn-large {
   height: 2rem;
   line-height: 2rem;
-  padding: 0 1rem; }
+  padding: 0 1rem;
+  margin-bottom: 1rem; }
 #ProviderList .collapsible, #bandeau_detail .collapsible {
   margin: 0; }
 #ProviderList .collapsible-header i, #bandeau_detail .collapsible-header i {
@@ -5093,7 +5102,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #ProviderList .collapsible-header-more, #bandeau_detail .collapsible-header-more {
   line-height: 1.5rem;
   margin-bottom: .5rem; }
-  #ProviderList .collapsible-header-more .produits, #bandeau_detail .collapsible-header-more .produits {
+  #ProviderList .collapsible-header-more .products, #bandeau_detail .collapsible-header-more .products {
     font-weight: 500;
     color: #525252;
     font-style: italic; }
@@ -5118,6 +5127,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     text-decoration: underline; }
   #ProviderList .collapsible-body .description, #ProviderList .collapsible-body .detail, #bandeau_detail .collapsible-body .description, #bandeau_detail .collapsible-body .detail {
     text-align: justify; }
+#ProviderList .sectionDetailProducts .detail, #bandeau_detail .sectionDetailProducts .detail {
+  padding-left: .3rem;
+  text-decoration: inherit;
+  line-height: 2.5rem; }
+#ProviderList .sectionDetailProducts .productName, #bandeau_detail .sectionDetailProducts .productName {
+  text-decoration: inherit; }
+#ProviderList .sectionDetailProducts .product, #bandeau_detail .sectionDetailProducts .product {
+  line-height: 2.5rem;
+  text-decoration: inherit; }
 
 #ProductsList {
   border-right: 1px solid #a5a5a5;
@@ -5229,7 +5247,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
   #section_carte {
     margin-left: 200px; } }
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1201px) {
   #ProviderList {
     position: absolute;
     width: 400px;

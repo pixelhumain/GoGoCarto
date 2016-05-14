@@ -6,8 +6,8 @@ function Provider(providerPhp)
 	this.name = provider.name;
 	this.position = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
 	this.address = provider.adresse;
-	this.description = provider.description;	
-	this.tel = provider.tel;
+	this.description = provider.description;
+	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';
 	this.products = provider.products;
 	this.mainProduct = provider.main_product;
 	this.horaires = provider.horaires;
@@ -60,7 +60,6 @@ Provider.prototype.getHtmlRepresentation = function ()
 {		
 	if (this.htmlRepresentation_ == '')
 	{
-		
 		var html = Twig.render(providerTemplate, {provider : this, horaires : this.getFormatedHoraires()});
 		this.htmlRepresentation_ = html;
 		return html;
@@ -80,14 +79,7 @@ Provider.prototype.getFormatedHoraires = function ()
 			new_key = key.split('_')[1];
 			this.formatedHoraire_[new_key] = this.formateJourHoraire(this.horaires[key]);
 		}
-		/*this.formatedHoraire_['Mardi']	= this.formateJourHoraire(this.horaires[1]);
-		this.formatedHoraire_['Mercredi']	= this.formateJourHoraire(this.horaires[2]);
-		this.formatedHoraire_['Jeudi']	= this.formateJourHoraire(this.horaires[3]);
-		this.formatedHoraire_['Vendredi']	= this.formateJourHoraire(this.horaires[4]);
-		this.formatedHoraire_['Samedi']	= this.formateJourHoraire(this.horaires[5]);
-		this.formatedHoraire_['Dimanche']	= this.formateJourHoraire(this.horaires[6]);*/
 	}
-	window.console.log(this.formatedHoraire_);
 	return this.formatedHoraire_;
 };
 

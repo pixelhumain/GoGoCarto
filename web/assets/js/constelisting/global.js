@@ -36,7 +36,7 @@ function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').heigh
 {	
 	/*window.console.log('taille carte: detail -> ' + bandeau_detail_height);*/
 	if("matchMedia" in window) {
-		if (window.matchMedia("(max-width: 993px)").matches) 
+		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{
 		  	// Lorsqu'on passe de l'écran large vers medium
 		  	if ($('#detail_provider').hasClass('floatRight'))

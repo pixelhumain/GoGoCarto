@@ -89,11 +89,11 @@ BiopenMarker.prototype.updateIcon = function ()
     {
     	var product, products = provider.getProducts();
 
-    	nbreMoreProduct = 36*products.length;
-    	if (main_icon != 'multiple') nbreMoreProduct--;
+    	widthMoreProduct = products.length*36 + 5;
+    	//if (main_icon != 'multiple') nbreMoreProduct--;
 
     	innerHTML += '<div class="icon-plus-circle"></div>';
-    	innerHTML += '<div class="moreIconContainer" style="width:'+nbreMoreProduct+'px">';
+    	innerHTML += '<div class="moreIconContainer" style="width:'+widthMoreProduct+'px">';
     	
 	    for(var i = 0; i < products.length;i++)
 		{

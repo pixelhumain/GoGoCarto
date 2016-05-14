@@ -7,6 +7,15 @@
 		overflow-y: auto;
 	}
 	li { list-style-type: none; }
+
+	h3
+	{
+		font-size: 1rem;
+	    font-weight: 600;
+	    padding-left: 0.75rem;
+	    margin-bottom: 0;
+	    margin-top: 1rem;
+	}
 }
 
 #ProviderList
@@ -32,6 +41,7 @@
 }
 #ProviderList, #bandeau_detail
 {	
+	.strong { text-decoration: underline }
 	.collapsible.popout > li
 	{ 
 		margin: 0;
@@ -48,6 +58,7 @@
 		height: 2rem;
     	line-height: 2rem;
     	padding: 0 1rem;
+    	margin-bottom: 1rem;
 	}
 	//background-color: rgb(252, 252, 252);
 	.collapsible{ margin :0 }
@@ -68,7 +79,7 @@
 		line-height: 1.5rem; 
 		margin-bottom: .5rem;
 
-		.produits 
+		.products 
 		{ 
 		    font-weight: 500;
 		    color: #525252;
@@ -100,6 +111,18 @@
 		}
 		.categorie { text-decoration: underline; }
 		.description,.detail { text-align: justify; }
+	}
+
+	.sectionDetailProducts
+	{
+		.detail 
+		{ 
+			padding-left: .3rem; 
+			text-decoration:inherit; 
+			line-height: 2.5rem;
+		}
+		.productName {text-decoration:inherit }
+		.product { line-height: 2.5rem; text-decoration:inherit}
 	}
 	
 }

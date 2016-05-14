@@ -152,7 +152,6 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.zoomOnClick_ = true;
 
   this.automaticRepaint_ = opt_options.automaticRepaint || false;
-  window.console.log("automaticRepaint " + this.automaticRepaint_);
 
   if (opt_options.zoomOnClick !== undefined) {
     this.zoomOnClick_ = opt_options.zoomOnClick;

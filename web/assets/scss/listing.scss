@@ -4,8 +4,8 @@
 {
     height:0px;
     background-color: #F7F7F7;    
-    z-index: 400;
-    overflow: hidden;
+    z-index: 440;
+    overflow: auto;
     will-change:height;
     @include transition(height .5s);  
 
@@ -21,7 +21,7 @@
 	#bandeau_detail
 	{
 		position: absolute;
-	    width: 400px;
+	    width: 440px;
 	    top: 0;
 	    right: 0;	
 	    height: 100%;  

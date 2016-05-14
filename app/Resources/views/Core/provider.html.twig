@@ -19,9 +19,9 @@
 
     <div class='collapsible-header-more row'>
       <span class="description col s12">{{ provider.description }}</span> 
-      <span class="list_products col s8 products">
+      <span class="products col s8">
         {% for product in provider.products %} 
-          {{ product.product.name }}{% if not loop.last %}, {% endif %}
+          {{ product.product.name_short|capitalize }}{% if not loop.last %}, {% endif %}
         {% endfor %}
       </span>
       <a><span class=" col s4 right-align">Plus d'infos</span></a>
@@ -32,42 +32,50 @@
   {# BODY #}
   <div class="collapsible-body moreDetails" > 
 
+    <h3>Infos</h3>   
+    <div class="section row sectionInfos">
+      <span class="col s12 adresse">{{ provider.address|capitalize }}</span>
+      <span class="col s12 tel">{{ provider.tel }}</span>
+    </div>
+    <div class="divider"></div>
+
+    <h3>Les produits</h3>   
     <div class="section sectionDetailProducts"> 
       {% for product in provider.products %} 
-        <div class='row'>
-          <span class="col s3 categorie">{{ product.product.name }}</span>
-          <span class="col s9 detail">{{ product.descriptif }}</span>
+        <div class='row {% if product.product.name_formate == provider.mainProduct %}strong{% endif %}'>
+          <span class="col s4 product">
+            <span class="icon icon-{{ product.product.name_formate }}"></span>            
+            <span class="productName">{{ product.product.name_short|capitalize }}</span> 
+          </span>
+          <span class="col s8 detail">{{ product.descriptif|capitalize }}</span>
         </div>
       {% endfor %}          
 
     </div>       
     <div class="divider"></div>
 
-    <div class="section row sectionContact">          
-      <span class="col s12 adresse">{{ provider.address|capitalize }}</span>
-      <span class="col s12 tel">{{ provider.tel }}</span>
-    </div>
-    <div class="divider"></div>
-
-    {% if horaires is defined %}
-    <div class="section row sectionHoraires">
-    <b>Horaires d'ouverture</b>          
-      {% for key, horaire in horaires %} 
+    
+    <h3>Horaires</h3>   
+    <div class="section row sectionHoraires">  
+      {% set count = 0 %}        
+      {% for key, horaire in provider.getFormatedHoraires() %} 
         {% if horaire != null %}
-        <div class='row'>
-          <span class="col s3 jour">{{ key|capitalize }}</span>
-          <span class="col s9 horaires">{{ horaire }} </span>
-        </div>
+          <div class='row'>
+            <span class="col s3 jour">{{ key|capitalize }}</span>
+            <span class="col s9 horaires">{{ horaire }} </span>
+          </div>
+          {% set count = count + 1 %} 
         {% endif %}
-      {% endfor %}   
+      {% endfor %}  
+      {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
     </div>
     <div class="divider"></div>
-    {% endif %}
 
-    <div id="collapsible-menu" class="row">
+    <div id="collapsible-menu" class="section row">
       <center>
-        <button id="" class=" btn waves-effect waves-light">Modifier les informations</button>
-      </center>          
+        <button id="" class="btn waves-effect waves-light">Modifier ces informations</button>
+        <button id="" class="btn waves-effect waves-light">Supprimer ce producteur</button>
+      </center>       
     </div>    
 
   </div>
