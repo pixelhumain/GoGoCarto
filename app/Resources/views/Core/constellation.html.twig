@@ -20,9 +20,10 @@
 <div id="div_map_and_products">
 
   {% if constellationPhp is defined %}
+  {% set constellationMode = true %}
   {# La liste des products #}
   <section id="ProductsList">     
-    {% include 'BiopenCoreBundle:section-products-constellation.html.twig' %}      
+    {% include '::Core/section-products-constellation.html.twig' %}      
   </section>
   {% endif %}
 
@@ -31,9 +32,9 @@
   <section id="section_carte">
     <div id="map"></div>
 
-    <div id="bandeau_detail">
+    <section id="bandeau_detail">
       <div id="detail_provider"></div>
-    </div>
+    </section>
 
     {# <div id="bandeau_option"></div> #}
 
@@ -98,6 +99,7 @@
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/constelisting/*"
+        "assets/js/constellation/*"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

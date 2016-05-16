@@ -3,6 +3,14 @@ function BiopenMarker(id_, position_)
 	var that = this;
 
 	this.id_ = id_;
+
+	if (!position_)
+	{
+		var provider = this.getProvider();
+		if (provider == null) window.console.log("provider null id = "+ this.id_);
+		else
+		position_ = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
+	} 
 	
 	this.richMarker_ = new RichMarker({		
 		map: null,
@@ -10,15 +18,9 @@ function BiopenMarker(id_, position_)
 		position: position_,
 		flat: true
 	});
-
-	if (GLOBAL.constellationMode())
-	{
-		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', null);
-	}
 	
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
-        window.console.log("marker on click, id = " + that.isHalfHidden_);
 		if (GLOBAL.constellationMode())
 		{
 			if (that.isHalfHidden_) clearProductList();
@@ -51,6 +53,12 @@ function BiopenMarker(id_, position_)
 	this.updateIcon();	
 }
 
+BiopenMarker.prototype.animateDrop = function () 
+{
+	$('#marker-'+this.id_).animate({bottom: '25px'}, 300, 'easeInOutCubic');
+	$('#marker-'+this.id_).animate({bottom: '0px'}, 250, 'easeInOutCubic');
+}
+
 BiopenMarker.prototype.updateIcon = function () 
 {		
 	var content = document.createElement("div");
@@ -61,10 +69,12 @@ BiopenMarker.prototype.updateIcon = function ()
 	if (GLOBAL.constellationMode())
 	{
 		var starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id_);
+		var lineType = 'normal';
 		
 		if (starNames.length == 0)
 		{
-			main_icon = this.getProvider().getMainProduct();
+			main_icon = provider.mainProduct;
+			lineType = "dashed";
 		} 
 		else if (starNames.length == 1)
 		{
@@ -73,11 +83,14 @@ BiopenMarker.prototype.updateIcon = function ()
 		else
 		{
 			main_icon = 'multiple';
-		}	
+		}
+
+		this.updatePolyline({lineType: lineType});
+		
 	}
 	else
 	{
-		main_icon = provider.getMainProduct();
+		main_icon = provider.mainProduct;
 	}	
 
 	var innerHTML = '<div id="marker-'+this.id_+'" data-id='+this.id_+' class="marker-wrapper rotate">'+
@@ -85,9 +98,9 @@ BiopenMarker.prototype.updateIcon = function ()
     '<div class="iconInsideMarker icon-'+main_icon+'""></div>'+
     '</div>';
     
-    if (this.getProvider().getProducts().length > 1)
+    if (this.getProvider().products.length > 1)
     {
-    	var product, products = provider.getProducts();
+    	var product, products = provider.products;
 
     	widthMoreProduct = products.length*36 + 5;
     	//if (main_icon != 'multiple') nbreMoreProduct--;
@@ -97,13 +110,13 @@ BiopenMarker.prototype.updateIcon = function ()
     	
 	    for(var i = 0; i < products.length;i++)
 		{
-			product = products[i].product;
+			product = products[i];
 
-			if (product.name_formate != main_icon)
+			if (product.nameFormate != main_icon)
 			{
 				innerHTML += '<div class="moreIconWrapper" >';
 				innerHTML += '<img class="moreIcon iconMarkerSvg rotate" src="'+ iconDirectory + 'marker-circle.svg"></img>';
-				innerHTML += '<span class="moreIcon iconInsideMarker icon-'+product.name_formate+'""></span>';
+				innerHTML += '<span class="moreIcon iconInsideMarker icon-'+product.nameFormate+'""></span>';
 		    	innerHTML += '</div>';
 	    	}
 	    }
@@ -139,7 +152,7 @@ BiopenMarker.prototype.showBigSize = function ()
 	
 	if (!this.isHalfHidden_ && this.polyline_)
 	{
-		this.polyline_.setOptions({
+		this.setPolylineOptions({
 			strokeOpacity: 1,
 			strokeWeight: 3
 		});
@@ -155,22 +168,56 @@ BiopenMarker.prototype.showNormalSize = function ()
 	
 	if (!this.isHalfHidden_ && this.polyline_)
 	{
-		this.polyline_.setOptions({
+		this.setPolylineOptions({
 			strokeOpacity: 0.5,
 			strokeWeight: 3
 		});
 	}	
 };
 
+BiopenMarker.prototype.setPolylineOptions = function (options)
+{
+	if (!this.polyline_.isDashed)
+	{
+		this.polyline_.setOptions(options)
+	}
+	else
+	{
+		this.updatePolyline({
+			lineType : 'dashed' , 
+			strokeOpacity: options.strokeOpacity,
+			strokeWeight: options.strokeWeight
+		});
+	}
+} 
+
+	
+BiopenMarker.prototype.updatePolyline = function (options) 
+{
+	if (!this.polyline_)
+	{
+		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', null, options);
+	}
+	else
+	{
+		this.polyline_.setMap(null);
+		var map = this.richMarker_.getVisible() ? GLOBAL.getMap() : null;
+		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', map, options);	
+	}
+};
+
 BiopenMarker.prototype.showHalfHidden = function () 
 {		
 	this.addClassToRichMarker_("halfHidden");
 	content = this.richMarker_.getContent(); 
+	$(content).css('z-index','1');
 	$(content).find('.icon-plus-circle').addClass("halfHidden");
 	$(content).find('.moreIconContainer').addClass("halfHidden");
-	if (this.polyline_) this.polyline_.setOptions({
-		strokeOpacity: 0.2,
+	if (this.polyline_) this.setPolylineOptions({
+			strokeOpacity: 0.1,
+			strokeWeight: 2
 	});
+
 	this.isHalfHidden_ = true;
 };
 
@@ -178,11 +225,17 @@ BiopenMarker.prototype.showNormalHidden = function ()
 {		
 	this.removeClassToRichMarker_("halfHidden");
 	content = this.richMarker_.getContent(); 
+	$(content).css('z-index','10');
 	$(content).find('.icon-plus-circle').removeClass("halfHidden");
 	$(content).find('.moreIconContainer').removeClass("halfHidden");
-	if (this.polyline_) this.polyline_.setOptions({
-		strokeOpacity: 0.5
+	if (this.polyline_) this.setPolylineOptions({
+			strokeOpacity: 0.7,
+			strokeWeight: 3
 	});
+
+		/*this.polyline_.setOptions({
+		strokeOpacity: 0.5
+	});*/
 	this.isHalfHidden_ = false;
 };
 

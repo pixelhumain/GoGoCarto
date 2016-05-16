@@ -73,11 +73,21 @@ Star.prototype.setIndex = function (newIndex)
 	if (newIndex < 0 || newIndex >= this.providerIdList_.length) return false;
 
 	var oldProviderId = this.getProviderId();
+
+  $('moreResult-'+this.name_+'-'+this.index_).removeClass('starProvider');
+  $('moreResult-'+this.name_+'-'+newIndex).addClass('starProvider');
 	
 	this.index_ = newIndex;
+
+
 	GLOBAL.getProviderManager().removeProvider(oldProviderId);
 	GLOBAL.getProviderManager().addProvider(this.getProviderId());
-  GLOBAL.getMarkerManager().draw();
+
+  // on met à jour le marqueur des deux providers interchangés
+  GLOBAL.getMarkerManager().getMarkerById(oldProviderId).updateIcon();
+  var newMarkerRepresentStar = GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());
+  newMarkerRepresentStar.updateIcon();
+  newMarkerRepresentStar.animateDrop();
 }
 
 

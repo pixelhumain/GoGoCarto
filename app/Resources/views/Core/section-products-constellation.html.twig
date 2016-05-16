@@ -1,13 +1,13 @@
 <ul>
 
 <li class="row collection-item collapsible-header productTitle ">
-  Producteurs
+  Produits disponibles
 </li>
 
 {% for key, product in constellationPhp.listProductsProvided %} 
 
     {% set star = constellationPhp.stars[product.nameFormate] %}
-    {% include 'BiopenCoreBundle:starInProductList.html.twig' 
+    {% include '::Core/starInProductList.html.twig' 
       with {'star':star, 'starName':product.nameFormate} only %} 
 
 {% endfor %} 
@@ -16,7 +16,7 @@
 {% for type in providerTypes %}    
     {% if type in constellationPhp.stars|keys %}
         {% set star = constellationPhp.stars[type] %}
-        {% include 'BiopenCoreBundle:starInProductList.html.twig' 
+        {% include '::Core/starInProductList.html.twig' 
                   with {'star':star, 'starName':type} only %} 
     {% else %}
         <li class="row collection-item collapsible-header productItem disabled">

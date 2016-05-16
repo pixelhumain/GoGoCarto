@@ -42,23 +42,8 @@ class FournisseurController extends Controller
 			$form = $this->get('form.factory')->create(ProviderType::class, $provider);		*/
 		}
 
-		return $this->render('BiopenFournisseurBundle:add.html.twig', array(
+		return $this->render('::Fournisseur/add.html.twig', array(
 		'form' => $form->createView(), 
 		));
     }
-
-    /**
- 	* @Route("/products/create/submit", name="productsCreateSubmit")
- 	*/
-/*	public function productsCreateSubmitAction(Request $request) {
-    
-    $products = new Products();
-
-    $form = $this->createForm(new ProductsType(), $products);
-    $form->handleRequest($request);
-
-    return $this->render('AcmeMainBundle:Products:serverslist.html.twig', array(
-                'form' => $form->createView(),
-    ));
-}*/
 }

@@ -31,9 +31,9 @@
   <section id="section_carte">
     <div id="map"></div>
 
-    <div id="bandeau_detail">
+    <section id="bandeau_detail">
       <div id="detail_provider"></div>
-    </div>
+    </section>
 
     {# <div id="bandeau_option"></div> #}
 
@@ -50,7 +50,7 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var providerList = null;
+    var providerListJson = null;
     {% if providerList is defined %}
       providerListJson = {{ providerList | serialize("json") | raw }};
     {% endif %}

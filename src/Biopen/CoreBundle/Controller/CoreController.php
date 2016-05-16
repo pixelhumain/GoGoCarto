@@ -61,7 +61,7 @@ class CoreController extends Controller
             {
                 // TODO changer ca
                 $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
-                return $this->render('BiopenCoreBundle:index.html.twig');
+                return $this->render('::index.html.twig');
             }
             
         }    
@@ -73,7 +73,7 @@ class CoreController extends Controller
     { 
         if ($slug == '')
         {
-        	return $this->render('BiopenCoreBundle:index.html.twig');
+        	return $this->render('::index.html.twig');
         }
         else
         {        	
@@ -96,13 +96,13 @@ class CoreController extends Controller
             if( $providerList == null)
             {
                 $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
-                return $this->render('BiopenCoreBundle:index.html.twig');
+                return $this->render('::index.html.twig');
             }
             
             $constellation = $this->buildConstellation($providerList, $geocodeResponse);
         }	 
 
-        return $this->render('BiopenCoreBundle:constellation.html.twig', 
+        return $this->render('::Core/constellation.html.twig', 
             array('constellationPhp' => $constellation, "providerList" => $providerList));
     }    
 

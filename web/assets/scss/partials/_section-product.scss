@@ -101,17 +101,15 @@
 	{
 		background-color: #F7F7F7;	    
 	    font-size: .95rem;
-	    padding: 1rem;
+	    padding: 1rem 0.5rem 1rem 1rem;
 	    border-bottom: none;
 	    font-weight: 400;
 
 		.col { padding: 0 }
 
-		b { font-weight: 500;}
-
-		&.active:first-child::before
+		&.starProvider
 		{
-			content: "*";
+			font-weight: 900;
 		}
 	}
 

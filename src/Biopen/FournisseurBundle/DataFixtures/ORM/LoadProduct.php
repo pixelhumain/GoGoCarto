@@ -34,8 +34,8 @@ class LoadProduct implements FixtureInterface
       $new_product = new Product();
       $new_product->setName($product[0]);
       $new_product->setNameFormate($product[1]);
-      if ($product[1] == '') $product->setNameShort($product[0]);
-      else $new_product->setNameShort($product[1]);
+      if ($product[2] == '') $product->setNameShort($product[0]);
+      else $new_product->setNameShort($product[2]);
       $new_product->setPrecision($product[3]);
       
       // On la persiste

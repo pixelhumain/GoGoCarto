@@ -1,7 +1,3 @@
-jQuery(document).ready(function()
-{	
-});
-
 function MarkerManager() 
 {
 	this.markers_= [];
@@ -15,7 +11,7 @@ MarkerManager.prototype.createMarkers = function ()
 	var marker;
 	for(var i = 0; i < list.length; i++)
 	{
-		marker = new BiopenMarker(list[i]);
+		marker = new BiopenMarker(list[i].id);
 		this.markers_.push(marker); 
 	}
 	
@@ -102,17 +98,31 @@ MarkerManager.prototype.createRandomMarkers = function ()
 	} 
 
 	var endDate = new Date();
-	window.console.log('create markers : ' +(endDate - startDate) + ' ms');
-				
+	window.console.log('create markers : ' +(endDate - startDate) + ' ms');				
 			
 }
 
-function handleMarkerClick(providerId) 
-{	
-	$('#detail_provider').empty();
-	$('#infoProvider-'+providerId).clone().appendTo($('#detail_provider'));
-	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
-	animate_up_bandeau_detail();
+MarkerManager.prototype.fitMapInBounds = function () 
+{
+	var bounds = new google.maps.LatLngBounds();
+
+	bounds.extend(this.markerHome_.getPosition());
+
+	for (var i = 0; i < this.markers_.length; i++) {
+		if (this.markers_[i].getVisible()) bounds.extend(this.markers_[i].getPosition());
+	};
+
+	if (GLOBAL.getClusterer())
+	{
+		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
+		
+		for (var i = 0; i < clusters.length; i++)
+		{
+			bounds.extend(clusters[i].getCenter());
+		}
+	}
+
+	GLOBAL.getMap().fitBounds(bounds);
 };
 
 MarkerManager.prototype.draw = function () 
@@ -122,6 +132,7 @@ MarkerManager.prototype.draw = function ()
 		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
 		this.getMarkerById(providerId).show();
 	}
+
 };
 
 
@@ -155,11 +166,14 @@ MarkerManager.prototype.showNormalHiddenAllMarkers = function ()
 MarkerManager.prototype.focusOnThesesMarkers = function (idList) 
 {
 	this.hidePartiallyAllMarkers();
+
 	for(var i = 0; i < idList.length; i++)
 	{
-		this.getMarkerById(idList[i]).show();
-		this.getMarkerById(idList[i]).showNormalHidden();
+		var marker = this.getMarkerById(idList[i]);
+		marker.showNormalHidden();
+		marker.show();		
 	}
+
 };
 
 MarkerManager.prototype.clearFocusOnThesesMarkers = function (idList) 

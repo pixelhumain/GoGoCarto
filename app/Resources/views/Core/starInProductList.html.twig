@@ -12,10 +12,11 @@
       <ul class="collection">
       {% for key, provider in star.providerList %} 
         <li class="row collection-item moreResultProviderItem {% if key == 0 %} starProvider {% endif %}"
+              id="moreResult-{{starName}}-{{ key }}"
               data-provider-index="{{ key }}"
               data-provider-id="{{ provider.id }}"
               data-star-name="{{ starName }}">
-          <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
+          <span class="col s8 ">{{ provider.name|capitalize }}</span>
           <span class="col s4 right-align">{{ provider.distance|round(1) }} km</span>
         </li>
         {% if not loop.last %}<div class="divider"></div>{% endif %}

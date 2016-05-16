@@ -1,4 +1,4 @@
-var zoom;
+var old_zoom;
 
 function initMap() 
 {	
@@ -57,7 +57,8 @@ function initialize(map)
 		GLOBAL.getMarkerManager().draw();
 		GLOBAL.getProviderManager().draw();
 		
-		GLOBAL.getMarkerManager().createRandomMarkers();
+		GLOBAL.getMarkerManager().fitMapInBounds();
+		
 		initCluster(GLOBAL.getMarkerManager().getMarkers());
 		GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getMarkerManager().drawLinesWithClusters(); });
 	}
@@ -76,10 +77,10 @@ function initialize(map)
 	    	var updateInAllProviderList = true;
 	    	var forceRepaint = false;
 
-	    	if (map.getZoom() != zoom)  
+	    	if (map.getZoom() != old_zoom)  
 	    	{
-	    		if (map.getZoom() > zoom) updateInAllProviderList = false;
-	    		zoom = map.getZoom();
+	    		if (map.getZoom() > old_zoom) updateInAllProviderList = false;
+	    		old_zoom = map.getZoom();
 	    		forceRepaint = true;
 	    	}
 	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);	 
@@ -107,8 +108,27 @@ function initCluster(markersToCluster)
 
 function showProviderInfosOnMap(providerId) 
 {	
-	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
-	$('#detail_provider').html(provider.getHtmlRepresentation());
+	if (constellationMode)
+	{
+		// durty method to know if weare in large screen
+		if ($('#ProviderList').offset().top < 100)
+		{
+			$('#infoProvider-'+providerId + ' .moreDetails').slideDown(slideOptions);
+			var target = $('#infoProvider-'+providerId);
+		    $('#ProviderList').animate({scrollTop: $(target).offset().top-$('#ProviderList').offset().top}, 500);
+		}
+		else
+		{
+			$('#detail_provider').empty();
+			$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
+		}		
+	}
+	else
+	{
+		var provider = GLOBAL.getProviderManager().getProviderById(providerId);
+		$('#detail_provider').html(provider.getHtmlRepresentation());
+	}	
+	
 	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
 	animate_up_bandeau_detail();
 };

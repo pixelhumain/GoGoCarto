@@ -21,7 +21,7 @@
       <span class="description col s12">{{ provider.description }}</span> 
       <span class="products col s8">
         {% for product in provider.products %} 
-          {{ product.product.name_short|capitalize }}{% if not loop.last %}, {% endif %}
+          {{ product.nameShort|capitalize }}{% if not loop.last %}, {% endif %}
         {% endfor %}
       </span>
       <a><span class=" col s4 right-align">Plus d'infos</span></a>
@@ -34,7 +34,7 @@
 
     <h3>Infos</h3>   
     <div class="section row sectionInfos">
-      <span class="col s12 adresse">{{ provider.address|capitalize }}</span>
+      <span class="col s12 adresse">{{ provider.adresse|capitalize }}</span>
       <span class="col s12 tel">{{ provider.tel }}</span>
     </div>
     <div class="divider"></div>
@@ -42,19 +42,19 @@
     <h3>Les produits</h3>   
     <div class="section sectionDetailProducts"> 
       {% for product in provider.products %} 
-        <div class='row {% if product.product.name_formate == provider.mainProduct %}strong{% endif %}'>
-          <span class="col s4 product">
-            <span class="icon icon-{{ product.product.name_formate }}"></span>            
-            <span class="productName">{{ product.product.name_short|capitalize }}</span> 
+        <div class='row {% if product.nameFormate == provider.mainProduct %}strong{% endif %}'>
+          <span class="col s6 m4 product">
+            <span class="icon icon-{{ product.nameFormate }}"></span>            
+            <span class="productName">{{ product.nameShort|capitalize }}</span> 
           </span>
-          <span class="col s8 detail">{{ product.descriptif|capitalize }}</span>
+          <span class="col s6 m8 detail">{{ product.descriptif|capitalize }}</span>
         </div>
       {% endfor %}          
 
     </div>       
     <div class="divider"></div>
 
-    
+    {% if not constellationMode %}
     <h3>Horaires</h3>   
     <div class="section row sectionHoraires">  
       {% set count = 0 %}        
@@ -70,6 +70,7 @@
       {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
     </div>
     <div class="divider"></div>
+    {% endif %}
 
     <div id="collapsible-menu" class="section row">
       <center>

@@ -31,14 +31,14 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name_formate", type="string", length=255, unique=true)
+     * @ORM\Column(name="nameFormate", type="string", length=255, unique=true)
      */
     private $nameFormate;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="name_short", type="string", length=255)
+     * @ORM\Column(name="nameShort", type="string", length=255)
      */
     private $nameShort;
 

@@ -5,10 +5,24 @@ function Provider(providerPhp)
 	this.id = provider.id;
 	this.name = provider.name;
 	this.position = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
-	this.address = provider.adresse;
+	this.adresse = provider.adresse;
 	this.description = provider.description;
 	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';
-	this.products = provider.products;
+	
+	
+	this.products = [];
+	for (var i = 0; i < provider.products.length; i++) 
+	{
+		var product = [];
+
+		product.name = provider.products[i].product.name;
+		product.nameShort = provider.products[i].product.name_short;
+		product.nameFormate = provider.products[i].product.name_formate;
+		product.descriptif = provider.products[i].descriptif;
+
+		this.products.push(product);
+	};
+
 	this.mainProduct = provider.main_product;
 	this.horaires = provider.horaires;
 	this.type = provider.type;	

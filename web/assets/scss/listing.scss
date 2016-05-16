@@ -1,21 +1,5 @@
 @import "constelisting";
 
-#bandeau_detail
-{
-    height:0px;
-    background-color: #F7F7F7;    
-    z-index: 440;
-    overflow: auto;
-    will-change:height;
-    @include transition(height .5s);  
-
-    box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-    -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-    -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); 
-
-    
-}
-
 @media #{$large-and-up}
 {
 	#bandeau_detail

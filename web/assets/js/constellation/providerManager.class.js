@@ -5,6 +5,18 @@ jQuery(document).ready(function()
 function ProviderManager(listProvider) 
 {
 	this.providers_ = listProvider;
+	for (var i = 0; i < listProvider.length; i++) 
+	{
+		for (var j = 0; j < listProvider[i].products.length; j++) 
+		{
+			var product = listProvider[i].products[j];
+			product.name = product.product.name;
+			product.nameFormate = product.product.name_formate;
+			product.nameShort = product.product.name_short;
+		};
+
+		listProvider[i].mainProduct = listProvider[i].main_product;
+	};
 }
 
 ProviderManager.prototype.draw = function () 

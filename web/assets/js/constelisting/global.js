@@ -29,12 +29,23 @@ function ajuster_taille_composants()
 	$("#div_map_and_products").css('height',$( window ).height()
 		-$('header').height()
 		-$('#bandeau_goToProviderList:visible').outerHeight(true));
+
+	if ($('#bandeau_detail').width() < '600')
+	{
+		$('#bandeau_detail').removeClass("largeWidth");
+		$('#bandeau_detail').addClass("smallWidth");
+	}
+	else
+	{
+		$('#bandeau_detail').addClass("largeWidth");
+		$('#bandeau_detail').removeClass("smallWidth");
+	}
+
 	ajuster_taille_carte();
 }
 
 function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
 {	
-	/*window.console.log('taille carte: detail -> ' + bandeau_detail_height);*/
 	if("matchMedia" in window) {
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{

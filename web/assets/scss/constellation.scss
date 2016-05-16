@@ -2,13 +2,7 @@
 $icon-sprite-dimensions: true;
 @import "icon/*.png";
 @include all-icon-sprites(true);  */
-@import "partials/base_bundle";
-@import 'vendors/materialize';
-@import 'modules/icons';
-
-@import "partials/section-carte";
-@import "partials/section-provider";
-@import "partials/section-product";
+@import "constelisting";
 
 #ProductsList
 {
@@ -39,8 +33,7 @@ $icon-sprite-dimensions: true;
 	    top: 0;
 	    left: 0;
 	    height: 100%; 
-	    overflow-y:scroll; 
-	    
+	    overflow-y:scroll; 	    
 	}
 
 	#section_carte
@@ -58,7 +51,6 @@ $icon-sprite-dimensions: true;
 	    top: 0;
 	    right: 0;	
 	    height: 100%;  
-	    overflow-y:scroll; 
 
 	    box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
 		-moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
@@ -66,6 +58,7 @@ $icon-sprite-dimensions: true;
 	}
 
 	#bandeau_goToProviderList { display:none; }
+	#bandeau_detail { display:none;}
 
 	#section_carte
 	{
@@ -99,27 +92,6 @@ $icon-sprite-dimensions: true;
 	    margin: 5px 5px 0 5px;
     }    
 }
-
-section::-webkit-scrollbar-track {
-    background-color: #f6f6f6;;
-    border: 1px solid #f0f0f0;
-}
-
-section::-webkit-scrollbar {
-    width: 10px;
-}
-
-section::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    border: 3px solid #f6f6f6;
-    background-color: #e0e0e0;
-} 
-
-
-
-
-
-
 
 #div_recherche_contener
 {

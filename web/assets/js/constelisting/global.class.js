@@ -8,7 +8,7 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.clusterer_ = null;
 	this.markerManager_ = markerManager;
 	this.constellationMode_ = constellationMode;
-	this.filterManager_ = new FilterManager();
+	this.filterManager_ = constellationMode ? null : new FilterManager();
 }
 
 Global.prototype.getMap = function() { return this.map_ };

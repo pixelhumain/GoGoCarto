@@ -1,25 +1,32 @@
+#bandeau_detail
+{
+    height:0px;
+    background-color: #F7F7F7;    
+    z-index: 440;
+    overflow-y: scroll;
+    
+    will-change:height;
+    @include transition(height .5s);  
+
+    box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
+    -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
+    -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);     
+}
+
 #detail_provider
 {
 	.collapsible-body { border-bottom: 0 }
 	.moreDetails 
 	{ 
 		display : none; 
-		overflow-y: auto;
 	}
 	li { list-style-type: none; }
 
-	h3
-	{
-		font-size: 1rem;
-	    font-weight: 600;
-	    padding-left: 0.75rem;
-	    margin-bottom: 0;
-	    margin-top: 1rem;
-	}
 }
 
 #ProviderList
 {
+	overflow-y: auto;
 	background-color: #544242;
 	border-left: none;
 }
@@ -40,7 +47,19 @@
 	}
 }
 #ProviderList, #bandeau_detail
-{	
+{		
+	
+
+	h3
+	{
+		font-size: 1rem;
+	    font-weight: 600;
+	    padding-left: 0.75rem;
+	    margin-bottom: 0;
+	    padding-top: 1rem;
+    	margin-top: 0;
+	}
+
 	.strong { text-decoration: underline }
 	.collapsible.popout > li
 	{ 
@@ -110,7 +129,7 @@
 			/* padding-left: 1.3rem; */
 		}
 		.categorie { text-decoration: underline; }
-		.description,.detail { text-align: justify; }
+		.description{ text-align: justify; }
 	}
 
 	.sectionDetailProducts
@@ -124,6 +143,56 @@
 		.productName {text-decoration:inherit }
 		.product { line-height: 2.5rem; text-decoration:inherit}
 	}
+
+	&.smallWidth
+	{
+		.col 
+		{
+		    $i: 1;
+		    @while $i <= $num-cols {
+		      $perc: unquote((100 / ($num-cols / $i)) + "%");
+		      &.s#{$i} {
+		        width: $perc;
+		        margin-left: 0;
+		      }
+		      $i: $i + 1;
+		    }
+		    $i: 1;
+		    @while $i <= $num-cols {
+		      $perc: unquote((100 / ($num-cols / $i)) + "%");
+		      &.offset-s#{$i} {
+		        margin-left: $perc;
+		      }
+		      $i: $i + 1;
+		    }
+		}
+	}
 	
+
+	&.largeWidth
+	{
+		.col 
+		{
+		    $i: 1;
+			@while $i <= $num-cols 
+			{
+				$perc: unquote((100 / ($num-cols / $i)) + "%");
+				&.m#{$i} {
+				  width: $perc;
+				  margin-left: 0;
+			}
+			$i: $i + 1;
+			}
+			$i: 1;
+			@while $i <= $num-cols 
+			{
+				$perc: unquote((100 / ($num-cols / $i)) + "%");
+				&.offset-m#{$i} {
+				  margin-left: $perc;
+				}
+				$i: $i + 1;
+			}
+		}
+	}
 }
 
