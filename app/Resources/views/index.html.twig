@@ -1,6 +1,6 @@
 {% extends "::base_layout.html.twig" %}
 
-{% block title %}Pages Vertes {% endblock %}
+{% block title %}Pages Vertes{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -12,18 +12,42 @@
 
 {# BODY CONTENT #}
 {% block body %}
-	
+
+<section id="title">	
 	<h1>Bienvenue sur Pages Vertes</h1>
-	<div class="input-field"> 
+</section>
+
+<section id="mainFunctions">
+	
+	<div class="input-field" > 
 		<input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
 	</div>
 	
-	<button id="btn_constellation" class="btn waves-effect waves-light">Constellation</button>
-	<button id="btn_listing" class="btn waves-effect waves-light">Liste</button>
+	<div class="row">
+		<div class="function col s4">
+			<div class="image-wrapper"><div class="image"></div></div>
+			<button id="btn_constellation" class="btn-flat waves-effect waves-light">Constellation</button>
+			<div class="text">Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</div>
+		</div>
+
+		<div class="function col s4">
+			<div class="image-wrapper"><div class="image"></div></div>
+			<button id="btn_listing" class="btn-flat waves-effect waves-light">Liste</button>
+			<div class="text">Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent</div>
+
+		</div>
 	
-	<a href="{{ path('biopen_fournisseur_add') }}">
-		<button class="btn waves-effect waves-light">Ajouter Fournisseur</button>
-	</a>
+		<div class="function col s4">
+			<div class="image-wrapper"><div class="image"></div></div>
+			<a href="{{ path('biopen_fournisseur_add') }}">
+				<button class="btn-flat waves-effect waves-light">Ajouter Fournisseur</button>
+			</a>
+			<div class="text">Ajouter en quelques clicks un nouveau fournisseur dans notre base de donnée</div>
+
+		</div>
+	</div>
+
+</section>
 {% endblock %}
 
 

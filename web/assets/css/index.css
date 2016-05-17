@@ -4800,10 +4800,51 @@ h1 {
   font-size: 3rem; }
 
 #inputAdresse {
-  width: 400px; }
+  width: 400px;
+  margin-bottom: 50px;
+  text-align: center;
+  border: 1px solid #A5A4A4;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px; }
 
 body {
-  text-align: center; }
+  text-align: center;
+  background-color: #FBFBFB; }
+
+section#title {
+  background-color: #3D3D3D;
+  height: 120px; }
+  section#title h1 {
+    margin: 0;
+    line-height: 120px;
+    color: #FBFBFB; }
+
+section#mainFunctions {
+  padding: 2rem 2rem 0 2rem; }
+
+#search-container {
+  background-color: black;
+  padding: 1rem; }
+
+.function .image-wrapper {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px; }
+  .function .image-wrapper .image {
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    height: 200px;
+    margin: auto;
+    width: 200px;
+    background-color: #ee6e73; }
+.function .text {
+  text-align: center;
+  padding: 0 2rem; }
+.function button {
+  font-weight: 700;
+  font-size: 1.1rem; }
 
 .pac-icon {
   display: none; }

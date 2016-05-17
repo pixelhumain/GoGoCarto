@@ -18,12 +18,21 @@
 		<input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
 	</div>
 	
-	<button id="btn_constellation" class="btn waves-effect waves-light">Constellation</button>
-	<button id="btn_listing" class="btn waves-effect waves-light">Liste</button>
+	<div class="row">
+		<div class="col s4">
+			<button id="btn_constellation" class="btn-flat waves-effect waves-light">Constellation</button>
+		</div>
+
+		<div class="col s4">
+			<button id="btn_listing" class="btn-flat waves-effect waves-light">Liste</button>
+		</div>
 	
-	<a href="{{ path('biopen_fournisseur_add') }}">
-		<button class="btn waves-effect waves-light">Ajouter Fournisseur</button>
-	</a>
+		<div class="col s4">
+			<a href="{{ path('biopen_fournisseur_add') }}">
+				<button class="btn-flat waves-effect waves-light">Ajouter Fournisseur</button>
+			</a>
+		</div>
+	</div>
 {% endblock %}
 
 
