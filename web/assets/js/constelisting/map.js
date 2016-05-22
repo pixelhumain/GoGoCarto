@@ -104,6 +104,14 @@ function initCluster(markersToCluster)
 
     var cluster = new MarkerClusterer(GLOBAL.getMap(), markersToCluster, clusterOptions);
     GLOBAL.setClusterer(cluster);
+
+    $('#rangeKernelRadius').change(function() {
+    	cluster.setKernelRadius(parseInt(this.value));
+    });
+
+    $('#rangeClusterRadius').change(function() {
+    	cluster.setClusterRadius(parseInt(this.value));
+    });
 }
 
 function showProviderInfosOnMap(providerId) 

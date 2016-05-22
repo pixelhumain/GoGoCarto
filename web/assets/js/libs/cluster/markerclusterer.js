@@ -142,7 +142,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.activeMap_ = null;
   this.ready_ = false;
 
-  this.kernelRadius_ = opt_options.kernelRadius || 30;
+  this.kernelRadius_ = opt_options.kernelRadius || 20;
   this.clusterRadius_ = opt_options.clusterRadius || 60;
   this.minClusterSize_ = opt_options.minimumClusterSize || 4;
   this.maxZoom_ = opt_options.maxZoom || null;
@@ -305,6 +305,16 @@ MarkerClusterer.prototype.getKernelRadius = function () {
 
 MarkerClusterer.prototype.getClusterRadius = function () {
   return this.clusterRadius_;
+};
+
+MarkerClusterer.prototype.setKernelRadius = function (radius) {
+  this.kernelRadius_ = radius;
+  this.repaint();
+};
+
+MarkerClusterer.prototype.setClusterRadius = function (radius) {
+  this.clusterRadius_ = radius;
+  this.repaint();
 };
 
 /**

@@ -2032,7 +2032,7 @@ header {
     header #menu div {
       height: 100%;
       text-align: center;
-      background-color: #3D3D3D;
+      background-color: #272626;
       color: white;
       font-size: inherit;
       -webkit-transition: all 0.4s;
@@ -4856,6 +4856,38 @@ select {
 .icon.disabled {
   color: #DFDFDF; }
 
+.icon-provider-type {
+  	/* border-radius: 50%;
+      width: 1.3rem;
+      height: 1.3rem;
+      margin-top: .8rem;
+      margin-right: .8rem;
+      margin-left: .2rem;
+  
+      @extend .bgdColorAs; */ }
+
+.bgdColorAs.producteur {
+  background-color: #B33536; }
+.bgdColorAs.amap {
+  background-color: #4B7975; }
+.bgdColorAs.boutique {
+  background-color: #813c81; }
+.bgdColorAs.marche {
+  background-color: #3F51B5; }
+.bgdColorAs.epicerie {
+  background-color: #6d6d6d; }
+
+.colorAs.producteur, .producteur.icon-provider-type, .producteur.icon-marker, .producteur.marker-wrapper {
+  color: #B33536; }
+.colorAs.amap, .amap.icon-provider-type, .amap.icon-marker, .amap.marker-wrapper {
+  color: #4B7975; }
+.colorAs.boutique, .boutique.icon-provider-type, .boutique.icon-marker, .boutique.marker-wrapper {
+  color: #813c81; }
+.colorAs.marche, .marche.icon-provider-type, .marche.icon-marker, .marche.marker-wrapper {
+  color: #3F51B5; }
+.colorAs.epicerie, .epicerie.icon-provider-type, .epicerie.icon-marker, .epicerie.marker-wrapper {
+  color: #6d6d6d; }
+
 .icon-legumes {
   color: #4A148C; }
 
@@ -4909,50 +4941,42 @@ select {
 
 .marker-wrapper {
   position: relative;
+  z-index: 1;
   height: 40px;
   width: 40px;
+  top: 2px;
   font-size: 40px;
   line-height: 40px;
-  opacity: .99;
-  color: #4B7975; }
-  .marker-wrapper.producteur {
-    color: #B33536; }
-  .marker-wrapper.amap {
-    color: #4B7975; }
-  .marker-wrapper.boutique {
-    color: #813c81; }
-  .marker-wrapper.marche {
-    color: #3F51B5; }
-  .marker-wrapper.epicerie {
-    color: #6d6d6d; }
-  .marker-wrapper.rotateRight {
-    margin-left: 18px; }
+  opacity: .99; }
   .marker-wrapper.rotateLeft {
-    margin-left: -18px; }
+    left: -14px;
+    top: 6px; }
+  .marker-wrapper.rotateRight {
+    left: 13px;
+    top: 7px; }
   .marker-wrapper.BigSize {
-    opacity: 1;
+    z-index: 10 !important;
     transform: scale(1.3, 1.3);
-    top: -7px; }
-    .marker-wrapper.BigSize.rotateRight {
-      top: -5px;
-      left: 5px; }
+    top: -4px; }
     .marker-wrapper.BigSize.rotateLeft {
-      top: -5px;
-      left: -5px; }
+      left: -18px;
+      top: 2px; }
+    .marker-wrapper.BigSize.rotateRight {
+      left: 17px;
+      top: 3px; }
   .marker-wrapper:hover {
     cursor: pointer; }
-
-.icon-marker {
-  width: inherit;
-  height: inherit;
-  line-height: inherit;
-  color: inherit;
-  position: absolute;
-  z-index: 1; }
-  .icon-marker.rotateRight {
-    transform: rotate(45deg); }
-  .icon-marker.rotateLeft {
-    transform: rotate(-45deg); }
+  .marker-wrapper .icon-marker {
+    width: inherit;
+    height: inherit;
+    line-height: inherit;
+    color: inherit;
+    position: absolute;
+    z-index: 1; }
+    .marker-wrapper .icon-marker.rotateRight {
+      transform: rotate(45deg); }
+    .marker-wrapper .icon-marker.rotateLeft {
+      transform: rotate(-45deg); }
 
 .iconInsideMarker-wrapper {
   position: relative;
@@ -5020,20 +5044,41 @@ select {
     border: 3px solid;
     border-radius: 50%; }
 
-/* .iconCluster
-{
-	width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    box-shadow: 0px 0px 10px 3px rgba(14, 70, 95, 0.76);
-    background-color: #C6D5DC;
-    border: 4px solid #0E465F;
-    color: #252525;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 40px;
-} */
+.iconCluster {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px 2px #4CAF50;
+  background-color: #D4D4D4;
+  border: 4px solid #4CAF50;
+  color: #235025;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 28px;
+  	/* width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      box-shadow: 0px 0px 10px 3px rgba(14, 70, 95, 0.76);
+      background-color: #C6D5DC;
+      border: 4px solid #0E465F;
+      color: #252525;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 40px; */
+  /* width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px 3px rgb(0, 140, 255);
+  background-color: #B1CBE1;
+  border: 4px solid #008CFF;
+  color: #252525;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 28px; */ }
+
 .halfHidden {
   opacity: 0.2; }
 
@@ -5117,19 +5162,29 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -moz-box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
   z-index: 4000; }
-  #ProductsList .product-checkbox + label:after {
+  #ProductsList .productListTitle {
+    position: relative;
+    line-height: 3rem;
+    padding-left: 1rem;
+    font-weight: 400;
+    background-color: #3D3D3D;
+    color: white; }
+  #ProductsList .product-checkbox + label:after, #ProductsList .provider-checkbox + label:after, #ProductsList .title-checkbox + label:after {
     top: 3px !important;
     width: 18px;
-    /* line-height: 3rem; */
     height: 18px;
-    border: 2px solid #4B7975;
-    background-color: rgba(53, 105, 100, 0.89); }
-  #ProductsList .product-checkbox + label:before {
+    color: #656565;
+    background-color: #656565;
+    border: 2px solid; }
+  #ProductsList .product-checkbox + label:before, #ProductsList .provider-checkbox + label:before, #ProductsList .title-checkbox + label:before {
     top: 3px;
     left: 1px;
     width: 7px;
     height: 12px; }
-  #ProductsList .product-checkbox:not(:checked) + label:after {
+  #ProductsList .product-checkbox:not(:checked) + label:after, #ProductsList .provider-checkbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
+    background-color: transparent; }
+  #ProductsList .title-checkbox + label:after {
+    color: #D2D2D2;
     background-color: transparent; }
   #ProductsList .product-checkbox-wrapper {
     float: right;

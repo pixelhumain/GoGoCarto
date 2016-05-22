@@ -59,8 +59,9 @@ function BiopenMarker(id_, position_)
 
 BiopenMarker.prototype.animateDrop = function () 
 {
-	$('#marker-'+this.id_).animate({bottom: '25px'}, 300, 'easeInOutCubic');
-	$('#marker-'+this.id_).animate({bottom: '0px'}, 250, 'easeInOutCubic');
+	content = this.richMarker_.getContent(); 
+	$(content).animate({top: '-=25px'}, 300, 'easeInOutCubic');
+	$(content).animate({top: '+=25px'}, 250, 'easeInOutCubic');
 }
 
 BiopenMarker.prototype.updateIcon = function () 
@@ -98,9 +99,9 @@ BiopenMarker.prototype.updateIcon = function ()
 	var content = document.createElement("div");
 	$(content).addClass("marker-wrapper");
 	$(content).addClass(provider.type);
+	$(content).attr('id',"marker-"+this.id_);
 
-
-	var innerHTML = '<div id="marker-'+this.id_+'" data-id='+this.id_+' class="rotate icon-marker"></div>';
+	var innerHTML = '<div class="rotate animate icon-marker"></div>';
     innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker icon-'+main_icon+'"></div></div>'
     
     if (this.getProvider().products.length > 1)
@@ -112,8 +113,8 @@ BiopenMarker.prototype.updateIcon = function ()
     	widthMoreProduct = nbreMoreProduct*39 + 5;
     	
 
-    	innerHTML += '<div class="icon-plus-circle rotate"></div>';
-    	innerHTML += '<div class="moreIconContainer rotate" style="width:'+widthMoreProduct+'px">';
+    	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
+    	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
     	
 	    for(var i = 0; i < products.length;i++)
 		{

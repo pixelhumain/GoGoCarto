@@ -3,62 +3,57 @@
 .marker-wrapper
 {
 	position: relative;	
+    z-index: 1;
     height: 40px;
     width: 40px;
+    top: 2px;
     font-size: 40px;
     line-height: 40px;
     opacity: .99; // pour créer un nouveau contexte d'empilement (z-index)
-    color:#4B7975;
 
-    &.producteur { color:#B33536 } // rouge:#B33536 teal:#4B7975
-    &.amap { color:#4B7975 }
-    &.boutique { color:#813c81 }
-    &.marche { color:#3F51B5 }
-    &.epicerie { color:#6d6d6d }
+    @extend .colorAs;    
 
-    // bleugris:#383D5A violet:#813c81 rose:#ad2264 	bleufoncé:#4a148c bleuclair: #3f51b5
-    // gris:#6d6d6d orange:#A9630F vertclair: #688544
-
-    
-
-    &.rotateRight { margin-left: 18px; }
-	&.rotateLeft { margin-left: -18px;}
+    &.rotateLeft { left: -14px; top: 6px; }
+	&.rotateRight { left: 13px; top: 7px; }
 
     // Gestion de la taille si on est en hover
     &.BigSize 
 	{
-		opacity: 1;
+		//opacity: 1;
+        z-index: 10 !important;
 	    transform: scale(1.3,1.3);
-	    top: -7px; // pour que l'ancre bottom reste identique
+	    top: -4px; // pour que l'ancre bottom reste identique
    
 
-    	&.rotateRight { top: -5px; left: 5px; }
-		&.rotateLeft { top: -5px; left: -5px; }
+    	&.rotateLeft { left: -18px; top: 2px; }
+		&.rotateRight { left: 17px; top: 3px; }
 	}
 
 	&:hover { cursor: pointer; }
+
+    .icon-marker
+    {
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+        color: inherit;
+
+        position: absolute;
+        z-index: 1;
+
+        &.rotateRight
+        {
+            transform: rotate(45deg);       
+        }
+
+        &.rotateLeft
+        {
+            transform: rotate(-45deg);      
+        }
+    }
 }
 
-.icon-marker
-{
-	width: inherit;
-    height: inherit;
-    line-height: inherit;
-    color: inherit;
 
-    position: absolute;
-    z-index: 1;
-
-    &.rotateRight
-	{
-		transform: rotate(45deg);		
-	}
-
-	&.rotateLeft
-	{
-		transform: rotate(-45deg);		
-	}
-}
 
 // l'icone qui représente le produit
 .iconInsideMarker-wrapper
@@ -147,9 +142,22 @@
 	
 }
 
-/* .iconCluster
+ .iconCluster
 {
-	width: 44px;
+
+	width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 2px #4CAF50;
+    background-color: #D4D4D4;
+    border: 4px solid #4CAF50;
+    color: #235025;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 28px;
+    
+	/* width: 44px;
     height: 44px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px 3px rgba(14, 70, 95, 0.76);
@@ -159,8 +167,20 @@
     font-size: 14px;
     font-weight: 500;
     text-align: center;
-    line-height: 40px;
-} */
+    line-height: 40px; */
+
+    /* width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px 3px rgb(0, 140, 255);
+    background-color: #B1CBE1;
+    border: 4px solid #008CFF;
+    color: #252525;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 28px; */
+} 
 
 .halfHidden
 {

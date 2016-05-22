@@ -1,4 +1,42 @@
+
+
 <ul>
+   {# <form action="#">
+    <p class="range-field">
+      <input type="range" id="rangeKernelRadius" min="0" max="120" />
+    </p>
+    <p class="range-field">
+      <input type="range" id="rangeClusterRadius" min="0" max="120" />
+    </p>
+  </form> #}
+<li class="productListTitle">
+	Catégories
+	<span class="product-checkbox-wrapper">
+      <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-type" checked="checked"/>
+      <label for="title-checkbox-type" class="titleType"></label>
+	</span>
+</li>
+
+{% set types = {'producteur':'Producteur','amap':'AMAP','marche':'Marché','boutique':'Boutique de producteurs','epicerie':'Epicerie'} %}
+
+{% for type_formate, type in types %}
+	<li class="productItem collapsible-header row">
+	    <span class="icon icon-marker {{ type_formate }}"></span>
+	    <span class="productName">{{ type|capitalize }}</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in provider-checkbox" id="type-checkbox-{{ type_formate }}" checked="checked" data-type="{{ type_formate }}"/>
+	      <label for="type-checkbox-{{ type_formate }}" class="providerType"></label>
+	    </span>
+	</li>
+{% endfor %}
+
+<li class="productListTitle">
+	Produits
+	<span class="product-checkbox-wrapper">
+      <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-products" checked="checked"/>
+      <label for="title-checkbox-products" class="titleType"></label>
+	</span>
+</li>
 
 {% for key, product in productList %} 
    

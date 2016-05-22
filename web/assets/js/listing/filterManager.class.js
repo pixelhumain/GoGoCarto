@@ -6,12 +6,14 @@ function FilterManager()
 
 FilterManager.prototype.addProductFilter = function (productName) 
 {	
-	this.productFilters.push(productName);
+	var index = this.productFilters.indexOf(productName)
+	if ( index < 0)this.productFilters.push(productName);
 };
 
 FilterManager.prototype.addTypeFilter = function (type) 
 {	
-	this.typeFilters.push(type);
+	var index = this.typeFilters.indexOf(type)
+	if ( index < 0) this.typeFilters.push(type);
 };
 
 FilterManager.prototype.removeProductFilter = function (productName) 
@@ -28,15 +30,30 @@ FilterManager.prototype.removeTypeFilter = function (type)
 
 FilterManager.prototype.checkIfProviderPassFilters = function (provider) 
 {	
-	for (var i = 0; i < this.productFilters.length; i++) 
-	{
-		if (provider.containsProduct(this.productFilters[i])) return false;
-	}
-
 	for (var i = 0; i < this.typeFilters.length; i++) 
 	{
 		if (provider.type == this.typeFilters[i]) return false;
 	}
 
-	return true;
+	if (provider.type =='epicerie') return true;
+
+	var products = provider.getProducts()
+	for (var i = 0; i < products.length; i++) 
+	{
+		if (!this.containsProduct(products[i].nameFormate)) return true;
+	}	
+
+	return false;
+};
+
+FilterManager.prototype.containsProduct = function (productName) 
+{		
+	for (var i = 0; i < this.productFilters.length; i++) 
+	{
+		if (this.productFilters[i] == productName)
+		{
+			return true;
+		} 
+	}
+	return false;
 };

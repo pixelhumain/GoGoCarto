@@ -58,17 +58,6 @@ Provider.prototype.hide = function ()
 	// unbound events (click etc...)?
 };
 
-Provider.prototype.containsProduct = function (productName) 
-{		
-	for (var i = 0; i < this.products.length; i++) 
-	{
-		if (this.products[i].nameFormate == productName)
-		{
-			return true;
-		} 
-	}
-	return false;
-};
 
 Provider.prototype.getHtmlRepresentation = function () 
 {		

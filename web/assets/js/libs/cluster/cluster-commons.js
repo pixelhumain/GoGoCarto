@@ -20,6 +20,7 @@ function updateIconOfIndependantMarkersGroup(markers)
   {
     markers[i].isInIndependantGroup = true;
     content = markers[i].getContent();   
+    $(content).css("z-index","1");
     $(content).find(".rotate").removeClass("rotateLeft").removeClass("rotateRight");
     $(content).removeClass("rotateLeft").removeClass("rotateRight");
   }

@@ -157,7 +157,7 @@ ClusterIcon.prototype.show = function () {
     var pos = this.getPosFromLatLng_(this.center_);
     this.div_.style.cssText = this.createCss(pos);
 
-    img = "<img src='" + this.url_ + "' style='position: absolute; top: " + spriteV + "px; left: " + spriteH + "px; ";
+    /*img = "<img src='" + this.url_ + "' style='position: absolute; top: " + spriteV + "px; left: " + spriteH + "px; ";
     if (!this.cluster_.getMarkerClusterer().enableRetinaIcons_) {
       img += "clip: rect(" + (-1 * spriteV) + "px, " + ((-1 * spriteH) + this.width_) + "px, " +
           ((-1 * spriteV) + this.height_) + "px, " + (-1 * spriteH) + "px);";
@@ -176,8 +176,10 @@ ClusterIcon.prototype.show = function () {
         "text-align: center;" +
         "width: " + this.width_ + "px;" +
         "line-height:" + this.height_ + "px;" +
-        "'>" + this.sums_.text + "</div>";
-      //this.div_.innerHTML = '<div class="iconCluster">' + this.sums_.text + "</div>";
+        "'>" + this.sums_.text + "</div>";*/
+
+      this.div_.innerHTML = '<div class="iconCluster">' + this.sums_.text + "</div>";
+      
     if (typeof this.sums_.title === "undefined" || this.sums_.title === "") {
       this.div_.title = this.cluster_.getMarkerClusterer().getTitle();
     } else {
