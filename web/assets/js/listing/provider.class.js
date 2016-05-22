@@ -62,7 +62,7 @@ Provider.prototype.containsProduct = function (productName)
 {		
 	for (var i = 0; i < this.products.length; i++) 
 	{
-		if (this.products[i].product.name_formate == productName)
+		if (this.products[i].nameFormate == productName)
 		{
 			return true;
 		} 

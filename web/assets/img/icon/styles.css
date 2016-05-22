@@ -86,7 +86,7 @@
 .icon-boissons:before {
   content: "\6f";
 }
-.icon-business:before {
+.icon-constellation:before {
   content: "\74";
 }
 .icon-expand:before {
@@ -117,5 +117,14 @@
   content: "\7a";
 }
 .icon-boutique:before {
+  content: "\42";
+}
+.icon-house:before {
+  content: "\43";
+}
+.icon-marker:before {
   content: "\41";
+}
+.icon-map-1:before {
+  content: "\44";
 }

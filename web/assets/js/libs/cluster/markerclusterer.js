@@ -1009,7 +1009,7 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
     marker = this.markers_[i];
     //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
-      if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() != null)) 
+      if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() != null && marker.checkCluster)) 
       {
         this.addToClosestCluster_(marker);
       }
@@ -1318,7 +1318,7 @@ MarkerClusterer.BATCH_SIZE_IE = 500;
  * @type {string}
  * @constant
  */
-MarkerClusterer.IMAGE_PATH = "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/images/m";
+MarkerClusterer.IMAGE_PATH = "https://raw.githubusercontent.com/googlemaps/js-marker-clusterer/gh-pages/images/m";
 
 
 /**

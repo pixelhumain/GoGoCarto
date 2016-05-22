@@ -8,6 +8,32 @@
 
 	z-index: 4000;
 
+	.product-checkbox
+	{
+		+ label:after
+		{
+			top: 3px !important;
+		    width: 18px;
+		    /* line-height: 3rem; */
+		    height: 18px;
+		    border: 2px solid #4B7975;
+		    background-color: rgba(53, 105, 100, 0.89);
+		}
+
+		+ label:before
+		{
+			top: 3px;
+		    left: 1px;
+		    width: 7px;
+		    height: 12px;
+		}
+
+		&:not(:checked) + label:after 
+		{
+			background-color: transparent;
+		}
+	}
+
 	.product-checkbox-wrapper
 	{
 		float: right;
@@ -50,8 +76,6 @@
 	    	cursor: pointer;
 	    }	
 	}
-
-
 
 	.productItem, .productTitle
 	{

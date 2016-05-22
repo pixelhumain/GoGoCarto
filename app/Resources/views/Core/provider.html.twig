@@ -13,7 +13,7 @@
       <span class="col s1 icon icon-{{provider.mainProduct|lower}}"></span>
       <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
        {% if provider.distance is defined %}
-          <span class="col s3 right-align">{{ provider.distance }} km</span>
+          <span class="col s3 right-align">{{ provider.distance|round(1) }} km</span>
        {% endif %}
     </div>
 

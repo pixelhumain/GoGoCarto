@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "86e77793ea1f1dd35a59378a7d7f74fb",
-    "content-hash": "da9bc2d6f93fd6712ea17b7cfa74b2c1",
+    "hash": "ff9d5861c8e6211064f8e9089b635b3d",
+    "content-hash": "4946f2e5af9d7edf9b2d4bb8a7f78286",
     "packages": [
         {
             "name": "Wantlet",
@@ -1165,12 +1165,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "c85b5d9e48c0f2918ac6161e268d6f981a24c875"
+                "reference": "abb35b94ed8ec78a504c9e1a2cd803d85d3ffad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/c85b5d9e48c0f2918ac6161e268d6f981a24c875",
-                "reference": "c85b5d9e48c0f2918ac6161e268d6f981a24c875",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/abb35b94ed8ec78a504c9e1a2cd803d85d3ffad9",
+                "reference": "abb35b94ed8ec78a504c9e1a2cd803d85d3ffad9",
                 "shasum": ""
             },
             "require": {
@@ -1226,7 +1226,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2016-05-10 08:29:38"
+            "time": "2016-05-13 11:27:34"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1817,6 +1817,52 @@
                 "templating"
             ],
             "time": "2014-08-22 10:31:22"
+        },
+        {
+            "name": "joshtronic/php-loremipsum",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshtronic/php-loremipsum.git",
+                "reference": "ece0a6f057ef55d95c1e21fd48f9ac601530836c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshtronic/php-loremipsum/zipball/ece0a6f057ef55d95c1e21fd48f9ac601530836c",
+                "reference": "ece0a6f057ef55d95c1e21fd48f9ac601530836c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "joshtronic\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Sherman",
+                    "email": "josh@gravityblvd.com",
+                    "homepage": "http://joshtronic.com"
+                }
+            ],
+            "description": "Lorem ipsum generator in PHP without dependencies",
+            "homepage": "https://github.com/joshtronic/php-loremipsum",
+            "keywords": [
+                "generator",
+                "ipsum",
+                "lorem"
+            ],
+            "time": "2014-09-17 17:01:49"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -3790,7 +3836,8 @@
         "friendsofsymfony/user-bundle": 20,
         "coresphere/console-bundle": 20,
         "wantlet": 20,
-        "jms/twig-js-bundle": 20
+        "jms/twig-js-bundle": 20,
+        "joshtronic/php-loremipsum": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

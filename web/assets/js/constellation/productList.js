@@ -77,5 +77,7 @@ function clearProductList()
 		var otherIdsToClear = otherStar.getProviderListId();
 		otherContainerVisible.stop(true,false).slideUp(slideOptions);
 		GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(otherIdsToClear);
+
+		GLOBAL.getClusterer().repaint();
 	}	
 }

@@ -38,7 +38,8 @@
         "jms/serializer-bundle": "^1.1",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "Wantlet": "dev-master",
-        "jms/twig-js-bundle": "dev-master"
+        "jms/twig-js-bundle": "dev-master",
+        "joshtronic/php-loremipsum": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

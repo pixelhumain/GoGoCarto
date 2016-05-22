@@ -1,3 +1,9 @@
 biopen_fournisseur_add:
     path:     /add
     defaults: { _controller: BiopenFournisseurBundle:Fournisseur:add }
+
+biopen_fournisseur_generate:
+    path:     /generate/{nombre}
+    defaults: { _controller: BiopenFournisseurBundle:Fournisseur:generate, nombre:'1' }
+    options:
+        expose: true

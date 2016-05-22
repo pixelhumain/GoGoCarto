@@ -1,3 +1,5 @@
+
+
 function BiopenMarker(id_, position_) 
 {
 	var that = this;
@@ -18,6 +20,8 @@ function BiopenMarker(id_, position_)
 		position: position_,
 		flat: true
 	});
+
+	this.richMarker_.checkCluster = true;
 	
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
@@ -61,8 +65,6 @@ BiopenMarker.prototype.animateDrop = function ()
 
 BiopenMarker.prototype.updateIcon = function () 
 {		
-	var content = document.createElement("div");
-
 	var main_icon;
 	var provider = this.getProvider();
 
@@ -93,20 +95,25 @@ BiopenMarker.prototype.updateIcon = function ()
 		main_icon = provider.mainProduct;
 	}	
 
-	var innerHTML = '<div id="marker-'+this.id_+'" data-id='+this.id_+' class="marker-wrapper rotate">'+
-    '<img class="iconMarkerSvg rotate" src="'+ iconDirectory + 'marker.svg"></img>'+
-    '<div class="iconInsideMarker icon-'+main_icon+'""></div>'+
-    '</div>';
+	var content = document.createElement("div");
+	$(content).addClass("marker-wrapper");
+	$(content).addClass(provider.type);
+
+
+	var innerHTML = '<div id="marker-'+this.id_+'" data-id='+this.id_+' class="rotate icon-marker"></div>';
+    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker icon-'+main_icon+'"></div></div>'
     
     if (this.getProvider().products.length > 1)
     {
     	var product, products = provider.products;
 
-    	widthMoreProduct = products.length*36 + 5;
+    	var nbreMoreProduct = products.length;
     	//if (main_icon != 'multiple') nbreMoreProduct--;
+    	widthMoreProduct = nbreMoreProduct*39 + 5;
+    	
 
-    	innerHTML += '<div class="icon-plus-circle"></div>';
-    	innerHTML += '<div class="moreIconContainer" style="width:'+widthMoreProduct+'px">';
+    	innerHTML += '<div class="icon-plus-circle rotate"></div>';
+    	innerHTML += '<div class="moreIconContainer rotate" style="width:'+widthMoreProduct+'px">';
     	
 	    for(var i = 0; i < products.length;i++)
 		{
@@ -115,7 +122,6 @@ BiopenMarker.prototype.updateIcon = function ()
 			if (product.nameFormate != main_icon)
 			{
 				innerHTML += '<div class="moreIconWrapper" >';
-				innerHTML += '<img class="moreIcon iconMarkerSvg rotate" src="'+ iconDirectory + 'marker-circle.svg"></img>';
 				innerHTML += '<span class="moreIcon iconInsideMarker icon-'+product.nameFormate+'""></span>';
 		    	innerHTML += '</div>';
 	    	}
@@ -134,17 +140,18 @@ BiopenMarker.prototype.updateIcon = function ()
 BiopenMarker.prototype.addClassToRichMarker_ = function (classToAdd) 
 {		
 	content = this.richMarker_.getContent(); 
-	$(content).find(".marker-wrapper").addClass(classToAdd);   
+	$(content).addClass(classToAdd);   
 };
 
 BiopenMarker.prototype.removeClassToRichMarker_ = function (classToRemove) 
 {		
 	content = this.richMarker_.getContent(); 
-	$(content).find(".marker-wrapper").removeClass(classToRemove);   
+	$(content).removeClass(classToRemove);   
 };
 
 BiopenMarker.prototype.showBigSize = function () 
 {		
+	
 	this.addClassToRichMarker_("BigSize");
 	content = this.richMarker_.getContent(); 
 	$(content).find('.moreIconContainer').show();
@@ -190,7 +197,6 @@ BiopenMarker.prototype.setPolylineOptions = function (options)
 		});
 	}
 } 
-
 	
 BiopenMarker.prototype.updatePolyline = function (options) 
 {
@@ -199,9 +205,9 @@ BiopenMarker.prototype.updatePolyline = function (options)
 		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', null, options);
 	}
 	else
-	{
+	{		
+		var map = this.polyline_.getMap();
 		this.polyline_.setMap(null);
-		var map = this.richMarker_.getVisible() ? GLOBAL.getMap() : null;
 		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', map, options);	
 	}
 };
@@ -219,6 +225,7 @@ BiopenMarker.prototype.showHalfHidden = function ()
 	});
 
 	this.isHalfHidden_ = true;
+	this.richMarker_.checkCluster = false;
 };
 
 BiopenMarker.prototype.showNormalHidden = function () 
@@ -237,6 +244,7 @@ BiopenMarker.prototype.showNormalHidden = function ()
 		strokeOpacity: 0.5
 	});*/
 	this.isHalfHidden_ = false;
+	this.richMarker_.checkCluster = true;
 };
 
 BiopenMarker.prototype.getId = function () 
@@ -260,6 +268,7 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 	if (context.richMarker_ == null) return;
 	//window.console.log("checkPolylineVisibility_ " + context.richMarker_.getVisible());
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
+	context.polyline_.setMap(context.richMarker_.getMap());	
 };
 
 BiopenMarker.prototype.show = function () 

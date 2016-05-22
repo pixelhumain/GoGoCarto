@@ -2359,8 +2359,8 @@ td, th {
     .collection .collection-item:last-child {
       border-bottom: none; }
     .collection .collection-item.active {
-      background-color: #734287;
-      color: #f3ecf6; }
+      background-color: #4A7874;
+      color: #e9f1f1; }
       .collection .collection-item.active .secondary-content {
         color: #fff; }
   .collection a.collection-item {
@@ -2370,7 +2370,7 @@ td, th {
     -o-transition: 0.25s;
     -ms-transition: 0.25s;
     transition: 0.25s;
-    color: #734287; }
+    color: #4A7874; }
     .collection a.collection-item:not(.active):hover {
       background-color: #ddd; }
   .collection.with-header .collection-header {
@@ -2384,7 +2384,7 @@ td, th {
 
 .secondary-content {
   float: right;
-  color: #734287; }
+  color: #4A7874; }
 
 .collapsible .collection {
   margin: 0;
@@ -2406,7 +2406,7 @@ span.badge {
     font-weight: 300;
     font-size: 0.8rem;
     color: #fff;
-    background-color: #734287;
+    background-color: #4A7874;
     border-radius: 2px; }
   span.badge.new:after {
     content: " new"; }
@@ -2438,7 +2438,7 @@ nav ul a span.badge {
   height: 4px;
   display: block;
   width: 100%;
-  background-color: #d2b8dd;
+  background-color: #bad4d2;
   border-radius: 2px;
   margin: 0.5rem 0 1rem 0;
   overflow: hidden; }
@@ -2448,14 +2448,14 @@ nav ul a span.badge {
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: #734287;
+    background-color: #4A7874;
     -webkit-transition: width 0.3s linear;
     -moz-transition: width 0.3s linear;
     -o-transition: width 0.3s linear;
     -ms-transition: width 0.3s linear;
     transition: width 0.3s linear; }
   .progress .indeterminate {
-    background-color: #734287; }
+    background-color: #4A7874; }
     .progress .indeterminate:before {
       content: '';
       position: absolute;
@@ -3205,7 +3205,7 @@ button.btn-floating {
       background-color: #eee; }
     .dropdown-content li > a, .dropdown-content li > span {
       font-size: 1.2rem;
-      color: #734287;
+      color: #4A7874;
       display: block;
       padding: 1rem 1rem; }
     .dropdown-content li > a > i {
@@ -3512,7 +3512,7 @@ a.waves-effect .waves-ripple {
 
 /* Remove Focus Boxes */
 select:focus {
-  outline: 1px solid #e1d0e8; }
+  outline: 1px solid #d0e2e0; }
 
 button:focus {
   outline: none;
@@ -3621,8 +3621,8 @@ textarea.materialize-textarea {
   input[type=number]:focus:not([readonly]),
   input[type=search]:focus:not([readonly]),
   textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #734287;
-    box-shadow: 0 1px 0 0 #734287; }
+    border-bottom: 1px solid #4A7874;
+    box-shadow: 0 1px 0 0 #4A7874; }
   input[type=text]:focus:not([readonly]) + label,
   input[type=password]:focus:not([readonly]) + label,
   input[type=email]:focus:not([readonly]) + label,
@@ -3634,7 +3634,7 @@ textarea.materialize-textarea {
   input[type=number]:focus:not([readonly]) + label,
   input[type=search]:focus:not([readonly]) + label,
   textarea.materialize-textarea:focus:not([readonly]) + label {
-    color: #734287; }
+    color: #4A7874; }
   input[type=text].valid, input[type=text]:focus.valid,
   input[type=password].valid,
   input[type=password]:focus.valid,
@@ -3656,8 +3656,8 @@ textarea.materialize-textarea {
   input[type=search]:focus.valid,
   textarea.materialize-textarea.valid,
   textarea.materialize-textarea:focus.valid {
-    border-bottom: 1px solid #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a; }
+    border-bottom: 1px solid #4A7874;
+    box-shadow: 0 1px 0 0 #4A7874; }
   input[type=text].valid + label:after, input[type=text]:focus.valid + label:after,
   input[type=password].valid + label:after,
   input[type=password]:focus.valid + label:after,
@@ -3680,7 +3680,7 @@ textarea.materialize-textarea {
   textarea.materialize-textarea.valid + label:after,
   textarea.materialize-textarea:focus.valid + label:after {
     content: attr(data-success);
-    color: #26a69a;
+    color: #4A7874;
     opacity: 1; }
   input[type=text].invalid, input[type=text]:focus.invalid,
   input[type=password].invalid,
@@ -3779,7 +3779,7 @@ textarea.materialize-textarea {
     -ms-transition: color 0.2s;
     transition: color 0.2s; }
     .input-field .prefix.active {
-      color: #734287; }
+      color: #4A7874; }
   .input-field .prefix ~ input,
   .input-field .prefix ~ textarea {
     margin-left: 3rem;
@@ -3913,8 +3913,8 @@ textarea {
 
 [type="radio"]:checked + label:after {
   border-radius: 50%;
-  border: 2px solid #734287;
-  background-color: #734287;
+  border: 2px solid #4A7874;
+  background-color: #4A7874;
   z-index: 0;
   -webkit-transform: scale(1.02);
   -moz-transform: scale(1.02);
@@ -3925,12 +3925,12 @@ textarea {
 /* Radio With gap */
 [type="radio"].with-gap:checked + label:before {
   border-radius: 50%;
-  border: 2px solid #734287; }
+  border: 2px solid #4A7874; }
 
 [type="radio"].with-gap:checked + label:after {
   border-radius: 50%;
-  border: 2px solid #734287;
-  background-color: #734287;
+  border: 2px solid #4A7874;
+  background-color: #4A7874;
   z-index: 0;
   -webkit-transform: scale(0.5);
   -moz-transform: scale(0.5);
@@ -4025,8 +4025,8 @@ form p:last-child {
   height: 22px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid #734287;
-  border-bottom: 2px solid #734287;
+  border-right: 2px solid #4A7874;
+  border-bottom: 2px solid #4A7874;
   -webkit-transform: rotate(40deg);
   -moz-transform: rotate(40deg);
   -ms-transform: rotate(40deg);
@@ -4050,7 +4050,7 @@ form p:last-child {
   height: 22px;
   border-top: none;
   border-left: none;
-  border-right: 2px solid #734287;
+  border-right: 2px solid #4A7874;
   border-bottom: none;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -4111,8 +4111,8 @@ form p:last-child {
   top: 0px;
   width: 20px;
   height: 20px;
-  border: 2px solid #734287;
-  background-color: #734287;
+  border: 2px solid #4A7874;
+  background-color: #4A7874;
   z-index: 0; }
 [type="checkbox"].filled-in:disabled:not(:checked) + label:before {
   background-color: transparent;
@@ -4145,10 +4145,10 @@ form p:last-child {
   height: 0; }
 
 .switch label input[type=checkbox]:checked + .lever {
-  background-color: #a89cad; }
+  background-color: #a1a1a1; }
 
 .switch label input[type=checkbox]:checked + .lever:after {
-  background-color: #734287; }
+  background-color: #4A7874; }
 
 .switch label .lever {
   content: "";
@@ -4177,7 +4177,7 @@ form p:last-child {
   transition: left 0.3s ease, background .3s ease, box-shadow 0.1s ease; }
 
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active:after {
-  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(115, 66, 135, 0.1); }
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(74, 120, 116, 0.1); }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:after {
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(0, 0, 0, 0.08); }
@@ -4308,7 +4308,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: #734287;
+  background-color: #4A7874;
   top: 10px;
   margin-left: -6px;
   -webkit-transform-origin: 50% 50%;
@@ -4325,7 +4325,7 @@ input[type=range] + .thumb {
     display: block;
     width: 30px;
     text-align: center;
-    color: #734287;
+    color: #4A7874;
     font-size: 0;
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
@@ -4357,7 +4357,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background-color: #734287;
+  background-color: #4A7874;
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
   -webkit-transition: 0.3s;
@@ -4384,7 +4384,7 @@ input[type=range]::-moz-range-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #734287;
+  background: #4A7874;
   margin-top: -5px; }
 
 /*hide the outline behind the border*/
@@ -4416,7 +4416,7 @@ input[type=range]::-ms-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #734287; }
+  background: #4A7874; }
 
 input[type=range]:focus::-ms-fill-lower {
   background: #888; }
@@ -4487,7 +4487,7 @@ select {
   width: 100%;
   height: 100%;
   opacity: 0;
-  border-color: #734287; }
+  border-color: #4A7874; }
 
 .spinner-blue,
 .spinner-blue-only {

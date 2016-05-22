@@ -20,15 +20,31 @@ function updateIconOfIndependantMarkersGroup(markers)
   {
     markers[i].isInIndependantGroup = true;
     content = markers[i].getContent();   
-    $(content).find(".marker-wrapper, .moreIconContainer").removeClass("rotateLeft").removeClass("rotateRight");
+    $(content).find(".rotate").removeClass("rotateLeft").removeClass("rotateRight");
+    $(content).removeClass("rotateLeft").removeClass("rotateRight");
   }
 
-  if (markers.length == 1) return;
+  if (markers.length == 1) return;  
 
+  markers.sort(function compareMarkersLng(a, b) {
+    return b.getPosition().lng() - a.getPosition().lng();
+  });
 
   var righterMarker = markers[0];
-  var lefterMarker = markers[0];
-  for (i = 1; i < markers.length; i++) {
+  var lefterMarker = markers[markers.length - 1];
+
+   markers.sort(function compareMarkersLat(a, b) {
+    return b.getPosition().lat() - a.getPosition().lat();
+  });
+
+   for (i = 1; i < markers.length; i++) 
+   {
+      content = markers[i].getContent();
+      $(content).css('z-index',i);
+   }
+
+
+  /*for (i = 1; i < markers.length; i++) {
       
       var curr_marker= markers[i];
 
@@ -40,12 +56,14 @@ function updateIconOfIndependantMarkersGroup(markers)
       {
           righterMarker = curr_marker;
       }      
-  }
+  }*/
 
   content = righterMarker.getContent();  
-  $(content).find(".marker-wrapper, .moreIconContainer").addClass("rotateRight");
+  $(content).find(".rotate").addClass("rotateRight");
+  $(content).addClass("rotateRight");
 
   content = lefterMarker.getContent(); 
-  $(content).find(".marker-wrapper, .moreIconContainer").addClass("rotateLeft");
+  $(content).find(".rotate").addClass("rotateLeft");
+  $(content).addClass("rotateLeft");
  
 }
