@@ -30,6 +30,45 @@ ProviderManager.prototype.draw = function ()
 	}
 };
 
+ProviderManager.prototype.focusOnThesesProviders = function (idList, starName) 
+{
+	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
+	{
+		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
+		$('#infoProvider-'+providerId).hide();
+	}
+
+	for(var i = 0; i < idList.length; i++)
+	{
+		$('#infoProvider-'+idList[i]).show();
+
+		var star = GLOBAL.getConstellation().getStarFromName(starName);
+		var providerIndex = star.getProviderIndexFromId(idList[i]);
+		
+		var content = document.createElement("div");
+		$(content).attr('data-star-name',starName);
+		$(content).attr('data-provider-index',providerIndex);
+		$(content).addClass("moreChoiceInfo");
+		$(content).html('<button class="btn waves-effect waves-light" >Sélectionner</button> en tant que "'+starName+'" principal');
+		
+		$(content).click(handleClickChooseProviderForStar);	
+
+		$(content).prependTo('#infoProvider-'+idList[i]+' .collapsible-header');	
+	}
+
+};
+
+ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
+{
+	for(var i = 0; i < idList.length; i++)
+	{
+		$('#infoProvider-'+idList[i]).hide();
+		$('#infoProvider-'+idList[i]+ ' .moreChoiceInfo').remove();		
+	}
+
+	this.draw();
+};
+
 // enlève un des provider de la liste,en vérifiant s'il n'est pas utile pour
 // une autre étoile.
 // return false si pas supprimé, true sinon

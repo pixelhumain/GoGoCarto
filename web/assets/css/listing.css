@@ -4953,13 +4953,13 @@ select {
   .marker-wrapper.BigSize {
     z-index: 10 !important;
     transform: scale(1.3, 1.3);
-    top: -4px; }
+    top: -4px !important; }
     .marker-wrapper.BigSize.rotateLeft {
       left: -18px;
-      top: 2px; }
+      top: 2px !important; }
     .marker-wrapper.BigSize.rotateRight {
       left: 17px;
-      top: 3px; }
+      top: 3px !important; }
   .marker-wrapper:hover {
     cursor: pointer; }
   .marker-wrapper .icon-marker {
@@ -5211,8 +5211,10 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       position: absolute;
       right: -10px;
       top: -10px; }
-    #ProductsList .resultNumber:hover {
-      cursor: pointer; }
+    #ProductsList .resultNumber.active:hover {
+      cursor: pointer;
+      transform: scale(1.2, 1.2);
+      background-color: #B33737; }
   #ProductsList .productItem, #ProductsList .productTitle {
     position: relative;
     margin-bottom: 0;
@@ -5271,6 +5273,17 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
   -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); }
 
+.moreChoiceInfo {
+  line-height: 3rem;
+  text-align: center;
+  color: #F5F3F3;
+  font-weight: 400;
+  background-color: #54928C; }
+  .moreChoiceInfo .btn, .moreChoiceInfo .btn-large {
+    margin: 0 0 .1rem 1rem;
+    text-transform: none;
+    background-color: #3D3D3D; }
+
 #detail_provider .collapsible-body {
   border-bottom: 0; }
 #detail_provider .moreDetails {
@@ -5282,6 +5295,15 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   overflow-y: auto;
   background-color: #544242;
   border-left: none; }
+  #ProviderList .moreChoiceInfo {
+    text-align: left;
+    padding-left: 1rem;
+    color: #4A7874;
+    font-weight: 500;
+    background-color: transparent; }
+    #ProviderList .moreChoiceInfo .btn, #ProviderList .moreChoiceInfo .btn-large {
+      margin: 0 .5rem .1rem 0;
+      background-color: #4a7874; }
 
 @media only screen and (min-width: 1201px) {
   #ProviderList {
@@ -5290,7 +5312,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
-    z-index: 4000; } }
+    z-index: 4000; }
+    #ProviderList .collapsible-header:hover {
+      background-color: #f0f0f0; } }
 #ProviderList h3, #bandeau_detail h3 {
   font-size: 1rem;
   font-weight: 600;

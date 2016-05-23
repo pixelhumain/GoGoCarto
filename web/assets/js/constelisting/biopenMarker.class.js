@@ -38,7 +38,7 @@ function BiopenMarker(id_, position_)
 	
     google.maps.event.addListener(this.richMarker_, 'mouseover', function(ev) 
 	{
-		that.showBigSize();
+		if (!that.isHalfHidden_) that.showBigSize();
     });
 
     google.maps.event.addListener(this.richMarker_, 'mouseout', function(ev) 
@@ -53,6 +53,7 @@ function BiopenMarker(id_, position_)
 	}
 	
 	this.isHalfHidden_ = false;
+	this.starChoiceForRepresentation = '';
 
 	this.updateIcon();	
 }
@@ -72,12 +73,21 @@ BiopenMarker.prototype.updateIcon = function ()
 	if (GLOBAL.constellationMode())
 	{
 		var starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id_);
-		var lineType = 'normal';
+		var lineType;
+		if (this.starChoiceForRepresentation == '')
+		{
+			lineType = 'normal';
+		}
+		else
+		{
+			var providerStarId = GLOBAL.getConstellation().getStarFromName(this.starChoiceForRepresentation).getProviderId();
+			lineType = providerStarId == this.id_ ? 'normal' : 'dashed';
+		}
 		
 		if (starNames.length == 0)
 		{
 			main_icon = provider.mainProduct;
-			lineType = "dashed";
+			
 		} 
 		else if (starNames.length == 1)
 		{

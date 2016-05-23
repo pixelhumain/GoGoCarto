@@ -21,6 +21,15 @@ Star.prototype.getProviderListId = function () {
   return this.providerIdList_;
 };
 
+Star.prototype.getProviderIndexFromId = function (id) {
+  for(var i = 0; i < this.providerIdList_.length; i++)
+  {
+     if (this.providerIdList_[i] == id) return i;
+  }
+};
+
+
+
 Star.prototype.getProvider = function () {
   return GLOBAL.getProviderManager().getProviderById(this.getProviderId());  
 };
@@ -80,8 +89,8 @@ Star.prototype.setIndex = function (newIndex)
 	this.index_ = newIndex;
 
 
-	GLOBAL.getProviderManager().removeProvider(oldProviderId);
-	GLOBAL.getProviderManager().addProvider(this.getProviderId());
+/*	GLOBAL.getProviderManager().removeProvider(oldProviderId);
+	GLOBAL.getProviderManager().addProvider(this.getProviderId());*/
 
   // on met à jour le marqueur des deux providers interchangés
   GLOBAL.getMarkerManager().getMarkerById(oldProviderId).updateIcon();

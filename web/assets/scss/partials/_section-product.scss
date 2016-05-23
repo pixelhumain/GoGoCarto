@@ -97,9 +97,11 @@
 		    top: -10px;
 		}
 
-	    &:hover
+	    &.active:hover
 	    {
 	    	cursor: pointer;
+	    	transform: scale(1.2,1.2);
+    		background-color: #B33737
 	    }	
 	}
 

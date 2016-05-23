@@ -1286,7 +1286,7 @@ MarkerClusterer.prototype.extend = function (obj1, obj2) {
  */
 MarkerClusterer.CALCULATOR = function (markers, numStyles) {
   var index = 0;
-  var title = "";
+  var title = "Cliquez pour zoomer";
   var count = markers.length.toString();
 
   var dv = count;

@@ -1,3 +1,4 @@
+
 var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, complete: function() {}};
 	
 jQuery(document).ready(function()
@@ -12,7 +13,7 @@ jQuery(document).ready(function()
 		star.getMarker().showNormalSize();
 	});
 
-	$('.resultNumber:not(.disabled)').click(function()
+	$('.resultNumber.active:not(.disabled)').click(function()
 	{
 		if ($(this).parent().attr('data-providers-size') == 1)
 		{			
@@ -34,16 +35,20 @@ jQuery(document).ready(function()
 		{
 			body.stop(true,false).slideUp(slideOptions);
 			GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(idToFocus);
+			GLOBAL.getProviderManager().clearFocusOnThesesProviders(idToFocus);
 			GLOBAL.getClusterer().repaint();	
 			animate_down_bandeau_detail(); 
+			GLOBAL.setState('normal');
 		}
 		else
 		{
 			clearProductList();
 
 			body.stop(true,false).slideDown(slideOptions);
-			GLOBAL.getMarkerManager().focusOnThesesMarkers(idToFocus);
+			GLOBAL.getMarkerManager().focusOnThesesMarkers(idToFocus,star.getName());
+			GLOBAL.getProviderManager().focusOnThesesProviders(idToFocus,star.getName());
 			GLOBAL.getClusterer().repaint();
+			GLOBAL.setState('starRepresentationChoice');
 		}		
 	});
 
@@ -55,21 +60,14 @@ jQuery(document).ready(function()
 		marker.showNormalSize();
 	});
 	
-	$('.moreResultProviderItem').click(function() 
-	{
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
-		star.setIndex($(this).attr('data-provider-index'));
-		$(this).parents('li').find('.productItem').click();
-		$(this).siblings('li').removeClass('starProvider');
-		$(this).addClass("starProvider");
-	});
+	$('.moreResultProviderItem').click(handleClickChooseProviderForStar);
 
 	$('.productTitle').click(clearProductList);
 });
 
 function clearProductList()
 {
-	if ($('.moreResultContainer:visible').size() > 0)
+	if (GLOBAL.getState() == 'starRepresentationChoice')
 	{
 		var otherContainerVisible = $('.moreResultContainer:visible').first();
 		var otherStarName = otherContainerVisible.parent().find('.productItem').attr('data-star-name');
@@ -77,7 +75,17 @@ function clearProductList()
 		var otherIdsToClear = otherStar.getProviderListId();
 		otherContainerVisible.stop(true,false).slideUp(slideOptions);
 		GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(otherIdsToClear);
-
+		GLOBAL.getProviderManager().clearFocusOnThesesProviders(otherIdsToClear);
+		GLOBAL.setState('normal');
 		GLOBAL.getClusterer().repaint();
 	}	
+}
+
+function handleClickChooseProviderForStar() 
+{
+	var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+	star.setIndex($(this).attr('data-provider-index'));
+	$(this).parents('li').find('.productItem').click();
+	$(this).siblings('li').removeClass('starProvider');
+	$(this).addClass("starProvider");
 }

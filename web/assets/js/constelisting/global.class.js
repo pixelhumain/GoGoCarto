@@ -9,10 +9,13 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.markerManager_ = markerManager;
 	this.constellationMode_ = constellationMode;
 	this.filterManager_ = constellationMode ? null : new FilterManager();
+	this.state_ = 'normal';
 }
 
 Global.prototype.getMap = function() { return this.map_ };
 Global.prototype.setMap = function(map) { return this.map_ = map };
+Global.prototype.getState = function() { return this.state_ };
+Global.prototype.setState = function(state) { return this.state_ = state };
 Global.prototype.getConstellation = function() { return this.constellation_ };
 Global.prototype.setConstellation = function(constellation) { return this.constellation_ = constellation};
 Global.prototype.getProviderManager = function() { return this.providerManager_ };

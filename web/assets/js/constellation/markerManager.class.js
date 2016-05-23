@@ -82,15 +82,17 @@ MarkerManager.prototype.showNormalHiddenAllMarkers = function ()
 	}
 };
 
-MarkerManager.prototype.focusOnThesesMarkers = function (idList) 
+MarkerManager.prototype.focusOnThesesMarkers = function (idList, starName) 
 {
 	this.hidePartiallyAllMarkers();
 
 	for(var i = 0; i < idList.length; i++)
 	{
 		var marker = this.getMarkerById(idList[i]);
+		marker.starChoiceForRepresentation = starName;
+		marker.updateIcon();
 		marker.showNormalHidden();
-		marker.show();		
+		marker.show();			
 	}
 
 };
@@ -98,9 +100,15 @@ MarkerManager.prototype.focusOnThesesMarkers = function (idList)
 MarkerManager.prototype.clearFocusOnThesesMarkers = function (idList) 
 {
 	this.showNormalHiddenAllMarkers();
+	var marker;
 	for(var i = 0; i < idList.length; i++)
 	{
-		this.getMarkerById(idList[i]).hide();
+		marker = this.getMarkerById(idList[i]);
+		marker.starChoiceForRepresentation = '';
+		marker.updateIcon();		
+		marker.hide();
+		
+		
 	}
 	for(var i = 0; i < this.markers_.length; i++)
 	{

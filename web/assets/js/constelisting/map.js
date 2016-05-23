@@ -118,18 +118,40 @@ function showProviderInfosOnMap(providerId)
 {	
 	if (constellationMode)
 	{
-		// durty method to know if weare in large screen
+		// durty method to know if we are in large screen
 		if ($('#ProviderList').offset().top < 100)
-		{
-			$('#infoProvider-'+providerId + ' .moreDetails').slideDown(slideOptions);
+		{			
+			$('.providerItem .moreDetails').hide();
+			$('.providerItem .moreChoiceInfo').remove();
 			var target = $('#infoProvider-'+providerId);
-		    $('#ProviderList').animate({scrollTop: $(target).offset().top-$('#ProviderList').offset().top}, 500);
+		    $('#ProviderList').animate({scrollTop: '+='+$(target).position().top}, 500);
+		    $('#infoProvider-'+providerId + ' .moreDetails').slideDown(slideOptions);
 		}
 		else
 		{
 			$('#detail_provider').empty();
 			$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
-		}		
+		}	
+
+		if (GLOBAL.getState() == 'starRepresentationChoice' 
+			&& !$('#infoProvider-'+providerId + ' .moreChoiceInfo').is(':visible'))
+		{
+			
+			var starMoreChoicesVisible = $('.moreResultContainer:visible').first();
+			var starName = starMoreChoicesVisible.parent().find('.productItem').attr('data-star-name');
+			var star = GLOBAL.getConstellation().getStarFromName(starName);
+			var providerIndex = star.getProviderIndexFromId(providerId);
+			
+			var content = document.createElement("div");
+			$(content).attr('data-star-name',starName);
+			$(content).attr('data-provider-index',providerIndex);
+			$(content).addClass("moreChoiceInfo");
+			$(content).html('Vous pouvez sélectionner ce fournisseur en tant que "'+starName+'" principal <button class="btn waves-effect waves-light" >Sélectionner</button> ');
+			
+			$(content).find('button').click(handleClickChooseProviderForStar);
+
+			$(content).prependTo('#detail_provider');
+		}
 	}
 	else
 	{
@@ -175,17 +197,11 @@ function hideProviderDetailsComplet()
 
 function animate_up_bandeau_detail()
 {
-	if ($('#detail_provider').hasClass('floatRight'))
-	{
+	var bandeau_detail_new_height = $('#detail_provider').height();
 
-	}
-	else
-	{
-		var bandeau_detail_new_height = $('#detail_provider').height();
-
-		$('#bandeau_detail').css('height', bandeau_detail_new_height);
-		ajuster_taille_carte(bandeau_detail_new_height);	
-	}
+	$('#bandeau_detail').css('height', bandeau_detail_new_height);
+	ajuster_taille_carte(bandeau_detail_new_height);	
+	
 }
 
 function animate_down_bandeau_detail()

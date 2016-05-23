@@ -41,7 +41,6 @@ function Provider(providerPhp)
 Provider.prototype.initialize = function () 
 {		
 	this.biopenMarker_ = new BiopenMarker(this.id, this.position);
-	/*this.htmlRepresentation_ = '<span>'+this.name_ +'</span>';*/
 	this.isInitialized_ = true;
 };
 

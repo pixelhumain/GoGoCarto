@@ -13,6 +13,21 @@
     -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);     
 }
 
+.moreChoiceInfo
+{
+	line-height: 3rem;
+    text-align: center;
+    color: #F5F3F3;
+    font-weight: 400;
+    background-color: #54928C;
+
+	.btn {
+		margin: 0 0 .1rem 1rem;
+	    text-transform: none;
+	    background-color: #3D3D3D
+	}
+}
+
 #detail_provider
 {
 	.collapsible-body { border-bottom: 0 }
@@ -21,7 +36,6 @@
 		display : none; 
 	}
 	li { list-style-type: none; }
-
 }
 
 #ProviderList
@@ -29,6 +43,20 @@
 	overflow-y: auto;
 	background-color: #544242;
 	border-left: none;
+
+	.moreChoiceInfo
+	{
+	    text-align: left;
+	    padding-left: 1rem;
+	    color: #4A7874;
+	    font-weight: 500;
+	    background-color: transparent;
+
+		.btn {
+			margin: 0 .5rem .1rem 0;
+			background-color: #4a7874;
+		}
+	}
 }
 
 @media #{$large-and-up}
@@ -44,6 +72,11 @@
 		-webkit-box-shadow:  0 4px 4px rgba(0,0,0,.2), 0 -1px 4px rgba(0,0,0,.2);
 
 		z-index: 4000; 
+
+		.collapsible-header:hover
+		{
+			background-color: $grey-light;
+		}
 	}
 }
 #ProviderList, #bandeau_detail
