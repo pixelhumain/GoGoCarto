@@ -22,18 +22,21 @@ class FournisseurController extends Controller
 		$provider = new Provider();
 		$form = $this->get('form.factory')->create(ProviderType::class, $provider);
 
+		$em = $this->getDoctrine()->getManager();
+		$listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+            ->findAll();
+
 		if ($form->handleRequest($request)->isValid()) 
 		{
-			$em = $this->getDoctrine()->getManager();
-
-			$this->handleFormSubmission($form, $provider, $em);
+			$this->handleFormSubmission($form, $provider, $em, $request);
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la saisie de ce nouveau fournisseur' );	
 			return $this->redirectToRoute('biopen_fournisseur_add');			
-		}
+		}		
 
 		return $this->render('::Fournisseur/add.html.twig', array(
-		'form' => $form->createView(), 
+		'form' => $form->createView(),
+		'listProducts'=> $listProducts 
 		));
     }    
 
@@ -50,42 +53,50 @@ class FournisseurController extends Controller
 
 		$provider->reinitContributor();
 
+		$listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+            ->findAll();
+
 		$form = $this->get('form.factory')->create(ProviderType::class, $provider);
 
-		$listProducts = [];
+		// conversion des produits non géré par symphony
+		$providerProducts = [];
 		foreach ($provider->getProducts() as $providerProduct) 
 		{			
-			$listProducts[] = $providerProduct->getProduct();			
+			$providerProducts[] = $providerProduct->getProduct();			
 		}
+		$form->get('listeProducts')->setData($providerProducts);
 
-		$form->get('listeProducts')->setData($listProducts);
-
+		// Submission du formulaire
 		if ($form->handleRequest($request)->isValid()) 
 		{
 		  	$em = $this->getDoctrine()->getManager();
 
-			$this->handleFormSubmission($form, $provider, $em);
+			$this->handleFormSubmission($form, $provider, $em, $request);
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la modification de ce fournisseur' );	
-			return $this->redirectToRoute('biopen_fournisseur_add');
+			//return $this->redirectToRoute('biopen_fournisseur_add');
 		}
 
 		return $this->render('::Fournisseur/edit.html.twig', array(
 			'form' => $form->createView(), 
-			'provider' => $provider
+			'provider' => $provider,
+			'listProducts'=> $listProducts
 		));
 	}
 
-	private function handleFormSubmission($form, $provider, $em)
+	private function handleFormSubmission($form, $provider, $em, $request)
     {
+    	$provider->resetProducts();
     	foreach ($form->get('listeProducts')->getData() as $product) 
 		{
 			$providerProduct = new ProviderProduct();
 			$providerProduct->setProduct($product);
 			$providerProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
 			$provider->addProduct($providerProduct);
-		}			
-		if ($provider->getMainProduct() == null) // si pas un producteur ou amap
+		}	
+		$mainProduct = $request->request->get('mainProductSelection');
+		$provider->setMainProduct($mainProduct);	
+		if (!$provider->getMainProduct()) // si pas un producteur ou amap
 		{
 			$provider->setMainProduct($provider->getType());		
 		}

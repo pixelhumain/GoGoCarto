@@ -57,7 +57,7 @@ class Provider
     private $tel;
 
     /**
-    * @ORM\OneToMany(targetEntity="Biopen\FournisseurBundle\Entity\ProviderProduct", mappedBy="provider", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Biopen\FournisseurBundle\Entity\ProviderProduct", mappedBy="provider", cascade={"persist", "remove"}, orphanRemoval=true)
     */
     private $products; 
 
@@ -134,6 +134,21 @@ class Provider
         $this->validationCode = md5(uniqid(rand(), true));
         $this->contributeurMail = '';
         $this->contributeur = '';
+    }
+
+    public function resetProducts()
+    {
+        $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
+        /*foreach ($this->products as $product) 
+        {           
+            $this->productsCopy->add($product);           
+        }
+        foreach ($this->productsCopy as $product) 
+        {           
+            $this->products->remove($product);           
+        }*/
+        $this->products->clear();
+        dump($this->products);
     }
 
     /**

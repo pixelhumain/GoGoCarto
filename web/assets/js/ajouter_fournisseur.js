@@ -8,13 +8,21 @@ jQuery(document).ready(function()
 	$('.timepicker_3').timepicki({start_time: ["14", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	$('.timepicker_4').timepicki({start_time: ["18", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	
+	// EDIT MODE
+	if ($('#type_provider').val())
+	{
+		maj_form_with_type(false);
+		maj_with_main_product($("#mainProductSelection").val())
+	}
+
 	// CHECK si un type de provider est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
 	if (GET['type']) 
 	{
 		$('#type_provider > option[value="'+GET['type']+'"]').prop('selected',true);
 		maj_form_with_type(false);
-	}
+	}	
+	
 	$('select').material_select();
 
 	$('.tooltipped').tooltip();
@@ -23,7 +31,7 @@ jQuery(document).ready(function()
 	// AJOUT LISTENERS
 	// ---------------
 	$('#type_provider').change( maj_form_with_type );
-	$("#mainProductSelection").change( maj_with_main_product );
+	$("#mainProductSelection").change(function() { maj_with_main_product($(this).val()); });
 
 	// entr?e d'une adresse on geocode
 	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
@@ -92,6 +100,11 @@ function initMap()
 	    $('#provider_latlng_latitude').attr('value',marker.getPosition().lat());
 		$('#provider_latlng_longitude').attr('value',marker.getPosition().lng());	
     });
+
+    if ($('#inputAdresse').val()) 
+	{
+		geocodeAddress($('#inputAdresse').val())
+	}
 }
 
 // trouve le lat lng correspondant ? une adresse donn?e
@@ -177,9 +190,10 @@ function maj_form_with_type( init )
 	first_maj_form_with_type_done = true;
 }
 
-function maj_with_main_product()
+function maj_with_main_product(mainProduct)
 {
-	
+	$('.checkbox_products:disabled').prop('disabled', false);
+	$('#biopen_fournisseurbundle_provider_listeProducts_'+mainProduct).prop('checked', true).prop('disabled',true).change();
 }
 
 function ajout_plage_horaire( jour )
@@ -310,7 +324,7 @@ function check_and_send()
 		else if (value_2) $(this).addClass('invalid');		
 	});		
 
-	if( !$('#provider_latlng_latitude').val() && !$('provider_latlng_longitude').val() )	
+	if( !$('#biopen_fournisseurbundle_provider_latlng_latitude').val() )	
 	{
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");

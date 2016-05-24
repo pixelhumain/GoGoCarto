@@ -77,6 +77,14 @@ section
   margin-bottom: 0px;
 }
 
+#section_products
+{
+  .dropdown-content
+  {
+    max-height: 350px;
+  }
+}
+
 #section_info_provider
 {
   padding-top: 0px; 

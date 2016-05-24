@@ -1,6 +1,6 @@
 {{ form_start(form, {'id': 'formProvider'}) }}   
 
-<section class="row" id="section_provider">
+<section class="row" id="section_provider" {% if editMode %}style="display:none"{% endif %} >
 <!-- Select type de provider -->
 	<div class="input-field col s12">
     	{{ form_widget(form.type, {'id': "type_provider"}) }}

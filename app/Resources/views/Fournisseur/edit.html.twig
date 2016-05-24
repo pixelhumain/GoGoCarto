@@ -13,8 +13,14 @@
 
 {# BODY CONTENT #}
 {% block body_content %}
+
+	{% for flash_message in app.session.flashbag.get('notice') %}
+	    <div class="flash-notice">
+	        {{ flash_message | raw }}
+	    </div>
+	{% endfor %}
   
-  <h1 id="titre_ajout">Modification des données</h1>  
+  <center><h1 id="titre_ajout">Modification des données</h1></center>
 
   {% include "::Fournisseur/form.html.twig" with {'editMode':true} %} %}
 

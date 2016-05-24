@@ -2,14 +2,19 @@
 <section id="section_products">
 	
 	<h2 id="title_products">Produits du fournisseur</h2>
-	
-	<div class="row" id="mainProductDiv">
-	<!-- Select type de provider -->
+
+	<div class="row" id="mainProductDiv" style="display:none">
 		<div class="input-field col s12">
-	    {{ form_widget(form.mainProduct, {'id': "mainProductSelection"}) }}
-    	<label id="label_main_product_selection">Product principal</label>
+	    <select id="mainProductSelection" name="mainProductSelection">
+	   	   <option value=""  {% if not editMode %}disabled selected{% endif %}>Choisissez le produit principal</option>
+	      {% for product in listProducts %}
+	      	<option value="{{product.nameFormate}}" {% if editMode and product.nameFormate == provider.mainProduct %}selected{% endif %}>{{ product.name }}</option>
+	      {% endfor %}
+	    </select>
+    	<label id="label_main_product_selection">Produit principal</label>
 	  	</div>
 	</div>
+
 
 	<div class="row ">			
 		{% for product in form.listeProducts %}
