@@ -4,7 +4,7 @@
           data-providers-size="{{ star.providerList|length }}" >
     <span class="icon icon-{{starName|lower}}"></span>
     <span class="productName">{{ star.name|capitalize }}</span>
-    <span class="resultNumber tooltipped {% if star.providerList|length > 1 %} active {% endif %}" data-position="right" data-delay="0" data-tooltip="Voir {{ star.providerList|length }} autres résultats">{{ star.providerList|length }}</span>
+    <span class="resultNumber tooltipped {% if star.providerList|length > 1 %} moreThanOneChoice {% endif %}" data-position="right" data-delay="0" data-tooltip="Voir {{ star.providerList|length }} résultats">{{ star.providerList|length }}</span>
     </div>
 
     {# {% if star.providerList|length > 1 %} #}

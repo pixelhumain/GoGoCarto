@@ -114,7 +114,7 @@ function initCluster(markersToCluster)
     });
 }
 
-function showProviderInfosOnMap(providerId) 
+function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true) 
 {	
 	if (constellationMode)
 	{
@@ -131,10 +131,12 @@ function showProviderInfosOnMap(providerId)
 		{
 			$('#detail_provider').empty();
 			$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
+			$('#infoProvider-'+providerId + ' .moreChoiceInfo').remove();
 		}	
 
 		if (GLOBAL.getState() == 'starRepresentationChoice' 
-			&& !$('#infoProvider-'+providerId + ' .moreChoiceInfo').is(':visible'))
+			&& !$('#infoProvider-'+providerId + ' .moreChoiceInfo').is(':visible')
+			&& showMoreChoiceInfo)
 		{
 			
 			var starMoreChoicesVisible = $('.moreResultContainer:visible').first();
@@ -148,7 +150,7 @@ function showProviderInfosOnMap(providerId)
 			$(content).addClass("moreChoiceInfo");
 			$(content).html('Vous pouvez sélectionner ce fournisseur en tant que "'+starName+'" principal <button class="btn waves-effect waves-light" >Sélectionner</button> ');
 			
-			$(content).find('button').click(handleClickChooseProviderForStar);
+			$(content).click(handleClickChooseProviderForStar);
 
 			$(content).prependTo('#detail_provider');
 		}

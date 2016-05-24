@@ -24,177 +24,73 @@ class FournisseurController extends Controller
 
 		if ($form->handleRequest($request)->isValid()) 
 		{
-			foreach ($form->get('listeProducts')->getData() as $product) 
-			{
-				$providerProduct = new ProviderProduct();
-				$providerProduct->setProduct($product);
-				$providerProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
-				$provider->addProduct($providerProduct);
-			}			
-			if ($provider->getMainProduct() == null) // si pas un producteur ou amap
-			{
-				$provider->setMainProduct($provider->getType());		
-			}
-
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($provider);
-			$em->flush();
+
+			$this->handleFormSubmission($form, $provider, $em);
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la saisie de ce nouveau fournisseur' );	
-			return $this->redirectToRoute('biopen_fournisseur_add');
-			/*$provider = new Provider();
-			$form = $this->get('form.factory')->create(ProviderType::class, $provider);		*/
+			return $this->redirectToRoute('biopen_fournisseur_add');			
 		}
 
 		return $this->render('::Fournisseur/add.html.twig', array(
 		'form' => $form->createView(), 
 		));
-    }
+    }    
 
-    public function generateAction($nombre)
-    {
-	    $manager = $this->getDoctrine()->getManager();
-
-	    $SOlat = 42.81519924863995;
-	    $SOlng = -1.0489655173828396;
-	    $NElat = 44.9916584842516;
-	    $NElng = 2.9116057716796604;
-
-	    $lngSpan = $NElng - $SOlng;
-	    $latSpan = $NElat - $SOlat; 
-
-	    $listProducts = $manager->getRepository('BiopenFournisseurBundle:Product')
-	            ->findAll();
-
-	    $lipsum = new LoremIpsum();
-
-	    $listType = ['producteur', 'amap', 'marche', 'epicerie', 'boutique'];
-
-	    $typeSet = [
-		  0 => 0.5,
-		  1 => 0.1,
-		  2 => 0.15,
-		  3 => 0.15,
-		  4 => 0.1,
-		];
-
-		$productsSet = [
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05
-		];
-
-		/*$productSet = [
-		  0 => 0.1,
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05,
-		  6 => 0.05,
-		  7 => 0.05,
-		  8 => 0.05,
-		  9 => 0.05,
-		  10 => 0.05,
-		  11 => 0.05,
-		  12 => 0.05,
-
-		];*/
-
-
-	    for ($i= 0; $i < $nombre; $i++) 
-	    {
-	      $new_provider = new Provider();
-
-	      $new_provider->setName($lipsum->words(rand(2,8)));
-
-	      $lat = $SOlat + $latSpan * $this->random_0_1();
-	      $lng = $SOlng + $lngSpan * $this->random_0_1();
-
-	      $new_provider->setLatLng(new Point($lat,$lng));
-	      $new_provider->setAdresse($lipsum->words(rand(6,10)));       
-	      $new_provider->setDescription($lipsum->words(rand(3,20)));
-	      $new_provider->setTel('O678459586');
-
-	      $type = $listType[$this->randWithSet($typeSet)];
-
-	      $new_provider->setType($type);
-
-	      if ($type == "epicerie" || $type == "marche" || $type == 'boutique')
-	      {
-	        $new_provider->setMainProduct($type);
-	      }
-
-	      if ($type == "amap")
-	      {
-	        $contactAmap = new ContactAmap();
-	        $contactAmap->setName("Jean-charles Dupont");
-	        $contactAmap->setMail("amap@yahoo.fr");
-	        $contactAmap->setTel("0656758968");
-	        $new_provider->setContactAmap($contactAmap);
-	      }
-
-	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
-	      {
-	        $product = $listProducts[rand(0,count($listProducts)-1)];
-	        $providerProduct = new ProviderProduct();
-	        $providerProduct->setProduct($product);
-	        $providerProduct->setDescriptif($lipsum->words(rand(0,15)));
-
-	        $new_provider->addProduct($providerProduct);
-
-	        if ($j == 0 && !$new_provider->getMainProduct()) 
-	        {
-	            $new_provider->setMainProduct($product->getNameFormate());
-	        }
-	      }
-
-	      $new_provider->setContributeur('true');
-	      $new_provider->setContributeurMail('contributeur@gmail.com');
-		
-		  //dump($new_provider);
-		 // On la persiste
-	      $manager->persist($new_provider);
-	    }
-
-	    // On déclenche l'enregistrement de toutes les catégories
-	    $manager->flush();
-
-	    return new Response('Fournisseurs générés');
-  }
-
-  function randWithSet(array $set, $length=10000)
+	public function editAction($id, Request $request)
 	{
-	   $left = 0;
-	   foreach($set as $num=>$right)
-	   {
-	      $set[$num] = $left + $right*$length;
-	      $left = $set[$num];
-	   }
-	   $test = mt_rand(1, $length);
-	   $left = 1;
-	   foreach($set as $num=>$right)
-	   {
-	      if($test>=$left && $test<=$right)
-	      {
-	         return $num;
-	      }
-	      $left = $right;
-	   }
-	   return null;//debug, no event realized
+		$em = $this->getDoctrine()->getManager();
+
+		// On récupère l'annonce $id
+		$provider = $em->getRepository('BiopenFournisseurBundle:Provider')->find($id);
+
+		if (null === $provider) {
+		  throw new NotFoundHttpException("Ce fournisseur n'existe pas.");
+		}
+
+		$provider->reinitContributor();
+
+		$form = $this->get('form.factory')->create(ProviderType::class, $provider);
+
+		$listProducts = [];
+		foreach ($provider->getProducts() as $providerProduct) 
+		{			
+			$listProducts[] = $providerProduct->getProduct();			
+		}
+
+		$form->get('listeProducts')->setData($listProducts);
+
+		if ($form->handleRequest($request)->isValid()) 
+		{
+		  	$em = $this->getDoctrine()->getManager();
+
+			$this->handleFormSubmission($form, $provider, $em);
+
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la modification de ce fournisseur' );	
+			return $this->redirectToRoute('biopen_fournisseur_add');
+		}
+
+		return $this->render('::Fournisseur/edit.html.twig', array(
+			'form' => $form->createView(), 
+			'provider' => $provider
+		));
 	}
 
-  public function randomText($quantite = 1, $type = 'paras', $lorem = false) 
-  {
-    $url = "http://www.lipsum.com/feed/xml?amount=$quantite&what=$type&start=".($lorem?'yes':'no');
-    return simplexml_load_file($url)->lipsum;
-  }
-
-  public function random_0_1()
-  {   // auxiliary function
-      // returns random number with flat distribution from 0 to 1
-      return (float)rand()/(float)getrandmax();
-  }
+	private function handleFormSubmission($form, $provider, $em)
+    {
+    	foreach ($form->get('listeProducts')->getData() as $product) 
+		{
+			$providerProduct = new ProviderProduct();
+			$providerProduct->setProduct($product);
+			$providerProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
+			$provider->addProduct($providerProduct);
+		}			
+		if ($provider->getMainProduct() == null) // si pas un producteur ou amap
+		{
+			$provider->setMainProduct($provider->getType());		
+		}
+		
+		$em->persist($provider);
+		$em->flush();
+    }
 }

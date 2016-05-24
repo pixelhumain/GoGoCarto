@@ -1,6 +1,6 @@
 {% extends "::bundle_layout.html.twig" %}
 
-{% block title %}Ajout d'un Fournisseur{% endblock %}
+{% block title %}Edition{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -13,16 +13,10 @@
 
 {# BODY CONTENT #}
 {% block body_content %}
-
-	{% for flash_message in app.session.flashbag.get('notice') %}
-	    <div class="flash-notice">
-	        {{ flash_message | raw }}
-	    </div>
-	{% endfor %}
   
-  <h1 id="titre_ajout">Ajouter un fournisseur</h1>  
+  <h1 id="titre_ajout">Modification des données</h1>  
 
-  {% include "::Fournisseur/form.html.twig" with {'editMode':false} %}
+  {% include "::Fournisseur/form.html.twig" with {'editMode':true} %} %}
 
 {% endblock %}
 

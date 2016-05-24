@@ -128,3 +128,9 @@
 .icon-map-1:before {
   content: "\44";
 }
+.icon-close:before {
+  content: "\45";
+}
+.icon-close-circle:before {
+  content: "\46";
+}

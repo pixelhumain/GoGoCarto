@@ -26,8 +26,10 @@ ProviderManager.prototype.draw = function ()
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
 	{
 		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
-		$('#infoProvider-'+providerId).show();
+		$('#ProviderList #infoProvider-'+providerId).show();
 	}
+
+	$('#ProviderList').animate({scrollTop: '0'}, 500);
 };
 
 ProviderManager.prototype.focusOnThesesProviders = function (idList, starName) 
@@ -35,12 +37,12 @@ ProviderManager.prototype.focusOnThesesProviders = function (idList, starName)
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
 	{
 		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
-		$('#infoProvider-'+providerId).hide();
+		$('#ProviderList #infoProvider-'+providerId).hide();
 	}
 
 	for(var i = 0; i < idList.length; i++)
 	{
-		$('#infoProvider-'+idList[i]).show();
+		$('#ProviderList #infoProvider-'+idList[i]).show();
 
 		var star = GLOBAL.getConstellation().getStarFromName(starName);
 		var providerIndex = star.getProviderIndexFromId(idList[i]);
@@ -53,8 +55,10 @@ ProviderManager.prototype.focusOnThesesProviders = function (idList, starName)
 		
 		$(content).click(handleClickChooseProviderForStar);	
 
-		$(content).prependTo('#infoProvider-'+idList[i]+' .collapsible-header');	
+		$(content).prependTo('#ProviderList #infoProvider-'+idList[i]+' .collapsible-header');	
 	}
+
+	$('#ProviderList').animate({scrollTop: '0'}, 500);
 
 };
 

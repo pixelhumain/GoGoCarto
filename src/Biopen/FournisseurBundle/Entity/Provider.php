@@ -129,6 +129,13 @@ class Provider
         $this->validationCode = md5(uniqid(rand(), true));
     }
 
+    public function reinitContributor()
+    {
+        $this->validationCode = md5(uniqid(rand(), true));
+        $this->contributeurMail = '';
+        $this->contributeur = '';
+    }
+
     /**
      * Get id
      *
@@ -352,7 +359,7 @@ class Provider
      */
     public function getContributeur()
     {
-        return $this->contributeur;
+        return ($this->contributeur == 'true');
     }
 
     /**

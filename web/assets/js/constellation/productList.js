@@ -13,12 +13,12 @@ jQuery(document).ready(function()
 		star.getMarker().showNormalSize();
 	});
 
-	$('.resultNumber.active:not(.disabled)').click(function()
+	$('.resultNumber:not(.disabled)').click(function()
 	{
 		if ($(this).parent().attr('data-providers-size') == 1)
 		{			
 			var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
-			showProviderInfosOnMap(star.getProviderId());
+			showProviderInfosOnMap(star.getProviderId(), false);
 		}
 		else
 		{			
@@ -49,6 +49,8 @@ jQuery(document).ready(function()
 			GLOBAL.getProviderManager().focusOnThesesProviders(idToFocus,star.getName());
 			GLOBAL.getClusterer().repaint();
 			GLOBAL.setState('starRepresentationChoice');
+
+			hideBandeauHelper();
 		}		
 	});
 
@@ -83,9 +85,18 @@ function clearProductList()
 
 function handleClickChooseProviderForStar() 
 {
-	var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
-	star.setIndex($(this).attr('data-provider-index'));
-	$(this).parents('li').find('.productItem').click();
+	var starName = $(this).attr('data-star-name');
+	var providerIndex = $(this).attr('data-provider-index');
+	var star = GLOBAL.getConstellation().getStarFromName(starName);
+	star.setIndex(providerIndex);
+	
+	$('.moreResultContainer:visible .starProvider').removeClass('starProvider');
+	$('#moreResult-'+starName+'-'+providerIndex).addClass("starProvider");
+	/*$(this).parents('li').find('.productItem').click();
 	$(this).siblings('li').removeClass('starProvider');
-	$(this).addClass("starProvider");
+	$(this).addClass("starProvider");*/
+
+	ev.preventDefault();
+	ev.stopPropagation();
+	event.preventDefault();
 }

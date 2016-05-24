@@ -1,0 +1,74 @@
+{{ form_start(form, {'id': 'formProvider'}) }}   
+
+<section class="row" id="section_provider">
+<!-- Select type de provider -->
+	<div class="input-field col s12">
+    	{{ form_widget(form.type, {'id': "type_provider"}) }}
+    <label id="label_type_provider">Type de fournisseur</label>
+  	</div>
+</section>
+
+<!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
+<div id="form_content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
+
+	{% include "::Fournisseur/FormPartials/generals-info.html.twig" %}
+
+	{% include "::Fournisseur/FormPartials/products.html.twig" %}
+
+	{% include "::Fournisseur/FormPartials/horaires.html.twig" %}
+
+	{% include "::Fournisseur/FormPartials/user.html.twig" %}
+
+	<center>
+		<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
+	</center>
+
+{{ form_rest(form) }}
+
+{# Fermeture de la balise <form> du formulaire HTML #}
+{{ form_end(form) }}
+
+{% block modals %}
+	<!-- Pop up plusieurs jours de marchés -->
+	<div id="modal_marche" class="modal">
+	<div class="modal-content">
+	  <h5>Plusieurs jours de marchés</h5>
+	  <p>Vous avez renseigné plusieurs jours d'ouverture pour ce marché, êtes vous certain que
+	  	l'on retrouve les même products à ces différentes date?</p>
+	  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque jour
+	  		de marché</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
+	 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
+	</div>
+	</div>
+
+	<!-- Pop up message alerte-->
+	<div id="popup" class="modal">
+	<div class="modal-content">
+	  <h5 id="popup_title"></h5>
+	  <p id="popup_content"></p>
+	</div>
+	<div class="modal-footer">
+		<span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
+	</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{% javascripts filter="?jsqueeze" output="js/app.js"
+        "assets/js/libs/jquery-2.2.1.min.js"
+        "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/libs/timepicki.js"
+        "assets/js/ajouter_fournisseur.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+	</script>
+{% endblock %}

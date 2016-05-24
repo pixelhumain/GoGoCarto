@@ -5215,7 +5215,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       position: absolute;
       right: -10px;
       top: -10px; }
-    #ProductsList .resultNumber.active:hover {
+    #ProductsList .resultNumber:hover {
       cursor: pointer;
       transform: scale(1.2, 1.2);
       background-color: #B33737; }
@@ -5284,7 +5284,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   font-weight: 400;
   background-color: #54928C; }
   .moreChoiceInfo .btn, .moreChoiceInfo .btn-large {
-    margin: 0 0 .1rem 1rem;
+    margin: 0 0 .1rem 1rem !important;
     text-transform: none;
     background-color: #3D3D3D; }
 
@@ -5306,7 +5306,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     font-weight: 500;
     background-color: transparent; }
     #ProviderList .moreChoiceInfo .btn, #ProviderList .moreChoiceInfo .btn-large {
-      margin: 0 .5rem .1rem 0;
+      margin: 0 .5rem .1rem 0 !important;
       background-color: #4a7874; }
 
 @media only screen and (min-width: 1201px) {
@@ -5564,6 +5564,25 @@ section::-webkit-scrollbar-thumb {
   position: relative;
   height: 100%; }
 
+#bandeau_helper {
+  height: 3rem;
+  z-index: 20;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  line-height: 3rem;
+  background-color: #4A7874;
+  color: white; }
+  #bandeau_helper #btn-bandeau-helper-close {
+    float: right;
+    margin-right: 2rem;
+    line-height: 3.3rem;
+    cursor: pointer; }
+    #bandeau_helper #btn-bandeau-helper-close:hover {
+      color: #2A3535; }
+
 #section_carte {
   position: relative;
   height: 100%;
@@ -5608,8 +5627,8 @@ section::-webkit-scrollbar-thumb {
   margin-top: .5rem;
   margin-bottom: .5rem; }
   #bandeau_goToProviderList a {
-    color: #26A69A;
-    font-weight: 500; }
+    color: #6ba49f;
+    font-weight: 600; }
   #bandeau_goToProviderList .valign-wrapper {
     width: 180px;
     margin: auto; }

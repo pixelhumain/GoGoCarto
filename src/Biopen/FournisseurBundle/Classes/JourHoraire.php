@@ -16,24 +16,28 @@ class JourHoraire
 
     public function getPlage1Debut()
     {
-        return date_format($this->plage1debut, 'H:i');
+        //return date_format($this->plage1debut, 'H:i');
+        return $this->plage1debut;
     }
     
 
     public function getPlage2Debut()
     {
-        return date_format($this->plage2debut, 'H:i');
+        //return date_format($this->plage2debut, 'H:i');
+        return $this->plage2debut;
     }
 
     public function getPlage1Fin()
     {
-        return date_format($this->plage1fin, 'H:i');
+        //return date_format($this->plage1fin, 'H:i');
+        return $this->plage1fin;
     }
     
 
     public function getPlage2Fin()
     {
-        return date_format($this->getPlage2Fin, 'H:i');
+        //return date_format($this->plage2Fin, 'H:i');
+        return $this->plage2fin;
     }
 
 
@@ -48,20 +52,20 @@ class JourHoraire
 
     public function setPlage2Debut($plage)
     {
-        return $this->plage2debut = $plage;
+        $this->plage2debut = $plage;
         return $this;
     }
 
     public function setPlage1Fin($plage)
     {
-        return $this->plage1fin = $plage;
+        $this->plage1fin = $plage;
         return $this;
     }
     
 
     public function setPlage2Fin($plage)
     {
-        return $this->plage2fin = $plage;
+        $this->plage2fin = $plage;
         return $this;
     }
 }

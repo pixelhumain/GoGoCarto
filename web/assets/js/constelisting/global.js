@@ -16,11 +16,18 @@ jQuery(document).ready(function()
 
 	setTimeout(ajuster_taille_composants,50);
 
+	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
+
 	window.onresize = function() 
 	{
 		ajuster_taille_composants();
 	}	
 });
+
+function hideBandeauHelper()
+{
+	$('#bandeau_helper').slideUp(slideOptions);
+}
 
 function ajuster_taille_composants()
 {	

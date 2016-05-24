@@ -63,13 +63,6 @@ jQuery(document).ready(function()
 
 });
 
-/*function addPrecisionProduit(id) 
-{    
-    var prototype = $('#precisions').attr('data-prototype');
-    var newForm = prototype.replace(/__name__/g, id);    
-    $('#precisions').append(newForm);
-}*/
-
 var map;
 var geocoder;
 var marker;

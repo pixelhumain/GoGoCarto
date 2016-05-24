@@ -2,8 +2,14 @@ biopen_fournisseur_add:
     path:     /add
     defaults: { _controller: BiopenFournisseurBundle:Fournisseur:add }
 
+biopen_fournisseur_edit:
+    path:     /edit/{id}
+    defaults: { _controller: BiopenFournisseurBundle:Fournisseur:edit }
+    requirements:
+        id: \d+
+
 biopen_fournisseur_generate:
     path:     /generate/{nombre}
-    defaults: { _controller: BiopenFournisseurBundle:Fournisseur:generate, nombre:'1' }
+    defaults: { _controller: BiopenFournisseurBundle:RandomCreation:generate, nombre:'1' }
     options:
         expose: true
