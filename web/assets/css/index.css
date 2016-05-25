@@ -4803,10 +4803,21 @@ h1 {
   width: 400px;
   margin-bottom: 50px;
   text-align: center;
-  border: 1px solid #A5A4A4;
+  border: 3px solid #BDBDBD;
+  box-shadow: none !important;
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px; }
+  #inputAdresse::-webkit-input-placeholder {
+    color: #BDBDBD; }
+  #inputAdresse::-moz-placeholder {
+    color: #BDBDBD; }
+  #inputAdresse:-ms-input-placeholder {
+    color: #BDBDBD; }
+  #inputAdresse:-moz-placeholder {
+    color: #BDBDBD; }
+  #inputAdresse:focus {
+    border-color: #6B6B6B; }
 
 body {
   text-align: center;
@@ -4835,16 +4846,26 @@ section#mainFunctions {
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-    height: 200px;
+    font-size: 120px;
+    height: 180px;
+    width: 180px;
+    text-align: center;
+    position: relative;
     margin: auto;
-    width: 200px;
+    color: #444;
     background-color: #ee6e73; }
+    .function .image-wrapper .image:before {
+      line-height: 180px; }
 .function .text {
   text-align: center;
   padding: 0 2rem; }
 .function button {
   font-weight: 700;
   font-size: 1.1rem; }
+.function:hover {
+  cursor: pointer; }
+  .function:hover .image {
+    color: #C5C5C5; }
 
 .pac-icon {
   display: none; }

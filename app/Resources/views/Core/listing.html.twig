@@ -21,6 +21,7 @@
 
 <div id="div_map_and_products">
 
+
   
   {# La liste des products #}
   <section id="ProductsList">     
@@ -31,6 +32,20 @@
    
   {# La Carte et les infos provider #} 
   <section id="section_carte">
+
+    {#  PRELOADER #}
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="map"></div>
 
     <section id="bandeau_detail">

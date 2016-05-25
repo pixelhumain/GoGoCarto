@@ -8,9 +8,9 @@ jQuery(document).ready(function()
 		}
 	});
 
-	$('#btn_constellation').click(function(){ redirectTo('biopen_constellation'); });
+	$('#constellation-zone').click(function(){ redirectTo('biopen_constellation'); });
 
-	$('#btn_listing').click(function(){ redirectTo('biopen_listing'); });
+	$('#listing-zone').click(function(){ redirectTo('biopen_listing'); });
 
 });
 

@@ -5,6 +5,7 @@
 {# Stylessheets #}
 {% block stylesheets %}
 
+	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
 
 {% endblock %}
@@ -15,7 +16,7 @@
 
 <section id="title">
 	<span class="icon-business"></span>	
-	<h1>Bienvenue sur Pages Vertes</h1>
+	<h1>Alimentation près de chez soi</h1>
 </section>
 
 <section id="mainFunctions">
@@ -25,22 +26,26 @@
 	</div>
 	
 	<div class="row">
-		<div class="function col s4">
-			<div class="image-wrapper"><div class="image"></div></div>
+		<div class="function col s4" id="constellation-zone">
+			<div class="image-wrapper">
+				<div class="image icon-constellation"></div>
+			</div>
 			<button id="btn_constellation" class="btn-flat waves-effect waves-light">Constellation</button>
 			<div class="text">Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</div>
 		</div>
 
-		<div class="function col s4">
-			<div class="image-wrapper"><div class="image"></div></div>
+		<div class="function col s4" id="listing-zone">
+			<div class="image-wrapper">
+				<div class="image icon-icon-liste"></div>
+			</div>
 			<button id="btn_listing" class="btn-flat waves-effect waves-light">Liste</button>
 			<div class="text">Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent</div>
 
 		</div>
 	
 		<div class="function col s4">
-			<div class="image-wrapper"><div class="image"></div></div>
 			<a href="{{ path('biopen_fournisseur_add') }}">
+				<div class="image-wrapper"><div class="image icon-plus"></div></div>			
 				<button class="btn-flat waves-effect waves-light">Ajouter Fournisseur</button>
 			</a>
 			<div class="text">Ajouter en quelques clicks un nouveau fournisseur dans notre base de donnée</div>

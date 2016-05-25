@@ -63,3 +63,15 @@ $icon-sprite-dimensions: true;
     border: 3px solid #f6f6f6;
     background-color: #e0e0e0;
 } 
+
+.preloader-wrapper 
+{
+	position: absolute;
+	margin: auto;
+	  top: 0; left: 0; bottom: 0; right: 0;
+	  height: 100px;
+	.spinner-layer {
+    	border-color: white;
+	}
+}
+

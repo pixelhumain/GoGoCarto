@@ -4,6 +4,8 @@ function initMap()
 {	
 	initRichMarker();
 
+	$('.preloader-wrapper ').hide();
+
 	if (constellationMode)
 	{
 		// basics settings for the map 
@@ -150,9 +152,13 @@ function toggleProviderDetailsComplet()
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
 		hideProviderDetailsComplet();
+		$('#bandeau_helper').css('z-index',20).animate({'opacity': '1'},500);
+		
 	}
 	else
 	{
+		$('#bandeau_helper').animate({'opacity': '0'},500).css('z-index',-1);
+
 		var bandeau_detail_new_height = $( window ).height()
 		-$('header').height()
 		-$('#bandeau_goToProviderList').outerHeight(true);

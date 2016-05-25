@@ -5142,16 +5142,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #btn_menu:hover {
   cursor: pointer; }
 
-/* #bandeau_option
-{
-	top: 0;
-	left: -200px;
-	position:absolute;
-	width: 200px;
-	background-color: green;
-	z-index: 20;
-	will-change: left;
-} */
 #ProductsList {
   border-right: 1px solid #a5a5a5;
   box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
@@ -5566,6 +5556,17 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   border-radius: 10px;
   border: 3px solid #f6f6f6;
   background-color: #e0e0e0; }
+
+.preloader-wrapper {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100px; }
+  .preloader-wrapper .spinner-layer {
+    border-color: white; }
 
 @media only screen and (min-width: 1201px) {
   #bandeau_detail {
