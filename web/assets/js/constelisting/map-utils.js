@@ -16,7 +16,7 @@ var pointToLatlng = function(point)
 	return latlng; 
 };
 
-function fitMarkersBounds(map, markers)
+/*function fitMarkersBounds(map, markers)
 {
 	window.console.log("fit markers bounds nbre markers " + markers.length);
 	// Bound la carte pour que l'on voit tous les marqueurs
@@ -25,7 +25,7 @@ function fitMarkersBounds(map, markers)
  		bounds.extend(markers[i].getPosition());
 	}
 	map.fitBounds(bounds);
-}
+}*/
 
 /*function distanceInPixel(marker1, marker2)
 {

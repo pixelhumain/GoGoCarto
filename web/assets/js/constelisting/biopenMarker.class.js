@@ -213,13 +213,13 @@ BiopenMarker.prototype.updatePolyline = function (options)
 {
 	if (!this.polyline_)
 	{
-		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', null, options);
+		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getProvider().type, null, options);
 	}
 	else
 	{		
 		var map = this.polyline_.getMap();
 		this.polyline_.setMap(null);
-		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), '', map, options);	
+		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getProvider().type, map, options);	
 	}
 };
 

@@ -69,6 +69,17 @@ $icon-sprite-dimensions: true;
 	}
 } 
 
+#ProviderList
+{
+	height: auto;
+
+	ul
+	{
+		height: auto;
+		position: relative;
+	}
+}
+
 @media #{$large-and-up}
 {
 	#ProviderList

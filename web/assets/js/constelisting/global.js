@@ -37,6 +37,16 @@ function ajuster_taille_composants()
 		-$('header').height()
 		-$('#bandeau_goToProviderList:visible').outerHeight(true));
 
+	if ($('#ProviderList').offset().top < 100)
+	{
+		$('#ProviderList ul').css('height',$('#ProviderList').height() - $('#ProviderList .starRepresentationChoice-helper:visible').outerHeight(true) );
+	}
+	else
+	{
+		$('#ProviderList ul').css('height','auto');
+	}
+	
+
 	if ($('#bandeau_detail').width() < '600')
 	{
 		$('#bandeau_detail').removeClass("largeWidth");
@@ -56,32 +66,11 @@ function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').heigh
 	if("matchMedia" in window) {
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{
-		  	// Lorsqu'on passe de l'écran large vers medium
-		  	if ($('#detail_provider').hasClass('floatRight'))
-		  	{
-		  		$('#detail_provider').removeClass('floatRight');
-		  		$('#bandeau_detail .moreDetails').hide();
-
-				var bandeau_detail_height = $('#detail_provider').height();
-				$('#bandeau_detail').css('height', bandeau_detail_height);				
-		  	}
-		  	else
-		  	{
-		  		$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
-		  	}
-		  		  	
-		} 
+		  	$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
+	  	} 
 		else 
-		{
-			// Lorsqu'on passe de l'écran medium vers large
-		  	if (!$('#detail_provider').hasClass('floatRight'))
-		  	{
-		  		$('#detail_provider').addClass('floatRight');
-		  		$('#detail_provider .moreDetails').show();
-				$('#bandeau_detail').css('height','100%');
-		  	}
-		  	$("#map").css('height',$("#section_carte").height());
-		  	
+		{			
+		  	$("#map").css('height',$("#section_carte").height());		  	
 		}
 	}
 	

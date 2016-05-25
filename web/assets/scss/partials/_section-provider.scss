@@ -13,15 +13,17 @@
     -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);     
 }
 
-.moreChoiceInfo
+.starRepresentationChoice-helper
 {
+	display:none;
 	line-height: 3rem;
     text-align: center;
     color: #F5F3F3;
     font-weight: 400;
     background-color: #54928C;
 
-	.btn {
+	.btn-select-as-representant 
+	{
 		margin: 0 0 .1rem 1rem !important;
 	    text-transform: none;
 	    background-color: #3D3D3D
@@ -40,11 +42,29 @@
 
 #ProviderList
 {
-	overflow-y: auto;
 	background-color: #544242;
 	border-left: none;
 
-	.moreChoiceInfo
+	.collapsible
+	{
+		overflow-y: auto;
+    	/* height: 100%; */
+	}
+
+	.btn-select-as-representant
+	{
+		margin: 0 !important;
+		height: 1.5rem;
+    	line-height: 1.5rem;
+	    font-size: 1rem;
+	    text-transform: none;
+	    padding: 0;
+	    margin: 0 !important;
+		background-color: #4a7874;
+		z-index:100;
+	}
+
+	/* .moreChoiceInfo
 	{
 	    text-align: left;
 	    padding-left: 1rem;
@@ -56,7 +76,7 @@
 			margin: 0 .5rem .1rem 0 !important;
 			background-color: #4a7874;
 		}
-	}
+	} */
 }
 
 @media #{$large-and-up}
@@ -71,7 +91,7 @@
 		-moz-box-shadow:  0 4px 4px rgba(0,0,0,.2), 0 -1px 4px rgba(0,0,0,.2);
 		-webkit-box-shadow:  0 4px 4px rgba(0,0,0,.2), 0 -1px 4px rgba(0,0,0,.2);
 
-		z-index: 4000; 
+		z-index: 40; 
 
 		.collapsible-header:hover
 		{
@@ -80,9 +100,7 @@
 	}
 }
 #ProviderList, #bandeau_detail
-{		
-	
-
+{	
 	h3
 	{
 		font-size: 1rem;

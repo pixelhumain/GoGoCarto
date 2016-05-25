@@ -1,5 +1,16 @@
 jQuery(document).ready(function()
 {	
+	$('#ProviderList .btn-select-as-representant').click(function(event) 
+	{ 
+		var providerId = $(this).closest('.providerItem').attr('data-provider-id');
+		GLOBAL.getSRCManager().selectProviderById( providerId ); 		
+	});
+
+	$('#bandeau_detail .btn-select-as-representant').click(function(event) 
+	{ 
+		var providerId = $('#bandeau_detail .providerItem').attr('data-provider-id');
+		GLOBAL.getSRCManager().selectProviderById( providerId ); 		
+	});
 });
 
 function ProviderManager(listProvider) 
@@ -21,7 +32,8 @@ function ProviderManager(listProvider)
 
 ProviderManager.prototype.draw = function () 
 {	
-	$('.providerItem').hide();
+	this.clearProviderList();
+
 	var providerId;
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
 	{
@@ -29,47 +41,34 @@ ProviderManager.prototype.draw = function ()
 		$('#ProviderList #infoProvider-'+providerId).show();
 	}
 
-	$('#ProviderList').animate({scrollTop: '0'}, 500);
+	$('#ProviderList ul').animate({scrollTop: '0'}, 500);
 };
 
-ProviderManager.prototype.focusOnThesesProviders = function (idList, starName) 
+ProviderManager.prototype.focusOnThesesProviders = function (idList) 
 {
-	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
-	{
-		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
-		$('#ProviderList #infoProvider-'+providerId).hide();
-	}
+	this.clearProviderList();
+	var infoProvider;
 
 	for(var i = 0; i < idList.length; i++)
 	{
-		$('#ProviderList #infoProvider-'+idList[i]).show();
-
-		var star = GLOBAL.getConstellation().getStarFromName(starName);
-		var providerIndex = star.getProviderIndexFromId(idList[i]);
-		
-		var content = document.createElement("div");
-		$(content).attr('data-star-name',starName);
-		$(content).attr('data-provider-index',providerIndex);
-		$(content).addClass("moreChoiceInfo");
-		$(content).html('<button class="btn waves-effect waves-light" >Sélectionner</button> en tant que "'+starName+'" principal');
-		
-		$(content).click(handleClickChooseProviderForStar);	
-
-		$(content).prependTo('#ProviderList #infoProvider-'+idList[i]+' .collapsible-header');	
+		infoProvider = $('#ProviderList #infoProvider-'+idList[i]);
+		infoProvider.show();
+		infoProvider.find('.btn-select-as-representant-container').show();
+		infoProvider.find('.moreInfos').hide();
 	}
 
-	$('#ProviderList').animate({scrollTop: '0'}, 500);
-
+	$('#ProviderList ul').animate({scrollTop: '0'}, 500);
 };
 
-ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
+ProviderManager.prototype.clearProviderList = function ()
 {
-	for(var i = 0; i < idList.length; i++)
-	{
-		$('#infoProvider-'+idList[i]).hide();
-		$('#infoProvider-'+idList[i]+ ' .moreChoiceInfo').remove();		
-	}
+	$('#ProviderList .providerItem').hide();
+} 
 
+ProviderManager.prototype.clearFocusOnThesesProviders = function () 
+{
+	$('#ProviderList .btn-select-as-representant-container').hide();
+	$('#ProviderList .moreInfos').show();
 	this.draw();
 };
 

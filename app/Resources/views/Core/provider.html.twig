@@ -9,6 +9,7 @@
   {# HEADER #}
   <div class="collapsible-header">
 
+    
     <div class='collapsible-header-title row'>
       <span class="col s1 icon icon-{{provider.mainProduct|lower}}"></span>
       <span class="col s8"><b>{{ provider.name|capitalize }}</b></span>
@@ -24,7 +25,10 @@
           {{ product.nameShort|capitalize }}{% if not loop.last %}, {% endif %}
         {% endfor %}
       </span>
-      <a><span class=" col s4 right-align">Plus d'infos</span></a>
+      <span class="col s4 right-align btn-select-as-representant-container" style="display:none">
+        <button class="btn btn-select-as-representant waves-effect waves-light" >Sélectionner</button> 
+      </span>
+      <a><span class="col s4 right-align moreInfos">Plus d'infos</span></a>
     </div>
 
   </div>

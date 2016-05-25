@@ -23,6 +23,7 @@ MarkerManager.prototype.createMarkers = function ()
 
 MarkerManager.prototype.fitMapInBounds = function () 
 {
+	
 	var bounds = new google.maps.LatLngBounds();
 
 	bounds.extend(this.markerHome_.getPosition());
@@ -40,8 +41,9 @@ MarkerManager.prototype.fitMapInBounds = function ()
 			bounds.extend(clusters[i].getCenter());
 		}
 	}
-
+	window.console.log("fitMapInBounds");
 	GLOBAL.getMap().fitBounds(bounds);
+	window.console.log("map get Zoom = " + GLOBAL.getMap().getZoom());
 };
 
 MarkerManager.prototype.draw = function () 

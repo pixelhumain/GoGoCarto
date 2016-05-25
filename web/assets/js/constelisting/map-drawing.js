@@ -36,18 +36,13 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
 
   	var color = '#AE3536';
 
-	switch(providerType) {
-	    case 'producteur':
-	    case 'amap':
-	        color = '#26A69A';
-	        break;
-	    case 'boutique':
-	    case 'epicerie':
-	    	color = '#0000FF';
-	    	break;
-	    case 'marche':
-	    	color = '#444';
-	    	break;
+	switch(providerType) 
+	{
+	    case 'producteur': color = '#B33536'; break;
+	    case 'amap': color = '#4B7975'; break;
+	    case 'boutique': color = '#813c81'; break;
+	    case 'marche': color = '#3F51B5'; break;
+	    case 'epicerie': color = '#6d6d6d'; break;
 	}
 
 	if (options.lineType == 'dashed')

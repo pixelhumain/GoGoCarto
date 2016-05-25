@@ -22,7 +22,7 @@
   {% if constellationPhp is defined %}
   {% set constellationMode = true %}
   {# La liste des products #}
-  <section id="ProductsList">     
+  <section id="ProductsList" class="customScrollBar">   
     {% include '::Core/section-products-constellation.html.twig' %}      
   </section>
   {% endif %}
@@ -33,10 +33,13 @@
     <div id="map"></div>
 
     <section id="bandeau_detail">
+      <div class="starRepresentationChoice-helper">
+        Sélectionner en tant que "<span class='SRC-helper-starName'></span>" principal 
+        <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> 
+      </div> 
       <div id="detail_provider"></div>
     </section>
 
-    {# <div id="bandeau_option"></div> #}
     <div id="bandeau_helper">Pour chaque produit, plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
     {# <div id="btn_menu"><i class='icon-menu'></i></div>  #}
     <div id="overlay"></div>
@@ -56,9 +59,10 @@
 </div>
 
 {# Les résultats par liste #}
-<section id="ProviderList"> 
+<section id="ProviderList">
+  <div class="starRepresentationChoice-helper">Sélectionnez un nouveau "<span class='SRC-helper-starName'></span>" principal</div>        
   {% if providerList is defined %}
-  <ul class="collapsible popout" data-collapsible="accordion">
+  <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
       {% for key, provider in  providerList %}   
           {% include '::Core/provider.html.twig'  %}  
       {% endfor %} 

@@ -10,6 +10,7 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.constellationMode_ = constellationMode;
 	this.filterManager_ = constellationMode ? null : new FilterManager();
 	this.state_ = 'normal';
+	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
 }
 
 Global.prototype.getMap = function() { return this.map_ };
@@ -28,3 +29,4 @@ Global.prototype.setMarkerManager = function(markerManager) { return this.marker
 Global.prototype.getFilterManager = function() { return this.filterManager_ };
 Global.prototype.setFilterManager = function(filterManager) { return this.filterManager_ = filterManager };
 Global.prototype.constellationMode = function() { return this.constellationMode_ };
+Global.prototype.getSRCManager = function() { return this.starRepresentationChoiceManager_ };

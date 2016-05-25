@@ -49,16 +49,16 @@ $icon-sprite-dimensions: true;
 	}
 } 
 
-section::-webkit-scrollbar-track {
+.customScrollBar::-webkit-scrollbar-track {
     background-color: #f6f6f6;;
     border: 1px solid #f0f0f0;
 }
 
-section::-webkit-scrollbar {
+.customScrollBar::-webkit-scrollbar {
     width: 10px;
 }
 
-section::-webkit-scrollbar-thumb {
+.customScrollBar::-webkit-scrollbar-thumb {
     border-radius: 10px;
     border: 3px solid #f6f6f6;
     background-color: #e0e0e0;

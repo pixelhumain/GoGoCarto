@@ -10,9 +10,7 @@ function Constellation(constellationPhp)
 		this.stars_.push(star);
 	}
 
-	this.geocodeResult_ = constellationPhp['geocodeResult']; 
-
-	
+	this.geocodeResult_ = constellationPhp['geocodeResult']; 	
 }
 
 Constellation.prototype.getOrigin = function () 

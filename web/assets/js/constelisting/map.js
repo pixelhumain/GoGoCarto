@@ -57,10 +57,10 @@ function initialize(map)
 		GLOBAL.getMarkerManager().draw();
 		GLOBAL.getProviderManager().draw();
 		
-		GLOBAL.getMarkerManager().fitMapInBounds();
-		
 		initCluster(GLOBAL.getMarkerManager().getMarkers());
 		GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getMarkerManager().drawLinesWithClusters(); });
+
+		GLOBAL.getMarkerManager().fitMapInBounds();
 	}
 	else
 	{
@@ -122,38 +122,18 @@ function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true)
 		if ($('#ProviderList').offset().top < 100)
 		{			
 			$('.providerItem .moreDetails').hide();
-			$('.providerItem .moreChoiceInfo').remove();
+
 			var target = $('#infoProvider-'+providerId);
-		    $('#ProviderList').animate({scrollTop: '+='+$(target).position().top}, 500);
+		    $('#ProviderList ul').animate({scrollTop: '+='+$(target).position().top}, 500);
 		    $('#infoProvider-'+providerId + ' .moreDetails').slideDown(slideOptions);
 		}
 		else
 		{
 			$('#detail_provider').empty();
 			$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
-			$('#infoProvider-'+providerId + ' .moreChoiceInfo').remove();
-		}	
-
-		if (GLOBAL.getState() == 'starRepresentationChoice' 
-			&& !$('#infoProvider-'+providerId + ' .moreChoiceInfo').is(':visible')
-			&& showMoreChoiceInfo)
-		{
-			
-			var starMoreChoicesVisible = $('.moreResultContainer:visible').first();
-			var starName = starMoreChoicesVisible.parent().find('.productItem').attr('data-star-name');
-			var star = GLOBAL.getConstellation().getStarFromName(starName);
-			var providerIndex = star.getProviderIndexFromId(providerId);
-			
-			var content = document.createElement("div");
-			$(content).attr('data-star-name',starName);
-			$(content).attr('data-provider-index',providerIndex);
-			$(content).addClass("moreChoiceInfo");
-			$(content).html('Vous pouvez sélectionner ce fournisseur en tant que "'+starName+'" principal <button class="btn waves-effect waves-light" >Sélectionner</button> ');
-			
-			$(content).click(handleClickChooseProviderForStar);
-
-			$(content).prependTo('#detail_provider');
-		}
+			$('#detail_provider .moreDetails').hide();
+			$('#detail_provider .btn-select-as-representant').hide();
+		}			
 	}
 	else
 	{
@@ -167,7 +147,6 @@ function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true)
 
 function toggleProviderDetailsComplet()
 {	
-	if ($('#detail_provider').hasClass('floatRight')) return;
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
 		hideProviderDetailsComplet();
@@ -181,17 +160,17 @@ function toggleProviderDetailsComplet()
 		$('#bandeau_detail').css('height', bandeau_detail_new_height);
 		ajuster_taille_carte(bandeau_detail_new_height);	
 
-		$("#btn_menu").hide();
+		//$("#btn_menu").hide();		
 		$('#bandeau_detail .moreDetails').show();
 	}	
 }
 
 function hideProviderDetailsComplet()
 {
-	setTimeout(function(){$("#btn_menu").show();},1000);
+	//setTimeout(function(){$("#btn_menu").show();},1000);
 	$('#bandeau_detail .moreDetails').hide();
 
-	var bandeau_detail_new_height = $('#detail_provider').height();
+	var bandeau_detail_new_height = $('#detail_provider').height() + $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
 
 	$('#bandeau_detail').css('height', bandeau_detail_new_height);
 	ajuster_taille_carte(bandeau_detail_new_height);	
@@ -199,7 +178,7 @@ function hideProviderDetailsComplet()
 
 function animate_up_bandeau_detail()
 {
-	var bandeau_detail_new_height = $('#detail_provider').height();
+	var bandeau_detail_new_height = $('#detail_provider').height() + $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
 
 	$('#bandeau_detail').css('height', bandeau_detail_new_height);
 	ajuster_taille_carte(bandeau_detail_new_height);	
@@ -208,15 +187,9 @@ function animate_up_bandeau_detail()
 
 function animate_down_bandeau_detail()
 {
-	if ($('#detail_provider').hasClass('floatRight'))
-	{
-	}
-	else
-	{
-		hideProviderDetailsComplet();
-		$('#bandeau_detail').css('height','0');
-		ajuster_taille_carte(0);	
-	}
+	hideProviderDetailsComplet();
+	$('#bandeau_detail').css('height','0');
+	ajuster_taille_carte(0);	
 }
 
 
