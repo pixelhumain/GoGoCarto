@@ -54,7 +54,7 @@ class CoreController extends Controller
             $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
             ->findAll();
 
-            dump($providerList);
+            /*dump($providerList);*/
             dump($listProducts);
 
             if( $providerList == null)
@@ -66,7 +66,7 @@ class CoreController extends Controller
             
         }    
 
-        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts));
+        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
     }
 
     public function constellationAction($slug)
@@ -77,7 +77,7 @@ class CoreController extends Controller
         }
         else
         {        	
-            /*$geocodeResponse = $this->geocodeFromAdresse($adresse);
+            /*$geocodeResponse = $this->geocodeFromAdresse($slug);
 
             if ($geocodeResponse == null)
             {  
@@ -103,7 +103,7 @@ class CoreController extends Controller
         }	 
 
         return $this->render('::Core/constellation.html.twig', 
-            array('constellationPhp' => $constellation, "providerList" => $providerList));
+            array('constellationPhp' => $constellation, "providerList" => $providerList, "slug" => $slug));
     }    
 
     public function constellationAjaxAction(Request $request)

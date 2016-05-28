@@ -20,35 +20,21 @@
 
 
 <div id="div_map_and_products">
-
-
   
   {# La liste des products #}
-  <section id="ProductsList">     
+  <section id="ProductsList" class="customScrollBar"> 
       {% include '::Core/section-products-listing.html.twig' %}    
   </section>
-  
-
    
   {# La Carte et les infos provider #} 
   <section id="section_carte">
 
     {#  PRELOADER #}
-    <div class="preloader-wrapper big active">
-      <div class="spinner-layer">
-        <div class="circle-clipper left">
-          <div class="circle"></div>
-        </div><div class="gap-patch">
-          <div class="circle"></div>
-        </div><div class="circle-clipper right">
-          <div class="circle"></div>
-        </div>
-      </div>
-    </div>
+    {% include '::Components/loader.html.twig'  %}  
 
     <div id="map"></div>
 
-    <section id="bandeau_detail">
+    <section id="bandeau_detail" class="customScrollBar">
       <div id="detail_provider"></div>
     </section>
 
@@ -90,6 +76,8 @@
         "assets/js/libs/rich-marker.js"
         "assets/js/libs/cluster/markerclusterer.js" 
         "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/components/inputAddress.js" 
+        "assets/js/commons.js" 
         "assets/js/libs/twig.js"
         "assets/js/listing/*"
         "assets/js/constelisting/*"
@@ -106,7 +94,7 @@
     {% endjavascripts %}
     
     <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
     </script>
 
    {#<script  src="{{ asset('assets/js/libs/rich-marker.js') }}"></script>#}

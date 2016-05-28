@@ -22,7 +22,7 @@
 <section id="mainFunctions">
 	
 	<div class="input-field" > 
-		<input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAdresse" name="adresse"/>
+		<input class="validate" placeholder="Entrez votre adresse ici" type="text" id="inputAddress" name="adresse"/>
 	</div>
 	
 	<div class="row">
@@ -30,25 +30,27 @@
 			<div class="image-wrapper">
 				<div class="image icon-constellation"></div>
 			</div>
-			<button id="btn_constellation" class="btn-flat waves-effect waves-light">Constellation</button>
-			<div class="text">Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</div>
+			<h2>CONSTELLATION</h2>
+			<p>Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</p>
 		</div>
 
 		<div class="function col s4" id="listing-zone">
 			<div class="image-wrapper">
 				<div class="image icon-icon-liste"></div>
-			</div>
-			<button id="btn_listing" class="btn-flat waves-effect waves-light">Liste</button>
-			<div class="text">Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent</div>
+			</div>	
+			<h2>NAVIGUATION</h2>		
+			<p>				
+				Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent
+			</p>
 
 		</div>
 	
 		<div class="function col s4">
-			<a href="{{ path('biopen_fournisseur_add') }}">
+			<div href="{{ path('biopen_fournisseur_add') }}">
 				<div class="image-wrapper"><div class="image icon-plus"></div></div>			
-				<button class="btn-flat waves-effect waves-light">Ajouter Fournisseur</button>
-			</a>
-			<div class="text">Ajouter en quelques clicks un nouveau fournisseur dans notre base de donnée</div>
+				<h2>AJOUTER FOURNISSEUR</h2>			
+				<p>Ajouter en quelques clicks un nouveau fournisseur dans notre base de donnée</p>
+			</div>
 
 		</div>
 	</div>
@@ -64,6 +66,8 @@
 		'bundles/fosjsrouting/js/router.js'
         "assets/js/libs/jquery-2.2.1.min.js"
         "assets/js/libs/materialize/bin/materialize.js"
+        "assets/js/commons.js"
+        "assets/js/components/inputAddress.js"
         "assets/js/index.js"
     %}
         <script src="{{ asset_url }}"></script>

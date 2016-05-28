@@ -11,6 +11,12 @@ jQuery(document).ready(function()
 	    return false;  
 	}); 
 
+	$('#inputAddress').on("search", function(event, address){
+		window.console.log('address = ' +address);
+		if (constellationMode) redirectToConstelisting('biopen_constellation', address);
+		else panMapToAddress(address);
+	});
+
 	/*$('#btn_menu').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);*/
 
@@ -37,13 +43,16 @@ function ajuster_taille_composants()
 		-$('header').height()
 		-$('#bandeau_goToProviderList:visible').outerHeight(true));
 
-	if ($('#ProviderList').offset().top < 100)
+	if (constellationMode)
 	{
-		$('#ProviderList ul').css('height',$('#ProviderList').height() - $('#ProviderList .starRepresentationChoice-helper:visible').outerHeight(true) );
-	}
-	else
-	{
-		$('#ProviderList ul').css('height','auto');
+		if ($('#ProviderList').offset().top < 100)
+		{
+			$('#ProviderList ul').css('height',$('#ProviderList').height() - $('#ProviderList .starRepresentationChoice-helper:visible').outerHeight(true) );
+		}
+		else
+		{
+			$('#ProviderList ul').css('height','auto');
+		}
 	}
 	
 
@@ -58,11 +67,13 @@ function ajuster_taille_composants()
 		$('#bandeau_detail').removeClass("smallWidth");
 	}
 
+	window.console.log("ajuster_taille_composants");
 	ajuster_taille_carte();
 }
 
 function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
 {	
+	window.console.log("ajuster_taille_carte bandeau height= " + bandeau_detail_height);
 	if("matchMedia" in window) {
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{

@@ -6,6 +6,8 @@ function initMap()
 
 	$('.preloader-wrapper ').hide();
 
+	initInputAddressAutocompletion();
+
 	if (constellationMode)
 	{
 		// basics settings for the map 
@@ -15,8 +17,7 @@ function initMap()
 			center: latlng,
 			disableDefaultUI: true,
 			zoomControl: true
-		};
-	
+		};	
 	}	
 	else
 	{
@@ -41,8 +42,7 @@ function initMap()
 	map.addListener('click', function(e) 
 	{
     	if (constellationMode) clearProductList();
-    	animate_down_bandeau_detail();     	
-    	//addMarkerForTest(e);
+    	animate_down_bandeau_detail();   
   	}); 
 }
 
@@ -174,28 +174,39 @@ function toggleProviderDetailsComplet()
 function hideProviderDetailsComplet()
 {
 	//setTimeout(function(){$("#btn_menu").show();},1000);
-	$('#bandeau_detail .moreDetails').hide();
+	if ($('#bandeau_detail .moreDetails').is(':visible'))
+	{
+		$('#bandeau_detail .moreDetails').hide();
 
-	var bandeau_detail_new_height = $('#detail_provider').height() + $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
+		var bandeau_detail_new_height = $('#detail_provider').height() + $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
 
-	$('#bandeau_detail').css('height', bandeau_detail_new_height);
-	ajuster_taille_carte(bandeau_detail_new_height);	
+		$('#bandeau_detail').css('height', bandeau_detail_new_height);
+
+		window.console.log("hideProviderDetailsComplet ajuster taille carte");
+		ajuster_taille_carte(bandeau_detail_new_height);	
+	}	
 }
 
 function animate_up_bandeau_detail()
 {
+	window.console.log("animate_up_bandeau_detail");
+	$('#bandeau_detail').show();
 	var bandeau_detail_new_height = $('#detail_provider').height() + $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
-
-	$('#bandeau_detail').css('height', bandeau_detail_new_height);
-	ajuster_taille_carte(bandeau_detail_new_height);	
 	
+	$('#bandeau_detail').css('height', bandeau_detail_new_height);
+	ajuster_taille_carte(bandeau_detail_new_height);		
 }
 
 function animate_down_bandeau_detail()
 {
-	hideProviderDetailsComplet();
-	$('#bandeau_detail').css('height','0');
-	ajuster_taille_carte(0);	
+	if ($('#bandeau_detail').is(':visible'))
+	{
+		window.console.log("animate_down_bandeau_detail");
+		hideProviderDetailsComplet();
+		$('#bandeau_detail').css('height','0');
+		$('#bandeau_detail').hide();
+		ajuster_taille_carte(0);
+	}			
 }
 
 

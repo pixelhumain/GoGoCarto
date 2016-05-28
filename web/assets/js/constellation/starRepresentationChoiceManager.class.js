@@ -6,6 +6,8 @@ function StarRepresentationChoiceManager()
 
 StarRepresentationChoiceManager.prototype.begin = function (star) 
 {	
+	window.console.log("SRC begin");
+
 	this.currentStar_ = star;
 	var idToFocus = star.getProviderListId();
 
@@ -18,7 +20,7 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	$('.SRC-helper-starName').html(star.getName());
 	$('.starRepresentationChoice-helper').show();
 	
-	ajuster_taille_composants();
+	//ajuster_taille_composants();
 
 	hideBandeauHelper();
 };
@@ -26,16 +28,19 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 
 StarRepresentationChoiceManager.prototype.end = function () 
 {	
+	window.console.log("SRC end");
+
 	var idToClearFocus = this.currentStar_.getProviderListId();
 
 	GLOBAL.getMarkerManager().clearFocusOnThesesMarkers(idToClearFocus);
 	GLOBAL.getProviderManager().clearFocusOnThesesProviders();
 	GLOBAL.getClusterer().repaint();	
+
 	animate_down_bandeau_detail(); 
 
 	$('.starRepresentationChoice-helper').hide();
 
-	ajuster_taille_composants()	
+	//ajuster_taille_carte()	
 
 	GLOBAL.setState('normal');
 };

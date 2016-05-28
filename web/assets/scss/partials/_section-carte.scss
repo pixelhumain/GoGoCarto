@@ -8,9 +8,7 @@
     width:100%;
     @include transition(height .5s);
 
-    box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
-    -moz-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
-    -webkit-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75); 
+    @include box-shadow-1(inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75)  );
 
 }
 

@@ -19,6 +19,7 @@
 //      box-sizing($args)
 //          border-box() *
 //          content-box() *
+//      border-radius($args)
 //      columns($args)
 //          column-count($count)
 //          column-gap($gap)
@@ -159,14 +160,27 @@
 @mixin border-box(){
     @include box-sizing(border-box);
 }
+
+@mixin border-radius($args) {
+    -webkit-border-radius: $args;
+    -moz-border-radius: $args;
+    border-radius: $args;
+}
+
 @mixin content-box(){
     @include box-sizing(content-box);
 }
 
-@mixin box-shadow-2($args1, $args2) {
+@mixin box-shadow($args1, $args2) {
     -webkit-box-shadow: $args1, $args2;
     -moz-box-shadow: $args1, $args2;
     box-shadow: $args1, $args2;
+}
+
+@mixin box-shadow-1($args1) {
+    -webkit-box-shadow: $args1;
+    -moz-box-shadow: $args1;
+    box-shadow: $args1;
 }
 
 // Columns

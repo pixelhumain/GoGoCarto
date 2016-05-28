@@ -16,6 +16,27 @@ var pointToLatlng = function(point)
 	return latlng; 
 };
 
+function panMapToAddress( address ) {
+
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode( { 'address': address}, function(results, status) 
+	{
+		if (status == google.maps.GeocoderStatus.OK) 
+		{
+			var map = GLOBAL.getMap();
+			map.panTo(results[0].geometry.location);
+			map.setZoom(11);
+
+			$('#inputAddress').val(results[0].formatted_address)
+		} 	
+		else
+		{
+			windo
+			$('#inputAddress').addClass('invalid');
+		}
+	});
+}
+
 /*function fitMarkersBounds(map, markers)
 {
 	window.console.log("fit markers bounds nbre markers " + markers.length);

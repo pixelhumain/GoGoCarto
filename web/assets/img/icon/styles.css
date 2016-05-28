@@ -137,3 +137,6 @@
 .icon-icon-liste:before {
   content: "\47";
 }
+.icon-search:before {
+  content: "\48";
+}

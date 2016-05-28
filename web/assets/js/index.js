@@ -1,39 +1,22 @@
 jQuery(document).ready(function()
 {	
-	$('#inputAdresse').keyup(function(e) 
-	{    
-		if(e.keyCode == 13) // touche entrée
-		{ 			 
-			redirectTo('biopen_constellation');
-		}
+	$('#constellation-zone').click(function()
+	{ 
+		var address = $('#inputAddress').val();
+		if (!address) $('#inputAddress').addClass('invalid');
+		else redirectToConstelisting('biopen_constellation', address); 
 	});
 
-	$('#constellation-zone').click(function(){ redirectTo('biopen_constellation'); });
+	$('#listing-zone').click(function(){ redirectToConstelisting('biopen_listing',$('#inputAddress').val()); });
 
-	$('#listing-zone').click(function(){ redirectTo('biopen_listing'); });
+	$('#inputAddress').on("search", function(event, address)
+	{
+		redirectToConstelisting('biopen_constellation', address);
+	});
 
 });
 
-function redirectTo(route)
-{
-	var adresse_slug = slugify($('#inputAdresse').val());
-	window.location.href = Routing.generate(route, { slug : adresse_slug});
-}
-
-function slugify(text)
-{
-  return text.toString().toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-}
-
 function initMap() 
 {	
-	var options = {
-	  componentRestrictions: {country: 'fr'}
-	};
-	var autocomplete = new google.maps.places.Autocomplete(document.getElementById('inputAdresse', options));
+	initInputAddressAutocompletion();
 }

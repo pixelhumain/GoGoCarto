@@ -5,16 +5,6 @@ jQuery(document).ready(function()
 	// MODE StarRepresentationChoice
 	$('.resultNumber:not(.disabled)').click(function()
 	{
-		if ($(this).parent().attr('data-providers-size') == 1)
-		{			
-			var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
-			showProviderInfosOnMap(star.getProviderId(), false);
-		}
-		else
-		{			
-			animate_down_bandeau_detail(); 
-		}
-
 		var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
 		
 		var moreResultContainer = $(this).parent().parent().find('.moreResultContainer');
@@ -29,7 +19,16 @@ jQuery(document).ready(function()
 		{
 			clearProductList();
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
-			GLOBAL.getSRCManager().begin(star);			
+			GLOBAL.getSRCManager().begin(star);	
+
+			if ($(this).parent().attr('data-providers-size') == 1)
+			{			
+				showProviderInfosOnMap(star.getProviderId(), false);
+			}
+			else
+			{
+				animate_down_bandeau_detail();
+			}		
 		}		
 	});
 

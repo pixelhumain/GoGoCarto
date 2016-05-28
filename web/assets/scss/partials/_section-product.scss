@@ -1,3 +1,5 @@
+@import '../components/inputAddress';
+
 #ProductsList
 {
 	border-right: 1px solid #a5a5a5;
@@ -78,9 +80,7 @@
 		background-color: #EE6E73;
 	    color: white;
 	    font-size: 0.8rem;
-	    border-radius: 50%;
-	    -moz-border-radius: 50%;
-	    -webkit-border-radius: 50%;
+	    @include border-radius(50%);
 	    display: inline-block;
 	    font-weight: 400;
 	    line-height: 1.4rem;
@@ -177,4 +177,31 @@
 		color:white;
 		cursor: pointer;
 	}
+}
+
+#inputAddress
+{
+    margin: 0;
+    text-align: left;
+    padding-left: 2.2rem;
+    height: 2.2rem;
+    width: 75%;
+    border-color: #777;
+
+    &:focus
+    {
+    	border-color: $secondary-color;
+    }
+}
+
+#inputAddress-icon
+{
+    color: #777;
+} 
+
+#inputAddress-container
+{
+	padding: .5rem;
+	text-align: center;
+	margin: 0;
 }

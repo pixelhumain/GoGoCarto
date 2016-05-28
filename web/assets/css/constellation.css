@@ -5091,9 +5091,9 @@ select {
   -o-transition: height 0.5s;
   -ms-transition: height 0.5s;
   transition: height 0.5s;
-  box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
+  -webkit-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
   -moz-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75);
-  -webkit-box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75); }
+  box-shadow: inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75); }
 
 /* a[href^="http://maps.google.com/maps"]{display:none !important}
 a[href^="https://maps.google.com/maps"]{display:none !important}
@@ -5146,6 +5146,56 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #btn_menu:hover {
   cursor: pointer; }
 
+#inputAddress-icon {
+  position: absolute;
+  left: 1.2rem;
+  line-height: 3rem;
+  font-size: 1.2rem;
+  color: #BDBDBD; }
+  #inputAddress-icon:hover {
+    color: #4A7874;
+    cursor: pointer; }
+
+#inputAddress {
+  text-align: center;
+  padding: 0 .5rem 0 .5rem;
+  border: 3px solid #BDBDBD;
+  box-shadow: none !important;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px; }
+  #inputAddress.invalid {
+    border-color: #F44336 !important; }
+  #inputAddress::-webkit-input-placeholder {
+    color: #BDBDBD; }
+  #inputAddress::-moz-placeholder {
+    color: #BDBDBD; }
+  #inputAddress:-ms-input-placeholder {
+    color: #BDBDBD; }
+  #inputAddress:-moz-placeholder {
+    color: #BDBDBD; }
+  #inputAddress::selection {
+    background: #4A7874;
+    color: white; }
+  #inputAddress::-moz-selection {
+    background: #4A7874;
+    color: white; }
+  #inputAddress:focus {
+    border-color: #6B6B6B; }
+
+.pac-icon {
+  display: none; }
+
+.pac-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 2rem;
+  font-family: "Roboto"; }
+
+.pac-container:after {
+  background-image: none !important;
+  height: 0px; }
+
 #ProductsList {
   border-right: 1px solid #a5a5a5;
   box-shadow: 4px 0 4px rgba(0, 0, 0, 0.2), -1px 0 4px rgba(0, 0, 0, 0.2);
@@ -5189,9 +5239,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     background-color: #EE6E73;
     color: white;
     font-size: 0.8rem;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
     display: inline-block;
     font-weight: 400;
     line-height: 1.4rem;
@@ -5252,6 +5302,24 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     color: white;
     cursor: pointer; }
 
+#inputAddress {
+  margin: 0;
+  text-align: left;
+  padding-left: 2.2rem;
+  height: 2.2rem;
+  width: 75%;
+  border-color: #777; }
+  #inputAddress:focus {
+    border-color: #4A7874; }
+
+#inputAddress-icon {
+  color: #777; }
+
+#inputAddress-container {
+  padding: .5rem;
+  text-align: center;
+  margin: 0; }
+
 #bandeau_detail {
   height: 0px;
   background-color: #F7F7F7;
@@ -5263,9 +5331,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -o-transition: height 0.5s;
   -ms-transition: height 0.5s;
   transition: height 0.5s;
-  box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
+  -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
   -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-  -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); }
+  box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75); }
 
 .starRepresentationChoice-helper {
   display: none;
@@ -5320,9 +5388,9 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   #ProviderList {
     background-color: white;
     border-left: 1px solid #a5a5a5;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.2);
     z-index: 40; }
     #ProviderList .collapsible-header:hover {
       background-color: #f0f0f0; } }
@@ -5557,6 +5625,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   width: 10px; }
 
 .customScrollBar::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   border-radius: 10px;
   border: 3px solid #f6f6f6;
   background-color: #e0e0e0; }
@@ -5568,7 +5638,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   left: 0;
   bottom: 0;
   right: 0;
-  height: 100px; }
+  /* height: 100px; */ }
   .preloader-wrapper .spinner-layer {
     border-color: white; }
 
