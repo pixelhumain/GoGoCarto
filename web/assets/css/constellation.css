@@ -5306,14 +5306,20 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   margin: 0;
   text-align: left;
   padding-left: 2.2rem;
-  height: 2.2rem;
-  width: 75%;
-  border-color: #777; }
+  height: 2.4rem;
+  width: 100%;
+  border-color: #777;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
   #inputAddress:focus {
     border-color: #4A7874; }
 
 #inputAddress-icon {
-  color: #777; }
+  color: #777;
+  height: 2.4rem; }
+  #inputAddress-icon:before {
+    line-height: 2.4rem; }
 
 #inputAddress-container {
   padding: .5rem;
@@ -5347,12 +5353,14 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     text-transform: none;
     background-color: #3D3D3D; }
 
-#detail_provider .collapsible-body {
-  border-bottom: 0; }
-#detail_provider .moreDetails {
-  display: none; }
-#detail_provider li {
-  list-style-type: none; }
+#detail_provider {
+  margin-bottom: 3rem; }
+  #detail_provider .collapsible-body {
+    border-bottom: 0; }
+  #detail_provider .moreDetails {
+    display: none; }
+  #detail_provider li {
+    list-style-type: none; }
 
 #ProviderList {
   background-color: #544242;
@@ -5442,7 +5450,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     text-align: justify; }
 #ProviderList .collapsible-body, #bandeau_detail .collapsible-body {
   background-color: #F7F7F7;
-  padding: 0 .5rem 1rem .5rem; }
+  padding: 0 .5rem 1rem .5rem;
+  /* .categorie { text-decoration: underline; } */ }
   #ProviderList .collapsible-body h2, #bandeau_detail .collapsible-body h2 {
     font-weight: bold !important;
     font-size: 1rem !important;
@@ -5454,8 +5463,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     /* padding-bottom: 0; */ }
   #ProviderList .collapsible-body .categorie, #ProviderList .collapsible-body .adresse, #ProviderList .collapsible-body .tel, #bandeau_detail .collapsible-body .categorie, #bandeau_detail .collapsible-body .adresse, #bandeau_detail .collapsible-body .tel {
     /* padding-left: 1.3rem; */ }
-  #ProviderList .collapsible-body .categorie, #bandeau_detail .collapsible-body .categorie {
-    text-decoration: underline; }
   #ProviderList .collapsible-body .description, #bandeau_detail .collapsible-body .description {
     text-align: justify; }
 #ProviderList .sectionDetailProducts .detail, #bandeau_detail .sectionDetailProducts .detail {
@@ -5467,6 +5474,21 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #ProviderList .sectionDetailProducts .product, #bandeau_detail .sectionDetailProducts .product {
   line-height: 2.5rem;
   text-decoration: inherit; }
+#ProviderList .menu-provider, #bandeau_detail .menu-provider {
+  background-color: #3D3D3D;
+  height: 3rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%; }
+  #ProviderList .menu-provider .menu-icon, #bandeau_detail .menu-provider .menu-icon {
+    font-size: 22px;
+    color: #CECECE;
+    margin: 0 1rem; }
+    #ProviderList .menu-provider .menu-icon:hover, #bandeau_detail .menu-provider .menu-icon:hover {
+      color: white;
+      cursor: pointer; }
+    #ProviderList .menu-provider .menu-icon:before, #bandeau_detail .menu-provider .menu-icon:before {
+      line-height: 3rem; }
 #ProviderList.smallWidth .col.s1, #bandeau_detail.smallWidth .col.s1 {
   width: 8.33333%;
   margin-left: 0; }
@@ -5622,14 +5644,17 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   border: 1px solid #f0f0f0; }
 
 .customScrollBar::-webkit-scrollbar {
-  width: 10px; }
+  width: 12px; }
 
 .customScrollBar::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
   border: 3px solid #f6f6f6;
-  background-color: #e0e0e0; }
+  background-color: #C5C5C5; }
+
+#map {
+  position: relative; }
 
 .preloader-wrapper {
   position: absolute;
@@ -5637,8 +5662,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   top: 0;
   left: 0;
   bottom: 0;
-  right: 0;
-  /* height: 100px; */ }
+  right: 0; }
   .preloader-wrapper .spinner-layer {
     border-color: white; }
 

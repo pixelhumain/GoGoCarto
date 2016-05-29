@@ -140,3 +140,12 @@
 .icon-search:before {
   content: "\48";
 }
+.icon-edit:before {
+  content: "\4c";
+}
+.icon-delete:before {
+  content: "\4d";
+}
+.icon-directions:before {
+  content: "\4e";
+}

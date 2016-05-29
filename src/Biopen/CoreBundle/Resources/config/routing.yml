@@ -17,7 +17,7 @@ biopen_constellation:
 #         expose: true
 
 biopen_listing:
-    path:     /list/{slug}
+    path:     /navigation/{slug}
     defaults: { _controller: BiopenCoreBundle:Core:listing, slug:'France' }
     options:
         expose: true

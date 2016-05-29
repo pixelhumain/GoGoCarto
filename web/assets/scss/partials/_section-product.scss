@@ -17,7 +17,7 @@
 	    line-height: 3rem;
 	    padding-left: 1rem;
 	    font-weight: 400;
-	    background-color: #3D3D3D;
+	    background-color: $submenu-color;
 	    color: white;
 	}
 
@@ -184,9 +184,10 @@
     margin: 0;
     text-align: left;
     padding-left: 2.2rem;
-    height: 2.2rem;
-    width: 75%;
+    height: 2.4rem;
+    width: 100%;
     border-color: #777;
+    @include box-sizing(border-box);
 
     &:focus
     {
@@ -197,6 +198,11 @@
 #inputAddress-icon
 {
     color: #777;
+    height: 2.4rem;
+    &:before
+    {
+    	line-height: 2.4rem;
+    }
 } 
 
 #inputAddress-container

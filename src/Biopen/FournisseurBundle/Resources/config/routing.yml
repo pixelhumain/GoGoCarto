@@ -8,6 +8,12 @@ biopen_fournisseur_edit:
     requirements:
         id: \d+
 
+biopen_fournisseur_delete:
+    path:     /delete/{id}
+    defaults: { _controller: BiopenFournisseurBundle:Fournisseur:delete }
+    requirements:
+        id: \d+
+
 biopen_fournisseur_generate:
     path:     /generate/{nombre}
     defaults: { _controller: BiopenFournisseurBundle:RandomCreation:generate, nombre:'1' }

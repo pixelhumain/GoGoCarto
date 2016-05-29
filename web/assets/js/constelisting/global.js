@@ -24,11 +24,30 @@ jQuery(document).ready(function()
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
-	window.onresize = function() 
+	var res;
+	window.onresize=function() 
 	{
-		ajuster_taille_composants();
-	}	
+	    if (res) {clearTimeout(res) };
+	    res = setTimeout(ajuster_taille_composants,200);
+	};	
+
+	//   MENU PROVIDER
+	var menu_provider = $('#bandeau_detail .menu-provider');
+	menu_provider.find('.icon-edit').click(function() {
+		Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
+	});
+	menu_provider.find('.icon-delete').click(function() {
+		Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
+	});
+	menu_provider.find('.icon-directions').click(function() {
+		alert('itinéraire pour provider : ' + getCurrentProviderIdShown() ); 
+	});
 });
+
+function getCurrentProviderIdShown()
+{
+	return $('#bandeau_detail').find('.providerItem').attr('data-provider-id');
+}
 
 function hideBandeauHelper()
 {
@@ -54,8 +73,33 @@ function ajuster_taille_composants()
 			$('#ProviderList ul').css('height','auto');
 		}
 	}
-	
 
+	ajuster_tailler_info_provider();	
+	ajuster_taille_carte();
+}
+
+var matchMediaBigSize_old;
+function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').outerHeight(true))
+{		
+	if("matchMedia" in window) 
+	{	
+		if (window.matchMedia("(max-width: 1200px)").matches) 
+		{
+		  	if (matchMediaBigSize_old) bandeau_detail_height = 0;
+		  	$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
+		  	matchMediaBigSize_old = false;
+	  	} 
+		else 
+		{			
+		  	$("#map").css('height',$("#section_carte").height());	
+		  	if ($('#bandeau_detail').is(":visible")) $('#map').css('margin-right','440px');	 
+		  	matchMediaBigSize_old = true; 	
+		}
+	}	
+}
+
+function ajuster_tailler_info_provider()
+{
 	if ($('#bandeau_detail').width() < '600')
 	{
 		$('#bandeau_detail').removeClass("largeWidth");
@@ -67,24 +111,24 @@ function ajuster_taille_composants()
 		$('#bandeau_detail').removeClass("smallWidth");
 	}
 
-	window.console.log("ajuster_taille_composants");
-	ajuster_taille_carte();
-}
-
-function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').height())
-{	
-	window.console.log("ajuster_taille_carte bandeau height= " + bandeau_detail_height);
-	if("matchMedia" in window) {
+	if("matchMedia" in window) 
+	{	
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{
-		  	$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
+		  	$('#bandeau_detail .moreDetails').css('height', 'auto');
+		  	$('#bandeau_detail .collapsible-body').css('margin-top','0px');
 	  	} 
 		else 
 		{			
-		  	$("#map").css('height',$("#section_carte").height());		  	
+		  	var bandeau_detail = $("#bandeau_detail");
+		  	var height = bandeau_detail.outerHeight(true)
+		  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
+		  				-bandeau_detail.find(".menu-provider").outerHeight(true);
+
+		  	$('#bandeau_detail .collapsible-body').css('height', height);
+		  	$('#bandeau_detail .collapsible-body').css('margin-top', bandeau_detail.find('.collapsible-header').outerHeight(true));
 		}
 	}
-	
 }
 
 

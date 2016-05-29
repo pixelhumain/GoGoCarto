@@ -1,6 +1,6 @@
 {% extends "::bundle_layout.html.twig" %}
 
-{% block title %}Listing{% endblock %}
+{% block title %}Navigation Libre{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -30,18 +30,31 @@
   <section id="section_carte">
 
     {#  PRELOADER #}
-    {% include '::Components/loader.html.twig'  %}  
+    {% include '::Components/loader.html.twig'  %}
 
-    <div id="map"></div>
+    <div id="map"> </div>
 
-    <section id="bandeau_detail" class="customScrollBar">
-      <div id="detail_provider"></div>
+    <section id="bandeau_detail" class="customScrollBar" style="display:none">
+      <div id="detail_provider">
+      </div>
+      <div class="menu-provider">      
+        <center>
+          <span class="menu-icon icon-directions tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce fournisseur"></span>
+          <span class="menu-icon icon-edit tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="Modifier ces informations"></span>
+          <span class="menu-icon icon-delete tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="Supprimer ce fournisseur"></span>
+          {# <button id="" class="btn waves-effect waves-light">Modifier</button>
+          <button id="" class="btn waves-effect waves-light">Supprimer</button> #}
+        </center>       
+      </div>   
     </section>
 
     {# <div id="bandeau_option"></div> #}
 
-    <div id="btn_menu"><i class='icon-menu'></i></div> 
-    <div id="overlay"></div>
+    {# <div id="btn_menu"><i class='icon-menu'></i></div> 
+    <div id="overlay"></div> #}
   </section>  
 
 </div>

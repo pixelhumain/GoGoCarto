@@ -84,6 +84,12 @@ class FournisseurController extends Controller
 		));
 	}
 
+	public function deleteAction($id, Request $request)
+	{
+		// TODO implémenter suppression
+		$this->addAction($id, $request);
+	}
+
 	private function handleFormSubmission($form, $provider, $em, $request)
     {
     	$provider->resetProducts();

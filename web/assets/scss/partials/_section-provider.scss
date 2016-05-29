@@ -3,12 +3,12 @@
     height:0px;
     background-color: #F7F7F7;    
     z-index: 440;
-    overflow-y: scroll;
+    overflow-y: scroll;    
     
     will-change:height;
     @include transition(height .5s);  
 
-    @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));    
+    @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));  
 }
 
 .starRepresentationChoice-helper
@@ -30,6 +30,8 @@
 
 #detail_provider
 {
+	margin-bottom: 3rem; // pour le provider-menu
+
 	.collapsible-body { border-bottom: 0 }
 	.moreDetails 
 	{ 
@@ -177,7 +179,7 @@
 		{
 			/* padding-left: 1.3rem; */
 		}
-		.categorie { text-decoration: underline; }
+		/* .categorie { text-decoration: underline; } */
 		.description{ text-align: justify; }
 	}
 
@@ -191,6 +193,33 @@
 		}
 		.productName {text-decoration:inherit }
 		.product { line-height: 2.5rem; text-decoration:inherit}
+	}
+
+	.menu-provider
+	{
+		background-color:$submenu-color;		
+		height: 3rem;		
+
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+
+		.menu-icon
+		{
+			font-size: 22px;
+			color: #CECECE;
+			margin: 0 1rem;
+
+			&:hover
+			{
+				color: white;
+				cursor: pointer;
+			}
+			&:before
+			{
+				line-height: 3rem;
+			}
+		}
 	}
 
 	&.smallWidth

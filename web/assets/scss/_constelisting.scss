@@ -11,8 +11,6 @@ $icon-sprite-dimensions: true;
 @import "partials/section-product";
 @import "partials/section-provider";
 
-
-
 #ProductsList
 {
 	display: none;
@@ -57,21 +55,26 @@ $icon-sprite-dimensions: true;
 }
 
 .customScrollBar::-webkit-scrollbar {
-    width: 10px;
+    width: 12px;
 }
 
 .customScrollBar::-webkit-scrollbar-thumb {
     @include border-radius(10px);
     border: 3px solid #f6f6f6;
-    background-color: #e0e0e0;
+    background-color: #C5C5C5;
 } 
+
+#map 
+{
+	position: relative
+}
 
 .preloader-wrapper 
 {
 	position: absolute;
 	margin: auto;
 	top: 0; left: 0; bottom: 0; right: 0;
-	/* height: 100px; */
+	
 	.spinner-layer {
     	border-color: white;
 	}
