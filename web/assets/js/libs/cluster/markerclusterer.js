@@ -697,7 +697,7 @@ MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
  * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
  * @return {boolean} True if the marker was removed from the clusterer.
  */
-MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw) {
+MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw = true) {
   var removed = this.removeMarker_(marker);
 
   if (!opt_nodraw && removed) {
@@ -1103,13 +1103,12 @@ MarkerClusterer.prototype.checkIfElectronInKernel_ = function (cluster1, cluster
       //window.console.log("Check electron " + electron.getTitle() + "  distance : " + distElectron);
       if ( distElectron < this.kernelRadius_ )
       {
-        window.console.log("Capture du marker ");
         cluster2.removeElectronMarker(electron);
         cluster1.addMarker(electron, distElectron);
       }
     }
 
-    return true;
+    return true;  
 };
 
 MarkerClusterer.prototype.checkAdjacentsClusters = function () 

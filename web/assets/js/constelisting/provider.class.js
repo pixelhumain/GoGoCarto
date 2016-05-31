@@ -1,35 +1,48 @@
-function Provider(providerPhp) 
-{
-	var provider = providerPhp['Provider'];
-	
+function Provider(provider) 
+{	
 	this.id = provider.id;
 	this.name = provider.name;
 	this.position = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
 	this.adresse = provider.adresse;
 	this.description = provider.description;
-	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';
-	
+	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 	
 	this.products = [];
-	for (var i = 0; i < provider.products.length; i++) 
+	if (provider.type == 'epicerie') 
 	{
 		var product = [];
 
-		product.name = provider.products[i].product.name;
-		product.nameShort = provider.products[i].product.name_short;
-		product.nameFormate = provider.products[i].product.name_formate;
-		product.descriptif = provider.products[i].descriptif;
+		product.name = 'Epicerie';
+		product.nameShort = 'Epicerie';
+		product.nameFormate = 'epicerie';
 
 		this.products.push(product);
-	};
+	}
+	else
+	{
+		for (var i = 0; i < provider.products.length; i++) 
+		{
+			var product = [];
+
+			product.name = provider.products[i].product.name;
+			product.nameShort = provider.products[i].product.name_short;
+			product.nameFormate = provider.products[i].product.name_formate;
+			product.descriptif = provider.products[i].descriptif;
+
+			this.products.push(product);
+		};
+	}
 
 	this.mainProduct = provider.main_product;
 	this.horaires = provider.horaires;
 	this.type = provider.type;	
+
+	this.distance = provider.distance ? Math.round(provider.distance*10)/10 : null; 
 	
 	this.isInitialized_ = false;
 
 	this.isVisible_ = false;
+	this.isInProviderList = false;
 
 	this.biopenMarker_ = null;
 	this.htmlRepresentation_ = '';
@@ -46,8 +59,24 @@ Provider.prototype.initialize = function ()
 
 Provider.prototype.show = function () 
 {		
+	if (!this.isInitialized_) this.initialize();
 	this.biopenMarker_.show();
 	this.isVisible_ = true;
+
+	if (constellationMode)
+	{
+		if (!this.isInProviderList)
+		{
+			$('#ProviderList ul').append(this.getHtmlRepresentation());
+			createListenersForProviderMenu($('#infoProvider-'+this.id +' .menu-provider'));
+			this.isInProviderList = true;			
+		}
+		else
+		{
+			$('#infoProvider-'+this.id).show();
+		}
+	}
+		
 };
 
 Provider.prototype.hide = function () 
@@ -55,6 +84,7 @@ Provider.prototype.hide = function ()
 	this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
+	if (constellationMode) $('#ProviderList #infoProvider-'+this.id).hide();
 };
 
 
@@ -62,8 +92,8 @@ Provider.prototype.getHtmlRepresentation = function ()
 {		
 	if (this.htmlRepresentation_ == '')
 	{
-		var html = Twig.render(providerTemplate, {provider : this, horaires : this.getFormatedHoraires()});
-		this.htmlRepresentation_ = html;
+		var html = Twig.render(providerTemplate, {provider : this, horaires : this.getFormatedHoraires(), constellationMode: constellationMode});
+		this.htmlRepresentation_ = html;				
 		return html;
 		
 	}
@@ -150,6 +180,11 @@ Provider.prototype.getProducts = function ()
 Provider.prototype.getMarker= function () 
 {		
 	return this.biopenMarker_.getRichMarker();
+};
+
+Provider.prototype.getBiopenMarker= function () 
+{		
+	return this.biopenMarker_;
 };
 
 Provider.prototype.isVisible = function () 

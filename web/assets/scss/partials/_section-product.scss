@@ -21,6 +21,34 @@
 	    color: white;
 	}
 
+	#menu-title 
+	{
+		background-color: #EFEFEF;
+	    color: #3D3D3D;
+	    line-height: 2.5rem;
+	    padding-right: 1.5rem;
+	    font-weight: 500;
+	    text-align: center;
+
+	    > .icon-close
+	    {
+	    	float: right;
+		    position: absolute;
+		    top: .2rem;
+		    font-weight: 100;
+		    color: rgb(99, 97, 97);
+		    font-size: 1.2rem;
+		    right: 1.3rem;
+
+		    &:hover { cursor: pointer }
+	    }
+
+	    @media #{$medium-and-up} 
+		{
+			display:none;
+		}	
+	}
+
 	.product-checkbox
 	{
 		+ label:after
@@ -199,6 +227,7 @@
 {
     color: #777;
     height: 2.4rem;
+    line-height: 2.4rem;
     &:before
     {
     	line-height: 2.4rem;
@@ -210,4 +239,21 @@
 	padding: .5rem;
 	text-align: center;
 	margin: 0;
+	background-color: #FFFFFF;
+}
+
+#search_distance_container
+{
+	margin: -.5rem 1rem 0 .8rem;
+	#search_distance
+	{
+		border: none;
+		width: auto;
+	}
+	#km
+	{
+		float: right;
+    	line-height: 2.3rem;
+	}
+
 }

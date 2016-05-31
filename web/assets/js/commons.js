@@ -1,6 +1,6 @@
-function redirectToConstelisting(route, address)
+function redirectToConstelisting(route, address, range = '')
 {
-	window.location.href = Routing.generate(route, { slug : slugify(address)});
+	window.location.href = Routing.generate(route, { slug : slugify(address), distance : range});
 }
 
 function slugify(text)

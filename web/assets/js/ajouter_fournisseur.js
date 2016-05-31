@@ -37,6 +37,7 @@ jQuery(document).ready(function()
 	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
 
 	// quand on check un product l'input de pr?cision apparait ou disparait
+	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly') });
 	$('.checkbox_products').change(function()
 	{
         if ($(this).is(':checked')) 
@@ -51,7 +52,7 @@ jQuery(document).ready(function()
 		            $('#dynamic_fields').html(data);
         			}
         	});*/
-    }
+    	}
         else
         {
         	$('#div_precision_' + $(this).attr('value')).css('display','none');	
@@ -132,6 +133,9 @@ function geocodeAddress( address ) {
 var first_maj_form_with_type_done = false;
 function maj_form_with_type( init )
 {
+	window.console.log("maj_form_with_type val = " + $('#type_provider').val());
+	if ($('#type_provider').val() == 0) return; 
+
 	init = typeof init !== 'undefined' ? init : true;
 	
 	if (first_maj_form_with_type_done) window.open('add?type='+ $('#type_provider').val(),'_self');
@@ -192,8 +196,8 @@ function maj_form_with_type( init )
 
 function maj_with_main_product(mainProduct)
 {
-	$('.checkbox_products:disabled').prop('disabled', false);
-	$('#biopen_fournisseurbundle_provider_listeProducts_'+mainProduct).prop('checked', true).prop('disabled',true).change();
+	$('.checkbox_products.readonly').removeClass('.readonly').click();
+	$('#biopen_fournisseurbundle_provider_listeProducts_'+mainProduct).prop('checked', true).addClass('readonly').change();
 }
 
 function ajout_plage_horaire( jour )

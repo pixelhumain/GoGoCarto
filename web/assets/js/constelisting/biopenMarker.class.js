@@ -1,5 +1,3 @@
-
-
 function BiopenMarker(id_, position_) 
 {
 	var that = this;
@@ -114,14 +112,16 @@ BiopenMarker.prototype.updateIcon = function ()
 	var innerHTML = '<div class="rotate animate icon-marker"></div>';
     innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker icon-'+main_icon+'"></div></div>'
     
-    if (this.getProvider().products.length > 1)
+    var minProductLength = 1;
+    if (['marche','boutique'].indexOf(provider.type) > -1 ) minProductLength = 0;
+
+    if (provider.products.length > minProductLength)
     {
     	var product, products = provider.products;
 
     	var nbreMoreProduct = products.length;
     	//if (main_icon != 'multiple') nbreMoreProduct--;
-    	widthMoreProduct = nbreMoreProduct*39 + 5;
-    	
+    	widthMoreProduct = nbreMoreProduct*39 + 5;    	
 
     	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
     	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';

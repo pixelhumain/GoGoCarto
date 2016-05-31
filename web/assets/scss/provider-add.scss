@@ -1,6 +1,18 @@
-@import 'partials/base_bundle';
-@import 'vendors/timepicki';
+@import "partials/base_bundle";
 @import 'vendors/materialize';
+@import 'vendors/timepicki';
+
+//   FLASHBAG
+.flash-notice
+{
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    font-style: italic;
+    background-color: #4a7874;
+    color: white;
+    padding: 1rem;
+}
 
 #page_content
 {
@@ -82,6 +94,12 @@ section
   .dropdown-content
   {
     max-height: 350px;
+  }
+
+  input[type="checkbox"].readonly  + label:before
+  {
+      border-right: 2px solid #aaa;
+      border-bottom: 2px solid #aaa;
   }
 }
 
@@ -215,13 +233,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   }
 }
 
-//   FLASHBAG
-.flash-notice
-{
-    text-align: center;
-    margin-bottom: 2rem;
-    font-style: italic;
-}
+
 
 
 

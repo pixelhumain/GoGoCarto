@@ -1,23 +1,13 @@
 header 
 {	
 	color: white ;
-	@extend .z-depth-2;	
-
-	@media #{$small-and-down} 
-	{
-		#menu 
-		{ 
-			margin: 0 ; 
-			height: 2rem !important;
-	    	font-size: .85rem !important;
-		}
-	}
+	@extend .z-depth-2;		
 
 	#menu
 	{
-		height: 2.5rem;
-		font-size:1rem;
-		margin-bottom: 0px ;
+		margin: 0 ; 
+	   	font-size: .85rem ;
+		height: 2.5rem;		
 		
 		div 
 		{ 
@@ -51,6 +41,15 @@ header
 			border: none;
 			background-color: transparent;
     		letter-spacing: .5px;
+		}
+	}
+
+	@media #{$medium-and-up} 
+	{
+		#menu 
+		{ 
+			font-size:1rem;
+			margin-bottom: 0px ;
 		}
 	}
 }

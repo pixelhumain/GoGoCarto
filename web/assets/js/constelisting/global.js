@@ -1,9 +1,5 @@
 jQuery(document).ready(function()
 {	
-	$('.collapsible').collapsible({
-      accordion : true 
-    });
-
 	//animation pour lien d'ancre dans la page
     $('a[href^="#"]').click(function(){  
 	    var target = $(this).attr("href");
@@ -12,8 +8,8 @@ jQuery(document).ready(function()
 	}); 
 
 	$('#inputAddress').on("search", function(event, address){
-		window.console.log('address = ' +address);
-		if (constellationMode) redirectToConstelisting('biopen_constellation', address);
+		window.console.log('address = ' +address + ' distane = ' + $('#search_distance').val());
+		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
 	});
 
@@ -31,22 +27,27 @@ jQuery(document).ready(function()
 	    res = setTimeout(ajuster_taille_composants,200);
 	};	
 
-	//   MENU PROVIDER
-	var menu_provider = $('#bandeau_detail .menu-provider');
-	menu_provider.find('.icon-edit').click(function() {
-		Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
-	});
-	menu_provider.find('.icon-delete').click(function() {
-		Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
-	});
-	menu_provider.find('.icon-directions').click(function() {
-		alert('itinéraire pour provider : ' + getCurrentProviderIdShown() ); 
-	});
+	//Menu CARTE
+	$('#btn_menu').click(showProductsList);
+	$('#overlay').click(hideProductsList);
+	$('#menu-title > .icon-close').click(hideProductsList);
 });
 
-function getCurrentProviderIdShown()
+function showProductsList()
 {
-	return $('#bandeau_detail').find('.providerItem').attr('data-provider-id');
+	animate_down_bandeau_detail();  
+	$('#overlay').css('z-index','10');
+	$('#overlay').animate({'opacity': '.6'},700);
+	$('#ProductsList').toggle( "slide", {direction: 'left', easing: 'swing'} , 350 );
+	//$('#ProductsList').css('width','0px').show().animate({'width': '240px'},700);
+}
+
+function hideProductsList()
+{
+	$('#overlay').css('z-index','-1');
+	$('#overlay').animate({'opacity': '.0'},500);
+	$('#ProductsList').toggle( "slide", {direction: 'left', easing: 'swing'} , 250 );
+	//$('#ProductsList').animate({'width': '0px'},700).hide();
 }
 
 function hideBandeauHelper()
@@ -62,20 +63,27 @@ function ajuster_taille_composants()
 		-$('header').height()
 		-$('#bandeau_goToProviderList:visible').outerHeight(true));
 
+
+	ajuster_taille_providerList();
+	ajuster_tailler_info_provider();	
+	ajuster_taille_carte();
+}
+
+function ajuster_taille_providerList()
+{
 	if (constellationMode)
 	{
 		if ($('#ProviderList').offset().top < 100)
 		{
-			$('#ProviderList ul').css('height',$('#ProviderList').height() - $('#ProviderList .starRepresentationChoice-helper:visible').outerHeight(true) );
+			$('#ProviderList ul').css('height',$('#ProviderList').height() 
+				- $('#ProviderList .starRepresentationChoice-helper:visible').outerHeight(true)
+				- $('#ProviderList .provider-list-title:visible').outerHeight(true) );
 		}
 		else
 		{
 			$('#ProviderList ul').css('height','auto');
 		}
 	}
-
-	ajuster_tailler_info_provider();	
-	ajuster_taille_carte();
 }
 
 var matchMediaBigSize_old;
@@ -92,7 +100,8 @@ function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').outer
 		else 
 		{			
 		  	$("#map").css('height',$("#section_carte").height());	
-		  	if ($('#bandeau_detail').is(":visible")) $('#map').css('margin-right','440px');	 
+		  	if ($('#bandeau_detail').is(":visible")) $('#map').css('margin-right','440px');
+		  	else $('#map').css('margin-right','0px');
 		  	matchMediaBigSize_old = true; 	
 		}
 	}	

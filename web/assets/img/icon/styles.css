@@ -59,9 +59,6 @@
 .icon-viande:before {
   content: "\68";
 }
-.icon-menu:before {
-  content: "\69";
-}
 .icon-legumes:before {
   content: "\6e";
 }
@@ -148,4 +145,7 @@
 }
 .icon-directions:before {
   content: "\4e";
+}
+.icon-menu:before {
+  content: "\4a";
 }

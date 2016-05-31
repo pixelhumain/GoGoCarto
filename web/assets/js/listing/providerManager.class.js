@@ -9,7 +9,7 @@ function ProviderManager(listProviderPhp)
 	var provider;
 	for (var i = 0; i < listProviderPhp.length; i++)
 	{
-		provider = new Provider(listProviderPhp[i]);
+		provider = new Provider(listProviderPhp[i]['Provider']);
 		this.allProviders_.push(provider);
 	}
 
@@ -25,6 +25,7 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 	var mapBounds = GLOBAL.getMap().getBounds();
 
 	var newMarkers = [];
+	var markersToRemove = [];
 	var markersChanged = false;
 	//window.console.log("UPDATE PROVIDER LIST checkAll : " + checkInAllProviders + "| forceRepaint : " + forceRepaint);
 	filterManager = GLOBAL.getFilterManager();
@@ -53,6 +54,7 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 			if (provider.isVisible()) 
 			{
 				provider.hide();
+				markersToRemove.push(provider.getMarker());
 				markersChanged = true;
 				var index = this.currProviders_.indexOf(provider);
 				if (index > -1) this.currProviders_.splice(index, 1);
@@ -61,28 +63,33 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 		}
 	}
 
-	if (newMarkers.length > 0) 
-	{
-		GLOBAL.getClusterer().addMarkers(newMarkers);		
-	}
+	/*if (newMarkers.length > 0) GLOBAL.getClusterer().addMarkers(newMarkers);
+	if (markersToRemove.length > 0) GLOBAL.getClusterer().removeMarkers(markersToRemove);*/	
+
 	if (markersChanged || forceRepaint)
 	{
+		GLOBAL.getClusterer().clearMarkers();
+		GLOBAL.getClusterer().addMarkers(this.getMarkers());
 		GLOBAL.getClusterer().repaint();
-	}
-	
+	}	
 };
 
-
-ProviderManager.prototype.checkFilters = function (provider)
-{
-	return true;
-};
 
 ProviderManager.prototype.getProviders = function () 
 {
 	return this.currProviders_;
 };
 
+ProviderManager.prototype.getMarkers = function () 
+{
+	var markers = [];
+	l = this.currProviders_.length;
+	while(l--)
+	{
+		markers.push(this.currProviders_[l].getMarker());
+	}
+	return markers;
+};
 
 ProviderManager.prototype.getProviderById = function (providerId) 
 {

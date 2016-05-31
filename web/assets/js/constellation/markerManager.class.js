@@ -8,13 +8,13 @@ function MarkerManager()
 MarkerManager.prototype.createMarkers = function () 
 {	
 	var list = GLOBAL.getProviders();
-	var marker;
+	var marker, provider;
 	for(var i = 0; i < list.length; i++)
 	{
-		marker = new BiopenMarker(list[i].id);
-		this.markers_.push(marker); 
-	}
-	
+		provider = list[i];
+		provider.initialize();
+		this.markers_.push(provider.getBiopenMarker());
+	}	
 
 	this.markerHome_ = new RichMarker({
 		position: GLOBAL.getConstellation().getOrigin(),
@@ -22,8 +22,7 @@ MarkerManager.prototype.createMarkers = function ()
 };
 
 MarkerManager.prototype.fitMapInBounds = function () 
-{
-	
+{	
 	var bounds = new google.maps.LatLngBounds();
 
 	bounds.extend(this.markerHome_.getPosition());
@@ -53,7 +52,6 @@ MarkerManager.prototype.draw = function ()
 		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
 		this.getMarkerById(providerId).show();
 	}
-
 };
 
 

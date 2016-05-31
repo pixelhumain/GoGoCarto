@@ -10,15 +10,17 @@ jQuery(document).ready(function()
 		var moreResultContainer = $(this).parent().parent().find('.moreResultContainer');
 		
 		// if the moreResultContainer si already visible
-		if (moreResultContainer.is(":visible")) 
+		if (moreResultContainer.hasClass("active")) 
 		{
 			moreResultContainer.stop(true,false).slideUp(slideOptions);
+			moreResultContainer.removeClass("active");
 			GLOBAL.getSRCManager().end();
 		}
 		else
 		{
 			clearProductList();
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
+			moreResultContainer.addClass("active");
 			GLOBAL.getSRCManager().begin(star);	
 
 			if ($(this).parent().attr('data-providers-size') == 1)
@@ -64,8 +66,9 @@ function clearProductList()
 {
 	if (GLOBAL.getState() == 'starRepresentationChoice')
 	{
-		var otherContainerVisible = $('.moreResultContainer:visible').first();
+		var otherContainerVisible = $('.moreResultContainer.active').first();
 		otherContainerVisible.stop(true,false).slideUp(slideOptions);
+		otherContainerVisible.removeClass("active")
 		GLOBAL.getSRCManager().end();
 	}	
 }

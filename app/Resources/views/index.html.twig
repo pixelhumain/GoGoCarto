@@ -17,6 +17,7 @@
 <section id="title">
 	<span class="icon-business"></span>	
 	<h1>Alimentation près de chez soi</h1>
+	<div id='site-en-dev'>Site en cours de développement ! Les fournisseurs qui y sont listés sont factices, et des disfonctionnements restent possibles</div>
 </section>
 
 <section id="mainFunctions">
@@ -26,7 +27,7 @@
 	</div>
 	
 	<div class="row">
-		<div class="function col s4" id="constellation-zone">
+		<div class="function" id="constellation-zone">
 			<div class="image-wrapper">
 				<div class="image icon-constellation"></div>
 			</div>
@@ -34,18 +35,18 @@
 			<p>Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</p>
 		</div>
 
-		<div class="function col s4" id="listing-zone">
+		<div class="function" id="listing-zone">
 			<div class="image-wrapper">
 				<div class="image icon-icon-liste"></div>
 			</div>	
-			<h2>NAVIGUATION</h2>		
+			<h2>NAVIGATION</h2>		
 			<p>				
 				Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent
 			</p>
 
 		</div>
 	
-		<div class="function col s4">
+		<div class="function">
 			<div href="{{ path('biopen_fournisseur_add') }}">
 				<div class="image-wrapper"><div class="image icon-plus"></div></div>			
 				<h2>AJOUTER FOURNISSEUR</h2>			
@@ -56,6 +57,18 @@
 	</div>
 
 </section>
+
+<section id="open-source">
+	<h2>OPEN SOURCE</h2>
+	<p>Ce site est développé bénévolement pour un usage gratuit, et libre de droits. Le but est de fournir une cartographie ergonomique des fournisseurs de type : producteurs, amap, marchés, boutique de producteurs, épiceries...</p>
+	<p>Les fournisseurs répértoriés sur ce site ce sont pas exclusivement sous label bio, mais certifient avoir des pratiques agronomiques respectueuses du sol et de l'environnement.</p>
+</section>
+
+<footer>
+	Contact : <a href="mailto:90scastro@gmail.com">90scastro@gmail.com</a>
+</footer>
+
+
 {% endblock %}
 
 

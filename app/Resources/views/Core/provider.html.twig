@@ -8,13 +8,12 @@
 
   {# HEADER #}
   <div class="collapsible-header">
-
     
     <div class='collapsible-header-title row'>
       <span class="col s1 icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
       <span class="col s8 name"><b>{{ provider.name|capitalize }}</b></span>
-       {% if provider.distance is defined %}
-          <span class="col s3 right-align">{{ provider.distance|round(1) }} km</span>
+       {% if provider.distance != null %}
+          <span class="col s3 right-align">{{ provider.distance }} km</span>
        {% endif %}
     </div>
 
@@ -36,7 +35,22 @@
 
   {# BODY #}
   <div class="collapsible-body moreDetails customScrollBar" > 
-
+  
+  {% if constellationMode %}
+  <div class="menu-provider">      
+    <center>
+      <span class="menu-icon icon-directions tooltipped" 
+      data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce fournisseur"></span>
+      <span class="menu-icon icon-edit tooltipped" 
+      data-position="top" data-delay="0" data-tooltip="Modifier ces informations"></span>
+      <span class="menu-icon icon-delete tooltipped" 
+      data-position="top" data-delay="0" data-tooltip="Supprimer ce fournisseur"></span>
+      {# <button id="" class="btn waves-effect waves-light">Modifier</button>
+      <button id="" class="btn waves-effect waves-light">Supprimer</button> #}
+    </center>       
+  </div> 
+  {% endif %}
+  <div class="collapsible-body-main-content"> 
     <h3>Infos</h3>   
     <div class="section row sectionInfos">
       <span class="col s12 adresse">{{ provider.adresse|capitalize }}</span>
@@ -44,6 +58,7 @@
     </div>
     <div class="divider"></div>
 
+    {% if provider.type != 'epicerie' %}
     <h3>Les produits</h3>   
     <div class="section sectionDetailProducts"> 
       {% for product in provider.products %} 
@@ -58,6 +73,7 @@
 
     </div>       
     <div class="divider"></div>
+    {% endif %}
 
     <h3>Horaires</h3>   
     <div class="section row sectionHoraires">  
@@ -72,8 +88,8 @@
         {% endif %}
       {% endfor %}  
       {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
-    </div>   
-
+    </div> 
+  </div>
   </div>
 
   

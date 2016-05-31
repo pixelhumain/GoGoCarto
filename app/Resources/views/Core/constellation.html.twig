@@ -37,16 +37,19 @@
     <div id="map"></div>    
 
     <div id="bandeau_helper">Pour chaque produit, plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
-    {# <div id="btn_menu"><i class='icon-menu'></i></div>  #}
-    <div id="overlay"></div>
 
-    <section id="bandeau_detail" class="customScrollBar">
+    <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div class="starRepresentationChoice-helper">
         Sélectionner en tant que "<span class='SRC-helper-starName'></span>" principal 
         <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> 
       </div> 
       <div id="detail_provider"></div>
+      {% include '::Components/menu-provider.html.twig'  %}
     </section>
+
+    <div id="btn_menu"><i class='icon-menu'></i></div> 
+    <div id="overlay"></div>
+    
   </section>  
 
 </div>
@@ -54,24 +57,29 @@
 {# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
 <div id="bandeau_goToProviderList">  
   <a href='#ProviderList'>
-    <div class="valign-wrapper">
-    <i class="icon-expand"></i>
-    <div class="">Liste des résultats</div>
-    <i class="icon-expand"></i>
-    </div>
+      <i class="icon-expand"></i>
+      <span class="">Liste des résultats</span>
+      <i class="icon-expand"></i>
   </a>
 </div>
 
 {# Les résultats par liste #}
 <section id="ProviderList">
-  <div class="starRepresentationChoice-helper">Sélectionnez un nouveau "<span class='SRC-helper-starName'></span>" principal</div>        
-  {% if providerList is defined %}
+  
+  <div class="provider-list-title">
+    Liste des Fournisseurs
+    <div class="shadow-bottom"></div>
+  </div>
+
+  <div class="starRepresentationChoice-helper">
+    Sélectionnez un nouveau "<span class='SRC-helper-starName'></span>" principal
+  </div> 
+  
   <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
-      {% for key, provider in  providerList %}   
+      {# {% for key, provider in  providerList %}   
           {% include '::Core/provider.html.twig'  %}  
-      {% endfor %} 
+      {% endfor %}  #}
   </ul>
-  {% endif %} 
 </section>
 
 {% endblock %}
@@ -99,7 +107,8 @@
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
     
   {% javascripts filter="?jsqueeze"
-        "assets/js/libs/jquery-2.2.1.min.js"        
+        "assets/js/libs/jquery-2.2.1.min.js"  
+        "assets/js/libs/jquery-ui.min.js"        
         "assets/js/libs/cluster/cluster-commons.js"
         "assets/js/libs/cluster/clustericon.js"
         "assets/js/libs/cluster/cluster.js"
@@ -108,10 +117,18 @@
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/components/inputAddress.js" 
         "assets/js/commons.js" 
-        "assets/js/constelisting/*"
+        "assets/js/libs/twig.js"
         "assets/js/constellation/*"
+        "assets/js/constelisting/*"
+                
     %}
         <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts filter="twig_js" 
+    '../app/Resources/views/Core/provider.html.twig'    
+    %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
      <script 

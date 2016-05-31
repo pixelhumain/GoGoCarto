@@ -37,24 +37,11 @@
     <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div id="detail_provider">
       </div>
-      <div class="menu-provider">      
-        <center>
-          <span class="menu-icon icon-directions tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce fournisseur"></span>
-          <span class="menu-icon icon-edit tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Modifier ces informations"></span>
-          <span class="menu-icon icon-delete tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Supprimer ce fournisseur"></span>
-          {# <button id="" class="btn waves-effect waves-light">Modifier</button>
-          <button id="" class="btn waves-effect waves-light">Supprimer</button> #}
-        </center>       
-      </div>   
+      {% include '::Components/menu-provider.html.twig'  %}
     </section>
 
-    {# <div id="bandeau_option"></div> #}
-
-    {# <div id="btn_menu"><i class='icon-menu'></i></div> 
-    <div id="overlay"></div> #}
+    <div id="btn_menu"><i class='icon-menu'></i></div> 
+    <div id="overlay"></div>
   </section>  
 
 </div>
@@ -66,23 +53,23 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var providerListJson = null;
-    {% if providerList is defined %}
-      providerListJson = {{ providerList | serialize("json") | raw }};
-    {% endif %}
-
+    var providerListJson = {{ providerList | serialize("json") | raw }};    
+    end = new Date().getTime();
+    window.console.log('providerlist serialize: ' + (end - start)); 
+    start = new Date().getTime();
     var constellationMode = false;
 
     var geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+
   </script>
 
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-   
     
     {% javascripts filter="?jsqueeze"
-        "assets/js/libs/jquery-2.2.1.min.js"        
+        "assets/js/libs/jquery-2.2.1.min.js" 
+        "assets/js/libs/jquery-ui.min.js"           
         "assets/js/libs/cluster/cluster-commons.js"
         "assets/js/libs/cluster/clustericon.js"
         "assets/js/libs/cluster/cluster.js"
@@ -91,9 +78,9 @@
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/components/inputAddress.js" 
         "assets/js/commons.js" 
-        "assets/js/libs/twig.js"
-        "assets/js/listing/*"
+        "assets/js/libs/twig.js"        
         "assets/js/constelisting/*"
+        "assets/js/listing/*"
         
     %}
         <script src="{{ asset_url }}"></script>
@@ -101,16 +88,17 @@
 
 
     {% javascripts filter="twig_js" 
+
     '../app/Resources/views/Core/provider.html.twig'    
     %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    
+
+   
     <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
     </script>
 
-   {#<script  src="{{ asset('assets/js/libs/rich-marker.js') }}"></script>#}
 
 {% endblock %}
 

@@ -3,8 +3,8 @@ biopen_homepage:
     defaults: { _controller: BiopenCoreBundle:Core:index }
 
 biopen_constellation:
-    path:     /constellation/{slug}
-    defaults: { _controller: BiopenCoreBundle:Core:constellation, slug:'' }
+    path:     /constellation/{slug}/{distance}
+    defaults: { _controller: BiopenCoreBundle:Core:constellation, slug:'', distance:'50' }
     options:
         expose: true
 

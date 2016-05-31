@@ -1,7 +1,6 @@
 #bandeau_detail
 {
     height:0px;
-    background-color: #F7F7F7;    
     z-index: 440;
     overflow-y: scroll;    
     
@@ -9,6 +8,13 @@
     @include transition(height .5s);  
 
     @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));  
+
+    background-color: #F7F7F7;
+
+    .providerItem .menu-provider
+	{
+		display: none;
+	}
 }
 
 .starRepresentationChoice-helper
@@ -18,19 +24,28 @@
     text-align: center;
     color: #F5F3F3;
     font-weight: 400;
-    background-color: #54928C;
+    background-color: $secondary-color;
 
 	.btn-select-as-representant 
 	{
 		margin: 0 0 .1rem 1rem !important;
 	    text-transform: none;
-	    background-color: #3D3D3D
+	    background-color: $secondary-color;
 	}
+}
+
+.provider-list-title
+{
+	display:none
 }
 
 #detail_provider
 {
-	margin-bottom: 3rem; // pour le provider-menu
+	margin-bottom: 2.3rem; // pour le provider-menu
+	@media #{$medium-and-up} 
+	{
+		margin-bottom: 3rem;
+	}
 
 	.collapsible-body { border-bottom: 0 }
 	.moreDetails 
@@ -42,52 +57,48 @@
 
 #ProviderList
 {
-	background-color: #544242;
 	border-left: none;
 
 	.collapsible
 	{
 		overflow-y: auto;
-    	/* height: 100%; */
-	}
-
-	.btn-select-as-representant
-	{
-		margin: 0 !important;
-		height: 1.5rem;
-    	line-height: 1.5rem;
-	    font-size: 1rem;
-	    text-transform: none;
-	    padding: 0;
-	    margin: 0 !important;
-		background-color: #4a7874;
-		z-index:100;
-	}
-
-	/* .moreChoiceInfo
-	{
-	    text-align: left;
-	    padding-left: 1rem;
-	    color: #4A7874;
-	    font-weight: 500;
-	    background-color: transparent;
-
-		.btn {
-			margin: 0 .5rem .1rem 0 !important;
-			background-color: #4a7874;
+		&.customScrollBar::-webkit-scrollbar {
+		    width: 14px;
 		}
-	} */
+	}
+
+	.btn-select-as-representant-container
+	{
+		padding: 0 0.4rem;
+	}
+
+	.btn.btn-select-as-representant
+	{
+	    height: 1.5rem;
+	    line-height: 1.5rem;
+	    padding: 0 .5rem;
+	    font-size: .9rem;
+	    text-transform: none;
+	    margin: 0 ;
+	    background-color: #4a7874;
+	    z-index: 100;
+	}
+
+	.providerItem .menu-provider
+	{
+		display: block;
+	}
 }
 
 @media #{$large-and-up}
 {
 	#ProviderList
 	{
-		background-color: white;
+		background-color: #F7F7F7;
 
 		border-left: 1px solid #a5a5a5;
 
-		@include box-shadow(0 4px 4px rgba(0,0,0,.2), 0 -1px 4px rgba(0,0,0,.2));
+		@include box-shadow-1(0px 6px 9px 4px rgba(119, 119, 119, 0.55));
 
 		z-index: 40; 
 
@@ -95,6 +106,35 @@
 		{
 			background-color: $grey-light;
 		}
+
+		.providerItem:last-child:after
+		{
+			padding-bottom: 400px;
+		}	
+
+		.provider-list-title
+		{
+			display:block;
+			line-height: 3rem;
+		    text-align: center;
+		    color: #F5F3F3;
+		    background-color: #3D3D3D;
+
+		    .shadow-bottom
+			{
+				width: 100%;
+			    margin-right: 0;
+			    height: 8px;
+			    position: absolute;
+			    top: 3rem;
+			    z-index: 4;
+			    left: 0;
+			    opacity: 1;
+			    border-top: 1px solid rgba(0,0,0,0.4);
+			    background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(rgba(0,0,0,0)));
+			    -webkit-mask-box-image: -webkit-gradient(linear,left top,right top,color-stop(0.0,rgba(0,0,0,0)),color-stop(0.5,rgba(0,0,0,.8)),color-stop(1.0,rgba(0,0,0,0)));
+			}
+		}	
 	}
 }
 #ProviderList, #bandeau_detail
@@ -164,7 +204,12 @@
 	.collapsible-body
 	{
 		background-color: #F7F7F7;
-		padding: 0 .5rem 1rem .5rem;
+		padding: 0;
+
+		.collapsible-body-main-content
+		{
+			padding: 0 .5rem 1rem .5rem;
+		}
 
 		h2
 		{
@@ -193,34 +238,7 @@
 		}
 		.productName {text-decoration:inherit }
 		.product { line-height: 2.5rem; text-decoration:inherit}
-	}
-
-	.menu-provider
-	{
-		background-color:$submenu-color;		
-		height: 3rem;		
-
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-
-		.menu-icon
-		{
-			font-size: 22px;
-			color: #CECECE;
-			margin: 0 1rem;
-
-			&:hover
-			{
-				color: white;
-				cursor: pointer;
-			}
-			&:before
-			{
-				line-height: 3rem;
-			}
-		}
-	}
+	}	
 
 	&.smallWidth
 	{
@@ -271,6 +289,49 @@
 				$i: $i + 1;
 			}
 		}
+	}
+}
+
+.menu-provider
+{
+	background-color:$submenu-color;		
+
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+
+	.menu-icon
+	{
+		font-size: 20px;
+		color: #CECECE;
+		margin: 0 1rem;
+
+		&:hover
+		{
+			color: white;
+			cursor: pointer;
+		}
+		&:before
+		{
+			line-height: 2.3rem;
+		}
+
+		@media #{$medium-and-up} 
+		{
+			font-size: 22px;
+			&:before
+			{
+				line-height: 3rem;
+			}
+		}
+	}
+}
+
+#ProviderList
+{
+	.menu-provider 
+	{
+		position: relative;
 	}
 }
 

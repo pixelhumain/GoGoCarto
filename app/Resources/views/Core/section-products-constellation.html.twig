@@ -1,6 +1,19 @@
 <ul>
 
+<li class="productListTitle" id="menu-title">
+  Menu
+  <span class="icon-close">
+  </span>
+</li>
+
 {% include '::Components/inputAddress.html.twig'  %} 
+
+<form action="#">
+    <div class="range-field" id="search_distance_container">
+      <input type="range" id="search_distance" min="0" max="150" value="{{ search_range }}" />
+      <span id='km'>km</span>
+    </div>
+</form>
 
 <li class="productListTitle">
   Emplacements

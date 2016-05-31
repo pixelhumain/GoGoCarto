@@ -55,7 +55,7 @@ class CoreController extends Controller
             ->findAll();
 
             /*dump($providerList);*/
-            dump($listProducts);
+            /*dump($listProducts);*/
 
             if( $providerList == null)
             {
@@ -69,7 +69,7 @@ class CoreController extends Controller
         return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
     }
 
-    public function constellationAction($slug)
+    public function constellationAction($slug, $distance)
     { 
         if ($slug == '')
         {
@@ -91,19 +91,21 @@ class CoreController extends Controller
             $geocodeResponse['coordinates']['latitude'] = 44.1049567;
             $geocodeResponse['coordinates']['longitude'] = -0.5445296;  
 
-            $providerList = $this->getProvidersList($geocodePoint);
+            $providerList = $this->getProvidersList($geocodePoint, intval($distance));
 
             if( $providerList == null)
             {
                 $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
                 return $this->render('::index.html.twig');
             }
+
+            /*dump($providerList);*/
             
             $constellation = $this->buildConstellation($providerList, $geocodeResponse);
         }	 
 
         return $this->render('::Core/constellation.html.twig', 
-            array('constellationPhp' => $constellation, "providerList" => $providerList, "slug" => $slug));
+            array('constellationPhp' => $constellation, "providerList" => $providerList, "slug" => $slug, 'search_range' => $distance));
     }    
 
     public function constellationAjaxAction(Request $request)
@@ -180,6 +182,8 @@ class CoreController extends Controller
         ->findAll();
 
         // on crée les liste de products
+        $constellation['listProductsProvided'] = [];
+        $constellation['listProductsNonProvided'] = [];
         foreach($listProducts as $i => $product)
         {
             $isProvided = false;
@@ -192,7 +196,7 @@ class CoreController extends Controller
             else $constellation['listProductsNonProvided'][] = $product;
         } 
 
-        dump($constellation);
+        /*dump($constellation);*/
 
         return $constellation;            
     }

@@ -33,7 +33,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: -1;
-    @include transition(opacity 1s);
     will-change: opacity;
 }
 
@@ -41,20 +40,25 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 {
 	position: absolute;
     left: 1rem;
+    text-align: center;
     top: 1rem;
+    width: 3rem;
+    height: 3rem;
     background-color: white;
-    padding: 8px 8px 0px 8px;
     z-index: 11;
     @extend .z-depth-1;
     color: #555;
-    opacity: 1;
-    @include transition(opacity 1s);
-    @include transition(background-color 1s);
 
-    .icon-menu
+    > i
     {
-        font-size: 1.8rem;
-        margin: 0;
+        font-size: 2rem;
+        height: 3rem;
+        &:before { line-height: 3rem }
+    }
+
+    @media #{$medium-and-up} 
+    {
+        display: none !important;
     }
 }
 

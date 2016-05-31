@@ -57,9 +57,11 @@ ClusterIcon.prototype.onAdd = function () {
       // The default click handler follows. Disable it by setting
       // the zoomOnClick property to false.
       if (mc.getZoomOnClick()) {
+        window.console.log("zoom cluster");
         
-        mc.getMap().setCenter(cClusterIcon.cluster_.getCenter());
+        mc.getMap().panTo(cClusterIcon.cluster_.getCenter());
         mc.getMap().setZoom(mc.getMap().getZoom()+1);
+
 
         /*// Zoom into the cluster.
         mz = mc.getMaxZoom();

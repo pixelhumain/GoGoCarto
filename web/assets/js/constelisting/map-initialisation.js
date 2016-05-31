@@ -2,6 +2,7 @@ var old_zoom;
 
 function initMap() 
 {	
+
 	initRichMarker();
 
 	$('.preloader-wrapper ').hide();
@@ -35,15 +36,17 @@ function initMap()
 	zoom = map.getZoom();		
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
-	{    			
+	{   
 		initialize(map);
 	} );
 
 	map.addListener('click', function(e) 
 	{
     	if (constellationMode) clearProductList();
-    	animate_down_bandeau_detail();   
+    	animate_down_bandeau_detail(); 
   	}); 
+
+
 }
 
 function initialize(map)
@@ -88,7 +91,6 @@ function initialize(map)
 	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);	 
 	  	}); 
 	}
-	
 }
 
 function initCluster(markersToCluster)

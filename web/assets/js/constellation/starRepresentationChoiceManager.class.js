@@ -20,7 +20,7 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	$('.SRC-helper-starName').html(star.getName());
 	$('.starRepresentationChoice-helper').show();
 	
-	//ajuster_taille_composants();
+	ajuster_taille_providerList();
 
 	hideBandeauHelper();
 };
@@ -40,7 +40,7 @@ StarRepresentationChoiceManager.prototype.end = function ()
 
 	$('.starRepresentationChoice-helper').hide();
 
-	//ajuster_taille_carte()	
+	ajuster_taille_providerList();
 
 	GLOBAL.setState('normal');
 };

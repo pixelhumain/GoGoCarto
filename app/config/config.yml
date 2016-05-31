@@ -10,6 +10,9 @@ imports:
 parameters:
     locale: fr
 
+fos_js_routing:
+    routes_to_expose: [ (.*) ]
+
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
