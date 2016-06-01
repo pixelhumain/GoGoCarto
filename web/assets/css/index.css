@@ -2083,8 +2083,8 @@ textarea.materialize-textarea {
   input[type=search]:focus.invalid,
   textarea.materialize-textarea.invalid,
   textarea.materialize-textarea:focus.invalid {
-    border-bottom: 1px solid color("red", "base");
-    box-shadow: 0 1px 0 0 color("red", "base"); }
+    border-bottom: 1px solid #B90303;
+    box-shadow: 0 1px 0 0 #B90303; }
   input[type=text].invalid + label:after, input[type=text]:focus.invalid + label:after,
   input[type=password].invalid + label:after,
   input[type=password]:focus.invalid + label:after,
@@ -2107,7 +2107,7 @@ textarea.materialize-textarea {
   textarea.materialize-textarea.invalid + label:after,
   textarea.materialize-textarea:focus.invalid + label:after {
     content: attr(data-error);
-    color: color("red", "base");
+    color: #B90303;
     opacity: 1; }
   input[type=text] + label:after,
   input[type=password] + label:after,
@@ -3195,7 +3195,7 @@ select {
   -moz-border-radius: 10px;
   border-radius: 10px; }
   #inputAddress.invalid {
-    border-color: color("red", "base") !important; }
+    border-color: #B90303 !important; }
   #inputAddress::-webkit-input-placeholder {
     color: #BDBDBD; }
   #inputAddress::-moz-placeholder {
@@ -3266,7 +3266,8 @@ section#open-source {
 
 footer {
   background-color: #222;
-  padding: .5rem; }
+  padding: .5rem;
+  color: #C7C7C7; }
   footer a {
     color: #C7C7C7;
     text-decoration: underline; }
@@ -3324,6 +3325,8 @@ footer {
       background-color: #ee6e73; }
       .function .image-wrapper .image:before {
         line-height: 5rem; }
+  .function a {
+    color: inherit; }
   .function p {
     text-align: left;
     padding: 0rem;

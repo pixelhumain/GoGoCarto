@@ -2,7 +2,8 @@
 {
     height:0px;
     z-index: 440;
-    overflow-y: scroll;    
+    overflow-y: scroll; 
+    position: relative;   
     
     will-change:height;
     @include transition(height .5s);  
@@ -96,8 +97,6 @@
 	{
 		background-color: #F7F7F7;
 
-		border-left: 1px solid #a5a5a5;
-
 		@include box-shadow-1(0px 6px 9px 4px rgba(119, 119, 119, 0.55));
 
 		z-index: 40; 
@@ -149,6 +148,23 @@
     	margin-top: 0;
 	}
 
+	.icon-close
+	{
+		position: absolute;
+	    background-color: #FFFFFF;
+	    top: 1rem;
+    	right: .5rem;
+	    padding-left: 1rem;
+	    font-size: 1.2rem;
+	    color: #3D3D3D;
+
+	    &:hover
+		{
+			color: $secondary-color;
+			cursor: pointer;
+		}
+	}
+
 	.strong { text-decoration: underline }
 	.collapsible.popout > li
 	{ 
@@ -177,6 +193,7 @@
 	}
 	.collapsible-header-title 
 	{ 		
+		position: relative;
 		margin-bottom: 0rem; 
 		overflow: hidden;
 		text-overflow: ellipsis;

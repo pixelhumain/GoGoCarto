@@ -53,6 +53,11 @@ ProviderManager.prototype.initProviderList = function ()
 		var provider = that.getProviderById($(this).attr('data-provider-id'));
 		provider.getBiopenMarker().showNormalSize();
 	});
+
+	$('#ProviderList .providerItem').click(function()
+	{
+		$('#ProviderList ul').animate({scrollTop: '+='+$(this).position().top}, 500);
+	});
 };
 
 ProviderManager.prototype.focusOnThesesProviders = function (idList) 

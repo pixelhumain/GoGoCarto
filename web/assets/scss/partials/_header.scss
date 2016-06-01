@@ -17,14 +17,10 @@ header
 			//background-color: #26a69a ;			
 			//border-bottom: 2px solid rgba(0, 0, 0, 0);
 			color: white;
+
 			font-size: inherit ;
 			@include transition(all 0.4s);
 			
-		}
-		div.milieu
-		{
-			//border-right: 1px solid rgba(0, 0, 0, 0.21);
-			//border-left: 1px solid rgba(0, 0, 0, 0.21);
 		}
 		div:hover
 		{
@@ -35,6 +31,7 @@ header
 		a 
 		{ 
 			color: inherit; 
+			cursor: pointer;
 			font-size: inherit ;
 			width:100%;
 			border-radius: 0; 

@@ -7,8 +7,8 @@ jQuery(document).ready(function()
 	    return false;  
 	}); 
 
-	$('#inputAddress').on("search", function(event, address){
-		window.console.log('address = ' +address + ' distane = ' + $('#search_distance').val());
+	$('#inputAddress').on("search", function(event, address)
+	{
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
 	});
@@ -21,12 +21,31 @@ jQuery(document).ready(function()
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
 	var res;
-	window.onresize=function() 
+	window.onresize = function() 
 	{
 	    if (res) {clearTimeout(res) };
 	    res = setTimeout(ajuster_taille_composants,200);
 	};	
 
+	// scroller tout seul en haut de la page quand on en est pas loin
+	var lastEndScrollTop = 0, st = 0;
+	var timeout = null;	
+	$(window).scroll(function(event)
+	{
+	   clearTimeout(timeout);
+	   st = $(this).scrollTop();
+	   timeout = setTimeout(function()
+	   {
+	       //end of scrolling
+	       if (st < 250 && lastEndScrollTop > 250)
+		   {		    	
+		    	$('html, body').animate({scrollTop: 0}, 400);		    	
+		   }
+		   lastEndScrollTop = st;
+	   },100);	 	   
+	});
+
+	
 	//Menu CARTE
 	$('#btn_menu').click(showProductsList);
 	$('#overlay').click(hideProductsList);

@@ -59,10 +59,14 @@
 
 {% block javascripts %}
 
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
 	{% javascripts filter="?jsqueeze" output="js/app.js"
         "assets/js/libs/jquery-2.2.1.min.js"
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/libs/timepicki.js"
+        "assets/js/commons.js"
         "assets/js/ajouter_fournisseur.js"
     %}
         <script src="{{ asset_url }}"></script>

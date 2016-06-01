@@ -3,7 +3,10 @@ jQuery(document).ready(function()
 	$('#constellation-zone').click(function()
 	{ 
 		var address = $('#inputAddress').val();
-		if (!address) $('#inputAddress').addClass('invalid');
+		if (!address) 
+		{
+			$('#inputAddress').addClass('invalid');
+		}
 		else redirectToConstelisting('biopen_constellation', address); 
 	});
 
@@ -13,7 +16,6 @@ jQuery(document).ready(function()
 	{
 		redirectToConstelisting('biopen_constellation', address);
 	});
-
 });
 
 function initMap() 

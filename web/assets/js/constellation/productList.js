@@ -3,11 +3,11 @@ var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, comple
 jQuery(document).ready(function()
 {
 	// MODE StarRepresentationChoice
-	$('.resultNumber:not(.disabled)').click(function()
+	$('.productItem:not(.disabled)').click(function()
 	{
-		var star = GLOBAL.getConstellation().getStarFromName($(this).parent().attr('data-star-name'));
+		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		
-		var moreResultContainer = $(this).parent().parent().find('.moreResultContainer');
+		var moreResultContainer = $(this).parent().find('.moreResultContainer');
 		
 		// if the moreResultContainer si already visible
 		if (moreResultContainer.hasClass("active")) 
@@ -19,11 +19,16 @@ jQuery(document).ready(function()
 		else
 		{
 			clearProductList();
+			if ($('#ProductsList').outerWidth() == $(window).outerWidth())
+			{
+				moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
+				moreResultContainer.find('.see-more-result-on-map').click(hideProductsList);
+			}
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
 			moreResultContainer.addClass("active");
 			GLOBAL.getSRCManager().begin(star);	
 
-			if ($(this).parent().attr('data-providers-size') == 1)
+			if ($(this).attr('data-providers-size') == 1)
 			{			
 				showProviderInfosOnMap(star.getProviderId(), false);
 			}

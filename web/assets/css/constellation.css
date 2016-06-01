@@ -416,6 +416,7 @@ header {
       font-weight: 500; }
     header #menu a {
       color: inherit;
+      cursor: pointer;
       font-size: inherit;
       width: 100%;
       border-radius: 0;
@@ -2123,8 +2124,8 @@ textarea.materialize-textarea {
   input[type=search]:focus.invalid,
   textarea.materialize-textarea.invalid,
   textarea.materialize-textarea:focus.invalid {
-    border-bottom: 1px solid color("red", "base");
-    box-shadow: 0 1px 0 0 color("red", "base"); }
+    border-bottom: 1px solid #B90303;
+    box-shadow: 0 1px 0 0 #B90303; }
   input[type=text].invalid + label:after, input[type=text]:focus.invalid + label:after,
   input[type=password].invalid + label:after,
   input[type=password]:focus.invalid + label:after,
@@ -2147,7 +2148,7 @@ textarea.materialize-textarea {
   textarea.materialize-textarea.invalid + label:after,
   textarea.materialize-textarea:focus.invalid + label:after {
     content: attr(data-error);
-    color: color("red", "base");
+    color: #B90303;
     opacity: 1; }
   input[type=text] + label:after,
   input[type=password] + label:after,
@@ -3509,7 +3510,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -moz-border-radius: 10px;
   border-radius: 10px; }
   #inputAddress.invalid {
-    border-color: color("red", "base") !important; }
+    border-color: #B90303 !important; }
   #inputAddress::-webkit-input-placeholder {
     color: #BDBDBD; }
   #inputAddress::-moz-placeholder {
@@ -3619,10 +3620,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       position: absolute;
       right: -10px;
       top: -10px; }
-    #ProductsList .resultNumber:hover {
-      cursor: pointer;
-      transform: scale(1.2, 1.2);
-      background-color: #B33737; }
   #ProductsList .productItem, #ProductsList .productTitle {
     position: relative;
     margin-bottom: 0;
@@ -3636,7 +3633,10 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     font-weight: 500; }
   #ProductsList .productItem:not(.disabled):hover {
     background-color: #f0f0f0;
-    cursor: default; }
+    cursor: pointer; }
+    #ProductsList .productItem:not(.disabled):hover .resultNumber {
+      transform: scale(1.2, 1.2);
+      background-color: #B33737; }
   #ProductsList .disabled {
     color: #DFDFDF;
     cursor: default; }
@@ -3648,6 +3648,12 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     margin: 0;
     border: 0;
     box-shadow: none; }
+  #ProductsList .see-more-result-on-map {
+    background-color: #4A7874;
+    text-decoration: underline;
+    color: white;
+    text-align: center;
+    line-height: 3rem; }
   #ProductsList .moreResultProviderItem {
     background-color: #F7F7F7;
     font-size: .95rem;
@@ -3705,6 +3711,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   height: 0px;
   z-index: 440;
   overflow-y: scroll;
+  position: relative;
   will-change: height;
   -webkit-transition: height 0.5s;
   -moz-transition: height 0.5s;
@@ -3768,7 +3775,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 @media only screen and (min-width: 1201px) {
   #ProviderList {
     background-color: #F7F7F7;
-    border-left: 1px solid #a5a5a5;
     -webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.55);
     -moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.55);
     box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.55);
@@ -3802,6 +3808,17 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   margin-bottom: 0;
   padding-top: 1rem;
   margin-top: 0; }
+#ProviderList .icon-close, #bandeau_detail .icon-close {
+  position: absolute;
+  background-color: #FFFFFF;
+  top: 1rem;
+  right: .5rem;
+  padding-left: 1rem;
+  font-size: 1.2rem;
+  color: #3D3D3D; }
+  #ProviderList .icon-close:hover, #bandeau_detail .icon-close:hover {
+    color: #4A7874;
+    cursor: pointer; }
 #ProviderList .strong, #bandeau_detail .strong {
   text-decoration: underline; }
 #ProviderList .collapsible.popout > li, #bandeau_detail .collapsible.popout > li {
@@ -3825,6 +3842,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 #ProviderList .collapsible-header, #bandeau_detail .collapsible-header {
   padding: .5rem; }
 #ProviderList .collapsible-header-title, #bandeau_detail .collapsible-header-title {
+  position: relative;
   margin-bottom: 0rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4089,6 +4107,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 @media only screen and (min-width: 601px) {
   #bandeau_helper {
+    display: block;
     z-index: 20;
     text-align: center;
     position: absolute;

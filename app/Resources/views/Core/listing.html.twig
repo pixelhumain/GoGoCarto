@@ -36,7 +36,7 @@
 
     <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div id="detail_provider">
-      </div>
+      </div>      
       {% include '::Components/menu-provider.html.twig'  %}
     </section>
 
@@ -53,10 +53,7 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var providerListJson = {{ providerList | serialize("json") | raw }};    
-    end = new Date().getTime();
-    window.console.log('providerlist serialize: ' + (end - start)); 
-    start = new Date().getTime();
+    var providerListJson = {{ providerList | serialize("json") | raw }};  
     var constellationMode = false;
 
     var geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};

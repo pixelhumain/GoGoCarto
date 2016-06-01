@@ -412,6 +412,7 @@ header {
       font-weight: 500; }
     header #menu a {
       color: inherit;
+      cursor: pointer;
       font-size: inherit;
       width: 100%;
       border-radius: 0;
@@ -2119,8 +2120,8 @@ textarea.materialize-textarea {
   input[type=search]:focus.invalid,
   textarea.materialize-textarea.invalid,
   textarea.materialize-textarea:focus.invalid {
-    border-bottom: 1px solid color("red", "base");
-    box-shadow: 0 1px 0 0 color("red", "base"); }
+    border-bottom: 1px solid #B90303;
+    box-shadow: 0 1px 0 0 #B90303; }
   input[type=text].invalid + label:after, input[type=text]:focus.invalid + label:after,
   input[type=password].invalid + label:after,
   input[type=password]:focus.invalid + label:after,
@@ -2143,7 +2144,7 @@ textarea.materialize-textarea {
   textarea.materialize-textarea.invalid + label:after,
   textarea.materialize-textarea:focus.invalid + label:after {
     content: attr(data-error);
-    color: color("red", "base");
+    color: #B90303;
     opacity: 1; }
   input[type=text] + label:after,
   input[type=password] + label:after,

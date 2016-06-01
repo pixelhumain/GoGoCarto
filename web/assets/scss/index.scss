@@ -58,6 +58,7 @@ footer
 {
 	background-color: #222;
     padding: .5rem;
+    color: #C7C7C7;
 
     a { color: #C7C7C7; text-decoration: underline }
 }
@@ -108,6 +109,8 @@ footer
 		    }  		   
 		}
 	}
+
+	a { color: inherit; }
 
 	p 
 	{

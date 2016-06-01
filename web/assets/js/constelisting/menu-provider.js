@@ -3,6 +3,13 @@ jQuery(document).ready(function()
 	//   MENU PROVIDER
 	var menu_provider = $('#bandeau_detail .menu-provider');
 	createListenersForProviderMenu(menu_provider);
+
+	$('#btn-close-bandeau-detail').click(function()
+	{  
+	    window.console.log("close on click");
+		animate_down_bandeau_detail();
+		return false;
+	}); 
 });
 
 function createListenersForProviderMenu(object)
@@ -14,9 +21,11 @@ function createListenersForProviderMenu(object)
 		window.location.href = Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
 	});
 	object.find('.icon-directions').click(function() {
-		alert('itinéraire pour provider : ' + getCurrentProviderIdShown() ); 
+		alert('Fonctionalité pas encore disponible, désolé ! '); 
 	});
 	object.find('.tooltipped').tooltip();
+
+
 }
 
 function getCurrentProviderIdShown()
