@@ -23,14 +23,17 @@ MarkerManager.prototype.createMarkers = function ()
 
 MarkerManager.prototype.fitMapInBounds = function () 
 {	
+	window.console.log("fitMapInBounds");
 	var bounds = new google.maps.LatLngBounds();
 
 	bounds.extend(this.markerHome_.getPosition());
 
+	window.console.log("extend nbre markers = " + this.markers_.length);
 	for (var i = 0; i < this.markers_.length; i++) {
 		if (this.markers_[i].getVisible()) bounds.extend(this.markers_[i].getPosition());
 	};
 
+	/*window.console.log("extend clusters " + GLOBAL.getClusterer());
 	if (GLOBAL.getClusterer())
 	{
 		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
@@ -39,21 +42,11 @@ MarkerManager.prototype.fitMapInBounds = function ()
 		{
 			bounds.extend(clusters[i].getCenter());
 		}
-	}
-	window.console.log("fitMapInBounds");
+	}*/
+	window.console.log(bounds);
 	GLOBAL.getMap().fitBounds(bounds);
 	window.console.log("map get Zoom = " + GLOBAL.getMap().getZoom());
 };
-
-MarkerManager.prototype.draw = function () 
-{	
-	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
-	{
-		providerId = GLOBAL.getConstellation().getStars()[i].getProvider().id;
-		this.getMarkerById(providerId).show();
-	}
-};
-
 
 MarkerManager.prototype.getMarkerById = function (providerId) 
 {
@@ -63,8 +56,6 @@ MarkerManager.prototype.getMarkerById = function (providerId)
 	}
 	return null;
 };
-
-
 
 MarkerManager.prototype.hidePartiallyAllMarkers = function () 
 {
@@ -80,42 +71,6 @@ MarkerManager.prototype.showNormalHiddenAllMarkers = function ()
 	{
 		this.markers_[i].showNormalHidden();
 	}
-};
-
-MarkerManager.prototype.focusOnThesesMarkers = function (idList, starName) 
-{
-	this.hidePartiallyAllMarkers();
-
-	for(var i = 0; i < idList.length; i++)
-	{
-		var marker = this.getMarkerById(idList[i]);
-		marker.starChoiceForRepresentation = starName;
-		marker.updateIcon();
-		marker.showNormalHidden();
-		marker.show();			
-	}
-
-};
-
-MarkerManager.prototype.clearFocusOnThesesMarkers = function (idList) 
-{
-	this.showNormalHiddenAllMarkers();
-	var marker;
-	for(var i = 0; i < idList.length; i++)
-	{
-		marker = this.getMarkerById(idList[i]);
-		marker.starChoiceForRepresentation = '';
-		marker.updateIcon();		
-		marker.hide();
-		
-		
-	}
-	for(var i = 0; i < this.markers_.length; i++)
-	{
-		this.markers_[i].showNormalSize();
-	}
-
-	this.draw();
 };
 
 MarkerManager.prototype.drawLinesWithClusters = function () 

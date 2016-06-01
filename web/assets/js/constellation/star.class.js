@@ -88,10 +88,6 @@ Star.prototype.setIndex = function (newIndex)
 	
 	this.index_ = newIndex;
 
-
-/*	GLOBAL.getProviderManager().removeProvider(oldProviderId);
-	GLOBAL.getProviderManager().addProvider(this.getProviderId());*/
-
   // on met à jour le marqueur des deux providers interchangés
   GLOBAL.getMarkerManager().getMarkerById(oldProviderId).updateIcon();
   var newMarkerRepresentStar = GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());

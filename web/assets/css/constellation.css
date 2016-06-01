@@ -3223,24 +3223,12 @@ select {
 .icon {
   font-size: 22px;
   color: #4A7874;
-  /* padding-top: 1rem; */
-  /* line-height: 3rem; */
   padding-top: 3px;
   float: left;
   margin-right: 1rem; }
 
 .icon.disabled {
   color: #DFDFDF; }
-
-.icon-provider-type {
-  	/* border-radius: 50%;
-      width: 1.3rem;
-      height: 1.3rem;
-      margin-top: .8rem;
-      margin-right: .8rem;
-      margin-left: .2rem;
-  
-      @extend .bgdColorAs; */ }
 
 .bgdColorAs.producteur {
   background-color: #B33536; }
@@ -3251,7 +3239,7 @@ select {
 .bgdColorAs.marche {
   background-color: #3F51B5; }
 .bgdColorAs.epicerie {
-  background-color: #6d6d6d; }
+  background-color: #383D5A; }
 
 .colorAs.producteur, .producteur.icon-provider-type, .producteur.icon-marker, .producteur.marker-wrapper {
   color: #B33536; }
@@ -3262,7 +3250,7 @@ select {
 .colorAs.marche, .marche.icon-provider-type, .marche.icon-marker, .marche.marker-wrapper {
   color: #3F51B5; }
 .colorAs.epicerie, .epicerie.icon-provider-type, .epicerie.icon-marker, .epicerie.marker-wrapper {
-  color: #6d6d6d; }
+  color: #383D5A; }
 
 .icon-legumes {
   color: #4A148C; }
@@ -3310,7 +3298,7 @@ select {
   color: #2A3677; }
 
 .icon-epicerie {
-  color: #585858; }
+  color: #383D5A; }
 
 .icon-boutique {
   color: #693269; }
@@ -3324,6 +3312,8 @@ select {
   font-size: 40px;
   line-height: 40px;
   opacity: .99; }
+  .marker-wrapper.disabled {
+    color: grey !important; }
   .marker-wrapper.rotateLeft {
     left: -14px;
     top: 6px; }
@@ -3377,6 +3367,8 @@ select {
     height: 25px;
     top: 5px; }
 
+.iconInsideMarker.disabled {
+  color: grey; }
 .iconInsideMarker:before {
   line-height: inherit; }
 
@@ -3419,6 +3411,8 @@ select {
     background-color: #DADAD9;
     border: 3px solid;
     border-radius: 50%; }
+    .moreIconContainer .moreIconWrapper.disabled {
+      color: grey; }
 
 .iconCluster {
   width: 32px;
@@ -3636,7 +3630,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     cursor: pointer; }
     #ProductsList .productItem:not(.disabled):hover .resultNumber {
       transform: scale(1.2, 1.2);
-      background-color: #B33737; }
+      background-color: #B33737;
+      cursor: pointer; }
   #ProductsList .disabled {
     color: #DFDFDF;
     cursor: default; }

@@ -50,8 +50,7 @@ function BiopenMarker(id_, position_)
     	google.maps.event.addListener(this.richMarker_, 'visible_changed', function() { that.checkPolylineVisibility_(that); });
 	}
 	
-	this.isHalfHidden_ = false;
-	this.starChoiceForRepresentation = '';
+	this.isHalfHidden_ = false;	
 
 	this.updateIcon();	
 }
@@ -65,77 +64,61 @@ BiopenMarker.prototype.animateDrop = function ()
 
 BiopenMarker.prototype.updateIcon = function () 
 {		
-	var main_icon;
 	var provider = this.getProvider();
 
 	if (GLOBAL.constellationMode())
 	{
-		var starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id_);
+		// POLYLINE TYPE
 		var lineType;
-		if (this.starChoiceForRepresentation == '')
+		if (provider.starChoiceForRepresentation == '')
 		{
 			lineType = 'normal';
 		}
 		else
-		{
-			var providerStarId = GLOBAL.getConstellation().getStarFromName(this.starChoiceForRepresentation).getProviderId();
-			lineType = providerStarId == this.id_ ? 'normal' : 'dashed';
-		}
-		
-		if (starNames.length == 0)
-		{
-			main_icon = provider.mainProduct;
-			
-		} 
-		else if (starNames.length == 1)
-		{
-			main_icon = starNames[0];
-		} 
-		else
-		{
-			main_icon = 'multiple';
-		}
+		{			
+			lineType = provider.isCurrentStarChoiceRepresentant() ? 'normal' : 'dashed';
+		}		
 
 		this.updatePolyline({lineType: lineType});
-		
 	}
-	else
-	{
-		main_icon = provider.mainProduct;
-	}	
+
+	var productsToDisplay = provider.getProductsNameToDisplay();
 
 	var content = document.createElement("div");
 	$(content).addClass("marker-wrapper");
 	$(content).addClass(provider.type);
 	$(content).attr('id',"marker-"+this.id_);
 
+	var disableMarker = false;
+	// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
+	if (provider.starChoiceForRepresentation != '') 
+		disableMarker = !provider.isCurrentStarChoiceRepresentant();
+
+	if (disableMarker) $(content).addClass("disabled");
+
+	var disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
+
 	var innerHTML = '<div class="rotate animate icon-marker"></div>';
-    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker icon-'+main_icon+'"></div></div>'
+    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>'
     
-    var minProductLength = 1;
-    if (['marche','boutique'].indexOf(provider.type) > -1 ) minProductLength = 0;
+    var widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
-    if (provider.products.length > minProductLength)
+    if (nbreOthersProducts > 0)
     {
-    	var product, products = provider.products;
-
-    	var nbreMoreProduct = products.length;
-    	//if (main_icon != 'multiple') nbreMoreProduct--;
-    	widthMoreProduct = nbreMoreProduct*39 + 5;    	
+    	widthMoreProduct = nbreOthersProducts*39 + 5;    	
 
     	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
     	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
     	
-	    for(var i = 0; i < products.length;i++)
-		{
-			product = products[i];
+    	var productName, disableProduct;
 
-			if (product.nameFormate != main_icon)
-			{
-				innerHTML += '<div class="moreIconWrapper" >';
-				innerHTML += '<span class="moreIcon iconInsideMarker icon-'+product.nameFormate+'""></span>';
-		    	innerHTML += '</div>';
-	    	}
+	    for(var i = 0; i < nbreOthersProducts;i++)
+		{
+			productName = productsToDisplay.others[i].value;
+			disableProduct = productsToDisplay.others[i].disabled ? 'disabled' : '';
+			innerHTML += '<div class="moreIconWrapper '+disableProduct+'" >';
+			innerHTML += '<span class="moreIcon iconInsideMarker '+disableProduct+' icon-'+productName+'"></span>';
+	    	innerHTML += '</div>';
 	    }
 
 		innerHTML += '</div>';

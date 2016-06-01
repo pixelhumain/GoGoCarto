@@ -11,7 +11,9 @@
     line-height: 40px;
     opacity: .99; // pour créer un nouveau contexte d'empilement (z-index)
 
-    @extend .colorAs;    
+    @extend .colorAs;
+
+    &.disabled { color: grey !important}    
 
     &.rotateLeft { left: -14px; top: 6px; }
 	&.rotateRight { left: 13px; top: 7px; }
@@ -55,7 +57,7 @@
 
 
 
-// l'icone qui représente le produit
+// l'icone qui représente le produit principal
 .iconInsideMarker-wrapper
 {
 	position: relative;
@@ -87,9 +89,10 @@
     }
 }	
 
-.iconInsideMarker:before
+.iconInsideMarker
 {
-	line-height: inherit;
+	&.disabled {  color: grey; }
+    &:before { line-height: inherit; }
 }
 
 // l'icone pour dire qu'il y a plusieurs produits dans ce fourisseur
@@ -137,7 +140,11 @@
 	    background-color: #DADAD9;
 	    border: 3px solid;
 		border-radius: 50%;
+
+        &.disabled { color: grey };
     	// TODO rajouter prefix border radius
+
+        
 	}
 	
 }

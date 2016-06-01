@@ -48,6 +48,10 @@ function Provider(provider)
 	this.htmlRepresentation_ = '';
 	this.formatedHoraire_ = null;
 
+	this.productsToDisplay_ = [];
+
+	this.starChoiceForRepresentation = '';
+
 	// TODO delete providerPhp['Provider'] ?
 }
 
@@ -60,6 +64,7 @@ Provider.prototype.initialize = function ()
 Provider.prototype.show = function () 
 {		
 	if (!this.isInitialized_) this.initialize();
+	this.biopenMarker_.updateIcon();
 	this.biopenMarker_.show();
 	this.isVisible_ = true;
 
@@ -98,6 +103,76 @@ Provider.prototype.getHtmlRepresentation = function ()
 		
 	}
 	else return this.htmlRepresentation_;
+};
+
+Provider.prototype.getProductsNameToDisplay = function ()
+{
+	this.productsToDisplay_.main = [];
+	this.productsToDisplay_.others = [];
+
+	var starNames = [];
+
+	if (GLOBAL.constellationMode())
+	{
+		starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id);
+	}
+
+	// ICONS TO SHOW IN MARKER
+	if (starNames.length > 0)
+	{
+		this.productsToDisplay_.main.value = starNames[0];				
+		this.productsToDisplay_.main.disabled = false;
+		
+		if (starNames.length > 1)
+		{
+			starNames.splice(0,1);	
+			for(var i = 0; i < starNames.length;i++)
+			{
+				this.pushToProductToDisplay(starNames[i], false);
+			}
+		}
+
+		var productName;
+		for(var i = 0; i < this.products.length;i++)
+		{
+			productName = this.products[i].nameFormate;			
+
+			// si le produit n'a pas encore été ajouté, on l'ajoute avec "disabled"
+			if ($.inArray(productName, starNames) == -1 && productName != this.productsToDisplay_.main.value)
+			{
+				this.pushToProductToDisplay(productName, true);
+			}			
+		}
+	} 	
+	else
+	{
+		// en constellation, un produit qui n'est pas représentant d'au moins
+		// une étoile est noté "disabled"
+		var disableProduct = GLOBAL.constellationMode();
+		this.productsToDisplay_.main.disabled = disableProduct;
+
+		this.productsToDisplay_.main.value = this.mainProduct;
+
+		var productName;
+		for(var i = 0; i < this.products.length;i++)
+		{
+			productName = this.products[i].nameFormate;
+			if (productName != this.productsToDisplay_.main.value)
+			{
+				this.pushToProductToDisplay(productName, disableProduct);
+			}			
+		}	
+	}
+
+	return this.productsToDisplay_;	
+};
+
+Provider.prototype.pushToProductToDisplay = function(productName, disabled)
+{
+	var new_product = [];
+	new_product.value = productName;
+	new_product.disabled = disabled;
+	this.productsToDisplay_.others.push(new_product);
 };
 
 Provider.prototype.getFormatedHoraires = function () 
@@ -142,6 +217,24 @@ Provider.prototype.formateDate = function (date)
 {		
 	return date.split('T')[1].split(':00+0100')[0];
 };
+
+Provider.prototype.isProducteurOrAmap = function () 
+{		
+	return ($.inArray( this.type, [ "producteur", "amap" ] ) > -1);
+};
+
+Provider.prototype.isCurrentStarChoiceRepresentant = function () 
+{		
+	if ( this.starChoiceForRepresentation !='')
+	{
+		var providerStarId = GLOBAL.getConstellation().getStarFromName(this.starChoiceForRepresentation).getProviderId();
+		return (this.id == providerStarId);
+	}
+	return false;	
+};
+
+
+
 
 
 

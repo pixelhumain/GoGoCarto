@@ -34,6 +34,7 @@ jQuery(document).ready(function()
 			}
 			else
 			{
+				$('#ProductsList').animate({scrollTop: '+='+$(this).position().top}, 500);
 				animate_down_bandeau_detail();
 			}		
 		}		

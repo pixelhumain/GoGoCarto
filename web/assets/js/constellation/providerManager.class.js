@@ -60,14 +60,18 @@ ProviderManager.prototype.initProviderList = function ()
 	});
 };
 
-ProviderManager.prototype.focusOnThesesProviders = function (idList) 
+ProviderManager.prototype.focusOnThesesProviders = function (starName, idList) 
 {
 	this.clearProviderList();
-	var provider;
+	var provider;	
 
 	for(var i = 0; i < idList.length; i++)
 	{
-		provider = this.getProviderById(idList[i]);		
+		provider = this.getProviderById(idList[i]);	
+		provider.starChoiceForRepresentation = starName;		
+		
+		provider.getBiopenMarker().updateIcon();
+		provider.getBiopenMarker().showNormalHidden();				
 		provider.show();		
 	}
 
@@ -89,31 +93,21 @@ ProviderManager.prototype.clearProviderList = function ()
 	$('#ProviderList .providerItem').hide();
 } 
 
-ProviderManager.prototype.clearFocusOnThesesProviders = function () 
+ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
 {
+	var marker;
+	for(var i = 0; i < idList.length; i++)
+	{
+		provider = this.getProviderById(idList[i]);	
+		provider.starChoiceForRepresentation = '';
+		provider.currentStarChoiceRepresentant = false;
+		//marker.updateIcon();		
+		provider.hide();		
+	}
+
 	$('#ProviderList .btn-select-as-representant-container').hide();
 	$('#ProviderList .moreInfos').show();
 	this.draw();
-};
-
-// enlève un des provider de la liste,en vérifiant s'il n'est pas utile pour
-// une autre étoile.
-// return false si pas supprimé, true sinon
-ProviderManager.prototype.removeProvider = function (providerId) 
-{
-	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
-	{
-		if (GLOBAL.getConstellation().getStars()[i].getProviderId() == providerId) return false
-	}
-	
-	$('#infoProvider-'+providerId).hide();
-
-	return true;
-};
-
-ProviderManager.prototype.addProvider = function (providerId) 
-{
-	$('#infoProvider-'+providerId).show();
 };
 
 ProviderManager.prototype.getProviders = function () 
