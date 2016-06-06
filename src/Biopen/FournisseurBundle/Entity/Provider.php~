@@ -153,14 +153,6 @@ class Provider
         /*dump($this->products);*/
     }
 
-    private function calculateWastedDistance()
-    {
-        if ( count($this->getProducts()) == 0 || in_array($this->getType(), array("epicerie","marche","boutique") )) return $this->getDistance();
-        //$waste = 1.0 / pow(count($this->getProducts()),2);
-        $waste = -1.0*count($this->getProducts())/10.0 + 1.0;
-        return $this->getDistance() * $waste;
-    }
-
     /**
      * Get id
      *
@@ -181,7 +173,6 @@ class Provider
     public function setDistance($distance)
     {
         $this->distance = $distance;
-        $this->wastedDistance = $this->calculateWastedDistance();
 
         return $this;
     }

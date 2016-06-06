@@ -1,0 +1,125 @@
+#bandeau_detail
+{
+    height:0px;
+    z-index: 440;
+    position: relative;   
+    
+    will-change:height;
+    @include transition(height .5s);  
+
+    @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));  
+
+    background-color: #F7F7F7;
+
+    .providerItem .menu-provider
+	{
+		display: none;
+	}
+
+    .starRepresentationChoice-helper
+    {
+        display:none;
+        line-height: 3rem;
+        text-align: center;
+        color: #F5F3F3;
+        font-weight: 400;
+        background-color: $secondary-color;
+
+        .btn-select-as-representant 
+        {
+            margin: 0 0 .1rem 1rem !important;
+            text-transform: none;
+            background-color: $secondary-color;
+        }
+    }
+
+    #detail_provider
+    {
+        margin-bottom: 2.3rem; // pour le provider-menu
+        @media #{$medium-and-up} 
+        {
+            margin-bottom: 3rem;
+        }
+
+        .moreDetails 
+        { 
+            display : none; 
+        }
+    }
+
+    .icon-close
+    {
+        position: absolute;
+        background-color: #FFFFFF;
+        top: 1rem;
+        right: .5rem;
+        font-size: 1.2rem;
+        color: #3D3D3D;
+
+        &:hover
+        {
+            color: $secondary-color;
+            cursor: pointer;
+        }
+    }
+}
+
+@media #{$large-and-up}
+{
+    #bandeau_detail
+    {
+        position: absolute;
+        width: 440px;
+        top: 0;
+        right: 0;   
+        height: 100% !important; 
+
+        overflow-y: visible;        
+
+        @include box-shadow-1(0px 6px 9px 4px rgba(119, 119, 119, 0.75));
+
+        .icon-close
+        {
+            background-color: #3D3D3D;
+            padding-left: 1rem;
+            color: #CECECE;
+
+            &:hover { color: white; }
+        }
+    }    
+
+    #detail_provider 
+    {  
+        .moreDetails 
+        {
+            display:block !important;
+        }
+
+        .hideOnLargeScreen
+        {
+            display:none !important;
+        }
+
+        .collapsible-header
+        {
+            background-color: $submenu-color;
+            color: white;
+            cursor: default;
+
+            position: absolute;
+            width: 100%;
+            top: 0;
+
+            .name, .description { width: 100% !important; text-align: center}
+            .description { margin-bottom : 0;  }
+        }
+
+        .collapsible-body
+        {
+            margin-top: 6rem;
+            margin-bottom: 3rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+    }   
+}

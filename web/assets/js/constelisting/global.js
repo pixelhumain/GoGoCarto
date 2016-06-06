@@ -44,12 +44,16 @@ jQuery(document).ready(function()
 		   lastEndScrollTop = st;
 	   },100);	 	   
 	});
-
 	
 	//Menu CARTE
 	$('#btn_menu').click(showProductsList);
 	$('#overlay').click(hideProductsList);
 	$('#menu-title > .icon-close').click(hideProductsList);
+
+	if (onlyInputAdressMode)
+	{
+		showOnlyInputAdress();
+	}
 });
 
 function showProductsList()
@@ -72,6 +76,12 @@ function hideProductsList()
 function hideBandeauHelper()
 {
 	$('#bandeau_helper').slideUp(slideOptions);
+}
+
+function showOnlyInputAdress()
+{
+	hideBandeauHelper();
+	$('#section_carte').css('margin-left','0');
 }
 
 function ajuster_taille_composants()
@@ -119,8 +129,17 @@ function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').outer
 		else 
 		{			
 		  	$("#map").css('height',$("#section_carte").height());	
-		  	if ($('#bandeau_detail').is(":visible")) $('#map').css('margin-right','440px');
-		  	else $('#map').css('margin-right','0px');
+		  	if ($('#bandeau_detail').is(":visible")) 
+	  		{
+	  			$('#map').css('margin-right','440px');
+	  			$('#bandeau_helper').css('margin-right','440px');
+	  			
+	  		}
+		  	else 
+	  		{
+	  			$('#map').css('margin-right','0px');
+	  			$('#bandeau_helper').css('margin-right','0px');
+	  		}
 		  	matchMediaBigSize_old = true; 	
 		}
 	}	

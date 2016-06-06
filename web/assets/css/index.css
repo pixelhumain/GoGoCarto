@@ -3233,7 +3233,8 @@ body {
 
 section#title {
   background-color: #3D3D3D;
-  padding: 1rem; }
+  padding: 0 1rem;
+  padding-bottom: 1rem; }
   section#title h1 {
     margin: 0;
     font-size: 1.5rem;
@@ -3252,7 +3253,15 @@ section#mainFunctions {
   margin: 0 auto; }
   section#mainFunctions #inputAddress {
     width: 80%;
-    height: 2rem; }
+    height: 2rem;
+    margin-bottom: 0rem; }
+  section#mainFunctions #functions-explanation {
+    margin-bottom: 1.5rem; }
+  section#mainFunctions .flash-notice {
+    margin-top: .5rem;
+    padding: .5rem;
+    background-color: #4a7874;
+    color: white; }
 
 section#open-source {
   padding: 1rem;
@@ -3282,16 +3291,17 @@ footer {
 
   section#mainFunctions #inputAddress {
     width: 80%;
-    height: 2.5rem;
-    margin-bottom: 1.5rem; } }
+    height: 2.5rem; } }
 @media only screen and (min-width: 601px) {
   section#mainFunctions {
-    padding: 2rem 2rem 0 2rem;
+    padding: 1rem 2rem 0 2rem;
     max-width: 1100px; }
 
   section#title h1 {
     line-height: 100px;
-    font-size: 3rem; }
+    font-size: 3rem;
+    padding: 0;
+    padding-bottom: 1rem; }
 
   section#title #site-en-dev {
     width: 70%;
@@ -3299,8 +3309,10 @@ footer {
 
   section#mainFunctions #inputAddress {
     width: 450px;
-    height: 3rem;
-    margin-bottom: 3rem; }
+    height: 3rem; }
+
+  section#mainFunctions #functions-explanation {
+    margin-bottom: 2rem; }
 
   section#open-source p {
     width: 90%;
@@ -3342,7 +3354,7 @@ footer {
     .function:hover .image {
       color: #C5C5C5; }
     .function:hover p {
-      text-decoration: underline; }
+      color: black; }
   @media only screen and (min-width: 400px) {
     .function {
       width: 33.3%;

@@ -3,6 +3,7 @@
 // ---------------------------------------
 #map
 {   
+    position: relative;
     z-index: 10;
     heigh:200px;
     width:100%;
@@ -10,6 +11,15 @@
 
     @include box-shadow-1(inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75)  );
 
+}
+
+@media #{$large-and-up}
+{
+    #map
+    {
+        width:auto;
+        @include transition(margin-right .5s);
+    }
 }
 
 // enlever les liens et logo de google

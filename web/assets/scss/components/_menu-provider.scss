@@ -1,0 +1,42 @@
+.menu-provider
+{
+	background-color:$submenu-color;		
+
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+
+	.menu-icon
+	{
+		font-size: 20px;
+		color: #CECECE;
+		margin: 0 1rem;
+
+		&:hover
+		{
+			color: white;
+			cursor: pointer;
+		}
+		&:before
+		{
+			line-height: 2.3rem;
+		}
+
+		@media #{$medium-and-up} 
+		{
+			font-size: 22px;
+			&:before
+			{
+				line-height: 3rem;
+			}
+		}
+	}
+}
+
+#ProviderList
+{
+	.menu-provider 
+	{
+		position: relative;
+	}
+}

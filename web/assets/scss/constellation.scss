@@ -1,19 +1,5 @@
-/* $icons-layout: smart; 
-$icon-sprite-dimensions: true;
-@import "icon/*.png";
-@include all-icon-sprites(true);  */
 @import "constelisting";
-
-#ProductsList
-{
-	display: none;
-}
-
-#page_content { height: 100% }
-
-#div_map_and_products { position: relative; height: 100% }	
-
-#bandeau_goToProviderList {  }
+@import "components/providerList";
 
 #bandeau_helper
 {
@@ -31,17 +17,17 @@ $icon-sprite-dimensions: true;
 		top :0;
 		left: 0;
 		right: 0;
-		line-height: 3rem;
+		padding: 1rem 2.5rem 1rem 1rem;
 		background-color: $secondary-color;
 	    color: white;
 
-
+	    @include transition(margin-right .5s);
 
 		#btn-bandeau-helper-close
 		{
-			float: right;
-	    	margin-right: 2rem;
-	    	line-height: 3.3rem;
+			position: absolute;
+		    top: 1.2rem;
+		    right: 1rem;
 	    	cursor: pointer;
 
 	    	&:hover
@@ -50,73 +36,12 @@ $icon-sprite-dimensions: true;
 	    	}
 		}
 	}
-}
-	
-
-#section_carte
-{
-	position: relative;	
-	height: 100%;   
-	background-color: #9e9e9e;
-}
-
-@media #{$medium-and-up} 
-{
-	#ProductsList
-	{
-		display: block;
-		position: absolute;
-		background-color: white;
-		width: 200px;		
-	    top: 0;
-	    left: 0;
-	    height: 100%; 
-	    overflow-y:scroll; 	    
-	}
-
-	#section_carte
-	{
-		margin-left: 200px;
-	}
-} 
-
-#ProviderList
-{
-	height: auto;
-
-	ul
-	{
-		height: auto;
-		position: relative;
-	}
-}
-
-@media #{$large-and-up}
-{
-	#ProviderList
-	{
-		position: absolute;
-	    width: 400px;
-	    top: 0;
-	    right: 0;	
-	    height: 100%;  
-	}
-
-	#bandeau_goToProviderList { display:none; }
-	#bandeau_detail { display:none;}
-
-	#section_carte
-	{
-		margin-right: 400px; 
-	}
-}
-
+}	
 
 #bandeau_goToProviderList
 {	
     background-color: #272626;
-	text-align: center;
-    
+	text-align: center;    
 
     a 
     {
@@ -152,11 +77,18 @@ $icon-sprite-dimensions: true;
 	position:absolute;
 	height:100%;
 	width:100%;
+	background-color: rgba(78, 78, 78, 0.45);
 	top:0;
 	left:0;
 	text-align:center;
 	z-index:50;
 	@include transition(all 1s);
+
+	.flash-error
+	{
+		color: $error-color;
+    	margin-top: .5rem;
+	}    
 }
 
 #div_recherche
@@ -165,23 +97,10 @@ $icon-sprite-dimensions: true;
 	overflow: hidden;
 	@include transition(all 1s);
     margin: auto;
-    padding: 0.1rem 1rem 0 1rem;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(189, 189, 189);
+    padding: .2rem .1rem;
+    background-color: white;
+    border-radius: 10px;
 	@extend .z-depth-2;
-
-	.icon-search
-	{
-		font-size: 2rem;
-	    color: $link-color;
-	    vertical-align: middle;
-	}
-}
-
-.flash-error
-{	
-    color: #BD0101;
-    font-weight: 500;
 }
 
 @media screen and (min-width: 600px)

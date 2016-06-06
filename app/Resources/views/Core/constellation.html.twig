@@ -20,11 +20,21 @@
 <div id="div_map_and_products">
 
   {% if constellationPhp is defined %}
-  {% set constellationMode = true %}
-  {# La liste des products #}
-  <section id="ProductsList" class="customScrollBar">   
-    {% include '::Core/section-products-constellation.html.twig' %}      
-  </section>
+    {# La liste des products #}
+    <section id="ProductsList" class="customScrollBar">   
+      {% include '::Core/section-products-constellation.html.twig' %}      
+    </section>
+  {% else %}
+      <div id="div_recherche_contener" class="valign-wrapper">
+      <div id="div_recherche">
+        {% for flash_message in app.session.flashbag.get('error') %}
+            <div class="flash-error">
+                {{ flash_message | raw }}
+            </div>
+        {% endfor %}
+        {% include '::Components/inputAddress.html.twig'  %} 
+      </div> 
+  </div>  
   {% endif %}
 
    
@@ -36,7 +46,7 @@
 
     <div id="map"></div>    
 
-    <div id="bandeau_helper">Pour chaque produit, plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
+    <div id="bandeau_helper">Pour chaque produit, le plus proche fournisseur est affiché. Plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
 
     <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div class="starRepresentationChoice-helper">
@@ -76,9 +86,6 @@
   </div> 
   
   <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
-      {# {% for key, provider in  providerList %}   
-          {% include '::Core/provider.html.twig'  %}  
-      {% endfor %}  #}
   </ul>
 </section>
 
@@ -95,10 +102,13 @@
       providerListJson = {{ providerList | serialize("json") | raw }};
     {% endif %}
 
+    var onlyInputAdressMode = false;
     var constellationRawJson = null;
     {% if constellationPhp is defined %}
       constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
-    {% endif %}
+    {% else %}
+      onlyInputAdressMode = true;
+    {% endif %} 
 
     var constellationMode = true;
   </script>
@@ -134,6 +144,21 @@
      <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
   </script>
+
+{% endblock %}
+
+{% block modals %} 
+
+  <!-- Pop up message alerte-->
+  <div id="popup" class="modal">
+  <div class="modal-content">
+    <h5 id="popup_title"></h5>
+    <p id="popup_content"></p>
+  </div>
+  <div class="modal-footer">
+    <span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
+  </div>
+  </div>
 
 {% endblock %}
 

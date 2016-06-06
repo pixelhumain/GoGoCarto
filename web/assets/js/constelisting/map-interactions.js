@@ -6,27 +6,10 @@ function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true)
 {	
 	if (constellationMode)
 	{
-		// durty method to know if we are in large screen
-		if ($('#ProviderList').offset().top < 100)
-		{			
-			$('.providerItem .moreDetails').hide();
-			$('.providerItem .active').removeClass('active');
-
-			var target = $('#infoProvider-'+providerId);
-		    $('#ProviderList ul').animate({scrollTop: '+='+$(target).position().top}, 500);
-		    target.find(' .moreDetails').slideDown(slideOptions)
-		    target.addClass('active');
-		    target.find('.collapsible-header').addClass('active');
-
-		    return;
-		}
-		else
-		{
-			$('#detail_provider').empty();
-			$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
-			$('#detail_provider .moreDetails').hide();
-			$('#detail_provider .btn-select-as-representant').hide();
-		}			
+		$('#detail_provider').empty();
+		$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
+		$('#detail_provider .moreDetails').hide();
+		$('#detail_provider .btn-select-as-representant').hide();		
 	}
 	else
 	{
@@ -49,21 +32,27 @@ function toggleProviderDetailsComplet()
 	else
 	{
 		$('#bandeau_helper').animate({'opacity': '0'},500).css('z-index',-1);
-		$('#btn_menu').fadeOut();	
-		$('#bandeau_detail .moreDetails').show();
+		$('#btn_menu').fadeOut();
 
 		$('#bandeau_detail .moreInfos').hide();
-		$('#bandeau_detail .lessInfos').show();
+		$('#bandeau_detail .lessInfos').show();	
+		
+		$('#bandeau_detail .moreDetails').show();		
 
 		var bandeau_detail_new_height = $( window ).height()
 		-$('header').height()
 		-$('#bandeau_goToProviderList').outerHeight(true);
 
 		$('#bandeau_detail').css('height', '100%');
-		ajuster_taille_carte(bandeau_detail_new_height);	
 
-		//$("#btn_menu").hide();		
+		var bandeau_detail = $("#bandeau_detail");
+	  	var height = bandeau_detail_new_height
+	  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
+	  				-bandeau_detail.find(".menu-provider").outerHeight(true);
+
+	  	$('#bandeau_detail .collapsible-body').css('height', height);
 		
+		ajuster_taille_carte(bandeau_detail_new_height);			
 	}	
 }
 
@@ -123,6 +112,7 @@ function animate_down_bandeau_detail()
 		else
 		{
 			$('#map').css('margin-right','0px');
+			$('#bandeau_helper').css('margin-right','0px');
 			$('#bandeau_detail').hide();			
 		}
 	}	

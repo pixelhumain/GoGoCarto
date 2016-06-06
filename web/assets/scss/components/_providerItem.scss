@@ -1,0 +1,153 @@
+.providerItem
+{
+	list-style-type: none;
+
+	h3
+	{
+		font-size: 1rem;
+	    font-weight: 600;
+	    padding-left: 0.75rem;
+	    margin-bottom: 0;
+	    padding-top: 1rem;
+    	margin-top: 0;
+	}	
+
+	.strong { text-decoration: underline }	
+
+	.btn
+	{
+		height: 2rem;
+    	line-height: 2rem;
+    	padding: 0 1rem;
+    	margin-bottom: 1rem;
+	}
+	
+	.collapsible-header
+	{
+		padding: .5rem;
+		i { margin-right: 0; padding-left: 0.3rem; }
+
+		.collapsible-header-title 
+		{ 		
+			position: relative;
+			margin-bottom: 0rem; 
+			overflow: hidden;
+			text-overflow: ellipsis;
+			height: 3rem;
+
+			.distance { padding-right: 3rem; padding-left: 0;}
+
+			.icon { margin : 0 }
+		}
+
+		.collapsible-header-more 
+		{ 
+			line-height: 1.5rem; 
+			margin-bottom: .5rem;
+
+			.products 
+			{ 
+			    font-weight: 500;
+			    color: #525252;
+			    font-style: italic;
+			}
+			.description
+			{
+			    margin-bottom: .7rem;
+			    text-align: justify;
+			}
+		}
+	}	
+	
+	.collapsible-body
+	{
+		background-color: #F7F7F7;
+		padding: 0;
+		overflow-y: auto;
+
+		.collapsible-body-main-content
+		{
+			padding: 0 .5rem 1rem .5rem;
+		}
+
+		h2
+		{
+		  font-weight: bold !important;
+		  font-size: 1rem !important; 
+		  line-height: 110% !important;
+		  margin: 0.5rem 0 .8rem 0 ;
+		}
+		.row { margin-bottom: 0 }
+		.section{ /* padding-bottom: 0; */ }
+		.categorie,.adresse, .tel
+		{
+			/* padding-left: 1.3rem; */
+		}
+		/* .categorie { text-decoration: underline; } */
+		.description{ text-align: justify; }
+
+		.sectionDetailProducts
+		{
+			.detail 
+			{ 
+				padding-left: .3rem; 
+				text-decoration:inherit; 
+				line-height: 2.5rem;
+			}
+			.productName {text-decoration:inherit }
+			.product { line-height: 2.5rem; text-decoration:inherit}
+		}	
+	}	
+
+	&.smallWidth
+	{
+		.col 
+		{
+		    $i: 1;
+		    @while $i <= $num-cols {
+		      $perc: unquote((100 / ($num-cols / $i)) + "%");
+		      &.s#{$i} {
+		        width: $perc;
+		        margin-left: 0;
+		      }
+		      $i: $i + 1;
+		    }
+		    $i: 1;
+		    @while $i <= $num-cols {
+		      $perc: unquote((100 / ($num-cols / $i)) + "%");
+		      &.offset-s#{$i} {
+		        margin-left: $perc;
+		      }
+		      $i: $i + 1;
+		    }
+		}
+	}
+	
+
+	&.largeWidth
+	{
+		.col 
+		{
+		    $i: 1;
+			@while $i <= $num-cols 
+			{
+				$perc: unquote((100 / ($num-cols / $i)) + "%");
+				&.m#{$i} {
+				  width: $perc;
+				  margin-left: 0;
+			}
+			$i: $i + 1;
+			}
+			$i: 1;
+			@while $i <= $num-cols 
+			{
+				$perc: unquote((100 / ($num-cols / $i)) + "%");
+				&.offset-m#{$i} {
+				  margin-left: $perc;
+				}
+				$i: $i + 1;
+			}
+		}
+	}
+}
+

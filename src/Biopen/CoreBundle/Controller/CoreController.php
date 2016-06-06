@@ -20,76 +20,69 @@ class CoreController extends Controller
 {
     public function indexAction()
     {
+        $this->get('session')->clear();
         return $this->render('::index.html.twig');
     }
 
     public function listingAction($slug)
     {
-        if ($slug == '')
-        {
+        if ($slug == '' && $this->get('session')->get('slug')) $slug = $this->get('session')->get('slug');
 
-        }
-        else
-        {           
-            /*$geocodeResponse = $this->geocodeFromAdresse($adresse);
+        $geocodeResponse = null;
+
+        if ($slug != '')
+        {
+            $geocodeResponse = $this->geocodeFromAdresse($slug);
 
             if ($geocodeResponse == null)
             {  
                 $this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
-                return $this->render('BiopenCoreBundle:constellation.html.twig');
+                return $this->render('::Core/listing.html.twig');
             } 
 
-            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());*/
-            
-            $geocodePoint = new Point(44.1049567, -0.5445296);
-            $geocodeResponse['coordinates']['latitude'] = 44.1049567;
-            $geocodeResponse['coordinates']['longitude'] = -0.5445296;  
+            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+            $this->get('session')->set('slug', $slug);
+        }
+       /* $geocodePoint = new Point(44.1049567, -0.5445296);
+        $geocodeResponse['coordinates']['latitude'] = 44.1049567;
+        $geocodeResponse['coordinates']['longitude'] = -0.5445296;  */
 
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            // All providers list
-            $providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
-            ->findAllProviders();
+        // All providers list
+        $providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
+        ->findAllProviders();
 
-            $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
-            ->findAll();
-
-            /*dump($providerList);*/
-            /*dump($listProducts);*/
-
-            if( $providerList == null)
-            {
-                // TODO changer ca
-                $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
-                return $this->render('::index.html.twig');
-            }
-            
-        }    
+        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+        ->findAll();            
 
         return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
     }
 
     public function constellationAction($slug, $distance)
-    { 
+    {             
+        if ($slug == '' && $this->get('session')->get('slug')) $slug = $this->get('session')->get('slug');
+      
         if ($slug == '')
         {
-        	return $this->render('::index.html.twig');
+            return $this->render('::Core/constellation.html.twig', array('slug'=>''));
         }
         else
         {        	
-            /*$geocodeResponse = $this->geocodeFromAdresse($slug);
+            $geocodeResponse = $this->geocodeFromAdresse($slug);
 
             if ($geocodeResponse == null)
             {  
-                $this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
-                return $this->render('BiopenCoreBundle:constellation.html.twig');
+                $this->get('session')->getFlashBag()->set('error', 'Erreur de localisation');
+                return $this->render('::Core/constellation.html.twig', array('slug'=>''));
             } 
 
-            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());*/
+            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+            $this->get('session')->set('slug', $slug);
             
-            $geocodePoint = new Point(44.1049567, -0.5445296);
+            /*$geocodePoint = new Point(44.1049567, -0.5445296);
             $geocodeResponse['coordinates']['latitude'] = 44.1049567;
-            $geocodeResponse['coordinates']['longitude'] = -0.5445296;  
+            $geocodeResponse['coordinates']['longitude'] = -0.5445296;  */
 
             $providerList = $this->getProvidersList($geocodePoint, intval($distance));
 
@@ -98,8 +91,6 @@ class CoreController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
                 return $this->render('::index.html.twig');
             }
-
-            /*dump($providerList);*/
             
             $constellation = $this->buildConstellation($providerList, $geocodeResponse);
         }	 
@@ -141,6 +132,9 @@ class CoreController extends Controller
             // le fournissurReponse a 1 champ Provider et 1 champ Distance
             // on regroupe les deux dans un simple objet provider
             $provider = $provider['Provider']->setDistance($provider['distance']);
+            /*$wastedDistance = $this->calculateWastedDistance($provider['Provider']);
+            $provider = $provider['Provider']->setWastedDistance( $wastedDistance);*/
+            /*;*/
 
             $providerList[] = $provider;
         }   
@@ -155,7 +149,7 @@ class CoreController extends Controller
         // Pour chaque provider de la liste, on remplit les stars
         // de la constellation
         foreach ($providerList as $i => $provider) 
-        {   
+        {  
             // switch sur le Type du provider
             switch($provider->getType())
             {
@@ -174,7 +168,7 @@ class CoreController extends Controller
                     $constellation['stars'][$provider->getType()]['name'] = $provider->getType();
                     break;
             }
-        }
+        }    
 
         $em = $this->getDoctrine()->getManager();
         // La liste des provider autour de l'adresse demandée
@@ -199,6 +193,16 @@ class CoreController extends Controller
         /*dump($constellation);*/
 
         return $constellation;            
+    }    
+
+    
+
+    private function sortConstellation($constellation)
+    {
+        foreach ($constellation['stars'] as $starName => $star) 
+        {            
+            usort($constellation['stars'][$starName]['providerList'], array("Biopen\FournisseurBundle\Entity\Provider", "compareProvidersInStar"));
+        }
     }
 
     public function geocodeFromAdresse($slug)

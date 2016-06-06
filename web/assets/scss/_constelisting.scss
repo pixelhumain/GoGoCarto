@@ -3,9 +3,13 @@
 @import 'modules/icons';
 @import 'modules/icons-marker';
 
+@import "components/bandeauDetail";
+@import "components/providerItem";
+@import "components/menu-provider";
+@import "components/inputAddress";
+
 @import "partials/section-carte";
 @import "partials/section-product";
-@import "partials/section-provider";
 
 #ProductsList
 {
@@ -41,12 +45,12 @@
 	#ProductsList
 	{
 		display: block !important;	
-		width: 200px;	    
+		width: 14.5rem;	    
 	}
 
 	#section_carte
 	{
-		margin-left: 200px;
+		margin-left: 14.5rem;
 	}
 } 
 
@@ -65,10 +69,6 @@
     background-color: #C5C5C5;
 } 
 
-#map 
-{
-	position: relative
-}
 
 .preloader-wrapper 
 {

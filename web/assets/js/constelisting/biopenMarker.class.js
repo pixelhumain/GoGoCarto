@@ -103,7 +103,10 @@ BiopenMarker.prototype.updateIcon = function ()
     
     var widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
-    if (nbreOthersProducts > 0)
+    var showMoreIcon = true;
+    if (GLOBAL.constellationMode()) showMoreIcon = provider.isProducteurOrAmap();
+
+    if (nbreOthersProducts > 0 && showMoreIcon)
     {
     	widthMoreProduct = nbreOthersProducts*39 + 5;    	
 

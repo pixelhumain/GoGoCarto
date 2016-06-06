@@ -7,38 +7,46 @@ header
 	{
 		margin: 0 ; 
 	   	font-size: .85rem ;
-		height: 2.5rem;		
+		background-color: $header-color;
+
+		#menu-actions
+		{
+			float : right;
+		}
 		
-		div 
+		.menu-item 
 		{ 
-			height: 100%;
 			text-align:center ;
-			background-color: $header-color;
+			line-height: 2.5rem;
+			margin-right: 1rem;
+			width: auto;
+			padding: 0 .5rem;
+			
 			//background-color: #26a69a ;			
 			//border-bottom: 2px solid rgba(0, 0, 0, 0);
 			color: white;
 
 			font-size: inherit ;
 			@include transition(all 0.4s);
-			
-		}
-		div:hover
-		{
-			color: #EE6E73;
-    		font-weight: 500;
-			//border-bottom: 2px solid rgba(0, 0, 0, 0.46);
-		}
-		a 
-		{ 
-			color: inherit; 
-			cursor: pointer;
-			font-size: inherit ;
-			width:100%;
-			border-radius: 0; 
-			border: none;
-			background-color: transparent;
-    		letter-spacing: .5px;
-		}
+
+			&:hover
+			{
+				color: #EE6E73;
+				//border-bottom: 2px solid rgba(0, 0, 0, 0.46);
+			}
+
+			a 
+			{ 
+				color: inherit; 
+				cursor: pointer;
+				font-size: inherit ;
+				width:100%;
+				border-radius: 0; 
+				border: none;
+				background-color: transparent;
+	    		letter-spacing: .5px;
+			}			
+		}		
 	}
 
 	@media #{$medium-and-up} 
@@ -46,8 +54,21 @@ header
 		#menu 
 		{ 
 			font-size:1rem;
-			margin-bottom: 0px ;
+			margin-bottom: 0px ;			
+
+			#menu-accueil
+			{
+				margin-left: 2rem;
+   				font-size: 1.1rem;
+			}
+
+			.menu-item 
+			{
+				margin-right: 2rem;
+			}
 		}
+
+
 	}
 }
 

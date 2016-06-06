@@ -395,11 +395,15 @@ header {
   header #menu {
     margin: 0;
     font-size: 0.85rem;
-    height: 2.5rem; }
-    header #menu div {
-      height: 100%;
+    background-color: #272626; }
+    header #menu #menu-actions {
+      float: right; }
+    header #menu .menu-item {
       text-align: center;
-      background-color: #272626;
+      line-height: 2.5rem;
+      margin-right: 1rem;
+      width: auto;
+      padding: 0 .5rem;
       color: white;
       font-size: inherit;
       -webkit-transition: all 0.4s;
@@ -407,22 +411,26 @@ header {
       -o-transition: all 0.4s;
       -ms-transition: all 0.4s;
       transition: all 0.4s; }
-    header #menu div:hover {
-      color: #EE6E73;
-      font-weight: 500; }
-    header #menu a {
-      color: inherit;
-      cursor: pointer;
-      font-size: inherit;
-      width: 100%;
-      border-radius: 0;
-      border: none;
-      background-color: transparent;
-      letter-spacing: .5px; }
+      header #menu .menu-item:hover {
+        color: #EE6E73; }
+      header #menu .menu-item a {
+        color: inherit;
+        cursor: pointer;
+        font-size: inherit;
+        width: 100%;
+        border-radius: 0;
+        border: none;
+        background-color: transparent;
+        letter-spacing: .5px; }
   @media only screen and (min-width: 601px) {
     header #menu {
       font-size: 1rem;
-      margin-bottom: 0px; } }
+      margin-bottom: 0px; }
+      header #menu #menu-accueil {
+        margin-left: 2rem;
+        font-size: 1.1rem; }
+      header #menu .menu-item {
+        margin-right: 2rem; } }
 
 #page_content {
   position: relative; }

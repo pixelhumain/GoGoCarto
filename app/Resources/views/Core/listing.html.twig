@@ -55,11 +55,14 @@
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
     var providerListJson = {{ providerList | serialize("json") | raw }};  
     var constellationMode = false;
+    var onlyInputAdressMode = false;
 
-    var geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+    var geocodeResponse = null;
+    {% if geocodeResponse is defined %}
+      geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+    {% endif %}
 
   </script>
-
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>

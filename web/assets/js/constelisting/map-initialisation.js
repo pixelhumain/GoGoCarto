@@ -3,13 +3,11 @@ var old_zoom;
 function initMap() 
 {	
 
-	initRichMarker();
-
-	$('.preloader-wrapper ').hide();
+	initRichMarker();	
 
 	initInputAddressAutocompletion();
 
-	if (constellationMode)
+	if (constellationMode || geocodeResponse == null)
 	{
 		// basics settings for the map 
 		var latlng = new google.maps.LatLng(46.897045, 2.425235);
@@ -37,7 +35,7 @@ function initMap()
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
 	{   
-		initialize(map);
+		if (!onlyInputAdressMode) initialize(map);
 	} );
 
 	map.addListener('click', function(e) 
@@ -45,8 +43,6 @@ function initMap()
     	if (constellationMode) clearProductList();
     	animate_down_bandeau_detail(); 
   	}); 
-
-
 }
 
 function initialize(map)
@@ -59,7 +55,6 @@ function initialize(map)
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
 
 		GLOBAL.getMarkerManager().createMarkers();
-		GLOBAL.getMarkerManager().draw();
 		GLOBAL.getProviderManager().draw();
 		
 		initCluster(GLOBAL.getMarkerManager().getMarkers());
@@ -90,6 +85,8 @@ function initialize(map)
 	    	}
 	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);	 
 	  	}); 
+
+	  	$('#spinner-loader').hide();
 	}
 }
 

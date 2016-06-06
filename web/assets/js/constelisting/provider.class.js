@@ -37,7 +37,8 @@ function Provider(provider)
 	this.horaires = provider.horaires;
 	this.type = provider.type;	
 
-	this.distance = provider.distance ? Math.round(provider.distance*10)/10 : null; 
+	this.distance = provider.distance ? Math.round(provider.distance*10)/10 : null;
+	this.wastedDistance = provider.wasted_distance ? Math.round(provider.wasted_distance*10)/10 : null;  
 	
 	this.isInitialized_ = false;
 
