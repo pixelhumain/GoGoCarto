@@ -3451,9 +3451,9 @@ select {
   #bandeau_detail .providerItem .menu-provider {
     display: none; }
   #bandeau_detail .providerItem .iconMainProduct {
-    display: none; }
-  #bandeau_detail .providerItem .starNamesIcons {
     display: block; }
+  #bandeau_detail .providerItem .starNamesIcons {
+    display: none; }
   #bandeau_detail .providerItem .collapsible-header-title .distance {
     padding-right: 3rem;
     padding-left: 0; }
@@ -3548,8 +3548,6 @@ select {
       text-overflow: ellipsis;
       height: 3rem;
       /* @extend .colorAs; */ }
-      .providerItem .collapsible-header .collapsible-header-title .iconMainProduct {
-        margin: 0; }
     .providerItem .collapsible-header .collapsible-header-more {
       line-height: 1.5rem;
       margin-bottom: .5rem; }

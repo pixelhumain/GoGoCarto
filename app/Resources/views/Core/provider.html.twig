@@ -9,14 +9,11 @@
   {# HEADER #}
   <div class="collapsible-header">
     
-    <div class='collapsible-header-title row {{provider.mainProduct|lower}} {{provider.type}}'>  {# <div class="moreIconWrapper col s1" >
-      <span class="moreIcon iconInsideMarker icon-{{provider.mainProduct|lower}}"></span>
-      </div>  #} 
-      
+    <div class='collapsible-header-title row {{provider.mainProduct|lower}} {{provider.type}}'>   
      
-      <span class="col s1 iconMainProduct icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
-      {% set nbreCol = constellationMode? 9 : 8 %}
-      <span class="col s{{nbreCol}}  name ">
+    
+      <span class="col s9  name ">
+        <span class="iconMainProduct icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
         <span class="starNamesIcons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>

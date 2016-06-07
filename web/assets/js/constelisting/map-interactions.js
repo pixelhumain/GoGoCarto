@@ -39,6 +39,7 @@ function toggleProviderDetailsComplet()
 		var bandeau_detail = $("#bandeau_detail");
 	  	var height = bandeau_detail_new_height
 	  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
+	  				-bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true)
 	  				-bandeau_detail.find(".menu-provider").outerHeight(true);
 
 	  	$('#bandeau_detail .collapsible-body').css('height', height);
