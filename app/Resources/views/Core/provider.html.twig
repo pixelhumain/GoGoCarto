@@ -9,24 +9,42 @@
   {# HEADER #}
   <div class="collapsible-header">
     
-    <div class='collapsible-header-title row'>      
-      <span class="col s1 icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
-      <span class="col s8 name"><b>{{ provider.name|capitalize }}</b></span>
-       {% if provider.distance != null %}
+    <div class='collapsible-header-title row {{provider.mainProduct|lower}} {{provider.type}}'>  {# <div class="moreIconWrapper col s1" >
+      <span class="moreIcon iconInsideMarker icon-{{provider.mainProduct|lower}}"></span>
+      </div>  #} 
+      
+     
+      <span class="col s1 iconMainProduct icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
+      {% set nbreCol = constellationMode? 9 : 8 %}
+      <span class="col s{{nbreCol}}  name ">
+        <span class="starNamesIcons">
+          {% for starName in starNames %} 
+              <span class="icon icon-{{starName}}"></span>
+            {% endfor %}
+        </span>
+        <b>{{ provider.name|capitalize }}</b></span>
+        {% if provider.distance != null %}
           <span class="col s3 right-align distance">{{ provider.distance }} km</span>
-       {% endif %}
+        {% endif %}
     </div>
 
     <div class='collapsible-header-more row'>
-      <span class="description col s12">{{ provider.description }}</span> 
+      <span class="description col s12">{{ provider.description|capitalize }}</span> 
       <span class="products col s8 hideOnLargeScreen">
-        {% for product in provider.products %} 
-          {{ product.nameShort|capitalize }}{% if not loop.last %}, {% endif %}
+         {% if provider.isProducteurOrAmap() or productsToDisplay.others.length == 0 %}
+            {{ productsToDisplay.main.value|capitalize }} 
+            {% if productsToDisplay.others.length != 0 %}, {% endif %}
+         {% endif %}
+         {% for product in productsToDisplay.others %} 
+            {% set isDisabled = product.disabled ? 'disabled' : '' %}
+            <span class="product {{isDisabled}}">{{ product.value|capitalize }} </span>
+            {% if not loop.last %}, {% endif %}
         {% endfor %}
       </span>
       <span class="col s4 right-align btn-select-as-representant-container" style="display:none">
         <button class="btn btn-select-as-representant waves-effect waves-light" >Sélectionner</button> 
       </span>
+      <span class="col s4 right-align starRespresentantLabel" style="display:none">Fournisseur principal</span>
       <a><span class="col s4 right-align moreInfos hideOnLargeScreen">Plus d'infos</span></a>
       <a><span class="col s4 right-align lessInfos hideOnLargeScreen" style="display:none">Moins d'infos</span></a>
     </div>
@@ -62,12 +80,13 @@
     <h3>Les produits</h3>   
     <div class="section sectionDetailProducts"> 
       {% for product in provider.products %} 
-        <div class='row {% if product.nameFormate == provider.mainProduct %}strong{% endif %}'>
-          <span class="col s6 m4 product">
-            <span class="icon icon-{{ product.nameFormate }}"></span>            
+        {% set isDisabled = product.disabled ? 'disabled' : '' %}
+        <div class='row {{ product.nameFormate }} {% if product.nameFormate == provider.mainProduct %}strong{% endif %}'>
+          <span class="col s6 m4 product {{ isDisabled }}">
+            <span class="icon icon-{{ product.nameFormate }} {{ isDisabled }}"></span>            
             <span class="productName">{{ product.nameShort|capitalize }}</span> 
           </span>
-          <span class="col s6 m8 detail">{{ product.descriptif|capitalize }}</span>
+          <span class="col s6 m8 detail {{ isDisabled }}">{{ product.descriptif|capitalize }}</span>
         </div>
       {% endfor %}          
 

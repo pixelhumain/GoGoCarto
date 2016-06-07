@@ -24,8 +24,6 @@ function createListenersForProviderMenu(object)
 		alert('Fonctionalité pas encore disponible, désolé ! '); 
 	});
 	object.find('.tooltipped').tooltip();
-
-
 }
 
 function getCurrentProviderIdShown()

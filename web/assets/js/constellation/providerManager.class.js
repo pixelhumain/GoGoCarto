@@ -24,45 +24,17 @@ function ProviderManager(listProviderPhp)
 
 ProviderManager.prototype.draw = function () 
 {	
-	this.clearProviderList();
-
 	var provider;
 	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
 	{
 		provider = GLOBAL.getConstellation().getStars()[i].getProvider();	
 		provider.show();	
-	}
-
-	this.initProviderList();
-	
-};
-
-ProviderManager.prototype.initProviderList = function ()
-{
-	$('#ProviderList ul').animate({scrollTop: '0'}, 500).collapsible({
-      accordion : true 
-    });
-
-	var that = this;
-    $('#ProviderList .providerItem').mouseenter(function() 
-	{
-		var provider = that.getProviderById($(this).attr('data-provider-id'));
-		provider.getBiopenMarker().showBigSize();
-	}).mouseleave(function() 
-	{
-		var provider = that.getProviderById($(this).attr('data-provider-id'));
-		provider.getBiopenMarker().showNormalSize();
-	});
-
-	$('#ProviderList .providerItem').click(function()
-	{
-		$('#ProviderList ul').animate({scrollTop: '+='+$(this).position().top}, 500);
-	});
+	}	
 };
 
 ProviderManager.prototype.focusOnThesesProviders = function (starName, idList) 
 {
-	this.clearProviderList();
+	//this.clearProviderList();
 	var provider;	
 
 	for(var i = 0; i < idList.length; i++)
@@ -75,23 +47,20 @@ ProviderManager.prototype.focusOnThesesProviders = function (starName, idList)
 		provider.show();		
 	}
 
-	$('#ProviderList .btn-select-as-representant-container').show();
-	$('#ProviderList .moreInfos').hide();
+	/*$('#ProviderList .btn-select-as-representant-container').show();
+	$('#ProviderList .moreInfos').hide();*/
 
-	this.initProviderList();
+	/*this.initProviderList();*/
 
-    $('#ProviderList .btn-select-as-representant').click(function(event) 
+    /*$('#ProviderList .btn-select-as-representant').click(function(event) 
 	{ 
 		var providerId = $(this).closest('.providerItem').attr('data-provider-id');
 		GLOBAL.getSRCManager().selectProviderById( providerId ); 
 		return false;		
-	});	
+	});	*/
 };
 
-ProviderManager.prototype.clearProviderList = function ()
-{
-	$('#ProviderList .providerItem').hide();
-} 
+
 
 ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
 {
@@ -105,8 +74,8 @@ ProviderManager.prototype.clearFocusOnThesesProviders = function (idList)
 		provider.hide();		
 	}
 
-	$('#ProviderList .btn-select-as-representant-container').hide();
-	$('#ProviderList .moreInfos').show();
+	/*$('#ProviderList .btn-select-as-representant-container').hide();
+	$('#ProviderList .moreInfos').show();*/
 	this.draw();
 };
 

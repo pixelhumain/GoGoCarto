@@ -8,9 +8,10 @@ function Provider(provider)
 	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 	
 	this.products = [];
+	var product;
 	if (provider.type == 'epicerie') 
 	{
-		var product = [];
+		product = [];
 
 		product.name = 'Epicerie';
 		product.nameShort = 'Epicerie';
@@ -22,18 +23,20 @@ function Provider(provider)
 	{
 		for (var i = 0; i < provider.products.length; i++) 
 		{
-			var product = [];
+			product = [];
 
 			product.name = provider.products[i].product.name;
 			product.nameShort = provider.products[i].product.name_short;
 			product.nameFormate = provider.products[i].product.name_formate;
 			product.descriptif = provider.products[i].descriptif;
+			product.disabled = false;
 
 			this.products.push(product);
-		};
+		}
 	}
 
 	this.mainProduct = provider.main_product;
+	this.mainProductIsDisabled = false;
 	this.horaires = provider.horaires;
 	this.type = provider.type;	
 
@@ -64,25 +67,10 @@ Provider.prototype.initialize = function ()
 
 Provider.prototype.show = function () 
 {		
-	if (!this.isInitialized_) this.initialize();
+	if (!this.isInitialized_) this.initialize();	
 	this.biopenMarker_.updateIcon();
 	this.biopenMarker_.show();
-	this.isVisible_ = true;
-
-	if (constellationMode)
-	{
-		if (!this.isInProviderList)
-		{
-			$('#ProviderList ul').append(this.getHtmlRepresentation());
-			createListenersForProviderMenu($('#infoProvider-'+this.id +' .menu-provider'));
-			this.isInProviderList = true;			
-		}
-		else
-		{
-			$('#infoProvider-'+this.id).show();
-		}
-	}
-		
+	this.isVisible_ = true;		
 };
 
 Provider.prototype.hide = function () 
@@ -90,83 +78,108 @@ Provider.prototype.hide = function ()
 	this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
-	if (constellationMode) $('#ProviderList #infoProvider-'+this.id).hide();
+	//if (constellationMode) $('#ProviderList #infoProvider-'+this.id).hide();
 };
 
+Provider.prototype.updateProductsRepresentation = function () 
+{		
+	if (!constellationMode) return;
+
+	var starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id);
+	if (this.isProducteurOrAmap())
+	{
+		for(i = 0; i < this.products.length;i++)
+		{
+			productName = this.products[i].nameFormate;			
+
+			if ($.inArray(productName, starNames) == -1)
+			{
+				this.products[i].disabled = true;				
+				if (productName == this.mainProduct) this.mainProductIsDisabled = true;				
+			}	
+			else
+			{
+				this.products[i].disabled = false;				
+				if (productName == this.mainProduct) this.mainProductIsDisabled = false;		
+			}		
+		}
+	}
+	else
+	{
+		if (starNames.length == 0) this.mainProductIsDisabled = true;	
+		else this.mainProductIsDisabled = false;	
+	}
+};
 
 Provider.prototype.getHtmlRepresentation = function () 
-{		
-	if (this.htmlRepresentation_ == '')
-	{
-		var html = Twig.render(providerTemplate, {provider : this, horaires : this.getFormatedHoraires(), constellationMode: constellationMode});
-		this.htmlRepresentation_ = html;				
-		return html;
-		
-	}
-	else return this.htmlRepresentation_;
+{	
+	var starNames = constellationMode ? GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id) : [];
+	var html = Twig.render(providerTemplate, 
+				{
+					provider : this, 
+					horaires : this.getFormatedHoraires(), 
+					constellationMode: constellationMode, 
+					productsToDisplay: this.getProductsNameToDisplay(), 
+					starNames : starNames 
+				});
+	this.htmlRepresentation_ = html;				
+	return html;
 };
 
 Provider.prototype.getProductsNameToDisplay = function ()
 {
+	this.updateProductsRepresentation();
+
 	this.productsToDisplay_.main = [];
 	this.productsToDisplay_.others = [];
+	var productName;
 
-	var starNames = [];
-
-	if (GLOBAL.constellationMode())
+	if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
 	{
-		starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id);
-	}
+		this.productsToDisplay_.main.value = this.mainProduct;				
+		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
+	}		
 
-	// ICONS TO SHOW IN MARKER
-	if (starNames.length > 0)
+	var productIsDisabled;
+	for(var i = 0; i < this.products.length;i++)
 	{
-		this.productsToDisplay_.main.value = starNames[0];				
-		this.productsToDisplay_.main.disabled = false;
-		
-		if (starNames.length > 1)
+		productName = this.products[i].nameFormate;
+		productIsDisabled = this.products[i].disabled;
+		if (productName != this.productsToDisplay_.main.value)
 		{
-			starNames.splice(0,1);	
-			for(var i = 0; i < starNames.length;i++)
+			// si le main product est disabled, on choppe le premier produit
+			// non disable et on le met en produit principal
+			if (!productIsDisabled && !this.productsToDisplay_.main.value)
 			{
-				this.pushToProductToDisplay(starNames[i], false);
+				this.productsToDisplay_.main.value = productName;				
+				this.productsToDisplay_.main.disabled = productIsDisabled;				
 			}
-		}
-
-		var productName;
-		for(var i = 0; i < this.products.length;i++)
-		{
-			productName = this.products[i].nameFormate;			
-
-			// si le produit n'a pas encore été ajouté, on l'ajoute avec "disabled"
-			if ($.inArray(productName, starNames) == -1 && productName != this.productsToDisplay_.main.value)
+			else
 			{
-				this.pushToProductToDisplay(productName, true);
-			}			
-		}
-	} 	
-	else
-	{
-		// en constellation, un produit qui n'est pas représentant d'au moins
-		// une étoile est noté "disabled"
-		var disableProduct = GLOBAL.constellationMode();
-		this.productsToDisplay_.main.disabled = disableProduct;
-
-		this.productsToDisplay_.main.value = this.mainProduct;
-
-		var productName;
-		for(var i = 0; i < this.products.length;i++)
-		{
-			productName = this.products[i].nameFormate;
-			if (productName != this.productsToDisplay_.main.value)
-			{
-				this.pushToProductToDisplay(productName, disableProduct);
-			}			
-		}	
+				this.pushToProductToDisplay(productName, productIsDisabled);
+			}				
+		}			
 	}
 
-	return this.productsToDisplay_;	
+	// si on a tjrs pas de mainProduct (ils sont tous disabled)
+	if (!this.productsToDisplay_.main.value)	
+	{
+		this.productsToDisplay_.main.value = this.mainProduct;				
+		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;
+
+		this.productsToDisplay_.others.splice(0,1);
+	}	
+
+	this.productsToDisplay_.others.sort(compareProductsDisabled);	
+
+	return this.productsToDisplay_;
 };
+
+function compareProductsDisabled(a,b) 
+{  
+  if (a.disabled == b.disabled) return 0;
+  return a.disabled ? 1 : -1;
+}
 
 Provider.prototype.pushToProductToDisplay = function(productName, disabled)
 {

@@ -11,27 +11,15 @@
 
     background-color: #F7F7F7;
 
-    .providerItem .menu-provider
-	{
-		display: none;
-	}
-
-    .starRepresentationChoice-helper
+    .providerItem
     {
-        display:none;
-        line-height: 3rem;
-        text-align: center;
-        color: #F5F3F3;
-        font-weight: 400;
-        background-color: $secondary-color;
-
-        .btn-select-as-representant 
-        {
-            margin: 0 0 .1rem 1rem !important;
-            text-transform: none;
-            background-color: $secondary-color;
-        }
+        .menu-provider { display: none; }  
+        .iconMainProduct { display:none; }
+        .starNamesIcons { display:block; }
     }
+
+    // on met du padding pour laisser la place au bouton close
+    .providerItem .collapsible-header-title .distance { padding-right: 3rem; padding-left: 0;}    
 
     #detail_provider
     {
@@ -47,10 +35,9 @@
         }
     }
 
-    .icon-close
+    .icon-close 
     {
         position: absolute;
-        background-color: #FFFFFF;
         top: 1rem;
         right: .5rem;
         font-size: 1.2rem;
@@ -62,6 +49,11 @@
             cursor: pointer;
         }
     }
+
+    &.starRepresentantMode
+    {
+        .icon-close { top: 4rem; }
+    }
 }
 
 @media #{$large-and-up}
@@ -69,7 +61,7 @@
     #bandeau_detail
     {
         position: absolute;
-        width: 440px;
+        width: 480px;
         top: 0;
         right: 0;   
         height: 100% !important; 
@@ -85,6 +77,11 @@
             color: #CECECE;
 
             &:hover { color: white; }
+        }
+
+        &.starRepresentantMode
+        {
+            .collapsible-header { top: 3rem; }
         }
     }    
 

@@ -11,9 +11,11 @@
 		@media #{$large-and-up} { padding: 0 10rem; }
 	}
 
-	.provider-list-title
+	.providerItem
 	{
-		display:none
+		.menu-provider { display: none; } 
+		.iconMainProduct {display:none}
+		.starNamesIcons {display:block}
 	}
 
 	.collapsible
@@ -36,96 +38,29 @@
 		margin: 1rem 0; 
 	}
 
-	.starRepresentationChoice-helper
+	.provider-list-title
 	{
-		display : none;
-	}
-
-	.btn-select-as-representant-container
-	{
-		padding: 0 0.4rem;
-	}
-
-	.btn.btn-select-as-representant
-	{
-	    height: 1.5rem;
-	    line-height: 1.5rem;
-	    padding: 0 .5rem;
-	    font-size: .9rem;
-	    text-transform: none;
-	    margin: 0 ;
-	    background-color: #4a7874;
-	    z-index: 100;
-	}
-
-	.providerItem .menu-provider
-	{
-		display: block;
-	}
+		display:block;
+		position: relative;
+		line-height: 3rem;
+	    text-align: center;
+	    color: #F5F3F3;
+	    background-color: #3D3D3D;
+	    
+	    .shadow-bottom
+		{
+			width: 100%;
+		    margin-right: 0;
+		    height: 8px;
+		    position: absolute;
+		    top: 3rem;
+		    z-index: 4;
+		    left: 0;
+		    opacity: 1;
+		    border-top: 1px solid rgba(0,0,0,0.4);
+		    background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(rgba(0,0,0,0)));
+		    -webkit-mask-box-image: -webkit-gradient(linear,left top,right top,color-stop(0.0,rgba(0,0,0,0)),color-stop(0.5,rgba(0,0,0,.8)),color-stop(1.0,rgba(0,0,0,0)));
+		}
+	}	
 }
 
-/* @media #{$large-and-up}
-{
-	#ProviderList
-	{
-		position: absolute;
-	    width: 400px;
-	    top: 0;
-	    right: 0;	
-	    height: 100%;  
-	}
-
-	#bandeau_goToProviderList { display:none; }
-	#bandeau_detail { display:none;}
-
-	#section_carte
-	{
-		margin-right: 400px; 
-	}
-} */
-
-/* @media #{$large-and-up}
-{
-	#ProviderList
-	{
-		background-color: #F7F7F7;
-
-		@include box-shadow-1(0px 6px 9px 4px rgba(119, 119, 119, 0.55));
-
-		z-index: 40; 
-
-		.collapsible-header:hover
-		{
-			background-color: $grey-light;
-		}
-
-		.providerItem:last-child:after
-		{
-			padding-bottom: 400px;
-		}	
-
-		.provider-list-title
-		{
-			display:block;
-			line-height: 3rem;
-		    text-align: center;
-		    color: #F5F3F3;
-		    background-color: #3D3D3D;
-
-		    .shadow-bottom
-			{
-				width: 100%;
-			    margin-right: 0;
-			    height: 8px;
-			    position: absolute;
-			    top: 3rem;
-			    z-index: 4;
-			    left: 0;
-			    opacity: 1;
-			    border-top: 1px solid rgba(0,0,0,0.4);
-			    background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(rgba(0,0,0,0)));
-			    -webkit-mask-box-image: -webkit-gradient(linear,left top,right top,color-stop(0.0,rgba(0,0,0,0)),color-stop(0.5,rgba(0,0,0,.8)),color-stop(1.0,rgba(0,0,0,0)));
-			}
-		}	
-	}
-} */

@@ -50,8 +50,8 @@
 
     <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div class="starRepresentationChoice-helper">
-        Sélectionner en tant que "<span class='SRC-helper-starName'></span>" principal 
-        <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> 
+        <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> en tant que "<span class='SRC-helper-starName'></span>" principal 
+        
       </div> 
       <div id="detail_provider"></div>
       {% include '::Components/menu-provider.html.twig'  %}
@@ -68,24 +68,20 @@
 <div id="bandeau_goToProviderList">  
   <a href='#ProviderList'>
       <i class="icon-expand"></i>
-      <span class="">Liste des résultats</span>
+      <span class="">Résultats sous forme de liste</span>
       <i class="icon-expand"></i>
   </a>
 </div>
 
 {# Les résultats par liste #}
-<section id="ProviderList">
-  
-  <div class="provider-list-title">
-    Liste des Fournisseurs
-    <div class="shadow-bottom"></div>
-  </div>
-
-  <div class="starRepresentationChoice-helper">
-    Sélectionnez un nouveau "<span class='SRC-helper-starName'></span>" principal
-  </div> 
-  
+<section id="ProviderList">  
   <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
+    <div class="provider-list-title" id="title-places">Les emplacements<div class='shadow-bottom'></div></div>
+    <div id="places-end-container"></div> 
+    <div class="provider-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
+    <div id="producteurAmap-end-container"></div> 
+  </ul>
+
   </ul>
 </section>
 
@@ -115,8 +111,10 @@
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-    
-  {% javascripts filter="?jsqueeze"
+  
+  <script src="{{ asset('js/libs.min.js') }}"></script>  
+  <script src="{{ asset('js/main.js') }}"></script>
+  {# {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js"  
         "assets/js/libs/jquery-ui.min.js"        
         "assets/js/libs/cluster/cluster-commons.js"
@@ -133,7 +131,7 @@
                 
     %}
         <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts %} #}
 
     {% javascripts filter="twig_js" 
     '../app/Resources/views/Core/provider.html.twig'    

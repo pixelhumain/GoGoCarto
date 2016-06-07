@@ -1,0 +1,69 @@
+.starRepresentationChoice-helper
+{
+    display:none;
+    line-height: 3rem;
+    text-align: center;
+    color: #F5F3F3;
+    font-weight: 400;
+    background-color: $secondary-color;
+
+    .btn-select-as-representant 
+    {
+        margin: 0 1rem .1rem 0 !important;
+    	padding: 0 1.5rem;
+        text-transform: none;
+        height: 2rem;
+    	line-height: 2rem;
+        background-color: $secondary-color;
+    }
+}
+
+@media #{$large-and-up} 
+{
+	#bandeau_detail
+	{
+		.starRepresentationChoice-helper
+		{
+			position: absolute;
+			width: 100%;
+		}
+	}
+}
+
+#bandeau_helper
+{
+    display:none;
+}
+
+@media #{$medium-and-up}
+{
+    #bandeau_helper
+    {
+        display:block;
+        z-index: 20;    
+        text-align: center;
+        position: absolute;
+        top :0;
+        left: 0;
+        right: 0;
+        padding: 1rem 2.5rem 1rem 1rem;
+        background-color: $secondary-color;
+        color: white;
+
+        @include transition(margin-right .5s);
+
+        #btn-bandeau-helper-close
+        {
+            position: absolute;
+            top: 1.2rem;
+            right: 1rem;
+            cursor: pointer;
+
+            &:hover
+            {
+                color: #2A3535;
+            }
+        }
+    }
+}   
+	

@@ -7,7 +7,7 @@ function BiopenMarker(id_, position_)
 	if (!position_)
 	{
 		var provider = this.getProvider();
-		if (provider == null) window.console.log("provider null id = "+ this.id_);
+		if (provider === null) window.console.log("provider null id = "+ this.id_);
 		else
 		position_ = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
 	} 
@@ -46,7 +46,6 @@ function BiopenMarker(id_, position_)
 
 	if (GLOBAL.constellationMode())
 	{
-		var that = this;
     	google.maps.event.addListener(this.richMarker_, 'visible_changed', function() { that.checkPolylineVisibility_(that); });
 	}
 	
@@ -60,7 +59,7 @@ BiopenMarker.prototype.animateDrop = function ()
 	content = this.richMarker_.getContent(); 
 	$(content).animate({top: '-=25px'}, 300, 'easeInOutCubic');
 	$(content).animate({top: '+=25px'}, 250, 'easeInOutCubic');
-}
+};
 
 BiopenMarker.prototype.updateIcon = function () 
 {		
@@ -70,7 +69,7 @@ BiopenMarker.prototype.updateIcon = function ()
 	{
 		// POLYLINE TYPE
 		var lineType;
-		if (provider.starChoiceForRepresentation == '')
+		if (provider.starChoiceForRepresentation === '')
 		{
 			lineType = 'normal';
 		}
@@ -91,7 +90,7 @@ BiopenMarker.prototype.updateIcon = function ()
 
 	var disableMarker = false;
 	// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
-	if (provider.starChoiceForRepresentation != '') 
+	if (provider.starChoiceForRepresentation !== '') 
 		disableMarker = !provider.isCurrentStarChoiceRepresentant();
 
 	if (disableMarker) $(content).addClass("disabled");
@@ -99,7 +98,7 @@ BiopenMarker.prototype.updateIcon = function ()
 	var disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
 
 	var innerHTML = '<div class="rotate animate icon-marker"></div>';
-    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>'
+    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>';
     
     var widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
@@ -183,7 +182,7 @@ BiopenMarker.prototype.setPolylineOptions = function (options)
 {
 	if (!this.polyline_.isDashed)
 	{
-		this.polyline_.setOptions(options)
+		this.polyline_.setOptions(options);
 	}
 	else
 	{
@@ -193,7 +192,7 @@ BiopenMarker.prototype.setPolylineOptions = function (options)
 			strokeWeight: options.strokeWeight
 		});
 	}
-} 
+};
 	
 BiopenMarker.prototype.updatePolyline = function (options) 
 {
@@ -262,7 +261,7 @@ BiopenMarker.prototype.getProvider = function ()
 
 BiopenMarker.prototype.checkPolylineVisibility_ = function (context) 
 {		
-	if (context.richMarker_ == null) return;
+	if (context.richMarker_ === null) return;
 	//window.console.log("checkPolylineVisibility_ " + context.richMarker_.getVisible());
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
 	context.polyline_.setMap(context.richMarker_.getMap());	

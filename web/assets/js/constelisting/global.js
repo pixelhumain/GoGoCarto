@@ -100,7 +100,7 @@ function ajuster_taille_composants()
 
 function ajuster_taille_providerList()
 {
-	if (constellationMode)
+	/*if (constellationMode)
 	{
 		if ($('#ProviderList').offset().top < 100)
 		{
@@ -112,7 +112,7 @@ function ajuster_taille_providerList()
 		{
 			$('#ProviderList ul').css('height','auto');
 		}
-	}
+	}*/
 }
 
 var matchMediaBigSize_old;
@@ -131,8 +131,8 @@ function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').outer
 		  	$("#map").css('height',$("#section_carte").height());	
 		  	if ($('#bandeau_detail').is(":visible")) 
 	  		{
-	  			$('#map').css('margin-right','440px');
-	  			$('#bandeau_helper').css('margin-right','440px');
+	  			$('#map').css('margin-right','480px');
+	  			$('#bandeau_helper').css('margin-right','480px');
 	  			
 	  		}
 		  	else 
@@ -170,10 +170,11 @@ function ajuster_tailler_info_provider()
 		  	var bandeau_detail = $("#bandeau_detail");
 		  	var height = bandeau_detail.outerHeight(true)
 		  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
+		  				-bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true)
 		  				-bandeau_detail.find(".menu-provider").outerHeight(true);
 
 		  	$('#bandeau_detail .collapsible-body').css('height', height);
-		  	$('#bandeau_detail .collapsible-body').css('margin-top', bandeau_detail.find('.collapsible-header').outerHeight(true));
+		  	$('#bandeau_detail .collapsible-body').css('margin-top', bandeau_detail.find('.collapsible-header').outerHeight(true)+bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true));
 		}
 	}
 }

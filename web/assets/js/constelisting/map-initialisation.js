@@ -56,6 +56,7 @@ function initialize(map)
 
 		GLOBAL.getMarkerManager().createMarkers();
 		GLOBAL.getProviderManager().draw();
+		GLOBAL.getListProviderManager().draw();
 		
 		initCluster(GLOBAL.getMarkerManager().getMarkers());
 		GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getMarkerManager().drawLinesWithClusters(); });
@@ -65,7 +66,7 @@ function initialize(map)
 	else
 	{
 		var constellation = null;	
-		var providerManager = new ProviderManager(providerListJson);
+		var providerManager = new ProviderManagerListing(providerListJson);
 		var markerManager = null;	
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
 

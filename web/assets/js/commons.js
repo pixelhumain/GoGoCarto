@@ -7,6 +7,7 @@ jQuery(document).ready(function()
 	$('#btn-menu-listing').click(function()
 	{ 
 		redirectToConstelisting('biopen_listing');
+		
 	});
 });
 

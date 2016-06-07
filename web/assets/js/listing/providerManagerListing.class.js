@@ -1,4 +1,4 @@
-function ProviderManager(listProviderPhp) 
+function ProviderManagerListing(listProviderPhp) 
 {
 	this.allProviders_ = [];
 	this.currProviders_ = [];
@@ -9,17 +9,18 @@ function ProviderManager(listProviderPhp)
 	var provider;
 	for (var i = 0; i < listProviderPhp.length; i++)
 	{
-		provider = new Provider(listProviderPhp[i]['Provider']);
+		provider = new Provider(listProviderPhp[i].Provider);
 		this.allProviders_.push(provider);
 	}
 
 	// TODO delete listProviderPhp; ?
 }
 
-ProviderManager.prototype.updateProviderList = function (checkInAllProviders = true, forceRepaint = false) 
+ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders = true, forceRepaint = false) 
 {	
-	if (checkInAllProviders) var providers = this.allProviders_;
-	else var providers = this.currProviders_;
+	var providers = null;
+	if (checkInAllProviders) providers = this.allProviders_;
+	else providers = this.currProviders_;
 
 	var i, provider;
 	var mapBounds = GLOBAL.getMap().getBounds();
@@ -30,7 +31,6 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 	//window.console.log("UPDATE PROVIDER LIST checkAll : " + checkInAllProviders + "| forceRepaint : " + forceRepaint);
 	filterManager = GLOBAL.getFilterManager();
 
-	
 	i = providers.length;
 	// TODO check temps avec for in au lieu de for classique
 	while(i--)
@@ -42,7 +42,7 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 		{
 			if (! provider.isVisible() )
 			{
-				if (provider.isInitialized() == false) provider.initialize();
+				if (provider.isInitialized() === false) provider.initialize();
 				provider.show();
 				this.currProviders_.push(provider);
 				newMarkers.push(provider.getMarker());
@@ -75,12 +75,12 @@ ProviderManager.prototype.updateProviderList = function (checkInAllProviders = t
 };
 
 
-ProviderManager.prototype.getProviders = function () 
+ProviderManagerListing.prototype.getProviders = function () 
 {
 	return this.currProviders_;
 };
 
-ProviderManager.prototype.getMarkers = function () 
+ProviderManagerListing.prototype.getMarkers = function () 
 {
 	var markers = [];
 	l = this.currProviders_.length;
@@ -91,10 +91,10 @@ ProviderManager.prototype.getMarkers = function ()
 	return markers;
 };
 
-ProviderManager.prototype.getProviderById = function (providerId) 
+ProviderManagerListing.prototype.getProviderById = function (providerId) 
 {
 	//return this.allProviders_[providerId];
 	for (var i = 0; i < this.allProviders_.length; i++) {
 		if (this.allProviders_[i].getId() == providerId) return this.allProviders_[i];
-	};
+	}
 };

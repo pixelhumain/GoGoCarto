@@ -2,6 +2,8 @@ var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, comple
 
 jQuery(document).ready(function()
 {
+if (constellationMode)	
+{
 	// MODE StarRepresentationChoice
 	$('.productItem:not(.disabled)').click(function()
 	{
@@ -66,6 +68,7 @@ jQuery(document).ready(function()
 		var marker = GLOBAL.getMarkerManager().getMarkerById($(this).attr('data-provider-id'));
 		marker.showNormalSize();
 	});
+}
 });
 
 function clearProductList()

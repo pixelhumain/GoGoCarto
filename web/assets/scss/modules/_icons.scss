@@ -44,7 +44,6 @@ $epicerie-color :#383D5A ;
 	&.boutique { color:$boutique-color }
 	&.marche { color:$marche-color }
 	&.epicerie { color:$epicerie-color }
-
 }
 
 .icon-marker { @extend .colorAs; }

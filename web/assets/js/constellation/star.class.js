@@ -100,6 +100,13 @@ Star.prototype.setIndex = function (newIndex)
   var newMarkerRepresentStar = GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
+
+  // on met à jour les info providers des deux providers interchangés
+  $('#infoProvider-'+this.getProviderId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
+  /*$('#ProviderList #infoProvider-'+this.getProviderId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
+  /*$('#infoProvider-'+oldProviderId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
+
+  GLOBAL.getListProviderManager().draw();
 }
 
 

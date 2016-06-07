@@ -28,15 +28,27 @@ gulp.task('sass', function () {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/js/**/*.js')
+  return gulp.src(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
-    //.pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/js'))
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest('web/js'))
     //.pipe(rename({suffix: '.min'}))
+    //.pipe(uglify())
+    //.pipe(gulp.dest('dist/js'))
+    //.pipe(notify({ message: 'Scripts task complete' }));
+});
+
+gulp.task('scriptsLibs', function() {
+  return gulp.src('web/assets/js/libs/**/*.js')
+    //.pipe(jshint())
+    //.pipe(jshint.reporter('default'))
+    .pipe(concat('libs.js'))
+    //.pipe(gulp.dest('web/js'))
+    .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('dist/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('web/js'))
+    .pipe(notify({ message: 'Scripts Libs task complete' }));
 });
 
 gulp.task('images', function() {
@@ -62,7 +74,7 @@ gulp.task('watch', function() {
   gulp.watch('web/assets/scss/**/*.scss', ['sass']);
 
   // Watch .js files
-  //gulp.watch('src/js/**/*.js', ['scripts']);
+  gulp.watch('web/assets/js/**/*.js', ['scripts']);
 
   // Watch image files
   //gulp.watch('src/img/*', ['images']);

@@ -93,6 +93,7 @@ class CoreController extends Controller
             }
             
             $constellation = $this->buildConstellation($providerList, $geocodeResponse);
+            dump($constellation);
         }	 
 
         return $this->render('::Core/constellation.html.twig', 

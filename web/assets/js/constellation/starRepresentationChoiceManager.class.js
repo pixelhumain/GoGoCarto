@@ -17,9 +17,10 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	GLOBAL.getClusterer().repaint();
 
 	$('.SRC-helper-starName').html(star.getName());
+	$('#bandeau_detail').addClass('starRepresentantMode'),
 	$('.starRepresentationChoice-helper').show();
-	
-	ajuster_taille_providerList();
+
+	this.majView();	
 
 	hideBandeauHelper();
 };
@@ -37,6 +38,7 @@ StarRepresentationChoiceManager.prototype.end = function ()
 	animate_down_bandeau_detail(); 
 
 	$('.starRepresentationChoice-helper').hide();
+	$('#bandeau_detail').removeClass('starRepresentantMode'),
 
 	ajuster_taille_providerList();
 
@@ -46,14 +48,23 @@ StarRepresentationChoiceManager.prototype.end = function ()
 StarRepresentationChoiceManager.prototype.selectProviderIndex = function (providerIndex) 
 {
 	this.currentStar_.setIndex(providerIndex);
-	
+	this.majView();	
+};
+
+StarRepresentationChoiceManager.prototype.majView = function ()
+{
+	var providerId = this.currentStar_.getProviderId();
+
+	/*$('#ProviderList .starRepresentant').removeClass('starRepresentant');
+	$('#ProviderList #infoProvider-'+providerId).addClass('starRepresentant');*/
+
 	$('.moreResultContainer:visible .starProvider').removeClass('starProvider');
-	$('#moreResult-'+this.currentStar_.getName()+'-'+providerIndex).addClass("starProvider");
-}
+	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starProvider");	
+};
 
 StarRepresentationChoiceManager.prototype.selectProviderById = function (providerId)
 {
 	var providerIndex = this.currentStar_.getProviderIndexFromId(providerId)
 	this.selectProviderIndex(providerIndex);
-} 
+} ;
 

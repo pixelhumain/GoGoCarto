@@ -1,21 +1,12 @@
 jQuery(document).ready(function()
 {
+	
 });
 
 function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true) 
-{	
-	if (constellationMode)
-	{
-		$('#detail_provider').empty();
-		$('#infoProvider-'+providerId).clone().appendTo( "#detail_provider").show();
-		$('#detail_provider .moreDetails').hide();
-		$('#detail_provider .btn-select-as-representant').hide();		
-	}
-	else
-	{
-		var provider = GLOBAL.getProviderManager().getProviderById(providerId);
-		$('#detail_provider').html(provider.getHtmlRepresentation());
-	}	
+{
+	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
+	$('#detail_provider').html(provider.getHtmlRepresentation());	
 	
 	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
 	animate_up_bandeau_detail();

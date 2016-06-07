@@ -66,8 +66,11 @@
 
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+  
+  <script src="{{ asset('js/libs.min.js') }}"></script>  
+  <script src="{{ asset('js/main.js') }}"></script>
     
-    {% javascripts filter="?jsqueeze"
+{#     {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js" 
         "assets/js/libs/jquery-ui.min.js"           
         "assets/js/libs/cluster/cluster-commons.js"
@@ -84,7 +87,7 @@
         
     %}
         <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts %} #}
 
 
     {% javascripts filter="twig_js" 
