@@ -129,6 +129,7 @@ class Provider
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
+        $this->contributeur = '';
     }
 
     public function reinitContributor()
@@ -141,16 +142,7 @@ class Provider
     public function resetProducts()
     {
         $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
-        /*foreach ($this->products as $product) 
-        {           
-            $this->productsCopy->add($product);           
-        }
-        foreach ($this->productsCopy as $product) 
-        {           
-            $this->products->remove($product);           
-        }*/
         $this->products->clear();
-        /*dump($this->products);*/
     }
 
     private function calculateWastedDistance()

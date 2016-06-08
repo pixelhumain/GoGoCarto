@@ -43,24 +43,12 @@ jQuery(document).ready(function()
         if ($(this).is(':checked')) 
         {
             $('#div_precision_' + $(this).attr('value')).css('display','block');	
-            /*addPrecisionProduit($(this).attr('value'));
-            $.ajax({
-		        type: "POST",
-		        url: "{{ url('productsCreateSubmit') }}",
-		        data: $(this).serialize(),
-		        success: function(data) {
-		            $('#dynamic_fields').html(data);
-        			}
-        	});*/
     	}
         else
         {
         	$('#div_precision_' + $(this).attr('value')).css('display','none');	
-        	//removePrecisionProduit($(this).attr('value'));
         }
-    });
-
-    
+    });    
 
 	// HORAIRES
 	// gestion d'une seconde plage horaire pour les petits ?crans
@@ -104,13 +92,21 @@ function initMap()
 
     if ($('#inputAdresse').val()) 
 	{
-		geocodeAddress($('#inputAdresse').val())
+		var result = geocodeAddress($('#inputAdresse').val());
+		if (editMode && !result)
+		{
+			var location = new google.maps.LatLng($('#biopen_fournisseurbundle_provider_latlng_latitude').attr('value'), $('#biopen_fournisseurbundle_provider_latlng_longitude').attr('value'));
+			map.panTo(location);
+			map.setZoom(16);
+			marker.setPosition(location);
+		}
 	}
 }
 
 // trouve le lat lng correspondant ? une adresse donn?e
 function geocodeAddress( address ) {
 
+	var geocoding_ok;
 	geocoder.geocode( { 'address': address}, function(results, status) {
 
 	if (status == google.maps.GeocoderStatus.OK) 
@@ -118,8 +114,8 @@ function geocodeAddress( address ) {
 		map.panTo(results[0].geometry.location);
 		map.setZoom(16);
 		marker.setPosition(results[0].geometry.location);
-		$('#provider_latlng_latitude').attr('value',marker.getPosition().lat());
-		$('#provider_latlng_longitude').attr('value',marker.getPosition().lng());	
+		$('#biopen_fournisseurbundle_provider_latlng_latitude').val(marker.getPosition().lat());
+		$('#biopen_fournisseurbundle_provider_latlng_longitude').val(marker.getPosition().lng());	
 
 		geocoding_ok = true;	
 	} 
@@ -128,6 +124,7 @@ function geocodeAddress( address ) {
 		geocoding_ok = false;	
 	}
 	});
+	return geocoding_ok;
 }
 
 var first_maj_form_with_type_done = false;
@@ -262,7 +259,7 @@ function check_and_send()
 		if (!$('#mainProductSelection').val()) 
 		{
 			$('#label_main_product_selection').addClass('error'); 
-			$('#label_main_product_selection').text('Veuillez choisir un product principal');		
+			$('#label_main_product_selection').text('Veuillez choisir un produit principal');		
 		}
 		else 
 		{
@@ -274,12 +271,12 @@ function check_and_send()
 	if ($(".checkbox_products:checked" ).size() == parseInt('0'))
 	{
 		$('#title_products').addClass('error'); 
-		$('#title_products').text('Veuillez choisir au moins un product'); 		
+		$('#title_products').text('Veuillez choisir au moins un produit'); 		
 	}
 	else 
 	{
 		$('#title_products').removeClass('error');
-		$('#title_products').text('Type de product'); 		
+		$('#title_products').text('Produits du fournisseur'); 		
 	}
 
 	// CHECK on s'engage ? bla bla bla

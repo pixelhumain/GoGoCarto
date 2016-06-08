@@ -81,7 +81,7 @@ section
 
 #label_type_provider.error, .error
 {
-  color: red;
+  color: $error-color !important;
 }
 
 #section_provider

@@ -59,10 +59,19 @@
 
 {% block javascripts %}
 
+	<script>
+	var editMode = false;
+	{% if editMode is defined %} editMode = {{ editMode }}; {% endif %}
+	</script>
+
 	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
-	{% javascripts filter="?jsqueeze" output="js/app.js"
+  	<script src="{{ asset('js/libs.min.js') }}"></script>  
+    <script src="{{ asset('assets/js/commons.js') }}"></script>
+    <script src="{{ asset('assets/js/ajouter_fournisseur.js') }}"></script>
+
+	{# {% javascripts filter="?jsqueeze" output="js/app.js"
         "assets/js/libs/jquery-2.2.1.min.js"
         "assets/js/libs/materialize/bin/materialize.js"
         "assets/js/libs/timepicki.js"
@@ -70,7 +79,7 @@
         "assets/js/ajouter_fournisseur.js"
     %}
         <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts %} #}
 
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">

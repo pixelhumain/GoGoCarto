@@ -19,12 +19,12 @@ class LoadProduct implements FixtureInterface
       array('Viande'              , 'viande'      , ''        , ''),
       array('Oeufs'               , 'oeufs'       , ''        , ''),
       array('Poisson'             , 'poisson'     , ''        , ''),
-      array('Légumineuses'        , 'secs'        , ''        , 'Lentilles, Pois chiches'),
+      array('Légumineuses'        , 'legumineuses'        , ''        , 'Lentilles, Pois chiches'),
       array('Products transformés', 'transformes' , 'Transformés', ''),
       array('Miel'                , 'miel'        , ''        , ''),
       array('Pain, farine'        , 'pain'        , 'Pain/Farine'        , ''),
-      array('Huiles'              , 'huiles'     , ''         , 'Huile de colza, de tournesol...'),
-      array('Boissons'            , 'boisson'     , ''        , ''),
+      array('Huiles'              , 'huile'     , ''         , 'Huile de colza, de tournesol...'),
+      array('Boissons'            , 'boissons'     , ''        , ''),
       array('Plantes'             , 'plantes'     , ''        , ''),
       array('Autre'               , 'autre'       , ''        , ''),
     );
@@ -34,7 +34,7 @@ class LoadProduct implements FixtureInterface
       $new_product = new Product();
       $new_product->setName($product[0]);
       $new_product->setNameFormate($product[1]);
-      if ($product[2] == '') $product->setNameShort($product[0]);
+      if ($product[2] == '') $new_product->setNameShort($product[0]);
       else $new_product->setNameShort($product[2]);
       $new_product->setPrecision($product[3]);
       

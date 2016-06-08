@@ -1,0 +1,35 @@
+{% extends "::bundle_layout.html.twig" %}
+
+{% block title %}Erreur!{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+	<link rel="stylesheet" href="{{ asset('assets/css/error.css') }}">
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+	<h1>Oops! Une erreur s'est produite</h1>
+
+    <div>
+      Le serveur à répondu "{{ status_code }} {{ status_text }}".</br>
+      Si le problème persiste, veuillez contacter l'administrateur.
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+  	<script src="{{ asset('js/libs.min.js') }}"></script>  
+    <script src="{{ asset('assets/js/commons.js') }}"></script>
+
+
+{% endblock %}

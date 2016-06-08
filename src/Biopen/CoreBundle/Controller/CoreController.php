@@ -88,12 +88,12 @@ class CoreController extends Controller
 
             if( $providerList == null)
             {
-                $this->get('session')->getFlashBag()->add('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
-                return $this->render('::index.html.twig');
+                $this->get('session')->getFlashBag()->set('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
+                return $this->render('::Core/constellation.html.twig', array('slug'=>''));
             }
             
             $constellation = $this->buildConstellation($providerList, $geocodeResponse);
-            dump($constellation);
+            /*dump($constellation);*/
         }	 
 
         return $this->render('::Core/constellation.html.twig', 
@@ -159,8 +159,11 @@ class CoreController extends Controller
                 case 'producteur':
                     foreach ($provider->getProducts() as $i => $product) 
                     {
-                        $constellation['stars'][$product->getNameFormate()]['providerList'][] = $provider;
-                        $constellation['stars'][$product->getNameFormate()]['name'] = $product->getNameShort();
+                        if ($product->getNameFormate() != 'autre')
+                        {
+                            $constellation['stars'][$product->getNameFormate()]['providerList'][] = $provider;
+                            $constellation['stars'][$product->getNameFormate()]['name'] = $product->getNameShort();
+                        }                        
                     }
                     break;
                 //Le reste

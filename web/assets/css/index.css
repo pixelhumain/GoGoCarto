@@ -3294,14 +3294,13 @@ footer {
     height: 2.5rem; } }
 @media only screen and (min-width: 601px) {
   section#mainFunctions {
-    padding: 1rem 2rem 0 2rem;
+    padding: .5rem 2rem 0 2rem;
     max-width: 1100px; }
 
   section#title h1 {
     line-height: 100px;
     font-size: 3rem;
-    padding: 0;
-    padding-bottom: 1rem; }
+    padding: 0; }
 
   section#title #site-en-dev {
     width: 70%;
