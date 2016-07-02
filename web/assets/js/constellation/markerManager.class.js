@@ -65,7 +65,8 @@ MarkerManager.prototype.fitMapInBounds = function ()
 		{
 			window.console.log("fit bounds marche pas, relance");
 			nbreFitMapFailed++;
-			setTimeout(this.fitMapInBounds(),3000);
+			var that = this;
+			setTimeout(function() { that.fitMapInBounds() },1000);
 		}		
 	}
 	else

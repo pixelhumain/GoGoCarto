@@ -5,206 +5,74 @@
 body
 {
 	text-align: center;
-	background-color: #FBFBFB;
-	height: auto;	
+	background-color: #2f2f2f;
+	height: 100%;	
+	background: url(../img/index2.jpg) 100% no-repeat;
+	background-size: cover;
+	color:white;
 }
 
-section#title
+section#mainContainer
 {
-	background-color: #3D3D3D;
-	padding : 0 1rem;
-	padding-bottom: 1rem;
+	top: 150px;
+    width: 80%;
+    background-color: rgba(20, 20, 20, 0.8);
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 15px;
+    position: relative;
 
 	h1
 	{
-		margin: 0;
-		font-size: 1.5rem;
-    	line-height: 4rem;
-        color: #FBFBFB;
+		position: absolute;
+		text-shadow: 2px 2px 2px rgb(32, 33, 30);
+	    font-size: 5rem;
+	    top: -5.7rem;
+	    left: 0;
+	    right: 0;
 	}
 
-	#site-en-dev
+	#inputAddress
 	{
-		color: #222;
-    	background-color: #DEDEDE;
-	    padding: 1rem;
-	    font-size: .9rem;
-	    width: 100%;	    
-	    margin: 0 auto;
-	}
-}
+		width: 90%;
+	    margin-bottom: 2rem;
+	    border: none;
+	    background-color: #ececec;
 
-section#mainFunctions
-{
-	padding: 0 1rem;
-    margin: 0 auto;
-
-    #inputAddress
-	{
-		width: 80%;
-		height: 2rem;
-		margin-bottom: 0rem;
-	}
-
-	#functions-explanation
-	{
-		margin-bottom: 1.5rem;
-	}
-
-	.flash-notice
-	{
-		margin-top: .5rem;
-	    padding: .5rem;
-	    background-color: #4a7874;
-	    color: white;
-	}
-}
-
-section#open-source
-{
-	padding: 1rem;
-    background-color: #3D3D3D;
-    color: #CCCCCC;
-
-    h2 {     font-size: 1.1rem; margin: 0; color: white; font-weight: 500; }
-}
-
-footer
-{
-	background-color: #222;
-    padding: .5rem;
-    color: #C7C7C7;
-
-    a { color: #C7C7C7; text-decoration: underline }
-}
-
-
-
-@media only screen and (min-width: 400px) 
-{
-	section#mainFunctions { padding: .5rem .5rem 0 .5rem; }
-	section#title h1 { line-height: 5rem; font-size: 2.1rem }    
-    section#mainFunctions #inputAddress { width: 80%; height: 2.5rem;  }
-}
-
-@media #{$medium-and-up}
-{
-	section#mainFunctions { padding: .5rem 2rem 0 2rem; max-width: 1100px;}
-	section#title h1 { line-height: 100px; font-size: 3rem;padding : 0; }
-	section#title #site-en-dev { width: 70%; font-size: 1rem}
-	section#mainFunctions #inputAddress { width: 450px; height: 3rem; }	
-	section#mainFunctions #functions-explanation{ margin-bottom: 2rem; }
-	section#open-source p { width: 90%;max-width: 1000px; margin: 1rem auto; }
-}
-
-.function
-{
-	width: 100%;
-
-	.image-wrapper
-	{
-		float: left;
-	    margin-right: 1rem;
-		
-		.image 
-		{
-			@include border-radius(50%) ;
-		    font-size: 3rem;
-		    height: 5rem;
-		    width: 5rem;
-		    text-align: center;
-		    position: relative;
-		    margin: auto;
-		    
-		    color: #444;
-		    background-color: $primary-color;
-
-		    &:before 
-		    {
-		    	line-height: 5rem;
-		    }  		   
+	    &::-webkit-input-placeholder { 
+			color: dimgrey;
+		}
+		&::-moz-placeholder { 
+			color: dimgrey;
+		}
+		&:-ms-input-placeholder { 
+			color: dimgrey;
+		}
+		&:-moz-placeholder { 
+			color: dimgrey;
 		}
 	}
 
-	a { color: inherit; }
-
-	p 
-	{
-		text-align: left;
-		padding: 0rem;
-		font-size: .9rem;
+	#inputAddress-icon {
+	    position: absolute;
+	    left: 3rem;
+	    line-height: 3.4rem;
+	    font-size: 1.4rem;
+	    color: dimgrey;
 	}
 
-	h2
+	
+
+	.choiceModeContainer
 	{
-		font-weight: 700;
-    	font-size: .9rem;
-    	text-align: left;
-    	padding-top: .5rem;
-    	margin: 0;
+		width: 40%;
+		display: inline-block;
+		margin: 0 .8rem;
+
+		.btnChoiceMode { background-color: $primary-color; }
 	}
 
-	&:hover
-	{
-		cursor: pointer;
-		.image
-		{
-			color:#C5C5C5;		
-		}
+	.divider { margin-bottom : 1.5rem; }
 
-		p{  color: black; }
-	}
-
-	@media only screen and (min-width: 400px) 
-	{
-		width: 33.3%;
-		float: left;
-
-		.image-wrapper
-		{
-			width: 100%;
-    		float: none;
-	    	margin-right: 0;
-			
-			.image 
-			{
-			    font-size: 6rem;
-			    height: 8rem;
-			    width: 8rem;
-
-			    &:before 
-			    {
-			    	line-height: 8rem;
-			    }  		   
-			}
-		}
-
-		p { text-align: center; padding: 0 .5rem; font-size: 1rem;}
-
-		h2{ font-size: 1.1rem;  text-align: center; margin: 1rem 0; }
-	}
-
-	@media #{$medium-and-up}
-	{
-		.image-wrapper
-		{
-		    height: 13rem;
-		    margin-bottom: 20px;
-			
-			.image 
-			{
-			    font-size: 9rem;
-			    height: 12.5rem;
-			    width: 12.5rem;
-
-			    &:before 
-			    {
-			    	line-height: 12.5rem;
-			    }  		   
-			}
-		}
-
-		p { padding: 0 2rem; }
-	}	
+	.btnParticipate { background-color: $secondary-color; }
 }
-

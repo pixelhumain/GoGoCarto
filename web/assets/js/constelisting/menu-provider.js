@@ -18,7 +18,8 @@ function createListenersForProviderMenu(object)
 		window.location.href = Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
 	});
 	object.find('.icon-delete').click(function() {
-		window.location.href = Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
+		alert('Fonctionalité pas encore disponible, désolé ! '); 
+		//window.location.href = Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
 	});
 	object.find('.icon-directions').click(function() {
 		alert('Fonctionalité pas encore disponible, désolé ! '); 

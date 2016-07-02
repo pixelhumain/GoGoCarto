@@ -48,6 +48,7 @@ StarRepresentationChoiceManager.prototype.end = function ()
 StarRepresentationChoiceManager.prototype.selectProviderIndex = function (providerIndex) 
 {
 	this.currentStar_.setIndex(providerIndex);
+	showProviderInfosOnMap(this.currentStar_.getProviderId(), false);
 	this.majView();	
 };
 

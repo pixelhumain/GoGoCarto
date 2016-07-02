@@ -65,7 +65,7 @@ FilterManager.prototype.checkIfProviderPassFilters = function (provider)
 		}			
 	}	
 
-	if (updateProviderIcon && atLeastOneProductPassFilter) provider.getBiopenMarker().updateIcon();
+	if (updateProviderIcon && atLeastOneProductPassFilter) provider.getBiopenMarker(true).updateIcon();
 	return atLeastOneProductPassFilter;
 };
 

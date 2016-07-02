@@ -61,8 +61,11 @@ function Provider(provider)
 
 Provider.prototype.initialize = function () 
 {		
-	this.biopenMarker_ = new BiopenMarker(this.id, this.position);
-	this.isInitialized_ = true;
+	if (!this.isInitialized_) 
+	{
+		this.biopenMarker_ = new BiopenMarker(this.id, this.position);
+		this.isInitialized_ = true;
+	}		
 };
 
 Provider.prototype.show = function () 
@@ -289,8 +292,9 @@ Provider.prototype.getMarker= function ()
 	return this.biopenMarker_.getRichMarker();
 };
 
-Provider.prototype.getBiopenMarker= function () 
+Provider.prototype.getBiopenMarker = function (initialize = false) 
 {		
+	if (initialize) this.initialize();
 	return this.biopenMarker_;
 };
 

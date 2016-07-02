@@ -1,6 +1,6 @@
 {% extends "::base_layout.html.twig" %}
 
-{% block title %}Pages Vertes{% endblock %}
+{% block title %}Mon voisin fait du Bio{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -14,73 +14,40 @@
 {# BODY CONTENT #}
 {% block body %}
 
-<section id="title">
-	<span class="icon-business"></span>	
-	<h1>Alimentation près de chez soi</h1>
-	<div id='site-en-dev'>Site en cours de développement ! Les fournisseurs qui y sont listés sont factices, et des disfonctionnements restent possibles</div>
-</section>
+<section id="mainContainer">	
 
-<section id="mainFunctions">	
-	
-	<div class="input-field" > 
-		<input class="validate" placeholder="Entrez si besoin une adresse" type="text" id="inputAddress" name="adresse"/>
-	</div>
+		<h1>Mon voisin fait du bio</h1>
 
-	<p id="functions-explanation">Puis choisissez la fonction :</p>
-	
-	<div class="row">
-		<div class="function" id="constellation-zone">
-			<div class="image-wrapper">
-				<div class="image icon-constellation"></div>
-			</div>
-			<h2>CONSTELLATION</h2>
-			<p>Visualisez en un coup d'oeil les fournisseurs les plus proches de chez vous</p>
+		<div class="input-field" >
+			<a class="icon-search" id="inputAddress-icon"></a> 
+			<input class="validate" placeholder="Entrez une adresse" type="text" id="inputAddress" name="adresse"/>
 		</div>
 
-		<div class="function" id="listing-zone">
-			<div class="image-wrapper">
-				<div class="image icon-icon-liste"></div>
-			</div>	
-			<h2>NAVIGATION</h2>		
-			<p>				
-				Naviguez librement sur la carte à la recherche des fournisseurs qui vous correspondent
-			</p>
-
+		<div class="choiceModeContainer right-align">
+			<button class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
+			<p>Naviguez librement sur la cate en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
 		</div>
+		
+		<div class="choiceModeContainer left-align">
+			<button class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
+			<p>Visualisez en un clin d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p>
+		</div>
+
+		<div class="divider"></div>
+
+		<button class="btnParticipate btn waves-effect waves-light">Participer</button>
+		<p>Aidez-nous à agrandir notre base de donnée en ajouatnt un fournisseur</p>
 	
-		<div class="function">
-			<a href="{{ path('biopen_fournisseur_add') }}">
-				<div class="image-wrapper"><div class="image icon-plus"></div></div>			
-				<h2>AJOUTER FOURNISSEUR</h2>			
-				<p>Ajouter en quelques clicks un nouveau fournisseur dans notre base de donnée</p>
-			</a>
-
-		</div>
-	</div>
-
 </section>
-
-<section id="open-source">
-	<h2>OPEN SOURCE</h2>
-	<p>Ce site est développé bénévolement pour un usage gratuit, et libre de droits. Le but est de fournir une cartographie ergonomique des fournisseurs de type : producteurs, amap, marchés, boutique de producteurs, épiceries...</p>
-	<p>Les fournisseurs répértoriés sur ce site ce sont pas exclusivement sous label bio, mais certifient avoir des pratiques agronomiques respectueuses du sol et de l'environnement.</p>
-</section>
-
-<footer>
-	Contact : <a href="mailto:90scastro@gmail.com">Sebastian Castro</a>
-</footer>
 
 
 {% endblock %}
-
-
 
 {% block javascripts %}
 
 	{% javascripts filter="?jsqueeze"
 		'bundles/fosjsrouting/js/router.js'
-        "assets/js/libs/jquery-2.2.1.min.js"
-        "assets/js/libs/materialize/bin/materialize.js"
+        "js/libs.min.js"
         "assets/js/commons.js"
         "assets/js/components/inputAddress.js"
         "assets/js/index.js"

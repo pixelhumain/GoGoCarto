@@ -28,7 +28,9 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	var newMarkers = [];
 	var markersToRemove = [];
 	var markersChanged = false;
-	//window.console.log("UPDATE PROVIDER LIST checkAll : " + checkInAllProviders + "| forceRepaint : " + forceRepaint);
+	window.console.log("UPDATE PROVIDER LIST checkAll : " + checkInAllProviders + "| forceRepaint : " + forceRepaint);
+	window.console.log(GLOBAL.getFilterManager().productFilters);
+	window.console.log(GLOBAL.getFilterManager().typeFilters);
 	filterManager = GLOBAL.getFilterManager();
 
 	i = providers.length;

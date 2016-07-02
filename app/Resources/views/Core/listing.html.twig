@@ -34,7 +34,7 @@
 
     <div id="map"> </div>
 
-    <section id="bandeau_detail" class="customScrollBar" style="display:none">
+    <section id="bandeau_detail" class="customScrollBar insideNavigationMode" style="display:none">
       <div id="detail_provider">
       </div>      
       {% include '::Components/menu-provider.html.twig'  %}
@@ -69,8 +69,18 @@
   
   <script src="{{ asset('js/libs.min.js') }}"></script>  
   <script src="{{ asset('js/main.js') }}"></script>
+
+  {# {% javascripts filter="?jsqueeze"
+        "assets/js/components/inputAddress.js" 
+        "assets/js/commons.js"      
+        "assets/js/constelisting/*"
+        "assets/js/listing/*"
+        
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %} #}
     
-{#     {% javascripts filter="?jsqueeze"
+    {# {% javascripts filter="?jsqueeze"
         "assets/js/libs/jquery-2.2.1.min.js" 
         "assets/js/libs/jquery-ui.min.js"           
         "assets/js/libs/cluster/cluster-commons.js"

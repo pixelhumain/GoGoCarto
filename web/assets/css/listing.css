@@ -3451,8 +3451,12 @@ select {
   #bandeau_detail .providerItem .menu-provider {
     display: none; }
   #bandeau_detail .providerItem .iconMainProduct {
-    display: block; }
+    display: none; }
   #bandeau_detail .providerItem .starNamesIcons {
+    display: block; }
+  #bandeau_detail.insideNavigationMode .iconMainProduct {
+    display: block; }
+  #bandeau_detail.insideNavigationMode .starNamesIcons {
     display: none; }
   #bandeau_detail .providerItem .collapsible-header-title .distance {
     padding-right: 3rem;

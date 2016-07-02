@@ -13,7 +13,13 @@
 
     .providerItem
     {
-        .menu-provider { display: none; }  
+        .menu-provider { display: none; } 
+        .iconMainProduct { display:none; }
+        .starNamesIcons { display:block; }        
+    }
+
+    &.insideNavigationMode
+    {
         .iconMainProduct { display:block; }
         .starNamesIcons { display:none; }
     }

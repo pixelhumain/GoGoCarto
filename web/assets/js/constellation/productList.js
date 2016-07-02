@@ -1,4 +1,4 @@
-var slideOptions = { duration: 450, easing: "easeOutQuart", queue: false, complete: function() {}};
+var slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
 jQuery(document).ready(function()
 {
@@ -36,7 +36,11 @@ if (constellationMode)
 			}
 			else
 			{
-				$('#ProductsList').animate({scrollTop: '+='+$(this).position().top}, 500);
+				var that = this;
+				setTimeout(function() 
+				{
+					$('#ProductsList').animate({scrollTop: '+='+$(that).position().top}, 500);
+				}, 400);
 				animate_down_bandeau_detail();
 			}		
 		}		
