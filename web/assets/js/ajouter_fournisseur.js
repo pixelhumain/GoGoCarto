@@ -130,7 +130,7 @@ function geocodeAddress( address ) {
 var first_maj_form_with_type_done = false;
 function maj_form_with_type( init )
 {
-	window.console.log("maj_form_with_type val = " + $('#type_provider').val());
+	//window.console.log("maj_form_with_type val = " + $('#type_provider').val());
 	if ($('#type_provider').val() == 0) return; 
 
 	init = typeof init !== 'undefined' ? init : true;
@@ -193,7 +193,7 @@ function maj_form_with_type( init )
 
 function maj_with_main_product(mainProduct)
 {
-	$('.checkbox_products.readonly').removeClass('.readonly').click();
+	$('.checkbox_products.readonly').removeClass('readonly');
 	$('#biopen_fournisseurbundle_provider_listeProducts_'+mainProduct).prop('checked', true).addClass('readonly').change();
 }
 

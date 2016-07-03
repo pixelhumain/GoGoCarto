@@ -10,17 +10,21 @@
   <div class="collapsible-header">
     
     <div class='collapsible-header-title row {{provider.mainProduct|lower}} {{provider.type}}'>    
-      <span class="col s9  name ">
+      <span class="col s12 name ">
         <span class="iconMainProduct icon icon-{{provider.mainProduct|lower}} hideOnLargeScreen"></span>
         <span class="starNamesIcons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
             {% endfor %}
-        </span>
-        <b>{{ provider.name|capitalize }}</b></span>
+        </span>   
+           
+        <span class="icon icon-close" id="btn-close-bandeau-detail"></span>
         {% if provider.distance != null %}
-          <span class="col s3 right-align distance">{{ provider.distance }} km</span>
-        {% endif %}
+          <span class="right-align distance">{{ provider.distance }} km</span>
+        {% endif %}  
+        {{ provider.name|capitalize }}
+      </span>
+      
     </div>
 
     <div class='collapsible-header-more row'>

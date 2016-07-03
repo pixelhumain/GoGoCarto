@@ -7,7 +7,11 @@ function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true)
 {
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
-	
+	$('#btn-close-bandeau-detail').click(function()
+	{  
+		animate_down_bandeau_detail();
+		return false;
+	}); 
 	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
 	animate_up_bandeau_detail();
 };

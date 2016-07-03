@@ -3226,6 +3226,9 @@ select {
   background-image: none !important;
   height: 0px; }
 
+@font-face {
+  font-family: 'freestyle';
+  src: url("../font/Freestyle.ttf"); }
 body {
   text-align: center;
   background-color: #2f2f2f;
@@ -3244,16 +3247,26 @@ section#mainContainer {
   position: relative; }
   section#mainContainer h1 {
     position: absolute;
+    font-family: 'freestyle';
     text-shadow: 2px 2px 2px #20211e;
-    font-size: 5rem;
-    top: -5.7rem;
+    font-size: 8rem;
+    top: -7.3rem;
     left: 0;
     right: 0; }
-  section#mainContainer #inputAddress {
+  section#mainContainer #inputAdressContainer {
+    position: relative;
     width: 90%;
+    padding-right: 1rem;
+    margin: 0 auto;
+    margin-top: 1.5rem; }
+  section#mainContainer #inputAddress {
+    width: 100%;
     margin-bottom: 2rem;
     border: none;
-    background-color: #ececec; }
+    background-color: #ececec;
+    color: black; }
+    section#mainContainer #inputAddress:focus {
+      background-color: #fdfdfd; }
     section#mainContainer #inputAddress::-webkit-input-placeholder {
       color: dimgrey; }
     section#mainContainer #inputAddress::-moz-placeholder {
@@ -3264,16 +3277,17 @@ section#mainContainer {
       color: dimgrey; }
   section#mainContainer #inputAddress-icon {
     position: absolute;
-    left: 3rem;
     line-height: 3.4rem;
     font-size: 1.4rem;
     color: dimgrey; }
+  section#mainContainer .ui-effects-wrapper {
+    display: inline-block; }
   section#mainContainer .choiceModeContainer {
     width: 40%;
     display: inline-block;
     margin: 0 .8rem; }
     section#mainContainer .choiceModeContainer .btnChoiceMode {
-      background-color: #ee6e73; }
+      background-color: #af3f43; }
   section#mainContainer .divider {
     margin-bottom: 1.5rem; }
   section#mainContainer .btnParticipate {

@@ -3458,9 +3458,6 @@ select {
     display: block; }
   #bandeau_detail.insideNavigationMode .starNamesIcons {
     display: none; }
-  #bandeau_detail .providerItem .collapsible-header-title .distance {
-    padding-right: 3rem;
-    padding-left: 0; }
   #bandeau_detail #detail_provider {
     margin-bottom: 2.3rem; }
     @media only screen and (min-width: 601px) {
@@ -3469,11 +3466,11 @@ select {
     #bandeau_detail #detail_provider .moreDetails {
       display: none; }
   #bandeau_detail .icon-close {
-    position: absolute;
-    top: 1rem;
-    right: .5rem;
+    float: right;
+    margin: 0;
     font-size: 1.2rem;
-    color: #3D3D3D; }
+    color: #3D3D3D;
+    margin-top: -.1rem; }
     #bandeau_detail .icon-close:hover {
       color: #4A7874;
       cursor: pointer; }
@@ -3491,6 +3488,10 @@ select {
     -webkit-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
     -moz-box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75);
     box-shadow: 0px 6px 9px 4px rgba(119, 119, 119, 0.75); }
+    #bandeau_detail .iconMainProduct {
+      display: none !important; }
+    #bandeau_detail .starNamesIcons {
+      display: none !important; }
     #bandeau_detail .icon-close {
       background-color: #3D3D3D;
       padding-left: 1rem;
@@ -3503,24 +3504,7 @@ select {
   #detail_provider .moreDetails {
     display: block !important; }
   #detail_provider .hideOnLargeScreen {
-    display: none !important; }
-  #detail_provider .collapsible-header {
-    background-color: #3D3D3D;
-    color: white;
-    cursor: default;
-    position: absolute;
-    width: 100%;
-    top: 0; }
-    #detail_provider .collapsible-header .name, #detail_provider .collapsible-header .description {
-      width: 100% !important;
-      text-align: center; }
-    #detail_provider .collapsible-header .description {
-      margin-bottom: 0; }
-  #detail_provider .collapsible-body {
-    margin-top: 6rem;
-    margin-bottom: 3rem;
-    height: 100%;
-    overflow-y: auto; } }
+    display: none !important; } }
 .providerItem {
   list-style-type: none; }
   .providerItem h3 {
@@ -3550,8 +3534,13 @@ select {
       margin-bottom: 0rem;
       overflow: hidden;
       text-overflow: ellipsis;
-      height: 3rem;
+      line-height: 2rem;
+      margin: .5rem 0;
+      font-weight: bold;
       /* @extend .colorAs; */ }
+      .providerItem .collapsible-header .collapsible-header-title .distance {
+        float: right;
+        margin: 0 1rem; }
     .providerItem .collapsible-header .collapsible-header-more {
       line-height: 1.5rem;
       margin-bottom: .5rem; }
@@ -3603,6 +3592,36 @@ select {
         color: #BFBFBF; }
       .providerItem .collapsible-body .sectionDetailProducts .product.disabled {
         color: #9C9C9C; }
+  @media only screen and (min-width: 1201px) {
+    .providerItem .collapsible-header {
+      background-color: #3D3D3D;
+      color: white;
+      cursor: default;
+      position: absolute;
+      width: 100%;
+      top: 0; }
+      .providerItem .collapsible-header .collapsible-header-title {
+        position: relative;
+        margin-bottom: .8rem;
+        line-height: 3rem;
+        font-weight: normal; }
+        .providerItem .collapsible-header .collapsible-header-title .distance {
+          font-size: 1.3rem; }
+        .providerItem .collapsible-header .collapsible-header-title .icon-close {
+          font-size: 1.5rem;
+          margin-top: 0; }
+      .providerItem .collapsible-header .name {
+        font-size: 1.8rem; }
+      .providerItem .collapsible-header .name, .providerItem .collapsible-header .description {
+        width: 100% !important;
+        text-align: left; }
+      .providerItem .collapsible-header .description {
+        margin-bottom: 0; }
+    .providerItem .collapsible-body {
+      margin-top: 6rem;
+      margin-bottom: 3rem;
+      height: 100%;
+      overflow-y: auto; } }
   .providerItem.smallWidth .col.s1 {
     width: 8.33333%;
     margin-left: 0; }

@@ -2,6 +2,13 @@
 @import 'vendors/materialize';
 @import 'components/inputAddress';
 
+
+@font-face 
+{ 
+  font-family: 'freestyle'; 
+  src: url('../font/Freestyle.ttf'); 
+}
+
 body
 {
 	text-align: center;
@@ -25,19 +32,35 @@ section#mainContainer
 	h1
 	{
 		position: absolute;
+		font-family: 'freestyle';
 		text-shadow: 2px 2px 2px rgb(32, 33, 30);
-	    font-size: 5rem;
-	    top: -5.7rem;
+	    font-size: 8rem;
+    	top: -7.3rem;
 	    left: 0;
 	    right: 0;
 	}
 
+	#inputAdressContainer
+	{
+		position: relative;
+		width: 90%;
+		padding-right:1rem;
+		margin: 0 auto;
+		margin-top: 1.5rem;		
+	}
+
 	#inputAddress
 	{
-		width: 90%;
+		width: 100%;
 	    margin-bottom: 2rem;
 	    border: none;
 	    background-color: #ececec;
+	    color:black;
+
+	    &:focus
+	    {
+	    	background-color: #fdfdfd;
+	    }
 
 	    &::-webkit-input-placeholder { 
 			color: dimgrey;
@@ -53,15 +76,18 @@ section#mainContainer
 		}
 	}
 
-	#inputAddress-icon {
+	#inputAddress-icon 
+	{
 	    position: absolute;
-	    left: 3rem;
 	    line-height: 3.4rem;
 	    font-size: 1.4rem;
 	    color: dimgrey;
 	}
 
-	
+	.ui-effects-wrapper 
+	{    
+    	display: inline-block;
+	}	
 
 	.choiceModeContainer
 	{
@@ -69,7 +95,7 @@ section#mainContainer
 		display: inline-block;
 		margin: 0 .8rem;
 
-		.btnChoiceMode { background-color: $primary-color; }
+		.btnChoiceMode { background-color: #af3f43; }
 	}
 
 	.divider { margin-bottom : 1.5rem; }

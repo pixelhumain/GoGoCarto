@@ -18,24 +18,26 @@
 
 		<h1>Mon voisin fait du bio</h1>
 
-		<div class="input-field" >
+		<div class="input-field" id="inputAdressContainer" >
 			<a class="icon-search" id="inputAddress-icon"></a> 
 			<input class="validate" placeholder="Entrez une adresse" type="text" id="inputAddress" name="adresse"/>
 		</div>
 
 		<div class="choiceModeContainer right-align">
-			<button class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
+			<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
 			<p>Naviguez librement sur la cate en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
 		</div>
 		
 		<div class="choiceModeContainer left-align">
-			<button class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
+			<button id="btn-constellation" class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
 			<p>Visualisez en un clin d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p>
 		</div>
 
 		<div class="divider"></div>
 
-		<button class="btnParticipate btn waves-effect waves-light">Participer</button>
+		<a href="{{ path('biopen_fournisseur_add') }}">
+			<button class="btnParticipate btn waves-effect waves-light">Participer</button>
+		</a>
 		<p>Aidez-nous à agrandir notre base de donnée en ajouatnt un fournisseur</p>
 	
 </section>

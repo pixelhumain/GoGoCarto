@@ -2,14 +2,7 @@ jQuery(document).ready(function()
 {	
 	//   MENU PROVIDER
 	var menu_provider = $('#bandeau_detail .menu-provider');
-	createListenersForProviderMenu(menu_provider);
-
-	$('#btn-close-bandeau-detail').click(function()
-	{  
-	    window.console.log("close on click");
-		animate_down_bandeau_detail();
-		return false;
-	}); 
+	createListenersForProviderMenu(menu_provider);	
 });
 
 function createListenersForProviderMenu(object)

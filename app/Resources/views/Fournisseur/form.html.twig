@@ -61,7 +61,7 @@
 
 	<script>
 	var editMode = false;
-	{% if editMode is defined %} editMode = {{ editMode }}; {% endif %}
+	{% if editMode %} editMode = true; {% endif %}
 	</script>
 
 	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

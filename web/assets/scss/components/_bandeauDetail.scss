@@ -22,10 +22,7 @@
     {
         .iconMainProduct { display:block; }
         .starNamesIcons { display:none; }
-    }
-
-    // on met du padding pour laisser la place au bouton close
-    .providerItem .collapsible-header-title .distance { padding-right: 3rem; padding-left: 0;}    
+    }     
 
     #detail_provider
     {
@@ -43,11 +40,11 @@
 
     .icon-close 
     {
-        position: absolute;
-        top: 1rem;
-        right: .5rem;
+        float: right;
+        margin: 0;
         font-size: 1.2rem;
         color: #3D3D3D;
+        margin-top: -.1rem;
 
         &:hover
         {
@@ -76,6 +73,9 @@
 
         @include box-shadow-1(0px 6px 9px 4px rgba(119, 119, 119, 0.75));
 
+        .iconMainProduct { display:none !important; }
+        .starNamesIcons { display:none !important; } 
+
         .icon-close
         {
             background-color: #3D3D3D;
@@ -101,28 +101,6 @@
         .hideOnLargeScreen
         {
             display:none !important;
-        }
-
-        .collapsible-header
-        {
-            background-color: $submenu-color;
-            color: white;
-            cursor: default;
-
-            position: absolute;
-            width: 100%;
-            top: 0;
-
-            .name, .description { width: 100% !important; text-align: center}
-            .description { margin-bottom : 0;  }
-        }
-
-        .collapsible-body
-        {
-            margin-top: 6rem;
-            margin-bottom: 3rem;
-            height: 100%;
-            overflow-y: auto;
-        }
+        }        
     }   
 }
