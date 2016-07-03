@@ -13,7 +13,7 @@ function distancePixelBetweenPoints(p1, p2, projection)
 function updateIconOfIndependantMarkersGroup(markers) 
 {
   //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
-  if (markers == null || markers.length == 0) return;
+  if (markers === null || markers.length === 0) return;
 
   var content;
   for (i= 0; i < markers.length; i++)

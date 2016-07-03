@@ -5,7 +5,7 @@
     position: relative;   
     
     will-change:height;
-    @include transition(height .5s);  
+    @include transition(height .5s);       
 
     @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));  
 
@@ -52,11 +52,6 @@
             cursor: pointer;
         }
     }
-
-    &.starRepresentantMode
-    {
-        .icon-close { top: 4rem; }
-    }
 }
 
 @media #{$large-and-up}
@@ -83,11 +78,6 @@
             color: #CECECE;
 
             &:hover { color: white; }
-        }
-
-        &.starRepresentantMode
-        {
-            .collapsible-header { top: 3rem; }
         }
     }    
 

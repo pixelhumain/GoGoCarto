@@ -47,7 +47,7 @@ if (constellationMode)
 	});
 
 	// Click sur un des choix des représentants de l'étoile
-	$('.moreResultProviderItem').click(function() { GLOBAL.getSRCManager().selectProviderIndex( $(this).attr('data-provider-index') ) });
+	$('.moreResultProviderItem').click(function() { GLOBAL.getSRCManager().selectProviderIndex( $(this).attr('data-provider-index') ); });
 
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
@@ -81,7 +81,7 @@ function clearProductList()
 	{
 		var otherContainerVisible = $('.moreResultContainer.active').first();
 		otherContainerVisible.stop(true,false).slideUp(slideOptions);
-		otherContainerVisible.removeClass("active")
+		otherContainerVisible.removeClass("active");
 		GLOBAL.getSRCManager().end();
 	}	
 }

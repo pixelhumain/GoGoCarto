@@ -23,7 +23,7 @@ jQuery(document).ready(function()
 	var res;
 	window.onresize = function() 
 	{
-	    if (res) {clearTimeout(res) };
+	    if (res) {clearTimeout(res); }
 	    res = setTimeout(ajuster_taille_composants,200);
 	};	
 
@@ -88,10 +88,10 @@ function ajuster_taille_composants()
 {	
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
 	$('#page_content').css('height','auto');
-	$("#div_map_and_products").css('height',$( window ).height()
-		-$('header').height()
-		-$('#bandeau_goToProviderList:visible').outerHeight(true));
 
+	var map_and_products_height = $(window).height() - $('header').height();
+	map_and_products_height -= $('#bandeau_goToProviderList:visible').outerHeight(true);
+	$("#div_map_and_products").css('height',map_and_products_height);
 
 	ajuster_taille_providerList();
 	ajuster_tailler_info_provider();	
@@ -116,8 +116,10 @@ function ajuster_taille_providerList()
 }
 
 var matchMediaBigSize_old;
-function ajuster_taille_carte(bandeau_detail_height = $('#bandeau_detail').outerHeight(true))
+function ajuster_taille_carte(bandeau_detail_height)
 {		
+	bandeau_detail_height = bandeau_detail_height || $('#bandeau_detail').outerHeight(true);
+
 	if("matchMedia" in window) 
 	{	
 		if (window.matchMedia("(max-width: 1200px)").matches) 
@@ -168,10 +170,10 @@ function ajuster_tailler_info_provider()
 		else 
 		{			
 		  	var bandeau_detail = $("#bandeau_detail");
-		  	var height = bandeau_detail.outerHeight(true)
-		  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
-		  				-bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true)
-		  				-bandeau_detail.find(".menu-provider").outerHeight(true);
+		  	var height = bandeau_detail.outerHeight(true);
+			height -= bandeau_detail.find('.collapsible-header').outerHeight(true);
+			height -= bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true);
+			height -= bandeau_detail.find(".menu-provider").outerHeight(true);
 
 		  	$('#bandeau_detail .collapsible-body').css('height', height);
 		  	$('#bandeau_detail .collapsible-body').css('margin-top', bandeau_detail.find('.collapsible-header').outerHeight(true)+bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true));

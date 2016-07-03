@@ -3,6 +3,7 @@ function BiopenMarker(id_, position_)
 	var that = this;
 
 	this.id_ = id_;
+	this.isAnimating_ = false;
 
 	if (!position_)
 	{
@@ -23,24 +24,33 @@ function BiopenMarker(id_, position_)
 	
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
+		ev.preventDefault();
+		ev.stopPropagation();
+
 		if (GLOBAL.constellationMode())
 		{
 			if (that.isHalfHidden_) clearProductList();
 		}		
 		showProviderInfosOnMap(that.id_);
-		ev.preventDefault();
-		ev.stopPropagation();
-		event.preventDefault();
+
+		if (GLOBAL.getState() == 'starRepresentationChoice')
+		{
+			GLOBAL.getSRCManager().selectProviderById(that.id_);
+		}
+		
+		//event.preventDefault();
     });
 
 	
     google.maps.event.addListener(this.richMarker_, 'mouseover', function(ev) 
 	{
+		if (that.isAnimating_) { return; }
 		if (!that.isHalfHidden_) that.showBigSize();
     });
 
     google.maps.event.addListener(this.richMarker_, 'mouseout', function(ev) 
 	{
+        if (that.isAnimating_) { return; }
         that.showNormalSize();
     });
 
@@ -57,8 +67,10 @@ function BiopenMarker(id_, position_)
 BiopenMarker.prototype.animateDrop = function () 
 {
 	content = this.richMarker_.getContent(); 
+	this.isAnimating_ = true;
+	var that = this;
 	$(content).animate({top: '-=25px'}, 300, 'easeInOutCubic');
-	$(content).animate({top: '+=25px'}, 250, 'easeInOutCubic');
+	$(content).animate({top: '+=25px'}, 250, 'easeInOutCubic', function(){that.isAnimating_ = false;});
 };
 
 BiopenMarker.prototype.updateIcon = function () 
@@ -146,8 +158,7 @@ BiopenMarker.prototype.removeClassToRichMarker_ = function (classToRemove)
 };
 
 BiopenMarker.prototype.showBigSize = function () 
-{		
-	
+{			
 	this.addClassToRichMarker_("BigSize");
 	content = this.richMarker_.getContent(); 
 	$(content).find('.moreIconContainer').show();

@@ -1,4 +1,4 @@
-function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_, options)
+function drawLineBetweenPoints(point1, point2, providerType, map_, options)
 {
   	var LineStart = point1;
   	var LineEnd = point2;
@@ -8,7 +8,7 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
     	{lat: LineEnd.lat(), lng: LineEnd.lng()}
   	];
 
-  	var options = options || {};
+  	options = options || {};
   	// valeurs par default
   	options.lineType = options.lineType || 'normal';
   	options.strokeOpacity = options.strokeOpacity || 0.5;
@@ -25,9 +25,11 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
 	    case 'epicerie': color = '#383D5A'; break;
 	}
 
+	var poly;
+
 	if (options.lineType == 'dashed')
 	{
-		var poly = new google.maps.Polyline({
+		poly = new google.maps.Polyline({
 			path: LineArray,
 			strokeOpacity: 0,
 			icons: [{
@@ -46,7 +48,7 @@ function drawLineBetweenPoints(point1, point2, providerType = 'producteur', map_
 	}
 	else
 	{
-		var poly = new google.maps.Polyline({
+		poly = new google.maps.Polyline({
 			path: LineArray,
 			strokeColor: color,
 			strokeOpacity: options.strokeOpacity,

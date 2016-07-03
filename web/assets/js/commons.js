@@ -11,9 +11,9 @@ jQuery(document).ready(function()
 	});
 });
 
-function redirectToConstelisting(route, address = '', range = '')
+function redirectToConstelisting(route, address, range)
 {
-	if (range == '') window.location.href = Routing.generate(route, { slug : slugify(address) });
+	if (!range) window.location.href = Routing.generate(route, { slug : slugify(address) });
 	else window.location.href = Routing.generate(route, { slug : slugify(address), distance : range});
 }
 

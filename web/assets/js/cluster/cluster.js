@@ -35,7 +35,7 @@ Cluster.prototype.getSize = function () {
 };
 
 Cluster.prototype.setLabel = function (label) {
-  return this.label_ = label.toString() ;
+  this.label_ = label.toString() ;
 };
 
 Cluster.prototype.getLabel = function () {
@@ -54,7 +54,7 @@ Cluster.prototype.isProcessDone = function ()
 
 Cluster.prototype.setProcessDone = function (bool) 
 {
-  return this.isProcessDone_ = bool;
+  this.isProcessDone_ = bool;
 };
 
 
@@ -195,7 +195,7 @@ Cluster.prototype.addMarker = function (marker, distance) {
 
 Cluster.prototype.checkForSimpleClustering = function () 
 {
-  if (this.kernelMarkers_ == null)
+  if (this.kernelMarkers_ === null)
   {
     window.console.error("KernelMarlers null");
     return;
@@ -212,14 +212,14 @@ Cluster.prototype.checkForSimpleClustering = function ()
 
   // si le cluster contient au plus 3 marqueur dans le noyau et aucun en 
   // périphérie, on peut les dessiner
-  if (this.kernelMarkers_.length <= 3 && orbiteMarkers.length == 0) 
+  if (this.kernelMarkers_.length <= 3 && orbiteMarkers.length === 0) 
   {
       //window.console.log ('Cluster '+this.label_+' Juste marqueur dans kernel -> expanded');
       updateIconOfIndependantMarkersGroup(this.kernelMarkers_);
       this.isProcessDone_ = true;
       return;
   }
-}
+};
 
 
 Cluster.prototype.getVisibleFakeMarkers = function () 
@@ -236,13 +236,13 @@ Cluster.prototype.removeElectronMarker = function (marker)
 {
   var index = this.electronMarkers_.indexOf(marker);
   if (index > -1) this.electronMarkers_.splice(index, 1);
-}
+};
 
 
 Cluster.prototype.addFakeMarker = function (marker) 
 {
   this.fakeMarkers_.push(marker);
-}
+};
 
 
 /**

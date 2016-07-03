@@ -5,32 +5,37 @@
 {# Stylessheets #}
 {% block stylesheets %}
 
+	<link href="https://fonts.googleapis.com/css?family=Yellowtail" rel="stylesheet"> 
 	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">		
 
 {% endblock %}
 
 
 {# BODY CONTENT #}
 {% block body %}
-
-<section id="mainContainer">	
+<div id="mainWrapper" class="valign-wrapper">
+	<section id="mainContainer" class="valign">	
 
 		<h1>Mon voisin fait du bio</h1>
+
+		<h2>L'annuaire intéractif de l'alimentation près de chez soi</h2>
 
 		<div class="input-field" id="inputAdressContainer" >
 			<a class="icon-search" id="inputAddress-icon"></a> 
 			<input class="validate" placeholder="Entrez une adresse" type="text" id="inputAddress" name="adresse"/>
 		</div>
 
-		<div class="choiceModeContainer right-align">
-			<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
-			<p>Naviguez librement sur la cate en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
-		</div>
-		
-		<div class="choiceModeContainer left-align">
-			<button id="btn-constellation" class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
-			<p>Visualisez en un clin d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p>
+		<div class="row">
+			<div class="col s6 choiceModeContainer right-align">
+				<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
+				<p>Naviguez librement sur la cate en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
+			</div>
+			
+			<div class="col s6 choiceModeContainer left-align">
+				<button id="btn-constellation" class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
+				<p>Visualisez en un coup d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p>
+			</div>
 		</div>
 
 		<div class="divider"></div>
@@ -40,8 +45,8 @@
 		</a>
 		<p>Aidez-nous à agrandir notre base de donnée en ajouatnt un fournisseur</p>
 	
-</section>
-
+	</section>
+</div>
 
 {% endblock %}
 

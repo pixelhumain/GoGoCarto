@@ -6,12 +6,13 @@ function initMap()
 	initRichMarker();	
 
 	initInputAddressAutocompletion();
+	var mapOptions;
 
-	if (constellationMode || geocodeResponse == null)
+	if (constellationMode || geocodeResponse === null)
 	{
 		// basics settings for the map 
 		var latlng = new google.maps.LatLng(46.897045, 2.425235);
-		var mapOptions = {
+		mapOptions = {
 			zoom: 6,
 			center: latlng,
 			disableDefaultUI: true,
@@ -21,7 +22,7 @@ function initMap()
 	else
 	{
 		var center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
-		var mapOptions = {
+		mapOptions = {
 			zoom: 10,
 			center: center,
 			disableDefaultUI: true,
@@ -47,11 +48,13 @@ function initMap()
 
 function initialize(map)
 {
+	var constellation, providerManager, markerManager;
+
 	if (constellationMode)
 	{
-		var constellation = new Constellation(constellationRawJson);	
-		var providerManager = new ProviderManager(providerListJson);
-		var markerManager = new MarkerManager();	
+		constellation = new Constellation(constellationRawJson);	
+		providerManager = new ProviderManager(providerListJson);
+		markerManager = new MarkerManager();	
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
 
 		GLOBAL.getMarkerManager().createMarkers();
@@ -65,9 +68,9 @@ function initialize(map)
 	}
 	else
 	{
-		var constellation = null;	
-		var providerManager = new ProviderManagerListing(providerListJson);
-		var markerManager = null;	
+		constellation = null;	
+		providerManager = new ProviderManagerListing(providerListJson);
+		markerManager = null;	
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
 
 		initCluster(null);
@@ -102,7 +105,7 @@ function initCluster(markersToCluster)
 	    gridSize: 40, 
 	    maxZoom: 17,
 	    automaticRepaint: GLOBAL.constellationMode(),
-	}
+	};
 
     var cluster = new MarkerClusterer(GLOBAL.getMap(), markersToCluster, clusterOptions);
     GLOBAL.setClusterer(cluster);

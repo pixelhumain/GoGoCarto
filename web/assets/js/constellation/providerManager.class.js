@@ -89,5 +89,5 @@ ProviderManager.prototype.getProviderById = function (providerId)
 	for (var i = 0; i < this.providers_.length; i++) 
 	{
 		if (this.providers_[i].getId() == providerId) return this.providers_[i];
-	};
+	}
 };

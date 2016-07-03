@@ -27,11 +27,10 @@ function panMapToAddress( address ) {
 			map.panTo(results[0].geometry.location);
 			map.setZoom(11);
 
-			$('#inputAddress').val(results[0].formatted_address)
+			$('#inputAddress').val(results[0].formatted_address);
 		} 	
 		else
 		{
-			windo
 			$('#inputAddress').addClass('invalid');
 		}
 	});

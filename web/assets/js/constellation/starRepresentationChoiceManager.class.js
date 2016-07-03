@@ -16,9 +16,9 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	GLOBAL.getProviderManager().focusOnThesesProviders(star.getName(), idToFocus);
 	GLOBAL.getClusterer().repaint();
 
-	$('.SRC-helper-starName').html(star.getName());
-	$('#bandeau_detail').addClass('starRepresentantMode'),
-	$('.starRepresentationChoice-helper').show();
+	//$('.SRC-helper-starName').html(star.getName());
+	//$('#bandeau_detail').addClass('starRepresentantMode');
+	//$('.starRepresentationChoice-helper').show();
 
 	this.majView();	
 
@@ -37,10 +37,10 @@ StarRepresentationChoiceManager.prototype.end = function ()
 
 	animate_down_bandeau_detail(); 
 
-	$('.starRepresentationChoice-helper').hide();
-	$('#bandeau_detail').removeClass('starRepresentantMode'),
+	//$('.starRepresentationChoice-helper').hide();
+	//$('#bandeau_detail').removeClass('starRepresentantMode');
 
-	ajuster_taille_providerList();
+	//ajuster_taille_providerList();
 
 	GLOBAL.setState('normal');
 };
@@ -65,7 +65,7 @@ StarRepresentationChoiceManager.prototype.majView = function ()
 
 StarRepresentationChoiceManager.prototype.selectProviderById = function (providerId)
 {
-	var providerIndex = this.currentStar_.getProviderIndexFromId(providerId)
+	var providerIndex = this.currentStar_.getProviderIndexFromId(providerId);	
 	this.selectProviderIndex(providerIndex);
-} ;
+};
 

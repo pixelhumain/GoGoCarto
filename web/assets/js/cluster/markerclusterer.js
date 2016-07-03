@@ -653,7 +653,9 @@ MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw)
  * @param {Array.<google.maps.Marker>} markers The markers to add.
  * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
  */
-MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw = true) {
+MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw) 
+{
+  opt_nodraw = opt_nodraw|| true;
   var key;
   for (key in markers) {
     if (markers.hasOwnProperty(key)) {
@@ -697,7 +699,9 @@ MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
  * @param {boolean} [opt_nodraw] Set to <code>true</code> to prevent redrawing.
  * @return {boolean} True if the marker was removed from the clusterer.
  */
-MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw = true) {
+MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw) {
+  opt_nodraw = opt_nodraw || true;
+
   var removed = this.removeMarker_(marker);
 
   if (!opt_nodraw && removed) {
@@ -909,7 +913,8 @@ MarkerClusterer.prototype.isMarkerInBounds_ = function (marker, bounds) {
  *
  * @param {google.maps.Marker} marker The marker to add.
  */
-MarkerClusterer.prototype.addToClosestCluster_ = function (marker) {
+MarkerClusterer.prototype.addToClosestCluster_ = function (marker) 
+{
   var i, curr_distance, cluster, center;
   var best_distance = this.clusterRadius_; 
   var clusterToAddTo = null;
@@ -939,11 +944,12 @@ MarkerClusterer.prototype.addToClosestCluster_ = function (marker) {
 
   if (clusterToAddTo) 
   {
+    var cluster_tmp;
     for (i = 0; i < clustersContainingMarker.length; i++)
     {
-      var cluster = clustersContainingMarker[i];
-      if (cluster == clusterToAddTo) cluster.addMarker(marker, best_distance);
-      else cluster.addFakeMarker(marker);
+      cluster_tmp = clustersContainingMarker[i];
+      if (cluster_tmp == clusterToAddTo) cluster_tmp.addMarker(marker, best_distance);
+      else cluster_tmp.addFakeMarker(marker);
     }
   } 
   else 
@@ -1019,7 +1025,7 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
     marker = this.markers_[i];
     //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
-      if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() != null && marker.checkCluster)) 
+      if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() !== null && marker.checkCluster)) 
       {
         this.addToClosestCluster_(marker);
       }
@@ -1166,7 +1172,7 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
               var new_adjacentMarkers = this.lookForMarkersGroupAround(marker, markers, adjacentMarkers);              
               
               // return null signifie qu'on a rencontré un groupe d'au moins 4 marqueurs
-              if (new_adjacentMarkers == null) 
+              if (new_adjacentMarkers === null) 
               {
                 cluster1.showAsCluster();
                 break;
@@ -1220,23 +1226,25 @@ MarkerClusterer.prototype.lookForMarkersGroupAround = function (marker, markers,
     var result = [];
     result = result.concat(new_adjacentMarkers);
 
+    var child_adjacentsMarker;
+
     // Très moche.
     // Problème dans la boucle qui permettrait de faire ça de manière plus propre
     // parfois elle compute à l'infini
     if (new_adjacentMarkers.length == 1)
     {
-      var child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
-      if (child_adjacentsMarker == null) return null; 
+      child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker === null) return null; 
       result = result.concat(child_adjacentsMarker);
     }
     else if (new_adjacentMarkers.length == 2)
     {
-      var child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
-      if (child_adjacentsMarker == null) return null; 
+      child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[0], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker === null) return null; 
       result = result.concat(child_adjacentsMarker);
 
-      var child_adjacentsMarker2 = this.lookForMarkersGroupAround(new_adjacentMarkers[1], markers, result.concat(curr_adjacentMarkers) );
-      if (child_adjacentsMarker2 == null) return null; 
+      child_adjacentsMarker2 = this.lookForMarkersGroupAround(new_adjacentMarkers[1], markers, result.concat(curr_adjacentMarkers) );
+      if (child_adjacentsMarker2 === null) return null; 
       result = result.concat(child_adjacentsMarker2);
     }
     else if (new_adjacentMarkers.length > 2) return null;
@@ -1245,7 +1253,7 @@ MarkerClusterer.prototype.lookForMarkersGroupAround = function (marker, markers,
     /*for( j = 0; j < new_adjacentMarkers.length; j++)
     {      
       child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
-      if (child_adjacentsMarker == null) return null; 
+      if (child_adjacentsMarker === null) return null; 
       result = result.concat(child_adjacentsMarker);
     }*/
 

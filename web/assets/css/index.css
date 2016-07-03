@@ -3237,8 +3237,12 @@ body {
   background-size: cover;
   color: white; }
 
+#mainWrapper {
+  height: 100%;
+  width: 100%;
+  position: relative; }
+
 section#mainContainer {
-  top: 150px;
   width: 80%;
   background-color: rgba(20, 20, 20, 0.8);
   margin: 0 auto;
@@ -3247,12 +3251,17 @@ section#mainContainer {
   position: relative; }
   section#mainContainer h1 {
     position: absolute;
-    font-family: 'freestyle';
-    text-shadow: 2px 2px 2px #20211e;
-    font-size: 8rem;
-    top: -7.3rem;
+    font-family: 'Yellowtail', cursive;
+    text-shadow: 3px 3px 3px #000000;
+    font-size: 6rem;
+    top: -6.4rem;
+    letter-spacing: 2px;
     left: 0;
     right: 0; }
+  section#mainContainer h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    margin-top: 1rem; }
   section#mainContainer #inputAdressContainer {
     position: relative;
     width: 90%;
@@ -3282,12 +3291,8 @@ section#mainContainer {
     color: dimgrey; }
   section#mainContainer .ui-effects-wrapper {
     display: inline-block; }
-  section#mainContainer .choiceModeContainer {
-    width: 40%;
-    display: inline-block;
-    margin: 0 .8rem; }
-    section#mainContainer .choiceModeContainer .btnChoiceMode {
-      background-color: #af3f43; }
+  section#mainContainer .choiceModeContainer .btnChoiceMode {
+    background-color: #af3f43; }
   section#mainContainer .divider {
     margin-bottom: 1.5rem; }
   section#mainContainer .btnParticipate {

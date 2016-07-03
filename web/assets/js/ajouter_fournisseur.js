@@ -12,14 +12,14 @@ jQuery(document).ready(function()
 	if ($('#type_provider').val())
 	{
 		maj_form_with_type(false);
-		maj_with_main_product($("#mainProductSelection").val())
+		maj_with_main_product($("#mainProductSelection").val());
 	}
 
 	// CHECK si un type de provider est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
-	if (GET['type']) 
+	if (GET.type) 
 	{
-		$('#type_provider > option[value="'+GET['type']+'"]').prop('selected',true);
+		$('#type_provider > option[value="'+GET.type+'"]').prop('selected',true);
 		maj_form_with_type(false);
 	}	
 	
@@ -37,7 +37,7 @@ jQuery(document).ready(function()
 	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
 
 	// quand on check un product l'input de pr?cision apparait ou disparait
-	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly') });
+	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly'); });
 	$('.checkbox_products').change(function()
 	{
         if ($(this).is(':checked')) 
@@ -74,7 +74,7 @@ function initMap()
 		center: latlng,
 		disableDefaultUI: true,
 		zoomControl: true
-	}
+	};
 	
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
 	
@@ -131,7 +131,7 @@ var first_maj_form_with_type_done = false;
 function maj_form_with_type( init )
 {
 	//window.console.log("maj_form_with_type val = " + $('#type_provider').val());
-	if ($('#type_provider').val() == 0) return; 
+	if ($('#type_provider').val() === 0) return; 
 
 	init = typeof init !== 'undefined' ? init : true;
 	
@@ -145,7 +145,7 @@ function maj_form_with_type( init )
 			// on augmente la taille de "form_content" pour l'animation
 			$('#form_content').css('height',$("#form_content").get(0).scrollHeight);
 			// puis ? la fin de l'anim on lui donne sa taille auto 
-			setTimeout(function() {$('#form_content').css('height','auto')}, 2000);
+			setTimeout(function() {$('#form_content').css('height','auto');}, 2000);
 			if (init) initMap();
 		}
 		
@@ -297,11 +297,11 @@ function check_and_send()
 	$('.timepicker_1, .timepicker_3').each(function()
 	{
 		var id = $(this).attr('id');
-		var id_2e_plage = id.split("_input_")[0] + "_input_" + (parseInt(id.split("_input_")[1]) + 1)
+		var id_2e_plage = id.split("_input_")[0] + "_input_" + (parseInt(id.split("_input_")[1]) + 1);
 		var value_1 = $(this).val();
-		if (value_1 == "") value_1 = null;
+		if (value_1 === "") value_1 = null;
 		var value_2 = $('#'+id_2e_plage).val();
-		if (value_2 == "") value_2 = null;
+		if (value_2 === "") value_2 = null;
 
 		// si l'horaire de d?but de plage est remplie alors on regarde
 		// que l'horaire de fin de plage le soit aussi et qu'elle soit
@@ -331,7 +331,7 @@ function check_and_send()
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");
 		$('#popup').openModal({
 		      dismissible: true, 
-		      opacity: .5, 
+		      opacity: 0.5, 
 		      in_duration: 300, 
 		      out_duration: 200
     		});
@@ -347,14 +347,14 @@ function check_and_send()
 	$('.error:visible, .invalid:visible').each(function (){nbre_erreur+= 1;});
 
 	// CHECK contact ou horaire Producteur
-	if ($('.ouvert').length == 0 && !$('#inputTel').val() && ($('#type_provider').val() != "3") && nbre_erreur == 0)
+	if ($('.ouvert').length === 0 && !$('#inputTel').val() && ($('#type_provider').val() != "3") && nbre_erreur === 0)
 	{
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Veuillez renseignez soit les horaires d'ouvertures" +
 			 " soit un numéro de téléphone pour pouvoir les connaitre !");
 		$('#popup').openModal({
 		      dismissible: true, 
-		      opacity: .5, 
+		      opacity: 0.5, 
 		      in_duration: 300, 
 		      out_duration: 200
     		});
@@ -362,16 +362,15 @@ function check_and_send()
 	}
 
 	// Si tout est OK
-	if (nbre_erreur == 0) 
+	if (nbre_erreur === 0) 
 	{
 		// si on a renseign? plusieurs jours d'ouverture pour un march?
 		// on ouvre la pop up de confirmation
-		if (( $('#type_provider').val() == "2") 
-			&& ( $('.ouvert').length > 1))
+		if (( $('#type_provider').val() == "2") && ( $('.ouvert').length > 1))
 		{
 			$('#modal_marche').openModal({
 		      dismissible: false, 
-		      opacity: .5, 
+		      opacity: 0.5, 
 		      in_duration: 300, 
 		      out_duration: 200, 
 		      ready: function() {  }, 
@@ -386,15 +385,15 @@ function check_and_send()
 	
 }
 
-function getQueryParams(qs) {
+function getQueryParams(qs) 
+{
     qs = qs.split("+").join(" ");
     var params = {},
         tokens,
         re = /[?&]?([^=]+)=([^&]*)/g;
 
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])]
-            = decodeURIComponent(tokens[2]);
+    while ((tokens = re.exec(qs))) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
     }
 
     return params;

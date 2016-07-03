@@ -31,13 +31,13 @@ MarkerManager.prototype.fitMapInBounds = function ()
 
 	for (var i = 0; i < this.markers_.length; i++) {
 		if (this.markers_[i].getVisible()) bounds.extend(this.markers_[i].getPosition());
-	};
+	}
 
 	if (GLOBAL.getClusterer())
 	{
 		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
 		
-		for (var i = 0; i < clusters.length; i++)
+		for (i = 0; i < clusters.length; i++)
 		{
 			bounds.extend(clusters[i].getCenter());
 		}
@@ -56,7 +56,7 @@ MarkerManager.prototype.fitMapInBounds = function ()
 			$('#popup_content').text("Un problème de connexion semble être survenu. Veuillez actualiser la page pour une nouvelle tentative");
 			$('#popup').openModal({
 		      dismissible: true, 
-		      opacity: .5, 
+		      opacity: 0.5, 
 		      in_duration: 300, 
 		      out_duration: 200
     		});
@@ -66,7 +66,7 @@ MarkerManager.prototype.fitMapInBounds = function ()
 			window.console.log("fit bounds marche pas, relance");
 			nbreFitMapFailed++;
 			var that = this;
-			setTimeout(function() { that.fitMapInBounds() },1000);
+			setTimeout(function() { that.fitMapInBounds(); },1000);
 		}		
 	}
 	else
@@ -81,7 +81,7 @@ MarkerManager.prototype.getMarkerById = function (providerId)
 {
 	for(var i = 0; i < this.markers_.length; i++)
 	{
-		if (this.markers_[i].getId() == providerId) return this.markers_[i]
+		if (this.markers_[i].getId() == providerId) return this.markers_[i];
 	}
 	return null;
 };
@@ -114,7 +114,7 @@ MarkerManager.prototype.drawLinesWithClusters = function ()
 	this.clusterLines_ = [];	
 		
 	// draw lines with clusters
-	if (GLOBAL.getClusterer() != null) 
+	if (GLOBAL.getClusterer() !== null) 
 	{
 		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
 		
@@ -124,7 +124,7 @@ MarkerManager.prototype.drawLinesWithClusters = function ()
 			this.clusterLines_.push(line);
 		}
 	}
-}
+};
 
 MarkerManager.prototype.getMarkersIncludingHome = function () 
 {

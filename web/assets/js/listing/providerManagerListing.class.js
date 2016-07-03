@@ -16,8 +16,11 @@ function ProviderManagerListing(listProviderPhp)
 	// TODO delete listProviderPhp; ?
 }
 
-ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders = true, forceRepaint = false) 
+ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders, forceRepaint) 
 {	
+	checkInAllProviders = checkInAllProviders || true;
+	forceRepaint = forceRepaint || false;
+
 	var providers = null;
 	if (checkInAllProviders) providers = this.allProviders_;
 	else providers = this.currProviders_;

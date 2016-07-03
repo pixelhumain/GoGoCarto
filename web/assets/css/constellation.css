@@ -3371,6 +3371,10 @@ select {
     height: 25px;
     top: 5px; }
 
+/* 
+html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
+  top: 2px !important;
+} */
 .iconInsideMarker.disabled {
   color: grey; }
 .iconInsideMarker:before {
@@ -3474,8 +3478,6 @@ select {
     #bandeau_detail .icon-close:hover {
       color: #4A7874;
       cursor: pointer; }
-  #bandeau_detail.starRepresentantMode .icon-close {
-    top: 4rem; }
 
 @media only screen and (min-width: 1201px) {
   #bandeau_detail {
@@ -3498,8 +3500,6 @@ select {
       color: #CECECE; }
       #bandeau_detail .icon-close:hover {
         color: white; }
-    #bandeau_detail.starRepresentantMode .collapsible-header {
-      top: 3rem; }
 
   #detail_provider .moreDetails {
     display: block !important; }
@@ -3545,11 +3545,12 @@ select {
       line-height: 1.5rem;
       margin-bottom: .5rem; }
       .providerItem .collapsible-header .collapsible-header-more .products {
-        font-weight: 500;
+        font-weight: bold;
         color: #525252;
         font-style: italic; }
         .providerItem .collapsible-header .collapsible-header-more .products .product.disabled {
-          color: #9C9C9C; }
+          color: #9C9C9C;
+          font-weight: normal; }
       .providerItem .collapsible-header .collapsible-header-more .description {
         margin-bottom: .7rem;
         text-align: justify; }
@@ -3592,157 +3593,37 @@ select {
         color: #BFBFBF; }
       .providerItem .collapsible-body .sectionDetailProducts .product.disabled {
         color: #9C9C9C; }
-  @media only screen and (min-width: 1201px) {
-    .providerItem .collapsible-header {
-      background-color: #3D3D3D;
-      color: white;
-      cursor: default;
-      position: absolute;
-      width: 100%;
-      top: 0; }
-      .providerItem .collapsible-header .collapsible-header-title {
-        position: relative;
-        margin-bottom: .8rem;
-        line-height: 3rem;
-        font-weight: normal; }
-        .providerItem .collapsible-header .collapsible-header-title .distance {
-          font-size: 1.3rem; }
-        .providerItem .collapsible-header .collapsible-header-title .icon-close {
-          font-size: 1.5rem;
-          margin-top: 0; }
-      .providerItem .collapsible-header .name {
-        font-size: 1.8rem; }
-      .providerItem .collapsible-header .name, .providerItem .collapsible-header .description {
-        width: 100% !important;
-        text-align: left; }
-      .providerItem .collapsible-header .description {
-        margin-bottom: 0; }
-    .providerItem .collapsible-body {
-      margin-top: 6rem;
-      margin-bottom: 3rem;
-      height: 100%;
-      overflow-y: auto; } }
-  .providerItem.smallWidth .col.s1 {
-    width: 8.33333%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s2 {
-    width: 16.66667%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s3 {
-    width: 25%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s4 {
-    width: 33.33333%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s5 {
-    width: 41.66667%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s6 {
-    width: 50%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s7 {
-    width: 58.33333%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s8 {
-    width: 66.66667%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s9 {
-    width: 75%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s10 {
-    width: 83.33333%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s11 {
-    width: 91.66667%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.s12 {
-    width: 100%;
-    margin-left: 0; }
-  .providerItem.smallWidth .col.offset-s1 {
-    margin-left: 8.33333%; }
-  .providerItem.smallWidth .col.offset-s2 {
-    margin-left: 16.66667%; }
-  .providerItem.smallWidth .col.offset-s3 {
-    margin-left: 25%; }
-  .providerItem.smallWidth .col.offset-s4 {
-    margin-left: 33.33333%; }
-  .providerItem.smallWidth .col.offset-s5 {
-    margin-left: 41.66667%; }
-  .providerItem.smallWidth .col.offset-s6 {
-    margin-left: 50%; }
-  .providerItem.smallWidth .col.offset-s7 {
-    margin-left: 58.33333%; }
-  .providerItem.smallWidth .col.offset-s8 {
-    margin-left: 66.66667%; }
-  .providerItem.smallWidth .col.offset-s9 {
-    margin-left: 75%; }
-  .providerItem.smallWidth .col.offset-s10 {
-    margin-left: 83.33333%; }
-  .providerItem.smallWidth .col.offset-s11 {
-    margin-left: 91.66667%; }
-  .providerItem.smallWidth .col.offset-s12 {
-    margin-left: 100%; }
-  .providerItem.largeWidth .col.m1 {
-    width: 8.33333%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m2 {
-    width: 16.66667%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m3 {
-    width: 25%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m4 {
-    width: 33.33333%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m5 {
-    width: 41.66667%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m6 {
-    width: 50%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m7 {
-    width: 58.33333%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m8 {
-    width: 66.66667%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m9 {
-    width: 75%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m10 {
-    width: 83.33333%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m11 {
-    width: 91.66667%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.m12 {
-    width: 100%;
-    margin-left: 0; }
-  .providerItem.largeWidth .col.offset-m1 {
-    margin-left: 8.33333%; }
-  .providerItem.largeWidth .col.offset-m2 {
-    margin-left: 16.66667%; }
-  .providerItem.largeWidth .col.offset-m3 {
-    margin-left: 25%; }
-  .providerItem.largeWidth .col.offset-m4 {
-    margin-left: 33.33333%; }
-  .providerItem.largeWidth .col.offset-m5 {
-    margin-left: 41.66667%; }
-  .providerItem.largeWidth .col.offset-m6 {
-    margin-left: 50%; }
-  .providerItem.largeWidth .col.offset-m7 {
-    margin-left: 58.33333%; }
-  .providerItem.largeWidth .col.offset-m8 {
-    margin-left: 66.66667%; }
-  .providerItem.largeWidth .col.offset-m9 {
-    margin-left: 75%; }
-  .providerItem.largeWidth .col.offset-m10 {
-    margin-left: 83.33333%; }
-  .providerItem.largeWidth .col.offset-m11 {
-    margin-left: 91.66667%; }
-  .providerItem.largeWidth .col.offset-m12 {
-    margin-left: 100%; }
 
+@media only screen and (min-width: 1201px) {
+  #bandeau_detail .providerItem .collapsible-header {
+    background-color: #3D3D3D;
+    color: white;
+    cursor: default;
+    position: absolute;
+    width: 100%;
+    top: 0; }
+    #bandeau_detail .providerItem .collapsible-header .collapsible-header-title {
+      position: relative;
+      margin-bottom: .8rem;
+      line-height: 3rem;
+      font-weight: normal; }
+      #bandeau_detail .providerItem .collapsible-header .collapsible-header-title .distance {
+        font-size: 1.3rem; }
+      #bandeau_detail .providerItem .collapsible-header .collapsible-header-title .icon-close {
+        font-size: 1.5rem;
+        margin-top: 0; }
+    #bandeau_detail .providerItem .collapsible-header .name {
+      font-size: 1.8rem; }
+    #bandeau_detail .providerItem .collapsible-header .name, #bandeau_detail .providerItem .collapsible-header .description {
+      width: 100% !important;
+      text-align: left; }
+    #bandeau_detail .providerItem .collapsible-header .description {
+      margin-bottom: 0; }
+  #bandeau_detail .providerItem .collapsible-body {
+    margin-top: 6rem;
+    margin-bottom: 3rem;
+    height: 100%;
+    overflow-y: auto; } }
 .menu-provider {
   background-color: #3D3D3D;
   position: absolute;
@@ -3878,12 +3759,7 @@ select {
 
 @media only screen and (min-width: 1201px) {
   #map {
-    width: auto;
-    -webkit-transition: margin-right 0.5s;
-    -moz-transition: margin-right 0.5s;
-    -o-transition: margin-right 0.5s;
-    -ms-transition: margin-right 0.5s;
-    transition: margin-right 0.5s; } }
+    width: auto; } }
 /* a[href^="http://maps.google.com/maps"]{display:none !important}
 a[href^="https://maps.google.com/maps"]{display:none !important}
 
@@ -4219,6 +4095,10 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     display: none; }
   #ProviderList .providerItem .starNamesIcons {
     display: block; }
+  #ProviderList .providerItem .icon-close {
+    display: none; }
+  #ProviderList .providerItem .distance {
+    margin-right: 0; }
   #ProviderList .collapsible {
     overflow-y: auto;
     margin: 0; }

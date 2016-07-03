@@ -54,11 +54,11 @@
 
 			.products 
 			{ 
-			    font-weight: 500;
+			    font-weight: bold;
 			    color: #525252;
 			    font-style: italic;
 
-			    .product.disabled { color: #9C9C9C	 }
+			    .product.disabled { color: #9C9C9C; font-weight: normal; }
 			}
 			.description
 			{
@@ -118,101 +118,52 @@
 			}
 		}	
 	}
+}
 
-	@media #{$large-and-up}
+@media #{$large-and-up}
+{
+	#bandeau_detail .providerItem
 	{
 		.collapsible-header
-        {
-            background-color: $submenu-color;
-            color: white;
-            cursor: default;
+	    {
+	        background-color: $submenu-color;
+	        color: white;
+	        cursor: default;
 
-            position: absolute;
-            width: 100%;
-            top: 0;
+	        position: absolute;
+	        width: 100%;
+	        top: 0;
 
-            .collapsible-header-title
-            {
-                position: relative;
-                margin-bottom: .8rem;
-    			line-height: 3rem;
-                font-weight: normal;
+	        .collapsible-header-title
+	        {
+	            position: relative;
+	            margin-bottom: .8rem;
+				line-height: 3rem;
+	            font-weight: normal;
 
-                .distance { font-size: 1.3rem; }
-                .icon-close { font-size: 1.5rem; margin-top: 0; }
-            }
+	            .distance { font-size: 1.3rem; }
+	            .icon-close { font-size: 1.5rem; margin-top: 0; }
+	        }
 
-            .name { font-size: 1.8rem; }
-            .name, .description { width: 100% !important; text-align: left}
-            .description { margin-bottom : 0;  }
-        }
+	        .name { font-size: 1.8rem; }
+	        .name, .description { width: 100% !important; text-align: left}
+	        .description { margin-bottom : 0;  }
+	    }
 
-        .collapsible-body
-        {
-            margin-top: 6rem;
-            margin-bottom: 3rem;
-            height: 100%;
-            overflow-y: auto;
-        }
-	}
-
-
-
-
-
-
-
-
-
-	&.smallWidth
-	{
-		.col 
-		{
-		    $i: 1;
-		    @while $i <= $num-cols {
-		      $perc: unquote((100 / ($num-cols / $i)) + "%");
-		      &.s#{$i} {
-		        width: $perc;
-		        margin-left: 0;
-		      }
-		      $i: $i + 1;
-		    }
-		    $i: 1;
-		    @while $i <= $num-cols {
-		      $perc: unquote((100 / ($num-cols / $i)) + "%");
-		      &.offset-s#{$i} {
-		        margin-left: $perc;
-		      }
-		      $i: $i + 1;
-		    }
-		}
-	}
-	
-
-	&.largeWidth
-	{
-		.col 
-		{
-		    $i: 1;
-			@while $i <= $num-cols 
-			{
-				$perc: unquote((100 / ($num-cols / $i)) + "%");
-				&.m#{$i} {
-				  width: $perc;
-				  margin-left: 0;
-			}
-			$i: $i + 1;
-			}
-			$i: 1;
-			@while $i <= $num-cols 
-			{
-				$perc: unquote((100 / ($num-cols / $i)) + "%");
-				&.offset-m#{$i} {
-				  margin-left: $perc;
-				}
-				$i: $i + 1;
-			}
-		}
-	}
+	    .collapsible-body
+	    {
+	        margin-top: 6rem;
+	        margin-bottom: 3rem;
+	        height: 100%;
+	        overflow-y: auto;
+	    }
+	}	
 }
+
+
+
+
+
+
+
 

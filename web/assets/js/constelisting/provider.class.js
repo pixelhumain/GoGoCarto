@@ -109,7 +109,7 @@ Provider.prototype.updateProductsRepresentation = function ()
 	}
 	else
 	{
-		if (starNames.length == 0) this.mainProductIsDisabled = true;	
+		if (starNames.length === 0) this.mainProductIsDisabled = true;	
 		else this.mainProductIsDisabled = false;	
 	}
 };
@@ -194,11 +194,11 @@ Provider.prototype.pushToProductToDisplay = function(productName, disabled)
 
 Provider.prototype.getFormatedHoraires = function () 
 {		
-	if (this.formatedHoraire_ == null )
+	if (this.formatedHoraire_ === null )
 	{		
 		this.formatedHoraire_ = {};
 		var new_key;
-		for(key in this.horaires)
+		for(var key in this.horaires)
 		{
 			new_key = key.split('_')[1];
 			this.formatedHoraire_[new_key] = this.formateJourHoraire(this.horaires[key]);
@@ -209,18 +209,18 @@ Provider.prototype.getFormatedHoraires = function ()
 
 Provider.prototype.formateJourHoraire = function (jourHoraire) 
 {		
-	if (jourHoraire == null)
+	if (jourHoraire === null)
 	{		
 		return 'fermé';
 	}
 	var result = '';
-	if (jourHoraire.plage1debut != null)
+	if (jourHoraire.plage1debut)
 	{
 		result+= this.formateDate(jourHoraire.plage1debut);
 		result+= ' - ';
 		result+= this.formateDate(jourHoraire.plage1fin);
 	}
-	if (jourHoraire.plage2debut != null)
+	if (jourHoraire.plage2debut)
 	{
 		result+= ' et ';
 		result+= this.formateDate(jourHoraire.plage2debut);
@@ -232,6 +232,7 @@ Provider.prototype.formateJourHoraire = function (jourHoraire)
 
 Provider.prototype.formateDate = function (date) 
 {		
+	if (!date) return;
 	return date.split('T')[1].split(':00+0100')[0];
 };
 
@@ -242,7 +243,7 @@ Provider.prototype.isProducteurOrAmap = function ()
 
 Provider.prototype.isCurrentStarChoiceRepresentant = function () 
 {		
-	if ( this.starChoiceForRepresentation !='')
+	if ( this.starChoiceForRepresentation !== '')
 	{
 		var providerStarId = GLOBAL.getConstellation().getStarFromName(this.starChoiceForRepresentation).getProviderId();
 		return (this.id == providerStarId);
@@ -292,8 +293,9 @@ Provider.prototype.getMarker= function ()
 	return this.biopenMarker_.getRichMarker();
 };
 
-Provider.prototype.getBiopenMarker = function (initialize = false) 
+Provider.prototype.getBiopenMarker = function (initialize) 
 {		
+	initialize = initialize || false;
 	if (initialize) this.initialize();
 	return this.biopenMarker_;
 };

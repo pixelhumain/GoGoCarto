@@ -25,14 +25,14 @@ ListProviderManager.prototype.draw = function ()
 	providersProducteurOrAmapToDisplay.sort(compareDistance);
 	providersPlacesToDisplay.sort(compareDistance);		
 
-	for(var i = 0; i < providersPlacesToDisplay.length; i++)
+	for( i = 0; i < providersPlacesToDisplay.length; i++)
 	{
 		provider = providersPlacesToDisplay[i];
 		$('#ProviderList #places-end-container').before(provider.getHtmlRepresentation());
 		createListenersForProviderMenu($('#infoProvider-'+provider.id +' .menu-provider'));	
 	}
 
-	for(var i = 0; i < providersProducteurOrAmapToDisplay.length; i++)
+	for( i = 0; i < providersProducteurOrAmapToDisplay.length; i++)
 	{
 		provider = providersProducteurOrAmapToDisplay[i];
 		$('#ProviderList #producteurAmap-end-container').before(provider.getHtmlRepresentation());

@@ -57,7 +57,7 @@ Star.prototype.isVisible = function () {
 
 Star.prototype.isClustered = function () 
 {
-  if (GLOBAL.getClusterer() == null) return false;
+  if (GLOBAL.getClusterer() === null) return false;
 
   var clusters = GLOBAL.getClusterer().getMinimizedClusters();
 
@@ -72,17 +72,17 @@ Star.prototype.isClustered = function ()
 Star.prototype.indexForward = function ()
 {
 	this.setIndex(this.index_ + 1);
-}
+};
 
 Star.prototype.indexBackward = function ()
 {
 	this.setIndex(this.index_ - 1);
-}
+};
 
 Star.prototype.getIndex = function ()
 {
 	return this.index_;
-}
+};
 
 Star.prototype.setIndex = function (newIndex)
 {
@@ -107,7 +107,7 @@ Star.prototype.setIndex = function (newIndex)
   /*$('#infoProvider-'+oldProviderId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
 
   GLOBAL.getListProviderManager().draw();
-}
+};
 
 
 

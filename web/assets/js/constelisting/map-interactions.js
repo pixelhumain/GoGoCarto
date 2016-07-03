@@ -3,18 +3,20 @@ jQuery(document).ready(function()
 	
 });
 
-function showProviderInfosOnMap(providerId, showMoreChoiceInfo = true) 
+function showProviderInfosOnMap(providerId, showMoreChoiceInfo) 
 {
+	showMoreChoiceInfo = showMoreChoiceInfo || true;
+
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
 	$('#btn-close-bandeau-detail').click(function()
 	{  
 		animate_down_bandeau_detail();
 		return false;
-	}); 
+	});
 	$('#detail_provider .collapsible-header').click(toggleProviderDetailsComplet);
 	animate_up_bandeau_detail();
-};
+}
 
 function toggleProviderDetailsComplet()
 {	
@@ -34,17 +36,17 @@ function toggleProviderDetailsComplet()
 		
 		$('#bandeau_detail .moreDetails').show();		
 
-		var bandeau_detail_new_height = $( window ).height()
-		-$('header').height()
-		-$('#bandeau_goToProviderList').outerHeight(true);
+		var bandeau_detail_new_height =  $( window ).height();
+		bandeau_detail_new_height -= $('header').height();
+		bandeau_detail_new_height -=$('#bandeau_goToProviderList').outerHeight(true);
 
 		$('#bandeau_detail').css('height', '100%');
 
 		var bandeau_detail = $("#bandeau_detail");
-	  	var height = bandeau_detail_new_height
-	  				-bandeau_detail.find('.collapsible-header').outerHeight(true)
-	  				-bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true)
-	  				-bandeau_detail.find(".menu-provider").outerHeight(true);
+	  	var height =  bandeau_detail_new_height;
+		height -= bandeau_detail.find('.collapsible-header').outerHeight(true);
+		height -= bandeau_detail.find('.starRepresentationChoice-helper:visible').outerHeight(true);
+		height -= bandeau_detail.find(".menu-provider").outerHeight(true);
 
 	  	$('#bandeau_detail .collapsible-body').css('height', height);
 		
@@ -75,8 +77,8 @@ function animate_up_bandeau_detail()
 	{
 		$('#bandeau_detail').show();
 
-		var bandeau_detail_new_height = $('#detail_provider').outerHeight(true)
-		+ $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
+		var bandeau_detail_new_height = $('#detail_provider').outerHeight(true);
+		bandeau_detail_new_height += $('#bandeau_detail .starRepresentationChoice-helper:visible').height();
 
 		$('#bandeau_detail').css('height', bandeau_detail_new_height);
 		ajuster_tailler_info_provider();
@@ -84,12 +86,19 @@ function animate_up_bandeau_detail()
 	}	
 	else
 	{
-		$('#bandeau_detail').show();
-		ajuster_tailler_info_provider();
+		/*$('#bandeau_detail').show();
+		ajuster_tailler_info_provider();*/		
 
-		//$('#bandeau_detail').show( "slide", {direction: 'rigth', easing: 'swing'} , 350 );
-		//ajuster_tailler_info_provider();
-		ajuster_taille_carte(0);
+		if (!$('#bandeau_detail').is(':visible'))
+		{
+			$('#bandeau_detail').css('right','-500px');			
+			$('#bandeau_detail').show().animate({'right':'0'},350,'swing',function(){ ajuster_taille_carte(0); });
+		}
+		
+		ajuster_tailler_info_provider();
+		//$('#bandeau_detail').show("slide", {direction: 'rigth', easing: 'swing'} , 350 );
+		
+		
 		
 	}
 }
@@ -109,7 +118,11 @@ function animate_down_bandeau_detail()
 		{
 			$('#map').css('margin-right','0px');
 			$('#bandeau_helper').css('margin-right','0px');
-			$('#bandeau_detail').hide();			
+
+			if ($('#bandeau_detail').is(':visible'))
+			{		
+				$('#bandeau_detail').animate({'right':'-500px'},350,'swing',function(){ $(this).hide(); });
+			}		
 		}
 	}	
 
