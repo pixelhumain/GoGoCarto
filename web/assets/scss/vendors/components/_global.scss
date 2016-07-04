@@ -240,7 +240,7 @@ ul.staggered-list li {
   Media Query Classes
 **********************/
 .hide-on-small-only, .hide-on-small-and-down {
-  @media #{$small-and-down} {
+  @media #{$small-only} {
     display: none !important;
   }
 }
@@ -260,12 +260,12 @@ ul.staggered-list li {
   }
 }
 .hide-on-large-only {
-  @media #{$large-and-up} {
+  @media #{$large-only} {
     display: none !important;
   }
 }
 .show-on-large {
-  @media #{$large-and-up} {
+  @media #{$large-only} {
     display: initial !important;
   }
 }
@@ -275,7 +275,7 @@ ul.staggered-list li {
   }
 }
 .show-on-small {
-  @media #{$small-and-down} {
+  @media #{$small-only} {
     display: initial !important;
   }
 }
@@ -293,7 +293,7 @@ ul.staggered-list li {
 
 // Center text on mobile
 .center-on-small-only {
-  @media #{$small-and-down} {
+  @media #{$small-only} {
     text-align: center;
   }
 }

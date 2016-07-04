@@ -2,13 +2,6 @@
 @import 'vendors/materialize';
 @import 'components/inputAddress';
 
-
-@font-face 
-{   
-  font-family: 'freestyle'; 
-  src: url('../font/Freestyle.ttf'); 
-}
-
 body
 {
 	text-align: center;
@@ -25,32 +18,93 @@ body
 	width: 100%;
 	position: relative;
 }
+
+@media #{$small-only}
+{
+	.btn
+	{
+		height: 2.5rem;
+	    padding: 0 .8rem;
+	    line-height: 2.5rem;
+	}
+
+	.divider
+	{
+		width: 90%;
+	    margin: 0 auto;
+	    margin-bottom: 1.5rem;
+	}
+
+	.col
+	{
+		padding: 0 0.5rem !important;
+	}
+
+	.row { margin-bottom : 0 ;}
+}
+
 section#mainContainer
 {
-    width: 80%;
-    background-color: rgba(20, 20, 20, 0.8);
-    margin: 0 auto;
-    padding: 2rem;
-    border-radius: 15px;
     position: relative;
+    width: 100%;
+    background-color: rgba(20, 20, 20, 0.8);    
+    padding: .5rem;    
+
+    @media #{$medium-and-up}
+    {
+		width: 80%;
+    	max-width: 900px;
+    	border-radius: 15px;
+    	margin: 0 auto;
+    	padding: 2rem;   
+    }
 
 	h1
 	{
-		position: absolute;
+		position: relative;
 		font-family: 'Yellowtail', cursive;
 	    text-shadow: 3px 3px 3px #000000;
-	    font-size: 6rem;
-	    top: -6.4rem;
-	    letter-spacing: 2px;
-	    left: 0;
-	    right: 0;
+	    font-size: 2.8rem;
+	    margin: 1rem 0;	 	    
+
+	    @media #{$medium-and-up}
+		{
+			position: absolute;	
+			left: 0;
+	    	right: 0;	
+	    	top: -3rem;
+	    	letter-spacing: 2px;
+		}
+
+	    @media #{$medium1-only}
+	    {
+	    	font-size: 4.3rem;
+    		top: -4rem;
+	    }
+
+		@media #{$medium2-and-up}
+		{
+			font-size: 6rem;
+	    	top: -5.4rem;
+		}	
 	}
 
 	h2
 	{
-		font-size: 1.5rem;
+		font-size: 1rem;
+		line-height: 130%;
 	    margin: 0;
 	    margin-top: 1rem;
+
+	    @media #{$medium1-only}
+	    {
+	    	font-size: 1.2rem;
+	    }
+
+		@media #{$medium2-and-up}
+		{
+			font-size: 1.5rem;
+		}
 	}	    
 
 	#inputAdressContainer
@@ -59,13 +113,19 @@ section#mainContainer
 		width: 90%;
 		padding-right:1rem;
 		margin: 0 auto;
-		margin-top: 1.5rem;		
+		margin-top: 1rem;
+   		margin-bottom: .5rem;			
+
+		@media #{$medium-and-up}
+		{
+			margin-top: 1.5rem;	
+			margin-bottom: 2rem;
+		}	
 	}
 
 	#inputAddress
 	{
-		width: 100%;
-	    margin-bottom: 2rem;
+		width: 100%;	    
 	    border: none;
 	    background-color: #ececec;
 	    color:black;

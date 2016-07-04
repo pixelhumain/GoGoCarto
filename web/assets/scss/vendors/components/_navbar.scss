@@ -18,7 +18,7 @@ nav {
     }
   }
 
-  @media #{$large-and-up} {
+  @media #{$large-only} {
     a.button-collapse { display: none; }
   }
 

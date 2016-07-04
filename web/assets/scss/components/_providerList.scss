@@ -8,7 +8,7 @@
 		height: auto;
 		position: relative;
 		@media #{$medium-and-up} { padding: 0 3rem; }
-		@media #{$large-and-up} { padding: 0 10rem; }
+		@media #{$large-only} { padding: 0 10rem; }
 	}
 
 	.providerItem
