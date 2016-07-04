@@ -13,11 +13,11 @@ var gulp = require('gulp'),
     del = require('del');
 
 gulp.task('styles', function() {
-  return gulp.src('src/css/**/*.css')
-    //.pipe(rename({suffix: '.min'}))
+  return gulp.src('web/assets/css/**/*.css')
+    .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
-    .pipe(gulp.dest('dist/css'))
-    .pipe(notify({ message: 'Styles task complete' }));
+    .pipe(gulp.dest('web/assets/css'));
+    //.pipe(notify({ message: 'Styles task complete' }));
 });
 
 gulp.task('sass', function () {
@@ -31,8 +31,10 @@ gulp.task('scripts', function() {
   return gulp.src(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({ message: 'JS hint fail'}))
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('web/js'))
+    .pipe(gulp.dest('web/js'));
     //.pipe(rename({suffix: '.min'}))
     //.pipe(uglify())
     //.pipe(gulp.dest('dist/js'))

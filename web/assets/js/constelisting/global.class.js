@@ -12,6 +12,7 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.listProviderManager_ = constellationMode ? new ListProviderManager() : null;
 	this.state_ = 'normal';
 	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
+	this.currentLocation_ = null;
 }
 
 Global.prototype.getMap = function() { return this.map_; };
@@ -32,3 +33,5 @@ Global.prototype.setFilterManager = function(filterManager) { this.filterManager
 Global.prototype.constellationMode = function() { return this.constellationMode_; };
 Global.prototype.getSRCManager = function() { return this.starRepresentationChoiceManager_; };
 Global.prototype.getListProviderManager = function() { return this.listProviderManager_; };
+/*Global.prototype.setCurrentLocation = function(location) { this.currentLocation_ = location; };
+Global.prototype.getCurrentLocation = function() { return this.currentLocation_; };*/

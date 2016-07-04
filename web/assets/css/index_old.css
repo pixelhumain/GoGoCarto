@@ -1196,26 +1196,6 @@ nav ul a span.badge {
       .row .col.offset-l12 {
         margin-left: 100%; } }
 
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Thin), url("../font/roboto/Roboto-Thin.woff2") format("woff2"), url("../font/roboto/Roboto-Thin.woff") format("woff"), url("../font/roboto/Roboto-Thin.ttf") format("truetype");
-  font-weight: 200; }
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Light), url("../font/roboto/Roboto-Light.woff2") format("woff2"), url("../font/roboto/Roboto-Light.woff") format("woff"), url("../font/roboto/Roboto-Light.ttf") format("truetype");
-  font-weight: 300; }
-@font-face {
-  font-family: "Roboto";
-  src: local(Roboto Regular), url("../font/roboto/Roboto-Regular.woff2") format("woff2"), url("../font/roboto/Roboto-Regular.woff") format("woff"), url("../font/roboto/Roboto-Regular.ttf") format("truetype");
-  font-weight: 400; }
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Medium.woff2") format("woff2"), url("../font/roboto/Roboto-Medium.woff") format("woff"), url("../font/roboto/Roboto-Medium.ttf") format("truetype");
-  font-weight: 500; }
-@font-face {
-  font-family: "Roboto";
-  src: url("../font/roboto/Roboto-Bold.woff2") format("woff2"), url("../font/roboto/Roboto-Bold.woff") format("woff"), url("../font/roboto/Roboto-Bold.ttf") format("truetype");
-  font-weight: 700; }
 a {
   text-decoration: none; }
 
@@ -1826,69 +1806,6 @@ a.waves-effect .waves-ripple {
   .collapsible.popout > li.active {
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
     margin: 16px 0; }
-
-.chip {
-  display: inline-block;
-  height: 32px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.6);
-  line-height: 32px;
-  padding: 0 12px;
-  border-radius: 16px;
-  background-color: #E4E4E4; }
-  .chip img {
-    float: left;
-    margin: 0 8px 0 -12px;
-    height: 32px;
-    width: 32px;
-    border-radius: 50%; }
-  .chip i.material-icons {
-    cursor: pointer;
-    float: right;
-    font-size: 16px;
-    line-height: 32px;
-    padding-left: 8px; }
-
-.materialboxed {
-  display: block;
-  cursor: zoom-in;
-  position: relative;
-  -webkit-transition: opacity 0.4s;
-  -moz-transition: opacity 0.4s;
-  -o-transition: opacity 0.4s;
-  -ms-transition: opacity 0.4s;
-  transition: opacity 0.4s; }
-  .materialboxed:hover {
-    will-change: left, top, width, height; }
-    .materialboxed:hover:not(.active) {
-      opacity: .8; }
-
-.materialboxed.active {
-  cursor: zoom-out; }
-
-#materialbox-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #292929;
-  z-index: 999;
-  will-change: opacity; }
-
-.materialbox-caption {
-  position: fixed;
-  display: none;
-  color: #fff;
-  line-height: 50px;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 0% 15%;
-  height: 50px;
-  z-index: 1000;
-  -webkit-font-smoothing: antialiased; }
 
 /* Remove Focus Boxes */
 select:focus {

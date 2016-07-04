@@ -2,37 +2,30 @@ var old_zoom;
 
 function initMap() 
 {	
-
-	initRichMarker();	
-
+	initRichMarker();
 	initInputAddressAutocompletion();
-	var mapOptions;
+
+	mapOptions = 
+	{
+		disableDefaultUI: true,
+		zoomControl: true
+	};
+
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);	
 
 	if (constellationMode || geocodeResponse === null)
 	{
 		// basics settings for the map 
 		var latlng = new google.maps.LatLng(46.897045, 2.425235);
-		mapOptions = {
-			zoom: 6,
-			center: latlng,
-			disableDefaultUI: true,
-			zoomControl: true
-		};	
+		map.setZoom(6);
+		map.setCenter(latlng);
 	}	
 	else
 	{
 		var center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
-		mapOptions = {
-			zoom: 10,
-			center: center,
-			disableDefaultUI: true,
-			zoomControl: true
-		};
+		map.setCenter(center);
+		panMapToLocation(map,center);
 	}
-
-	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-	zoom = map.getZoom();		
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
 	{   
@@ -92,6 +85,8 @@ function initialize(map)
 
 	  	$('#spinner-loader').hide();
 	}
+
+
 }
 
 function initCluster(markersToCluster)

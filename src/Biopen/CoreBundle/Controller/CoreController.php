@@ -36,16 +36,13 @@ class CoreController extends Controller
 
             if ($geocodeResponse == null)
             {  
-                $this->get('session')->getFlashBag()->add('error', 'Erreur de localisation');
-                return $this->render('::Core/listing.html.twig');
+                $slug = 'Erreur de localisation';
             } 
-
-            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-            $this->get('session')->set('slug', $slug);
+            else
+            {
+                $this->get('session')->set('slug', $slug);
+            }
         }
-       /* $geocodePoint = new Point(44.1049567, -0.5445296);
-        $geocodeResponse['coordinates']['latitude'] = 44.1049567;
-        $geocodeResponse['coordinates']['longitude'] = -0.5445296;  */
 
         $em = $this->getDoctrine()->getManager();
 
@@ -69,7 +66,7 @@ class CoreController extends Controller
         }
         else
         {        	
-            $geocodeResponse = $this->geocodeFromAdresse($slug);
+            $geocodeResponse = $this->geocodeFromAdresse($slug);                     
 
             if ($geocodeResponse == null)
             {  
@@ -197,9 +194,7 @@ class CoreController extends Controller
         /*dump($constellation);*/
 
         return $constellation;            
-    }    
-
-    
+    }        
 
     private function sortConstellation($constellation)
     {
@@ -225,6 +220,8 @@ class CoreController extends Controller
             $logger = $this->get('logger'); 
             $logger->error('no result : ' + $e->getMessage());                          
         }
+
+
         
         if (!$geocode_ok)
         {
@@ -234,8 +231,4 @@ class CoreController extends Controller
         return $result->first();
 
     }
-
-    
-
-
 }

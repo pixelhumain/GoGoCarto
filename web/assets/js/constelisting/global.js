@@ -9,6 +9,7 @@ jQuery(document).ready(function()
 
 	$('#inputAddress').on("search", function(event, address)
 	{
+		window.console.log("on search");
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
 	});

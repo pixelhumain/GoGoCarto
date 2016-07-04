@@ -117,6 +117,14 @@ Provider.prototype.updateProductsRepresentation = function ()
 Provider.prototype.getHtmlRepresentation = function () 
 {	
 	var starNames = constellationMode ? GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id) : [];
+	var location = GLOBAL.getMap().location;
+	if (location)
+	{
+		this.distance = calculateDistanceFromLatLonInKm(location, this.position);
+		// distance vol d'oiseau, on arrondi et on l'augmente un peu
+		this.distance = Math.round(1.2*this.distance);
+	}
+
 	var html = Twig.render(providerTemplate, 
 				{
 					provider : this, 
