@@ -4,7 +4,7 @@
 
 {# Stylessheets #}
 {% block stylesheets %}
-
+<link href="https://fonts.googleapis.com/css?family=Yellowtail|Average+Sans" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/listing.css') }}"> 
 
@@ -62,37 +62,7 @@
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
   
   <script src="{{ asset('js/libs.min.js') }}"></script>  
-  <script src="{{ asset('js/main.js') }}"></script>
-
-  {# {% javascripts filter="?jsqueeze"
-        "assets/js/components/inputAddress.js" 
-        "assets/js/commons.js"      
-        "assets/js/constelisting/*"
-        "assets/js/listing/*"
-        
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %} #}
-    
-    {# {% javascripts filter="?jsqueeze"
-        "assets/js/libs/jquery-2.2.1.min.js" 
-        "assets/js/libs/jquery-ui.min.js"           
-        "assets/js/libs/cluster/cluster-commons.js"
-        "assets/js/libs/cluster/clustericon.js"
-        "assets/js/libs/cluster/cluster.js"
-        "assets/js/libs/rich-marker.js"
-        "assets/js/libs/cluster/markerclusterer.js" 
-        "assets/js/libs/materialize/bin/materialize.js"
-        "assets/js/components/inputAddress.js" 
-        "assets/js/commons.js" 
-        "assets/js/libs/twig.js"        
-        "assets/js/constelisting/*"
-        "assets/js/listing/*"
-        
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %} #}
-
+  <script src="{{ asset('js/constelisting.js') }}"></script>
 
     {% javascripts filter="twig_js" 
 

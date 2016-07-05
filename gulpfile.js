@@ -23,17 +23,34 @@ gulp.task('styles', function() {
 gulp.task('sass', function () {
   return sass('web/assets/scss/**/*.scss')
     .on('error', sass.logError)
-    .pipe(gulp.dest('web/assets/css'));
+    .pipe(gulp.dest('web/assets/css'))
+    .pipe(livereload());
 	//.pipe(notify({ message: 'Sass task complete' }));
 });
 
-gulp.task('scripts', function() {
-  return gulp.src(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js'])
+gulp.task('scriptsConstelisting', function() {
+  return gulp.src(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js', '!web/assets/js/fournisseur-add-edit/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
     .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('main.js'))
+    .pipe(concat('constelisting.js'))
+    .pipe(livereload())
+    .pipe(gulp.dest('web/js'));
+    //.pipe(rename({suffix: '.min'}))
+    //.pipe(uglify())
+    //.pipe(gulp.dest('dist/js'))
+    //.pipe(notify({ message: 'Scripts task complete' }));
+});
+
+gulp.task('scriptsFournisseurAddEdit', function() {
+  return gulp.src(['web/assets/js/fournisseur-add-edit/**/*.js','web/assets/js/commons.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({ message: 'JS hint fail'}))
+    .pipe(concat('fournisseur-add-edit.js'))
+    .pipe(livereload())
     .pipe(gulp.dest('web/js'));
     //.pipe(rename({suffix: '.min'}))
     //.pipe(uglify())
@@ -43,13 +60,11 @@ gulp.task('scripts', function() {
 
 gulp.task('scriptsLibs', function() {
   return gulp.src('web/assets/js/libs/**/*.js')
-    //.pipe(jshint())
-    //.pipe(jshint.reporter('default'))
     .pipe(concat('libs.js'))
-    //.pipe(gulp.dest('web/js'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('web/js'))
+    .pipe(livereload())
     .pipe(notify({ message: 'Scripts Libs task complete' }));
 });
 
@@ -72,12 +87,16 @@ gulp.task('copy', function () {
 
 gulp.task('watch', function() {
 
+  livereload.listen();
   // Watch .scss files
   gulp.watch('web/assets/scss/**/*.scss', ['sass']);
 
   // Watch .js files
-  gulp.watch('web/assets/js/**/*.js', ['scripts']);
-
+  gulp.watch(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js', '!web/assets/js/fournisseur-add-edit/**/*.js'], ['scriptsConstelisting']);
+  
+  gulp.watch(['web/assets/js/fournisseur-add-edit/**/*.js','web/assets/js/commons.js'], ['scriptsFournisseurAddEdit']);
+  
+  gulp.watch('web/assets/js/libs/**/*.js', ['scriptsLibs']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 

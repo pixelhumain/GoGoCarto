@@ -24,19 +24,23 @@ function initMap()
 	{
 		var center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
 		map.setCenter(center);
-		panMapToLocation(map,center);
+		panMapToLocation(center, map);
 	}
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
 	{   
-		if (!onlyInputAdressMode) initialize(map);
+		if (!onlyInputAdressMode) 
+		{
+			initialize(map);
+			checkInitialState();
+		}
 	} );
 
 	map.addListener('click', function(e) 
 	{
-    	if (constellationMode) clearProductList();
+    	GLOBAL.setState('normal');
     	animate_down_bandeau_detail(); 
-  	}); 
+  	});   	
 }
 
 function initialize(map)
@@ -85,8 +89,6 @@ function initialize(map)
 
 	  	$('#spinner-loader').hide();
 	}
-
-
 }
 
 function initCluster(markersToCluster)
@@ -97,6 +99,7 @@ function initCluster(markersToCluster)
 	    enableRetinaIcons: true,
 	    /*styles: styles,
 	    calculator: calculator,*/
+	    //ignoreHidden:false,
 	    gridSize: 40, 
 	    maxZoom: 17,
 	    automaticRepaint: GLOBAL.constellationMode(),

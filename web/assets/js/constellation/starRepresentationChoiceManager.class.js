@@ -9,11 +9,16 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	this.currentStar_ = star;
 	var idToFocus = star.getProviderListId();
 
+	var provider;
+	for(var i = 0; i < idToFocus.length; i++)
+	{
+		provider = GLOBAL.getProviderManager().getProviderById(idToFocus[i]);
+		provider.starChoiceForRepresentation = star.getName();	
+	}
+
 	GLOBAL.setState('starRepresentationChoice');
 
-	GLOBAL.getMarkerManager().hidePartiallyAllMarkers();
-
-	GLOBAL.getProviderManager().focusOnThesesProviders(star.getName(), idToFocus);
+	GLOBAL.getProviderManager().focusOnThesesProviders(idToFocus);
 	GLOBAL.getClusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
@@ -28,21 +33,30 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 
 StarRepresentationChoiceManager.prototype.end = function () 
 {	
+	if (this.currentStar_ === null) return;
+
 	var idToClearFocus = this.currentStar_.getProviderListId();
 
-	GLOBAL.getMarkerManager().showNormalHiddenAllMarkers();
+	var provider;
+	for(var i = 0; i < idToClearFocus.length; i++)
+	{
+		provider = GLOBAL.getProviderManager().getProviderById(idToClearFocus[i]);
+		provider.starChoiceForRepresentation = '';	
+	}
 
 	GLOBAL.getProviderManager().clearFocusOnThesesProviders(idToClearFocus);
 	GLOBAL.getClusterer().repaint();	
 
 	animate_down_bandeau_detail(); 
 
+	this.currentStar_ = null;
+
 	//$('.starRepresentationChoice-helper').hide();
 	//$('#bandeau_detail').removeClass('starRepresentantMode');
 
 	//ajuster_taille_providerList();
 
-	GLOBAL.setState('normal');
+	//GLOBAL.setState('normal');
 };
 
 StarRepresentationChoiceManager.prototype.selectProviderIndex = function (providerIndex) 

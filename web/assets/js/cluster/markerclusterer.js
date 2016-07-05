@@ -1001,9 +1001,7 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
       clearTimeout(this.timerRefStatic);
       delete this.timerRefStatic;
     }
-  }
-
-  
+  }  
 
   // Get our current map view bounds.
   // Create a new bounds object so we don't affect the map.
@@ -1023,7 +1021,6 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
 
   for (i = iFirst; i < iLast; i++) {
     marker = this.markers_[i];
-    //window.console.log("ADDTOCLOSEST " + marker.getLabel());
     if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
       if (!this.ignoreHidden_ || (this.ignoreHidden_ /*&& marker.getVisible()*/ && marker.getMap() !== null && marker.checkCluster)) 
       {

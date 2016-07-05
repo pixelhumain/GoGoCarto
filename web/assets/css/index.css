@@ -3183,6 +3183,7 @@ section#mainContainer {
       max-width: 900px;
       border-radius: 15px;
       margin: 0 auto;
+      margin-top: 2rem;
       padding: 2rem; } }
   section#mainContainer h1 {
     position: relative;
@@ -3209,13 +3210,14 @@ section#mainContainer {
     font-size: 1rem;
     line-height: 130%;
     margin: 0;
-    margin-top: 1rem; }
+    margin-top: 1rem;
+    font-family: 'Average Sans', sans-serif; }
     @media only screen and (min-width: 601px) and (max-width: 900px) {
       section#mainContainer h2 {
         font-size: 1.2rem; } }
     @media only screen and (min-width: 901px) {
       section#mainContainer h2 {
-        font-size: 1.5rem; } }
+        font-size: 1.4rem; } }
   section#mainContainer #inputAdressContainer {
     position: relative;
     width: 90%;

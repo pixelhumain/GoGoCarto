@@ -19,6 +19,9 @@
 
 	{% include "::Fournisseur/FormPartials/user.html.twig" %}
 
+	<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+	<div id="captcha"></div>
+
 	<center>
 		<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
 	</center>
@@ -64,24 +67,22 @@
 	{% if editMode %} editMode = true; {% endif %}
 	</script>
 
-	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-
-  	<script src="{{ asset('js/libs.min.js') }}"></script>  
-    <script src="{{ asset('assets/js/commons.js') }}"></script>
-    <script src="{{ asset('assets/js/ajouter_fournisseur.js') }}"></script>
-
-	{# {% javascripts filter="?jsqueeze" output="js/app.js"
-        "assets/js/libs/jquery-2.2.1.min.js"
-        "assets/js/libs/materialize/bin/materialize.js"
-        "assets/js/libs/timepicki.js"
-        "assets/js/commons.js"
-        "assets/js/ajouter_fournisseur.js"
+    {% javascripts filter="?jsqueeze"
+		'bundles/fosjsrouting/js/router.js'
+        "js/libs.min.js"	
+        "js/fournisseur-add-edit.js"
     %}
         <script src="{{ asset_url }}"></script>
-    {% endjavascripts %} #}
+    {% endjavascripts %}
+
+
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&callback=initMap">
 	</script>
+
+	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
 {% endblock %}

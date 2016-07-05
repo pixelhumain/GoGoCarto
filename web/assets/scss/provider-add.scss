@@ -117,6 +117,30 @@ section
   font-size: 0.92rem;
 }
 
+#captcha > div > div
+{
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+#captcha-error-message
+{
+  display:none;
+  text-align: center;
+  margin: .5rem 0;
+}
+    
+
+.rc-anchor
+{
+  @include box-shadow-1(none);
+}
+
+.rc-anchor-light
+{
+  border: none !important;
+}
+
 // ---------------------------------------
 //             GOOGLE MAP
 // ---------------------------------------
@@ -151,6 +175,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   [type="checkbox"] + label {
       padding-left: 32px;
   }
+}
+
+#section_vos_infos 
+{
+  margin-bottom: 0;
 }
 
 #section_vos_infos  [type="checkbox"] + label

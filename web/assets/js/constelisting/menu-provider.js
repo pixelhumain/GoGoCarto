@@ -14,8 +14,10 @@ function createListenersForProviderMenu(object)
 		alert('Fonctionalité pas encore disponible, désolé ! '); 
 		//window.location.href = Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
 	});
-	object.find('.icon-directions').click(function() {
-		alert('Fonctionalité pas encore disponible, désolé ! '); 
+	object.find('.icon-directions').click(function() 
+	{
+		GLOBAL.setState("showRouting",{id: getCurrentProviderIdShown()});
+
 	});
 	object.find('.tooltipped').tooltip();
 }

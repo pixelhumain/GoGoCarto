@@ -21,6 +21,8 @@ if (constellationMode)
 		else
 		{
 			clearProductList();
+			GLOBAL.getSRCManager().end();
+			
 			if ($('#ProductsList').outerWidth() == $(window).outerWidth())
 			{
 				moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
@@ -77,11 +79,7 @@ if (constellationMode)
 
 function clearProductList()
 {
-	if (GLOBAL.getState() == 'starRepresentationChoice')
-	{
-		var otherContainerVisible = $('.moreResultContainer.active').first();
-		otherContainerVisible.stop(true,false).slideUp(slideOptions);
-		otherContainerVisible.removeClass("active");
-		GLOBAL.getSRCManager().end();
-	}	
+	var otherContainerVisible = $('.moreResultContainer.active').first();
+	otherContainerVisible.stop(true,false).slideUp(slideOptions);
+	otherContainerVisible.removeClass("active");
 }

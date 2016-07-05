@@ -27,10 +27,8 @@ function BiopenMarker(id_, position_)
 		ev.preventDefault();
 		ev.stopPropagation();
 
-		if (GLOBAL.constellationMode())
-		{
-			if (that.isHalfHidden_) clearProductList();
-		}		
+		if (that.isHalfHidden_) GLOBAL.setState('normal');	
+
 		showProviderInfosOnMap(that.id_);
 
 		if (GLOBAL.getState() == 'starRepresentationChoice')

@@ -396,14 +396,13 @@ header {
     margin: 0;
     font-size: 0.85rem;
     background-color: #272626; }
-    header #menu #menu-actions {
-      float: right; }
+    header #menu #menu-accueil {
+      display: none; }
     header #menu .menu-item {
       text-align: center;
       line-height: 2.5rem;
-      margin-right: 1rem;
-      width: auto;
-      padding: 0 .5rem;
+      width: 33.33%;
+      padding: 0 .5rem !important;
       color: white;
       font-size: inherit;
       -webkit-transition: all 0.4s;
@@ -427,10 +426,18 @@ header {
       font-size: 1rem;
       margin-bottom: 0px; }
       header #menu #menu-accueil {
-        margin-left: 2rem;
-        font-size: 1.1rem; }
+        display: block;
+        font-family: 'Yellowtail', cursive;
+        margin-left: .7rem;
+        font-size: 1.8rem;
+        line-height: 3.2rem;
+        margin-right: 0; }
+      header #menu #menu-actions {
+        float: right; }
       header #menu .menu-item {
-        margin-right: 2rem; } }
+        margin-right: 2rem;
+        line-height: 3.3rem;
+        width: auto; } }
 
 #page_content {
   position: relative; }

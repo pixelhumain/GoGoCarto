@@ -54,7 +54,7 @@ class CoreController extends Controller
         ->findAll();            
 
         return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
-    }
+    }    
 
     public function constellationAction($slug, $distance)
     {             

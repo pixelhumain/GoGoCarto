@@ -16,6 +16,23 @@ var pointToLatlng = function(point)
 	return latlng; 
 };
 
+function calculateRoute(origin, destination) 
+{
+  	GLOBAL.getDirectionsService().route({
+    	origin: origin,
+    	destination: destination,
+    	travelMode: google.maps.TravelMode.DRIVING
+  	}, function(response, status) {
+	    if (status === google.maps.DirectionsStatus.OK) 
+	    {
+	      	GLOBAL.getDirectionsRenderer().setDirections(response);	      	
+	    } else 
+	    {
+	      window.alert('Directions request failed due to ' + status);
+	    }
+  	});
+}
+
 function panMapToAddress( address ) {
 
 	var geocoder = new google.maps.Geocoder();
@@ -33,12 +50,12 @@ function panMapToAddress( address ) {
 	});
 }
 
-function panMapToLocation(map, location)
+function panMapToLocation(newLocation,map)
 {
 	map = map || GLOBAL.getMap();
-	map.panTo(location);
+	setTimeout(function() {map.panTo(newLocation);},0);
 	map.setZoom(11);
-	map.location = location;	
+	map.location = newLocation;	
 }
 
 function calculateDistanceFromLatLonInKm(latlng1,latlng2) 
@@ -64,6 +81,7 @@ function calculateDistanceFromLatLonInKm(latlng1,latlng2)
 function deg2rad(deg) {
   return deg * (Math.PI/180);
 }
+
 
 /*function fitMarkersBounds(map, markers)
 {

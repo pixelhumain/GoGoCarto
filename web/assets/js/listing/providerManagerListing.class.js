@@ -31,9 +31,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	var newMarkers = [];
 	var markersToRemove = [];
 	var markersChanged = false;
-	/*window.console.log("UPDATE PROVIDER LIST checkAll : " + checkInAllProviders + "| forceRepaint : " + forceRepaint);
-	window.console.log(GLOBAL.getFilterManager().productFilters);
-	window.console.log(GLOBAL.getFilterManager().typeFilters);*/
+
 	filterManager = GLOBAL.getFilterManager();
 
 	i = providers.length;
@@ -45,7 +43,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		
 		if (mapBounds.contains(provider.getPosition()) && filterManager.checkIfProviderPassFilters(provider))
 		{
-			if (! provider.isVisible() )
+			if (! provider.isVisible() && GLOBAL.getState() == "normal")
 			{
 				if (provider.isInitialized() === false) provider.initialize();
 				provider.show();
@@ -56,7 +54,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		}
 		else
 		{
-			if (provider.isVisible()) 
+			if (provider.isVisible() && !provider.isShownAlone ) 
 			{
 				provider.hide();
 				markersToRemove.push(provider.getMarker());
@@ -68,9 +66,6 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		}
 	}
 
-	/*if (newMarkers.length > 0) GLOBAL.getClusterer().addMarkers(newMarkers);
-	if (markersToRemove.length > 0) GLOBAL.getClusterer().removeMarkers(markersToRemove);*/	
-
 	if (markersChanged || forceRepaint)
 	{
 		GLOBAL.getClusterer().clearMarkers();
@@ -78,7 +73,6 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		GLOBAL.getClusterer().repaint();
 	}	
 };
-
 
 ProviderManagerListing.prototype.getProviders = function () 
 {
@@ -94,6 +88,24 @@ ProviderManagerListing.prototype.getMarkers = function ()
 		markers.push(this.currProviders_[l].getMarker());
 	}
 	return markers;
+};
+
+ProviderManagerListing.prototype.hidePartiallyAllMarkers = function () 
+{
+	l = this.currProviders_.length;
+	while(l--)
+	{
+		this.currProviders_[l].getBiopenMarker().showHalfHidden();
+	}
+};
+
+ProviderManagerListing.prototype.showNormalHiddenAllMarkers = function () 
+{
+	l = this.allProviders_.length;
+	while(l--)
+	{
+		this.currProviders_[l].getBiopenMarker().showNormalHidden();
+	}
 };
 
 ProviderManagerListing.prototype.getProviderById = function (providerId) 

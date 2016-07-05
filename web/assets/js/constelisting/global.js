@@ -12,7 +12,7 @@ jQuery(document).ready(function()
 		window.console.log("on search");
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
-	});
+	});		
 
 	/*$('#btn_menu').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);*/

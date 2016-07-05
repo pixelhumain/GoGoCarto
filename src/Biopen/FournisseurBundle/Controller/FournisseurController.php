@@ -30,7 +30,7 @@ class FournisseurController extends Controller
 		{
 			$this->handleFormSubmission($form, $provider, $em, $request);
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la saisie de ce nouveau fournisseur' );	
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Le fournisseur a bien été ajouté' );	
 			return $this->redirectToRoute('biopen_fournisseur_add');			
 		}		
 
@@ -73,7 +73,7 @@ class FournisseurController extends Controller
 
 			$this->handleFormSubmission($form, $provider, $em, $request);
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Un e-mail vient de vous être envoyé pour valider la modification de ce fournisseur' );	
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="/navigation?id=1">Voir le résultat</a>' );	
 			//return $this->redirectToRoute('biopen_fournisseur_add');
 		}
 
@@ -99,9 +99,11 @@ class FournisseurController extends Controller
 			$providerProduct->setProduct($product);
 			$providerProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
 			$provider->addProduct($providerProduct);
-		}	
+		}
+
 		$mainProduct = $request->request->get('mainProductSelection');
-		$provider->setMainProduct($mainProduct);	
+		$provider->setMainProduct($mainProduct);
+			
 		if (!$provider->getMainProduct()) // si pas un producteur ou amap
 		{
 			$provider->setMainProduct($provider->getType());		

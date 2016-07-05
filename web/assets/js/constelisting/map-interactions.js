@@ -3,14 +3,13 @@ jQuery(document).ready(function()
 	
 });
 
-function showProviderInfosOnMap(providerId, showMoreChoiceInfo) 
+function showProviderInfosOnMap(providerId) 
 {
-	showMoreChoiceInfo = showMoreChoiceInfo || true;
-
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
 	$('#btn-close-bandeau-detail').click(function()
 	{  
+		if (GLOBAL.getState() != "starRepresentationChoice") GLOBAL.setState("normal");
 		animate_down_bandeau_detail();
 		return false;
 	});

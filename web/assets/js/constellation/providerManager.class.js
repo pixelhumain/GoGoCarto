@@ -32,50 +32,33 @@ ProviderManager.prototype.draw = function ()
 	}	
 };
 
-ProviderManager.prototype.focusOnThesesProviders = function (starName, idList) 
+ProviderManager.prototype.focusOnThesesProviders = function (idList) 
 {
-	//this.clearProviderList();
+	GLOBAL.getMarkerManager().hidePartiallyAllMarkers();
+
 	var provider;	
 
 	for(var i = 0; i < idList.length; i++)
 	{
-		provider = this.getProviderById(idList[i]);	
-		provider.starChoiceForRepresentation = starName;		
-		
+		provider = this.getProviderById(idList[i]);			
 		provider.getBiopenMarker().updateIcon();
 		provider.getBiopenMarker().showNormalHidden();				
 		provider.show();		
 	}
-
-	/*$('#ProviderList .btn-select-as-representant-container').show();
-	$('#ProviderList .moreInfos').hide();*/
-
-	/*this.initProviderList();*/
-
-    /*$('#ProviderList .btn-select-as-representant').click(function(event) 
-	{ 
-		var providerId = $(this).closest('.providerItem').attr('data-provider-id');
-		GLOBAL.getSRCManager().selectProviderById( providerId ); 
-		return false;		
-	});	*/
 };
-
-
 
 ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
 {
+	GLOBAL.getMarkerManager().showNormalHiddenAllMarkers();
+
 	var marker;
 	for(var i = 0; i < idList.length; i++)
 	{
 		provider = this.getProviderById(idList[i]);	
-		provider.starChoiceForRepresentation = '';
-		provider.currentStarChoiceRepresentant = false;
 		//marker.updateIcon();		
 		provider.hide();		
 	}
 
-	/*$('#ProviderList .btn-select-as-representant-container').hide();
-	$('#ProviderList .moreInfos').show();*/
 	this.draw();
 };
 

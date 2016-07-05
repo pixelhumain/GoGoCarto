@@ -9,21 +9,18 @@ header
 	   	font-size: .85rem ;
 		background-color: $header-color;
 
-		#menu-actions
-		{
-			float : right;
+		#menu-accueil
+		{			
+			display:none;
 		}
 		
 		.menu-item 
 		{ 
 			text-align:center ;
 			line-height: 2.5rem;
-			margin-right: 1rem;
-			width: auto;
-			padding: 0 .5rem;
-			
-			//background-color: #26a69a ;			
-			//border-bottom: 2px solid rgba(0, 0, 0, 0);
+			width: 33.33%;
+				
+			padding: 0 .5rem !important;			
 			color: white;
 
 			font-size: inherit ;
@@ -58,13 +55,24 @@ header
 
 			#menu-accueil
 			{
-				margin-left: 2rem;
-   				font-size: 1.1rem;
+				display: block;
+				font-family: 'Yellowtail', cursive;
+				margin-left: .7rem;
+			    font-size: 1.8rem;
+			    line-height: 3.2rem;
+			    margin-right: 0;
+			}
+
+			#menu-actions
+			{
+				float : right;
 			}
 
 			.menu-item 
 			{
 				margin-right: 2rem;
+				line-height: 3.3rem;
+				width: auto;	
 			}
 		}
 
