@@ -5,8 +5,6 @@ function DisplayProviderAloneManager()
 
 DisplayProviderAloneManager.prototype.begin = function (providerId) 
 {	
-	window.console.log("DisplayProviderAloneManager begin");
-
 	if (this.providerShownAlone_ !== null) this.providerShownAlone_.isShownAlone = false;
 
 	if (constellationMode) GLOBAL.getProviderManager().focusOnThesesProviders([providerId]);
@@ -15,7 +13,7 @@ DisplayProviderAloneManager.prototype.begin = function (providerId)
 		var providers = GLOBAL.getProviderManager().getProviders();
 
 		l = providers.length;
-		window.console.log("hiding providers nbre = " + l);
+		//window.console.log("hiding providers nbre = " + l);
 		while(l--)
 		{
 			providers[l].hide();
@@ -31,7 +29,7 @@ DisplayProviderAloneManager.prototype.begin = function (providerId)
 	document.title = provider.name + ' - Mon voisin fait du bio';
 
 	showProviderInfosOnMap(providerId);
-	
+
 	var map = GLOBAL.getMap();
 	setTimeout(function() { map.panTo(provider.getPosition());},0);
 	map.setZoom(11);
@@ -40,7 +38,6 @@ DisplayProviderAloneManager.prototype.begin = function (providerId)
 
 DisplayProviderAloneManager.prototype.end = function () 
 {	
-	window.console.log("DisplayProviderAloneManager end");
 
 	if (this.providerShownAlone_ === null) return;
 

@@ -31,6 +31,11 @@ function slugify(text)
     .replace(/-+$/, '');            // Trim - from end of text
 }
 
+function capitalize(text)
+{
+    return text.substr(0,1).toUpperCase()+text.substr(1,text.length).toLowerCase();
+}
+
 function getQueryParams(qs) 
 {
     qs = qs.split("+").join(" ");

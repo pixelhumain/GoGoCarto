@@ -42,6 +42,7 @@ function panMapToAddress( address ) {
 		{
 			panMapToLocation(results[0].geometry.location);
 			$('#inputAddress').val(results[0].formatted_address);
+			GLOBAL.updateState();
 		} 	
 		else
 		{
@@ -56,6 +57,8 @@ function panMapToLocation(newLocation,map)
 	setTimeout(function() {map.panTo(newLocation);},0);
 	map.setZoom(11);
 	map.location = newLocation;	
+	map.locationAddress = $('#inputAddress').val();
+	map.locationSlug = capitalize(slugify($('#inputAddress').val()));		
 }
 
 function calculateDistanceFromLatLonInKm(latlng1,latlng2) 

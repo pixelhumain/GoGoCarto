@@ -32,7 +32,7 @@ function initMap()
 		if (!onlyInputAdressMode) 
 		{
 			initialize(map);
-			checkInitialState();
+			GLOBAL.checkInitialState();
 		}
 	} );
 

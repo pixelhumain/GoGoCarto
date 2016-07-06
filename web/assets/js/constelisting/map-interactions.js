@@ -6,7 +6,11 @@ jQuery(document).ready(function()
 function showProviderInfosOnMap(providerId) 
 {
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
+
+	if (GLOBAL.getState != 'showProviderAlone') GLOBAL.setState("showProvider", {id: providerId});
+
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
+
 	$('#btn-close-bandeau-detail').click(function()
 	{  
 		if (GLOBAL.getState() != "starRepresentationChoice") GLOBAL.setState("normal");

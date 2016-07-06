@@ -10,7 +10,7 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.constellationMode_ = constellationMode;
 	this.filterManager_ = constellationMode ? null : new FilterManager();
 	this.listProviderManager_ = constellationMode ? new ListProviderManager() : null;
-	this.state_ = null;
+	this.stateName_ = null;
 	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
 	this.displayProviderAloneManager_ = new DisplayProviderAloneManager();
 
@@ -39,43 +39,38 @@ Global.prototype.getListProviderManager = function() { return this.listProviderM
 Global.prototype.getDirectionsService = function() { return this.directionsService_; };
 Global.prototype.getDirectionsRenderer = function() { return this.directionsRenderer_; };
 
-Global.prototype.getState = function() { return this.state_; };
+Global.prototype.getState = function() { return this.stateName_; };
 
-Global.prototype.setState = function(state, options, backFromHistory) 
+Global.prototype.setState = function(stateName, options, backFromHistory) 
 { 
+	
 	backFromHistory = backFromHistory || false;
-
-	var oldState = this.state_;
-	this.state_ = state;
-	if (oldState == state) return;
-
 	options = options || {};
 
-	switch (state)
+	window.console.log("GLOBAL set State : " + stateName + ', options = ' + options + ', backfromHistory : ' + backFromHistory);
+
+
+	var oldStateName = this.stateName_;
+	this.stateName_ = stateName;
+	if (oldStateName == stateName) return;	
+
+	var provider = options.id ? this.providerManager_.getProviderById(options.id) : null;
+
+	switch (stateName)
 	{
+		case 'showProvider':					
+			break;	
+
 		case 'showProviderAlone':
 			if (!options.id) return;
-
-			if (!backFromHistory)
-			{
-				if (oldState === null) history.replaceState({ mode: state, id:options.id }, 'Navigation', "navigation?id="+options.id);
-				else history.pushState({ mode: state, id:options.id }, 'Navigation', "navigation?id="+options.id);	
-			}
 			
 			this.directionsRenderer_.setDirections({routes: []});
 			this.displayProviderAloneManager_.begin(options.id);						
 			break;
 
 		case 'showRouting':
-			if (!options.id) return;
+			if (!options.id) return;			
 			
-			if (!backFromHistory)
-			{
-				if (oldState === null) history.replaceState({ mode: state, id:options.id }, 'Navigation', "navigation?routing="+options.id);
-				else history.pushState({ mode: state, id:options.id }, 'Navigation', "navigation?routing="+options.id);
-			}
-
-			var provider = this.providerManager_.getProviderById(options.id);
 			var origin;
 			if (constellationMode)
 			{
@@ -94,13 +89,7 @@ Global.prototype.setState = function(state, options, backFromHistory)
 			break;
 
 		case 'normal':
-			
-			if (!backFromHistory)
-			{
-				if (oldState === null)history.replaceState({ mode: state }, 'Navigation', "navigation");
-				else history.pushState({ mode: 'normal' }, 'Navigation', "navigation");
-			}
-			
+						
 			document.title = this.constellationMode_ ? 'Constellation' : 'Navigation libre';
 			this.displayProviderAloneManager_.end();
 			this.directionsRenderer_.setDirections({routes: []});
@@ -109,13 +98,52 @@ Global.prototype.setState = function(state, options, backFromHistory)
 				clearProductList();
 				this.starRepresentationChoiceManager_.end();
 			}	
-				
 						
 			break;
-	}	
+	}
+
+	this.updateDocumentTitle_(stateName, provider);
+	this.updateHistory_(stateName, oldStateName, options, backFromHistory);
+	window.console.log(history);	
 };
 
-function checkInitialState()
+Global.prototype.updateState = function()
+{
+	this.updateHistory_(history.state.name, null, history.state.options, false);
+};
+
+Global.prototype.updateHistory_ = function(stateName, oldStateName, options, backFromHistory)
+{
+	var route = "";
+	if (!this.constellationMode_)
+	{
+		if (this.map_&& this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
+		else route = Routing.generate('biopen_listing');
+	}
+	
+	for (var key in options)
+	{
+		route += '?' + key + '=' + options[key];
+	}
+
+	window.console.log("new route : " + route);
+
+	if (!backFromHistory)
+	{
+		if (oldStateName === null || stateName == "showProvider" || (stateName == 'normal' && oldStateName == "showProvider"))
+		 	history.replaceState({ name: stateName, options: options }, '', route);
+		else 
+			history.pushState({ name: stateName, options: options }, '', route);
+	}
+};
+
+Global.prototype.updateDocumentTitle_ = function(stateName, provider)
+{
+	if (provider !== null) document.title = provider.name + ' - Mon voisin fait du bio';
+	else if (this.map_.locationAddress && stateName == 'normal') document.title = 'Navigation Libre - ' + this.map_.locationAddress;
+};
+
+Global.prototype.checkInitialState = function()
 {
 	// CHECK si un type de provider est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
@@ -131,13 +159,15 @@ function checkInitialState()
 	{
 		GLOBAL.setState('normal');
 	}
-}
+};
 
 jQuery(document).ready(function()
 {	
 	window.onpopstate = function(event) {
+	  window.console.log("OnpopState ");
 	  window.console.log(event.state);
-	  GLOBAL.setState(event.state.mode,{id:event.state.id});
+	  
+	  GLOBAL.setState(event.state.name,event.state.options,true);
 	  /*if (event.state.mode =="showProviderAlone")
 	  {
 	  	 GLOBAL.getDPAManager().begin(event.state.id);

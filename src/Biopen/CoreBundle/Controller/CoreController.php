@@ -26,7 +26,11 @@ class CoreController extends Controller
 
     public function listingAction($slug)
     {
-        if ($slug == '' && $this->get('session')->get('slug')) $slug = $this->get('session')->get('slug');
+        if ($slug == '' && $this->get('session')->get('slug')) 
+        {
+            $slug = $this->get('session')->get('slug');
+            dump($slug);
+        }
 
         $geocodeResponse = null;
 
