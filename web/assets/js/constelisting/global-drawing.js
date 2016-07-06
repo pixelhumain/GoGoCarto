@@ -9,7 +9,6 @@ jQuery(document).ready(function()
 
 	$('#inputAddress').on("search", function(event, address)
 	{
-		window.console.log("on search");
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
 	});		
@@ -145,7 +144,11 @@ function ajuster_taille_carte(bandeau_detail_height)
 	  		}
 		  	matchMediaBigSize_old = true; 	
 		}
-	}	
+	}
+
+	// après 500ms l'animation de redimensionnement est terminé
+	// on trigger cet évenement pour que la carte se redimensionne vraiment
+	setTimeout(function() { google.maps.event.trigger(GLOBAL.getMap(), 'resize'); },500);
 }
 
 function ajuster_tailler_info_provider()

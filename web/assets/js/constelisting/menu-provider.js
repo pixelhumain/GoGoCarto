@@ -3,7 +3,30 @@ jQuery(document).ready(function()
 	//   MENU PROVIDER
 	var menu_provider = $('#bandeau_detail .menu-provider');
 	createListenersForProviderMenu(menu_provider);	
+
+	$('#popup-delete-provider #select_reason').material_select();
 });
+
+function deleteProvider()
+{
+	if (grecaptcha.getResponse().length === 0)
+	{
+		$('#captcha-error-message').show();
+		grecaptcha.reset();
+	}
+	else
+	{
+		$('#captcha-error-message').hide();
+		$('#popup-delete-provider').closeModal();
+	}
+}
+
+function onloadCaptcha() 
+{
+    grecaptcha.render('captcha', {
+      'sitekey' : '6LfaSyQTAAAAAHJdUOyCd0DGO0qCIuJ_3mGf2IZL'
+    });
+}
 
 function createListenersForProviderMenu(object)
 {
@@ -11,8 +34,16 @@ function createListenersForProviderMenu(object)
 		window.location.href = Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
 	});
 	object.find('.icon-delete').click(function() {
-		alert('Fonctionalité pas encore disponible, désolé ! '); 
-		//window.location.href = Routing.generate('biopen_fournisseur_delete', { id : getCurrentProviderIdShown() }); 
+		//alert('Fonctionalité pas encore disponible, désolé ! '); 
+		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
+		window.console.log(provider.name);
+		$('#popup-delete-provider .providerName').text(capitalize(provider.name));
+		$('#popup-delete-provider').openModal({
+		      dismissible: true, 
+		      opacity: 0.5, 
+		      in_duration: 300, 
+		      out_duration: 200
+    		});
 	});
 	object.find('.icon-directions').click(function() 
 	{

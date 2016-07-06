@@ -76,6 +76,16 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
     </script>
 
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
+
+
+{% endblock %}
+
+{% block modals %} 
+
+  {% include '::Components/delete-provider.html.twig'  %}
 
 {% endblock %}
 

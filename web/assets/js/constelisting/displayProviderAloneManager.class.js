@@ -3,9 +3,15 @@ function DisplayProviderAloneManager()
 	this.providerShownAlone_ = null;
 }
 
-DisplayProviderAloneManager.prototype.begin = function (providerId) 
+DisplayProviderAloneManager.prototype.begin = function (providerId, panToProviderLocation) 
 {	
-	if (this.providerShownAlone_ !== null) this.providerShownAlone_.isShownAlone = false;
+	panToProviderLocation = panToProviderLocation !== false;
+
+	if (this.providerShownAlone_ !== null) 
+	{
+		this.providerShownAlone_.hide();
+		this.providerShownAlone_.isShownAlone = false;
+	}
 
 	if (constellationMode) GLOBAL.getProviderManager().focusOnThesesProviders([providerId]);
 	else 
@@ -13,7 +19,6 @@ DisplayProviderAloneManager.prototype.begin = function (providerId)
 		var providers = GLOBAL.getProviderManager().getProviders();
 
 		l = providers.length;
-		//window.console.log("hiding providers nbre = " + l);
 		while(l--)
 		{
 			providers[l].hide();
@@ -22,17 +27,16 @@ DisplayProviderAloneManager.prototype.begin = function (providerId)
 	
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId); 
 	this.providerShownAlone_ = provider;
-	provider.show();
-
+	provider.show();	
 	provider.isShownAlone = true;
-
-	document.title = provider.name + ' - Mon voisin fait du bio';
 
 	showProviderInfosOnMap(providerId);
 
-	var map = GLOBAL.getMap();
-	setTimeout(function() { map.panTo(provider.getPosition());},0);
-	map.setZoom(11);
+	if (panToProviderLocation)
+	{
+		var map = GLOBAL.getMap();
+		panMapToLocation(provider.getPosition(), map, false);
+	}
 };
 
 
@@ -42,8 +46,12 @@ DisplayProviderAloneManager.prototype.end = function ()
 	if (this.providerShownAlone_ === null) return;
 
 	if (constellationMode) GLOBAL.getProviderManager().clearFocusOnThesesProviders([this.providerShownAlone_.getId()]);
-	else GLOBAL.getProviderManager().updateProviderList(true,true);
-
+	else 
+	{
+		this.providerShownAlone_.hide();
+		GLOBAL.getProviderManager().updateProviderList(true,true);
+	}
+	
 	this.providerShownAlone_.isShownAlone = false;	
 
 	this.providerShownAlone_ = null;	

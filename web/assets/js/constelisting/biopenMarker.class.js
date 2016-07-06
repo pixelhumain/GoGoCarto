@@ -274,6 +274,12 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 	//window.console.log("checkPolylineVisibility_ " + context.richMarker_.getVisible());
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
 	context.polyline_.setMap(context.richMarker_.getMap());	
+
+	if (GLOBAL.getState() == "showRouting") 
+	{
+		context.polyline_.setMap(null);	
+		context.polyline_.setVisible(false);
+	}	
 };
 
 BiopenMarker.prototype.show = function () 

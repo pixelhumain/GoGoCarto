@@ -7,7 +7,7 @@ function showProviderInfosOnMap(providerId)
 {
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 
-	if (GLOBAL.getState != 'showProviderAlone') GLOBAL.setState("showProvider", {id: providerId});
+	if (GLOBAL.getState == 'normal' && !constellationMode) GLOBAL.setState("showProvider", {id: providerId});
 
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
 
@@ -124,7 +124,8 @@ function animate_down_bandeau_detail()
 
 			if ($('#bandeau_detail').is(':visible'))
 			{		
-				$('#bandeau_detail').animate({'right':'-500px'},350,'swing',function(){ $(this).hide(); });
+				$('#bandeau_detail').animate({'right':'-500px'},350,'swing',function(){ $(this).hide();ajuster_taille_carte(0);  });
+				
 			}		
 		}
 	}	

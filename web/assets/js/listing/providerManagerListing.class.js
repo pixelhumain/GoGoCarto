@@ -43,7 +43,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		
 		if (mapBounds.contains(provider.getPosition()) && filterManager.checkIfProviderPassFilters(provider))
 		{
-			if (! provider.isVisible() && GLOBAL.getState() == "normal")
+			if (!provider.isVisible() && $.inArray(GLOBAL.getState(), ["normal","showProvider"]) > -1)
 			{
 				if (provider.isInitialized() === false) provider.initialize();
 				provider.show();

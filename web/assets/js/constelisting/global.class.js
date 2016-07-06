@@ -47,8 +47,7 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 	backFromHistory = backFromHistory || false;
 	options = options || {};
 
-	window.console.log("GLOBAL set State : " + stateName + ', options = ' + options + ', backfromHistory : ' + backFromHistory);
-
+	//window.console.log("GLOBAL set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
 	var oldStateName = this.stateName_;
 	this.stateName_ = stateName;
@@ -62,8 +61,7 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 			break;	
 
 		case 'showProviderAlone':
-			if (!options.id) return;
-			
+			if (!options.id) return;			
 			this.directionsRenderer_.setDirections({routes: []});
 			this.displayProviderAloneManager_.begin(options.id);						
 			break;
@@ -80,31 +78,28 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 			{
 				origin = GLOBAL.getMap().location;
 			}
-			window.console.log('origin : ' + origin);
+			//window.console.log('origin : ' + origin);
 			
 			var route = calculateRoute(origin, provider.getPosition()); 
-			this.displayProviderAloneManager_.begin(options.id);	
-		
-								
+			this.displayProviderAloneManager_.begin(options.id, false);									
 			break;
 
-		case 'normal':
-						
-			document.title = this.constellationMode_ ? 'Constellation' : 'Navigation libre';
-			this.displayProviderAloneManager_.end();
-			this.directionsRenderer_.setDirections({routes: []});
+		case 'normal':			
 			if (this.constellationMode_) 
 			{
 				clearProductList();
 				this.starRepresentationChoiceManager_.end();
-			}	
+			}
+			
+			this.displayProviderAloneManager_.end();
+			this.directionsRenderer_.setDirections({routes: []});
+				
 						
 			break;
 	}
 
 	this.updateDocumentTitle_(stateName, provider);
-	this.updateHistory_(stateName, oldStateName, options, backFromHistory);
-	window.console.log(history);	
+	this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 };
 
 Global.prototype.updateState = function()
@@ -117,16 +112,21 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 	var route = "";
 	if (!this.constellationMode_)
 	{
-		if (this.map_&& this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
+		if (this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
 		else route = Routing.generate('biopen_listing');
-	}
-	
-	for (var key in options)
-	{
-		route += '?' + key + '=' + options[key];
-	}
 
-	window.console.log("new route : " + route);
+		for (var key in options)
+		{
+			route += '?' + key + '=' + options[key];
+		}
+	}
+	/*else
+	{
+		if (this.map_.locationSlug) route = Routing.generate('biopen_constellation', { slug : this.map_.locationSlug });
+		else route = Routing.generate('biopen_constellation');
+	}*/
+
+	window.console.log(route);
 
 	if (!backFromHistory)
 	{
@@ -139,7 +139,7 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 
 Global.prototype.updateDocumentTitle_ = function(stateName, provider)
 {
-	if (provider !== null) document.title = provider.name + ' - Mon voisin fait du bio';
+	if (provider !== null) document.title = capitalize(provider.name) + ' - Mon voisin fait du bio';
 	else if (this.map_.locationAddress && stateName == 'normal') document.title = 'Navigation Libre - ' + this.map_.locationAddress;
 };
 
@@ -164,17 +164,9 @@ Global.prototype.checkInitialState = function()
 jQuery(document).ready(function()
 {	
 	window.onpopstate = function(event) {
-	  window.console.log("OnpopState ");
-	  window.console.log(event.state);
+	  /*window.console.log("OnpopState ");
+	  window.console.log(event.state);*/
 	  
 	  GLOBAL.setState(event.state.name,event.state.options,true);
-	  /*if (event.state.mode =="showProviderAlone")
-	  {
-	  	 GLOBAL.getDPAManager().begin(event.state.id);
-	  }
-	  if (event.state.mode =="showRouting")
-	  {
-	  	 GLOBAL.getDPAManager().begin(event.state.id);
-	  }*/
 	};
 });

@@ -3667,6 +3667,20 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
       cursor: pointer; }
       #bandeau_helper #btn-bandeau-helper-close:hover {
         color: #2A3535; } }
+#popup-delete-provider h5 {
+  text-align: center;
+  margin-bottom: 2rem; }
+#popup-delete-provider #delete-info {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-style: italic; }
+#popup-delete-provider #captcha > div > div {
+  margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem; }
+#popup-delete-provider .dropdown-content li.disabled > span {
+  color: rgba(0, 0, 0, 0.3); }
+
 #map {
   position: relative;
   z-index: 10;

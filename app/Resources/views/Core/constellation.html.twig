@@ -1,6 +1,6 @@
 {% extends "::bundle_layout.html.twig" %}
 
-{% block title %}Constellation{% endblock %}
+{% block title %}Constellation{% if slug is defined %} - {{ slug | capitalize }}{% endif %}{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
@@ -148,22 +148,17 @@
 
      <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
-  </script>
+    </script>
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
 
 {% endblock %}
 
 {% block modals %} 
 
-  <!-- Pop up message alerte-->
-  <div id="popup" class="modal">
-  <div class="modal-content">
-    <h5 id="popup_title"></h5>
-    <p id="popup_content"></p>
-  </div>
-  <div class="modal-footer">
-    <span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
-  </div>
-  </div>
+  {% include '::Components/delete-provider.html.twig'  %}
 
 {% endblock %}
 

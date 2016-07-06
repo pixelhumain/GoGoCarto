@@ -25,6 +25,7 @@ function calculateRoute(origin, destination)
   	}, function(response, status) {
 	    if (status === google.maps.DirectionsStatus.OK) 
 	    {
+	      	google.maps.event.trigger(GLOBAL.getMap(), 'resize');
 	      	GLOBAL.getDirectionsRenderer().setDirections(response);	      	
 	    } else 
 	    {
@@ -51,14 +52,24 @@ function panMapToAddress( address ) {
 	});
 }
 
-function panMapToLocation(newLocation,map)
+function panMapToLocation(newLocation,map,changeMapLocation)
 {
 	map = map || GLOBAL.getMap();
-	setTimeout(function() {map.panTo(newLocation);},0);
+	changeMapLocation = changeMapLocation !== false;
+	setTimeout(function() 
+	{
+		//on laisse 500ms le temps que l'animation du redimensionnement éventuel termine
+		google.maps.event.trigger(GLOBAL.getMap(), 'resize');
+		map.panTo(newLocation);
+	},500);
 	map.setZoom(11);
-	map.location = newLocation;	
-	map.locationAddress = $('#inputAddress').val();
-	map.locationSlug = capitalize(slugify($('#inputAddress').val()));		
+
+	if (changeMapLocation)
+	{
+		map.location = newLocation;	
+		map.locationAddress = $('#inputAddress').val();
+		map.locationSlug = capitalize(slugify($('#inputAddress').val()));		
+	}	
 }
 
 function calculateDistanceFromLatLonInKm(latlng1,latlng2) 
