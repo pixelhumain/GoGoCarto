@@ -10,11 +10,14 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
     livereload = require('gulp-livereload'),
-    del = require('del');
+    del = require('del'),
+    gulpUtil = require('gulp-util'),
+    minify = require('gulp-minify');
 
-gulp.task('styles', function() {
+
+gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
-    .pipe(rename({suffix: '.min'}))
+    //.pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
     .pipe(gulp.dest('web/assets/css'));
     //.pipe(notify({ message: 'Styles task complete' }));
@@ -24,8 +27,17 @@ gulp.task('sass', function () {
   return sass('web/assets/scss/**/*.scss')
     .on('error', sass.logError)
     .pipe(gulp.dest('web/assets/css'))
-    .pipe(livereload());
-	//.pipe(notify({ message: 'Sass task complete' }));
+});
+
+gulp.task('prod_js', function() {
+  return gulp.src(['web/js/index.js','web/js/constelisting.js','web/js/fournisseur-add-edit.js'])
+    //.pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    //.pipe(minify())
+    //.pipe(sourcemaps.init({loadMaps: true}))
+    //.pipe(uglify().on('error', gulpUtil.log)) // notice the error event here
+    //.pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('web/js'));;
 });
 
 gulp.task('scriptsConstelisting', function() {
@@ -37,10 +49,6 @@ gulp.task('scriptsConstelisting', function() {
     .pipe(concat('constelisting.js'))
     .pipe(livereload())
     .pipe(gulp.dest('web/js'));
-    //.pipe(rename({suffix: '.min'}))
-    //.pipe(uglify())
-    //.pipe(gulp.dest('dist/js'))
-    //.pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('scriptsFournisseurAddEdit', function() {
@@ -52,10 +60,17 @@ gulp.task('scriptsFournisseurAddEdit', function() {
     .pipe(concat('fournisseur-add-edit.js'))
     .pipe(livereload())
     .pipe(gulp.dest('web/js'));
-    //.pipe(rename({suffix: '.min'}))
-    //.pipe(uglify())
-    //.pipe(gulp.dest('dist/js'))
-    //.pipe(notify({ message: 'Scripts task complete' }));
+});
+
+gulp.task('scriptsIndex', function() {
+  return gulp.src(['web/assets/js/index.js','web/assets/js/commons.js','web/assets/js/components/inputAddress.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({ message: 'JS hint fail'}))
+    .pipe(concat('index.js'))
+    .pipe(livereload())
+    .pipe(gulp.dest('web/js'));
 });
 
 gulp.task('scriptsLibs', function() {
@@ -97,6 +112,8 @@ gulp.task('watch', function() {
   gulp.watch(['web/assets/js/fournisseur-add-edit/**/*.js','web/assets/js/commons.js'], ['scriptsFournisseurAddEdit']);
   
   gulp.watch('web/assets/js/libs/**/*.js', ['scriptsLibs']);
+
+  gulp.watch(['web/assets/js/index.js','web/assets/js/commons.js','web/assets/js/components/inputAddress.js'], ['scriptsIndex']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 
@@ -109,6 +126,10 @@ gulp.task('clean', function(cb) {
 
 gulp.task('default', function() {
     gulp.start('styles', 'scripts', 'images', 'copy');
+});
+
+gulp.task('production', function() {
+    gulp.start('prod_styles', 'prod_js');
 });
 
 

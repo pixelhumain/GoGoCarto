@@ -107,9 +107,12 @@ class RandomCreationController extends Controller
 	        $new_provider->setContactAmap($contactAmap);
 	      }
 
+	      $currListProducts = $listProducts;
 	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
 	      {
-	        $product = $listProducts[rand(0,count($listProducts)-1)];
+	        $key = rand(0,count($currListProducts)-1);
+	        $product = $currListProducts[$key];
+	        array_splice($currListProducts, $key, 1);
 	        $providerProduct = new ProviderProduct();
 	        $providerProduct->setProduct($product);
 	        $providerProduct->setDescriptif($lipsum->words(rand(0,15)));

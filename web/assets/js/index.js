@@ -1,9 +1,9 @@
 jQuery(document).ready(function()
-{	
+{
 	$('#btn-constellation').click(function()
 	{ 
 		var address = $('#inputAddress').val();
-		if (!address) 
+		if (!address)
 		{
 			$('#inputAddress').addClass('invalid');
 			$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});

@@ -126,7 +126,7 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 		else route = Routing.generate('biopen_constellation');
 	}*/
 
-	window.console.log(route);
+	//window.console.log(route);
 
 	if (!backFromHistory)
 	{
