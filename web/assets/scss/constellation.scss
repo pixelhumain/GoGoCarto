@@ -1,40 +1,10 @@
 @import "constelisting";
 @import "components/providerList";
 
-
-
-#bandeau_goToProviderList
-{	
-    background-color: #272626;
-	text-align: center;    
-
-    a 
-    {
-    	color: #DEDEDE;
-	    font-weight: 400;
-	    line-height: 2.5rem;
-    }
-
-    .icon-expand
-    {
-    	font-size: 1.2rem;
-	    position: relative;
-	    top: 3px;
-	    margin: 0 .5rem;
-    }   
-
-    @media #{$medium-and-up} 
-    {
-    	background-color: rgb(252, 252, 252);
-    	margin-top: .5rem;
-    	margin-bottom: .5rem;
-
-    	a 
-    	{
-	    	color: lighten($secondary-color, 15%);
-	    	font-weight: 600;
-    	}
-    }
+#bandeau_tabs
+{
+	@include box-shadow-1(0px -2px 5px 1px rgba(0, 0, 0, 0.3));
+	z-index: 5000;
 }
 
 #div_recherche_contener

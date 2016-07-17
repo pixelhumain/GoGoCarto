@@ -48,8 +48,7 @@
 
 	#menu-title 
 	{
-		background-color: #EFEFEF;
-	    color: #3D3D3D;
+		background-color: $primary-color;
 	    line-height: 2.5rem;
 	    padding-right: 1.5rem;
 	    font-weight: 500;
@@ -67,7 +66,6 @@
 		    position: absolute;
 		    top: .2rem;
 		    font-weight: 100;
-		    color: rgb(99, 97, 97);
 		    font-size: 1.2rem;
 		    right: 1.3rem;
 

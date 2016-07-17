@@ -1,5 +1,8 @@
 #ProviderList
 {
+	display:none;
+	overflow: auto;
+
 	border-left: none;
 	height: auto;
 
@@ -13,7 +16,7 @@
 
 	.providerItem
 	{
-		.menu-provider { display: none; } 
+		//.menu-provider { display: none; } 
 		.iconMainProduct {display:none}
 		.starNamesIcons {display:block}
 		.icon-close {display:none}
@@ -29,10 +32,14 @@
 		}
 	}
 
+	.collapsible-header
+	{
+		border-bottom: 1px solid #abaaaa;
+	}
+
 	.collapsible.popout > li
 	{ 
 		margin: 0;
-		margin-bottom: 1px; 
 	}
 
 	.collapsible.popout > li.active
@@ -47,7 +54,7 @@
 		line-height: 3rem;
 	    text-align: center;
 	    color: #F5F3F3;
-	    background-color: #3D3D3D;	    
+	    background-color: $primary-color;	    
 	}	
 }
 

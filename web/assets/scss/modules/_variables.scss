@@ -1,10 +1,11 @@
 
 /*** Colors ***/
-$primary-color: #ee6e73 !default;
-$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color: #de5a5f !default;
+$primary-color-light: lighten($primary-color, 10%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 
 $secondary-color: #4A7874 !default;
+$secondary-color-light: lighten($secondary-color, 5%) !default;
 //$secondary-color: color("teal", "lighten-1") !default;
 $success-color: $secondary-color !default;
 //$success-color: color("teal", "lighten-1") !default;
@@ -134,9 +135,9 @@ $slider-indicator-color: color('green', 'base') !default;
 $spinner-default-color: $secondary-color !default;
 
 /*** Tabs ***/
-$tabs-underline-color: $primary-color-light !default;
-$tabs-text-color: $primary-color !default;
-$tabs-bg-color: #fff !default;
+$tabs-underline-color: white !default;
+$tabs-text-color: white !default;
+$tabs-bg-color: #5c5757 !default;
 
 /*** Tables ***/
 $table-border-color: #d0d0d0 !default;

@@ -1,11 +1,11 @@
 jQuery(document).ready(function()
 {	
 	//animation pour lien d'ancre dans la page
-    $('a[href^="#"]').click(function(){  
+   /* $('a[href^="#"]').click(function(){  
 	    var target = $(this).attr("href");
 	    $('html, body').animate({scrollTop: $(target).offset().top}, 700);
 	    return false;  
-	}); 
+	}); */
 
 	$('#inputAddress').on("search", function(event, address)
 	{
@@ -72,6 +72,15 @@ jQuery(document).ready(function()
 	{
 		showOnlyInputAdress();
 	}
+
+	$('#list_tab').click(function(){
+		$("#ProviderList").show();
+		$('#div_map_and_products').hide();
+	});
+	$('#map_tab').click(function(){		
+		$('#div_map_and_products').show();
+		$("#ProviderList").hide();
+	});
 });
 
 function showProductsList()
@@ -101,7 +110,7 @@ function showOnlyInputAdress()
 {
 	hideBandeauHelper();
 	$('#section_carte').css('margin-left','0');
-	$('#bandeau_goToProviderList').hide();
+	$('#bandeau_tabs').hide();
 	$('#ProviderList').hide();
 	ajuster_taille_composants();
 }
@@ -111,9 +120,10 @@ function ajuster_taille_composants()
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
 	$('#page_content').css('height','auto');
 
-	var map_and_products_height = $(window).height() - $('header').height();
-	map_and_products_height -= $('#bandeau_goToProviderList:visible').outerHeight(true);
-	$("#div_map_and_products").css('height',map_and_products_height);
+	var content_height = $(window).height() - $('header').height();
+	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
+	$("#div_map_and_products").css('height',content_height);
+	$("#ProviderList").css('height',content_height);	
 
 	ajuster_taille_providerList();
 	ajuster_tailler_info_provider();	

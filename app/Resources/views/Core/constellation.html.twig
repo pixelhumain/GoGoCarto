@@ -62,14 +62,16 @@
 
 </div>
 
+
+
 {# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
-<div id="bandeau_goToProviderList">  
+{# <div id="bandeau_goToProviderList">  
   <a href='#ProviderList'>
       <i class="icon-expand"></i>
       <span class="">Résultats sous forme de liste</span>
       <i class="icon-expand"></i>
   </a>
-</div>
+</div> #}
 
 {# Les résultats par liste #}
 <section id="ProviderList">  
@@ -79,9 +81,12 @@
     <div class="provider-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
     <div id="producteurAmap-end-container"></div> 
   </ul>
-
-  </ul>
 </section>
+
+<ul class="tabs" id="bandeau_tabs">
+  <li class="tab col s6"><a id="map_tab" class="active" href="">Carte</a></li>
+  <li class="tab col s6"><a id="list_tab"href="">Liste</a></li>
+</ul>
 
 {% endblock %}
 

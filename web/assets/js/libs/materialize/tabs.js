@@ -38,7 +38,7 @@
       $this.append('<div class="indicator"></div>');
       var $indicator = $this.find('.indicator');
       if ($this.is(":visible")) {
-        $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
+        $indicator.css({"right": Math.max($tabs_width - (($index + 1) * $tab_width),0)});
         $indicator.css({"left": $index * $tab_width});
       }
       $(window).resize(function () {
@@ -48,7 +48,7 @@
           $index = 0;
         }
         if ($tab_width !== 0 && $tabs_width !== 0) {
-          $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
+          $indicator.css({"right": Math.max($tabs_width - (($index + 1) * $tab_width),0)});
           $indicator.css({"left": $index * $tab_width});
         }
       });
@@ -92,13 +92,13 @@
 
         // Update indicator
         if (($index - $prev_index) >= 0) {
-          $indicator.velocity({"right": $tabs_width - (($index + 1) * $tab_width)}, { duration: 300, queue: false, easing: 'easeOutQuad'});
+          $indicator.velocity({"right": Math.max($tabs_width - (($index + 1) * $tab_width),0)}, { duration: 300, queue: false, easing: 'easeOutQuad'});
           $indicator.velocity({"left": $index * $tab_width}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
 
         }
         else {
           $indicator.velocity({"left": $index * $tab_width}, { duration: 300, queue: false, easing: 'easeOutQuad'});
-          $indicator.velocity({"right": $tabs_width - (($index + 1) * $tab_width)}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
+          $indicator.velocity({"right": Math.max($tabs_width - (($index + 1) * $tab_width),0)}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
         }
 
         // Prevent the anchor's default click action

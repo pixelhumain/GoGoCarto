@@ -380,7 +380,7 @@ html {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #584545; }
+  background-color: #eaeaea; }
 
 body {
   position: absolute;
@@ -510,7 +510,7 @@ ul {
 blockquote {
   margin: 20px 0;
   padding-left: 1.5rem;
-  border-left: 5px solid #ee6e73; }
+  border-left: 5px solid #de5a5f; }
 
 i {
   line-height: inherit; }
@@ -546,7 +546,7 @@ video.responsive-video {
   .pagination li.active a {
     color: #fff; }
   .pagination li.active {
-    background-color: #ee6e73; }
+    background-color: #de5a5f; }
   .pagination li.disabled a {
     cursor: default;
     color: #999; }
@@ -655,7 +655,7 @@ ul.staggered-list li {
 footer.page-footer {
   margin-top: 20px;
   padding-top: 20px;
-  background-color: #ee6e73; }
+  background-color: #de5a5f; }
   footer.page-footer .footer-copyright {
     overflow: hidden;
     height: 50px;
@@ -1447,6 +1447,58 @@ small {
   @media only screen and (min-width: 1201px) {
     .toast {
       float: right; } }
+
+.tabs {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  position: relative;
+  height: 2.7rem;
+  background-color: #3D3D3D;
+  margin: 0 auto;
+  width: calc(100% - 1px);
+  white-space: nowrap; }
+  .tabs .tab {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    display: block;
+    float: left;
+    text-align: center;
+    line-height: 3rem;
+    height: 2.7rem;
+    padding: 0 20px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    width: 15%; }
+    .tabs .tab a {
+      color: white;
+      display: block;
+      width: 100%;
+      height: 100%;
+      -webkit-transition: color 0.28s ease;
+      -moz-transition: color 0.28s ease;
+      -o-transition: color 0.28s ease;
+      -ms-transition: color 0.28s ease;
+      transition: color 0.28s ease; }
+      .tabs .tab a:hover {
+        color: white; }
+    .tabs .tab.disabled a {
+      color: white;
+      cursor: default; }
+  .tabs .indicator {
+    position: absolute;
+    top: 0;
+    height: 3px;
+    background-color: white;
+    will-change: left, right; }
+
+.tabs .tab {
+  padding: 0; }
 
 .material-tooltip {
   padding: 10px 8px;
@@ -3533,7 +3585,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 
 @media only screen and (min-width: 1201px) {
   #bandeau_detail .providerItem .collapsible-header {
-    background-color: #3D3D3D;
+    background-color: #4A7874;
     color: white;
     cursor: default;
     position: absolute;
@@ -3562,7 +3614,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     height: 100%;
     overflow-y: auto; } }
 .menu-provider {
-  background-color: #3D3D3D;
+  background-color: #4A7874;
   position: absolute;
   bottom: 0;
   width: 100%; }
@@ -3671,7 +3723,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     left: 0;
     right: 0;
     padding: 1rem 2.5rem 1rem 1rem;
-    background-color: #4A7874;
+    background-color: #de5a5f;
     color: white;
     -webkit-transition: margin-right 0.5s;
     -moz-transition: margin-right 0.5s;
@@ -3706,7 +3758,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
   margin-right: 0;
   height: 8px;
   position: absolute;
-  top: 3rem;
   z-index: 4;
   left: 0;
   opacity: 1;
@@ -3841,8 +3892,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     background-color: #3D3D3D;
     color: white; }
   #ProductsList #menu-title {
-    background-color: #EFEFEF;
-    color: #3D3D3D;
+    background-color: #de5a5f;
     line-height: 2.5rem;
     padding-right: 1.5rem;
     font-weight: 500;
@@ -3855,7 +3905,6 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       position: absolute;
       top: .2rem;
       font-weight: 100;
-      color: #636161;
       font-size: 1.2rem;
       right: 1.3rem; }
       #ProductsList #menu-title > .icon-close:hover {
