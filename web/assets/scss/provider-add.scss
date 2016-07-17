@@ -1,5 +1,6 @@
 @import "partials/base_bundle";
 @import 'vendors/materialize';
+@import "components/autoComplete";
 @import 'vendors/timepicki';
 
 //   FLASHBAG
@@ -12,15 +13,22 @@
     background-color: #4a7874;
     color: white;
     padding: 1rem;
+
+    a 
+    {
+        color: white;
+        text-decoration: underline;
+        &:hover { color: $primary-color; }
+    }
 }
 
 #page_content
 {
 	position:relative;
-  margin-top: 20px;
+  margin-top: 0;
 	margin-left: auto;
   margin-right: auto; 
-  min-height: 101px;
+  min-height: 121px;
 	width:100%;	
   background-color : #fafafa;
   padding: 1rem;    
@@ -36,7 +44,8 @@
 @media screen and (min-width: 600px)
 {
    #page_content
-  {
+   {
+     margin-top: 20px;
     max-width: 600px;
     width:80%; 
     padding: 1.5rem 2.5rem 1.5rem 1.5rem;    
@@ -57,6 +66,11 @@ h2, h1
 h2.error, h1.error
 {
   font-weight: normal;
+}
+
+.input-field.error .prefix.active
+{
+  color: $error-color !important;
 }
 
 .input-field label
@@ -117,7 +131,7 @@ section
   font-size: 0.92rem;
 }
 
-#captcha > div > div
+#captcha > div 
 {
     margin: 0 auto;
     margin-bottom: 1rem;

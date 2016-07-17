@@ -24,8 +24,7 @@ function BiopenMarker(id_, position_)
 	
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
-		ev.preventDefault();
-		ev.stopPropagation();
+		GLOBAL.setTimeoutClicking();
 
 		if (that.isHalfHidden_) GLOBAL.setState('normal');	
 
@@ -35,6 +34,9 @@ function BiopenMarker(id_, position_)
 		{
 			GLOBAL.getSRCManager().selectProviderById(that.id_);
 		}
+
+		ev.preventDefault();
+		ev.stopPropagation();
 		
 		//event.preventDefault();
     });

@@ -203,7 +203,6 @@ MarkerClusterer.prototype.onAdd = function ()
   
   if (this.automaticRepaint_)
   {
-    window.console.log("automaticRepaint onAdd Listeners" + this.automaticRepaint_);
     // Add the map event listeners
     this.listeners_ = [
       google.maps.event.addListener(this.getMap(), "zoom_changed", function () {

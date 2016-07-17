@@ -38,7 +38,7 @@ class CoreController extends Controller
         {
             $geocodeResponse = $this->geocodeFromAdresse($slug);
 
-            if ($geocodeResponse == null)
+            if ($geocodeResponse === null)
             {  
                 $slug = 'Erreur de localisation';
             } 
@@ -72,7 +72,7 @@ class CoreController extends Controller
         {        	
             $geocodeResponse = $this->geocodeFromAdresse($slug);                     
 
-            if ($geocodeResponse == null)
+            if ($geocodeResponse === null)
             {  
                 $this->get('session')->getFlashBag()->set('error', 'Erreur de localisation');
                 return $this->render('::Core/constellation.html.twig', array('slug'=>''));
@@ -87,7 +87,7 @@ class CoreController extends Controller
 
             $providerList = $this->getProvidersList($geocodePoint, intval($distance));
 
-            if( $providerList == null)
+            if( $providerList === null)
             {
                 $this->get('session')->getFlashBag()->set('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
                 return $this->render('::Core/constellation.html.twig', array('slug'=>''));
@@ -120,7 +120,7 @@ class CoreController extends Controller
         }
     }
 
-    public function getProvidersList($geocodePoint, $distance = 50)
+    private function getProvidersList($geocodePoint, $distance = 50)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -144,7 +144,7 @@ class CoreController extends Controller
         return $providerList;     
     }
 
-    public function buildConstellation($providerList, $geocodeResponse)
+    private function buildConstellation($providerList, $geocodeResponse)
     {
         $constellation['geocodeResult'] = $geocodeResponse;
 
@@ -208,7 +208,7 @@ class CoreController extends Controller
         }
     }
 
-    public function geocodeFromAdresse($slug)
+    private function geocodeFromAdresse($slug)
     {
         $geocode_ok = true;
         try 

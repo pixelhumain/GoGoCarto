@@ -5,7 +5,7 @@ jQuery(document).ready(function()
 		var address = $('#inputAddress').val();
 		if (!address)
 		{
-			$('#inputAddress').addClass('invalid');
+			setTimeout(function() { $('#inputAddress').addClass('invalid'); }, 500);
 			$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});
 		}
 		else redirectToConstelisting('biopen_constellation', address); 
@@ -23,5 +23,5 @@ jQuery(document).ready(function()
 
 function initMap() 
 {	
-	initInputAddressAutocompletion();
+	initAutocompletion(document.getElementById('inputAddress'));
 }

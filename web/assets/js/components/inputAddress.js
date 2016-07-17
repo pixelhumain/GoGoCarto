@@ -11,18 +11,11 @@ jQuery(document).ready(function()
 	{		
 		handleSearchAction();
 	});	
+	$('#inputAddress').on("place_changed", handleSearchAction);
 });
 
 function handleSearchAction()
 {
 	var inputAddress = $('#inputAddress');
 	if (inputAddress.val())	inputAddress.trigger("search", [ inputAddress.val() ]);
-}
-
-function initInputAddressAutocompletion()
-{
-	var options = {
-	  componentRestrictions: {country: 'fr'}
-	};
-	var autocomplete = new google.maps.places.Autocomplete(document.getElementById('inputAddress', options));
 }

@@ -1,5 +1,6 @@
 {
     "name": "biopenlandes/pages-vertes",
+    "description": "annuaire interactif de l'alimentation locale",
     "license": "proprietary",
     "type": "project",
     "autoload": {

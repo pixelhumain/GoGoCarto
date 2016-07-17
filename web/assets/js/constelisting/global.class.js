@@ -14,12 +14,26 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
 	this.displayProviderAloneManager_ = new DisplayProviderAloneManager();
 
+	// when click on marker it also triger click on map
+	// when click on marker we put isClicking to true during
+	// few milliseconds so the map don't do anything is click event
+	this.isClicking_ = false;
+
 	this.directionsService_ = new google.maps.DirectionsService();
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 	
 }
 
 Global.prototype.getMap = function() { return this.map_; };
 Global.prototype.setMap = function(map) { this.map_ = map; };
+
+Global.prototype.setTimeoutClicking = function() 
+{ 
+	this.isClicking_ = true;
+	var that = this;
+	setTimeout(function() { that.isClicking_ = false; }, 100); 
+};
+Global.prototype.isClicking = function() { return this.isClicking_; };
+
 
 Global.prototype.getConstellation = function() { return this.constellation_; };
 Global.prototype.setConstellation = function(constellation) { this.constellation_ = constellation;};

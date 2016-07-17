@@ -59,7 +59,7 @@ function panMapToLocation(newLocation,map,changeMapLocation)
 	setTimeout(function() 
 	{
 		//on laisse 500ms le temps que l'animation du redimensionnement éventuel termine
-		google.maps.event.trigger(GLOBAL.getMap(), 'resize');
+		google.maps.event.trigger(map, 'resize');
 		map.panTo(newLocation);
 	},500);
 	map.setZoom(11);

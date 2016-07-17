@@ -7,8 +7,10 @@
 @import "components/providerItem";
 @import "components/menu-provider";
 @import "components/inputAddress";
+@import "components/autoComplete";
 @import "components/helpers";
 @import "components/delete-provider";
+@import "components/shadow-bottom";
 
 @import "partials/section-carte";
 @import "partials/section-product";
@@ -21,8 +23,8 @@
 	width: 100%;
     top: 0;
     left: 0;
-    height: 100%; 
-    overflow-y:scroll; 
+    height: 100%;  
+    @include transition(height .5s);   
 
     @media screen and (min-width: 400px)
     {

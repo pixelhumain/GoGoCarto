@@ -1,13 +1,14 @@
 @import 'partials/base';
 @import 'vendors/materialize';
 @import 'components/inputAddress';
+@import "components/autoComplete";
 
 body
 {
 	text-align: center;
 	background-color: #2f2f2f;
 	height: 100%;	
-	background: url(../img/index2.jpg) 100% no-repeat;
+	background: url(../img/index2.jpg) 100% no-repeat fixed;
 	background-size: cover;
 	color:white;
 }
@@ -19,11 +20,18 @@ body
 	position: relative;
 }
 
+@media (max-height : 420px)
+{
+	body { height: auto; }
+	#mainWrapper { height: auto; }
+}
+
 @media #{$small-only}
 {
 	.btn
 	{
 		height: 2.5rem;
+		font-size: .85rem;
 	    padding: 0 .8rem;
 	    line-height: 2.5rem;
 	}
@@ -43,28 +51,40 @@ body
 	.row { margin-bottom : 0 ;}
 }
 
+.row { margin-bottom: 1rem; }
+
 section#mainContainer
 {
     position: relative;
     width: 100%;
     background-color: rgba(20, 20, 20, 0.8);    
-    padding: .5rem;    
+    padding: .5rem; 
 
     @media #{$medium-and-up}
+	{
+		border-radius: 15px;
+    	margin: 0 auto;
+    	margin: 3rem auto 0;
+    	padding: 2rem 2rem 1rem 2rem; 
+	}
+
+    @media #{$medium1-only}
+    {
+    	width: 90%;
+    	
+    }   
+
+    @media #{$medium2-and-up}
     {
 		width: 80%;
-    	max-width: 900px;
-    	border-radius: 15px;
-    	margin: 0 auto;
-    	margin-top: 2rem;
-    	padding: 2rem;   
+    	max-width: 900px;    	
     }
 
 	h1
 	{
 		position: relative;
 		font-family: 'Yellowtail', cursive;
-	    text-shadow: 3px 3px 3px #000000;
+	    text-shadow: 3px 4px 4px #000000;
 	    font-size: 2.8rem;
 	    margin: 1rem 0;	 	    
 
@@ -79,33 +99,35 @@ section#mainContainer
 
 	    @media #{$medium1-only}
 	    {
-	    	font-size: 4.3rem;
-    		top: -4rem;
+	    	font-size: 4.8rem;
+    		top: -4.3rem;
 	    }
 
 		@media #{$medium2-and-up}
 		{
-			font-size: 6rem;
-	    	top: -5.4rem;
+			font-size: 6.4rem;
+    		top: -5.8rem;
 		}	
 	}
 
 	h2
 	{
-		font-size: 1rem;
+		font-size: 1.25rem;
 		line-height: 130%;
 	    margin: 0;
 	    margin-top: 1rem;	    
-    	font-family: 'Average Sans', sans-serif;
+    	font-family: 'Kalam', cursive;
 
-	    @media #{$medium1-only}
-	    {
-	    	font-size: 1.2rem;
-	    }
+		@media #{$medium1-only}
+		{
+			font-size: 1.5rem;
+			margin-top: 1.3rem;
+		}
 
 		@media #{$medium2-and-up}
 		{
-			font-size: 1.4rem;
+			font-size: 1.5rem;
+			margin-top: 1.3rem;
 		}
 	}	    
 
@@ -121,7 +143,7 @@ section#mainContainer
 		@media #{$medium-and-up}
 		{
 			margin-top: 1.5rem;	
-			margin-bottom: 2rem;
+			margin-bottom: 1rem;
 		}	
 	}
 
@@ -135,6 +157,11 @@ section#mainContainer
 	    &:focus
 	    {
 	    	background-color: #fdfdfd;
+	    }
+
+	    &.invalid
+	    {
+	    	border: 3px solid $error-color;
 	    }
 
 	    &::-webkit-input-placeholder { 
@@ -153,6 +180,7 @@ section#mainContainer
 
 	#inputAddress-icon 
 	{
+	    cursor: default;
 	    position: absolute;
 	    line-height: 3.4rem;
 	    font-size: 1.4rem;

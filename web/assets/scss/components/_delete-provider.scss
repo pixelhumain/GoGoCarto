@@ -13,7 +13,12 @@
     	font-style: italic;
 	}
 
-	#captcha > div > div
+	form
+	{
+		text-align: center;
+	}
+
+	#captcha > div
 	{
 		margin: 0 auto;
 		margin-top: 1rem;

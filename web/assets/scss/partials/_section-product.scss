@@ -9,6 +9,31 @@
 	-webkit-box-shadow: 4px 0 4px rgba(0,0,0,.2),-1px 0 4px rgba(0,0,0,.2);
 
 	z-index: 40;
+	overflow-y:hidden; 
+
+	@media #{$medium-and-up} 
+	{
+		overflow-y: auto;
+	}
+
+	#productListMainContainer
+	{
+		overflow-y: scroll;
+    	@include calc(height, '100% - 2.5rem');
+
+    	@media #{$medium-and-up} 
+    	{
+    		height: auto;
+    		overflow-y: hidden;
+    	}
+	}
+
+	ul
+	{
+		margin: 0;
+		border: 0;
+		box-shadow: none;		
+	}
 
 	.productListTitle
 	{
@@ -29,6 +54,12 @@
 	    padding-right: 1.5rem;
 	    font-weight: 500;
 	    text-align: center;
+
+	    .shadow-bottom
+	    {
+	    	top: 2.5rem;
+	    	display: none;
+	    }
 
 	    > .icon-close
 	    {
@@ -169,14 +200,7 @@
 		{
 			cursor: default;
 		}
-	}
-
-	ul
-	{
-		margin: 0;
-		border: 0;
-		box-shadow: none;
-	}
+	}	
 
 	.see-more-result-on-map
 	{
@@ -252,18 +276,26 @@
 	background-color: #FFFFFF;
 }
 
-#search_distance_container
+#search_distance_section
 {
-	margin: -.5rem 1rem 0 .8rem;
-	#search_distance
+	margin: -.5rem .8rem 0 .8rem;
+
+	#search_distance_container
 	{
-		border: none;
-		width: auto;
+	    display: inline-block;
+    	width: calc(100% - 55px);
+
+		#search_distance
+		{
+			border: none;
+		}
 	}
-	#km
+
+	#search_distance_value_container
 	{
 		float: right;
     	line-height: 2.3rem;
+    	width: 55px;
+    	text-align: right;
 	}
-
 }

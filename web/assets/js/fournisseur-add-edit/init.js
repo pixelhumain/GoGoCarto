@@ -33,8 +33,16 @@ jQuery(document).ready(function()
 	$('#type_provider').change( maj_form_with_type );
 	$("#mainProductSelection").change(function() { maj_with_main_product($(this).val()); });
 
-	// entr?e d'une adresse on geocode
-	$('#inputAdresse').change(function () { geocodeAddress($('#inputAdresse').val()); });
+	// entrée d'une adresse on geocode
+	$('#inputAdresse').change(function () { handleInputAdressChange(); });
+	$('#inputAdresse').keyup(function(e) 
+	{    
+		if(e.keyCode == 13) // touche entrée
+		{ 			 
+			handleInputAdressChange();
+		}
+	});
+	$('#inputAddress').on("place_changed",handleInputAdressChange);
 
 	// quand on check un product l'input de pr?cision apparait ou disparait
 	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly'); });
@@ -59,4 +67,9 @@ jQuery(document).ready(function()
 
 
 });
+
+function handleInputAdressChange()
+{
+	geocodeAddress($('#inputAdresse').val());
+}
 

@@ -11,6 +11,13 @@ jQuery(document).ready(function()
 	{
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
+
+		// si on avec un mobile très petit alors la taille du menu prend
+		// tout l'espace 
+		if ($('#ProductsList').outerWidth() == $(window).outerWidth())
+		{
+			hideProductsList();
+		}
 	});		
 
 	/*$('#btn_menu').click(animate_up_bandeau_options);
@@ -44,6 +51,17 @@ jQuery(document).ready(function()
 		   lastEndScrollTop = st;
 	   },100);	 	   
 	});
+
+	// affiche une petite ombre sous le titre menu quand on scroll
+	// (uniquement visible sur petts écrans)
+	$("#productListMainContainer").scroll(function() 
+	{
+	  if ($(this).scrollTop() > 0) {
+	    $('#menu-title .shadow-bottom').show();
+	  } else {
+	    $('#menu-title .shadow-bottom').hide();
+	  }
+	});
 	
 	//Menu CARTE
 	$('#btn_menu').click(showProductsList);
@@ -61,7 +79,7 @@ function showProductsList()
 	animate_down_bandeau_detail();  
 	$('#overlay').css('z-index','10');
 	$('#overlay').animate({'opacity': '.6'},700);
-	$('#ProductsList').toggle( "slide", {direction: 'left', easing: 'swing'} , 350 );
+	$('#ProductsList').show( "slide", {direction: 'left', easing: 'swing'} , 350 );
 	//$('#ProductsList').css('width','0px').show().animate({'width': '240px'},700);
 }
 
@@ -69,7 +87,8 @@ function hideProductsList()
 {
 	$('#overlay').css('z-index','-1');
 	$('#overlay').animate({'opacity': '.0'},500);
-	$('#ProductsList').toggle( "slide", {direction: 'left', easing: 'swing'} , 250 );
+	$('#ProductsList').hide( "slide", {direction: 'left', easing: 'swing'} , 250 );
+	$('#menu-title .shadow-bottom').hide();
 	//$('#ProductsList').animate({'width': '0px'},700).hide();
 }
 
@@ -82,6 +101,9 @@ function showOnlyInputAdress()
 {
 	hideBandeauHelper();
 	$('#section_carte').css('margin-left','0');
+	$('#bandeau_goToProviderList').hide();
+	$('#ProviderList').hide();
+	ajuster_taille_composants();
 }
 
 function ajuster_taille_composants()
@@ -122,10 +144,22 @@ function ajuster_taille_carte(bandeau_detail_height)
 
 	if("matchMedia" in window) 
 	{	
+		if (window.matchMedia("(max-width: 600px)").matches) 
+	  	{
+	  		$("#ProductsList").css('height',$("#section_carte").height()-bandeau_detail_height);	
+	  	}
+	  	else
+	  	{
+	  		$("#ProductsList").css('height','100%');
+	  	}
+
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{
 		  	if (matchMediaBigSize_old) bandeau_detail_height = 0;
+
 		  	$("#map").css('height',$("#section_carte").height()-bandeau_detail_height);	
+		  	
+
 		  	matchMediaBigSize_old = false;
 	  	} 
 		else 
@@ -148,7 +182,7 @@ function ajuster_taille_carte(bandeau_detail_height)
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	setTimeout(function() { google.maps.event.trigger(GLOBAL.getMap(), 'resize'); },500);
+	if (GLOBAL) setTimeout(function() { google.maps.event.trigger(GLOBAL.getMap(), 'resize'); },500);
 }
 
 function ajuster_tailler_info_provider()

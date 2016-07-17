@@ -1,7 +1,6 @@
 // v?rifie que le formulaire est correctement rempli et "submit" le cas ?ch?ant
 function check_and_send() 
 {	
-	window.console.log("check send");
 	// CHECK type provider
 	if (!$('#type_provider').val() || $('#type_provider').val() == '0') 
 	{
@@ -31,11 +30,13 @@ function check_and_send()
 		if (!$('#mainProductSelection').val()) 
 		{
 			$('#label_main_product_selection').addClass('error'); 
+			$('#mainProductDiv').addClass('error'); 
 			$('#label_main_product_selection').text('Veuillez choisir un produit principal');		
 		}
 		else 
 		{
 			$('#label_main_product_selection').removeClass('error');
+			$('#mainProductDiv').removeClass('error');
 			$('#label_main_product_selection').text('Produit principal');
 		}
 	}
@@ -99,6 +100,7 @@ function check_and_send()
 
 	if( !$('#biopen_fournisseurbundle_provider_latlng_latitude').val() )	
 	{
+		$('#inputAdresse').addClass("invalid").focus();
 		$('#popup_title').text("Erreur");
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");
 		$('#popup').openModal({
@@ -106,8 +108,7 @@ function check_and_send()
 		      opacity: 0.5, 
 		      in_duration: 300, 
 		      out_duration: 200
-    		});
-		$('#inputAdresse').addClass("invalid").focus();
+    		});		
 	}
 
 	if (grecaptcha.getResponse().length === 0)
@@ -121,7 +122,28 @@ function check_and_send()
 	}
 
 	// CHECK les "required" sont bien remplis
-	$('.required').each(function (){ if(!$(this).val()) $(this).addClass('invalid');});
+	$('.required').each(function ()
+	{ 
+		if(!$(this).val()) 
+		{
+			$(this).addClass('invalid');			
+		}
+		else
+		{
+			$(this).removeClass('invalid');
+			$(this).closest('.input-field').removeClass('error');
+		}
+	});
+
+	$('.invalid').each(function ()
+	{ 		
+		$(this).closest('.input-field').addClass('error');
+	});
+
+	$('.valid').each(function ()
+	{ 		
+		$(this).closest('.input-field').removeClass('error');
+	});
 
 	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
 	// par une input text invalide avec materialize
@@ -163,7 +185,7 @@ function check_and_send()
 		}		
 		else $('form').submit();
 	}
-	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top}, 'slow');
+	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top - 80}, 'slow');
 	
 }
 

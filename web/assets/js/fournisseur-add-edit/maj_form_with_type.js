@@ -4,7 +4,7 @@ function maj_form_with_type( init )
 	//window.console.log("maj_form_with_type val = " + $('#type_provider').val());
 	if ($('#type_provider').val() == '0') return; 
 
-	init = init || true;
+	init = init !== false;
 
 	if (first_maj_form_with_type_done) window.open('add?type='+ $('#type_provider').val(),'_self');
 	else

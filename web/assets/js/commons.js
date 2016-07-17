@@ -6,10 +6,21 @@ jQuery(document).ready(function()
 	});
 	$('#btn-menu-listing').click(function()
 	{ 
-		redirectToConstelisting('biopen_listing');
-		
+		redirectToConstelisting('biopen_listing');		
 	});
 });
+
+function initAutocompletion(element)
+{
+    var options = {
+      componentRestrictions: {country: 'fr'}
+    };
+    var autocomplete = new google.maps.places.Autocomplete(element, options);   
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        $(element).trigger('place_changed');
+        return false;
+    });
+}
 
 function redirectToConstelisting(route, address, range)
 {

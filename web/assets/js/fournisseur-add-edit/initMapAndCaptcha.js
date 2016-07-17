@@ -12,7 +12,8 @@ var geocoding_ok;
 // Google map initialisation
 function initMap() 
 {	
-	geocoder = new google.maps.Geocoder();
+	initAutocompletion(document.getElementById('inputAdresse'));
+
 	var latlng = new google.maps.LatLng(46.897045, 2.425235);
 	var mapOptions = {
 		zoom: 5,
@@ -22,6 +23,8 @@ function initMap()
 	};
 	
 	map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+	geocoder = new google.maps.Geocoder();
 	
 	marker = new google.maps.Marker({
 		map: map,

@@ -4,7 +4,8 @@
 
 {# Stylessheets #}
 {% block stylesheets %}
-	<link href="https://fonts.googleapis.com/css?family=Average+Sans" rel="stylesheet">
+	
+	<link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/index.css') }}">		
 
@@ -27,13 +28,14 @@
 
 		<div class="row">
 			<div class="col s6 choiceModeContainer right-align">
-				<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation</button>
-				<p>Naviguez librement sur la cate en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
+				<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation libre</button>
+				<p>Parcourez la carte en filtrant les résultats si besoin. Tous les fournisseurs sont affichés</p>
 			</div>
 			
 			<div class="col s6 choiceModeContainer left-align">
-				<button id="btn-constellation" class="btnChoiceMode btn waves-effect waves-light">Constellation</button>
-				<p>Visualisez en un coup d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p>
+				<button id="btn-constellation" class="btnChoiceMode btn waves-effect waves-light">En un coup d'oeil</button>{# vue d'ensemble #}
+				{# <p>Visualisez en un coup d'oeil une pré-sélection des fournisseurs les plus proche de chez vous</p> #}
+				<p>Pour chaque produit, le plus proche fournisseur est affiché. D'autres propositions sont accessibles</p>
 			</div>
 		</div>
 
@@ -42,7 +44,7 @@
 		<a href="{{ path('biopen_fournisseur_add') }}">
 			<button class="btnParticipate btn waves-effect waves-light">Participer</button>
 		</a>
-		<p>Aidez-nous à agrandir notre base de donnée en ajouatnt un fournisseur !</p>
+		<p>Aidez-nous à agrandir notre base de donnée en ajoutant un fournisseur !</p>
 	
 	</section>
 </div>

@@ -2,18 +2,11 @@ function Star(name, providerList)
 {
   this.name_ = name; 
   this.providerIdList_ = [];
-  providerList.sort(compareWastedDistance);
   for(var i = 0; i < providerList.length; i++)
   {
       this.providerIdList_.push(providerList[i].id);
   }
   this.index_ = 0;
-}
-
-function compareWastedDistance(a,b) 
-{  
-  if (a.wasted_distance == b.wasted_distance) return 0;
-  return a.wasted_distance < b.wasted_distance ? -1 : 1;
 }
 
 Star.prototype.getName = function () {
@@ -86,7 +79,7 @@ Star.prototype.getIndex = function ()
 
 Star.prototype.setIndex = function (newIndex)
 {
-	if (newIndex < 0 || newIndex >= this.providerIdList_.length) return false;
+  if (newIndex < 0 || newIndex >= this.providerIdList_.length) return false;
 
 	var oldProviderId = this.getProviderId();
 

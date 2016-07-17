@@ -25,9 +25,13 @@ if (constellationMode)
 			
 			if ($('#ProductsList').outerWidth() == $(window).outerWidth())
 			{
-				moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
-				moreResultContainer.find('.see-more-result-on-map').click(hideProductsList);
+				if (! moreResultContainer.find('.see-more-result-on-map').length)
+				{
+					moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
+					moreResultContainer.find('.see-more-result-on-map').click(hideProductsList);
+				}
 			}
+
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
 			moreResultContainer.addClass("active");
 			GLOBAL.getSRCManager().begin(star);	
@@ -74,6 +78,8 @@ if (constellationMode)
 		var marker = GLOBAL.getMarkerManager().getMarkerById($(this).attr('data-provider-id'));
 		marker.showNormalSize();
 	});
+
+	$('#search_distance').change(function() { $("#search_distance_value").text($(this).val()); });
 }
 });
 

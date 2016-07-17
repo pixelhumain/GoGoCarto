@@ -107,7 +107,6 @@
 
           element.toggleClass('active');
           element.trigger('activationChanged');
-          window.console.log("trigger activationChanged");
           accordionOpen(element);
         });
         // Open first active
@@ -123,7 +122,6 @@
             }
             element.toggleClass('active');
             element.trigger('activationChanged');
-            window.console.log("trigger activationChanged");
             expandableOpen(element);
           });
           // Open any bodies that have the active class

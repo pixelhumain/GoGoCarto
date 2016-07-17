@@ -1,19 +1,20 @@
-<ul>
-
-<li class="productListTitle" id="menu-title">
+<div class="productListTitle" id="menu-title">
   Menu
   <span class="icon-close">
   </span>
-</li>
+   <div class="shadow-bottom"></div>
+</div>
+
+<ul id="productListMainContainer" class="customScrollBar">
 
 {% include '::Components/inputAddress.html.twig'  %} 
 
-<form action="#">
+<div id="search_distance_section">
     <div class="range-field" id="search_distance_container">
-      <input type="range" id="search_distance" min="0" max="150" value="{{ search_range }}" />
-      <span id='km'>km</span>
+      <input type="range" id="search_distance" min="30" max="150" value="{{ search_range }}" />
     </div>
-</form>
+    <div id='search_distance_value_container'><span id='search_distance_value'>{{ search_range }}</span> km</div>
+</div>
 
 <li class="productListTitle">
   Emplacements

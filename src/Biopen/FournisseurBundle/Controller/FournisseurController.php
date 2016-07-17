@@ -11,6 +11,8 @@ use Biopen\FournisseurBundle\Form\ProviderType;
 use Biopen\FournisseurBundle\Entity\ProviderProduct;
 use Biopen\FournisseurBundle\Entity\Product;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use Wantlet\ORM\Point;
 use Biopen\FournisseurBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
@@ -29,8 +31,9 @@ class FournisseurController extends Controller
 		if ($form->handleRequest($request)->isValid()) 
 		{
 			$this->handleFormSubmission($form, $provider, $em, $request);
+			$url_new_provider = $this->generateUrl('biopen_listing', array('id'=>$provider->getId()));
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Le fournisseur a bien été ajouté' );	
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Le fournisseur a bien été ajouté</br><a href="'.$url_new_provider.'">Voir le résultat</a>' );	
 			return $this->redirectToRoute('biopen_fournisseur_add');			
 		}		
 
@@ -73,7 +76,9 @@ class FournisseurController extends Controller
 
 			$this->handleFormSubmission($form, $provider, $em, $request);
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="/navigation?id=1">Voir le résultat</a>' );	
+			$url_new_provider = $this->generateUrl('biopen_listing', array('id'=>$provider->getId()));
+
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="'.$url_new_provider.'">Voir le résultat</a>' );	
 			//return $this->redirectToRoute('biopen_fournisseur_add');
 		}
 

@@ -3,7 +3,7 @@ var old_zoom;
 function initMap() 
 {	
 	initRichMarker();
-	initInputAddressAutocompletion();
+	initAutocompletion(document.getElementById('inputAddress'));
 
 	mapOptions = 
 	{
@@ -38,6 +38,7 @@ function initMap()
 
 	map.addListener('click', function(e) 
 	{
+    	if (GLOBAL.isClicking()) return;
     	GLOBAL.setState('normal');
     	animate_down_bandeau_detail(); 
   	});   	
