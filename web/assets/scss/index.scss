@@ -70,6 +70,7 @@ section#mainContainer, section .content
 	{
     	margin: 0 auto;
     	padding: 2rem 2rem 1rem 2rem; 
+    	//p { font-size: 1.1rem; }
 	}
 
     @media #{$medium1-only}
@@ -281,7 +282,7 @@ section.sections_bottom
 	}
 }
 
-#section_open_source { background-color: $grey-light; color: black; }
+#section_open_source { background-color: $grey-light; color: #454547; }
 #section_dev { background-color: $secondary-color; }
 #section_contact
 {

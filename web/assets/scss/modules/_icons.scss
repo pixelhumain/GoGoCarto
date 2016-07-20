@@ -37,6 +37,15 @@ $epicerie-color :#383D5A ;
 	&.epicerie { background-color:$epicerie-color }
 }
 
+.bgdSoftColorAs
+{
+	&.producteur { background-color: rgba(darken($producteur-color,5%),.9) } 
+	&.amap { background-color:$amap-color }
+	&.boutique { background-color: rgba($boutique-color,.85) }
+	&.marche { background-color: rgba(darken($marche-color,5%),.9) }
+	&.epicerie { background-color: rgba(darken($epicerie-color,5%),.9) }
+}
+
 .colorAs
 {
 	&.producteur { color:$producteur-color } 
