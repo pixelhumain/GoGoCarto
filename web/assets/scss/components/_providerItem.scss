@@ -25,6 +25,7 @@
 	.collapsible-header
 	{
 		padding: .5rem;
+		@extend .bgdColorAs;
 		@media #{$medium-and-up} { padding: .5rem 1rem; }
 		i { margin-right: 0; padding-left: 0.3rem; }
 
@@ -66,6 +67,11 @@
 			    text-align: justify;
 			}
 		}
+	}
+
+	@media #{$medium-and-down} 
+	{ 
+		.collapsible-header { background-color: white !important; } 
 	}	
 	
 	.collapsible-body
@@ -127,7 +133,8 @@
 	{
 		.collapsible-header
 	    {
-	        background-color: $secondary-color;//$submenu-color;
+	        
+	        //background-color: $secondary-color;//$submenu-color;
 	        color: white;
 	        cursor: default;
 

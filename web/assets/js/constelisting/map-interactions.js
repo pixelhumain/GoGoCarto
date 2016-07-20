@@ -10,6 +10,7 @@ function showProviderInfosOnMap(providerId)
 	if (GLOBAL.getState == 'normal' && !constellationMode) GLOBAL.setState("showProvider", {id: providerId});
 
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
+	$('#bandeau_detail .menu-provider').removeClass().addClass("menu-provider " +provider.type);
 
 	$('#btn-close-bandeau-detail').click(function()
 	{  

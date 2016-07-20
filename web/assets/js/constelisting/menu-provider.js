@@ -24,7 +24,7 @@ function deleteProvider()
 function onloadCaptcha() 
 {
     grecaptcha.render('captcha', {
-      'sitekey' : '6LfaSyQTAAAAAHJdUOyCd0DGO0qCIuJ_3mGf2IZL'
+      'sitekey' : '6LcEViUTAAAAAOEMpFCyLHwPG1vJqExuyD4n1Lbw'
     });
 }
 
@@ -47,8 +47,11 @@ function createListenersForProviderMenu(object)
 	});
 	object.find('.icon-directions').click(function() 
 	{
-		GLOBAL.setState("showRouting",{id: getCurrentProviderIdShown()});
-
+		if (!constellationMode && !GLOBAL.getMap().location)
+		{
+			$('#popup-choose-adress').openModal();
+		}
+		else GLOBAL.setState("showRouting",{id: getCurrentProviderIdShown()});
 	});
 	object.find('.tooltipped').tooltip();
 }

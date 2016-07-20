@@ -23,6 +23,15 @@ function Global(map, constellation, manager, markerManager, constellationMode)
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 	
 }
 
+Global.prototype.initialize = function() 
+{
+	if (!this.constellationMode_)
+  	{
+  		//check initial (si des checkbox ont été sauvegardées par le navigateur)
+		$('.product-checkbox, .provider-checkbox').trigger("change");
+  	}
+};
+
 Global.prototype.getMap = function() { return this.map_; };
 Global.prototype.setMap = function(map) { this.map_ = map; };
 
@@ -154,7 +163,12 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 Global.prototype.updateDocumentTitle_ = function(stateName, provider)
 {
 	if (provider !== null) document.title = capitalize(provider.name) + ' - Mon voisin fait du bio';
-	else if (this.map_.locationAddress && stateName == 'normal') document.title = 'Navigation Libre - ' + this.map_.locationAddress;
+	else if (stateName == 'normal') 
+	{
+		var title = this.constellationMode_ ? 'Constellation - ' : 'Navigation Libre - ';
+		title += this.map_.locationAddress;
+		document.title = title;
+	}
 };
 
 Global.prototype.checkInitialState = function()

@@ -19,6 +19,9 @@ function initMap()
 		var latlng = new google.maps.LatLng(46.897045, 2.425235);
 		map.setZoom(6);
 		map.setCenter(latlng);
+
+		map.locationAddress = $('#inputAddress').val();
+   		map.locationSlug = capitalize(slugify($('#inputAddress').val()));
 	}	
 	else
 	{
@@ -70,7 +73,7 @@ function initialize(map)
 		providerManager = new ProviderManagerListing(providerListJson);
 		markerManager = null;	
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
-
+		GLOBAL.initialize();
 		initCluster(null);
 		providerManager.updateProviderList();
 

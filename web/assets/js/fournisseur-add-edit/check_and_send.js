@@ -111,7 +111,7 @@ function check_and_send()
     		});		
 	}
 
-	if (grecaptcha.getResponse().length === 0)
+	/*if (grecaptcha.getResponse().length === 0)
 	{
 		$('#captcha-error-message').addClass('error').show();
 		grecaptcha.reset();
@@ -119,7 +119,7 @@ function check_and_send()
 	else
 	{
 		$('#captcha-error-message').removeClass('error').hide();
-	}
+	}*/
 
 	// CHECK les "required" sont bien remplis
 	$('.required').each(function ()

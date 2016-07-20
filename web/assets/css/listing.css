@@ -3210,15 +3210,15 @@ select {
 .icon.disabled {
   color: #DFDFDF; }
 
-.bgdColorAs.producteur {
+.bgdColorAs.producteur, .providerItem .producteur.collapsible-header, .producteur.menu-provider {
   background-color: #B33536; }
-.bgdColorAs.amap {
+.bgdColorAs.amap, .providerItem .amap.collapsible-header, .amap.menu-provider {
   background-color: #4B7975; }
-.bgdColorAs.boutique {
+.bgdColorAs.boutique, .providerItem .boutique.collapsible-header, .boutique.menu-provider {
   background-color: #813c81; }
-.bgdColorAs.marche {
+.bgdColorAs.marche, .providerItem .marche.collapsible-header, .marche.menu-provider {
   background-color: #3F51B5; }
-.bgdColorAs.epicerie {
+.bgdColorAs.epicerie, .providerItem .epicerie.collapsible-header, .epicerie.menu-provider {
   background-color: #383D5A; }
 
 .colorAs.producteur, .producteur.icon-provider-type, .producteur.icon-marker, .producteur.marker-wrapper {
@@ -3483,7 +3483,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     #bandeau_detail .starNamesIcons {
       display: none !important; }
     #bandeau_detail .icon-close {
-      background-color: #3D3D3D;
       padding-left: 1rem;
       color: #CECECE; }
       #bandeau_detail .icon-close:hover {
@@ -3542,6 +3541,9 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
       .providerItem .collapsible-header .collapsible-header-more .description {
         margin-bottom: .7rem;
         text-align: justify; }
+  @media only screen and (max-width: 1200px) {
+    .providerItem .collapsible-header {
+      background-color: white !important; } }
   .providerItem .collapsible-body {
     background-color: #F7F7F7;
     padding: 0;
@@ -3585,7 +3587,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 
 @media only screen and (min-width: 1201px) {
   #bandeau_detail .providerItem .collapsible-header {
-    background-color: #4A7874;
     color: white;
     cursor: default;
     position: absolute;
@@ -3614,7 +3615,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     height: 100%;
     overflow-y: auto; } }
 .menu-provider {
-  background-color: #4A7874;
   position: absolute;
   bottom: 0;
   width: 100%; }
@@ -4065,7 +4065,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 #page_content {
   height: 100%;
-  background-color: #675151; }
+  background-color: #dfdfdf; }
 
 #div_map_and_products {
   position: relative;

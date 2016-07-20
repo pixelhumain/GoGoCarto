@@ -1,8 +1,8 @@
 .menu-provider
 {
 	//background-color:$submenu-color;	
-	background-color:$secondary-color;	
-
+	//background-color:$secondary-color;	
+	@extend .bgdColorAs;
 	position: absolute;
 	bottom: 0;
 	width: 100%;

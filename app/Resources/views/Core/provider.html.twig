@@ -7,7 +7,7 @@
   data-provider-id="{{ provider.id }}">
 
   {# HEADER #}
-  <div class="collapsible-header">
+  <div class="collapsible-header {{ provider.type }}">
     
     <div class='collapsible-header-title row {{provider.mainProduct|lower}} {{provider.type}}'>    
       <span class="col s12 name ">
@@ -54,7 +54,7 @@
   <div class="collapsible-body moreDetails customScrollBar" > 
   
   {% if constellationMode %}
-  <div class="menu-provider">      
+  <div class="menu-provider {{ provider.type }}">      
     <center>
       <span class="menu-icon icon-directions tooltipped" 
       data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce fournisseur"></span>

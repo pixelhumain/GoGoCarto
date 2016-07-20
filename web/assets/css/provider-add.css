@@ -3312,6 +3312,11 @@ a.reset_time {
     .flash-notice a:hover {
       color: #de5a5f; }
 
+body {
+  background-color: #4A7874;
+  height: auto;
+  min-height: 100%; }
+
 #page_content {
   position: relative;
   margin-top: 0;

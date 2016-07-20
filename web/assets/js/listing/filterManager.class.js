@@ -1,7 +1,7 @@
 function FilterManager() 
 {
 	this.productFilters = [];
-	this.typeFilters = [];
+	this.typeFilters = [];	
 }
 
 FilterManager.prototype.addProductFilter = function (productName) 

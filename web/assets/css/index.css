@@ -3244,15 +3244,27 @@ body {
 .row {
   margin-bottom: 1rem; }
 
-section#mainContainer {
+section#mainContainer, section .content {
   position: relative;
   width: 100%;
-  background-color: rgba(20, 20, 20, 0.8);
   padding: .5rem; }
+  @media only screen and (min-width: 601px) {
+    section#mainContainer, section .content {
+      margin: 0 auto;
+      padding: 2rem 2rem 1rem 2rem; } }
+  @media only screen and (min-width: 601px) and (max-width: 900px) {
+    section#mainContainer, section .content {
+      width: 90%; } }
+  @media only screen and (min-width: 901px) {
+    section#mainContainer, section .content {
+      width: 80%;
+      max-width: 900px; } }
+
+section#mainContainer {
+  background-color: rgba(20, 20, 20, 0.8); }
   @media only screen and (min-width: 601px) {
     section#mainContainer {
       border-radius: 15px;
-      margin: 0 auto;
       margin: 3rem auto 0;
       padding: 2rem 2rem 1rem 2rem; } }
   @media only screen and (min-width: 601px) and (max-width: 900px) {
@@ -3343,3 +3355,50 @@ section#mainContainer {
     background-color: #4A7874; }
     section#mainContainer .btnParticipate:hover {
       background-color: #548883; }
+
+section.sections_bottom {
+  width: 100%; }
+  section.sections_bottom .content {
+    padding: 5rem;
+    overflow: hidden; }
+    section.sections_bottom .content h2 {
+      font-size: 4rem;
+      font-family: 'Kalam', cursive;
+      margin-bottom: 3rem; }
+    section.sections_bottom .content p {
+      font-size: 1.5rem; }
+    @media only screen and (max-width: 600px) {
+      section.sections_bottom .content {
+        padding: 3rem; }
+        section.sections_bottom .content h2 {
+          font-size: 2.5rem; }
+        section.sections_bottom .content p {
+          font-size: 1.2rem; } }
+
+#logo {
+  font-family: 'Yellowtail', cursive;
+  font-size: 2rem;
+  color: #de5a5f; }
+  @media only screen and (max-width: 600px) {
+    #logo {
+      font-size: 1.5rem; } }
+
+#section_open_source {
+  background-color: #f0f0f0;
+  color: black; }
+
+#section_dev {
+  background-color: #4A7874; }
+
+#section_contact {
+  padding-bottom: 0;
+  background-color: #222; }
+  #section_contact h2 {
+    font-size: 2rem;
+    margin-bottom: 0; }
+    @media only screen and (max-width: 600px) {
+      #section_contact h2 {
+        font-size: 1.5rem;
+        margin: 0; } }
+  #section_contact .content {
+    padding: 2rem; }
