@@ -98,8 +98,8 @@ class FournisseurController extends Controller
 	private function handleFormSubmission($form, $provider, $em, $request)
     {
     	$provider->resetProducts();
-    	dump($request->request);
-    	dump($form->getData());
+    	//dump($request->request);
+    	//dump($form->getData());
     	foreach ($form->get('listeProducts')->getData() as $product) 
 		{
 			$providerProduct = new ProviderProduct();
@@ -109,7 +109,7 @@ class FournisseurController extends Controller
 		}
 
 		$mainProduct = $request->request->get('mainProductSelection');
-		dump($mainProduct);
+		//dump($mainProduct);
 		$provider->setMainProduct($mainProduct);
 			
 		if (!$provider->getMainProduct()) // si pas un producteur ou amap
