@@ -2174,6 +2174,7 @@ textarea.materialize-textarea {
     position: absolute;
     width: 3rem;
     font-size: 2rem;
+    line-height: 3rem;
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
     -o-transition: color 0.2s;
@@ -3300,7 +3301,6 @@ a.reset_time {
 
 .flash-notice {
   text-align: center;
-  margin-bottom: 2rem;
   font-weight: 500;
   font-style: italic;
   background-color: #4a7874;
@@ -3325,7 +3325,7 @@ body {
   min-height: 121px;
   width: 100%;
   background-color: #fafafa;
-  padding: 1rem;
+  padding: 0;
   -webkit-transition: all 1s;
   -moz-transition: all 1s;
   -o-transition: all 1s;
@@ -3344,16 +3344,26 @@ body {
   #page_content {
     margin-top: 20px;
     max-width: 600px;
-    width: 80%;
-    padding: 1.5rem 2.5rem 1.5rem 1.5rem; } }
+    width: 80%; } }
 h2, h1 {
   font-weight: bold !important;
-  font-size: 1rem !important;
+  font-size: .95rem !important;
   line-height: 110% !important;
-  margin: 0.5rem 0 1.3rem 0; }
+  margin: 0.5rem 0 1.3rem 0;
+  color: #3d3d3d;
+  text-transform: uppercase;
+  text-align: center; }
 
 h2.error, h1.error {
   font-weight: normal; }
+
+h2.noMarginBottom {
+  margin-bottom: 0; }
+
+.divider {
+  height: 1rem;
+  overflow: hidden;
+  background-color: #4a7874; }
 
 .input-field.error .prefix.active {
   color: #B90303 !important; }
@@ -3362,28 +3372,40 @@ h2.error, h1.error {
   left: 0 !important; }
 
 section {
-  padding-top: 1rem; }
+  padding: 1rem; }
 
+#section_validate_and_send {
+  padding: 0 2.5rem;
+  margin-bottom: 2rem; }
+
+#section_vos_infos {
+  padding-bottom: 1rem; }
+
+@media screen and (min-width: 600px) {
+  section {
+    padding: 1.5rem 2.5rem; } }
 #titre_horaires {
   margin-bottom: 0.9rem !important; }
 
 #titre_ajout {
-  margin-bottom: 0px !important; }
+  margin-bottom: 0px !important;
+  padding-top: 1.5rem; }
+
+#inputWebSite {
+  margin-bottom: 2rem; }
 
 #label_type_provider.error, .error {
   color: #B90303 !important; }
 
 #section_provider {
-  margin-bottom: 0px; }
+  margin-bottom: 0px;
+  height: 8rem; }
 
 #section_products .dropdown-content {
   max-height: 350px; }
 #section_products input[type="checkbox"].readonly + label:before {
   border-right: 2px solid #aaa;
   border-bottom: 2px solid #aaa; }
-
-#section_info_provider {
-  padding-top: 0px; }
 
 #autre_point_vente {
   margin-left: 42px;
@@ -3411,8 +3433,7 @@ section {
 
 #map {
   height: 13rem;
-  margin-top: 1rem;
-  border: 2px solid #D0CCCC; }
+  margin-top: 1rem; }
 
 a[href^="http://maps.google.com/maps"] {
   display: none !important; }

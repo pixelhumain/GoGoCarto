@@ -29,7 +29,7 @@ class CoreController extends Controller
         if ($slug == '' && $this->get('session')->get('slug')) 
         {
             $slug = $this->get('session')->get('slug');
-            dump($slug);
+            //dump($slug);
         }
 
         $geocodeResponse = null;

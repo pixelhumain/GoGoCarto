@@ -33,7 +33,7 @@ class FournisseurController extends Controller
 			$this->handleFormSubmission($form, $provider, $em, $request);
 			$url_new_provider = $this->generateUrl('biopen_listing', array('id'=>$provider->getId()));
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Le fournisseur a bien été ajouté</br><a href="'.$url_new_provider.'">Voir le résultat</a>' );	
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! Le fournisseur a bien été ajouté</br><a href="'.$url_new_provider.'">Voir le résultat</a>' );	
 			return $this->redirectToRoute('biopen_fournisseur_add');			
 		}		
 
@@ -98,8 +98,8 @@ class FournisseurController extends Controller
 	private function handleFormSubmission($form, $provider, $em, $request)
     {
     	$provider->resetProducts();
-    	dump($request->request);
-    	dump($form->getData());
+    	//dump($request->request);
+    	//dump($form->getData());
     	foreach ($form->get('listeProducts')->getData() as $product) 
 		{
 			$providerProduct = new ProviderProduct();
@@ -109,8 +109,16 @@ class FournisseurController extends Controller
 		}
 
 		$mainProduct = $request->request->get('mainProductSelection');
-		dump($mainProduct);
+		//dump($mainProduct);
 		$provider->setMainProduct($mainProduct);
+
+		// ajout HTTP aux url si n'existe pas
+		$webSiteUrl = $provider->getWebSite();
+		$parsed = parse_url($webSiteUrl);
+		if (empty($parsed['scheme'])) {
+		    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
+		}
+		$provider->setWebSite($webSiteUrl);
 			
 		if (!$provider->getMainProduct()) // si pas un producteur ou amap
 		{

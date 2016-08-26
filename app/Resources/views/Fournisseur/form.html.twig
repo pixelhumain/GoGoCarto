@@ -7,6 +7,7 @@
     <label id="label_type_provider">Type de fournisseur</label>
   	</div>
 </section>
+<div class="divider" {% if editMode %}style="display:none"{% endif %} ></div>
 
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
 <div id="form_content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
@@ -17,16 +18,19 @@
 
 	{% include "::Fournisseur/FormPartials/horaires.html.twig" %}
 
-	{% include "::Fournisseur/FormPartials/user.html.twig" %}
+	{% include "::Fournisseur/FormPartials/user.html.twig" %}	
 
-	<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
-	<div id="captcha"></div>
+	<section id="section_validate_and_send">
+		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+		<div id="captcha"></div>
 
-	<center>
-		<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
-	</center>
+		<center>
+			<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
+		</center>
+    </section>
+    <div class="divider"></div>
 
-{{ form_rest(form) }}
+	{{ form_rest(form) }}
 
 {# Fermeture de la balise <form> du formulaire HTML #}
 {{ form_end(form) }}

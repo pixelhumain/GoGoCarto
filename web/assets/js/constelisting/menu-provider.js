@@ -36,7 +36,7 @@ function createListenersForProviderMenu(object)
 	object.find('.icon-delete').click(function() {
 		//alert('Fonctionalité pas encore disponible, désolé ! '); 
 		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
-		window.console.log(provider.name);
+		//window.console.log(provider.name);
 		$('#popup-delete-provider .providerName').text(capitalize(provider.name));
 		$('#popup-delete-provider').openModal({
 		      dismissible: true, 

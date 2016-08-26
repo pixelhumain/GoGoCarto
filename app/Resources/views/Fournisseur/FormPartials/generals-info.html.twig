@@ -1,11 +1,27 @@
 <!-- SECTION INFO FOURNISSEUR -->
 <section class="row" id="section_info_provider">
 
+	{% if not editMode %}
+		<h2 class="noMarginBottom">Informations</h2>
+	{% else %}
+		<h2 class="noMarginBottom">Modification des données</h2>
+	{% endif %}
   	<!-- Input name provider -->
   	<div class="input-field col s12">
   		<i class="material-icons prefix">account_circle</i>	
   		{{ form_widget(form.name, {'id': 'inputName', 
   							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
+	</div>
+
+		
+	
+	<!-- input description provider -->
+	<div class="input-field col s12">
+		<i class="material-icons prefix">description</i>
+	  	{{ form_widget(form.description, {'id': 'inputDescription',
+  								          'attr': {'class': 'validate',
+  											   'placeholder':'Description du fournisseur, pas des produits !',
+  											   'length':'80'   }}) }}
 	</div>
 
 	<!-- Input adresse provider -->
@@ -22,28 +38,44 @@
   		avec un nouveau formulaire !</div>
 
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.latlng, {'id': 'latlng'}) }}		
-	
-	<!-- input description provider -->
-	<div class="input-field col s12">
-		<i class="material-icons prefix">description</i>
-	  	{{ form_widget(form.description, {'id': 'inputDescription',
-  								          'attr': {'class': 'validate',
-  											   'placeholder':'Description du fournisseur, pas des produits !',
-  											   'length':'80'   }}) }}
-	</div>
+	{{ form_widget(form.latlng, {'id': 'latlng'}) }}			
+
+	<!-- Carte google map -->
+	<div id="map" class="col s12"></div>	
+
+</section>
+<div class="divider"></div>
+
+ <section id="section_optionnal_info">
+ 	<h2 class="noMarginBottom">Contact (optionnnel)</h2>
 
 	<!-- input telephone provider -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">phone</i>
 	  	{{ form_widget(form.tel, {'id': 'inputTel',
   							      'attr': {'class': 'validate',
-  											   'placeholder':'Téléphone (optionnel)',
+  											   'placeholder':'Téléphone ',
   											   'pattern':'-?[0-9]*(\.[0-9]+)?'   }}) }}
-	</div>		
+	</div>
 
-	<!-- Carte google map -->
-	<div id="map" class="col s12"></div>	
+	<!-- input provider email -->
+	<div class="input-field col s12">
+		<i class="material-icons prefix">mail</i>	
+		{{ form_widget(form.mail, {'id': 'inputProviderMail',
+  								      		   'attr': {'class': 'validate',
+  											   			'placeholder':'Mail' }}) }}
+	</div>
+
+	<!-- input webSite provider -->
+	<div class="input-field col s12">
+		<i class="material-icons prefix">public</i>
+	  	{{ form_widget(form.webSite, {'id': 'inputWebSite',
+  							      'attr': { 'class': 'validate',
+  							      			'type':'url',
+  											'placeholder':'Site internet'  }}) }}
+	</div>	
+
+	
 
  </section>
  <div class="divider"></div>

@@ -6,7 +6,8 @@ function Provider(provider)
 	this.adresse = provider.adresse;
 	this.description = provider.description;
 	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
-	
+	this.webSite = provider.web_site;
+	this.mail = provider.mail;
 	this.products = [];
 	var product;
 	if (provider.type == 'epicerie') 

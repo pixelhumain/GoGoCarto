@@ -2122,6 +2122,7 @@ textarea.materialize-textarea {
     position: absolute;
     width: 3rem;
     font-size: 2rem;
+    line-height: 3rem;
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
     -o-transition: color 0.2s;
@@ -3207,6 +3208,9 @@ body {
   background: url(../img/index2.jpg) 100% no-repeat fixed;
   background-size: cover;
   color: white; }
+  @media only screen and (min-width: 601px) {
+    body {
+      background-attachment: initial; } }
 
 #mainWrapper {
   height: 100%;
@@ -3387,7 +3391,7 @@ section.sections_bottom {
   background-color: #f0f0f0;
   color: #454547; }
 
-#section_dev {
+#section_dev, #section_produits_bio {
   background-color: #4A7874; }
 
 #section_contact {

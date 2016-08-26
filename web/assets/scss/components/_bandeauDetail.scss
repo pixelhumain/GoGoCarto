@@ -7,7 +7,7 @@
     will-change:height;
     @include transition(height .5s);       
 
-    @include box-shadow-1(0 -5px 5px -5px rgba(119, 119, 119, 0.75));  
+    @include box-shadow-1(0 -8px 8px -5px rgba(173, 173, 173, 0.75));  
 
     background-color: #F7F7F7;
 
@@ -15,7 +15,8 @@
     {
         .menu-provider { display: none; } 
         .iconMainProduct { display:none; }
-        .starNamesIcons { display:block; }        
+        .starNamesIcons { display:block; }  
+        .sectionInfos { line-height: 2rem; }      
     }
 
     &.insideNavigationMode

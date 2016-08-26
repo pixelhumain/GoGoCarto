@@ -74,7 +74,7 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 
 	var oldStateName = this.stateName_;
 	this.stateName_ = stateName;
-	if (oldStateName == stateName) return;	
+	//if (oldStateName == stateName) return;	
 
 	var provider = options.id ? this.providerManager_.getProviderById(options.id) : null;
 
@@ -101,7 +101,7 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 			{
 				origin = GLOBAL.getMap().location;
 			}
-			//window.console.log('origin : ' + origin);
+			$('#map_tab').trigger("click");
 			
 			var route = calculateRoute(origin, provider.getPosition()); 
 			this.displayProviderAloneManager_.begin(options.id, false);									

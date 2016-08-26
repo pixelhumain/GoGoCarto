@@ -18,9 +18,7 @@
 	    <div class="flash-notice">
 	        {{ flash_message | raw }}
 	    </div>
-	{% endfor %}
-  
-  <center><h1 id="titre_ajout">Modification des données</h1></center>
+	{% endfor %}  
 
   {% include "::Fournisseur/form.html.twig" with {'editMode':true} %} 
 

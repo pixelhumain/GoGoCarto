@@ -1,38 +1,20 @@
 jQuery(document).ready(function()
 {	
-	$('.product-checkbox').change(function()
+
+	$('.filterCheckbox').change(function()
 	{		
-		checkProductFilterFromCheckbox(this);
+		checkFilterFromCheckbox(this, $(this).attr('data-type'));
 		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
 	});
 
-	$('.provider-checkbox').change(function()
-	{		
-		checkProviderFilterFromCheckbox(this);
-		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
-	});
-
-	$('#title-checkbox-type').change(function()
+	$('.title-checkbox').change(function()
 	{		
 		var isChecked = $(this).is(':checked');
-
-		$('.provider-checkbox').each(function()
+		var checkboxClass = $(this).attr('data-type') + '-checkbox';
+		$('.' + checkboxClass).each(function()
 		{
 			$(this).prop("checked", isChecked);
-			checkProviderFilterFromCheckbox(this);
-		});
-
-		GLOBAL.getProviderManager().updateProviderList(isChecked);
-	});
-
-	$('#title-checkbox-products').change(function()
-	{		
-		var isChecked = $(this).is(':checked');
-
-		$('.product-checkbox').each(function()
-		{
-			$(this).prop("checked", isChecked);
-			checkProductFilterFromCheckbox(this);
+			checkFilterFromCheckbox(this, $(this).attr('data-type'));
 		});
 
 		GLOBAL.getProviderManager().updateProviderList(isChecked);
@@ -41,16 +23,10 @@ jQuery(document).ready(function()
 	
 });
 
-function checkProductFilterFromCheckbox(object)
+function checkFilterFromCheckbox(object, filterType)
 {
-	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addProductFilter($(object).attr('data-product-name'));
-	else GLOBAL.getFilterManager().removeProductFilter($(object).attr('data-product-name'));
-}
-
-function checkProviderFilterFromCheckbox(object)
-{
-	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addTypeFilter($(object).attr('data-type'));
-	else GLOBAL.getFilterManager().removeTypeFilter($(object).attr('data-type'));
+	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addFilter($(object).attr('data'), filterType);
+	else GLOBAL.getFilterManager().removeFilter($(object).attr('data'), filterType);
 }
 
 

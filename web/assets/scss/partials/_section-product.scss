@@ -4,7 +4,7 @@
 {
 	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
 
-	z-index: 40;
+	z-index: 4000;
 	overflow-y:hidden; 
 
 	@media #{$medium-and-up} 
@@ -74,7 +74,7 @@
 		}	
 	}
 
-	.product-checkbox
+	.filterCheckbox
 	{
 		+ label:after
 		{
@@ -101,16 +101,9 @@
 		}
 	}
 
-	.provider-checkbox
-	{
-		@extend .product-checkbox;
-
-		//+ label:after { color : $primary-color;background-color: $primary-color; }
-	}
-
 	.title-checkbox
 	{
-		@extend .product-checkbox;
+		@extend .filterCheckbox;
 
 		+ label:after { color : #D2D2D2; background-color: transparent; }
 	}

@@ -2174,6 +2174,7 @@ textarea.materialize-textarea {
     position: absolute;
     width: 3rem;
     font-size: 2rem;
+    line-height: 3rem;
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
     -o-transition: color 0.2s;
@@ -3447,9 +3448,9 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
   -o-transition: height 0.5s;
   -ms-transition: height 0.5s;
   transition: height 0.5s;
-  -webkit-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-  -moz-box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
-  box-shadow: 0 -5px 5px -5px rgba(119, 119, 119, 0.75);
+  -webkit-box-shadow: 0 -8px 8px -5px rgba(173, 173, 173, 0.75);
+  -moz-box-shadow: 0 -8px 8px -5px rgba(173, 173, 173, 0.75);
+  box-shadow: 0 -8px 8px -5px rgba(173, 173, 173, 0.75);
   background-color: #F7F7F7; }
   #bandeau_detail .providerItem .menu-provider {
     display: none; }
@@ -3457,6 +3458,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     display: none; }
   #bandeau_detail .providerItem .starNamesIcons {
     display: block; }
+  #bandeau_detail .providerItem .sectionInfos {
+    line-height: 2rem; }
   #bandeau_detail.insideNavigationMode .iconMainProduct {
     display: block; }
   #bandeau_detail.insideNavigationMode .starNamesIcons {
@@ -3876,7 +3879,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -webkit-box-shadow: 4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2);
   box-shadow: 4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2);
-  z-index: 40;
+  z-index: 4000;
   overflow-y: hidden; }
   @media only screen and (min-width: 601px) {
     #ProductsList {
@@ -3922,19 +3925,19 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     @media only screen and (min-width: 601px) {
       #ProductsList #menu-title {
         display: none; } }
-  #ProductsList .product-checkbox + label:after, #ProductsList .provider-checkbox + label:after, #ProductsList .title-checkbox + label:after {
+  #ProductsList .filterCheckbox + label:after, #ProductsList .title-checkbox + label:after {
     top: 3px !important;
     width: 18px;
     height: 18px;
     color: #656565;
     background-color: #656565;
     border: 2px solid; }
-  #ProductsList .product-checkbox + label:before, #ProductsList .provider-checkbox + label:before, #ProductsList .title-checkbox + label:before {
+  #ProductsList .filterCheckbox + label:before, #ProductsList .title-checkbox + label:before {
     top: 3px;
     left: 1px;
     width: 7px;
     height: 12px; }
-  #ProductsList .product-checkbox:not(:checked) + label:after, #ProductsList .provider-checkbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
+  #ProductsList .filterCheckbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
     background-color: transparent; }
   #ProductsList .title-checkbox + label:after {
     color: #D2D2D2;

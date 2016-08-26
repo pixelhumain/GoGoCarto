@@ -47,9 +47,6 @@
 .icon-fruits:before {
   content: "\63";
 }
-.icon-legumes2:before {
-  content: "\64";
-}
 .icon-marche:before {
   content: "\65";
 }
@@ -148,4 +145,19 @@
 }
 .icon-menu:before {
   content: "\4a";
+}
+.icon-star-full:before {
+  content: "\69";
+}
+.icon-starcircle:before {
+  content: "\49";
+}
+.icon-locate:before {
+  content: "\4b";
+}
+.icon-star-empty:before {
+  content: "\4f";
+}
+.icon-day:before {
+  content: "\52";
 }

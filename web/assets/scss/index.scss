@@ -11,6 +11,11 @@ body
 	background: url(../img/index2.jpg) 100% no-repeat fixed;
 	background-size: cover;
 	color:white;
+
+	@media #{$medium-and-up}
+	{
+		background-attachment: initial;
+	}
 }
 
 #mainWrapper
@@ -283,7 +288,7 @@ section.sections_bottom
 }
 
 #section_open_source { background-color: $grey-light; color: #454547; }
-#section_dev { background-color: $secondary-color; }
+#section_dev, #section_produits_bio { background-color: $secondary-color; }
 #section_contact
 {
 	padding-bottom: 0;

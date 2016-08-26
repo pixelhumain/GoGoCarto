@@ -71,7 +71,17 @@
     <h3>Infos</h3>   
     <div class="section row sectionInfos">
       <span class="col s12 adresse">{{ provider.adresse|capitalize }}</span>
-      <span class="col s12 tel">{{ provider.tel }}</span>
+      {% if provider.tel %}
+        <span class="col s12 tel">{{ provider.tel }}</span>
+      {% endif %}
+      {% if provider.mail %}
+        <span class="col s12 tel"><a href="mailto:{{ provider.mail }}">{{ provider.mail }}</a>
+        </span>
+      {% endif %}
+      {% if provider.webSite %}
+        <span class="col s12 tel"><a href="{{ provider.webSite }}" target="_blank">{{ provider.webSite }}</a>
+        </span>
+      {% endif %}
     </div>
     <div class="divider"></div>
 

@@ -88,6 +88,8 @@ class RandomCreationController extends Controller
 	      $new_provider->setAdresse($lipsum->words(rand(6,10)));       
 	      $new_provider->setDescription($lipsum->words(rand(3,20)));
 	      $new_provider->setTel('O678459586');
+	      $new_provider->setWebSite('http://www.infofournisseur.fr');
+	      $new_provider->setMail('http://fournisseur@bio.fr');
 
 	      $type = $listType[$this->randWithSet($typeSet)];
 

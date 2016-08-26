@@ -26,8 +26,9 @@ function maj_form_with_type( init )
 	    	$('#titre_horaires').text("Horaires de vente (optionnel)");
 	    	$('#estLeProducteur + label').text("Vous êtes ou travaillez chez ce producteur");
 	    	$('#inputAdresse').attr('placeholder',"Adresse du point de vente directe");
-	    	$('#autre_point_vente').css('display','block');
-	    	$('#mainProductDiv').css('display','block');
+	    	
+	    	$('#autre_point_vente').show();
+	    	$('#mainProductDiv').show();
 	    	break;
 	    case "4": // boutique
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");
@@ -38,22 +39,23 @@ function maj_form_with_type( init )
 	    	$('#titre_horaires').text("Horaires de distribution (optionnel)");
 	        $('#title_products').text("Produits présents dans cette AMAP");
 	        $('#estLeProducteur + label').text("Vous faites partie de l'AMAP");
-	        $('#section_AMAP, #section_AMAP + div.divider').css('display','block');
-	        $('#inputTel').parent().css('display','none');
 	        $('#label_agree').text("Vous vous engagez à fournir des informations exactes");
-	        $('#mainProductDiv').css('display','block');
+	        
+	        $('#section_AMAP, #section_AMAP + div.divider').show();
+	        $('#section_optionnal_info, #section_optionnal_info + div.divider').hide();	        
+	        $('#mainProductDiv').show();
 	        break;
 	    case "5": // epicerie
 	    	$('#titre_horaires').text("Horaires d'ouverture (optionnel)");       
 	        $('#section_products').css('display','none'); 
 	        $('.checkbox_products:last-child').prop('checked', true);  
-	        $('#divider_products').css('display','none');     
+	        $('#divider_products').hide();     
 	        $('#estLeProducteur + label').text("Vous travaillez dans cette boutique");
 	        $('#autre').prop('checked', true);
 	        break;
 	    case "2": // march?
 	        $('#title_products').text("Produits locaux et raisonnés présents dans ce marché");
-	        $('#estLeProducteur').parent().css('display','none');
+	        $('#estLeProducteur').parent().hide();
 	        break;
 		}
 

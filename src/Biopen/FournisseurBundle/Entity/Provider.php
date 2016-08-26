@@ -57,6 +57,20 @@ class Provider
     private $tel;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    private $mail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="webSite", type="string", length=255, nullable=true)
+     */
+    private $webSite;
+
+    /**
     * @ORM\OneToMany(targetEntity="Biopen\FournisseurBundle\Entity\ProviderProduct", mappedBy="provider", cascade={"persist", "remove"}, orphanRemoval=true)
     */
     private $products; 
@@ -576,4 +590,52 @@ class Provider
     }
 
   
+
+    /**
+     * Set webSite
+     *
+     * @param string $webSite
+     *
+     * @return Provider
+     */
+    public function setWebSite($webSite)
+    {
+        $this->webSite = $webSite;
+
+        return $this;
+    }
+
+    /**
+     * Get webSite
+     *
+     * @return string
+     */
+    public function getWebSite()
+    {
+        return $this->webSite;
+    }
+
+    /**
+     * Set mail
+     *
+     * @param string $mail
+     *
+     * @return Provider
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Get mail
+     *
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
 }

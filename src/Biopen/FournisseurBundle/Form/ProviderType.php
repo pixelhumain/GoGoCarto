@@ -49,6 +49,8 @@ class ProviderType extends AbstractType
           ->add('adresse', TextType::class, array('required' => false))
           ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
+          ->add('webSite', TextType::class, array('required' => false)) 
+          ->add('mail', EmailType::class, array('required' => false))
           ->add('latlng', PointType::class) 
           ->add('contactAmap', ContactAmapType::class, array('required' => false))
           ->add('listeProducts', EntityType::class, array(
