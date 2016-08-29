@@ -3952,19 +3952,19 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     @media only screen and (min-width: 601px) {
       #ProductsList #menu-title {
         display: none; } }
-  #ProductsList .filterCheckbox + label:after, #ProductsList .title-checkbox + label:after {
-    top: 3px !important;
+  #ProductsList .filterCheckbox + label:after, #ProductsList #filter-favorite .favorite-checkbox + label:after, #ProductsList .title-checkbox + label:after {
+    top: 2px !important;
     width: 18px;
     height: 18px;
     color: #656565;
     background-color: #656565;
     border: 2px solid; }
-  #ProductsList .filterCheckbox + label:before, #ProductsList .title-checkbox + label:before {
-    top: 3px;
+  #ProductsList .filterCheckbox + label:before, #ProductsList #filter-favorite .favorite-checkbox + label:before, #ProductsList .title-checkbox + label:before {
+    top: 2px;
     left: 1px;
     width: 7px;
     height: 12px; }
-  #ProductsList .filterCheckbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
+  #ProductsList .filterCheckbox:not(:checked) + label:after, #ProductsList #filter-favorite .favorite-checkbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
     background-color: transparent; }
   #ProductsList #filter-favorite {
     color: #cc8901; }
@@ -3975,9 +3975,11 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         padding: 2px;
         padding-bottom: 3px;
         border: none; }
+    #ProductsList #filter-favorite:hover {
+      background-color: white; }
     #ProductsList #filter-favorite .favorite-checkbox:not(:checked) + label:after {
       background-color: transparent; }
-    #ProductsList #filter-favorite label:after {
+    #ProductsList #filter-favorite .favorite-checkbox + label:after {
       color: #cc8901;
       border-color: #cc8901;
       background-color: #cc8901; }
@@ -4026,7 +4028,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     font-weight: 500; }
   #ProductsList .productItem:not(.disabled):hover {
     background-color: #f0f0f0;
-    cursor: pointer; }
+    cursor: initial; }
     #ProductsList .productItem:not(.disabled):hover .resultNumber {
       transform: scale(1.2, 1.2);
       background-color: #B33737;
@@ -4056,7 +4058,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
       font-weight: 900; }
   #ProductsList .productName {
     overflow: hidden;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    line-height: 3.1rem; }
   #ProductsList .moreResultProviderItem:hover {
     background-color: #4A7874;
     color: white;

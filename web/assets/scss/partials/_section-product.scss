@@ -54,7 +54,7 @@
 	    {
 	    	top: 2.5rem;
 	    	display: none;
-	    }
+	    }	
 
 	    > .icon-close
 	    {
@@ -78,7 +78,7 @@
 	{
 		+ label:after
 		{
-			top: 3px !important;
+			top: 2px !important;
 		    width: 18px;
 		    height: 18px;
 		    color : #656565;
@@ -89,7 +89,7 @@
 		
 		+ label:before
 		{
-			top: 3px;
+			top: 2px;
 		    left: 1px;
 		    width: 7px;
 		    height: 12px;
@@ -115,6 +115,16 @@
     		}
 		}
 
+		&:hover
+		{
+			background-color: white;
+		}
+
+		.favorite-checkbox
+		{
+			@extend .filterCheckbox;
+		} 
+
 		color: $favorite-color;
 
 		.favorite-checkbox:not(:checked) + label:after
@@ -122,12 +132,12 @@
 			background-color: transparent;
 		}
 
-		label:after
+		.favorite-checkbox + label:after
 		{
 			color:$favorite-color;
 			border-color:$favorite-color;
 			background-color: $favorite-color;
-		} 
+		}  
 	}
 
 	.title-checkbox
@@ -192,7 +202,7 @@
 	.productItem:not(.disabled):hover
 	{
 		background-color: $grey-light;
-		cursor: pointer;
+		cursor: initial;
 
 		.resultNumber
 	    {	    	
@@ -247,6 +257,7 @@
 	{
 		overflow: hidden;
 	    text-overflow: ellipsis;
+	    line-height: 3.1rem;
 	}
 
 	.moreResultProviderItem:hover 

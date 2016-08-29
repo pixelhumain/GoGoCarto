@@ -74,10 +74,15 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 
 	var oldStateName = this.stateName_;
 	this.stateName_ = stateName;
-	//if (oldStateName == stateName) return;	
 
 	var provider = options.id ? this.providerManager_.getProviderById(options.id) : null;
 
+	if (oldStateName == stateName)
+	{
+		this.updateDocumentTitle_(stateName, provider);
+		return;
+	} 	
+	
 	switch (stateName)
 	{
 		case 'showProvider':					

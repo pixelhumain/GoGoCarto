@@ -2,9 +2,12 @@ jQuery(document).ready(function()
 {	
 	$('.favorite-checkbox').change(function ()
 	{
+		window.console.log("on change");
 		GLOBAL.getFilterManager().showOnlyFavorite($(this).is(':checked'));
 		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
 	});
+
+	$('#product-checkbox-favorite + label').tooltip();
 
 	$('.filterCheckbox').change(function()
 	{		
@@ -23,9 +26,7 @@ jQuery(document).ready(function()
 		});
 
 		GLOBAL.getProviderManager().updateProviderList(isChecked);
-	});
-
-	
+	});	
 });
 
 function checkFilterFromCheckbox(object, filterType)

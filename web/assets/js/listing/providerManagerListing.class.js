@@ -13,8 +13,49 @@ function ProviderManagerListing(listProviderPhp)
 		this.allProviders_.push(provider);
 	}
 
+	cookies = readCookie('FavoriteIds');
+	if (cookies !== null)
+	{
+		this.favoriteIds_ = JSON.parse(cookies);
+
+		for(var j = 0; j < this.favoriteIds_.length; j++)
+	  	{
+	  		this.addFavorite(this.favoriteIds_[j], false);
+	  	}
+	}   
+	else this.favoriteIds_ = [];	
+
 	// TODO delete listProviderPhp; ?
 }
+
+ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
+{
+	modifyCookies = modifyCookies !== false;
+	var provider = this.getProviderById(favoriteId);
+	if (provider !== null) provider.isFavorite = true;
+	
+	if (modifyCookies)
+	{
+		this.favoriteIds_.push(favoriteId);
+
+		createCookie('FavoriteIds',JSON.stringify(this.favoriteIds_));		
+	}
+};
+
+ProviderManagerListing.prototype.removeFavorite = function (favoriteId, modifyCookies)
+{
+	modifyCookies = modifyCookies !== false;
+	var provider = this.getProviderById(favoriteId);
+	if (provider !== null) provider.isFavorite = false;
+	
+	if (modifyCookies)
+	{
+		var index = this.favoriteIds_.indexOf(favoriteId);
+		if (index > -1) this.favoriteIds_.splice(index, 1);
+
+		createCookie('FavoriteIds',JSON.stringify(this.favoriteIds_));
+	}
+};
 
 ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders, forceRepaint) 
 {	
