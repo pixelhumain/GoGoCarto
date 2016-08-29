@@ -18,7 +18,7 @@ function BiopenMarker(id_, position_)
 		draggable: false,
 		position: position_,
 		flat: true
-	});
+	}, this);
 
 	this.richMarker_.checkCluster = true;
 	
@@ -60,6 +60,7 @@ function BiopenMarker(id_, position_)
 	}
 	
 	this.isHalfHidden_ = false;	
+	this.inclination_ = "normal";
 
 	this.updateIcon();	
 }
@@ -136,13 +137,21 @@ BiopenMarker.prototype.updateIcon = function ()
 	    }
 
 		innerHTML += '</div>';
-    }     
+    } 
+
+    if (provider.isFavorite)
+    {
+    	innerHTML += '<div class="icon-star-full animate rotate"></div>';
+    }    
      
     innerHTML += '</div>';
 
     content.innerHTML = innerHTML;
 
   	this.richMarker_.setContent(content);	
+
+  	if (this.inclination_ == "right") this.inclinateRight();
+  	if (this.inclination_ == "left") this.inclinateLeft();
 };
 
 BiopenMarker.prototype.addClassToRichMarker_ = function (classToAdd) 
@@ -188,6 +197,32 @@ BiopenMarker.prototype.showNormalSize = function ()
 		});
 	}	
 };
+
+BiopenMarker.prototype.initializeInclination = function () 
+{	
+	content = this.richMarker_.getContent(); 
+	$(content).css("z-index","1");
+    $(content).find(".rotate").removeClass("rotateLeft").removeClass("rotateRight");
+    $(content).removeClass("rotateLeft").removeClass("rotateRight");
+    this.inclination_ = "normal";
+};
+
+BiopenMarker.prototype.inclinateRight = function () 
+{	
+	content = this.richMarker_.getContent(); 
+	$(content).find(".rotate").addClass("rotateRight");
+    $(content).addClass("rotateRight");
+    this.inclination_ = "right";
+};
+
+BiopenMarker.prototype.inclinateLeft = function () 
+{	
+	content = this.richMarker_.getContent(); 
+	$(content).find(".rotate").addClass("rotateLeft");
+    $(content).addClass("rotateLeft");
+    this.inclination_ = "left";
+};
+
 
 BiopenMarker.prototype.setPolylineOptions = function (options)
 {

@@ -3158,6 +3158,7 @@ select {
 
 #inputAddress {
   text-align: center;
+  text-transform: capitalize;
   padding: 0 .5rem 0 .5rem;
   border: 3px solid #BDBDBD;
   box-shadow: none !important;

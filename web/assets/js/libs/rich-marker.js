@@ -30,7 +30,7 @@ function initRichMarker()
  * @extends {google.maps.OverlayView}
  * @constructor
  */
-function RichMarker(opt_options) {
+function RichMarker(opt_options, parent) {
   var options = opt_options || {};
 
   /**
@@ -38,6 +38,7 @@ function RichMarker(opt_options) {
    * @private
    */
   this.ready_ = false;
+  this.parent_ = parent;
 
   /**
    * @type {boolean}

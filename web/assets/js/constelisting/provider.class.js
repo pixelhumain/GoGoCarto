@@ -57,6 +57,8 @@ function Provider(provider)
 	this.starChoiceForRepresentation = '';
 	this.isShownAlone = false;
 
+	this.isFavorite = false;
+
 	// TODO delete providerPhp['Provider'] ?
 }
 

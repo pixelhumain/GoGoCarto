@@ -101,6 +101,35 @@
 		}
 	}
 
+	#filter-favorite
+	{
+		.icon-star-full
+		{
+			color: white;
+    		font-size: 18px;
+    		&:before
+    		{
+    			padding: 2px;
+    			padding-bottom: 3px;
+    			border: none;
+    		}
+		}
+
+		color: $favorite-color;
+
+		.favorite-checkbox:not(:checked) + label:after
+		{
+			background-color: transparent;
+		}
+
+		label:after
+		{
+			color:$favorite-color;
+			border-color:$favorite-color;
+			background-color: $favorite-color;
+		} 
+	}
+
 	.title-checkbox
 	{
 		@extend .filterCheckbox;
@@ -261,6 +290,7 @@
 	text-align: center;
 	margin: 0;
 	background-color: #FFFFFF;
+	padding-bottom: 0;
 }
 
 #search_distance_section

@@ -118,6 +118,29 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	}
 }
 
+// l'icone pour dire qu'il y a plusieurs produits dans ce fourisseur
+.marker-wrapper .icon-star-full
+{
+    position: absolute;
+    top: -10px;
+    z-index: 3;
+    font-size: 14px;
+    right: -2px;
+    color: #d9dad9;
+
+    &.rotateRight { top: -9px; right: -5px; }
+    &.rotateLeft { top: -10px; right: 1px; }
+}
+
+.icon-star-full:before
+{
+    border-radius: 50%;
+    padding: 1px;
+    padding-bottom: 2px;
+    background-color: $favorite-color;
+    border: 1px solid;
+}
+
 // l'ensemble des autres produits disponibles
 .moreIconContainer
 {

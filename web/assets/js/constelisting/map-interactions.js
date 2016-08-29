@@ -9,6 +9,20 @@ function showProviderInfosOnMap(providerId)
 
 	if (GLOBAL.getState == 'normal' && !constellationMode) GLOBAL.setState("showProvider", {id: providerId});
 
+	if (!constellationMode)
+	{
+		if (!provider.isFavorite) 
+		{
+			$('#bandeau_detail .menu-provider .icon-star-empty').show();
+			$('#bandeau_detail .menu-provider .icon-star-full').hide();
+		}	
+		else 
+		{
+			$('#bandeau_detail .menu-provider .icon-star-empty').hide();
+			$('#bandeau_detail .menu-provider .icon-star-full').show();
+		}
+	}	
+
 	$('#detail_provider').html(provider.getHtmlRepresentation());	
 	$('#bandeau_detail .menu-provider').removeClass().addClass("menu-provider " +provider.type);
 

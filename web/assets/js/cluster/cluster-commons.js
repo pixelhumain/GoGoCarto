@@ -19,10 +19,7 @@ function updateIconOfIndependantMarkersGroup(markers)
   for (i= 0; i < markers.length; i++)
   {
     markers[i].isInIndependantGroup = true;
-    content = markers[i].getContent();   
-    $(content).css("z-index","1");
-    $(content).find(".rotate").removeClass("rotateLeft").removeClass("rotateRight");
-    $(content).removeClass("rotateLeft").removeClass("rotateRight");
+    markers[i].parent_.initializeInclination();
   }
 
   if (markers.length == 1) return;  
@@ -44,27 +41,7 @@ function updateIconOfIndependantMarkersGroup(markers)
       $(content).css('z-index',i);
    }
 
-
-  /*for (i = 1; i < markers.length; i++) {
-      
-      var curr_marker= markers[i];
-
-      if(curr_marker.getPosition().lng() < lefterMarker.getPosition().lng())
-      {
-          lefterMarker = curr_marker;
-      }
-      else if (curr_marker.getPosition().lng() > righterMarker.getPosition().lng())
-      {
-          righterMarker = curr_marker;
-      }      
-  }*/
-
-  content = righterMarker.getContent();  
-  $(content).find(".rotate").addClass("rotateRight");
-  $(content).addClass("rotateRight");
-
-  content = lefterMarker.getContent(); 
-  $(content).find(".rotate").addClass("rotateLeft");
-  $(content).addClass("rotateLeft");
+  righterMarker.parent_.inclinateRight();
+  lefterMarker.parent_.inclinateLeft(); 
  
 }

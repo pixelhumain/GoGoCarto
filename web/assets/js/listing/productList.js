@@ -1,5 +1,10 @@
 jQuery(document).ready(function()
 {	
+	$('.favorite-checkbox').change(function ()
+	{
+		GLOBAL.getFilterManager().showOnlyFavorite($(this).is(':checked'));
+		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
+	});
 
 	$('.filterCheckbox').change(function()
 	{		

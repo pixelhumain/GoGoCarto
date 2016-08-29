@@ -3,7 +3,13 @@ function FilterManager()
 	this.productFilters = [];
 	this.typeFilters = [];	
 	this.dayFilters = [];	
+	this.showOnlyFavorite_ = false;
 }
+
+FilterManager.prototype.showOnlyFavorite = function(data)
+{
+	this.showOnlyFavorite_ = data;
+};
 
 FilterManager.prototype.addFilter = function (data, filterType) 
 {	
@@ -37,6 +43,9 @@ FilterManager.prototype.getFilterListFromType = function(type)
 
 FilterManager.prototype.checkIfProviderPassFilters = function (provider) 
 {	
+	// FAVORITE FILTER
+	if (this.showOnlyFavorite_ && !provider.isFavorite) return false;
+
 	// TYPE FILTER
 	var i;
 	for (i = 0; i < this.typeFilters.length; i++) 

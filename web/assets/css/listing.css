@@ -3396,6 +3396,27 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     border-radius: 50%;
     background-color: #F1F1F1; }
 
+.marker-wrapper .icon-star-full {
+  position: absolute;
+  top: -10px;
+  z-index: 3;
+  font-size: 14px;
+  right: -2px;
+  color: #d9dad9; }
+  .marker-wrapper .icon-star-full.rotateRight {
+    top: -9px;
+    right: -5px; }
+  .marker-wrapper .icon-star-full.rotateLeft {
+    top: -10px;
+    right: 1px; }
+
+.icon-star-full:before {
+  border-radius: 50%;
+  padding: 1px;
+  padding-bottom: 2px;
+  background-color: #cc8901;
+  border: 1px solid; }
+
 .moreIconContainer {
   display: none;
   z-index: 10;
@@ -3646,6 +3667,10 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
         font-size: 22px; }
         .menu-provider .menu-icon:before {
           line-height: 3rem; } }
+  .menu-provider .icon-star-full:before {
+    padding: 2px;
+    padding-bottom: 3px;
+    border: none; }
 
 #ProviderList .menu-provider {
   position: relative; }
@@ -3662,6 +3687,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 
 #inputAddress {
   text-align: center;
+  text-transform: capitalize;
   padding: 0 .5rem 0 .5rem;
   border: 3px solid #BDBDBD;
   box-shadow: none !important;
@@ -3850,6 +3876,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 #inputAddress {
   text-align: center;
+  text-transform: capitalize;
   padding: 0 .5rem 0 .5rem;
   border: 3px solid #BDBDBD;
   box-shadow: none !important;
@@ -3939,6 +3966,21 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     height: 12px; }
   #ProductsList .filterCheckbox:not(:checked) + label:after, #ProductsList .title-checkbox:not(:checked) + label:after {
     background-color: transparent; }
+  #ProductsList #filter-favorite {
+    color: #cc8901; }
+    #ProductsList #filter-favorite .icon-star-full {
+      color: white;
+      font-size: 18px; }
+      #ProductsList #filter-favorite .icon-star-full:before {
+        padding: 2px;
+        padding-bottom: 3px;
+        border: none; }
+    #ProductsList #filter-favorite .favorite-checkbox:not(:checked) + label:after {
+      background-color: transparent; }
+    #ProductsList #filter-favorite label:after {
+      color: #cc8901;
+      border-color: #cc8901;
+      background-color: #cc8901; }
   #ProductsList .title-checkbox + label:after {
     color: #D2D2D2;
     background-color: transparent; }
@@ -4044,7 +4086,8 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   padding: .5rem;
   text-align: center;
   margin: 0;
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF;
+  padding-bottom: 0; }
 
 #search_distance_section {
   margin: -.5rem .8rem 0 .8rem; }

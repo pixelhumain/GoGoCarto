@@ -53,7 +53,23 @@ function createListenersForProviderMenu(object)
 		}
 		else GLOBAL.setState("showRouting",{id: getCurrentProviderIdShown()});
 	});
-	object.find('.tooltipped').tooltip();
+	object.find('.tooltipped').tooltip();	
+	
+	object.find('.icon-star-empty').click(function() {
+		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
+		provider.isFavorite = true;
+		object.find('.icon-star-empty').hide();
+		object.find('.icon-star-full').show();
+		provider.getBiopenMarker().updateIcon();
+		provider.getBiopenMarker().animateDrop();
+	});
+	object.find('.icon-star-full').click(function() {
+		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
+		provider.isFavorite = false;
+		object.find('.icon-star-full').hide();
+		object.find('.icon-star-empty').show();
+		provider.getBiopenMarker().updateIcon();
+	});	
 }
 
 function getCurrentProviderIdShown()
