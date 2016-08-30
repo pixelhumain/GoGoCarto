@@ -2,7 +2,6 @@ jQuery(document).ready(function()
 {	
 	$('.favorite-checkbox').change(function ()
 	{
-		window.console.log("on change");
 		GLOBAL.getFilterManager().showOnlyFavorite($(this).is(':checked'));
 		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
 	});

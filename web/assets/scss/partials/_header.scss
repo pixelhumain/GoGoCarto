@@ -8,17 +8,30 @@ header
 		margin: 0 ; 
 	   	font-size: .85rem ;
 		background-color: $header-color;
+		padding: 0 .5rem;
 
 		#menu-accueil
-		{			
-			display:none;
+		{
+		    display: inline-block;
+		    font-family: 'Yellowtail', cursive;
+		    font-size: 1.4rem;
+		    line-height: 2.3rem;
+		    margin-right: 0;
+
+		    @media screen and (max-width: 500px) { line-height: 2.5rem; }
+		}
+
+		#menu-actions
+		{
+			float : right;
 		}
 		
 		.menu-item 
 		{ 
 			text-align:center ;
 			line-height: 2.5rem;
-			width: 33.33%;
+			float: none;
+			display:inline-block;			
 				
 			padding: 0 .5rem !important;			
 			color: white;
@@ -46,32 +59,38 @@ header
 		}		
 	}
 
+	#menu-accueil
+	{
+		.small-logo { display: inline-block; }
+		.large-logo { display: none; }
+
+		@media screen and (min-width: 500px)
+		{
+			.small-logo { display: none; }
+			.large-logo { display: inline-block; }
+		}
+	}	
+	
+
 	@media #{$medium-and-up} 
 	{
 		#menu 
 		{ 
 			font-size:1rem;
-			margin-bottom: 0px ;			
+			margin-bottom: 0px ;
+			padding: 0 1rem;	
 
 			#menu-accueil
 			{
-				display: block;
-				font-family: 'Yellowtail', cursive;
 				margin-left: .7rem;
 			    font-size: 1.8rem;
 			    line-height: 3.2rem;
-			    margin-right: 0;
-			}
-
-			#menu-actions
-			{
-				float : right;
-			}
+			}		
 
 			.menu-item 
 			{
 				margin-right: 2rem;
-				line-height: 3.3rem;
+				line-height: 3.4rem;
 				width: auto;	
 			}
 		}

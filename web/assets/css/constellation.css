@@ -395,13 +395,24 @@ header {
   header #menu {
     margin: 0;
     font-size: 0.85rem;
-    background-color: #272626; }
+    background-color: #272626;
+    padding: 0 .5rem; }
     header #menu #menu-accueil {
-      display: none; }
+      display: inline-block;
+      font-family: 'Yellowtail', cursive;
+      font-size: 1.4rem;
+      line-height: 2.3rem;
+      margin-right: 0; }
+      @media screen and (max-width: 500px) {
+        header #menu #menu-accueil {
+          line-height: 2.5rem; } }
+    header #menu #menu-actions {
+      float: right; }
     header #menu .menu-item {
       text-align: center;
       line-height: 2.5rem;
-      width: 33.33%;
+      float: none;
+      display: inline-block;
       padding: 0 .5rem !important;
       color: white;
       font-size: inherit;
@@ -421,22 +432,27 @@ header {
         border: none;
         background-color: transparent;
         letter-spacing: .5px; }
+  header #menu-accueil .small-logo {
+    display: inline-block; }
+  header #menu-accueil .large-logo {
+    display: none; }
+  @media screen and (min-width: 500px) {
+    header #menu-accueil .small-logo {
+      display: none; }
+    header #menu-accueil .large-logo {
+      display: inline-block; } }
   @media only screen and (min-width: 601px) {
     header #menu {
       font-size: 1rem;
-      margin-bottom: 0px; }
+      margin-bottom: 0px;
+      padding: 0 1rem; }
       header #menu #menu-accueil {
-        display: block;
-        font-family: 'Yellowtail', cursive;
         margin-left: .7rem;
         font-size: 1.8rem;
-        line-height: 3.2rem;
-        margin-right: 0; }
-      header #menu #menu-actions {
-        float: right; }
+        line-height: 3.2rem; }
       header #menu .menu-item {
         margin-right: 2rem;
-        line-height: 3.3rem;
+        line-height: 3.4rem;
         width: auto; } }
 
 #page_content {
@@ -3657,6 +3673,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     font-size: 20px;
     color: #CECECE;
     margin: 0 1rem; }
+    .menu-provider .menu-icon.iconFavorite {
+      font-size: 18px; }
     .menu-provider .menu-icon:hover {
       color: white;
       cursor: pointer; }
@@ -3665,6 +3683,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     @media only screen and (min-width: 601px) {
       .menu-provider .menu-icon {
         font-size: 22px; }
+        .menu-provider .menu-icon.iconFavorite {
+          font-size: 20px; }
         .menu-provider .menu-icon:before {
           line-height: 3rem; } }
   .menu-provider .icon-star-full:before {

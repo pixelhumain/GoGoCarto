@@ -13,6 +13,8 @@
 		color: #CECECE;
 		margin: 0 1rem;
 
+		&.iconFavorite { font-size: 18px; }
+
 		&:hover
 		{
 			color: white;
@@ -26,6 +28,9 @@
 		@media #{$medium-and-up} 
 		{
 			font-size: 22px;
+
+			&.iconFavorite { font-size: 20px; }
+
 			&:before
 			{
 				line-height: 3rem;
