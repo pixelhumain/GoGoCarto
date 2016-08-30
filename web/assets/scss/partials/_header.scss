@@ -61,11 +61,13 @@ header
 
 	#menu-accueil
 	{
+		color: #EE6E73 !important;
 		.small-logo { display: inline-block; }
 		.large-logo { display: none; }
 
 		@media screen and (min-width: 500px)
 		{
+			color: inherit;
 			.small-logo { display: none; }
 			.large-logo { display: inline-block; }
 		}
@@ -78,7 +80,7 @@ header
 		{ 
 			font-size:1rem;
 			margin-bottom: 0px ;
-			padding: 0 1rem;	
+			padding: 0;	
 
 			#menu-accueil
 			{

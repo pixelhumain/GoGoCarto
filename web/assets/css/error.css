@@ -432,15 +432,19 @@ header {
         border: none;
         background-color: transparent;
         letter-spacing: .5px; }
-  header #menu-accueil .small-logo {
-    display: inline-block; }
-  header #menu-accueil .large-logo {
-    display: none; }
-  @media screen and (min-width: 500px) {
+  header #menu-accueil {
+    color: #EE6E73 !important; }
     header #menu-accueil .small-logo {
-      display: none; }
+      display: inline-block; }
     header #menu-accueil .large-logo {
-      display: inline-block; } }
+      display: none; }
+    @media screen and (min-width: 500px) {
+      header #menu-accueil {
+        color: inherit; }
+        header #menu-accueil .small-logo {
+          display: none; }
+        header #menu-accueil .large-logo {
+          display: inline-block; } }
   @media only screen and (min-width: 601px) {
     header #menu {
       font-size: 1rem;
