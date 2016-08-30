@@ -3,41 +3,61 @@ function ProviderManagerListing(listProviderPhp)
 	this.allProviders_ = [];
 	this.currProviders_ = [];
 
+	this.allProvidersIds_= [];
+
 	// TODO timer pour voir si c'est long de faire ça. peut etre le faire
 	// direct dans la page twig? pour éviter de serializer....
-
-	var provider;
-	for (var i = 0; i < listProviderPhp.length; i++)
-	{
-		provider = new Provider(listProviderPhp[i].Provider);
-		this.allProviders_.push(provider);
-	}
 
 	cookies = readCookie('FavoriteIds');
 	if (cookies !== null)
 	{
-		this.favoriteIds_ = JSON.parse(cookies);
-
-		for(var j = 0; j < this.favoriteIds_.length; j++)
-	  	{
-	  		this.addFavorite(this.favoriteIds_[j], false);
-	  	}
+		this.favoriteIds_ = JSON.parse(cookies);		
 	}   
 	else this.favoriteIds_ = [];	
 
+	this.addJsonProviders(listProviderPhp, false);
+
 	// TODO delete listProviderPhp; ?
 }
+
+ProviderManagerListing.prototype.checkCookies = function()
+{
+	for(var j = 0; j < this.favoriteIds_.length; j++)
+  	{
+  		this.addFavorite(this.favoriteIds_[j], false);
+  	}
+};
+
+ProviderManagerListing.prototype.addJsonProviders = function (providerList, checkIfAlreadyExist)
+{
+	var start = new Date().getTime();
+	var provider;
+	for (var i = 0; i < providerList.length; i++)
+	{
+		providerJson = providerList[i].Provider ? providerList[i].Provider : providerList[i];
+
+		if (!checkIfAlreadyExist || this.allProvidersIds_.indexOf(providerJson.id) < 0)
+		{
+			this.allProviders_.push(new Provider(providerJson));
+			this.allProvidersIds_.push(providerJson.id);
+		}		
+	}
+	this.checkCookies();
+	var end = new Date().getTime();
+	var time = end - start;
+	window.console.log("AddJsonProviders effectué en " + time + " ms");
+};
 
 ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
 	var provider = this.getProviderById(favoriteId);
 	if (provider !== null) provider.isFavorite = true;
+	else return;
 	
 	if (modifyCookies)
 	{
 		this.favoriteIds_.push(favoriteId);
-
 		createCookie('FavoriteIds',JSON.stringify(this.favoriteIds_));		
 	}
 };
@@ -155,4 +175,5 @@ ProviderManagerListing.prototype.getProviderById = function (providerId)
 	for (var i = 0; i < this.allProviders_.length; i++) {
 		if (this.allProviders_[i].getId() == providerId) return this.allProviders_[i];
 	}
+	return null;
 };

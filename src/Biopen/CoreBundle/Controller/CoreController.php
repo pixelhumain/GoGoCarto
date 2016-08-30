@@ -18,6 +18,8 @@ use Wantlet\ORM\Point;
 
 class CoreController extends Controller
 {
+    private $callnumber = 0;
+
     public function indexAction()
     {
         $this->get('session')->clear();
@@ -50,9 +52,12 @@ class CoreController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+        
         // All providers list
-        $providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
-        ->findAllProviders();
+        /*$providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
+        ->findFromPointWithoutDistance($geocodePoint, 10);*/
+        $providerList = $this->getProvidersList($geocodePoint, intval(50), 80);      
 
         $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
         ->findAll();            
@@ -101,16 +106,20 @@ class CoreController extends Controller
             array('constellationPhp' => $constellation, "providerList" => $providerList, "slug" => $slug, 'search_range' => $distance));
     }    
 
-    public function constellationAjaxAction(Request $request)
+    public function listingAjaxAction(Request $request)
     {
         if($request->isXmlHttpRequest())
         {
-            $constellation = $this->buildConstellation($request->get('adresse'));
+            $em = $this->getDoctrine()->getManager();
+
+            // All providers list
+            $providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
+            ->findAllProviders();
 
             $serializer = $this->container->get('jms_serializer');
-            $constellationJson = $serializer->serialize($constellation, 'json');
+            $providerListJson = $serializer->serialize($providerList, 'json');
 
-            $response = new Response($constellationJson); 
+            $response = new Response($providerListJson); 
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -120,13 +129,18 @@ class CoreController extends Controller
         }
     }
 
-    private function getProvidersList($geocodePoint, $distance = 50)
+    public function testAjaxAction(Request $request)
+    {
+        return new JsonResponse("test");
+    }
+
+    private function getProvidersList($geocodePoint, $distance = 50, $maxResult = 0)
     {
         $em = $this->getDoctrine()->getManager();
 
         // La liste des provider autour de l'adresse demandée
         $listProvider = $em->getRepository('BiopenFournisseurBundle:Provider')
-        ->findFromPoint($distance, $geocodePoint );
+        ->findFromPoint($distance, $geocodePoint, $maxResult );
         
         $providerList = null;
         foreach ($listProvider as $i => $provider) 

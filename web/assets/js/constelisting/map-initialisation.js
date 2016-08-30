@@ -73,9 +73,12 @@ function initialize(map)
 		providerManager = new ProviderManagerListing(providerListJson);
 		markerManager = null;	
 		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
-		GLOBAL.initialize();
+		GLOBAL.initialize();		
+
 		initCluster(null);
+
 		providerManager.updateProviderList();
+		getProviderListFromAjax();
 
 		map.addListener('idle', function(e) 
 		{
@@ -93,6 +96,25 @@ function initialize(map)
 
 	  	$('#spinner-loader').hide();
 	}
+}
+
+function getProviderListFromAjax()
+{
+	window.console.log("getProviderListFromAjax");
+	var start = new Date().getTime();
+	var route = Routing.generate('biopen_listing_ajax');
+	
+	$.ajax({
+		url: route,
+		method: "post",
+	}).done(function(data)
+	{
+		var end = new Date().getTime();
+		var time = end - start;
+		window.console.log("recu en " + time + " ms");
+		GLOBAL.getProviderManager().addJsonProviders(data, true);
+		GLOBAL.getProviderManager().updateProviderList();        
+	});
 }
 
 function initCluster(markersToCluster)

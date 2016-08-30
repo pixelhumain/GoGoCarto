@@ -47,7 +47,7 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var providerListJson = {{ providerList | serialize("json") | raw }};  
+    var providerListJson = {{ providerList | serialize("json") | raw }}; 
     var constellationMode = false;
     var onlyInputAdressMode = false;
 
@@ -55,6 +55,8 @@
     {% if geocodeResponse is defined %}
       geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
     {% endif %}
+
+    
 
   </script>
 

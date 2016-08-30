@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProviderRepository extends EntityRepository
 {
-	public function findFromPoint($distance, $point)
+	public function findFromPoint($distance, $point, $maxResult = 0)
 	{	 
    $qb = $this->createQueryBuilder('provider');
 
@@ -30,7 +30,7 @@ class ProviderRepository extends EntityRepository
     ;
 
     // Puis on ne retourne que $limit résultats
-    //$qb->setMaxResults(10);
+    if ($maxResult != 0) $qb->setMaxResults(intval($maxResult));
 
     // Enfin, on retourne le résultat
     return $qb

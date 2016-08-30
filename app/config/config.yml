@@ -86,13 +86,10 @@ assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
     filters:
-        # cssrewrite: ~
-        jsqueeze: ~
+        cssrewrite: ~
         #     formatter: 'Leafo\ScssPhp\Formatter\Compressed'
         # sass:    ~
         # compass: ~
-        uglifyjs2:
-            bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifyjs
         # uglifycss:
         #     bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifycss
 

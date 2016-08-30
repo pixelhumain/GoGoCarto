@@ -18,7 +18,7 @@ function deleteProvider()
 	{
 		$('#captcha-error-message').hide();
 		$('#popup-delete-provider').closeModal();
-	}
+	}	
 }
 
 function onloadCaptcha() 
@@ -33,8 +33,8 @@ function createListenersForProviderMenu(object)
 	object.find('.icon-edit').click(function() {
 		window.location.href = Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
 	});
-	object.find('.icon-delete').click(function() {
-		//alert('Fonctionalité pas encore disponible, désolé ! '); 
+	object.find('.icon-delete').click(function() 
+	{		
 		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
 		//window.console.log(provider.name);
 		$('#popup-delete-provider .providerName').text(capitalize(provider.name));
