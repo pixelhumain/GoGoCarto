@@ -8,13 +8,14 @@ body
 	text-align: center;
 	background-color: #2f2f2f;
 	height: 100%;	
-	background: url(../img/index2.jpg) 100% no-repeat fixed;
+	background: url(../img/index-small.jpg) 100% no-repeat fixed;
 	background-size: cover;
 	color:white;
 
 	@media #{$medium-and-up}
 	{
 		background-attachment: initial;
+		background-image: url(../img/index-big.jpg)
 	}
 }
 
@@ -23,6 +24,8 @@ body
 	height: 100%;
 	width: 100%;
 	position: relative;
+	background-color: rgba(20, 20, 20, 0.8);
+	@media #{$medium-and-up} { background-color: initial; }
 }
 
 @media (max-height : 420px)
@@ -93,10 +96,11 @@ section#mainContainer, section .content
 
 section#mainContainer
 {
-    background-color: rgba(20, 20, 20, 0.8);    
+    background-color: initial;
 
     @media #{$medium-and-up}
 	{
+		background-color: rgba(20, 20, 20, 0.8); 
 		border-radius: 15px;
     	margin: 3rem auto 0;
     	padding: 2rem 2rem 1rem 2rem; 
