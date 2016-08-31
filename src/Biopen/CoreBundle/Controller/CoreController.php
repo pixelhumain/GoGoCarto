@@ -26,13 +26,15 @@ class CoreController extends Controller
         return $this->render('::index.html.twig');
     }
 
-    public function listingAction($slug)
+    public function listingAction($slug, Request $request)
     {
         if ($slug == '' && $this->get('session')->get('slug')) 
         {
             $slug = $this->get('session')->get('slug');
             //dump($slug);
         }
+
+
 
         $geocodeResponse = null;
 
@@ -52,7 +54,19 @@ class CoreController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+        
+        $id = $request->query->get('id');
+        dump($id);
+        $geocodePoint = null;
+        if ($id)
+        {
+            $providerToShow = $em->getRepository('BiopenFournisseurBundle:Provider')->findOneById($id); 
+            if ($providerToShow) $geocodePoint = $providerToShow->getLatlng();
+        }
+        if ($geocodePoint == null)
+        {
+            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+        }        
         
         // All providers list
         /*$providerList = $em->getRepository('BiopenFournisseurBundle:Provider')

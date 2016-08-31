@@ -146,6 +146,7 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 		for (var key in options)
 		{
 			route += '?' + key + '=' + options[key];
+			//route += '/' + key + '/' + options[key];
 		}
 	}
 	/*else

@@ -11,20 +11,26 @@ FilterManager.prototype.showOnlyFavorite = function(data)
 	this.showOnlyFavorite_ = data;
 };
 
-FilterManager.prototype.addFilter = function (data, filterType) 
+FilterManager.prototype.addFilter = function (data, filterType, updateProviderList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
 	var index = listToFilter.indexOf(data);
 	if ( index < 0) listToFilter.push(data);
+
+	if (updateProviderList) GLOBAL.getProviderManager().updateProviderList(false);
 };
 
-FilterManager.prototype.removeFilter = function (data, filterType) 
+FilterManager.prototype.removeFilter = function (data, filterType, updateProviderList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
 	var index = listToFilter.indexOf(data);
-	if ( index > -1) listToFilter.splice(index, 1);
+	if ( index > -1) 
+	{
+		listToFilter.splice(index, 1);
+		if (updateProviderList) GLOBAL.getProviderManager().updateProviderList(true);
+	}
 };
 
 FilterManager.prototype.getFilterListFromType = function(type)

@@ -5,6 +5,8 @@ function DisplayProviderAloneManager()
 
 DisplayProviderAloneManager.prototype.begin = function (providerId, panToProviderLocation) 
 {	
+	//window.console.log("DisplayProviderAloneManager begin");
+
 	panToProviderLocation = panToProviderLocation !== false;
 
 	if (this.providerShownAlone_ !== null) 
@@ -19,6 +21,7 @@ DisplayProviderAloneManager.prototype.begin = function (providerId, panToProvide
 		var providers = GLOBAL.getProviderManager().getProviders();
 
 		l = providers.length;
+		//window.console.log("hiding " + l + "providers");
 		while(l--)
 		{
 			providers[l].hide();

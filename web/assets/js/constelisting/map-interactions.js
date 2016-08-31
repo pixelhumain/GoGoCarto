@@ -7,7 +7,7 @@ function showProviderInfosOnMap(providerId)
 {
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 
-	GLOBAL.setState("showProvider", {id: providerId});		
+	if (GLOBAL.getState() != "showRouting" && GLOBAL.getState() != "showProviderAlone") GLOBAL.setState("showProvider", {id: providerId});		
 
 	if (!constellationMode)
 	{

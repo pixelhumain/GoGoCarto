@@ -10,8 +10,8 @@ jQuery(document).ready(function()
 
 	$('.filterCheckbox').change(function()
 	{		
-		checkFilterFromCheckbox(this, $(this).attr('data-type'));
-		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
+		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
+		/*GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));*/
 	});
 
 	$('.title-checkbox').change(function()
@@ -21,17 +21,17 @@ jQuery(document).ready(function()
 		$('.' + checkboxClass).each(function()
 		{
 			$(this).prop("checked", isChecked);
-			checkFilterFromCheckbox(this, $(this).attr('data-type'));
+			checkFilterFromCheckbox(this, $(this).attr('data-type'), false);
 		});
 
 		GLOBAL.getProviderManager().updateProviderList(isChecked);
 	});	
 });
 
-function checkFilterFromCheckbox(object, filterType)
+function checkFilterFromCheckbox(object, filterType, updateProviderList)
 {
-	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addFilter($(object).attr('data'), filterType);
-	else GLOBAL.getFilterManager().removeFilter($(object).attr('data'), filterType);
+	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addFilter($(object).attr('data'), filterType, updateProviderList);
+	else GLOBAL.getFilterManager().removeFilter($(object).attr('data'), filterType, updateProviderList);
 }
 
 

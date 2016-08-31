@@ -1,3 +1,4 @@
+
 function ProviderManagerListing(listProviderPhp) 
 {
 	this.allProviders_ = [];
@@ -87,16 +88,20 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	else providers = this.currProviders_;
 
 	var i, provider;
-	var mapBounds = GLOBAL.getMap().getBounds();
+   	var mapBounds = GLOBAL.getMap().getBounds();   
 
-	var newMarkers = [];
-	var markersToRemove = [];
-	var markersChanged = false;
+   	var newMarkers = [];
+   	var markersToRemove = [];
+   	var markersChanged = false;
 
 	filterManager = GLOBAL.getFilterManager();
 
 	i = providers.length;
 	// TODO check temps avec for in au lieu de for classique
+
+	window.console.log("updateProviderList nbre provider " + i);
+	var start = new Date().getTime();
+
 	while(i--)
 	//for(var i = 0; i < l; i++)
 	{
@@ -127,12 +132,20 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		}
 	}
 
+	var end = new Date().getTime();
+	var time = end - start;
+	//window.console.log("intermédiaire en " + time + " ms");	
+
 	if (markersChanged || forceRepaint)
 	{
 		GLOBAL.getClusterer().clearMarkers();
 		GLOBAL.getClusterer().addMarkers(this.getMarkers());
 		GLOBAL.getClusterer().repaint();
-	}	
+	}
+
+	end = new Date().getTime();
+	time = end - start;
+	//window.console.log("terminé en " + time + " ms");	
 };
 
 ProviderManagerListing.prototype.getProviders = function () 

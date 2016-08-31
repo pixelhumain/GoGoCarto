@@ -23,6 +23,7 @@
   {# La Carte et les infos provider #} 
   <section id="section_carte">
 
+    {% include '::Components/modal-choose-adresse-for-directions.html.twig'  %}  
     {#  PRELOADER #}
     {% include '::Components/loader.html.twig'  %}
 
@@ -88,7 +89,7 @@
 {% block modals %} 
 
   {% include '::Components/delete-provider.html.twig'  %}
-  {% include '::Components/modal-choose-adresse-for-directions.html.twig'  %}  
+  
 
 {% endblock %}
 
