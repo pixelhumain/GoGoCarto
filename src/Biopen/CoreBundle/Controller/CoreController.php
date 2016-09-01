@@ -45,8 +45,6 @@ class CoreController extends Controller
             //dump($slug);
         }
 
-
-
         $geocodeResponse = null;
 
         if ($slug != '')
@@ -65,27 +63,30 @@ class CoreController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+        ->findAll();     
         
         $id = $request->query->get('id');
-        dump($id);
+
         $geocodePoint = null;
         if ($id)
         {
             $providerToShow = $em->getRepository('BiopenFournisseurBundle:Provider')->findOneById($id); 
             if ($providerToShow) $geocodePoint = $providerToShow->getLatlng();
         }
-        if ($geocodePoint == null)
+        else if ($geocodeResponse !== null)
         {
             $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-        }        
+        }   
+        else
+        {
+            return $this->render('::Core/listing.html.twig', array("providerList" => [], "geocodeResponse" => null, "productList" => $listProducts, "slug" => ''));
+        }     
         
         // All providers list
         /*$providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
         ->findFromPointWithoutDistance($geocodePoint, 10);*/
-        $providerList = $this->getProvidersList($geocodePoint, intval(50), 80);      
-
-        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
-        ->findAll();            
+        $providerList = $this->getProvidersList($geocodePoint, intval(50), 80);               
 
         return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
     }    

@@ -23,6 +23,11 @@
   {# La Carte et les infos provider #} 
   <section id="section_carte">
 
+    <div id="tooManyMarkers_modal" >
+        Trop de résulats !
+        Zoomez pour afficher les fournisseurs
+    </div> 
+
     {% include '::Components/modal-choose-adresse-for-directions.html.twig'  %}  
     {#  PRELOADER #}
     {% include '::Components/loader.html.twig'  %}

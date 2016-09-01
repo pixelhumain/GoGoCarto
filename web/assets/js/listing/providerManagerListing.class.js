@@ -39,7 +39,6 @@ ProviderManagerListing.prototype.checkCookies = function()
 
 ProviderManagerListing.prototype.addJsonProviders = function (providerList, checkIfAlreadyExist)
 {
-	var start = new Date().getTime();
 	var provider;
 	for (var i = 0; i < providerList.length; i++)
 	{
@@ -52,9 +51,6 @@ ProviderManagerListing.prototype.addJsonProviders = function (providerList, chec
 		}		
 	}
 	this.checkCookies();
-	var end = new Date().getTime();
-	var time = end - start;
-	window.console.log("AddJsonProviders effectué en " + time + " ms");
 };
 
 ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
@@ -141,8 +137,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 
 	if (this.currProviders_.length >= maxProviders)
 	{
-		window.console.log("too many markers, not drawing");
-		// TODO show modal
+		$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
 		this.hideAllMarkers();
 		this.currProviders_ = [];
 		GLOBAL.getClusterer().clearMarkers();	
@@ -150,7 +145,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	}
 	else
 	{
-		// TODO hide modal
+		$('#tooManyMarkers_modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
 	}
 
 	var end = new Date().getTime();

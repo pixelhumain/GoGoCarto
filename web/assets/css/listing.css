@@ -506,7 +506,7 @@ ul {
 .z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15); }
 
-.z-depth-2, header {
+.z-depth-2, header, #tooManyMarkers_modal {
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
 .z-depth-3 {
@@ -4196,3 +4196,20 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   right: 0; }
   .preloader-wrapper .spinner-layer {
     border-color: white; }
+
+#tooManyMarkers_modal {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  top: 45%;
+  width: 50%;
+  padding: .5rem;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 50;
+  background-color: #4b7975;
+  color: white;
+  border: 2px solid #335250;
+  border-radius: 10px; }

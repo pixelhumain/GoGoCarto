@@ -785,7 +785,6 @@ MarkerClusterer.prototype.clearMarkers = function ()
  */
 MarkerClusterer.prototype.repaint = function () 
 {
-  window.console.log("Clusterer repaint");
   var oldClusters = this.clusters_.slice();
   this.clusters_ = [];
   this.resetViewport_(false);
