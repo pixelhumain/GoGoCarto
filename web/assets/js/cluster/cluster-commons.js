@@ -9,39 +9,3 @@ function distancePixelBetweenPoints(p1, p2, projection)
 
   return distance;  
 }
-
-function updateIconOfIndependantMarkersGroup(markers) 
-{
-  //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
-  if (markers === null || markers.length === 0) return;
-
-  var content;
-  for (i= 0; i < markers.length; i++)
-  {
-    markers[i].isInIndependantGroup = true;
-    markers[i].parent_.initializeInclination();
-  }
-
-  if (markers.length == 1) return;  
-
-  markers.sort(function compareMarkersLng(a, b) {
-    return b.getPosition().lng() - a.getPosition().lng();
-  });
-
-  var righterMarker = markers[0];
-  var lefterMarker = markers[markers.length - 1];
-
-   markers.sort(function compareMarkersLat(a, b) {
-    return b.getPosition().lat() - a.getPosition().lat();
-  });
-
-   for (i = 1; i < markers.length; i++) 
-   {
-      content = markers[i].getContent();
-      $(content).css('z-index',i);
-   }
-
-  righterMarker.parent_.inclinateRight();
-  lefterMarker.parent_.inclinateLeft(); 
- 
-}

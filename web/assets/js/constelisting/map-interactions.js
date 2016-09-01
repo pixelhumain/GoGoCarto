@@ -1,3 +1,12 @@
+/**
+ * This file is part of the MonVoisinFaitDuBio project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
+ * @license    MIT License
+ * @Last Modified time: 2016-09-01
+ */
 jQuery(document).ready(function()
 {
 	
@@ -38,6 +47,8 @@ function showProviderInfosOnMap(providerId)
 
 function toggleProviderDetailsComplet()
 {	
+	GLOBAL.setTimeoutBandeauDetail();
+
 	if ( $('#bandeau_detail .moreDetails').is(':visible') )
 	{
 		hideProviderDetailsComplet();
@@ -74,6 +85,8 @@ function toggleProviderDetailsComplet()
 
 function hideProviderDetailsComplet()
 {
+	GLOBAL.setTimeoutBandeauDetail();
+
 	//setTimeout(function(){$("#btn_menu").show();},1000);
 	if ($('#bandeau_detail .moreDetails').is(':visible'))
 	{
@@ -91,6 +104,8 @@ function hideProviderDetailsComplet()
 
 function animate_up_bandeau_detail()
 {
+	GLOBAL.setTimeoutBandeauDetail();
+
 	if ($('#bandeau_detail').css('position') != 'absolute')
 	{
 		$('#bandeau_detail').show();
@@ -115,9 +130,6 @@ function animate_up_bandeau_detail()
 		
 		ajuster_tailler_info_provider();
 		//$('#bandeau_detail').show("slide", {direction: 'rigth', easing: 'swing'} , 350 );
-		
-		
-		
 	}
 }
 

@@ -143,7 +143,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.ready_ = false;
 
   this.kernelRadius_ = opt_options.kernelRadius || 20;
-  this.clusterRadius_ = opt_options.clusterRadius || 60;
+  this.clusterRadius_ = opt_options.clusterRadius || 50;
   this.minClusterSize_ = opt_options.minimumClusterSize || 4;
   this.maxZoom_ = opt_options.maxZoom || null;
   this.minZoom_ = opt_options.minZoom || null;
@@ -654,12 +654,12 @@ MarkerClusterer.prototype.addMarker = function (marker, opt_nodraw)
  */
 MarkerClusterer.prototype.addMarkers = function (markers, opt_nodraw) 
 {
-  opt_nodraw = opt_nodraw|| true;
+  opt_nodraw = opt_nodraw !== false;
   var key;
   for (key in markers) {
     if (markers.hasOwnProperty(key)) {
       this.pushMarkerTo_(markers[key]);
-    }
+    }    
   }  
   if (!opt_nodraw) {
     this.repaint();
@@ -699,7 +699,7 @@ MarkerClusterer.prototype.pushMarkerTo_ = function (marker) {
  * @return {boolean} True if the marker was removed from the clusterer.
  */
 MarkerClusterer.prototype.removeMarker = function (marker, opt_nodraw) {
-  opt_nodraw = opt_nodraw || true;
+  opt_nodraw = opt_nodraw !== false;
 
   var removed = this.removeMarker_(marker);
 
@@ -785,7 +785,7 @@ MarkerClusterer.prototype.clearMarkers = function ()
  */
 MarkerClusterer.prototype.repaint = function () 
 {
-  //window.console.log("Clusterer repaint");
+  window.console.log("Clusterer repaint");
   var oldClusters = this.clusters_.slice();
   this.clusters_ = [];
   this.resetViewport_(false);
@@ -822,12 +822,12 @@ MarkerClusterer.prototype.getExtendedBounds = function (bounds)
 
   // Convert the points to pixels and the extend out by the grid size.
   var trPix = projection.fromLatLngToDivPixel(tr);
-  trPix.x += this.kernelRadius_;
-  trPix.y -= this.kernelRadius_;
+  trPix.x += this.clusterRadius_;
+  trPix.y -= this.clusterRadius_;
 
   var blPix = projection.fromLatLngToDivPixel(bl);
-  blPix.x -= this.kernelRadius_;
-  blPix.y += this.kernelRadius_;
+  blPix.x -= this.clusterRadius_;
+  blPix.y += this.clusterRadius_;
 
   // Convert the pixel points back to LatLng
   var ne = projection.fromDivPixelToLatLng(trPix);
@@ -866,12 +866,13 @@ MarkerClusterer.prototype.resetViewport_ = function (opt_hide)
   this.clusters_ = [];
 
   // Reset the markers to not be added and to be removed from the map.
-  for (i = 0; i < this.markers_.length; i++) {
+  var l = this.markers_.length;
+  for (i = 0; i < l; i++) { 
     marker = this.markers_[i];
     marker.isAdded = false;
     marker.isInIndependantGroup = false;
     if (opt_hide) marker.setVisible(false);
-  }
+  }  
 };
 
 
@@ -912,7 +913,7 @@ MarkerClusterer.prototype.isMarkerInBounds_ = function (marker, bounds) {
  *
  * @param {google.maps.Marker} marker The marker to add.
  */
-MarkerClusterer.prototype.addToClosestCluster_ = function (marker) 
+/*MarkerClusterer.prototype.addToClosestClusterModified_ = function (marker) 
 {
   var i, curr_distance, cluster, center;
   var best_distance = this.clusterRadius_; 
@@ -954,12 +955,43 @@ MarkerClusterer.prototype.addToClosestCluster_ = function (marker)
   else 
   {
     cluster = new Cluster(this);
-    cluster.setLabel(this.clusters_.length);
+    //cluster.setLabel(this.clusters_.length);
+    cluster.addMarker(marker, 0);
+    this.clusters_.push(cluster);
+  }
+};*/
+
+/**
+ * Add a marker to a cluster, or creates a new cluster.
+ *
+ * @param {google.maps.Marker} marker The marker to add.
+ * @private
+ */
+MarkerClusterer.prototype.addToClosestCluster_ = function(marker) {
+  var distance = 40000; // Some large number
+  var clusterToAddTo = null;
+  var pos = marker.getPosition();
+  for (i = 0; i < this.clusters_.length; i++) 
+  {
+    cluster = this.clusters_[i];
+    var center = cluster.getCenter();
+    if (center) {
+      var d = this.distanceBetweenPoints_(center, marker.getPosition());
+      if (d < distance) {
+        distance = d;
+        clusterToAddTo = cluster;
+      }
+    }
+  }
+
+  if (clusterToAddTo && clusterToAddTo.isMarkerInClusterBounds(marker)) {
+    clusterToAddTo.addMarker(marker, 0);
+  } else {
+    var cluster = new Cluster(this);
     cluster.addMarker(marker, 0);
     this.clusters_.push(cluster);
   }
 };
-
 
 /**
  * Creates the clusters. This is done in batches to avoid timeout errors
@@ -1016,7 +1048,9 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
 
   var iLast = Math.min(iFirst + this.batchSize_, this.markers_.length);
 
-  //window.console.log("createClusters begin " + this.markers_.length + " iLast = " + iLast);
+  window.console.log("    CREATECLUSTER " + iLast);
+
+  var end = new Date().getTime();
 
   for (i = iFirst; i < iLast; i++) {
     marker = this.markers_[i];
@@ -1025,22 +1059,13 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
       {
         this.addToClosestCluster_(marker);
       }
-    }
-    
+    }    
   }
 
-  // on re repartit un peu mieux les markers dans les clusters
-  this.captureElectronsMarkersInKernelClusters_();
-  
-  // première passe grossière pour voir si on minimise les clusters
   for (i = 0; i < this.clusters_.length; i++) 
   {
-      this.clusters_[i].checkForSimpleClustering();
+      this.clusters_[i].checkForClustering();
   }
-
-  // deuxième passe: on analyse les electrons qui restent
-  this.checkAdjacentsClusters();
-
 
   // Si les clusters n'ont pas eu besoin d'être minimisés
   // on peut afficher les marqueurs
@@ -1049,6 +1074,25 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
       if (!this.clusters_[i].isShownAsCluster()) this.clusters_[i].showMarkers();
   }
 
+  // on ordonne le z-index des marqueurs
+  var content, visiblesMarkers = [];
+  for (i = 0; i < this.markers_.length; i++) 
+  {
+      marker = this.markers_[i];
+      if (marker.getVisible()) visiblesMarkers.push(marker);
+  }
+
+  visiblesMarkers.sort(function compareMarkersLat(a, b) 
+  {
+      return b.getPosition().lat() - a.getPosition().lat();
+  });
+  for (i = 0; i < visiblesMarkers.length; i++) 
+  {
+      content = visiblesMarkers[i].getContent();
+      $(content).css('z-index',i);
+  }   
+
+   
   if (iLast < this.markers_.length) {
     this.timerRefStatic = setTimeout(function () {
       cMarkerClusterer.createClusters_(iLast);
@@ -1067,7 +1111,7 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
   }
 };
 
-MarkerClusterer.prototype.captureElectronsMarkersInKernelClusters_ = function () 
+/*MarkerClusterer.prototype.captureElectronsMarkersInKernelClusters_ = function () 
 {
   //window.console.log("CaptureElectron, nbre clusters : " + this.clusters_.length);
   for (i = 0; i < this.clusters_.length - 1; i++) 
@@ -1246,17 +1290,17 @@ MarkerClusterer.prototype.lookForMarkersGroupAround = function (marker, markers,
     else if (new_adjacentMarkers.length > 2) return null;
 
     // TODO trouver pourquoi cette boucle beuge de temps en temps
-    /*for( j = 0; j < new_adjacentMarkers.length; j++)
-    {      
-      child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
-      if (child_adjacentsMarker === null) return null; 
-      result = result.concat(child_adjacentsMarker);
-    }*/
+    //for( j = 0; j < new_adjacentMarkers.length; j++)
+    //{      
+    //  child_adjacentsMarker = this.lookForMarkersGroupAround(new_adjacentMarkers[j], markers, result.concat(curr_adjacentMarkers) );
+    //  if (child_adjacentsMarker === null) return null; 
+    //  result = result.concat(child_adjacentsMarker);
+    //}
 
     //console.groupEnd();
     
     return result;
-};
+};*/
 
 /**
  * Extends an object's prototype by another's.

@@ -20,6 +20,7 @@ function Cluster(mc) {
   this.clusterIcon_ = new ClusterIcon(this, mc.getStyles());
   this.isShownAsCluster_ = false;
   this.isProcessDone_ = false;
+  this.projection_= mc.getProjection();
 }
 
 
@@ -193,7 +194,34 @@ Cluster.prototype.addMarker = function (marker, distance) {
   return true;
 };
 
-Cluster.prototype.checkForSimpleClustering = function () 
+/*Cluster.prototype.checkForVerySimpleClustering = function () 
+{
+  if (this.kernelMarkers_.length + this.electronMarkers_.length >= 2)
+  {
+     this.showAsCluster();
+  }
+};*/
+
+Cluster.prototype.checkForClustering = function () 
+{
+  if (this.kernelMarkers_ === null)
+  {
+    window.console.error("KernelMarlers null");
+    return;
+  }
+  // premier trie grossier des clusters à minimiser
+  //window.console.log("check global cluster " + this.label_ + "visible fake : " + this.getVisibleFakeMarkers());
+  if (this.getSize() + this.getVisibleFakeMarkers().length > 3)
+  {
+      //window.console.log("checkForClustering - showAsCluster trop markers");
+      this.showAsCluster();
+      return;
+  }
+
+  this.updateIconOfIndependantMarkersGroup(this.kernelMarkers_.concat(this.electronMarkers_));
+};
+
+/*Cluster.prototype.checkForSimpleClustering = function () 
 {
   if (this.kernelMarkers_ === null)
   {
@@ -219,6 +247,62 @@ Cluster.prototype.checkForSimpleClustering = function ()
       this.isProcessDone_ = true;
       return;
   }
+};*/
+
+Cluster.prototype.updateIconOfIndependantMarkersGroup = function (markers) 
+{
+  //window.console.log('Debut updateMarkerAnchor nbreMarkers : ' + markers.length);
+  if (markers === null || markers.length === 0) return;
+
+  var content, i, j, distance;
+  for (i= 0; i < markers.length; i++)
+  {
+    markers[i].inGroup = false;
+    markers[i].parent_.initializeInclination();
+  }
+
+  if (markers.length == 1) return;
+
+
+  var marker1, marker2;
+  for (i= 0; i < markers.length; i++)
+  {
+    marker1 = markers[i];
+    for (j = i + 1; j < markers.length; j++)
+    {
+       marker2 = markers[j];
+       distance = distancePixelBetweenPoints(marker1.getPosition(), marker2.getPosition(), this.projection_ );
+       if (distance < this.kernelRadius_ || (distance < 1.5*this.kernelRadius_ && ( marker1.inGroup || marker2.inGroup)) )
+       {
+          marker1.inGroup = true;
+          marker2.inGroup = true;
+       }
+    }
+  } 
+
+  var markersToInclinate = [];
+  for (i= 0; i < markers.length; i++)
+  {
+    if(markers[i].inGroup) markersToInclinate.push(markers[i]);
+  }
+
+  if (markersToInclinate.length > 3)
+  {
+    this.showAsCluster();
+    return;
+  }
+  else if (markersToInclinate.length > 1)
+  {
+    markersToInclinate.sort(function compareMarkersLng(a, b) {
+      return b.getPosition().lng() - a.getPosition().lng();
+    });
+
+    var righterMarker = markersToInclinate[0];
+    var lefterMarker = markersToInclinate[markersToInclinate.length - 1];
+
+    righterMarker.parent_.inclinateRight();
+    lefterMarker.parent_.inclinateLeft(); 
+  }  
 };
 
 
@@ -279,6 +363,17 @@ Cluster.prototype.showMarkers = function ()
     }
 };
 
+Cluster.prototype.calculateGravityCenter = function () 
+{
+  var lat = 0,lng = 0;
+  var markers = this.getMarkers();
+  for (i = 0; i < markers.length; i++)
+  {
+    lat += markers[i].getPosition().lat();
+    lng += markers[i].getPosition().lng();
+  }
+  this.center_ = new google.maps.LatLng(lat/this.getSize(), lng/this.getSize());
+};
 
 Cluster.prototype.showAsCluster = function () 
 {   
@@ -291,6 +386,7 @@ Cluster.prototype.showAsCluster = function ()
 
   var numStyles = this.markerClusterer_.getStyles().length;
   var sums = this.markerClusterer_.getCalculator()(this.getMarkers(), numStyles);
+  this.calculateGravityCenter();
   this.clusterIcon_.setCenter(this.center_);
   // Sebastian
   this.clusterIcon_.useStyle(sums);

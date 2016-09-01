@@ -1,6 +1,6 @@
 #bandeau_detail
 {
-    height:0px;
+    height:0px;    
     z-index: 440;
     position: relative;   
     
@@ -53,6 +53,11 @@
             cursor: pointer;
         }
     }
+}
+
+@media #{$medium-and-down}
+{
+    #bandeau_detail { right: 0 !important; }
 }
 
 @media #{$large-only}

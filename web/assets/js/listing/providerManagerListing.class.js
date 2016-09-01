@@ -1,4 +1,12 @@
-
+/**
+ * This file is part of the MonVoisinFaitDuBio project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
+ * @license    MIT License
+ * @Last Modified time: 2016-09-01
+ */
 function ProviderManagerListing(listProviderPhp) 
 {
 	this.allProviders_ = [];
@@ -80,11 +88,11 @@ ProviderManagerListing.prototype.removeFavorite = function (favoriteId, modifyCo
 
 ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders, forceRepaint) 
 {	
-	checkInAllProviders = checkInAllProviders || true;
+	checkInAllProviders = checkInAllProviders !== false;
 	forceRepaint = forceRepaint || false;
 
 	var providers = null;
-	if (checkInAllProviders) providers = this.allProviders_;
+	if (checkInAllProviders || this.currProviders_.length === 0) providers = this.allProviders_;
 	else providers = this.currProviders_;
 
 	var i, provider;
@@ -97,13 +105,13 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	filterManager = GLOBAL.getFilterManager();
 
 	i = providers.length;
-	// TODO check temps avec for in au lieu de for classique
 
-	window.console.log("updateProviderList nbre provider " + i);
+	//window.console.log("UpdateProviderList nbre provider " + i);
 	var start = new Date().getTime();
 
-	while(i--)
-	//for(var i = 0; i < l; i++)
+	var maxProviders = Math.min(Math.floor($('#map').width() * $('#map').height() / 1800), 1000);
+
+	while(i-- && this.currProviders_.length < maxProviders)
 	{
 		provider = providers[i];
 		
@@ -127,25 +135,36 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 				markersChanged = true;
 				var index = this.currProviders_.indexOf(provider);
 				if (index > -1) this.currProviders_.splice(index, 1);
-				//l--;i--;
 			}
 		}
 	}
 
-	var end = new Date().getTime();
-	var time = end - start;
-	//window.console.log("intermédiaire en " + time + " ms");	
-
-	if (markersChanged || forceRepaint)
+	if (this.currProviders_.length >= maxProviders)
 	{
-		GLOBAL.getClusterer().clearMarkers();
-		GLOBAL.getClusterer().addMarkers(this.getMarkers());
-		GLOBAL.getClusterer().repaint();
+		window.console.log("too many markers, not drawing");
+		// TODO show modal
+		this.hideAllMarkers();
+		this.currProviders_ = [];
+		GLOBAL.getClusterer().clearMarkers();	
+		return;
+	}
+	else
+	{
+		// TODO hide modal
 	}
 
-	end = new Date().getTime();
-	time = end - start;
-	//window.console.log("terminé en " + time + " ms");	
+	var end = new Date().getTime();
+	var time = end - start;
+	//window.console.log("    analyse providers en " + time + " ms");	
+	
+	if (markersChanged || forceRepaint)
+	{		
+		GLOBAL.getClusterer().addMarkers(newMarkers,true);
+		GLOBAL.getClusterer().removeMarkers(markersToRemove, true);
+		
+		GLOBAL.getClusterer().repaint();		
+	}
+	
 };
 
 ProviderManagerListing.prototype.getProviders = function () 
@@ -170,6 +189,15 @@ ProviderManagerListing.prototype.hidePartiallyAllMarkers = function ()
 	while(l--)
 	{
 		this.currProviders_[l].getBiopenMarker().showHalfHidden();
+	}
+};
+
+ProviderManagerListing.prototype.hideAllMarkers = function () 
+{
+	l = this.currProviders_.length;
+	while(l--)
+	{
+		this.currProviders_[l].hide();
 	}
 };
 

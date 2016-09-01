@@ -1,3 +1,12 @@
+/**
+ * This file is part of the MonVoisinFaitDuBio project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
+ * @license    MIT License
+ * @Last Modified time: 2016-09-01
+ */
 var GLOBAL;
 
 function Global(map, constellation, manager, markerManager, constellationMode)
@@ -18,6 +27,10 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	// when click on marker we put isClicking to true during
 	// few milliseconds so the map don't do anything is click event
 	this.isClicking_ = false;
+
+	// prevent updateproviderList while the action is just
+	//showing provider details
+	this.isShowingBandeauDetail_ = false;
 
 	this.directionsService_ = new google.maps.DirectionsService();
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 	
@@ -42,6 +55,14 @@ Global.prototype.setTimeoutClicking = function()
 	setTimeout(function() { that.isClicking_ = false; }, 100); 
 };
 Global.prototype.isClicking = function() { return this.isClicking_; };
+
+Global.prototype.setTimeoutBandeauDetail = function() 
+{ 
+	this.isShowingBandeauDetail_ = true;
+	var that = this;
+	setTimeout(function() { that.isShowingBandeauDetail_ = false; }, 1300); 
+};
+Global.prototype.isShowingBandeauDetail = function() { return this.isShowingBandeauDetail_; };
 
 
 Global.prototype.getConstellation = function() { return this.constellation_; };
@@ -77,15 +98,15 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 
 	var provider = options.id ? this.providerManager_.getProviderById(options.id) : null;
 
-	if (oldStateName == stateName)
+	/*if (oldStateName == stateName)
 	{
 		this.updateDocumentTitle_(stateName, provider);
 		return;
-	} 	
+	} */	
 	
 	switch (stateName)
 	{
-		case 'showProvider':					
+		case 'showProvider':				
 			break;	
 
 		case 'showProviderAlone':
@@ -140,22 +161,8 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 	var route = "";
 	if (!this.constellationMode_)
 	{
-		if (this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
-		else route = Routing.generate('biopen_listing');
-
-		for (var key in options)
-		{
-			route += '?' + key + '=' + options[key];
-			//route += '/' + key + '/' + options[key];
-		}
+		route = this.updateRouting_(options);
 	}
-	/*else
-	{
-		if (this.map_.locationSlug) route = Routing.generate('biopen_constellation', { slug : this.map_.locationSlug });
-		else route = Routing.generate('biopen_constellation');
-	}*/
-
-	//window.console.log(route);
 
 	if (!backFromHistory)
 	{
@@ -164,6 +171,20 @@ Global.prototype.updateHistory_ = function(stateName, oldStateName, options, bac
 		else 
 			history.pushState({ name: stateName, options: options }, '', route);
 	}
+};
+
+Global.prototype.updateRouting_ = function(options)
+{
+	if (this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
+	else route = Routing.generate('biopen_listing');
+
+	for (var key in options)
+	{
+		route += '?' + key + '=' + options[key];
+		//route += '/' + key + '/' + options[key];
+	}
+
+	return route;
 };
 
 Global.prototype.updateDocumentTitle_ = function(stateName, provider)

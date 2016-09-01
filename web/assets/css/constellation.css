@@ -3333,7 +3333,7 @@ select {
     left: 13px;
     top: 7px; }
   .marker-wrapper.BigSize {
-    z-index: 10 !important;
+    z-index: 10000 !important;
     -webkit-transform: scale(1.3, 1.3);
     -moz-transform: scale(1.3, 1.3);
     -ms-transform: scale(1.3, 1.3);
@@ -3446,7 +3446,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
   .moreIconContainer.rotateRight {
     left: 39px; }
   .moreIconContainer.rotateLeft {
-    left: 36px; }
+    left: 35px; }
   .moreIconContainer .moreIconWrapper {
     display: inline-block;
     margin-left: 3px;
@@ -3522,6 +3522,9 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
       color: #4A7874;
       cursor: pointer; }
 
+@media only screen and (max-width: 1200px) {
+  #bandeau_detail {
+    right: 0 !important; } }
 @media only screen and (min-width: 1201px) {
   #bandeau_detail {
     position: absolute;

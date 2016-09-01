@@ -22,7 +22,7 @@
     &.BigSize 
 	{
 		//opacity: 1;
-        z-index: 10 !important;
+        z-index: 10000 !important;
 	    @include transform( scale(1.3,1.3) );
 	    top: -4px !important; // pour que l'ancre bottom reste identique
    
@@ -151,7 +151,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	left: 36px;
 
 	&.rotateRight { left: 39px }
-	&.rotateLeft { left: 36px; }
+	&.rotateLeft { left: 35px; }
 
 	.moreIconWrapper
 	{

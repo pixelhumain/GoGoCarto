@@ -1,4 +1,13 @@
-var old_zoom;
+/**
+ * This file is part of the MonVoisinFaitDuBio project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
+ * @license    MIT License
+ * @Last Modified time: 2016-09-01
+ */
+var old_zoom = -1;
 
 function initMap() 
 {	
@@ -82,16 +91,18 @@ function initialize(map)
 
 		map.addListener('idle', function(e) 
 		{
+	    	if (GLOBAL.isShowingBandeauDetail()) return;
+
 	    	var updateInAllProviderList = true;
 	    	var forceRepaint = false;
 
-	    	if (map.getZoom() != old_zoom)  
+	    	if (map.getZoom() != old_zoom && old_zoom != -1)  
 	    	{
-	    		if (map.getZoom() > old_zoom) updateInAllProviderList = false;
-	    		old_zoom = map.getZoom();
+	    		if (map.getZoom() > old_zoom) updateInAllProviderList = false;	   		
 	    		forceRepaint = true;
 	    	}
-	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);	 
+	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);
+	    	old_zoom = map.getZoom();	 
 	  	}); 
 
 	  	$('#spinner-loader').hide();
@@ -126,6 +137,7 @@ function initCluster(markersToCluster)
 	    /*styles: styles,
 	    calculator: calculator,*/
 	    //ignoreHidden:false,
+	    
 	    gridSize: 40, 
 	    maxZoom: 17,
 	    automaticRepaint: GLOBAL.constellationMode(),
