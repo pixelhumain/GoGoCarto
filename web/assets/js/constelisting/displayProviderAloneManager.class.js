@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-02
  */
 function DisplayProviderAloneManager() 
 {
@@ -27,7 +27,7 @@ DisplayProviderAloneManager.prototype.begin = function (providerId, panToProvide
 	if (constellationMode) GLOBAL.getProviderManager().focusOnThesesProviders([providerId]);
 	else 
 	{
-		var providers = GLOBAL.getProviderManager().getProviders();
+		/*var providers = GLOBAL.getProviderManager().getProviders();
 
 		l = providers.length;
 		//window.console.log("hiding " + l + "providers");
@@ -35,6 +35,15 @@ DisplayProviderAloneManager.prototype.begin = function (providerId, panToProvide
 		{
 			providers[l].hide();
 		}
+
+		var clusters = GLOBAL.getClusterer().getClusters();
+		l = clusters.length
+		while(l--)
+		{
+			clusters[l].hide();
+		}*/
+
+		GLOBAL.getProviderManager().clearMarkers();
 	}	
 	
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId); 

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-02
  */
 function BiopenMarker(id_, position_) 
 {
@@ -28,6 +28,8 @@ function BiopenMarker(id_, position_)
 		position: position_,
 		flat: true
 	}, this);
+
+	this.richMarker_.setVisible(false);
 
 	this.richMarker_.checkCluster = true;
 	

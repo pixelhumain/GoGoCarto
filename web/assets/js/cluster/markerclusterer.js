@@ -1047,9 +1047,8 @@ MarkerClusterer.prototype.createClusters_ = function (iFirst) {
 
   var iLast = Math.min(iFirst + this.batchSize_, this.markers_.length);
 
-  window.console.log("    CREATECLUSTER " + iLast);
-
-  var end = new Date().getTime();
+  //window.console.log("    CREATECLUSTER " + iLast);
+  //var end = new Date().getTime();
 
   for (i = iFirst; i < iLast; i++) {
     marker = this.markers_[i];

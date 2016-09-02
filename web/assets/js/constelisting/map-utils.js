@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-02
  */
 var latlngToPoint = function(latlng)
 {
@@ -25,6 +25,7 @@ var pointToLatlng = function(point)
 	return latlng; 
 };
 
+var markerDirectionResult = null;
 function calculateRoute(origin, destination) 
 {
   	GLOBAL.getDirectionsService().route({
@@ -35,12 +36,54 @@ function calculateRoute(origin, destination)
 	    if (status === google.maps.DirectionsStatus.OK) 
 	    {
 	      	google.maps.event.trigger(GLOBAL.getMap(), 'resize');
-	      	GLOBAL.getDirectionsRenderer().setDirections(response);	      	
-	    } else 
+	      	GLOBAL.getDirectionsRenderer().setDirections(response);		      	
+
+			var distance_to_reach = response.routes[0].legs[0].distance.value / 2;
+			var distance_somme = 0;
+			var i = 0;
+			var route = response.routes[0].legs[0];
+
+			while(i < (route.steps.length - 1) && distance_somme < distance_to_reach)
+			{
+				i++;
+				distance_somme += route.steps[i].distance.value;				
+			}
+			
+			var middleStep = Math.max(i,0);			
+			clearDirectionMarker();
+
+			var marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
+
+			markerDirectionResult = new RichMarker({		
+				map: GLOBAL.getMap(),
+				draggable: false,
+				position: marker_position,
+				flat: true
+			}, null);
+
+			var content = document.createElement("div");
+			$(content).attr('id',"markerDirectionResult");
+			$(content).addClass('arrow_box');
+			var innerHtml = '<div class="duration">' + route.duration.text + "</div>";
+			innerHtml    += '<div class="distance">' + route.distance.text + "</div>";
+			content.innerHTML = innerHtml;
+			markerDirectionResult.setContent(content);
+	    } 
+	    else
 	    {
-	      window.alert('Directions request failed due to ' + status);
+	      $('#popup-erreur-directions').openModal();
 	    }
   	});
+}
+
+function clearDirectionMarker()
+{
+	if (markerDirectionResult !== null)
+	{
+		markerDirectionResult.setVisible(false);
+		markerDirectionResult.setMap(null);
+		markerDirectionResult = null;
+	}
 }
 
 function panMapToAddress( address ) {

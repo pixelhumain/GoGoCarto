@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-02
  */
 jQuery(document).ready(function()
 {
@@ -16,7 +16,8 @@ function showProviderInfosOnMap(providerId)
 {
 	var provider = GLOBAL.getProviderManager().getProviderById(providerId);
 
-	if (GLOBAL.getState() != "showRouting" && GLOBAL.getState() != "showProviderAlone") GLOBAL.setState("showProvider", {id: providerId});		
+	var statesToAvoid = ["showRouting","showProviderAlone","starRepresentationChoice"];
+	if ($.inArray(GLOBAL.getState(), statesToAvoid) == -1 ) GLOBAL.setState("showProvider", {id: providerId});		
 
 	if (!constellationMode)
 	{

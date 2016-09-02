@@ -23,7 +23,7 @@
       {% include '::Core/section-products-constellation.html.twig' %}      
     </section>
   {% else %}
-      <div id="div_recherche_contener" class="valign-wrapper">
+    <div id="div_recherche_contener" class="valign-wrapper">
       <div id="div_recherche">
         {% for flash_message in app.session.flashbag.get('error') %}
             <div class="flash-error">
@@ -32,7 +32,7 @@
         {% endfor %}
         {% include '::Components/inputAddress.html.twig'  %} 
       </div> 
-  </div>  
+    </div>  
   {% endif %}
 
    

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-02
  */
 function ProviderManagerListing(listProviderPhp) 
 {
@@ -138,9 +138,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	if (this.currProviders_.length >= maxProviders)
 	{
 		$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
-		this.hideAllMarkers();
-		this.currProviders_ = [];
-		GLOBAL.getClusterer().clearMarkers();	
+		this.clearMarkers();		
 		return;
 	}
 	else
@@ -165,6 +163,13 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 ProviderManagerListing.prototype.getProviders = function () 
 {
 	return this.currProviders_;
+};
+
+ProviderManagerListing.prototype.clearMarkers = function()
+{
+	this.hideAllMarkers();
+	this.currProviders_ = [];
+	GLOBAL.getClusterer().clearMarkers();	
 };
 
 ProviderManagerListing.prototype.getMarkers = function () 

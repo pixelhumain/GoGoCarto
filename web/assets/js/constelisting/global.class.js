@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-02
  */
 var GLOBAL;
 
@@ -103,6 +103,8 @@ Global.prototype.setState = function(stateName, options, backFromHistory)
 		this.updateDocumentTitle_(stateName, provider);
 		return;
 	} */	
+
+	if (stateName != "showRouting") clearDirectionMarker();
 	
 	switch (stateName)
 	{

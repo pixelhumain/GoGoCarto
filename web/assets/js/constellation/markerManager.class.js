@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-02
  */
 function MarkerManager() 
 {
