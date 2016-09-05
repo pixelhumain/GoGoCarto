@@ -4340,7 +4340,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   -ms-transition: all 1s;
   transition: all 1s;
   margin: auto;
-  padding: .2rem .1rem;
+  padding: 1rem;
   background-color: white;
   border-radius: 10px; }
 

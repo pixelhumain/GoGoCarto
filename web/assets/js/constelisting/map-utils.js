@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-09-05
  */
 var latlngToPoint = function(latlng)
 {
@@ -122,6 +122,11 @@ function panMapToLocation(newLocation,map,changeMapLocation)
 		map.locationAddress = $('#inputAddress').val();
 		map.locationSlug = capitalize(slugify($('#inputAddress').val()));		
 	}	
+}
+
+function calculateMapWidthInKm(map)
+{
+	return Math.floor(calculateDistanceFromLatLonInKm(map.getBounds().getNorthEast(), map.getCenter()));
 }
 
 function calculateDistanceFromLatLonInKm(latlng1,latlng2) 

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-09-05
  */
 function ProviderManagerListing(listProviderPhp) 
 {
@@ -40,6 +40,7 @@ ProviderManagerListing.prototype.checkCookies = function()
 ProviderManagerListing.prototype.addJsonProviders = function (providerList, checkIfAlreadyExist)
 {
 	var provider;
+	var newProviders = 0;
 	for (var i = 0; i < providerList.length; i++)
 	{
 		providerJson = providerList[i].Provider ? providerList[i].Provider : providerList[i];
@@ -48,9 +49,11 @@ ProviderManagerListing.prototype.addJsonProviders = function (providerList, chec
 		{
 			this.allProviders_.push(new Provider(providerJson));
 			this.allProvidersIds_.push(providerJson.id);
+			newProviders++;
 		}		
 	}
 	this.checkCookies();
+	//window.console.log("addJsonProviders newProviders = " + newProviders);
 };
 
 ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
@@ -105,7 +108,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	//window.console.log("UpdateProviderList nbre provider " + i);
 	var start = new Date().getTime();
 
-	var maxProviders = Math.min(Math.floor($('#map').width() * $('#map').height() / 1800), 1000);
+	var maxProviders = Math.min(Math.floor($('#map').width() * $('#map').height() / 1000), 1000);
 
 	while(i-- && this.currProviders_.length < maxProviders)
 	{
@@ -163,6 +166,11 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 ProviderManagerListing.prototype.getProviders = function () 
 {
 	return this.currProviders_;
+};
+
+ProviderManagerListing.prototype.getAllProvidersIds = function () 
+{
+	return this.allProvidersIds_;
 };
 
 ProviderManagerListing.prototype.clearMarkers = function()

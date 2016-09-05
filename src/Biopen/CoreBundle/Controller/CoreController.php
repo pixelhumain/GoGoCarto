@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-05
  */
  
 
@@ -39,10 +39,11 @@ class CoreController extends Controller
 
     public function listingAction($slug, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         if ($slug == '' && $this->get('session')->get('slug')) 
         {
             $slug = $this->get('session')->get('slug');
-            //dump($slug);
         }
 
         $geocodeResponse = null;
@@ -51,44 +52,43 @@ class CoreController extends Controller
         {
             $geocodeResponse = $this->geocodeFromAdresse($slug);
 
-            if ($geocodeResponse === null)
-            {  
-                $slug = 'Erreur de localisation';
-            } 
-            else
-            {
-                $this->get('session')->set('slug', $slug);
-            }
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
-        ->findAll();     
+            if ($geocodeResponse === null) $slug = 'Erreur de localisation';
+            else                           $this->get('session')->set('slug', $slug);
+        }      
         
-        $id = $request->query->get('id');
+        // the point around we want to show providers
+        $originPoint = null;
 
-        $geocodePoint = null;
+        $id = $request->query->get('id');
+        // if a providerId is asked, we center around this provider
         if ($id)
         {
             $providerToShow = $em->getRepository('BiopenFournisseurBundle:Provider')->findOneById($id); 
-            if ($providerToShow) $geocodePoint = $providerToShow->getLatlng();
+            if ($providerToShow) $originPoint = $providerToShow->getLatlng();
         }
+        // else we center around the adress asked
         else if ($geocodeResponse !== null)
         {
-            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-        }   
-        else
-        {
-            return $this->render('::Core/listing.html.twig', array("providerList" => [], "geocodeResponse" => null, "productList" => $listProducts, "slug" => ''));
-        }     
-        
-        // All providers list
-        /*$providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
-        ->findFromPointWithoutDistance($geocodePoint, 10);*/
-        $providerList = $this->getProvidersList($geocodePoint, intval(50), 80);               
+            $originPoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
+        }           
 
-        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, "geocodeResponse" => $geocodeResponse, "productList" => $listProducts, "slug" => $slug));
+        // Get Product List        
+        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+        ->findAll(); 
+
+        $providerList = [];
+
+        // if origin is set get Providers around
+        if ($originPoint != null)
+        {
+            $providerManager = $this->get('biopen.provider_manager');
+            $providerList = $providerManager->getProvidersAround($originPoint, 30)['data'];
+        }
+
+        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, 
+                                                               "geocodeResponse" => $geocodeResponse, 
+                                                               "productList" => $listProducts, 
+                                                               "slug" => $slug));        
     }    
 
     public function constellationAction($slug, $distance)
@@ -112,11 +112,8 @@ class CoreController extends Controller
             $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
             $this->get('session')->set('slug', $slug);
             
-            /*$geocodePoint = new Point(44.1049567, -0.5445296);
-            $geocodeResponse['coordinates']['latitude'] = 44.1049567;
-            $geocodeResponse['coordinates']['longitude'] = -0.5445296;  */
-
-            $providerList = $this->getProvidersList($geocodePoint, intval($distance));
+            $providerManager = $this->get('biopen.provider_manager');
+            $providerList = $providerManager->getProvidersAround($geocodePoint, intval($distance))['data'];
 
             if( $providerList === null)
             {
@@ -124,7 +121,7 @@ class CoreController extends Controller
                 return $this->render('::Core/constellation.html.twig', array('slug'=>''));
             }
             
-            $constellation = $this->buildConstellation($providerList, $geocodeResponse);
+            $constellation = $providerManager->buildConstellation($providerList, $geocodeResponse);
             /*dump($constellation);*/
         }	 
 
@@ -136,16 +133,18 @@ class CoreController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $em = $this->getDoctrine()->getManager();
+            $originPoint = new Point($request->get('originLat'), $request->get('originLng'));
 
-            // All providers list
-            $providerList = $em->getRepository('BiopenFournisseurBundle:Provider')
-            ->findAllProviders();
-
+            $providerManager = $this->get('biopen.provider_manager');
             $serializer = $this->container->get('jms_serializer');
-            $providerListJson = $serializer->serialize($providerList, 'json');
 
-            $response = new Response($providerListJson); 
+            $providerManager->setAlreadySendProvidersIds($request->get('providerIds'));
+
+            $response = $providerManager->getProvidersAround($originPoint, $request->get('distance'), $request->get('maxResults'));
+
+            $responseJson = $serializer->serialize($response, 'json');  
+
+            $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -158,95 +157,7 @@ class CoreController extends Controller
     public function testAjaxAction(Request $request)
     {
         return new JsonResponse("test");
-    }
-
-    private function getProvidersList($geocodePoint, $distance = 50, $maxResult = 0)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // La liste des provider autour de l'adresse demandée
-        $listProvider = $em->getRepository('BiopenFournisseurBundle:Provider')
-        ->findFromPoint($distance, $geocodePoint, $maxResult );
-        
-        $providerList = null;
-        foreach ($listProvider as $i => $provider) 
-        { 
-            // le fournissurReponse a 1 champ Provider et 1 champ Distance
-            // on regroupe les deux dans un simple objet provider
-            $provider = $provider['Provider']->setDistance($provider['distance']);
-            /*$wastedDistance = $this->calculateWastedDistance($provider['Provider']);
-            $provider = $provider['Provider']->setWastedDistance( $wastedDistance);*/
-            /*;*/
-
-            $providerList[] = $provider;
-        }   
-
-        return $providerList;     
-    }
-
-    private function buildConstellation($providerList, $geocodeResponse)
-    {
-        $constellation['geocodeResult'] = $geocodeResponse;
-
-        // Pour chaque provider de la liste, on remplit les stars
-        // de la constellation
-        foreach ($providerList as $i => $provider) 
-        {  
-            // switch sur le Type du provider
-            switch($provider->getType())
-            {
-                // Producteur ou AMAP 
-                case 'amap':
-                case 'producteur':
-                    foreach ($provider->getProducts() as $i => $product) 
-                    {
-                        if ($product->getNameFormate() != 'autre')
-                        {
-                            $constellation['stars'][$product->getNameFormate()]['providerList'][] = $provider;
-                            $constellation['stars'][$product->getNameFormate()]['name'] = $product->getNameShort();
-                        }                        
-                    }
-                    break;
-                //Le reste
-                default:
-                    $constellation['stars'][$provider->getType()]['providerList'][] = $provider;
-                    $constellation['stars'][$provider->getType()]['name'] = $provider->getType();
-                    break;
-            }
-        }    
-
-        $em = $this->getDoctrine()->getManager();
-        // La liste des provider autour de l'adresse demandée
-        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
-        ->findAll();
-
-        // on crée les liste de products
-        $constellation['listProductsProvided'] = [];
-        $constellation['listProductsNonProvided'] = [];
-        foreach($listProducts as $i => $product)
-        {
-            $isProvided = false;
-            foreach ($constellation['stars'] as $starName => $star)
-            {
-                if ($listProducts[$i]->getNameFormate() == $starName)
-                    $isProvided = true;
-            }
-            if ($isProvided) $constellation['listProductsProvided'][] = $product;
-            else $constellation['listProductsNonProvided'][] = $product;
-        } 
-
-        /*dump($constellation);*/
-
-        return $constellation;            
-    }        
-
-    private function sortConstellation($constellation)
-    {
-        foreach ($constellation['stars'] as $starName => $star) 
-        {            
-            usort($constellation['stars'][$starName]['providerList'], array("Biopen\FournisseurBundle\Entity\Provider", "compareProvidersInStar"));
-        }
-    }
+    }    
 
     private function geocodeFromAdresse($slug)
     {
@@ -264,8 +175,6 @@ class CoreController extends Controller
             $logger = $this->get('logger'); 
             $logger->error('no result : ' + $e->getMessage());                          
         }
-
-
         
         if (!$geocode_ok)
         {

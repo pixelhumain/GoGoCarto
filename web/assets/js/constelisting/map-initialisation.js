@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-05
  */
 var old_zoom = -1;
 
@@ -87,7 +87,6 @@ function initialize(map)
 		initCluster(null);
 
 		providerManager.updateProviderList();
-		getProviderListFromAjax();
 
 		map.addListener('idle', function(e) 
 		{
@@ -102,31 +101,15 @@ function initialize(map)
 	    		forceRepaint = true;
 	    	}
 	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);
-	    	old_zoom = map.getZoom();	 
+	    	old_zoom = map.getZoom();
+	    	getProviderListFromAjax();	 
 	  	}); 
 
 	  	$('#spinner-loader').hide();
 	}
 }
 
-function getProviderListFromAjax()
-{
-	window.console.log("getProviderListFromAjax");
-	var start = new Date().getTime();
-	var route = Routing.generate('biopen_listing_ajax');
-	
-	$.ajax({
-		url: route,
-		method: "post",
-	}).done(function(data)
-	{
-		var end = new Date().getTime();
-		var time = end - start;
-		window.console.log("recu en " + time + " ms");
-		GLOBAL.getProviderManager().addJsonProviders(data, true);
-		GLOBAL.getProviderManager().updateProviderList();        
-	});
-}
+
 
 function initCluster(markersToCluster)
 {
