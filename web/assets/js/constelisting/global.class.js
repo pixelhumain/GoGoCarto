@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-09-12
  */
 var GLOBAL;
 
@@ -32,9 +32,13 @@ function Global(map, constellation, manager, markerManager, constellationMode)
 	//showing provider details
 	this.isShowingBandeauDetail_ = false;
 
+	this.maxProvidersToShowOnMap_ = 1000;
+
 	this.directionsService_ = new google.maps.DirectionsService();
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 	
 }
+
+
 
 Global.prototype.initialize = function() 
 {
@@ -42,6 +46,7 @@ Global.prototype.initialize = function()
   	{
   		//check initial (si des checkbox ont été sauvegardées par le navigateur)
 		$('.product-checkbox, .provider-checkbox').trigger("change");
+		this.updateMaxProviders();
   	}
 };
 
@@ -64,13 +69,18 @@ Global.prototype.setTimeoutBandeauDetail = function()
 };
 Global.prototype.isShowingBandeauDetail = function() { return this.isShowingBandeauDetail_; };
 
-
 Global.prototype.getConstellation = function() { return this.constellation_; };
 Global.prototype.setConstellation = function(constellation) { this.constellation_ = constellation;};
 Global.prototype.getProviderManager = function() { return this.providerManager_; };
 Global.prototype.setProviderManager = function(manager) { this.providerManager_ = manager; };
 Global.prototype.getClusterer = function() { return this.clusterer_; };
 Global.prototype.setClusterer = function(clusterer) { this.clusterer_ = clusterer; };
+Global.prototype.getMaxProviders = function() { return this.maxProvidersToShowOnMap_; };
+Global.prototype.updateMaxProviders = function () 
+{ 
+	this.maxProvidersToShowOnMap_ = Math.min(Math.floor($('#map').width() * $('#map').height() / 1000), 1000);
+	//window.console.log("setting max providers " + this.maxProvidersToShowOnMap_);
+};
 Global.prototype.getProviders = function () { return this.providerManager_.getProviders();  };
 Global.prototype.getMarkerManager = function() { return this.markerManager_; };
 Global.prototype.setMarkerManager = function(markerManager) { this.markerManager_ = markerManager; };
@@ -194,7 +204,7 @@ Global.prototype.updateDocumentTitle_ = function(stateName, provider)
 	if (provider !== null) document.title = capitalize(provider.name) + ' - Mon voisin fait du bio';
 	else if (stateName == 'normal') 
 	{
-		var title = this.constellationMode_ ? 'Constellation - ' : 'Navigation Libre - ';
+		var title = this.constellationMode_ ? 'Autour de moi - ' : 'Navigation Libre - ';
 		title += this.map_.locationAddress;
 		document.title = title;
 	}

@@ -2,7 +2,3 @@ Compiler Scss :
   - lancer gulp invite.bat
   - commande: gulp watch
 
-git (profil ssh : 2363832)
-  - git add *
-  - git commit -m "message"
-  - git push -< biopenlandes, 2363832S

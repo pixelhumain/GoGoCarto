@@ -5,9 +5,12 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-12
  */
-// v?rifie que le formulaire est correctement rempli et "submit" le cas ?ch?ant
+
+// TODO: enlever ça, juste pour le développement
+productionMode = false;
+
 function check_and_send() 
 {	
 	// CHECK type provider
@@ -107,7 +110,7 @@ function check_and_send()
 		else if (value_2) $(this).addClass('invalid');		
 	});		
 
-	if( !$('#biopen_fournisseurbundle_provider_latlng_latitude').val() )	
+	if( !$('#inputLatitude').val() )	
 	{
 		$('#inputAdresse').addClass("invalid").focus();
 		$('#popup_title').text("Erreur");
@@ -120,7 +123,7 @@ function check_and_send()
     		});		
 	}
 
-	/*if (grecaptcha.getResponse().length === 0)
+	if (grecaptcha.getResponse().length === 0 || productionMode)
 	{
 		$('#captcha-error-message').addClass('error').show();
 		grecaptcha.reset();
@@ -128,7 +131,7 @@ function check_and_send()
 	else
 	{
 		$('#captcha-error-message').removeClass('error').hide();
-	}*/
+	}
 
 	// CHECK les "required" sont bien remplis
 	$('.required').each(function ()

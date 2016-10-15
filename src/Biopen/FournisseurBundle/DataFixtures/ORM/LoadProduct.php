@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-01
+ * @Last Modified time: 2016-09-12
  */
  
 
@@ -31,7 +31,7 @@ class LoadProduct implements FixtureInterface
       array('Oeufs'               , 'oeufs'       , ''        , ''),
       array('Poisson'             , 'poisson'     , ''        , ''),
       array('Légumineuses'        , 'legumineuses'        , ''        , 'Lentilles, Pois chiches'),
-      array('Products transformés', 'transformes' , 'Transformés', ''),
+      array('Produits transformés', 'transformes' , 'Transformés', ''),
       array('Miel'                , 'miel'        , ''        , ''),
       array('Pain, farine'        , 'pain'        , 'Pain/Farine'        , ''),
       array('Huiles'              , 'huile'     , ''         , 'Huile de colza, de tournesol...'),

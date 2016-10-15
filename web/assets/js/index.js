@@ -5,23 +5,22 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-06
  */
 jQuery(document).ready(function()
 {
 	$('#btn-constellation').click(function()
 	{ 
-		var address = $('#inputAddress').val();
-		if (!address)
-		{
-			setTimeout(function() { $('#inputAddress').addClass('invalid'); }, 500);
-			$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});
-		}
-		else redirectToConstelisting('biopen_constellation', address); 
+		var address = checkForAdress();
+		if (address) redirectToConstelisting('biopen_constellation', address); 
 	});
 
 	//$('#btn-listing').click(function(){ redirectToConstelisting('biopen_listing','Labrit'); });
-	$('#btn-listing').click(function(){ redirectToConstelisting('biopen_listing',$('#inputAddress').val()); });
+	$('#btn-listing').click(function()
+	{ 
+		var address = checkForAdress();
+		if (address) redirectToConstelisting('biopen_listing',address); 
+	});
 
 	$('#inputAddress').on("search", function(event, address)
 	{
@@ -29,6 +28,17 @@ jQuery(document).ready(function()
 		/*redirectToConstelisting('biopen_listing', address);*/
 	});
 });
+
+function checkForAdress()
+{
+	var address = $('#inputAddress').val();
+	if (!address)
+	{
+		setTimeout(function() { $('#inputAddress').addClass('invalid'); }, 500);
+		$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});
+	}
+	return address;
+}
 
 function initMap() 
 {	

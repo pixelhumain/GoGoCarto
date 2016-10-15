@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-05
+ * @Last Modified time: 2016-09-12
  */
 var old_zoom = -1;
 
@@ -90,6 +90,7 @@ function initialize(map)
 
 		map.addListener('idle', function(e) 
 		{
+	    	//console.log("idle isShowingBandeauDetail "+ GLOBAL.isShowingBandeauDetail());
 	    	if (GLOBAL.isShowingBandeauDetail()) return;
 
 	    	var updateInAllProviderList = true;

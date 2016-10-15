@@ -38,7 +38,8 @@
   		avec un nouveau formulaire !</div>
 
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.latlng, {'id': 'latlng'}) }}			
+	{{ form_widget(form.latlng.latitude, {'id': 'inputLatitude'}) }}	
+	{{ form_widget(form.latlng.longitude, {'id': 'inputLongitude'}) }}				
 
 	<!-- Carte google map -->
 	<div id="map" class="col s12"></div>	

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-05
+ * @Last Modified time: 2016-09-10
  */
 var latlngToPoint = function(latlng)
 {

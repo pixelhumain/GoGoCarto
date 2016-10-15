@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-12
  */
 function onloadCaptcha() 
 {
@@ -23,10 +23,23 @@ function initMap()
 {	
 	initAutocompletion(document.getElementById('inputAdresse'));
 
-	var latlng = new google.maps.LatLng(46.897045, 2.425235);
+	var mapCenter;
+	if (editMode && $('#inputLatitude').attr('value'))
+	{
+		markerPosition = new google.maps.LatLng($('#inputLatitude').attr('value'), $('#inputLongitude').attr('value'));
+		mapCenter = markerPosition;
+		mapZoom = 16;
+	}
+	else
+	{
+		markerPosition = null;
+		mapCenter = new google.maps.LatLng(46.897045, 2.425235);
+		mapZoom = 5;
+	}
+
 	var mapOptions = {
-		zoom: 5,
-		center: latlng,
+		zoom: mapZoom,
+		center: mapCenter,
 		disableDefaultUI: true,
 		zoomControl: true
 	};
@@ -39,26 +52,16 @@ function initMap()
 		map: map,
 		draggable: true,
 		animation: google.maps.Animation.DROP,
+		position: markerPosition
 	});
 
 	marker.addListener('dragend', function() 
 	{
-	    $('#provider_latlng_latitude').attr('value',marker.getPosition().lat());
-		$('#provider_latlng_longitude').attr('value',marker.getPosition().lng());	
+	    $('#inputLatitude').attr('value',marker.getPosition().lat());
+		$('#inputLongitude').attr('value',marker.getPosition().lng());	
     });
-
-    if ($('#inputAdresse').val()) 
-	{
-		var result = geocodeAddress($('#inputAdresse').val());
-		if (editMode && !result)
-		{
-			var location = new google.maps.LatLng($('#biopen_fournisseurbundle_provider_latlng_latitude').attr('value'), $('#biopen_fournisseurbundle_provider_latlng_longitude').attr('value'));
-			map.panTo(location);
-			map.setZoom(16);
-			marker.setPosition(location);
-		}
-	}
 }
+
 
 // trouve le lat lng correspondant ? une adresse donn?e
 function geocodeAddress( address ) {
@@ -71,8 +74,8 @@ function geocodeAddress( address ) {
 		map.panTo(results[0].geometry.location);
 		map.setZoom(16);
 		marker.setPosition(results[0].geometry.location);
-		$('#biopen_fournisseurbundle_provider_latlng_latitude').val(marker.getPosition().lat());
-		$('#biopen_fournisseurbundle_provider_latlng_longitude').val(marker.getPosition().lng());	
+		$('#inputLatitude').val(marker.getPosition().lat());
+		$('#inputLongitude').val(marker.getPosition().lng());	
 
 		geocoding_ok = true;	
 	} 

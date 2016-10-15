@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-09-12
  */
 jQuery(document).ready(function()
 {	
@@ -132,7 +132,9 @@ function ajuster_taille_composants()
 	var content_height = $(window).height() - $('header').height();
 	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
 	$("#div_map_and_products").css('height',content_height);
-	$("#ProviderList").css('height',content_height);	
+	$("#ProviderList").css('height',content_height);
+
+	if (GLOBAL) setTimeout(GLOBAL.updateMaxProviders, 500);
 
 	ajuster_taille_providerList();
 	ajuster_tailler_info_provider();	

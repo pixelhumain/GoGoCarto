@@ -3,7 +3,7 @@ biopen_homepage:
     defaults: { _controller: BiopenCoreBundle:Core:index }
 
 biopen_constellation:
-    path:     /constellation/{slug}/{distance}
+    path:     /autourdemoi/{slug}/{distance}
     defaults: { _controller: BiopenCoreBundle:Core:constellation, slug:'', distance:'50' }
     options:
         expose: true
@@ -11,14 +11,6 @@ biopen_constellation:
 biopen_listing_ajax:
     path:     /listingAjax
     defaults: { _controller: BiopenCoreBundle:Core:listingAjax }
-    requirements:
-        _method: POST
-    options:
-        expose: true
-
-biopen_listing_ajax:
-    path:     /testAjax
-    defaults: { _controller: BiopenCoreBundle:Core:testAjax }
     requirements:
         _method: POST
     options:
