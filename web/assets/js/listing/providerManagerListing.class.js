@@ -95,20 +95,20 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 	else providers = this.currProviders_;
 
 	var i, provider;
-   	var mapBounds = GLOBAL.getMap().getBounds();   
+ 	var mapBounds = GLOBAL.getMap().getBounds();   
 
-   	var newMarkers = [];
-   	var markersToRemove = [];
-   	var markersChanged = false;
+ 	var newMarkers = [];
+ 	var markersToRemove = [];
+ 	var markersChanged = false;
 
 	filterManager = GLOBAL.getFilterManager();
 
 	i = providers.length;
 
-	//window.console.log("UpdateProviderList nbre provider " + i);
+	window.console.log("UpdateProviderList nbre provider " + i, checkInAllProviders);
 	var start = new Date().getTime();
 
-	while(i-- && this.currProviders_.length < GLOBAL.getMaxProviders())
+	while(i-- /*&& this.currProviders_.length < GLOBAL.getMaxProviders()*/)
 	{
 		provider = providers[i];
 		
@@ -141,6 +141,7 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 		$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
 		this.clearMarkers();		
 		return;
+		console.log("Toomany markers. Nbre markers : " + this.currProviders_.length + " // MaxMarkers = " + GLOBAL.getMaxProviders());
 	}
 	else
 	{
