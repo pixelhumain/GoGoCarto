@@ -79,7 +79,7 @@ Global.prototype.getMaxProviders = function() { return this.maxProvidersToShowOn
 Global.prototype.updateMaxProviders = function () 
 { 
 	this.maxProvidersToShowOnMap_ = Math.min(Math.floor($('#map').width() * $('#map').height() / 1000), 1000);
-	//window.console.log("setting max providers " + this.maxProvidersToShowOnMap_);
+	window.console.log("setting max providers " + this.maxProvidersToShowOnMap_);
 };
 Global.prototype.getProviders = function () { return this.providerManager_.getProviders();  };
 Global.prototype.getMarkerManager = function() { return this.markerManager_; };

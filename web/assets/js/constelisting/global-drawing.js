@@ -21,10 +21,10 @@ jQuery(document).ready(function()
 		if (constellationMode) redirectToConstelisting('biopen_constellation', address, $('#search_distance').val());
 		else panMapToAddress(address);
 
-		// si on avec un mobile très petit alors la taille du menu prend
-		// tout l'espace 
+		// If Menu take all available width (in case of small mobile)
 		if ($('#ProductsList').outerWidth() == $(window).outerWidth())
 		{
+			// then we hide menu to show search result
 			hideProductsList();
 		}
 	});		

@@ -138,9 +138,9 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 
 	if (this.currProviders_.length >= GLOBAL.getMaxProviders())
 	{
-		$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
+		/*$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
 		this.clearMarkers();		
-		return;
+		return;*/
 		console.log("Toomany markers. Nbre markers : " + this.currProviders_.length + " // MaxMarkers = " + GLOBAL.getMaxProviders());
 	}
 	else

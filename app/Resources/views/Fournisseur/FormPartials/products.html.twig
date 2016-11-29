@@ -7,6 +7,7 @@
 		<div class="input-field col s12">
 	    <select id="mainProductSelection" name="mainProductSelection">
 	   	   <option value=""  {% if not editMode %}disabled selected{% endif %}>Choisissez le produit principal</option>
+	   	   
 	      {% for product in listProducts %}
 	      	<option value="{{product.nameFormate}}" {% if editMode and product.nameFormate == provider.mainProduct %}selected{% endif %}>{{ product.name }}</option>
 	      {% endfor %}

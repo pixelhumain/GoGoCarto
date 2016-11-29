@@ -124,8 +124,8 @@ gulp.task('clean', function(cb) {
     del(['dist/css', 'dist/js', 'dist/img'], cb)
 });
 
-gulp.task('default', function() {
-    gulp.start('styles', 'scripts', 'images', 'copy');
+gulp.task('build', function() {
+    gulp.start('sass', 'scriptsLibs', 'scriptsIndex', 'scriptsFournisseurAddEdit','scriptsConstelisting');
 });
 
 gulp.task('production', function() {

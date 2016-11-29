@@ -106,11 +106,11 @@ class FournisseurController extends Controller
 	}
 
 	private function handleFormSubmission($form, $provider, $em, $request)
-    {
-    	$provider->resetProducts();
-    	//dump($request->request);
-    	//dump($form->getData());
-    	foreach ($form->get('listeProducts')->getData() as $product) 
+  {
+  	$provider->resetProducts();
+  	//dump($request->request);
+  	//dump($form->getData());
+  	foreach ($form->get('listeProducts')->getData() as $product) 
 		{
 			$providerProduct = new ProviderProduct();
 			$providerProduct->setProduct($product);
@@ -122,7 +122,7 @@ class FournisseurController extends Controller
 		//dump($mainProduct);
 		$provider->setMainProduct($mainProduct);
 
-		// ajout HTTP aux url si n'existe pas
+		// ajout HTTP:// aux url si pas inscrit
 		$webSiteUrl = $provider->getWebSite();
 		$parsed = parse_url($webSiteUrl);
 		if (empty($parsed['scheme'])) {
@@ -137,5 +137,5 @@ class FournisseurController extends Controller
 		
 		$em->persist($provider);
 		$em->flush();
-    }
+   }
 }
