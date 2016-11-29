@@ -44,7 +44,7 @@ Start
 -----
 Dumping assets
 ```
-php app/console assets:install --symlink web
+php bin/console assets:install --symlink web
 ```
 Start gulp
 ```
