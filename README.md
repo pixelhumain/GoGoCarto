@@ -1,7 +1,7 @@
 MonVoisinFaitDuBio
 ==================
 
-Be pleased to add some more informations if you solve installation issues !
+Feel free to add some more informations if you solve installation issues !
 
 Requirements
 ------------
@@ -49,19 +49,23 @@ Dumping assets
 php bin/console assets:install --symlink web
 ```
 
-Build Javascript and Css
+First build for Javascript and Css
+```
+gulp build
+```
+
+Start watching for file change (automatic recompile)
 ```
 gulp watch
 ```
 
-Start watching for file change
-```
-gulp watch
-```
-Lauch wamp server
 
 Generate Database
 -----------------
+
+Lauch php server
+Go to PhpMyAdmin and create a database 
+Change app/config/parameters.yml with database name you juste created, and enter database login information (by default user:"root", password:"null")
 
 Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
 ```

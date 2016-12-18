@@ -970,6 +970,7 @@ MarkerClusterer.prototype.addToClosestCluster_ = function(marker) {
   var distance = 40000; // Some large number
   var clusterToAddTo = null;
   var pos = marker.getPosition();
+  var cluster;
   for (i = 0; i < this.clusters_.length; i++) 
   {
     cluster = this.clusters_[i];
@@ -986,9 +987,9 @@ MarkerClusterer.prototype.addToClosestCluster_ = function(marker) {
   if (clusterToAddTo && clusterToAddTo.isMarkerInClusterBounds(marker)) {
     clusterToAddTo.addMarker(marker, 0);
   } else {
-    var cluster = new Cluster(this);
-    cluster.addMarker(marker, 0);
-    this.clusters_.push(cluster);
+    var newCluster = new Cluster(this);
+    newCluster.addMarker(marker, 0);
+    this.clusters_.push(newCluster);
   }
 };
 

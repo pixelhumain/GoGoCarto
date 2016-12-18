@@ -78,8 +78,8 @@ gulp.task('scriptsLibs', function() {
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('web/js'))
-    .pipe(livereload())
-    .pipe(notify({ message: 'Scripts Libs task complete' }));
+    .pipe(livereload());
+    //.pipe(notify({ message: 'Scripts Libs task complete' }));
 });
 
 gulp.task('images', function() {
