@@ -10,7 +10,8 @@ Requirements
 2. [Composer](https://getcomposer.org/download/) 
 3. [Nodejs](https://nodejs.org/en/download/)
 4. [Git](https://git-scm.com/)
-5. [Wamp server](http://www.wampserver.com/)
+5. Serveur Php ([Wamp server](http://www.wampserver.com/) for example)
+6. Any Text Editor (SublimeText for example)
 
 Installation helper (in french) :
 
@@ -35,8 +36,9 @@ php path-to/composer.phar install or composer install
 ```
 *During installation, config/parameters file will be created, provide database infos or leave default fields*
 
-Workflow dependencies (gulp for compiling sass and javascript)
+Workflow dependencies (compiling sass and javascript)
 ```
+npm install -g gulp
 npm install
 ```
 
@@ -46,7 +48,13 @@ Dumping assets
 ```
 php bin/console assets:install --symlink web
 ```
-Start gulp
+
+Build Javascript and Css
+```
+gulp watch
+```
+
+Start watching for file change
 ```
 gulp watch
 ```

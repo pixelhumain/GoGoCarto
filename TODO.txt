@@ -1,4 +1,3 @@
-- Ajout champs site web dans fournisseur
 - Améliorer géocoding (mont d emarsan) et url rewriting sur le slug avec la bonne adresse
 - validation ajout fournisseur par mail, mettre attribut valide à 1, changer dans fournisseurRepository pour accepter que les fournisseurs valide
 
