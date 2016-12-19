@@ -48,9 +48,12 @@ class CoreController extends Controller
 
         $geocodeResponse = null;
 
+        dump($slug);
+
         if ($slug != '')
         {
             $geocodeResponse = $this->geocodeFromAdresse($slug);
+            dump($geocodeResponse);
 
             if ($geocodeResponse === null) $slug = 'Erreur de localisation';
             else                           $this->get('session')->set('slug', $slug);
@@ -163,11 +166,24 @@ class CoreController extends Controller
     {
         $geocode_ok = true;
         try 
-        {
+        { 
+            $logger = $this->get('logger'); 
+            $logger->error('geocodeFromAdresse');  
+
+             dump($this->container
+            ->get('bazinga_geocoder.geocoder'));
+
+            dump($this->container
+            ->get('bazinga_geocoder.geocoder')->using('openstreetmap'));
+            dump($this->container
+            ->get('bazinga_geocoder.geocoder')->using('google_maps'));    
+            
             $result = $this->container
             ->get('bazinga_geocoder.geocoder')
             ->using('openstreetmap')
             ->geocode($slug);
+
+           
         }
         catch (\Exception $e) 
         { 

@@ -74,7 +74,7 @@ doctrine:fixtures:load
 ```
 
 Then generate if necessary random point on the map :
-http://localhost/cartoV3/PagesVertes/web/app_dev.php/fournisseur/generate/500
+http://localhost/cartoV3/PagesVertes/web/app_dev.php/acteurs/generate/500
 
 Everthing is ready, enjoy :
 http://localhost/PagesVertes/web/app_dev.php
