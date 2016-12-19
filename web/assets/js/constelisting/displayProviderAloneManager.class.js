@@ -5,76 +5,76 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-12-13
  */
-function DisplayProviderAloneManager() 
+function DisplayElementAloneManager() 
 {
-	this.providerShownAlone_ = null;
+	this.elementShownAlone_ = null;
 }
 
-DisplayProviderAloneManager.prototype.begin = function (providerId, panToProviderLocation) 
+DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLocation) 
 {	
-	//window.console.log("DisplayProviderAloneManager begin");
+	//window.console.log("DisplayElementAloneManager begin");
 
-	panToProviderLocation = panToProviderLocation !== false;
+	panToElementLocation = panToElementLocation !== false;
 
-	if (this.providerShownAlone_ !== null) 
+	if (this.elementShownAlone_ !== null) 
 	{
-		this.providerShownAlone_.hide();
-		this.providerShownAlone_.isShownAlone = false;
+		this.elementShownAlone_.hide();
+		this.elementShownAlone_.isShownAlone = false;
 	}
 
-	if (constellationMode) GLOBAL.getProviderManager().focusOnThesesProviders([providerId]);
+	if (constellationMode) App.getElementManager().focusOnThesesElements([elementId]);
 	else 
 	{
-		/*var providers = GLOBAL.getProviderManager().getProviders();
+		/*var elements = App.getElementManager().getElements();
 
-		l = providers.length;
-		//window.console.log("hiding " + l + "providers");
+		l = elements.length;
+		//window.console.log("hiding " + l + "elements");
 		while(l--)
 		{
-			providers[l].hide();
+			elements[l].hide();
 		}
 
-		var clusters = GLOBAL.getClusterer().getClusters();
+		var clusters = App.getClusterer().getClusters();
 		l = clusters.length
 		while(l--)
 		{
 			clusters[l].hide();
 		}*/
 
-		GLOBAL.getProviderManager().clearMarkers();
+		App.getElementManager().clearMarkers();
 	}	
 	
-	var provider = GLOBAL.getProviderManager().getProviderById(providerId); 
-	this.providerShownAlone_ = provider;
-	provider.show();	
-	provider.isShownAlone = true;
+	var element = App.getElementManager().getElementById(elementId); 
+	this.elementShownAlone_ = element;
+	element.show();	
+	element.isShownAlone = true;
 
-	showProviderInfosOnMap(providerId);
+	showElementInfosOnMap(elementId);
 
-	if (panToProviderLocation)
+	if (panToElementLocation)
 	{
-		var map = GLOBAL.getMap();
-		panMapToLocation(provider.getPosition(), map, false);
+		var map = App.getMap();
+		panMapToLocation(element.getPosition(), map, false);
 	}
 };
 
 
-DisplayProviderAloneManager.prototype.end = function () 
+DisplayElementAloneManager.prototype.end = function () 
 {	
 
-	if (this.providerShownAlone_ === null) return;
+	if (this.elementShownAlone_ === null) return;
 
-	if (constellationMode) GLOBAL.getProviderManager().clearFocusOnThesesProviders([this.providerShownAlone_.getId()]);
+	if (constellationMode) App.getElementManager().clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 	else 
 	{
-		this.providerShownAlone_.hide();
-		GLOBAL.getProviderManager().updateProviderList(true,true);
+		this.elementShownAlone_.hide();
+		App.getElementManager().updateElementList(true,true);
 	}
 	
-	this.providerShownAlone_.isShownAlone = false;	
+	this.elementShownAlone_.isShownAlone = false;	
 
-	this.providerShownAlone_ = null;	
+	this.elementShownAlone_ = null;	
 };
 

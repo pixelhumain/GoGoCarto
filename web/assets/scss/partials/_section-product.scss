@@ -237,7 +237,7 @@
 		line-height: 3rem;
 	}
 
-	.moreResultProviderItem
+	.moreResultElementItem
 	{
 		background-color: #F7F7F7;	    
 	    font-size: .95rem;
@@ -247,7 +247,7 @@
 
 		.col { padding: 0 }
 
-		&.starProvider
+		&.starElement
 		{
 			font-weight: 900;
 		}
@@ -260,7 +260,7 @@
 	    line-height: 3.1rem;
 	}
 
-	.moreResultProviderItem:hover 
+	.moreResultElementItem:hover 
 	{ 
 		background-color: $secondary-color ;
 		color:white;

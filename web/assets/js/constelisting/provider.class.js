@@ -5,21 +5,21 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
-function Provider(provider) 
+function Element(element) 
 {	
-	this.id = provider.id;
-	this.name = provider.name;
-	this.position = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
-	this.adresse = provider.adresse;
-	this.description = provider.description;
-	this.tel = provider.tel ? provider.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
-	this.webSite = provider.web_site;
-	this.mail = provider.mail;
+	this.id = element.id;
+	this.name = element.name;
+	this.position = new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
+	this.adresse = element.adresse;
+	this.description = element.description;
+	this.tel = element.tel ? element.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
+	this.webSite = element.web_site;
+	this.mail = element.mail;
 	this.products = [];
 	var product;
-	if (provider.type == 'epicerie') 
+	if (element.type == 'epicerie') 
 	{
 		product = [];
 
@@ -31,31 +31,31 @@ function Provider(provider)
 	}
 	else
 	{
-		for (var i = 0; i < provider.products.length; i++) 
+		for (var i = 0; i < element.products.length; i++) 
 		{
 			product = [];
 
-			product.name = provider.products[i].product.name;
-			product.nameShort = provider.products[i].product.name_short;
-			product.nameFormate = provider.products[i].product.name_formate;
-			product.descriptif = provider.products[i].descriptif;
+			product.name = element.products[i].product.name;
+			product.nameShort = element.products[i].product.name_short;
+			product.nameFormate = element.products[i].product.name_formate;
+			product.descriptif = element.products[i].descriptif;
 			product.disabled = false;
 
 			this.products.push(product);
 		}
 	}
 
-	this.mainProduct = provider.main_product;
+	this.mainProduct = element.main_product;
 	this.mainProductIsDisabled = false;
-	this.horaires = provider.horaires;
-	this.type = provider.type;	
+	this.horaires = element.horaires;
+	this.type = element.type;	
 
-	this.distance = provider.distance ? Math.round(provider.distance) : null;
+	this.distance = element.distance ? Math.round(element.distance) : null;
 	
 	this.isInitialized_ = false;
 
 	this.isVisible_ = false;
-	this.isInProviderList = false;
+	this.isInElementList = false;
 
 	this.biopenMarker_ = null;
 	this.htmlRepresentation_ = '';
@@ -68,10 +68,10 @@ function Provider(provider)
 
 	this.isFavorite = false;
 
-	// TODO delete providerPhp['Provider'] ?
+	// TODO delete elementPhp['Element'] ?
 }
 
-Provider.prototype.initialize = function () 
+Element.prototype.initialize = function () 
 {		
 	if (!this.isInitialized_) 
 	{
@@ -80,7 +80,7 @@ Provider.prototype.initialize = function ()
 	}		
 };
 
-Provider.prototype.show = function () 
+Element.prototype.show = function () 
 {		
 	if (!this.isInitialized_) this.initialize();	
 	this.biopenMarker_.updateIcon();
@@ -88,19 +88,19 @@ Provider.prototype.show = function ()
 	this.isVisible_ = true;		
 };
 
-Provider.prototype.hide = function () 
+Element.prototype.hide = function () 
 {		
 	this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
-	//if (constellationMode) $('#ProviderList #infoProvider-'+this.id).hide();
+	//if (constellationMode) $('#ElementList #infoElement-'+this.id).hide();
 };
 
-Provider.prototype.updateProductsRepresentation = function () 
+Element.prototype.updateProductsRepresentation = function () 
 {		
 	if (!constellationMode) return;
 
-	var starNames = GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id);
+	var starNames = App.getConstellation().getStarNamesRepresentedByElementId(this.id);
 	if (this.isProducteurOrAmap())
 	{
 		for(i = 0; i < this.products.length;i++)
@@ -126,10 +126,10 @@ Provider.prototype.updateProductsRepresentation = function ()
 	}
 };
 
-Provider.prototype.getHtmlRepresentation = function () 
+Element.prototype.getHtmlRepresentation = function () 
 {	
-	var starNames = constellationMode ? GLOBAL.getConstellation().getStarNamesRepresentedByProviderId(this.id) : [];
-	var location = GLOBAL.getMap().location;
+	var starNames = constellationMode ? App.getConstellation().getStarNamesRepresentedByElementId(this.id) : [];
+	var location = App.getMap().location;
 	if (location)
 	{
 		this.distance = calculateDistanceFromLatLonInKm(location, this.position);
@@ -137,9 +137,9 @@ Provider.prototype.getHtmlRepresentation = function ()
 		this.distance = Math.round(1.2*this.distance);
 	}
 
-	var html = Twig.render(providerTemplate, 
+	var html = Twig.render(elementTemplate, 
 				{
-					provider : this, 
+					element : this, 
 					horaires : this.getFormatedHoraires(), 
 					constellationMode: constellationMode, 
 					productsToDisplay: this.getProductsNameToDisplay(), 
@@ -149,7 +149,7 @@ Provider.prototype.getHtmlRepresentation = function ()
 	return html;
 };
 
-Provider.prototype.getProductsNameToDisplay = function ()
+Element.prototype.getProductsNameToDisplay = function ()
 {
 	this.updateProductsRepresentation();
 
@@ -204,7 +204,7 @@ function compareProductsDisabled(a,b)
   return a.disabled ? 1 : -1;
 }
 
-Provider.prototype.pushToProductToDisplay = function(productName, disabled)
+Element.prototype.pushToProductToDisplay = function(productName, disabled)
 {
 	var new_product = [];
 	new_product.value = productName;
@@ -212,7 +212,7 @@ Provider.prototype.pushToProductToDisplay = function(productName, disabled)
 	this.productsToDisplay_.others.push(new_product);
 };
 
-Provider.prototype.getFormatedHoraires = function () 
+Element.prototype.getFormatedHoraires = function () 
 {		
 	if (this.formatedHoraire_ === null )
 	{		
@@ -227,7 +227,7 @@ Provider.prototype.getFormatedHoraires = function ()
 	return this.formatedHoraire_;
 };
 
-Provider.prototype.formateJourHoraire = function (jourHoraire) 
+Element.prototype.formateJourHoraire = function (jourHoraire) 
 {		
 	if (jourHoraire === null)
 	{		
@@ -250,23 +250,23 @@ Provider.prototype.formateJourHoraire = function (jourHoraire)
 	return result;
 };
 
-Provider.prototype.formateDate = function (date) 
+Element.prototype.formateDate = function (date) 
 {		
 	if (!date) return;
 	return date.split('T')[1].split(':00+0100')[0];
 };
 
-Provider.prototype.isProducteurOrAmap = function () 
+Element.prototype.isProducteurOrAmap = function () 
 {		
 	return ($.inArray( this.type, [ "producteur", "amap" ] ) > -1);
 };
 
-Provider.prototype.isCurrentStarChoiceRepresentant = function () 
+Element.prototype.isCurrentStarChoiceRepresentant = function () 
 {		
 	if ( this.starChoiceForRepresentation !== '')
 	{
-		var providerStarId = GLOBAL.getConstellation().getStarFromName(this.starChoiceForRepresentation).getProviderId();
-		return (this.id == providerStarId);
+		var elementStarId = App.getConstellation().getStarFromName(this.starChoiceForRepresentation).getElementId();
+		return (this.id == elementStarId);
 	}
 	return false;	
 };
@@ -283,49 +283,49 @@ Provider.prototype.isCurrentStarChoiceRepresentant = function ()
 //            SETTERS GETTERS
 // ---------------------------------------------
 
-Provider.prototype.getId = function () 
+Element.prototype.getId = function () 
 {		
 	return this.id;
 };
 
-Provider.prototype.getPosition = function () 
+Element.prototype.getPosition = function () 
 {		
 	return this.position;
 };
 
-Provider.prototype.getName = function () 
+Element.prototype.getName = function () 
 {		
 	return this.name;
 };
 
-Provider.prototype.getMainProduct = function () 
+Element.prototype.getMainProduct = function () 
 {		
 	return this.mainProduct;
 };
 
-Provider.prototype.getProducts = function () 
+Element.prototype.getProducts = function () 
 {		
 	return this.products;
 };
 
-Provider.prototype.getMarker= function () 
+Element.prototype.getMarker= function () 
 {		
 	return this.biopenMarker_.getRichMarker();
 };
 
-Provider.prototype.getBiopenMarker = function (initialize) 
+Element.prototype.getBiopenMarker = function (initialize) 
 {		
 	initialize = initialize || false;
 	if (initialize) this.initialize();
 	return this.biopenMarker_;
 };
 
-Provider.prototype.isVisible = function () 
+Element.prototype.isVisible = function () 
 {		
 	return this.isVisible_;
 };
 
-Provider.prototype.isInitialized = function () 
+Element.prototype.isInitialized = function () 
 {		
 	return this.isInitialized_;
 };

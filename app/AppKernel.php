@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Biopen\CoreBundle\BiopenCoreBundle(),
-            new Biopen\FournisseurBundle\BiopenFournisseurBundle(),
+            new Biopen\ElementBundle\BiopenElementBundle(),
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 

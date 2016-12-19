@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-12-13
  */
 function BiopenMarker(id_, position_) 
 {
@@ -16,10 +16,10 @@ function BiopenMarker(id_, position_)
 
 	if (!position_)
 	{
-		var provider = this.getProvider();
-		if (provider === null) window.console.log("provider null id = "+ this.id_);
+		var element = this.getElement();
+		if (element === null) window.console.log("element null id = "+ this.id_);
 		else
-		position_ = new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
+		position_ = new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
 	} 
 	
 	this.richMarker_ = new RichMarker({		
@@ -35,37 +35,37 @@ function BiopenMarker(id_, position_)
 	
 	google.maps.event.addListener(this.richMarker_, 'click', function(ev) 
 	{
-		GLOBAL.setTimeoutClicking();
+		App.setTimeoutClicking();
 
-		if (that.isHalfHidden_) GLOBAL.setState('normal');	
+		if (that.isHalfHidden_) App.setState('normal');	
 
-		showProviderInfosOnMap(that.id_);
+		showElementInfosOnMap(that.id_);
 
-		if (GLOBAL.getState() == 'starRepresentationChoice')
+		if (App.getState() == 'starRepresentationChoice')
 		{
-			GLOBAL.getSRCManager().selectProviderById(that.id_);
+			App.getSRCManager().selectElementById(that.id_);
 		}
 
 		ev.preventDefault();
 		ev.stopPropagation();
 		
 		//event.preventDefault();
-    });
+  });
 
 	
-    google.maps.event.addListener(this.richMarker_, 'mouseover', function(ev) 
+  google.maps.event.addListener(this.richMarker_, 'mouseover', function(ev) 
 	{
 		if (that.isAnimating_) { return; }
 		if (!that.isHalfHidden_) that.showBigSize();
     });
 
-    google.maps.event.addListener(this.richMarker_, 'mouseout', function(ev) 
+  google.maps.event.addListener(this.richMarker_, 'mouseout', function(ev) 
 	{
-        if (that.isAnimating_) { return; }
-        that.showNormalSize();
-    });
+    if (that.isAnimating_) { return; }
+    that.showNormalSize();
+  });
 
-	if (GLOBAL.constellationMode())
+	if (App.constellationMode())
 	{
     	google.maps.event.addListener(this.richMarker_, 'visible_changed', function() { that.checkPolylineVisibility_(that); });
 	}
@@ -87,35 +87,35 @@ BiopenMarker.prototype.animateDrop = function ()
 
 BiopenMarker.prototype.updateIcon = function () 
 {		
-	var provider = this.getProvider();
+	var element = this.getElement();
 
-	if (GLOBAL.constellationMode())
+	if (App.constellationMode())
 	{
 		// POLYLINE TYPE
 		var lineType;
-		if (provider.starChoiceForRepresentation === '')
+		if (element.starChoiceForRepresentation === '')
 		{
 			lineType = 'normal';
 		}
 		else
 		{			
-			lineType = provider.isCurrentStarChoiceRepresentant() ? 'normal' : 'dashed';
+			lineType = element.isCurrentStarChoiceRepresentant() ? 'normal' : 'dashed';
 		}		
 
 		this.updatePolyline({lineType: lineType});
 	}
 
-	var productsToDisplay = provider.getProductsNameToDisplay();
+	var productsToDisplay = element.getProductsNameToDisplay();
 
 	var content = document.createElement("div");
 	$(content).addClass("marker-wrapper");
-	$(content).addClass(provider.type);
+	$(content).addClass(element.type);
 	$(content).attr('id',"marker-"+this.id_);
 
 	var disableMarker = false;
 	// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
-	if (provider.starChoiceForRepresentation !== '') 
-		disableMarker = !provider.isCurrentStarChoiceRepresentant();
+	if (element.starChoiceForRepresentation !== '') 
+		disableMarker = !element.isCurrentStarChoiceRepresentant();
 
 	if (disableMarker) $(content).addClass("disabled");
 
@@ -127,7 +127,7 @@ BiopenMarker.prototype.updateIcon = function ()
     var widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
     var showMoreIcon = true;
-    if (GLOBAL.constellationMode()) showMoreIcon = provider.isProducteurOrAmap();
+    if (App.constellationMode()) showMoreIcon = element.isProducteurOrAmap();
 
     if (nbreOthersProducts > 0 && showMoreIcon)
     {
@@ -150,7 +150,7 @@ BiopenMarker.prototype.updateIcon = function ()
 		innerHTML += '</div>';
     } 
 
-    if (provider.isFavorite)
+    if (element.isFavorite)
     {
     	innerHTML += '<div class="icon-star-full animate rotate"></div>';
     }    
@@ -255,13 +255,13 @@ BiopenMarker.prototype.updatePolyline = function (options)
 {
 	if (!this.polyline_)
 	{
-		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getProvider().type, null, options);
+		this.polyline_ = drawLineBetweenPoints(App.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getElement().type, null, options);
 	}
 	else
 	{		
 		var map = this.polyline_.getMap();
 		this.polyline_.setMap(null);
-		this.polyline_ = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getProvider().type, map, options);	
+		this.polyline_ = drawLineBetweenPoints(App.getConstellation().getOrigin(), this.richMarker_.getPosition(), this.getElement().type, map, options);	
 	}
 };
 
@@ -310,10 +310,10 @@ BiopenMarker.prototype.getRichMarker = function ()
 	return this.richMarker_;
 };
 
-BiopenMarker.prototype.getProvider = function () 
+BiopenMarker.prototype.getElement = function () 
 {	
-	return GLOBAL.getProviderManager().getProviderById(this.id_);
-	//return this.provider_;
+	return App.getElementManager().getElementById(this.id_);
+	//return this.element_;
 };
 
 BiopenMarker.prototype.checkPolylineVisibility_ = function (context) 
@@ -323,7 +323,7 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
 	context.polyline_.setMap(context.richMarker_.getMap());	
 
-	if (GLOBAL.getState() == "showRouting") 
+	if (App.getState() == "showRouting") 
 	{
 		context.polyline_.setMap(null);	
 		context.polyline_.setVisible(false);
@@ -332,16 +332,16 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 
 BiopenMarker.prototype.show = function () 
 {	
-	this.richMarker_.setMap(GLOBAL.getMap());
+	this.richMarker_.setMap(App.getMap());
 	this.richMarker_.setVisible(true);
-	if (GLOBAL.constellationMode()) this.polyline_.setMap(GLOBAL.getMap());
+	if (App.constellationMode()) this.polyline_.setMap(App.getMap());
 };
 
 BiopenMarker.prototype.hide = function () 
 {	
 	this.richMarker_.setMap(null);
 	this.richMarker_.setVisible(false);
-	if (GLOBAL.constellationMode()) this.polyline_.setMap(null);
+	if (App.constellationMode()) this.polyline_.setMap(null);
 };
 
 BiopenMarker.prototype.getVisible = function () 

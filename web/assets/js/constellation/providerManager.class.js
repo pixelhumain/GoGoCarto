@@ -5,81 +5,81 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 jQuery(document).ready(function()
 {	
 	$('#bandeau_detail .btn-select-as-representant').click(function(event) 
 	{ 
-		var providerId = $('#bandeau_detail .providerItem').attr('data-provider-id');
-		GLOBAL.getSRCManager().selectProviderById( providerId ); 		
+		var elementId = $('#bandeau_detail .elementItem').attr('data-element-id');
+		App.getSRCManager().selectElementById( elementId ); 		
 	});
 });
 
-function ProviderManager(listProviderPhp) 
+function ElementManager(listElementPhp) 
 {
-	this.providers_ = [];
+	this.elements_ = [];
 
 	// TODO timer pour voir si c'est long de faire ça. peut etre le faire
 	// direct dans la page twig? pour éviter de serializer....
 
-	var provider;
-	for (var i = 0; i < listProviderPhp.length; i++)
+	var element;
+	for (var i = 0; i < listElementPhp.length; i++)
 	{
-		provider = new Provider(listProviderPhp[i]);
-		this.providers_.push(provider);
+		element = new Element(listElementPhp[i]);
+		this.elements_.push(element);
 	}
 }
 
-ProviderManager.prototype.draw = function () 
+ElementManager.prototype.draw = function () 
 {	
-	var provider;
-	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
+	var element;
+	for(var i = 0; i < App.getConstellation().getStars().length; i++)
 	{
-		provider = GLOBAL.getConstellation().getStars()[i].getProvider();	
-		provider.show();	
+		element = App.getConstellation().getStars()[i].getElement();	
+		element.show();	
 	}	
 };
 
-ProviderManager.prototype.focusOnThesesProviders = function (idList) 
+ElementManager.prototype.focusOnThesesElements = function (idList) 
 {
-	GLOBAL.getMarkerManager().hidePartiallyAllMarkers();
+	App.getMarkerManager().hidePartiallyAllMarkers();
 
-	var provider;	
+	var element;	
 
 	for(var i = 0; i < idList.length; i++)
 	{
-		provider = this.getProviderById(idList[i]);			
-		provider.getBiopenMarker().updateIcon();
-		provider.getBiopenMarker().showNormalHidden();				
-		provider.show();		
+		element = this.getElementById(idList[i]);			
+		element.getBiopenMarker().updateIcon();
+		element.getBiopenMarker().showNormalHidden();				
+		element.show();		
 	}
 };
 
-ProviderManager.prototype.clearFocusOnThesesProviders = function (idList) 
+ElementManager.prototype.clearFocusOnThesesElements = function (idList) 
 {
-	GLOBAL.getMarkerManager().showNormalHiddenAllMarkers();
+	App.getMarkerManager().showNormalHiddenAllMarkers();
 
 	var marker;
 	for(var i = 0; i < idList.length; i++)
 	{
-		provider = this.getProviderById(idList[i]);	
+		element = this.getElementById(idList[i]);	
 		//marker.updateIcon();		
-		provider.hide();		
+		element.hide();		
 	}
 
 	this.draw();
 };
 
-ProviderManager.prototype.getProviders = function () 
+ElementManager.prototype.getElements = function () 
 {
-	return this.providers_;
+	return this.elements_;
 };
 
-ProviderManager.prototype.getProviderById = function (providerId) 
+ElementManager.prototype.getElementById = function (elementId) 
 {
-	for (var i = 0; i < this.providers_.length; i++) 
+	for (var i = 0; i < this.elements_.length; i++) 
 	{
-		if (this.providers_[i].getId() == providerId) return this.providers_[i];
+		if (this.elements_[i].getId() == elementId) return this.elements_[i];
 	}
 };

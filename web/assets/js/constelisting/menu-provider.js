@@ -5,18 +5,18 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 jQuery(document).ready(function()
 {	
 	//   MENU PROVIDER
-	var menu_provider = $('#bandeau_detail .menu-provider');
-	createListenersForProviderMenu(menu_provider);	
+	var menu_element = $('#bandeau_detail .menu-element');
+	createListenersForElementMenu(menu_element);	
 
-	$('#popup-delete-provider #select_reason').material_select();
+	$('#popup-delete-element #select_reason').material_select();
 });
 
-function deleteProvider()
+function deleteElement()
 {
 	if (grecaptcha.getResponse().length === 0)
 	{
@@ -26,7 +26,7 @@ function deleteProvider()
 	else
 	{
 		$('#captcha-error-message').hide();
-		$('#popup-delete-provider').closeModal();
+		$('#popup-delete-element').closeModal();
 	}	
 }
 
@@ -37,17 +37,17 @@ function onloadCaptcha()
     });
 }
 
-function createListenersForProviderMenu(object)
+function createListenersForElementMenu(object)
 {
 	object.find('.icon-edit').click(function() {
-		window.location.href = Routing.generate('biopen_fournisseur_edit', { id : getCurrentProviderIdShown() }); 
+		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
 	});
 	object.find('.icon-delete').click(function() 
 	{		
-		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
-		//window.console.log(provider.name);
-		$('#popup-delete-provider .providerName').text(capitalize(provider.name));
-		$('#popup-delete-provider').openModal({
+		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
+		//window.console.log(element.name);
+		$('#popup-delete-element .elementName').text(capitalize(element.name));
+		$('#popup-delete-element').openModal({
 		      dismissible: true, 
 		      opacity: 0.5, 
 		      in_duration: 300, 
@@ -56,42 +56,42 @@ function createListenersForProviderMenu(object)
 	});
 	object.find('.icon-directions').click(function() 
 	{
-		if (!constellationMode && !GLOBAL.getMap().location)
+		if (!constellationMode && !App.getMap().location)
 		{
 			$('#popup-choose-adress').openModal();
 		}
-		else GLOBAL.setState("showRouting",{id: getCurrentProviderIdShown()});
+		else App.setState("showRouting",{id: getCurrentElementIdShown()});
 	});
 	
 	object.find('.tooltipped').tooltip();	
 	
 	object.find('.icon-star-empty').click(function() 
 	{
-		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
-		GLOBAL.getProviderManager().addFavorite(getCurrentProviderIdShown());
+		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
+		App.getElementManager().addFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-empty').hide();
 		object.find('.icon-star-full').show();
-		provider.getBiopenMarker().updateIcon();
-		provider.getBiopenMarker().animateDrop();
+		element.getBiopenMarker().updateIcon();
+		element.getBiopenMarker().animateDrop();
 	});
 	
 	object.find('.icon-star-full').click(function() 
 	{
-		var provider = GLOBAL.getProviderManager().getProviderById(getCurrentProviderIdShown());
-		GLOBAL.getProviderManager().removeFavorite(getCurrentProviderIdShown());
+		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
+		App.getElementManager().removeFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-full').hide();
 		object.find('.icon-star-empty').show();
-		provider.getBiopenMarker().updateIcon();
+		element.getBiopenMarker().updateIcon();
 	});	
 }
 
-function getCurrentProviderIdShown()
+function getCurrentElementIdShown()
 {
 	if ( $('#bandeau_detail').is(':visible') ) 
 	{
-		return $('#bandeau_detail').find('.providerItem').attr('data-provider-id');
+		return $('#bandeau_detail').find('.elementItem').attr('data-element-id');
 	}
-	return $('.providerItem.active').attr('data-provider-id');
+	return $('.elementItem.active').attr('data-element-id');
 }
 
 /*function bookMarkMe()

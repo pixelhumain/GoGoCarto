@@ -11,9 +11,9 @@
 
     background-color: #F7F7F7;
 
-    .providerItem
+    .elementItem
     {
-        .menu-provider { display: none; } 
+        .menu-element { display: none; } 
         .iconMainProduct { display:none; }
         .starNamesIcons { display:block; }  
         .sectionInfos { line-height: 2rem; }      
@@ -25,9 +25,9 @@
         .starNamesIcons { display:none; }
     }     
 
-    #detail_provider
+    #detail_element
     {
-        margin-bottom: 2.3rem; // pour le provider-menu
+        margin-bottom: 2.3rem; // pour le element-menu
         @media #{$medium-and-up} 
         {
             margin-bottom: 3rem;
@@ -86,7 +86,7 @@
         }
     }    
 
-    #detail_provider 
+    #detail_element 
     {  
         .moreDetails 
         {

@@ -5,14 +5,14 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-12
+ * @Last Modified time: 2016-12-13
  */
-function ProviderManagerListing(listProviderPhp) 
+function ElementManagerListing(listElementPhp) 
 {
-	this.allProviders_ = [];
-	this.currProviders_ = [];
+	this.allElements_ = [];
+	this.currElements_ = [];
 
-	this.allProvidersIds_= [];
+	this.allElementsIds_= [];
 
 	// TODO timer pour voir si c'est long de faire ça. peut etre le faire
 	// direct dans la page twig? pour éviter de serializer....
@@ -24,12 +24,12 @@ function ProviderManagerListing(listProviderPhp)
 	}   
 	else this.favoriteIds_ = [];	
 
-	this.addJsonProviders(listProviderPhp, false);
+	this.addJsonElements(listElementPhp, false);
 
-	// TODO delete listProviderPhp; ?
+	// TODO delete listElementPhp; ?
 }
 
-ProviderManagerListing.prototype.checkCookies = function()
+ElementManagerListing.prototype.checkCookies = function()
 {
 	for(var j = 0; j < this.favoriteIds_.length; j++)
   	{
@@ -37,30 +37,30 @@ ProviderManagerListing.prototype.checkCookies = function()
   	}
 };
 
-ProviderManagerListing.prototype.addJsonProviders = function (providerList, checkIfAlreadyExist)
+ElementManagerListing.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
 {
-	var provider;
-	var newProviders = 0;
-	for (var i = 0; i < providerList.length; i++)
+	var element;
+	var newElements = 0;
+	for (var i = 0; i < elementList.length; i++)
 	{
-		providerJson = providerList[i].Provider ? providerList[i].Provider : providerList[i];
+		elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
 
-		if (!checkIfAlreadyExist || this.allProvidersIds_.indexOf(providerJson.id) < 0)
+		if (!checkIfAlreadyExist || this.allElementsIds_.indexOf(elementJson.id) < 0)
 		{
-			this.allProviders_.push(new Provider(providerJson));
-			this.allProvidersIds_.push(providerJson.id);
-			newProviders++;
+			this.allElements_.push(new Element(elementJson));
+			this.allElementsIds_.push(elementJson.id);
+			newElements++;
 		}		
 	}
 	this.checkCookies();
-	//window.console.log("addJsonProviders newProviders = " + newProviders);
+	//window.console.log("addJsonElements newElements = " + newElements);
 };
 
-ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
+ElementManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
-	var provider = this.getProviderById(favoriteId);
-	if (provider !== null) provider.isFavorite = true;
+	var element = this.getElementById(favoriteId);
+	if (element !== null) element.isFavorite = true;
 	else return;
 	
 	if (modifyCookies)
@@ -70,11 +70,11 @@ ProviderManagerListing.prototype.addFavorite = function (favoriteId, modifyCooki
 	}
 };
 
-ProviderManagerListing.prototype.removeFavorite = function (favoriteId, modifyCookies)
+ElementManagerListing.prototype.removeFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
-	var provider = this.getProviderById(favoriteId);
-	if (provider !== null) provider.isFavorite = false;
+	var element = this.getElementById(favoriteId);
+	if (element !== null) element.isFavorite = false;
 	
 	if (modifyCookies)
 	{
@@ -85,63 +85,63 @@ ProviderManagerListing.prototype.removeFavorite = function (favoriteId, modifyCo
 	}
 };
 
-ProviderManagerListing.prototype.updateProviderList = function (checkInAllProviders, forceRepaint) 
+ElementManagerListing.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
 {	
-	checkInAllProviders = checkInAllProviders !== false;
+	checkInAllElements = checkInAllElements !== false;
 	forceRepaint = forceRepaint || false;
 
-	var providers = null;
-	if (checkInAllProviders || this.currProviders_.length === 0) providers = this.allProviders_;
-	else providers = this.currProviders_;
+	var elements = null;
+	if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
+	else elements = this.currElements_;
 
-	var i, provider;
- 	var mapBounds = GLOBAL.getMap().getBounds();   
+	var i, element;
+ 	var mapBounds = App.getMap().getBounds();   
 
  	var newMarkers = [];
  	var markersToRemove = [];
  	var markersChanged = false;
 
-	filterManager = GLOBAL.getFilterManager();
+	filterManager = App.getFilterManager();
 
-	i = providers.length;
+	i = elements.length;
 
-	window.console.log("UpdateProviderList nbre provider " + i, checkInAllProviders);
+	window.console.log("UpdateElementList nbre element " + i, checkInAllElements);
 	var start = new Date().getTime();
 
-	while(i-- /*&& this.currProviders_.length < GLOBAL.getMaxProviders()*/)
+	while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 	{
-		provider = providers[i];
+		element = elements[i];
 		
-		if (mapBounds.contains(provider.getPosition()) && filterManager.checkIfProviderPassFilters(provider))
+		if (mapBounds.contains(element.getPosition()) && filterManager.checkIfElementPassFilters(element))
 		{
-			if (!provider.isVisible() && $.inArray(GLOBAL.getState(), ["normal","showProvider"]) > -1)
+			if (!element.isVisible() && $.inArray(App.getState(), ["normal","showElement"]) > -1)
 			{
-				if (provider.isInitialized() === false) provider.initialize();
-				provider.show();
-				this.currProviders_.push(provider);
-				newMarkers.push(provider.getMarker());
+				if (element.isInitialized() === false) element.initialize();
+				element.show();
+				this.currElements_.push(element);
+				newMarkers.push(element.getMarker());
 				markersChanged = true;
 			}
 		}
 		else
 		{
-			if (provider.isVisible() && !provider.isShownAlone ) 
+			if (element.isVisible() && !element.isShownAlone ) 
 			{
-				provider.hide();
-				markersToRemove.push(provider.getMarker());
+				element.hide();
+				markersToRemove.push(element.getMarker());
 				markersChanged = true;
-				var index = this.currProviders_.indexOf(provider);
-				if (index > -1) this.currProviders_.splice(index, 1);
+				var index = this.currElements_.indexOf(element);
+				if (index > -1) this.currElements_.splice(index, 1);
 			}
 		}
 	}
 
-	if (this.currProviders_.length >= GLOBAL.getMaxProviders())
+	if (this.currElements_.length >= App.getMaxElements())
 	{
 		/*$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
 		this.clearMarkers();		
 		return;*/
-		console.log("Toomany markers. Nbre markers : " + this.currProviders_.length + " // MaxMarkers = " + GLOBAL.getMaxProviders());
+		console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
 	}
 	else
 	{
@@ -150,78 +150,78 @@ ProviderManagerListing.prototype.updateProviderList = function (checkInAllProvid
 
 	var end = new Date().getTime();
 	var time = end - start;
-	//window.console.log("    analyse providers en " + time + " ms");	
+	//window.console.log("    analyse elements en " + time + " ms");	
 	
 	if (markersChanged || forceRepaint)
 	{		
-		GLOBAL.getClusterer().addMarkers(newMarkers,true);
-		GLOBAL.getClusterer().removeMarkers(markersToRemove, true);
+		App.getClusterer().addMarkers(newMarkers,true);
+		App.getClusterer().removeMarkers(markersToRemove, true);
 		
-		GLOBAL.getClusterer().repaint();		
+		App.getClusterer().repaint();		
 	}
 	
 };
 
-ProviderManagerListing.prototype.getProviders = function () 
+ElementManagerListing.prototype.getElements = function () 
 {
-	return this.currProviders_;
+	return this.currElements_;
 };
 
-ProviderManagerListing.prototype.getAllProvidersIds = function () 
+ElementManagerListing.prototype.getAllElementsIds = function () 
 {
-	return this.allProvidersIds_;
+	return this.allElementsIds_;
 };
 
-ProviderManagerListing.prototype.clearMarkers = function()
+ElementManagerListing.prototype.clearMarkers = function()
 {
 	this.hideAllMarkers();
-	this.currProviders_ = [];
-	GLOBAL.getClusterer().clearMarkers();	
+	this.currElements_ = [];
+	App.getClusterer().clearMarkers();	
 };
 
-ProviderManagerListing.prototype.getMarkers = function () 
+ElementManagerListing.prototype.getMarkers = function () 
 {
 	var markers = [];
-	l = this.currProviders_.length;
+	l = this.currElements_.length;
 	while(l--)
 	{
-		markers.push(this.currProviders_[l].getMarker());
+		markers.push(this.currElements_[l].getMarker());
 	}
 	return markers;
 };
 
-ProviderManagerListing.prototype.hidePartiallyAllMarkers = function () 
+ElementManagerListing.prototype.hidePartiallyAllMarkers = function () 
 {
-	l = this.currProviders_.length;
+	l = this.currElements_.length;
 	while(l--)
 	{
-		this.currProviders_[l].getBiopenMarker().showHalfHidden();
+		this.currElements_[l].getBiopenMarker().showHalfHidden();
 	}
 };
 
-ProviderManagerListing.prototype.hideAllMarkers = function () 
+ElementManagerListing.prototype.hideAllMarkers = function () 
 {
-	l = this.currProviders_.length;
+	l = this.currElements_.length;
 	while(l--)
 	{
-		this.currProviders_[l].hide();
+		this.currElements_[l].hide();
 	}
 };
 
-ProviderManagerListing.prototype.showNormalHiddenAllMarkers = function () 
+ElementManagerListing.prototype.showNormalHiddenAllMarkers = function () 
 {
-	l = this.allProviders_.length;
+	l = this.allElements_.length;
 	while(l--)
 	{
-		this.currProviders_[l].getBiopenMarker().showNormalHidden();
+		this.currElements_[l].getBiopenMarker().showNormalHidden();
 	}
 };
 
-ProviderManagerListing.prototype.getProviderById = function (providerId) 
+ElementManagerListing.prototype.getElementById = function (elementId) 
 {
-	//return this.allProviders_[providerId];
-	for (var i = 0; i < this.allProviders_.length; i++) {
-		if (this.allProviders_[i].getId() == providerId) return this.allProviders_[i];
+	//return this.allElements_[elementId];
+	for (var i = 0; i < this.allElements_.length; i++) {
+		if (this.allElements_[i].getId() == elementId) return this.allElements_[i];
 	}
 	return null;
 };

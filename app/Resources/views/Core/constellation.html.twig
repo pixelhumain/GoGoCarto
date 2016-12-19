@@ -36,7 +36,7 @@
   {% endif %}
 
    
-  {# La Carte et les infos provider #} 
+  {# La Carte et les infos element #} 
   <section id="section_carte">
     
     {% include '::Components/modal-choose-adresse-for-directions.html.twig'  %}  
@@ -45,15 +45,15 @@
 
     <div id="map"></div>    
 
-    <div id="bandeau_helper">Pour chaque produit, le plus proche fournisseur est affiché. Plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
+    <div id="bandeau_helper">Pour chaque produit, le plus proche element est affiché. Plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
 
     <section id="bandeau_detail" class="customScrollBar" style="display:none">
       <div class="starRepresentationChoice-helper">
         <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> en tant que "<span class='SRC-helper-starName'></span>" principal 
         
       </div> 
-      <div id="detail_provider"></div>
-      {% include '::Components/menu-provider.html.twig'  %}
+      <div id="detail_element"></div>
+      {% include '::Components/menu-element.html.twig'  %}
     </section>
 
     <div id="btn_menu"><i class='icon-menu'></i></div> 
@@ -66,8 +66,8 @@
 
 
 {# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
-{# <div id="bandeau_goToProviderList">  
-  <a href='#ProviderList'>
+{# <div id="bandeau_goToElementList">  
+  <a href='#ElementList'>
       <i class="icon-expand"></i>
       <span class="">Résultats sous forme de liste</span>
       <i class="icon-expand"></i>
@@ -75,11 +75,11 @@
 </div> #}
 
 {# Les résultats par liste #}
-<section id="ProviderList">  
+<section id="ElementList">  
   <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
-    <div class="provider-list-title" id="title-places">Les emplacements<div class='shadow-bottom'></div></div>
+    <div class="element-list-title" id="title-places">Les emplacements<div class='shadow-bottom'></div></div>
     <div id="places-end-container"></div> 
-    <div class="provider-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
+    <div class="element-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
     <div id="producteurAmap-end-container"></div> 
   </ul>
 </section>
@@ -97,9 +97,9 @@
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}"
 
-    var providerList = null;
-    {% if providerList is defined %}
-      providerListJson = {{ providerList | serialize("json") | raw }};
+    var elementList = null;
+    {% if elementList is defined %}
+      elementListJson = {{ elementList | serialize("json") | raw }};
     {% endif %}
 
     var onlyInputAdressMode = false;
@@ -121,7 +121,7 @@
  
 
     {% javascripts filter="twig_js" 
-    '../app/Resources/views/Core/provider.html.twig'    
+    '../app/Resources/views/Core/element.html.twig'    
     %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -138,7 +138,7 @@
 
 {% block modals %} 
 
-  {% include '::Components/delete-provider.html.twig'  %}
+  {% include '::Components/delete-element.html.twig'  %}
 
 {% endblock %}
 

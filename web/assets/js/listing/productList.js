@@ -5,14 +5,14 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 jQuery(document).ready(function()
 {	
 	$('.favorite-checkbox').change(function ()
 	{
-		GLOBAL.getFilterManager().showOnlyFavorite($(this).is(':checked'));
-		GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));
+		App.getFilterManager().showOnlyFavorite($(this).is(':checked'));
+		App.getElementManager().updateElementList($(this).is(':checked'));
 	});
 
 	$('#product-checkbox-favorite + label').tooltip();
@@ -20,7 +20,7 @@ jQuery(document).ready(function()
 	$('.filterCheckbox').change(function()
 	{		
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
-		/*GLOBAL.getProviderManager().updateProviderList($(this).is(':checked'));*/
+		/*App.getElementManager().updateElementList($(this).is(':checked'));*/
 	});
 
 	$('.title-checkbox').change(function()
@@ -33,14 +33,14 @@ jQuery(document).ready(function()
 			checkFilterFromCheckbox(this, $(this).attr('data-type'), false);
 		});
 
-		GLOBAL.getProviderManager().updateProviderList(isChecked);
+		App.getElementManager().updateElementList(isChecked);
 	});	
 });
 
-function checkFilterFromCheckbox(object, filterType, updateProviderList)
+function checkFilterFromCheckbox(object, filterType, updateElementList)
 {
-	if (!$(object).is(':checked')) GLOBAL.getFilterManager().addFilter($(object).attr('data'), filterType, updateProviderList);
-	else GLOBAL.getFilterManager().removeFilter($(object).attr('data'), filterType, updateProviderList);
+	if (!$(object).is(':checked')) App.getFilterManager().addFilter($(object).attr('data'), filterType, updateElementList);
+	else App.getFilterManager().removeFilter($(object).attr('data'), filterType, updateElementList);
 }
 
 

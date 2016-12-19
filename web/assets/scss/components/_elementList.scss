@@ -1,0 +1,61 @@
+#ElementList
+{
+	display:none;
+	overflow: auto;
+
+	border-left: none;
+	height: auto;
+
+	ul
+	{
+		height: auto;
+		position: relative;
+		@media #{$medium-and-up} { padding: 0 3rem; }
+		@media #{$large-only} { padding: 0 10rem; }
+	}
+
+	.elementItem
+	{
+		//.menu-element { display: none; } 
+		.iconMainProduct {display:none}
+		.starNamesIcons {display:block}
+		.icon-close {display:none}
+		.distance{ margin-right: 0;}
+	}
+
+	.collapsible
+	{
+		overflow-y: auto;
+		margin :0;
+		&.customScrollBar::-webkit-scrollbar {
+		    width: 14px;
+		}
+	}
+
+	.collapsible-header
+	{
+		border-bottom: 1px solid #abaaaa;
+		background-color: white;
+	}
+
+	.collapsible.popout > li
+	{ 
+		margin: 0;
+	}
+
+	.collapsible.popout > li.active
+	{ 
+		margin: 1rem 0; 
+	}
+
+	.element-list-title
+	{
+		display:block;
+		position: relative;
+		line-height: 3rem;
+	    text-align: center;
+	    color: #F5F3F3;
+	    background-color: $secondary-color;	    
+	}	
+}
+

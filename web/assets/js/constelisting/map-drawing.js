@@ -5,9 +5,9 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
-function drawLineBetweenPoints(point1, point2, providerType, map_, options)
+function drawLineBetweenPoints(point1, point2, elementType, map_, options)
 {
   	var LineStart = point1;
   	var LineEnd = point2;
@@ -25,7 +25,7 @@ function drawLineBetweenPoints(point1, point2, providerType, map_, options)
 
   	var color = '#AE3536';
 
-	switch(providerType) 
+	switch(elementType) 
 	{
 	    case 'producteur': color = '#B33536'; break;
 	    case 'amap': color = '#4B7975'; break;

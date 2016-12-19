@@ -20,7 +20,7 @@
 
 
 /**
- * Globals and constants
+ * Apps and constants
  */
 var DAYS_IN_WEEK = 7,
     WEEKS_IN_CALENDAR = 6,

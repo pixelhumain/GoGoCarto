@@ -1,0 +1,30 @@
+{% extends "::bundle_layout.html.twig" %}
+
+{% block title %}Edition{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+ 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ 	<link rel="stylesheet" href="{{ asset('assets/css/element-add.css') }}">
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+	{% for flash_message in app.session.flashbag.get('notice') %}
+	    <div class="flash-notice">
+	        {{ flash_message | raw }}
+	    </div>
+	{% endfor %}  
+
+  {% include "::Element/form.html.twig" with {'editMode':true} %} 
+
+{% endblock %}
+
+
+
+
+

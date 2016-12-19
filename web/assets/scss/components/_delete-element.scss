@@ -1,0 +1,32 @@
+#popup-delete-element
+{
+	h5 
+	{
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+
+	#delete-info 
+	{
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+    	font-style: italic;
+	}
+
+	form
+	{
+		text-align: center;
+	}
+
+	#captcha > div
+	{
+		margin: 0 auto;
+		margin-top: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.dropdown-content li.disabled  > span
+	{
+		color : rgba(0, 0, 0, 0.3);
+	}
+}

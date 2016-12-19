@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-05
+ * @Last Modified time: 2016-12-13
  */
  
 
@@ -22,8 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Biopen\FournisseurBundle\Entity\Product;
-use Biopen\FournisseurBundle\Entity\Provider;
+use Biopen\ElementBundle\Entity\Product;
+use Biopen\ElementBundle\Entity\Element;
 
 use Wantlet\ORM\Point;
 
@@ -56,15 +56,15 @@ class CoreController extends Controller
             else                           $this->get('session')->set('slug', $slug);
         }      
         
-        // the point around we want to show providers
+        // the point around we want to show elements
         $originPoint = null;
 
         $id = $request->query->get('id');
-        // if a providerId is asked, we center around this provider
+        // if a elementId is asked, we center around this element
         if ($id)
         {
-            $providerToShow = $em->getRepository('BiopenFournisseurBundle:Provider')->findOneById($id); 
-            if ($providerToShow) $originPoint = $providerToShow->getLatlng();
+            $elementToShow = $em->getRepository('BiopenElementBundle:Element')->findOneById($id); 
+            if ($elementToShow) $originPoint = $elementToShow->getLatlng();
         }
         // else we center around the adress asked
         else if ($geocodeResponse !== null)
@@ -73,19 +73,19 @@ class CoreController extends Controller
         }           
 
         // Get Product List        
-        $listProducts = $em->getRepository('BiopenFournisseurBundle:Product')
+        $listProducts = $em->getRepository('BiopenElementBundle:Product')
         ->findAll(); 
 
-        $providerList = [];
+        $elementList = [];
 
-        // if origin is set get Providers around
+        // if origin is set get Elements around
         if ($originPoint != null)
         {
-            $providerManager = $this->get('biopen.provider_manager');
-            $providerList = $providerManager->getProvidersAround($originPoint, 30)['data'];
+            $elementManager = $this->get('biopen.element_manager');
+            $elementList = $elementManager->getElementsAround($originPoint, 30)['data'];
         }
 
-        return $this->render('::Core/listing.html.twig', array("providerList" => $providerList, 
+        return $this->render('::Core/listing.html.twig', array("elementList" => $elementList, 
                                                                "geocodeResponse" => $geocodeResponse, 
                                                                "productList" => $listProducts, 
                                                                "slug" => $slug));        
@@ -112,21 +112,21 @@ class CoreController extends Controller
             $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
             $this->get('session')->set('slug', $slug);
             
-            $providerManager = $this->get('biopen.provider_manager');
-            $providerList = $providerManager->getProvidersAround($geocodePoint, intval($distance))['data'];
+            $elementManager = $this->get('biopen.element_manager');
+            $elementList = $elementManager->getElementsAround($geocodePoint, intval($distance))['data'];
 
-            if( $providerList === null)
+            if( $elementList === null)
             {
-                $this->get('session')->getFlashBag()->set('error', 'Aucun fournisseur n\'a été trouvé autour de cette adresse');
+                $this->get('session')->getFlashBag()->set('error', 'Aucun element n\'a été trouvé autour de cette adresse');
                 return $this->render('::Core/constellation.html.twig', array('slug'=>''));
             }
             
-            $constellation = $providerManager->buildConstellation($providerList, $geocodeResponse);
+            $constellation = $elementManager->buildConstellation($elementList, $geocodeResponse);
             /*dump($constellation);*/
         }	 
 
         return $this->render('::Core/constellation.html.twig', 
-            array('constellationPhp' => $constellation, "providerList" => $providerList, "slug" => $slug, 'search_range' => $distance));
+            array('constellationPhp' => $constellation, "elementList" => $elementList, "slug" => $slug, 'search_range' => $distance));
     }    
 
     public function listingAjaxAction(Request $request)
@@ -135,12 +135,12 @@ class CoreController extends Controller
         {
             $originPoint = new Point($request->get('originLat'), $request->get('originLng'));
 
-            $providerManager = $this->get('biopen.provider_manager');
+            $elementManager = $this->get('biopen.element_manager');
             $serializer = $this->container->get('jms_serializer');
 
-            $providerManager->setAlreadySendProvidersIds($request->get('providerIds'));
+            $elementManager->setAlreadySendElementsIds($request->get('elementIds'));
 
-            $response = $providerManager->getProvidersAround($originPoint, $request->get('distance'), $request->get('maxResults'));
+            $response = $elementManager->getElementsAround($originPoint, $request->get('distance'), $request->get('maxResults'));
 
             $responseJson = $serializer->serialize($response, 'json');  
 

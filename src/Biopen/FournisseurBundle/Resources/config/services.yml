@@ -1,9 +1,0 @@
-services:
-    bopen_provider.form.provider:
-        class: Biopen\FournisseurBundle\Form\ProviderType
-        arguments: ['@doctrine.orm.entity_manager']
-        tags:
-            - { name: form.type }
-    biopen.provider_manager:
-       class: Biopen\FournisseurBundle\Services\ProviderManager
-       arguments: [ "@doctrine.orm.entity_manager" ]

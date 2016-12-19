@@ -1,0 +1,28 @@
+<!-- SECTION INFOS UTILISATEUR -->
+<section class="row" id="section_vos_infos">
+	<h2 id="titre_informations">Vos informations</h2>
+	
+	<!-- etes vous le producteur -->
+	<div class="col s12">
+		<input type="checkbox" name="estLeProducteur" id="estLeProducteur"/>
+		<label for="estLeProducteur">Vous êtes ou travaillez chez le element en question </label> 
+		{{ form_widget(form.contributeur) }}			
+	</div>
+
+	<!-- S'engager à bla bla bla -->
+	<div class="col s12">			
+		{{ form_widget(form.engagement, {'id' : 'agree' }) }}
+		<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label) </label>
+	</div>
+
+	<!-- E mail pour validation -->
+	<div class="input-field col s12">
+		<i class="material-icons prefix">mail</i>	
+		{{ form_widget(form.contributeurMail, {'id': 'inputMail',
+  								      		   'attr': {'class': 'validate required',
+  											   			'placeholder':'Votre adresse mail personelle' }}) }}
+	</div>
+
+	
+
+</section>

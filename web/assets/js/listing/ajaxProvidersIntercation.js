@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-05
+ * @Last Modified time: 2016-12-13
  */
 
 var isCommunicating = false;
@@ -14,14 +14,14 @@ var reqToExecute = false;
 function createRequest()
 {
 	var request = {};
-	request.origin = GLOBAL.getMap().getCenter();
-	request.distance = calculateMapWidthInKm(GLOBAL.getMap()) * 2;
-	request.providerIds = GLOBAL.getProviderManager().getAllProvidersIds();
+	request.origin = App.getMap().getCenter();
+	request.distance = calculateMapWidthInKm(App.getMap()) * 2;
+	request.elementIds = App.getElementManager().getAllElementsIds();
 	request.maxResults = 300;
 	return request;
 }
 
-function getProviderListFromAjax(request)
+function getElementListFromAjax(request)
 {
 	var currRequest = request ? request : createRequest();	
 
@@ -40,7 +40,7 @@ function getProviderListFromAjax(request)
 		data: { originLat: currRequest.origin.lat(), 
 			    originLng: currRequest.origin.lng(), 
 			    distance: currRequest.distance,
-			    providerIds: currRequest.providerIds,
+			    elementIds: currRequest.elementIds,
 			    maxResults: currRequest.maxResults },
 		beforeSend: function() { isCommunicating = true; },
 	    success: function(response) 
@@ -48,18 +48,18 @@ function getProviderListFromAjax(request)
 	        if (response.data !== null)
 			{
 				var end = new Date().getTime();
-				//window.console.log("   receive " + response.data.length + " providers in " + (end-start) + " ms");				
+				//window.console.log("   receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-				GLOBAL.getProviderManager().addJsonProviders(response.data, true);
-				GLOBAL.getProviderManager().updateProviderList(); 
+				App.getElementManager().addJsonElements(response.data, true);
+				App.getElementManager().updateElementList(); 
 			}
 	        
 	        if (response.exceedMaxResult)
 	        {
-	        	//window.console.log("   moreProvidersToReceive");
+	        	//window.console.log("   moreElementsToReceive");
 	        	if (!reqToExecute) 
         		{        			
-        			getProviderListFromAjax(createRequest());
+        			getElementListFromAjax(createRequest());
         		}
 	        }	        
 	    },
@@ -69,7 +69,7 @@ function getProviderListFromAjax(request)
 	        if (reqToExecute)
 	        {
 	        	//window.console.log("    reqToExecute stored");
-	        	getProviderListFromAjax(createRequest());
+	        	getElementListFromAjax(createRequest());
 	        	reqToExecute = false;
 	        }
 	    },

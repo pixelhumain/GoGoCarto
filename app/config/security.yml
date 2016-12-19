@@ -2,7 +2,7 @@
 # http://symfony.com/doc/current/book/security.html
 security:
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-elements
     providers:
         in_memory:
             memory: ~

@@ -42,7 +42,7 @@
 	    <span class="productName">{{ type|capitalize }}</span> 
 	    <span class="product-checkbox-wrapper">
 	      <input type="checkbox" class="filled-in type-checkbox filterCheckbox" id="type-checkbox-{{ type_formate }}" checked="checked" data-type='type' data="{{ type_formate }}"/>
-	      <label for="type-checkbox-{{ type_formate }}" class="providerType"></label>
+	      <label for="type-checkbox-{{ type_formate }}" class="elementType"></label>
 	    </span>
 	</li>
 {% endfor %}
@@ -84,7 +84,7 @@
 	    <span class="dayName">{{ jour|capitalize }}</span> 
 	    <span class="product-checkbox-wrapper">
 	      <input type="checkbox" class="filled-in day-checkbox filterCheckbox" id="days-checkbox-{{ jour }}" checked="checked" data-type='day' data="{{ jour }}"/>
-	      <label for="days-checkbox-{{ jour }}" class="providerDay"></label>
+	      <label for="days-checkbox-{{ jour }}" class="elementDay"></label>
 	    </span>
 	</li>
 {% endfor %}

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 function StarRepresentationChoiceManager() 
 {
@@ -16,19 +16,19 @@ function StarRepresentationChoiceManager()
 StarRepresentationChoiceManager.prototype.begin = function (star) 
 {	
 	this.currentStar_ = star;
-	var idToFocus = star.getProviderListId();
+	var idToFocus = star.getElementListId();
 
-	var provider;
+	var element;
 	for(var i = 0; i < idToFocus.length; i++)
 	{
-		provider = GLOBAL.getProviderManager().getProviderById(idToFocus[i]);
-		provider.starChoiceForRepresentation = star.getName();	
+		element = App.getElementManager().getElementById(idToFocus[i]);
+		element.starChoiceForRepresentation = star.getName();	
 	}
 
-	GLOBAL.setState('starRepresentationChoice');
+	App.setState('starRepresentationChoice');
 
-	GLOBAL.getProviderManager().focusOnThesesProviders(idToFocus);
-	GLOBAL.getClusterer().repaint();
+	App.getElementManager().focusOnThesesElements(idToFocus);
+	App.getClusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
 	//$('#bandeau_detail').addClass('starRepresentantMode');
@@ -44,17 +44,17 @@ StarRepresentationChoiceManager.prototype.end = function ()
 {	
 	if (this.currentStar_ === null) return;
 
-	var idToClearFocus = this.currentStar_.getProviderListId();
+	var idToClearFocus = this.currentStar_.getElementListId();
 
-	var provider;
+	var element;
 	for(var i = 0; i < idToClearFocus.length; i++)
 	{
-		provider = GLOBAL.getProviderManager().getProviderById(idToClearFocus[i]);
-		provider.starChoiceForRepresentation = '';	
+		element = App.getElementManager().getElementById(idToClearFocus[i]);
+		element.starChoiceForRepresentation = '';	
 	}
 
-	GLOBAL.getProviderManager().clearFocusOnThesesProviders(idToClearFocus);
-	GLOBAL.getClusterer().repaint();	
+	App.getElementManager().clearFocusOnThesesElements(idToClearFocus);
+	App.getClusterer().repaint();	
 
 	animate_down_bandeau_detail(); 
 
@@ -63,32 +63,32 @@ StarRepresentationChoiceManager.prototype.end = function ()
 	//$('.starRepresentationChoice-helper').hide();
 	//$('#bandeau_detail').removeClass('starRepresentantMode');
 
-	//ajuster_taille_providerList();
+	//ajuster_taille_elementList();
 
-	//GLOBAL.setState('normal');
+	//App.setState('normal');
 };
 
-StarRepresentationChoiceManager.prototype.selectProviderIndex = function (providerIndex) 
+StarRepresentationChoiceManager.prototype.selectElementIndex = function (elementIndex) 
 {
-	this.currentStar_.setIndex(providerIndex);
-	showProviderInfosOnMap(this.currentStar_.getProviderId(), false);
+	this.currentStar_.setIndex(elementIndex);
+	showElementInfosOnMap(this.currentStar_.getElementId(), false);
 	this.majView();	
 };
 
 StarRepresentationChoiceManager.prototype.majView = function ()
 {
-	var providerId = this.currentStar_.getProviderId();
+	var elementId = this.currentStar_.getElementId();
 
-	/*$('#ProviderList .starRepresentant').removeClass('starRepresentant');
-	$('#ProviderList #infoProvider-'+providerId).addClass('starRepresentant');*/
+	/*$('#ElementList .starRepresentant').removeClass('starRepresentant');
+	$('#ElementList #infoElement-'+elementId).addClass('starRepresentant');*/
 
-	$('.moreResultContainer:visible .starProvider').removeClass('starProvider');
-	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starProvider");	
+	$('.moreResultContainer:visible .starElement').removeClass('starElement');
+	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starElement");	
 };
 
-StarRepresentationChoiceManager.prototype.selectProviderById = function (providerId)
+StarRepresentationChoiceManager.prototype.selectElementById = function (elementId)
 {
-	var providerIndex = this.currentStar_.getProviderIndexFromId(providerId);	
-	this.selectProviderIndex(providerIndex);
+	var elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
+	this.selectElementIndex(elementIndex);
 };
 

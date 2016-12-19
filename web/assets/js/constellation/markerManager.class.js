@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-02
+ * @Last Modified time: 2016-12-13
  */
 function MarkerManager() 
 {
@@ -16,17 +16,17 @@ function MarkerManager()
 
 MarkerManager.prototype.createMarkers = function () 
 {	
-	var list = GLOBAL.getProviders();
-	var marker, provider;
+	var list = App.getElements();
+	var marker, element;
 	for(var i = 0; i < list.length; i++)
 	{
-		provider = list[i];
-		provider.initialize();
-		this.markers_.push(provider.getBiopenMarker());
+		element = list[i];
+		element.initialize();
+		this.markers_.push(element.getBiopenMarker());
 	}	
 
 	this.markerHome_ = new RichMarker({
-		position: GLOBAL.getConstellation().getOrigin(),
+		position: App.getConstellation().getOrigin(),
 	});
 };
 
@@ -42,9 +42,9 @@ MarkerManager.prototype.fitMapInBounds = function ()
 		if (this.markers_[i].getVisible()) bounds.extend(this.markers_[i].getPosition());
 	}
 
-	if (GLOBAL.getClusterer())
+	if (App.getClusterer())
 	{
-		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
+		var clusters = App.getClusterer().getMinimizedClusters();
 		
 		for (i = 0; i < clusters.length; i++)
 		{
@@ -52,8 +52,8 @@ MarkerManager.prototype.fitMapInBounds = function ()
 		}
 	}
 
-	GLOBAL.getMap().fitBounds(bounds);
-	mapbounds = GLOBAL.getMap().getBounds();
+	App.getMap().fitBounds(bounds);
+	mapbounds = App.getMap().getBounds();
 
 	//window.console.log ("map contains" + mapbounds.contains(bounds) );
 	if (mapbounds.getNorthEast().lng() == 180)
@@ -86,11 +86,11 @@ MarkerManager.prototype.fitMapInBounds = function ()
 	
 };
 
-MarkerManager.prototype.getMarkerById = function (providerId) 
+MarkerManager.prototype.getMarkerById = function (elementId) 
 {
 	for(var i = 0; i < this.markers_.length; i++)
 	{
-		if (this.markers_[i].getId() == providerId) return this.markers_[i];
+		if (this.markers_[i].getId() == elementId) return this.markers_[i];
 	}
 	return null;
 };
@@ -123,13 +123,13 @@ MarkerManager.prototype.drawLinesWithClusters = function ()
 	this.clusterLines_ = [];	
 		
 	// draw lines with clusters
-	if (GLOBAL.getClusterer() !== null) 
+	if (App.getClusterer() !== null) 
 	{
-		var clusters = GLOBAL.getClusterer().getMinimizedClusters();
+		var clusters = App.getClusterer().getMinimizedClusters();
 		
 		for (i = 0; i < clusters.length; i++)
 		{
-			line = drawLineBetweenPoints(GLOBAL.getConstellation().getOrigin(), clusters[i].getCenter(), 'cluster');
+			line = drawLineBetweenPoints(App.getConstellation().getOrigin(), clusters[i].getCenter(), 'cluster');
 			this.clusterLines_.push(line);
 		}
 	}

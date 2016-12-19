@@ -9,7 +9,7 @@
  */
 var latlngToPoint = function(latlng)
 {
-	var map = GLOBAL.getMap();
+	var map = App.getMap();
 	var normalizedPoint = map.getProjection().fromLatLngToPoint(latlng); // returns x,y normalized to 0~255
 	var scale = Math.pow(2, map.getZoom());
 	var pixelCoordinate = new google.maps.Point(normalizedPoint.x * scale, normalizedPoint.y * scale);
@@ -18,7 +18,7 @@ var latlngToPoint = function(latlng)
 
 var pointToLatlng = function(point)
 {
-	var map = GLOBAL.getMap();
+	var map = App.getMap();
 	var scale = Math.pow(2, map.getZoom());
 	var normalizedPoint = new google.maps.Point(point.x / scale, point.y / scale);
 	var latlng = map.getProjection().fromPointToLatLng(normalizedPoint);
@@ -28,15 +28,15 @@ var pointToLatlng = function(point)
 var markerDirectionResult = null;
 function calculateRoute(origin, destination) 
 {
-  	GLOBAL.getDirectionsService().route({
+  	App.getDirectionsService().route({
     	origin: origin,
     	destination: destination,
     	travelMode: google.maps.TravelMode.DRIVING
   	}, function(response, status) {
 	    if (status === google.maps.DirectionsStatus.OK) 
 	    {
-	      	google.maps.event.trigger(GLOBAL.getMap(), 'resize');
-	      	GLOBAL.getDirectionsRenderer().setDirections(response);		      	
+	      	google.maps.event.trigger(App.getMap(), 'resize');
+	      	App.getDirectionsRenderer().setDirections(response);		      	
 
 			var distance_to_reach = response.routes[0].legs[0].distance.value / 2;
 			var distance_somme = 0;
@@ -55,7 +55,7 @@ function calculateRoute(origin, destination)
 			var marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
 
 			markerDirectionResult = new RichMarker({		
-				map: GLOBAL.getMap(),
+				map: App.getMap(),
 				draggable: false,
 				position: marker_position,
 				flat: true
@@ -95,7 +95,7 @@ function panMapToAddress( address ) {
 		{
 			panMapToLocation(results[0].geometry.location);
 			$('#inputAddress').val(results[0].formatted_address);
-			GLOBAL.updateState();
+			App.updateState();
 		} 	
 		else
 		{
@@ -106,7 +106,7 @@ function panMapToAddress( address ) {
 
 function panMapToLocation(newLocation,map,changeMapLocation)
 {
-	map = map || GLOBAL.getMap();
+	map = map || App.getMap();
 	changeMapLocation = changeMapLocation !== false;
 	setTimeout(function() 
 	{

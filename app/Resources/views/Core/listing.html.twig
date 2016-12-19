@@ -20,10 +20,10 @@
       {% include '::Core/section-products-listing.html.twig' %}    
   </section>
    
-  {# La Carte et les infos provider #} 
+  {# La Carte et les infos element #} 
   <section id="section_carte">
 
-    <div id="tooManyMarkers_modal" >
+    <div id="tooManyMarkers_modal">
         Trop de résulats à afficher ! 
         Zoomez ou Filtrez pour continuer
     </div> 
@@ -41,9 +41,9 @@
 
     <section id="bandeau_detail" class="customScrollBar insideNavigationMode" style="display:none">
       
-      <div id="detail_provider">
+      <div id="detail_element">
       </div>      
-      {% include '::Components/menu-provider.html.twig'  %}
+      {% include '::Components/menu-element.html.twig'  %}
     </section>
 
     <div id="btn_menu"><i class='icon-menu'></i></div> 
@@ -59,7 +59,7 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var providerListJson = {{ providerList | serialize("json") | raw }}; 
+    var elementListJson = {{ elementList | serialize("json") | raw }}; 
     var constellationMode = false;
     var onlyInputAdressMode = false;
 
@@ -80,7 +80,7 @@
 
     {% javascripts filter="twig_js" 
 
-    '../app/Resources/views/Core/provider.html.twig'    
+    '../app/Resources/views/Core/element.html.twig'    
     %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -99,7 +99,7 @@
 
 {% block modals %} 
 
-  {% include '::Components/delete-provider.html.twig'  %}
+  {% include '::Components/delete-element.html.twig'  %}
   
 
 {% endblock %}

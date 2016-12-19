@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 var slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
@@ -16,7 +16,7 @@ if (constellationMode)
 	// MODE StarRepresentationChoice
 	$('.productItem:not(.disabled)').click(function()
 	{
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		
 		var moreResultContainer = $(this).parent().find('.moreResultContainer');
 		
@@ -25,12 +25,12 @@ if (constellationMode)
 		{
 			moreResultContainer.stop(true,false).slideUp(slideOptions);
 			moreResultContainer.removeClass("active");
-			GLOBAL.getSRCManager().end();
+			App.getSRCManager().end();
 		}
 		else
 		{
 			clearProductList();
-			GLOBAL.getSRCManager().end();
+			App.getSRCManager().end();
 			
 			if ($('#ProductsList').outerWidth() == $(window).outerWidth())
 			{
@@ -43,11 +43,11 @@ if (constellationMode)
 
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
 			moreResultContainer.addClass("active");
-			GLOBAL.getSRCManager().begin(star);	
+			App.getSRCManager().begin(star);	
 
-			if ($(this).attr('data-providers-size') == 1)
+			if ($(this).attr('data-elements-size') == 1)
 			{			
-				showProviderInfosOnMap(star.getProviderId(), false);
+				showElementInfosOnMap(star.getElementId(), false);
 			}
 			else
 			{
@@ -62,29 +62,29 @@ if (constellationMode)
 	});
 
 	// Click sur un des choix des représentants de l'étoile
-	$('.moreResultProviderItem').click(function() { GLOBAL.getSRCManager().selectProviderIndex( $(this).attr('data-provider-index') ); });
+	$('.moreResultElementItem').click(function() { App.getSRCManager().selectElementIndex( $(this).attr('data-element-index') ); });
 
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
 	{
-		if (GLOBAL.getState() == 'starRepresentationChoice') return;
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		if (App.getState() == 'starRepresentationChoice') return;
+		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showBigSize();
 	}).mouseleave(function() 
 	{
-		if (GLOBAL.getState() == 'starRepresentationChoice') return;
-		var star = GLOBAL.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		if (App.getState() == 'starRepresentationChoice') return;
+		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showNormalSize();
 	});
 
 	// Gestion hover pour le choix du réprésentant de l'étoile
-	$('.moreResultProviderItem, .providerItem').mouseenter(function() 
+	$('.moreResultElementItem, .elementItem').mouseenter(function() 
 	{
-		var marker = GLOBAL.getMarkerManager().getMarkerById($(this).attr('data-provider-id'));
+		var marker = App.getMarkerManager().getMarkerById($(this).attr('data-element-id'));
 		marker.showBigSize();
 	}).mouseleave(function() 
 	{
-		var marker = GLOBAL.getMarkerManager().getMarkerById($(this).attr('data-provider-id'));
+		var marker = App.getMarkerManager().getMarkerById($(this).attr('data-element-id'));
 		marker.showNormalSize();
 	});
 

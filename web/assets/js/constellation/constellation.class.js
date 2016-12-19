@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 function Constellation(constellationPhp) 
 {
@@ -15,7 +15,7 @@ function Constellation(constellationPhp)
 	//$.each(constellationPhp.stars, function( name_star, star )
 	for(var name_star in constellationPhp.stars) 
 	{
-		star = new Star(name_star, constellationPhp.stars[name_star].providerList);
+		star = new Star(name_star, constellationPhp.stars[name_star].elementList);
 		this.stars_.push(star);
 	}
 
@@ -37,12 +37,12 @@ Constellation.prototype.getStars = function ()
 	return this.stars_ ;
 };
 
-Constellation.prototype.getStarNamesRepresentedByProviderId = function (providerId) 
+Constellation.prototype.getStarNamesRepresentedByElementId = function (elementId) 
 {
 	var array= [];
 	for(var i = 0; i < this.stars_.length; i++)
 	{		
-		if (this.stars_[i].getProviderId() == providerId) array.push(this.stars_[i].getName());		
+		if (this.stars_[i].getElementId() == elementId) array.push(this.stars_[i].getName());		
 	}
 	return array;
 };

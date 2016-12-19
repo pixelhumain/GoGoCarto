@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-12
+ * @Last Modified time: 2016-12-13
  */
 var old_zoom = -1;
 
@@ -44,66 +44,66 @@ function initMap()
 		if (!onlyInputAdressMode) 
 		{
 			initialize(map);
-			GLOBAL.checkInitialState();
+			App.checkInitialState();
 		}
 	} );
 
 	map.addListener('click', function(e) 
 	{
-    	if (GLOBAL.isClicking()) return;
-    	GLOBAL.setState('normal');
+    	if (App.isClicking()) return;
+    	App.setState('normal');
     	animate_down_bandeau_detail(); 
   	});   	
 }
 
 function initialize(map)
 {
-	var constellation, providerManager, markerManager;
+	var constellation, elementManager, markerManager;
 
 	if (constellationMode)
 	{
 		constellation = new Constellation(constellationRawJson);	
-		providerManager = new ProviderManager(providerListJson);
+		elementManager = new ElementManager(elementListJson);
 		markerManager = new MarkerManager();	
-		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
+		App = new App(map, constellation, elementManager, markerManager, constellationMode);
 
-		GLOBAL.getMarkerManager().createMarkers();
-		GLOBAL.getProviderManager().draw();
-		GLOBAL.getListProviderManager().draw();
+		App.getMarkerManager().createMarkers();
+		App.getElementManager().draw();
+		App.getListElementManager().draw();
 		
-		initCluster(GLOBAL.getMarkerManager().getMarkers());
-		GLOBAL.getClusterer().addListener('clusteringend', function() { GLOBAL.getMarkerManager().drawLinesWithClusters(); });
+		initCluster(App.getMarkerManager().getMarkers());
+		App.getClusterer().addListener('clusteringend', function() { App.getMarkerManager().drawLinesWithClusters(); });
 
-		GLOBAL.getMarkerManager().fitMapInBounds();
+		App.getMarkerManager().fitMapInBounds();
 	}
 	else
 	{
 		constellation = null;	
-		providerManager = new ProviderManagerListing(providerListJson);
+		elementManager = new ElementManagerListing(elementListJson);
 		markerManager = null;	
-		GLOBAL = new Global(map, constellation, providerManager, markerManager, constellationMode);
-		GLOBAL.initialize();		
+		App = new App(map, constellation, elementManager, markerManager, constellationMode);
+		App.initialize();		
 
 		initCluster(null);
 
-		providerManager.updateProviderList();
+		elementManager.updateElementList();
 
 		map.addListener('idle', function(e) 
 		{
-	    	//console.log("idle isShowingBandeauDetail "+ GLOBAL.isShowingBandeauDetail());
-	    	if (GLOBAL.isShowingBandeauDetail()) return;
+	    	//console.log("idle isShowingBandeauDetail "+ App.isShowingBandeauDetail());
+	    	if (App.isShowingBandeauDetail()) return;
 
-	    	var updateInAllProviderList = true;
+	    	var updateInAllElementList = true;
 	    	var forceRepaint = false;
 
 	    	if (map.getZoom() != old_zoom && old_zoom != -1)  
 	    	{
-	    		if (map.getZoom() > old_zoom) updateInAllProviderList = false;	   		
+	    		if (map.getZoom() > old_zoom) updateInAllElementList = false;	   		
 	    		forceRepaint = true;
 	    	}
-	    	providerManager.updateProviderList(updateInAllProviderList, forceRepaint);
+	    	elementManager.updateElementList(updateInAllElementList, forceRepaint);
 	    	old_zoom = map.getZoom();
-	    	getProviderListFromAjax();	 
+	    	getElementListFromAjax();	 
 	  	}); 
 
 	  	$('#spinner-loader').hide();
@@ -124,11 +124,11 @@ function initCluster(markersToCluster)
 	    
 	    gridSize: 40, 
 	    maxZoom: 17,
-	    automaticRepaint: GLOBAL.constellationMode(),
+	    automaticRepaint: App.constellationMode(),
 	};
 
-    var cluster = new MarkerClusterer(GLOBAL.getMap(), markersToCluster, clusterOptions);
-    GLOBAL.setClusterer(cluster);
+    var cluster = new MarkerClusterer(App.getMap(), markersToCluster, clusterOptions);
+    App.setClusterer(cluster);
 
     $('#rangeKernelRadius').change(function() {
     	cluster.setKernelRadius(parseInt(this.value));

@@ -1,0 +1,92 @@
+{{ form_start(form, {'id': 'formElement'}) }}   
+
+<section class="row" id="section_element" {% if editMode %}style="display:none"{% endif %} >
+<!-- Select type de element -->
+	<div class="input-field col s12">
+    	{{ form_widget(form.type, {'id': "type_element"}) }}
+    <label id="label_type_element">Type de element</label>
+  	</div>
+</section>
+<div class="divider" {% if editMode %}style="display:none"{% endif %} ></div>
+
+<!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
+<div id="form_content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
+
+	{% include "::Element/FormPartials/generals-info.html.twig" %}
+
+	{% include "::Element/FormPartials/products.html.twig" %}
+
+	{% include "::Element/FormPartials/horaires.html.twig" %}
+
+	{% include "::Element/FormPartials/user.html.twig" %}	
+
+	<section id="section_validate_and_send">
+		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+		<div id="captcha"></div>
+
+		<center>
+			<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
+		</center>
+    </section>
+    <div class="divider"></div>
+
+	{{ form_rest(form) }}
+
+{# Fermeture de la balise <form> du formulaire HTML #}
+{{ form_end(form) }}
+
+{% block modals %}
+	<!-- Pop up plusieurs jours de marchés -->
+	<div id="modal_marche" class="modal">
+	<div class="modal-content">
+	  <h5>Plusieurs jours de marchés</h5>
+	  <p>Vous avez renseigné plusieurs jours d'ouverture pour ce marché, êtes vous certain que
+	  	l'on retrouve les même products à ces différentes date?</p>
+	  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque jour
+	  		de marché</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
+	 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
+	</div>
+	</div>
+
+	<!-- Pop up message alerte-->
+	<div id="popup" class="modal">
+	<div class="modal-content">
+	  <h5 id="popup_title"></h5>
+	  <p id="popup_content"></p>
+	</div>
+	<div class="modal-footer">
+		<span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
+	</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script>
+	var editMode = false;
+	{% if editMode %} editMode = true; {% endif %}
+	</script>
+
+    {% javascripts filter="?jsqueeze"
+		'bundles/fosjsrouting/js/router.js'
+        "js/libs.min.js"	
+        "js/element-add-edit.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+	</script>
+
+	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
+{% endblock %}

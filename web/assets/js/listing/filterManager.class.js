@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
 function FilterManager() 
 {
@@ -20,17 +20,17 @@ FilterManager.prototype.showOnlyFavorite = function(data)
 	this.showOnlyFavorite_ = data;
 };
 
-FilterManager.prototype.addFilter = function (data, filterType, updateProviderList) 
+FilterManager.prototype.addFilter = function (data, filterType, updateElementList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
 	var index = listToFilter.indexOf(data);
 	if ( index < 0) listToFilter.push(data);
 
-	if (updateProviderList) GLOBAL.getProviderManager().updateProviderList(false);
+	if (updateElementList) App.getElementManager().updateElementList(false);
 };
 
-FilterManager.prototype.removeFilter = function (data, filterType, updateProviderList) 
+FilterManager.prototype.removeFilter = function (data, filterType, updateElementList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
@@ -38,7 +38,7 @@ FilterManager.prototype.removeFilter = function (data, filterType, updateProvide
 	if ( index > -1) 
 	{
 		listToFilter.splice(index, 1);
-		if (updateProviderList) GLOBAL.getProviderManager().updateProviderList(true);
+		if (updateElementList) App.getElementManager().updateElementList(true);
 	}
 };
 
@@ -56,31 +56,31 @@ FilterManager.prototype.getFilterListFromType = function(type)
 	return listToFilter;
 };
 
-FilterManager.prototype.checkIfProviderPassFilters = function (provider) 
+FilterManager.prototype.checkIfElementPassFilters = function (element) 
 {	
 	// FAVORITE FILTER
-	if (this.showOnlyFavorite_ && !provider.isFavorite) return false;
+	if (this.showOnlyFavorite_ && !element.isFavorite) return false;
 
 	// TYPE FILTER
 	var i;
 	for (i = 0; i < this.typeFilters.length; i++) 
 	{
-		if (provider.type == this.typeFilters[i]) return false;
+		if (element.type == this.typeFilters[i]) return false;
 	}
 
 	// PRODUCTS FILTER
 	var atLeastOneProductPassFilter = false;
 
 	// si epicerie on ne fait irne
-	if (provider.type == 'epicerie') 
+	if (element.type == 'epicerie') 
 	{
 		atLeastOneProductPassFilter = true;
 	}
 	else
 	{
-		var products = provider.getProducts();
+		var products = element.getProducts();
 		
-		var updateProviderIcon = false;
+		var updateElementIcon = false;
 		for (i = 0; i < products.length; i++) 
 		{
 			if (!this.containsProduct(products[i].nameFormate)) 
@@ -89,8 +89,8 @@ FilterManager.prototype.checkIfProviderPassFilters = function (provider)
 				if (products[i].disabled)
 				{
 					products[i].disabled = false;
-					if (products[i].nameFormate == provider.mainProduct) provider.mainProductIsDisabled = false;
-					updateProviderIcon = true;
+					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = false;
+					updateElementIcon = true;
 				} 
 			}
 			else
@@ -98,13 +98,13 @@ FilterManager.prototype.checkIfProviderPassFilters = function (provider)
 				if (!products[i].disabled) 
 				{
 					products[i].disabled = true;
-					if (products[i].nameFormate == provider.mainProduct) provider.mainProductIsDisabled = true;
-					updateProviderIcon = true;
+					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = true;
+					updateElementIcon = true;
 				}
 			}			
 		}	
 
-		if (updateProviderIcon && atLeastOneProductPassFilter) provider.getBiopenMarker(true).updateIcon();
+		if (updateElementIcon && atLeastOneProductPassFilter) element.getBiopenMarker(true).updateIcon();
 	}
 
 	if (!atLeastOneProductPassFilter) return false;
@@ -113,7 +113,7 @@ FilterManager.prototype.checkIfProviderPassFilters = function (provider)
 	// OPENNING HOURS FILTER
 	if (this.dayFilters.length > 0)
 	{
-		var horaires = provider.horaires;
+		var horaires = element.horaires;
 		var day, atLeastOneDayPassFilter = false;
 		for(var key in horaires)
 		{

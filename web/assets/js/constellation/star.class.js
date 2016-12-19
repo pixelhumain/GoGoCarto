@@ -5,15 +5,15 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
-function Star(name, providerList) 
+function Star(name, elementList) 
 {
   this.name_ = name; 
-  this.providerIdList_ = [];
-  for(var i = 0; i < providerList.length; i++)
+  this.elementIdList_ = [];
+  for(var i = 0; i < elementList.length; i++)
   {
-      this.providerIdList_.push(providerList[i].id);
+      this.elementIdList_.push(elementList[i].id);
   }
   this.index_ = 0;
 }
@@ -22,34 +22,34 @@ Star.prototype.getName = function () {
   return this.name_ ;
 };
 
-Star.prototype.getProviderId = function () {
-  return this.providerIdList_[this.index_];
+Star.prototype.getElementId = function () {
+  return this.elementIdList_[this.index_];
 };
 
-Star.prototype.getProviderListId = function () {
-  return this.providerIdList_;
+Star.prototype.getElementListId = function () {
+  return this.elementIdList_;
 };
 
-Star.prototype.getProviderIndexFromId = function (id) {
-  for(var i = 0; i < this.providerIdList_.length; i++)
+Star.prototype.getElementIndexFromId = function (id) {
+  for(var i = 0; i < this.elementIdList_.length; i++)
   {
-     if (this.providerIdList_[i] == id) return i;
+     if (this.elementIdList_[i] == id) return i;
   }
 };
 
 
 
-Star.prototype.getProvider = function () {
-  return GLOBAL.getProviderManager().getProviderById(this.getProviderId());  
+Star.prototype.getElement = function () {
+  return App.getElementManager().getElementById(this.getElementId());  
 };
 
 Star.prototype.getPosition = function () {
-  var provider = this.getProvider();
-  return new google.maps.LatLng(provider.latlng.latitude, provider.latlng.longitude);
+  var element = this.getElement();
+  return new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
 };
 
 Star.prototype.getMarker = function () {
-  return GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());
+  return App.getMarkerManager().getMarkerById(this.getElementId());
 };
 
 Star.prototype.isVisible = function () {
@@ -59,9 +59,9 @@ Star.prototype.isVisible = function () {
 
 Star.prototype.isClustered = function () 
 {
-  if (GLOBAL.getClusterer() === null) return false;
+  if (App.getClusterer() === null) return false;
 
-  var clusters = GLOBAL.getClusterer().getMinimizedClusters();
+  var clusters = App.getClusterer().getMinimizedClusters();
 
   for (j = 0; j < clusters.length; j++)
   {
@@ -88,27 +88,27 @@ Star.prototype.getIndex = function ()
 
 Star.prototype.setIndex = function (newIndex)
 {
-  if (newIndex < 0 || newIndex >= this.providerIdList_.length) return false;
+  if (newIndex < 0 || newIndex >= this.elementIdList_.length) return false;
 
-	var oldProviderId = this.getProviderId();
+	var oldElementId = this.getElementId();
 
-  $('moreResult-'+this.name_+'-'+this.index_).removeClass('starProvider');
-  $('moreResult-'+this.name_+'-'+newIndex).addClass('starProvider');
+  $('moreResult-'+this.name_+'-'+this.index_).removeClass('starElement');
+  $('moreResult-'+this.name_+'-'+newIndex).addClass('starElement');
 	
 	this.index_ = newIndex;
 
-  // on met à jour le marqueur des deux providers interchangés
-  GLOBAL.getMarkerManager().getMarkerById(oldProviderId).updateIcon();
-  var newMarkerRepresentStar = GLOBAL.getMarkerManager().getMarkerById(this.getProviderId());
+  // on met à jour le marqueur des deux elements interchangés
+  App.getMarkerManager().getMarkerById(oldElementId).updateIcon();
+  var newMarkerRepresentStar = App.getMarkerManager().getMarkerById(this.getElementId());
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
 
-  // on met à jour les info providers des deux providers interchangés
-  $('#infoProvider-'+this.getProviderId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
-  /*$('#ProviderList #infoProvider-'+this.getProviderId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
-  /*$('#infoProvider-'+oldProviderId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
+  // on met à jour les info elements des deux elements interchangés
+  $('#infoElement-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
+  /*$('#ElementList #infoElement-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
+  /*$('#infoElement-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
 
-  GLOBAL.getListProviderManager().draw();
+  App.getListElementManager().draw();
 };
 
 

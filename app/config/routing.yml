@@ -2,9 +2,9 @@ biopen_core:
     resource: "@BiopenCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
-biopen_fournisseur:
-    resource: "@BiopenFournisseurBundle/Resources/config/routing.yml"
-    prefix:   /fournisseur
+biopen_element:
+    resource: "@BiopenElementBundle/Resources/config/routing.yml"
+    prefix:   /acteurs
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

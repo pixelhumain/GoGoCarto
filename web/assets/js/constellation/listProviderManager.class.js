@@ -5,50 +5,50 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2016-12-13
  */
-function ListProviderManager() 
+function ListElementManager() 
 {
 	
 }
 
-ListProviderManager.prototype.draw = function () 
+ListElementManager.prototype.draw = function () 
 {
-	$('#ProviderList li').remove();
+	$('#ElementList li').remove();
 
-	var provider, providersPlacesToDisplay = [], providersProducteurOrAmapToDisplay = [];
-	for(var i = 0; i < GLOBAL.getConstellation().getStars().length; i++)
+	var element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
+	for(var i = 0; i < App.getConstellation().getStars().length; i++)
 	{
-		provider = GLOBAL.getConstellation().getStars()[i].getProvider();
-		if (provider.isProducteurOrAmap())
+		element = App.getConstellation().getStars()[i].getElement();
+		if (element.isProducteurOrAmap())
 		{
-			if (providersProducteurOrAmapToDisplay.indexOf(provider) == -1) providersProducteurOrAmapToDisplay.push(provider);
+			if (elementsProducteurOrAmapToDisplay.indexOf(element) == -1) elementsProducteurOrAmapToDisplay.push(element);
 		}			
 		else
 		{
-			if (providersPlacesToDisplay.indexOf(provider) == -1) providersPlacesToDisplay.push(provider);
+			if (elementsPlacesToDisplay.indexOf(element) == -1) elementsPlacesToDisplay.push(element);
 		}
 			
 	}
 
-	providersProducteurOrAmapToDisplay.sort(compareDistance);
-	providersPlacesToDisplay.sort(compareDistance);		
+	elementsProducteurOrAmapToDisplay.sort(compareDistance);
+	elementsPlacesToDisplay.sort(compareDistance);		
 
-	for( i = 0; i < providersPlacesToDisplay.length; i++)
+	for( i = 0; i < elementsPlacesToDisplay.length; i++)
 	{
-		provider = providersPlacesToDisplay[i];
-		$('#ProviderList #places-end-container').before(provider.getHtmlRepresentation());
-		createListenersForProviderMenu($('#infoProvider-'+provider.id +' .menu-provider'));	
+		element = elementsPlacesToDisplay[i];
+		$('#ElementList #places-end-container').before(element.getHtmlRepresentation());
+		createListenersForElementMenu($('#infoElement-'+element.id +' .menu-element'));	
 	}
 
-	for( i = 0; i < providersProducteurOrAmapToDisplay.length; i++)
+	for( i = 0; i < elementsProducteurOrAmapToDisplay.length; i++)
 	{
-		provider = providersProducteurOrAmapToDisplay[i];
-		$('#ProviderList #producteurAmap-end-container').before(provider.getHtmlRepresentation());
-		createListenersForProviderMenu($('#infoProvider-'+provider.id +' .menu-provider'));	
+		element = elementsProducteurOrAmapToDisplay[i];
+		$('#ElementList #producteurAmap-end-container').before(element.getHtmlRepresentation());
+		createListenersForElementMenu($('#infoElement-'+element.id +' .menu-element'));	
 	}	
 
-	$('#ProviderList ul').animate({scrollTop: '0'}, 500).collapsible({
+	$('#ElementList ul').animate({scrollTop: '0'}, 500).collapsible({
       accordion : true 
     });
 	

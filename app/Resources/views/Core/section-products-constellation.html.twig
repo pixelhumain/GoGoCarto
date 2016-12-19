@@ -20,8 +20,8 @@
   Emplacements
 </li>
 
-{% set providerTypes = ['marche', 'epicerie', 'boutique'] %}
-{% for type in providerTypes %}    
+{% set elementTypes = ['marche', 'epicerie', 'boutique'] %}
+{% for type in elementTypes %}    
     {% if type in constellationPhp.stars|keys %}
         {% set star = constellationPhp.stars[type] %}
         {% include '::Core/starInProductList.html.twig' 
