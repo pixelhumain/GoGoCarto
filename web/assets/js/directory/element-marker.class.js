@@ -39,7 +39,7 @@ function BiopenMarker(id_, position_)
 
 		if (that.isHalfHidden_) App.setState('normal');	
 
-		App.getInfoBarManager().showElement(that.id_);
+		App.getElementInfoBar().showElement(that.id_);
 
 		if (App.getState() == 'starRepresentationChoice')
 		{

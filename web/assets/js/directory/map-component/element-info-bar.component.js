@@ -23,10 +23,10 @@ function ElementInfoBar()
 	}
 }
 
-// App.getInfoBarManager().showElement;
+// App.getElementInfoBar().showElement;
 ElementInfoBar.prototype.showElement = function (elementId) 
 {
-	this.emitEvent("show", elementId);
+	this.emitEvent("show", [elementId]);
 
 	var element = App.getElementManager().getElementById(elementId);
 

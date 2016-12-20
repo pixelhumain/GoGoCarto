@@ -8,8 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-var App ;    
-function App()
+function AppModule()
 {
 	var that = this;
 
@@ -38,6 +37,9 @@ function App()
 		this.markerManager_ = null;			
 	}
 
+	this.directionsService_ = null;
+  	this.directionsRenderer_ = null;
+
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
 	// few milliseconds so the map don't do anything is click event
@@ -45,7 +47,7 @@ function App()
 
 	// prevent updateelementList while the action is just
 	//showing element details
-	this.isShowingBandeauDetail_ = false;
+	this.isShowingElementInfoBar_ = false;
 
 	this.maxElementsToShowOnMap_ = 1000;	
 
@@ -56,21 +58,19 @@ function App()
 	});	
 }
 
-App.prototype.setMap = function(map)
+AppModule.prototype.setMap = function(map)
 {
 	this.map_ = map;
 
-	google.maps.event.addListener(map, 'projection_changed', function () 
-	{   
-		if (!onlyInputAdressMode) App.initialize();			
-	});
+	if (!onlyInputAdressMode) this.initialize();	
 
 	this.directionsService_ = new google.maps.DirectionsService();
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 
 };
 
-App.prototype.initialize = function()
+AppModule.prototype.initialize = function()
 {	
+	console.log("initialize");
 	if (constellationMode)
 	{
 		App.getMarkerManager().createMarkers();
@@ -93,13 +93,15 @@ App.prototype.initialize = function()
 
 		this.elementManager_.updateElementList();
 
-		this.map_.addListener('idle', this.handleMapIdle);
+		console.log("add listener");
 
-		this.map_.addListener('click', this.handleMapClick);	  	
+		google.maps.event.addListener(this.map_, 'idle', function(e) {App.handleMapIdle();});
+
+		google.maps.event.addListener(this.map_, 'click', function(e) {App.handleMapClick();});
 	}
 };
 
-App.prototype.initCluster = function(markersToCluster)
+AppModule.prototype.initCluster = function(markersToCluster)
 {
 	// Set Options
 	var clusterOptions = {
@@ -110,11 +112,11 @@ App.prototype.initCluster = function(markersToCluster)
 	    //ignoreHidden:false,	    
 	    gridSize: 40, 
 	    maxZoom: 17,
-	    automaticRepaint: App.constellationMode(),
+	    automaticRepaint: this.constellationMode(),
 	};
 
-    var cluster = new MarkerClusterer(App.getMap(), markersToCluster, clusterOptions);
-    App.setClusterer(cluster);
+    var cluster = new MarkerClusterer(this.getMap(), markersToCluster, clusterOptions);
+    this.setClusterer(cluster);
 
     $('#rangeKernelRadius').change(function() {
     	cluster.setKernelRadius(parseInt(this.value));
@@ -126,25 +128,27 @@ App.prototype.initCluster = function(markersToCluster)
 };
 
 var old_zoom = -1;
-App.prototype.handleMapIdle = function(e)
+AppModule.prototype.handleMapIdle = function(e)
 {
-	//console.log("idle isShowingBandeauDetail "+ App.isShowingBandeauDetail());
-	if (App.isShowingBandeauDetail()) return;
+	
+	//console.log("idle isShowingElementInfoBar "+ AppModule.isShowingElementInfoBar());
+	if (this.isShowingElementInfoBar()) return;
 
 	var updateInAllElementList = true;
 	var forceRepaint = false;
 
-	if (map.getZoom() != old_zoom && old_zoom != -1)  
+	var zoom = this.getMap().getZoom();
+	if (zoom != old_zoom && old_zoom != -1)  
 	{
-		if (map.getZoom() > old_zoom) updateInAllElementList = false;	   		
+		if (zoom > old_zoom) updateInAllElementList = false;	   		
 		forceRepaint = true;
 	}
 	this.elementManager_.updateElementList(updateInAllElementList, forceRepaint);
-	old_zoom = map.getZoom();
+	old_zoom = zoom;
 	getElementListFromAjax();	 
 };
 
-App.prototype.handleMapClick = function(e)
+AppModule.prototype.handleMapClick = function(e)
 {
 	if (this.isClicking()) return;
 	this.setState('normal');
@@ -153,13 +157,13 @@ App.prototype.handleMapClick = function(e)
 
 
 
-App.prototype.setState = function(stateName, options, backFromHistory) 
+AppModule.prototype.setState = function(stateName, options, backFromHistory) 
 { 
 	
 	backFromHistory = backFromHistory || false;
 	options = options || {};
 
-	//window.console.log("App set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
+	//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
 	var oldStateName = this.stateName_;
 	this.stateName_ = stateName;
@@ -191,11 +195,11 @@ App.prototype.setState = function(stateName, options, backFromHistory)
 			var origin;
 			if (constellationMode)
 			{
-				origin = App.getConstellation().getOrigin();
+				origin = this.getConstellation().getOrigin();
 			}
 			else
 			{
-				origin = App.getMap().location;
+				origin = this.getMap().location;
 			}
 			$('#directory-content-map_tab').trigger("click");
 			
@@ -211,7 +215,7 @@ App.prototype.setState = function(stateName, options, backFromHistory)
 			}
 			
 			this.displayElementAloneManager_.end();
-			this.directionsRenderer_.setDirections({routes: []});
+			if (this.directionsRenderer_) this.directionsRenderer_.setDirections({routes: []});
 				
 						
 			break;
@@ -221,12 +225,12 @@ App.prototype.setState = function(stateName, options, backFromHistory)
 	this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 };
 
-App.prototype.updateState = function()
+AppModule.prototype.updateState = function()
 {
 	this.updateHistory_(history.state.name, null, history.state.options, false);
 };
 
-App.prototype.updateHistory_ = function(stateName, oldStateName, options, backFromHistory)
+AppModule.prototype.updateHistory_ = function(stateName, oldStateName, options, backFromHistory)
 {
 	var route = "";
 	if (!this.constellationMode_)
@@ -243,7 +247,7 @@ App.prototype.updateHistory_ = function(stateName, oldStateName, options, backFr
 	}
 };
 
-App.prototype.updateRouting_ = function(options)
+AppModule.prototype.updateRouting_ = function(options)
 {
 	if (this.map_.locationSlug) route = Routing.generate('biopen_directory', { slug : this.map_.locationSlug });
 	else route = Routing.generate('biopen_directory');
@@ -257,7 +261,7 @@ App.prototype.updateRouting_ = function(options)
 	return route;
 };
 
-App.prototype.updateDocumentTitle_ = function(stateName, element)
+AppModule.prototype.updateDocumentTitle_ = function(stateName, element)
 {
 	if (element !== null) document.title = capitalize(element.name) + ' - Mon voisin fait du bio';
 	else if (stateName == 'normal') 
@@ -268,21 +272,21 @@ App.prototype.updateDocumentTitle_ = function(stateName, element)
 	}
 };
 
-App.prototype.checkInitialState = function()
+AppModule.prototype.checkInitialState = function()
 {
 	// CHECK si un type de element est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
 	if (GET.id) 
 	{
-		App.setState('showElementAlone',{id: GET.id},true);		
+		this.setState('showElementAlone',{id: GET.id},true);		
 	}
 	else if (GET.routing) 
 	{
-		App.setState('showRouting',{id: GET.routing},true);		
+		this.setState('showRouting',{id: GET.routing},true);		
 	}
 	else
 	{
-		App.setState('normal');
+		this.setState('normal');
 	}
 };
 
@@ -292,48 +296,49 @@ jQuery(document).ready(function()
 	  /*window.console.log("OnpopState ");
 	  window.console.log(event.state);*/
 	  
-	  App.setState(event.state.name,event.state.options,true);
+	  this.setState(event.state.name,event.state.options,true);
 	};
 });
 
-App.prototype.updateMaxElements = function () 
+AppModule.prototype.updateMaxElements = function () 
 { 
 	this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#directory-content-map').width() * $('#directory-content-map').height() / 1000), 1000);
 	window.console.log("setting max elements " + this.maxElementsToShowOnMap_);
 };
 
-App.prototype.setTimeoutClicking = function() 
+AppModule.prototype.setTimeoutClicking = function() 
 { 
 	this.isClicking_ = true;
 	var that = this;
 	setTimeout(function() { that.isClicking_ = false; }, 100); 
 };
 
-App.prototype.setTimeoutElementInfoBar = function() 
+AppModule.prototype.setTimeoutElementInfoBar = function() 
 { 
-	this.isShowingBandeauDetail_ = true;
+	this.isShowingElementInfoBar_ = true;
 	var that = this;
-	setTimeout(function() { that.isShowingBandeauDetail_ = false; }, 1300); 
+	setTimeout(function() { that.isShowingElementInfoBar_ = false; }, 1300); 
 };
-App.prototype.getMap = function() { return this.map_; };
-App.prototype.isClicking = function() { return this.isClicking_; };
-App.prototype.isShowingBandeauDetail = function() { return this.isShowingBandeauDetail_; };
-App.prototype.getConstellation = function() { return this.constellation_; };
-App.prototype.setConstellation = function(constellation) { this.constellation_ = constellation;};
-App.prototype.getElementManager = function() { return this.elementManager_; };
-App.prototype.setElementManager = function(manager) { this.elementManager_ = manager; };
-App.prototype.getClusterer = function() { return this.clusterer_; };
-App.prototype.setClusterer = function(clusterer) { this.clusterer_ = clusterer; };
-App.prototype.getMaxElements = function() { return this.maxElementsToShowOnMap_; };
-App.prototype.getElements = function () { return this.elementManager_.getElements();  };
-App.prototype.getMarkerManager = function() { return this.markerManager_; };
-App.prototype.setMarkerManager = function(markerManager) { this.markerManager_ = markerManager; };
-App.prototype.getFilterManager = function() { return this.filterManager_; };
-App.prototype.setFilterManager = function(filterManager) { this.filterManager_ = filterManager; };
-App.prototype.constellationMode = function() { return this.constellationMode_; };
-App.prototype.getSRCManager = function() { return this.starRepresentationChoiceManager_; };
-App.prototype.getDPAManager = function() { return this.displayElementAloneManager_; };
-App.prototype.getListElementManager = function() { return this.listElementManager_; };
-App.prototype.getDirectionsService = function() { return this.directionsService_; };
-App.prototype.getDirectionsRenderer = function() { return this.directionsRenderer_; };
-App.prototype.getState = function() { return this.stateName_; };
+AppModule.prototype.getMap = function() { return this.map_; };
+AppModule.prototype.isClicking = function() { return this.isClicking_; };
+AppModule.prototype.getElementInfoBar = function() { return this.elementInfoBar_; };
+AppModule.prototype.isShowingElementInfoBar = function() { return this.isShowingElementInfoBar_; };
+AppModule.prototype.getConstellation = function() { return this.constellation_; };
+AppModule.prototype.setConstellation = function(constellation) { this.constellation_ = constellation;};
+AppModule.prototype.getElementManager = function() { return this.elementManager_; };
+AppModule.prototype.setElementManager = function(manager) { this.elementManager_ = manager; };
+AppModule.prototype.getClusterer = function() { return this.clusterer_; };
+AppModule.prototype.setClusterer = function(clusterer) { this.clusterer_ = clusterer; };
+AppModule.prototype.getMaxElements = function() { return this.maxElementsToShowOnMap_; };
+AppModule.prototype.getElements = function () { return this.elementManager_.getElements();  };
+AppModule.prototype.getMarkerManager = function() { return this.markerManager_; };
+AppModule.prototype.setMarkerManager = function(markerManager) { this.markerManager_ = markerManager; };
+AppModule.prototype.getFilterManager = function() { return this.filterManager_; };
+AppModule.prototype.setFilterManager = function(filterManager) { this.filterManager_ = filterManager; };
+AppModule.prototype.constellationMode = function() { return this.constellationMode_; };
+AppModule.prototype.getSRCManager = function() { return this.starRepresentationChoiceManager_; };
+AppModule.prototype.getDPAManager = function() { return this.displayElementAloneManager_; };
+AppModule.prototype.getListElementManager = function() { return this.listElementManager_; };
+AppModule.prototype.getDirectionsService = function() { return this.directionsService_; };
+AppModule.prototype.getDirectionsRenderer = function() { return this.directionsRenderer_; };
+AppModule.prototype.getState = function() { return this.stateName_; };

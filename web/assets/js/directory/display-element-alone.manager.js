@@ -51,7 +51,7 @@ DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLo
 	element.show();	
 	element.isShownAlone = true;
 
-	App.getInfoBarManager().showElement(elementId);
+	App.getElementInfoBar().showElement(elementId);
 
 	if (panToElementLocation)
 	{

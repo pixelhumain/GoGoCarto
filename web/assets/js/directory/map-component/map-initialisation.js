@@ -41,8 +41,7 @@ function initMap()
 
 	google.maps.event.addListener(map, 'projection_changed', function () 
 	{   
-		$('#spinner-loader').hide();	
-		App = new App();
+		$('#spinner-loader').hide();
 		App.setMap(map);
 	});	  	
 }

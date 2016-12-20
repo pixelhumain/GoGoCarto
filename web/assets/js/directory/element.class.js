@@ -137,7 +137,7 @@ Element.prototype.getHtmlRepresentation = function ()
 		this.distance = Math.round(1.2*this.distance);
 	}
 
-	var html = Twig.render(twig-js-element-info, 
+	var html = Twig.render(twigJs_elementInfo, 
 				{
 					element : this, 
 					horaires : this.getFormatedHoraires(), 

@@ -71,7 +71,7 @@ StarRepresentationChoiceManager.prototype.end = function ()
 StarRepresentationChoiceManager.prototype.selectElementIndex = function (elementIndex) 
 {
 	this.currentStar_.setIndex(elementIndex);
-	App.getInfoBarManager().showElement(this.currentStar_.getElementId(), false);
+	App.getElementInfoBar().showElement(this.currentStar_.getElementId(), false);
 	this.majView();	
 };
 

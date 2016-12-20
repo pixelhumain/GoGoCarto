@@ -47,7 +47,7 @@ if (constellationMode)
 
 			if ($(this).attr('data-elements-size') == 1)
 			{			
-				App.getInfoBarManager().showElement(star.getElementId(), false);
+				App.getElementInfoBar().showElement(star.getElementId(), false);
 			}
 			else
 			{
