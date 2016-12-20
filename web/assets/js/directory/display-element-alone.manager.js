@@ -51,7 +51,7 @@ DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLo
 	element.show();	
 	element.isShownAlone = true;
 
-	showElementInfosOnMap(elementId);
+	App.getInfoBarManager().showElement(elementId);
 
 	if (panToElementLocation)
 	{

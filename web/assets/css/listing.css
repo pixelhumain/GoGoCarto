@@ -3517,7 +3517,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
   border-width: 8px;
   margin-left: -8px; }
 
-#directory-content-info-bar {
+#element-info-bar {
   height: 0px;
   z-index: 440;
   position: relative;
@@ -3531,40 +3531,40 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
   -moz-box-shadow: 0 -8px 8px -5px rgba(173, 173, 173, 0.75);
   box-shadow: 0 -8px 8px -5px rgba(173, 173, 173, 0.75);
   background-color: #F7F7F7; }
-  #directory-content-info-bar .element-item .menu-element {
+  #element-info-bar .element-item .menu-element {
     display: none; }
-  #directory-content-info-bar .element-item .element-main-icon {
+  #element-info-bar .element-item .element-main-icon {
     display: none; }
-  #directory-content-info-bar .element-item .star-names-icons {
+  #element-info-bar .element-item .star-names-icons {
     display: block; }
-  #directory-content-info-bar .element-item .sectionInfos {
+  #element-info-bar .element-item .sectionInfos {
     line-height: 2rem; }
-  #directory-content-info-bar.inside-normal-mode .element-main-icon {
+  #element-info-bar.inside-normal-mode .element-main-icon {
     display: block; }
-  #directory-content-info-bar.inside-normal-mode .star-names-icons {
+  #element-info-bar.inside-normal-mode .star-names-icons {
     display: none; }
-  #directory-content-info-bar #element-info {
+  #element-info-bar #element-info {
     margin-bottom: 2.3rem; }
     @media only screen and (min-width: 601px) {
-      #directory-content-info-bar #element-info {
+      #element-info-bar #element-info {
         margin-bottom: 3rem; } }
-    #directory-content-info-bar #element-info .moreDetails {
+    #element-info-bar #element-info .moreDetails {
       display: none; }
-  #directory-content-info-bar .icon-close {
+  #element-info-bar .icon-close {
     float: right;
     margin: 0;
     font-size: 1.2rem;
     color: #3D3D3D;
     margin-top: -.1rem; }
-    #directory-content-info-bar .icon-close:hover {
+    #element-info-bar .icon-close:hover {
       color: #4A7874;
       cursor: pointer; }
 
 @media only screen and (max-width: 1200px) {
-  #directory-content-info-bar {
+  #element-info-bar {
     right: 0 !important; } }
 @media only screen and (min-width: 1201px) {
-  #directory-content-info-bar {
+  #element-info-bar {
     position: absolute;
     width: 480px;
     top: 0;
@@ -3574,14 +3574,14 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     -webkit-box-shadow: 0px 6px 9px 2px rgba(119, 119, 119, 0.75);
     -moz-box-shadow: 0px 6px 9px 2px rgba(119, 119, 119, 0.75);
     box-shadow: 0px 6px 9px 2px rgba(119, 119, 119, 0.75); }
-    #directory-content-info-bar .element-main-icon {
+    #element-info-bar .element-main-icon {
       display: none !important; }
-    #directory-content-info-bar .star-names-icons {
+    #element-info-bar .star-names-icons {
       display: none !important; }
-    #directory-content-info-bar .icon-close {
+    #element-info-bar .icon-close {
       padding-left: 1rem;
       color: #CECECE; }
-      #directory-content-info-bar .icon-close:hover {
+      #element-info-bar .icon-close:hover {
         color: white; }
 
   #element-info .moreDetails {
@@ -3682,30 +3682,30 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
         color: #9C9C9C; }
 
 @media only screen and (min-width: 1201px) {
-  #directory-content-info-bar .element-item .collapsible-header {
+  #element-info-bar .element-item .collapsible-header {
     color: white;
     cursor: default;
     position: absolute;
     width: 100%;
     top: 0; }
-    #directory-content-info-bar .element-item .collapsible-header .collapsible-header-title {
+    #element-info-bar .element-item .collapsible-header .collapsible-header-title {
       position: relative;
       margin-bottom: .8rem;
       line-height: 3rem;
       font-weight: normal; }
-      #directory-content-info-bar .element-item .collapsible-header .collapsible-header-title .distance {
+      #element-info-bar .element-item .collapsible-header .collapsible-header-title .distance {
         font-size: 1.3rem; }
-      #directory-content-info-bar .element-item .collapsible-header .collapsible-header-title .icon-close {
+      #element-info-bar .element-item .collapsible-header .collapsible-header-title .icon-close {
         font-size: 1.5rem;
         margin-top: 0; }
-    #directory-content-info-bar .element-item .collapsible-header .name {
+    #element-info-bar .element-item .collapsible-header .name {
       font-size: 1.8rem; }
-    #directory-content-info-bar .element-item .collapsible-header .name, #directory-content-info-bar .element-item .collapsible-header .description {
+    #element-info-bar .element-item .collapsible-header .name, #element-info-bar .element-item .collapsible-header .description {
       width: 100% !important;
       text-align: left; }
-    #directory-content-info-bar .element-item .collapsible-header .description {
+    #element-info-bar .element-item .collapsible-header .description {
       margin-bottom: 0; }
-  #directory-content-info-bar .element-item .collapsible-body {
+  #element-info-bar .element-item .collapsible-body {
     margin-top: 6rem;
     margin-bottom: 3rem;
     height: 100%;
@@ -3813,7 +3813,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     background-color: #4A7874; }
 
 @media only screen and (min-width: 1201px) {
-  #directory-content-info-bar .starRepresentationChoice-helper {
+  #element-info-bar .starRepresentationChoice-helper {
     position: absolute;
     width: 100%; } }
 #bandeau_helper {

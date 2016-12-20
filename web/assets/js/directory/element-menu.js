@@ -10,7 +10,7 @@
 jQuery(document).ready(function()
 {	
 	//   MENU PROVIDER
-	var menu_element = $('#directory-content-info-bar .menu-element');
+	var menu_element = $('#element-info-bar .menu-element');
 	createListenersForElementMenu(menu_element);	
 
 	$('#popup-delete-element #select-reason').material_select();
@@ -87,9 +87,9 @@ function createListenersForElementMenu(object)
 
 function getCurrentElementIdShown()
 {
-	if ( $('#directory-content-info-bar').is(':visible') ) 
+	if ( $('#element-info-bar').is(':visible') ) 
 	{
-		return $('#directory-content-info-bar').find('.element-item').attr('data-element-id');
+		return $('#element-info-bar').find('.element-item').attr('data-element-id');
 	}
 	return $('.element-item.active').attr('data-element-id');
 }

@@ -248,16 +248,16 @@
 				first_input.focus();
 				// if the user presses shift+tab while on the first input,
 				// they mean to exit the time picker and go to the previous field
-				var first-input-exit_handler = function(e) {
+				var firstInputExitHandler = function(e) {
 					if (e.which === 9 && e.shiftKey) {
-						first_input.off('keydown', first-input-exit_handler);
+						first_input.off('keydown', firstInputExitHandler);
 						var all_form_elements = $(':input:visible:not(.timepicki-input)');
 						var index_of_timepicki_input = all_form_elements.index(ele);
 						var previous_form_element = all_form_elements.get(index_of_timepicki_input-1);
 						previous_form_element.focus();
 					}
 				};
-				first_input.on('keydown', first-input-exit_handler);
+				first_input.on('keydown', firstInputExitHandler);
 			}
 
 			function close_timepicki() {

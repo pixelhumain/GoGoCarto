@@ -37,7 +37,7 @@ if (constellationMode)
 				if (! moreResultContainer.find('.see-more-result-on-map').length)
 				{
 					moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
-					moreResultContainer.find('.see-more-result-on-map').click(hidedirectory-menu);
+					moreResultContainer.find('.see-more-result-on-map').click(hideDirectoryMenu);
 				}
 			}
 
@@ -47,7 +47,7 @@ if (constellationMode)
 
 			if ($(this).attr('data-elements-size') == 1)
 			{			
-				showElementInfosOnMap(star.getElementId(), false);
+				App.getInfoBarManager().showElement(star.getElementId(), false);
 			}
 			else
 			{
@@ -56,7 +56,7 @@ if (constellationMode)
 				{
 					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
 				}, 400);
-				animate_down_directory-content-info-bar();
+				animateDownElementInfoBar();
 			}		
 		}		
 	});

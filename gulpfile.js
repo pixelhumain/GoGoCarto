@@ -26,8 +26,8 @@ gulp.task('prod_styles', function() {
 });
 
 gulp.task('sass', function () {
-  return sass('web/assets/scss/**/*.scss')
-    .on('error', sass.logError)
+  return gulp.src('web/assets/scss//**/*.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('web/assets/css'));
 });
 
@@ -94,10 +94,10 @@ gulp.task('scriptsHome', function() {
 });
 
 gulp.task('scriptsLibs', function() {
-  return gulp.src('web/assets/js/libs/**/*.js')
+  return gulp.src(['web/assets/js/libs/**/*.js', '!web/assets/js/libs/materialize/unused/**/*.js'])
     .pipe(concat('libs.js'))
     .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('web/js'));
     //.pipe(livereload());
     //.pipe(notify({ message: 'Scripts Libs task complete' }));
@@ -141,7 +141,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('clean', function(cb) {
-    del(['dist/css', 'dist/js', 'dist/img'], cb)
+    del(['dist/css', 'dist/js', 'dist/img'], cb);
 });
 
 gulp.task('build', function() {

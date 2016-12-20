@@ -31,7 +31,7 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	App.getClusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
-	//$('#directory-content-info-bar').addClass('starRepresentantMode');
+	//$('#element-info-bar').addClass('starRepresentantMode');
 	//$('.starRepresentationChoice-helper').show();
 
 	this.majView();	
@@ -56,12 +56,12 @@ StarRepresentationChoiceManager.prototype.end = function ()
 	App.getElementManager().clearFocusOnThesesElements(idToClearFocus);
 	App.getClusterer().repaint();	
 
-	animate_down_directory-content-info-bar(); 
+	animateDownElementInfoBar(); 
 
 	this.currentStar_ = null;
 
 	//$('.starRepresentationChoice-helper').hide();
-	//$('#directory-content-info-bar').removeClass('starRepresentantMode');
+	//$('#element-info-bar').removeClass('starRepresentantMode');
 
 	//ajuster_taille_elementList();
 
@@ -71,7 +71,7 @@ StarRepresentationChoiceManager.prototype.end = function ()
 StarRepresentationChoiceManager.prototype.selectElementIndex = function (elementIndex) 
 {
 	this.currentStar_.setIndex(elementIndex);
-	showElementInfosOnMap(this.currentStar_.getElementId(), false);
+	App.getInfoBarManager().showElement(this.currentStar_.getElementId(), false);
 	this.majView();	
 };
 

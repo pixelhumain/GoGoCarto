@@ -1,4 +1,4 @@
-#directory-content-info-bar
+#element-info-bar
 {
     height:0px;    
     z-index: 440;
@@ -57,12 +57,12 @@
 
 @media #{$medium-and-down}
 {
-    #directory-content-info-bar { right: 0 !important; }
+    #element-info-bar { right: 0 !important; }
 }
 
 @media #{$large-only}
 {
-    #directory-content-info-bar
+    #element-info-bar
     {
         position: absolute;
         width: 480px;

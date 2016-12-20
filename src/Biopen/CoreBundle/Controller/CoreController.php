@@ -88,9 +88,9 @@ class CoreController extends Controller
             $elementList = $elementManager->getElementsAround($originPoint, 30)['data'];
         }
 
-        return $this->render('::core/directory.html.twig', array("elementList" => $elementList, 
+        return $this->render('::directory/directory.html.twig', array("elementList" => $elementList, 
                                                                "geocodeResponse" => $geocodeResponse, 
-                                                               "directory-menu" => $listProducts, 
+                                                               "listProducts" => $listProducts, 
                                                                "slug" => $slug));        
     }    
 
