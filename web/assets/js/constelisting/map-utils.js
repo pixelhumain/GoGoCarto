@@ -71,7 +71,7 @@ function calculateRoute(origin, destination)
 	    } 
 	    else
 	    {
-	      $('#popup-erreur-directions').openModal();
+	      $('#modal-directions-fail').openModal();
 	    }
   	});
 }
@@ -94,12 +94,12 @@ function panMapToAddress( address ) {
 		if (status == google.maps.GeocoderStatus.OK) 
 		{
 			panMapToLocation(results[0].geometry.location);
-			$('#inputAddress').val(results[0].formatted_address);
+			$('#search-bar').val(results[0].formatted_address);
 			App.updateState();
 		} 	
 		else
 		{
-			$('#inputAddress').addClass('invalid');
+			$('#search-bar').addClass('invalid');
 		}
 	});
 }
@@ -119,8 +119,8 @@ function panMapToLocation(newLocation,map,changeMapLocation)
 	if (changeMapLocation)
 	{
 		map.location = newLocation;	
-		map.locationAddress = $('#inputAddress').val();
-		map.locationSlug = capitalize(slugify($('#inputAddress').val()));		
+		map.locationAddress = $('#search-bar').val();
+		map.locationSlug = capitalize(slugify($('#search-bar').val()));		
 	}	
 }
 

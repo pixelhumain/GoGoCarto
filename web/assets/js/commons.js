@@ -11,11 +11,11 @@ jQuery(document).ready(function()
 {	
 	$('#btn-menu-constellation').click(function()
 	{ 
-		redirectToConstelisting('biopen_constellation');
+		redirectTodirectory('biopen_constellation');
 	});
-	$('#btn-menu-listing').click(function()
+	$('#btn-menu-directory').click(function()
 	{ 
-		redirectToConstelisting('biopen_listing');		
+		redirectTodirectory('biopen_directory');		
 	});
 });
 
@@ -31,9 +31,9 @@ function initAutocompletion(element)
     });
 }
 
-function redirectToConstelisting(route, address, range)
+function redirectTodirectory(route, address, range)
 {
-	address = address || $('#inputAddress').val();
+	address = address || $('#search-bar').val();
 	range = range || '';
 	
 	if (!range) window.location.href = Routing.generate(route, { slug : slugify(address) });

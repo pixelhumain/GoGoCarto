@@ -8,16 +8,16 @@ biopen_constellation:
     options:
         expose: true
 
-biopen_listing_ajax:
-    path:     /listingAjax
-    defaults: { _controller: BiopenCoreBundle:Core:listingAjax }
+biopen_directory_ajax:
+    path:     /directoryAjax
+    defaults: { _controller: BiopenCoreBundle:Core:directoryAjax }
     requirements:
         _method: POST
     options:
         expose: true
 
-biopen_listing:
+biopen_directory:
     path:     /navigation/{slug}
-    defaults: { _controller: BiopenCoreBundle:Core:listing, slug:'' }
+    defaults: { _controller: BiopenCoreBundle:Core:directory, slug:'' }
     options:
         expose: true

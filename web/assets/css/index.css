@@ -387,7 +387,7 @@ body {
   height: 100%;
   width: 100%; }
 
-#fond_page {
+#page-container {
   height: 100%; }
 
 html {
@@ -3146,17 +3146,17 @@ select {
 /*@import "components/date_picker/default.scss";
 @import "components/date_picker/default.date.scss";
 @import "components/date_picker/default.time.scss"; */
-#inputAddress-icon {
+#search-bar-icon {
   position: absolute;
   left: 1.2rem;
   line-height: 3rem;
   font-size: 1.2rem;
   color: #BDBDBD; }
-  #inputAddress-icon:hover {
+  #search-bar-icon:hover {
     color: #4A7874;
     cursor: pointer; }
 
-#inputAddress {
+#search-bar {
   text-align: center;
   text-transform: capitalize;
   padding: 0 .5rem 0 .5rem;
@@ -3165,23 +3165,23 @@ select {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px; }
-  #inputAddress.invalid {
+  #search-bar.invalid {
     border-color: #B90303 !important; }
-  #inputAddress::-webkit-input-placeholder {
+  #search-bar::-webkit-input-placeholder {
     color: #BDBDBD; }
-  #inputAddress::-moz-placeholder {
+  #search-bar::-moz-placeholder {
     color: #BDBDBD; }
-  #inputAddress:-ms-input-placeholder {
+  #search-bar:-ms-input-placeholder {
     color: #BDBDBD; }
-  #inputAddress:-moz-placeholder {
+  #search-bar:-moz-placeholder {
     color: #BDBDBD; }
-  #inputAddress::selection {
+  #search-bar::selection {
     background: #4A7874;
     color: white; }
-  #inputAddress::-moz-selection {
+  #search-bar::-moz-selection {
     background: #4A7874;
     color: white; }
-  #inputAddress:focus {
+  #search-bar:focus {
     border-color: #6B6B6B; }
 
 .pac-icon {
@@ -3332,24 +3332,24 @@ section#mainContainer {
       section#mainContainer #inputAdressContainer {
         margin-top: 1.5rem;
         margin-bottom: 1rem; } }
-  section#mainContainer #inputAddress {
+  section#mainContainer #search-bar {
     width: 100%;
     border: none;
     background-color: #ececec;
     color: black; }
-    section#mainContainer #inputAddress:focus {
+    section#mainContainer #search-bar:focus {
       background-color: #fdfdfd; }
-    section#mainContainer #inputAddress.invalid {
+    section#mainContainer #search-bar.invalid {
       border: 3px solid #B90303; }
-    section#mainContainer #inputAddress::-webkit-input-placeholder {
+    section#mainContainer #search-bar::-webkit-input-placeholder {
       color: dimgrey; }
-    section#mainContainer #inputAddress::-moz-placeholder {
+    section#mainContainer #search-bar::-moz-placeholder {
       color: dimgrey; }
-    section#mainContainer #inputAddress:-ms-input-placeholder {
+    section#mainContainer #search-bar:-ms-input-placeholder {
       color: dimgrey; }
-    section#mainContainer #inputAddress:-moz-placeholder {
+    section#mainContainer #search-bar:-moz-placeholder {
       color: dimgrey; }
-  section#mainContainer #inputAddress-icon {
+  section#mainContainer #search-bar-icon {
     cursor: default;
     position: absolute;
     line-height: 3.4rem;

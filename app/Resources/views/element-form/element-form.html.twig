@@ -1,13 +1,16 @@
-{% extends "::bundle_layout.html.twig" %}
+{% extends "::bundle-layout.html.twig" %}
 
-{% block title %}Ajout d'un Element{% endblock %}
+{% block title %}
+	{% if editMode %} Edition
+	{% else %}  Ajout d'un Element
+	{% endif %}
+{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
 
  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
  	<link rel="stylesheet" href="{{ asset('assets/css/element-add.css') }}">
-
 
 {% endblock %}
 
@@ -21,9 +24,9 @@
 	    </div>
 	{% endfor %}
   
-  <h1 id="titre_ajout">Ajouter un element</h1>  
+  {% if not editMode %}<h1 id="titre_ajout">Ajouter un element</h1> {% endif %}
 
-  {% include "::Element/form.html.twig" with {'editMode':false} %}
+  {% include "::element-form/form.html.twig" with {'editMode': editMode } %}
 
 {% endblock %}
 

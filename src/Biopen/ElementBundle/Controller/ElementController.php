@@ -41,13 +41,13 @@ class ElementController extends Controller
 		if ($form->handleRequest($request)->isValid()) 
 		{
 			$this->handleFormSubmission($form, $element, $em, $request);
-			$url_new_element = $this->generateUrl('biopen_listing', array('id'=>$element->getId()));
+			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! Le element a bien été ajouté</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
 			return $this->redirectToRoute('biopen_element_add');			
 		}		
 
-		return $this->render('::Element/add.html.twig', array(
+		return $this->render('::element-form/add.html.twig', array(
 		'form' => $form->createView(),
 		'listProducts'=> $listProducts 
 		));
@@ -86,13 +86,13 @@ class ElementController extends Controller
 
 			$this->handleFormSubmission($form, $element, $em, $request);
 
-			$url_new_element = $this->generateUrl('biopen_listing', array('id'=>$element->getId()));
+			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
 			//return $this->redirectToRoute('biopen_element_add');
 		}
 
-		return $this->render('::Element/edit.html.twig', array(
+		return $this->render('::element-form/edit.html.twig', array(
 			'form' => $form->createView(), 
 			'element' => $element,
 			'listProducts'=> $listProducts

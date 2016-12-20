@@ -7,34 +7,35 @@
  * @license    MIT License
  * @Last Modified time: 2016-09-06
  */
+
 jQuery(document).ready(function()
 {
 	$('#btn-constellation').click(function()
 	{ 
 		var address = checkForAdress();
-		if (address) redirectToConstelisting('biopen_constellation', address); 
+		if (address) redirectTodirectory('biopen_constellation', address); 
 	});
 
-	//$('#btn-listing').click(function(){ redirectToConstelisting('biopen_listing','Labrit'); });
-	$('#btn-listing').click(function()
+	//$('#btn-directory').click(function(){ redirectTodirectory('biopen_directory','Labrit'); });
+	$('#btn-directory').click(function()
 	{ 
 		var address = checkForAdress();
-		if (address) redirectToConstelisting('biopen_listing',address); 
+		if (address) redirectTodirectory('biopen_directory',address); 
 	});
 
-	$('#inputAddress').on("search", function(event, address)
+	$('#search-bar').on("search", function(event, address)
 	{
 		// do nothing
-		/*redirectToConstelisting('biopen_listing', address);*/
+		/*redirectTodirectory('biopen_directory', address);*/
 	});
 });
 
 function checkForAdress()
 {
-	var address = $('#inputAddress').val();
+	var address = $('#search-bar').val();
 	if (!address)
 	{
-		setTimeout(function() { $('#inputAddress').addClass('invalid'); }, 500);
+		setTimeout(function() { $('#search-bar').addClass('invalid'); }, 500);
 		$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});
 	}
 	return address;
@@ -42,5 +43,5 @@ function checkForAdress()
 
 function initMap() 
 {	
-	initAutocompletion(document.getElementById('inputAddress'));
+	initAutocompletion(document.getElementById('search-bar'));
 }

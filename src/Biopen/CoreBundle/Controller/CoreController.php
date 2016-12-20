@@ -34,10 +34,10 @@ class CoreController extends Controller
     public function indexAction()
     {
         $this->get('session')->clear();
-        return $this->render('::index.html.twig');
+        return $this->render('::home/home.html.twig');
     }
 
-    public function listingAction($slug, Request $request)
+    public function directoryAction($slug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -88,9 +88,9 @@ class CoreController extends Controller
             $elementList = $elementManager->getElementsAround($originPoint, 30)['data'];
         }
 
-        return $this->render('::Core/listing.html.twig', array("elementList" => $elementList, 
+        return $this->render('::core/directory.html.twig', array("elementList" => $elementList, 
                                                                "geocodeResponse" => $geocodeResponse, 
-                                                               "productList" => $listProducts, 
+                                                               "directory-menu" => $listProducts, 
                                                                "slug" => $slug));        
     }    
 
@@ -100,7 +100,7 @@ class CoreController extends Controller
       
         if ($slug == '')
         {
-            return $this->render('::Core/constellation.html.twig', array('slug'=>''));
+            return $this->render('::core/constellation.html.twig', array('slug'=>''));
         }
         else
         {        	
@@ -109,7 +109,7 @@ class CoreController extends Controller
             if ($geocodeResponse === null)
             {  
                 $this->get('session')->getFlashBag()->set('error', 'Erreur de localisation');
-                return $this->render('::Core/constellation.html.twig', array('slug'=>''));
+                return $this->render('::core/constellation.html.twig', array('slug'=>''));
             } 
 
             $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
@@ -121,18 +121,18 @@ class CoreController extends Controller
             if( $elementList === null)
             {
                 $this->get('session')->getFlashBag()->set('error', 'Aucun element n\'a été trouvé autour de cette adresse');
-                return $this->render('::Core/constellation.html.twig', array('slug'=>''));
+                return $this->render('::core/constellation.html.twig', array('slug'=>''));
             }
             
             $constellation = $elementManager->buildConstellation($elementList, $geocodeResponse);
             /*dump($constellation);*/
         }	 
 
-        return $this->render('::Core/constellation.html.twig', 
+        return $this->render('::core/constellation.html.twig', 
             array('constellationPhp' => $constellation, "elementList" => $elementList, "slug" => $slug, 'search_range' => $distance));
     }    
 
-    public function listingAjaxAction(Request $request)
+    public function directoryAjaxAction(Request $request)
     {
         if($request->isXmlHttpRequest())
         {

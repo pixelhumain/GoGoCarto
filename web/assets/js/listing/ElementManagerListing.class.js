@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function ElementManagerListing(listElementPhp) 
+function ElementManagerdirectory(listElementPhp) 
 {
 	this.allElements_ = [];
 	this.currElements_ = [];
@@ -29,7 +29,7 @@ function ElementManagerListing(listElementPhp)
 	// TODO delete listElementPhp; ?
 }
 
-ElementManagerListing.prototype.checkCookies = function()
+ElementManagerdirectory.prototype.checkCookies = function()
 {
 	for(var j = 0; j < this.favoriteIds_.length; j++)
   	{
@@ -37,7 +37,7 @@ ElementManagerListing.prototype.checkCookies = function()
   	}
 };
 
-ElementManagerListing.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
+ElementManagerdirectory.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
 {
 	var element;
 	var newElements = 0;
@@ -56,7 +56,7 @@ ElementManagerListing.prototype.addJsonElements = function (elementList, checkIf
 	//window.console.log("addJsonElements newElements = " + newElements);
 };
 
-ElementManagerListing.prototype.addFavorite = function (favoriteId, modifyCookies)
+ElementManagerdirectory.prototype.addFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
 	var element = this.getElementById(favoriteId);
@@ -70,7 +70,7 @@ ElementManagerListing.prototype.addFavorite = function (favoriteId, modifyCookie
 	}
 };
 
-ElementManagerListing.prototype.removeFavorite = function (favoriteId, modifyCookies)
+ElementManagerdirectory.prototype.removeFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
 	var element = this.getElementById(favoriteId);
@@ -85,7 +85,7 @@ ElementManagerListing.prototype.removeFavorite = function (favoriteId, modifyCoo
 	}
 };
 
-ElementManagerListing.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
+ElementManagerdirectory.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
 {	
 	checkInAllElements = checkInAllElements !== false;
 	forceRepaint = forceRepaint || false;
@@ -138,14 +138,14 @@ ElementManagerListing.prototype.updateElementList = function (checkInAllElements
 
 	if (this.currElements_.length >= App.getMaxElements())
 	{
-		/*$('#tooManyMarkers_modal').show().fadeTo( 500 , 1);
+		/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
 		this.clearMarkers();		
 		return;*/
 		console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
 	}
 	else
 	{
-		$('#tooManyMarkers_modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
+		$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
 	}
 
 	var end = new Date().getTime();
@@ -162,24 +162,24 @@ ElementManagerListing.prototype.updateElementList = function (checkInAllElements
 	
 };
 
-ElementManagerListing.prototype.getElements = function () 
+ElementManagerdirectory.prototype.getElements = function () 
 {
 	return this.currElements_;
 };
 
-ElementManagerListing.prototype.getAllElementsIds = function () 
+ElementManagerdirectory.prototype.getAllElementsIds = function () 
 {
 	return this.allElementsIds_;
 };
 
-ElementManagerListing.prototype.clearMarkers = function()
+ElementManagerdirectory.prototype.clearMarkers = function()
 {
 	this.hideAllMarkers();
 	this.currElements_ = [];
 	App.getClusterer().clearMarkers();	
 };
 
-ElementManagerListing.prototype.getMarkers = function () 
+ElementManagerdirectory.prototype.getMarkers = function () 
 {
 	var markers = [];
 	l = this.currElements_.length;
@@ -190,7 +190,7 @@ ElementManagerListing.prototype.getMarkers = function ()
 	return markers;
 };
 
-ElementManagerListing.prototype.hidePartiallyAllMarkers = function () 
+ElementManagerdirectory.prototype.hidePartiallyAllMarkers = function () 
 {
 	l = this.currElements_.length;
 	while(l--)
@@ -199,7 +199,7 @@ ElementManagerListing.prototype.hidePartiallyAllMarkers = function ()
 	}
 };
 
-ElementManagerListing.prototype.hideAllMarkers = function () 
+ElementManagerdirectory.prototype.hideAllMarkers = function () 
 {
 	l = this.currElements_.length;
 	while(l--)
@@ -208,7 +208,7 @@ ElementManagerListing.prototype.hideAllMarkers = function ()
 	}
 };
 
-ElementManagerListing.prototype.showNormalHiddenAllMarkers = function () 
+ElementManagerdirectory.prototype.showNormalHiddenAllMarkers = function () 
 {
 	l = this.allElements_.length;
 	while(l--)
@@ -217,7 +217,7 @@ ElementManagerListing.prototype.showNormalHiddenAllMarkers = function ()
 	}
 };
 
-ElementManagerListing.prototype.getElementById = function (elementId) 
+ElementManagerdirectory.prototype.getElementById = function (elementId) 
 {
 	//return this.allElements_[elementId];
 	for (var i = 0; i < this.allElements_.length; i++) {

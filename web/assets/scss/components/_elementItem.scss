@@ -1,4 +1,4 @@
-.elementItem
+.element-item
 {
 	list-style-type: none;	
 
@@ -129,7 +129,7 @@
 
 @media #{$large-only}
 {
-	#bandeau_detail .elementItem
+	#directory-content-info-bar .element-item
 	{
 		.collapsible-header
 	    {

@@ -1,7 +1,7 @@
 // ---------------------------------------
 //             GOOGLE MAP
 // ---------------------------------------
-#map
+#directory-content-map
 {   
     position: relative;
     z-index: 10;
@@ -15,7 +15,7 @@
 
 @media #{$large-only}
 {
-    #map
+    #directory-content-map
     {
         width:auto;
     }
@@ -45,7 +45,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     will-change: opacity;
 }
 
-#btn_menu
+#menu-button
 {
 	position: absolute;
     left: 1rem;
@@ -71,4 +71,4 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
     }
 }
 
-#btn_menu:hover {cursor: pointer;}
+#menu-button:hover {cursor: pointer;}

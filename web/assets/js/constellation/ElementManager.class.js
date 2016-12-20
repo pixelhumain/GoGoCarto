@@ -9,9 +9,9 @@
  */
 jQuery(document).ready(function()
 {	
-	$('#bandeau_detail .btn-select-as-representant').click(function(event) 
+	$('#directory-content-info-bar .btn-select-as-representant').click(function(event) 
 	{ 
-		var elementId = $('#bandeau_detail .elementItem').attr('data-element-id');
+		var elementId = $('#directory-content-info-bar .element-item').attr('data-element-id');
 		App.getSRCManager().selectElementById( elementId ); 		
 	});
 });

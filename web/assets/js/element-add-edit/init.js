@@ -51,7 +51,7 @@ jQuery(document).ready(function()
 			handleInputAdressChange();
 		}
 	});
-	$('#inputAddress').on("place_changed",handleInputAdressChange);
+	$('#search-bar').on("place_changed",handleInputAdressChange);
 
 	// quand on check un product l'input de pr?cision apparait ou disparait
 	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly'); });

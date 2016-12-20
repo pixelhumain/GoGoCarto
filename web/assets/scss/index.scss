@@ -1,6 +1,6 @@
 @import 'partials/base';
 @import 'vendors/materialize';
-@import 'components/inputAddress';
+@import 'components/search-bar';
 @import "components/autoComplete";
 
 body
@@ -185,7 +185,7 @@ section#mainContainer
 		}	
 	}
 
-	#inputAddress
+	#search-bar
 	{
 		width: 100%;	    
 	    border: none;
@@ -216,7 +216,7 @@ section#mainContainer
 		}
 	}
 
-	#inputAddress-icon 
+	#search-bar-icon 
 	{
 	    cursor: default;
 	    position: absolute;

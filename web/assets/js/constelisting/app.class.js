@@ -78,7 +78,7 @@ App.prototype.setClusterer = function(clusterer) { this.clusterer_ = clusterer; 
 App.prototype.getMaxElements = function() { return this.maxElementsToShowOnMap_; };
 App.prototype.updateMaxElements = function () 
 { 
-	this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#map').width() * $('#map').height() / 1000), 1000);
+	this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#directory-content-map').width() * $('#directory-content-map').height() / 1000), 1000);
 	window.console.log("setting max elements " + this.maxElementsToShowOnMap_);
 };
 App.prototype.getElements = function () { return this.elementManager_.getElements();  };
@@ -139,7 +139,7 @@ App.prototype.setState = function(stateName, options, backFromHistory)
 			{
 				origin = App.getMap().location;
 			}
-			$('#map_tab').trigger("click");
+			$('#directory-content-map_tab').trigger("click");
 			
 			var route = calculateRoute(origin, element.getPosition()); 
 			this.displayElementAloneManager_.begin(options.id, false);									
@@ -148,7 +148,7 @@ App.prototype.setState = function(stateName, options, backFromHistory)
 		case 'normal':			
 			if (this.constellationMode_) 
 			{
-				clearProductList();
+				clearDirectoryMenu();
 				this.starRepresentationChoiceManager_.end();
 			}
 			
@@ -187,8 +187,8 @@ App.prototype.updateHistory_ = function(stateName, oldStateName, options, backFr
 
 App.prototype.updateRouting_ = function(options)
 {
-	if (this.map_.locationSlug) route = Routing.generate('biopen_listing', { slug : this.map_.locationSlug });
-	else route = Routing.generate('biopen_listing');
+	if (this.map_.locationSlug) route = Routing.generate('biopen_directory', { slug : this.map_.locationSlug });
+	else route = Routing.generate('biopen_directory');
 
 	for (var key in options)
 	{

@@ -5,9 +5,9 @@
 @import 'modules/icon-directions';
 
 @import "components/bandeauDetail";
-@import "components/elementItem";
+@import "components/element-item";
 @import "components/menu-element";
-@import "components/inputAddress";
+@import "components/search-bar";
 @import "components/autoComplete";
 @import "components/helpers";
 @import "components/delete-element";
@@ -16,7 +16,7 @@
 @import "partials/section-carte";
 @import "partials/section-product";
 
-#ProductsList
+#directory-menu
 {
 	display: none;
 	position: absolute;
@@ -33,11 +33,11 @@
     }
 }
 
-#page_content { height: 100% ; background-color: #dfdfdf }
+#page-content { height: 100% ; background-color: #dfdfdf }
 
-#div_map_and_products { position: relative; height: 100% }	
+#directory-container { position: relative; height: 100% }	
 
-#section_carte
+#directory-content
 {
 	position: relative;	
 	height: 100%;   
@@ -47,34 +47,34 @@
 
 @media #{$medium-and-up} 
 {
-	#ProductsList
+	#directory-menu
 	{
 		display: block !important;	
 		width: 14.5rem;	    
 	}
 
-	#section_carte
+	#directory-content
 	{
 		margin-left: 14.5rem;
 	}
 } 
 
-.customScrollBar::-webkit-scrollbar-track {
+.custom-scroll-bar::-webkit-scrollbar-track {
     background-color: #f6f6f6;;
     border: 1px solid #f0f0f0;
 }
 
-.customScrollBar::-webkit-scrollbar {
+.custom-scroll-bar::-webkit-scrollbar {
     width: 12px;
 }
 
-.customScrollBar::-webkit-scrollbar-thumb {
+.custom-scroll-bar::-webkit-scrollbar-thumb {
     @include border-radius(10px);
     border: 3px solid #f6f6f6;
     background-color: #C5C5C5;
 } 
 
-#popup-choose-adress.modal, #popup-erreur-directions.modal
+#modal-pick-address.modal, #modal-directions-fail.modal
 {
 	position: absolute;
 }

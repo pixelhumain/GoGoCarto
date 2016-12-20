@@ -10,10 +10,10 @@
 jQuery(document).ready(function()
 {	
 	//   MENU PROVIDER
-	var menu_element = $('#bandeau_detail .menu-element');
+	var menu_element = $('#directory-content-info-bar .menu-element');
 	createListenersForElementMenu(menu_element);	
 
-	$('#popup-delete-element #select_reason').material_select();
+	$('#popup-delete-element #select-reason').material_select();
 });
 
 function deleteElement()
@@ -58,7 +58,7 @@ function createListenersForElementMenu(object)
 	{
 		if (!constellationMode && !App.getMap().location)
 		{
-			$('#popup-choose-adress').openModal();
+			$('#modal-pick-address').openModal();
 		}
 		else App.setState("showRouting",{id: getCurrentElementIdShown()});
 	});
@@ -87,11 +87,11 @@ function createListenersForElementMenu(object)
 
 function getCurrentElementIdShown()
 {
-	if ( $('#bandeau_detail').is(':visible') ) 
+	if ( $('#directory-content-info-bar').is(':visible') ) 
 	{
-		return $('#bandeau_detail').find('.elementItem').attr('data-element-id');
+		return $('#directory-content-info-bar').find('.element-item').attr('data-element-id');
 	}
-	return $('.elementItem.active').attr('data-element-id');
+	return $('.element-item.active').attr('data-element-id');
 }
 
 /*function bookMarkMe()

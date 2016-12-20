@@ -29,7 +29,7 @@ body
   min-height: 100%;
 }
 
-#page_content
+#page-content
 {
 	position:relative;
   margin-top: 0;
@@ -50,7 +50,7 @@ body
 
 @media screen and (min-width: 600px)
 {
-   #page_content
+   #page-content
    {
      margin-top: 20px;
      max-width: 650px;
@@ -200,7 +200,7 @@ section
 // ---------------------------------------
 //             GOOGLE MAP
 // ---------------------------------------
-#map
+#directory-content-map
 {
   height:13rem;
   margin-top:1rem;

@@ -113,7 +113,7 @@ function check_and_send()
 	if( !$('#inputLatitude').val() )	
 	{
 		$('#inputAdresse').addClass("invalid").focus();
-		$('#popup_title').text("Erreur");
+		$('#modal-title').text("Erreur");
 		$('#popup_content').text("Impossible de localiser cette adresse, veuillez la préciser");
 		$('#popup').openModal({
 		      dismissible: true, 
@@ -165,7 +165,7 @@ function check_and_send()
 	// CHECK contact ou horaire Producteur
 	if ($('.ouvert').length === 0 && !$('#inputTel').val() && ($('#type_element').val() != "3") && nbre_erreur === 0)
 	{
-		$('#popup_title').text("Erreur");
+		$('#modal-title').text("Erreur");
 		$('#popup_content').text("Veuillez renseignez soit les horaires d'ouvertures" +
 			 " soit un numéro de téléphone pour pouvoir les connaitre !");
 		$('#popup').openModal({

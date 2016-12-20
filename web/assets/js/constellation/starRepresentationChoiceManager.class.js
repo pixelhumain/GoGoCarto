@@ -31,7 +31,7 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	App.getClusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
-	//$('#bandeau_detail').addClass('starRepresentantMode');
+	//$('#directory-content-info-bar').addClass('starRepresentantMode');
 	//$('.starRepresentationChoice-helper').show();
 
 	this.majView();	
@@ -56,12 +56,12 @@ StarRepresentationChoiceManager.prototype.end = function ()
 	App.getElementManager().clearFocusOnThesesElements(idToClearFocus);
 	App.getClusterer().repaint();	
 
-	animate_down_bandeau_detail(); 
+	animate_down_directory-content-info-bar(); 
 
 	this.currentStar_ = null;
 
 	//$('.starRepresentationChoice-helper').hide();
-	//$('#bandeau_detail').removeClass('starRepresentantMode');
+	//$('#directory-content-info-bar').removeClass('starRepresentantMode');
 
 	//ajuster_taille_elementList();
 
@@ -80,7 +80,7 @@ StarRepresentationChoiceManager.prototype.majView = function ()
 	var elementId = this.currentStar_.getElementId();
 
 	/*$('#ElementList .starRepresentant').removeClass('starRepresentant');
-	$('#ElementList #infoElement-'+elementId).addClass('starRepresentant');*/
+	$('#ElementList #element-info-'+elementId).addClass('starRepresentant');*/
 
 	$('.moreResultContainer:visible .starElement').removeClass('starElement');
 	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starElement");	

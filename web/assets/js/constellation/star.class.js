@@ -104,9 +104,9 @@ Star.prototype.setIndex = function (newIndex)
   newMarkerRepresentStar.animateDrop();
 
   // on met à jour les info elements des deux elements interchangés
-  $('#infoElement-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
-  /*$('#ElementList #infoElement-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
-  /*$('#infoElement-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
+  $('#element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
+  /*$('#ElementList #element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
+  /*$('#element-info-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
 
   App.getListElementManager().draw();
 };

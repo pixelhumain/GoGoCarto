@@ -99,7 +99,7 @@ class RandomCreationController extends Controller
 	      $new_element->setAdresse($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
-	      $new_element->setWebSite('http://www.infoelement.fr');
+	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
 	      $type = $listType[$this->randWithSet($typeSet)];

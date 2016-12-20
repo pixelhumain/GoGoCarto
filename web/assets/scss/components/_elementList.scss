@@ -14,11 +14,11 @@
 		@media #{$large-only} { padding: 0 10rem; }
 	}
 
-	.elementItem
+	.element-item
 	{
 		//.menu-element { display: none; } 
-		.iconMainProduct {display:none}
-		.starNamesIcons {display:block}
+		.element-main-icon {display:none}
+		.star-names-icons {display:block}
 		.icon-close {display:none}
 		.distance{ margin-right: 0;}
 	}
@@ -27,7 +27,7 @@
 	{
 		overflow-y: auto;
 		margin :0;
-		&.customScrollBar::-webkit-scrollbar {
+		&.custom-scroll-bar::-webkit-scrollbar {
 		    width: 14px;
 		}
 	}

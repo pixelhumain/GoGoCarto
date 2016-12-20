@@ -387,7 +387,7 @@ body {
   height: 100%;
   width: 100%; }
 
-#fond_page {
+#page-container {
   height: 100%; }
 
 header {
@@ -397,14 +397,14 @@ header {
     font-size: 0.85rem;
     background-color: #272626;
     padding: 0 .5rem; }
-    header #menu #menu-accueil {
+    header #menu #menu-home {
       display: inline-block;
       font-family: 'Yellowtail', cursive;
       font-size: 1.4rem;
       line-height: 2.3rem;
       margin-right: 0; }
       @media screen and (max-width: 500px) {
-        header #menu #menu-accueil {
+        header #menu #menu-home {
           line-height: 2.5rem; } }
     header #menu #menu-actions {
       float: right;
@@ -432,25 +432,25 @@ header {
         border: none;
         background-color: transparent;
         letter-spacing: .5px; }
-  header #menu-accueil {
+  header #menu-home {
     color: #EE6E73; }
-    header #menu-accueil .small-logo {
+    header #menu-home .small-logo {
       display: inline-block; }
-    header #menu-accueil .large-logo {
+    header #menu-home .large-logo {
       display: none; }
     @media screen and (min-width: 500px) {
-      header #menu-accueil {
+      header #menu-home {
         color: white; }
-        header #menu-accueil .small-logo {
+        header #menu-home .small-logo {
           display: none; }
-        header #menu-accueil .large-logo {
+        header #menu-home .large-logo {
           display: inline-block; } }
   @media only screen and (min-width: 601px) {
     header #menu {
       font-size: 1rem;
       margin-bottom: 0px;
       padding: 0; }
-      header #menu #menu-accueil {
+      header #menu #menu-home {
         margin-left: .7rem;
         font-size: 1.8rem;
         line-height: 3.2rem; }
@@ -459,7 +459,7 @@ header {
         line-height: 3.4rem;
         width: auto; } }
 
-#page_content {
+#page-content {
   position: relative; }
 
 html {
@@ -3338,7 +3338,7 @@ body {
   height: auto;
   min-height: 100%; }
 
-#page_content {
+#page-content {
   position: relative;
   margin-top: 0;
   margin-left: auto;
@@ -3362,7 +3362,7 @@ body {
   transition: all 3s; }
 
 @media screen and (min-width: 600px) {
-  #page_content {
+  #page-content {
     margin-top: 20px;
     max-width: 650px;
     width: 80%; } }
@@ -3452,7 +3452,7 @@ section {
 .rc-anchor-light {
   border: none !important; }
 
-#map {
+#directory-content-map {
   height: 13rem;
   margin-top: 1rem; }
 

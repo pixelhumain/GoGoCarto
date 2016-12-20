@@ -93,7 +93,7 @@ Element.prototype.hide = function ()
 	this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
-	//if (constellationMode) $('#ElementList #infoElement-'+this.id).hide();
+	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
 };
 
 Element.prototype.updateProductsRepresentation = function () 
@@ -137,7 +137,7 @@ Element.prototype.getHtmlRepresentation = function ()
 		this.distance = Math.round(1.2*this.distance);
 	}
 
-	var html = Twig.render(elementTemplate, 
+	var html = Twig.render(twig-js-element-info, 
 				{
 					element : this, 
 					horaires : this.getFormatedHoraires(), 

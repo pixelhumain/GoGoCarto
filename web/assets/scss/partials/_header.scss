@@ -10,7 +10,7 @@ header
 		background-color: $header-color;
 		padding: 0 .5rem;
 
-		#menu-accueil
+		#menu-home
 		{
 		    display: inline-block;
 		    font-family: 'Yellowtail', cursive;
@@ -59,7 +59,7 @@ header
 		}		
 	}
 
-	#menu-accueil
+	#menu-home
 	{
 		color: #EE6E73;
 		.small-logo { display: inline-block; }
@@ -82,7 +82,7 @@ header
 			margin-bottom: 0px ;
 			padding: 0;	
 
-			#menu-accueil
+			#menu-home
 			{
 				margin-left: .7rem;
 			    font-size: 1.8rem;

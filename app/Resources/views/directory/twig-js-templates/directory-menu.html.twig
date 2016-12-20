@@ -1,11 +1,11 @@
-<div class="productListTitle" id="menu-title">
+<div class="directory-menuTitle" id="menu-title">
 	Menu
 	<span class="icon-close">
 	</span>
 	 <div class="shadow-bottom"></div>
 </div>
 
-<ul id="productListMainContainer" class="customScrollBar">
+<ul id="directory-menu-main-container" class="custom-scroll-bar">
   {#  <form action="#">
     <p class="range-field">
       <input type="range" id="rangeKernelRadius" min="0" max="120" />
@@ -15,7 +15,7 @@
     </p>
   </form> #}
 
-{% include '::Components/inputAddress.html.twig'  %} 
+{% include '::directory/components/search-bar.html.twig'  %} 
 
 <li class="productItem collapsible-header row"  id="filter-favorite">
 	    <span class="icon icon-star-full"></span>
@@ -26,7 +26,7 @@
 	    </span>
 </li>
   
-<li class="productListTitle">
+<li class="directory-menuTitle">
 	Catégories
 	<span class="product-checkbox-wrapper">
       <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-type" checked="checked" data-type='type'/>
@@ -47,7 +47,7 @@
 	</li>
 {% endfor %}
 
-<li class="productListTitle">
+<li class="directory-menuTitle">
 	Produits
 	<span class="product-checkbox-wrapper">
       <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-products" checked="checked" data-type='product'/>
@@ -55,7 +55,7 @@
 	</span>
 </li>
 
-{% for key, product in productList %} 
+{% for key, product in directory-menu %} 
    
     <li class="productItem collapsible-header row"  >
 	    <span class="icon icon-{{ product.nameFormate }}"></span>
@@ -68,7 +68,7 @@
 
 {% endfor %} 
 
-<li class="productListTitle">
+<li class="directory-menuTitle">
 	Horaires d'ouverture
 	<span class="product-checkbox-wrapper">
       <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-day" checked="checked" data-type='day'/>

@@ -1,13 +1,13 @@
-<div class="productListTitle" id="menu-title">
+<div class="directory-menuTitle" id="menu-title">
   Menu
   <span class="icon-close">
   </span>
    <div class="shadow-bottom"></div>
 </div>
 
-<ul id="productListMainContainer" class="customScrollBar">
+<ul id="directory-menu-main-container" class="custom-scroll-bar">
 
-{% include '::Components/inputAddress.html.twig'  %} 
+{% include '::directory/components/search-bar.html.twig'  %} 
 
 <div id="search_distance_section">
     <div class="range-field" id="search_distance_container">
@@ -16,7 +16,7 @@
     <div id='search_distance_value_container'><span id='search_distance_value'>{{ search_range }}</span> km</div>
 </div>
 
-<li class="productListTitle">
+<li class="directory-menuTitle">
   Emplacements
 </li>
 
@@ -24,7 +24,7 @@
 {% for type in elementTypes %}    
     {% if type in constellationPhp.stars|keys %}
         {% set star = constellationPhp.stars[type] %}
-        {% include '::Core/starInProductList.html.twig' 
+        {% include '::core/starIndirectory-menu.html.twig' 
                   with {'star':star, 'starName':type} only %} 
     {% else %}
         <li class="row collection-item collapsible-header productItem disabled">
@@ -36,14 +36,14 @@
 
 {% endfor %}
 
-<li class="productListTitle">
+<li class="directory-menuTitle">
   Produits
 </li>
 
 {% for key, product in constellationPhp.listProductsProvided %} 
 
     {% set star = constellationPhp.stars[product.nameFormate] %}
-    {% include '::Core/starInProductList.html.twig' 
+    {% include '::core/starIndirectory-menu.html.twig' 
       with {'star':star, 'starName':product.nameFormate} only %} 
 
 {% endfor %} 

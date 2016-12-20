@@ -29,15 +29,15 @@ if (constellationMode)
 		}
 		else
 		{
-			clearProductList();
+			clearDirectoryMenu();
 			App.getSRCManager().end();
 			
-			if ($('#ProductsList').outerWidth() == $(window).outerWidth())
+			if ($('#directory-menu').outerWidth() == $(window).outerWidth())
 			{
 				if (! moreResultContainer.find('.see-more-result-on-map').length)
 				{
 					moreResultContainer.prepend('<div class="see-more-result-on-map">Voir sur la carte</div>');
-					moreResultContainer.find('.see-more-result-on-map').click(hideProductsList);
+					moreResultContainer.find('.see-more-result-on-map').click(hidedirectory-menu);
 				}
 			}
 
@@ -54,15 +54,15 @@ if (constellationMode)
 				var that = this;
 				setTimeout(function() 
 				{
-					$('#ProductsList').animate({scrollTop: '+='+$(that).position().top}, 500);
+					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
 				}, 400);
-				animate_down_bandeau_detail();
+				animate_down_directory-content-info-bar();
 			}		
 		}		
 	});
 
 	// Click sur un des choix des représentants de l'étoile
-	$('.moreResultElementItem').click(function() { App.getSRCManager().selectElementIndex( $(this).attr('data-element-index') ); });
+	$('.moreResultelement-item').click(function() { App.getSRCManager().selectElementIndex( $(this).attr('data-element-index') ); });
 
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
@@ -78,7 +78,7 @@ if (constellationMode)
 	});
 
 	// Gestion hover pour le choix du réprésentant de l'étoile
-	$('.moreResultElementItem, .elementItem').mouseenter(function() 
+	$('.moreResultelement-item, .element-item').mouseenter(function() 
 	{
 		var marker = App.getMarkerManager().getMarkerById($(this).attr('data-element-id'));
 		marker.showBigSize();
@@ -92,7 +92,7 @@ if (constellationMode)
 }
 });
 
-function clearProductList()
+function clearDirectoryMenu()
 {
 	var otherContainerVisible = $('.moreResultContainer.active').first();
 	otherContainerVisible.stop(true,false).slideUp(slideOptions);

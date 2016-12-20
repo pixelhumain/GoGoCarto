@@ -12,7 +12,7 @@ var old_zoom = -1;
 function initMap() 
 {	
 	initRichMarker();
-	initAutocompletion(document.getElementById('inputAddress'));
+	initAutocompletion(document.getElementById('search-bar'));
 
 	mapOptions = 
 	{
@@ -29,8 +29,8 @@ function initMap()
 		map.setZoom(6);
 		map.setCenter(latlng);
 
-		map.locationAddress = $('#inputAddress').val();
-   		map.locationSlug = capitalize(slugify($('#inputAddress').val()));
+		map.locationAddress = $('#search-bar').val();
+   		map.locationSlug = capitalize(slugify($('#search-bar').val()));
 	}	
 	else
 	{
@@ -52,7 +52,7 @@ function initMap()
 	{
     	if (App.isClicking()) return;
     	App.setState('normal');
-    	animate_down_bandeau_detail(); 
+    	animate_down_directory-content-info-bar(); 
   	});   	
 }
 
@@ -79,7 +79,7 @@ function initialize(map)
 	else
 	{
 		constellation = null;	
-		elementManager = new ElementManagerListing(elementListJson);
+		elementManager = new ElementManagerdirectory(elementListJson);
 		markerManager = null;	
 		App = new App(map, constellation, elementManager, markerManager, constellationMode);
 		App.initialize();		

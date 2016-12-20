@@ -1,4 +1,4 @@
-{% extends "::bundle_layout.html.twig" %}
+{% extends "::bundle-layout.html.twig" %}
 
 {% block title %}Constellation{% if slug is defined %} - {{ slug | capitalize }}{% endif %}{% endblock %}
 
@@ -15,12 +15,12 @@
 {# BODY CONTENT #}
 {% block body_content %}
 
-<div id="div_map_and_products">
+<div id="directory-container">
 
   {% if constellationPhp is defined %}
     {# La liste des products #}
-    <section id="ProductsList" class="customScrollBar">  
-      {% include '::Core/section-products-constellation.html.twig' %}      
+    <section id="directory-menu" class="custom-scroll-bar">  
+      {% include '::core/section-products-constellation.html.twig' %}      
     </section>
   {% else %}
     <div id="div_recherche_contener" class="valign-wrapper">
@@ -30,33 +30,33 @@
                 {{ flash_message | raw }}
             </div>
         {% endfor %}
-        {% include '::Components/inputAddress.html.twig'  %} 
+        {% include '::directory/components/search-bar.html.twig'  %} 
       </div> 
     </div>  
   {% endif %}
 
    
   {# La Carte et les infos element #} 
-  <section id="section_carte">
+  <section id="directory-content">
     
-    {% include '::Components/modal-choose-adresse-for-directions.html.twig'  %}  
+    {% include '::directory/components/pick-address-for-directions.html.twig'  %}  
     {#  PRELOADER #}
-    {% include '::Components/loader.html.twig'  %}  
+    {% include '::directory/components/spinner-loader.html.twig'  %}  
 
     <div id="map"></div>    
 
     <div id="bandeau_helper">Pour chaque produit, le plus proche element est affiché. Plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
 
-    <section id="bandeau_detail" class="customScrollBar" style="display:none">
+    <section id="directory-content-info-bar" class="custom-scroll-bar" style="display:none">
       <div class="starRepresentationChoice-helper">
         <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> en tant que "<span class='SRC-helper-starName'></span>" principal 
         
       </div> 
-      <div id="detail_element"></div>
-      {% include '::Components/menu-element.html.twig'  %}
+      <div id="element-info"></div>
+      {% include '::directory/components/element-menu.html.twig'  %}
     </section>
 
-    <div id="btn_menu"><i class='icon-menu'></i></div> 
+    <div id="menu-button"><i class='icon-menu'></i></div> 
     <div id="overlay"></div>
     
   </section>  
@@ -76,7 +76,7 @@
 
 {# Les résultats par liste #}
 <section id="ElementList">  
-  <ul class="collapsible popout customScrollBar" data-collapsible="accordion">
+  <ul class="collapsible popout custom-scroll-bar" data-collapsible="accordion">
     <div class="element-list-title" id="title-places">Les emplacements<div class='shadow-bottom'></div></div>
     <div id="places-end-container"></div> 
     <div class="element-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
@@ -117,11 +117,11 @@
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
   
   <script src="{{ asset('js/libs.min.js') }}"></script>  
-  <script src="{{ asset('js/constelisting.js') }}"></script>
+  <script src="{{ asset('js/directory.js') }}"></script>
  
 
     {% javascripts filter="twig_js" 
-    '../app/Resources/views/Core/element.html.twig'    
+    '../app/Resources/views/directory/element-info.html.twig'    
     %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -138,7 +138,7 @@
 
 {% block modals %} 
 
-  {% include '::Components/delete-element.html.twig'  %}
+  {% include '::directory/components/delete-element.html.twig'  %}
 
 {% endblock %}
 

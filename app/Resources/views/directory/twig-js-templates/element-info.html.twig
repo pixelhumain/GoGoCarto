@@ -1,18 +1,19 @@
-{% twig_js name="elementTemplate" %}
-{# ------------- #}
-{# INFO PROVIDER #}
-{# ------------- #}
-<li id="infoElement-{{ element.id }}" 
-  class="elementItem" 
-  data-element-id="{{ element.id }}">
+{% twig_js name="twig-js-element-info" %}
+
+{# -------------- #}
+{#  ELEMENT INFO  #}
+{# -------------- #}
+<li id="element-info-{{ element.id }}" 
+    class="element-item" 
+    data-element-id="{{ element.id }}">
 
   {# HEADER #}
   <div class="collapsible-header {{ element.type }}">
     
     <div class='collapsible-header-title row {{element.mainProduct|lower}} {{element.type}}'>    
       <span class="col s12 name ">
-        <span class="iconMainProduct icon icon-{{element.mainProduct|lower}} hideOnLargeScreen"></span>
-        <span class="starNamesIcons">
+        <span class="element-main-icon icon icon-{{element.mainProduct|lower}} hideOnLargeScreen"></span>
+        <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
             {% endfor %}
@@ -51,7 +52,7 @@
   </div>
 
   {# BODY #}
-  <div class="collapsible-body moreDetails customScrollBar" > 
+  <div class="collapsible-body moreDetails custom-scroll-bar" > 
   
   {% if constellationMode %}
   <div class="menu-element {{ element.type }}">      

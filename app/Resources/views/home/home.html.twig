@@ -1,4 +1,4 @@
-{% extends "::base_layout.html.twig" %}
+{% extends "::base-layout.html.twig" %}
 
 {% block title %}Mon voisin fait du bio{% endblock %}
 
@@ -22,13 +22,13 @@
 		<h2>L'annuaire intéractif de l'alimentation près de chez soi</h2>
 
 		<div class="input-field" id="inputAdressContainer" >
-			<a class="icon-search" id="inputAddress-icon"></a> 
-			<input class="validate" placeholder="Entrez une adresse" type="text" id="inputAddress" name="adresse"/>
+			<a class="icon-search" id="search-bar-icon"></a> 
+			<input class="validate" placeholder="Entrez une adresse" type="text" id="search-bar" name="adresse"/>
 		</div>
 
 		<div class="row">
 			<div class="col s6 choiceModeContainer right-align">
-				<button id="btn-listing" class="btnChoiceMode btn waves-effect waves-light">Navigation libre</button>
+				<button id="btn-directory" class="btnChoiceMode btn waves-effect waves-light">Navigation libre</button>
 				<p>Parcourez la carte en filtrant les résultats si besoin. Tous les elements sont affichés</p>
 			</div>
 			
@@ -86,7 +86,7 @@
 	{% javascripts filter="?jsqueeze"
 		'bundles/fosjsrouting/js/router.js'
         "js/libs.min.js"
-        "js/index.js"
+        "js/home.js"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

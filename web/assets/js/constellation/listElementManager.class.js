@@ -38,14 +38,14 @@ ListElementManager.prototype.draw = function ()
 	{
 		element = elementsPlacesToDisplay[i];
 		$('#ElementList #places-end-container').before(element.getHtmlRepresentation());
-		createListenersForElementMenu($('#infoElement-'+element.id +' .menu-element'));	
+		createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));	
 	}
 
 	for( i = 0; i < elementsProducteurOrAmapToDisplay.length; i++)
 	{
 		element = elementsProducteurOrAmapToDisplay[i];
 		$('#ElementList #producteurAmap-end-container').before(element.getHtmlRepresentation());
-		createListenersForElementMenu($('#infoElement-'+element.id +' .menu-element'));	
+		createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));	
 	}	
 
 	$('#ElementList ul').animate({scrollTop: '0'}, 500).collapsible({

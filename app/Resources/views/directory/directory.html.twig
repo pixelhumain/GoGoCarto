@@ -1,0 +1,104 @@
+{% extends "::bundle-layout.html.twig" %}
+
+{% block title %}Navigation Libre{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+  <link href="https://fonts.googleapis.com/css?family=Yellowtail|Average+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
+
+{% endblock %}
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+<div id="directory-container">
+  
+  {# Menu #}
+  <section id="directory-menu" class="custom-scroll-bar"> 
+      {% include '::core/directory-menu.html.twig' %}    
+  </section>
+   
+  {# The directory, map or list displaying, and element information bar #} 
+  <section id="directory-content">
+    
+    {% include ':directory/modals/too-many-markers.html.twig'  %}
+    {% include ':directory/modals/pick-address-for-directions.html.twig'  %}  
+    {% include '::directory/components/spinner-loader.html.twig'  %}
+
+    <div id="directory-content-map"> </div>
+
+    {# <div id="directions-result-container">
+        <span id="distance-value">9,6km</span>
+        <span id="duration-value">13 minutes</span>
+    </div> #}
+
+    {# section conntaining information one a specific element #}
+    <section id="directory-content-info-bar" class="custom-scroll-bar inside-normal-mode" style="display:none">  
+      
+      {# container to receive the twig-js-template element-info, dynamically created #}
+      <div id="element-info"></div> 
+
+      {% include '::directory/components/element-menu.html.twig' %}
+
+    </section>
+
+    {# button for openning menu in small screens #}
+    <div id="menu-button"><i class='icon-menu'></i></div> 
+
+    {# overlay to partially mask the directory-content when openning menu in small screens #}
+    <div id="overlay"></div>
+  </section>  
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+  <script>
+
+    var iconDirectory = "{{ asset('assets/img/icon/') }}";
+    var elementListJson = {{ elementList | serialize("json") | raw }}; 
+    var constellationMode = false;
+    var onlyInputAdressMode = false;
+
+    var geocodeResponse = null;
+    {% if geocodeResponse is defined %}
+      geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+    {% endif %}    
+
+  </script>
+
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+  
+  <script src="{{ asset('js/libs.min.js') }}"></script>  
+  <script src="{{ asset('js/directory.js') }}"></script>
+
+  {# create dynamic js template #}
+  {% javascripts filter="twig_js"
+    '../app/Resources/views/directory/element-info.html.twig'    
+  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+
+ 
+  <script 
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+  </script>
+
+  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+      async defer>
+  </script>
+
+{% endblock %}
+
+{% block modals %} 
+
+  {% include '::directory/modals/delete-element.html.twig'  %}  
+
+{% endblock %}
+

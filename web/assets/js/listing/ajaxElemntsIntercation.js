@@ -32,7 +32,7 @@ function getElementListFromAjax(request)
 	}
 
 	var start= new Date().getTime();
-	var route = Routing.generate('biopen_listing_ajax');
+	var route = Routing.generate('biopen_directory_ajax');
 
 	$.ajax({
 		url: route,

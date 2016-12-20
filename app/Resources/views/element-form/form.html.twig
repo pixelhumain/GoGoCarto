@@ -12,13 +12,13 @@
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
 <div id="form_content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
 
-	{% include "::Element/FormPartials/generals-info.html.twig" %}
+	{% include "::element-form/form-partials/generals-info.html.twig" %}
 
-	{% include "::Element/FormPartials/products.html.twig" %}
+	{% include "::element-form/form-partials/products.html.twig" %}
 
-	{% include "::Element/FormPartials/horaires.html.twig" %}
+	{% include "::element-form/form-partials/horaires.html.twig" %}
 
-	{% include "::Element/FormPartials/user.html.twig" %}	
+	{% include "::element-form/form-partials/user.html.twig" %}	
 
 	<section id="section_validate_and_send">
 		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
@@ -54,7 +54,7 @@
 	<!-- Pop up message alerte-->
 	<div id="popup" class="modal">
 	<div class="modal-content">
-	  <h5 id="popup_title"></h5>
+	  <h5 id="modal-title"></h5>
 	  <p id="popup_content"></p>
 	</div>
 	<div class="modal-footer">
@@ -74,7 +74,7 @@
     {% javascripts filter="?jsqueeze"
 		'bundles/fosjsrouting/js/router.js'
         "js/libs.min.js"	
-        "js/element-add-edit.js"
+        "js/element-form.js"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

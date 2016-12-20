@@ -1,6 +1,6 @@
-@import '../components/inputAddress';
+@import '../components/search-bar';
 
-#ProductsList
+#directory-menu
 {
 	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
 
@@ -12,7 +12,7 @@
 		overflow-y: auto;
 	}
 
-	#productListMainContainer
+	#directory-menu-main-container
 	{
 		overflow-y: scroll;
     	@include calc(height, '100% - 2.5rem');
@@ -31,7 +31,7 @@
 		box-shadow: none;		
 	}
 
-	.productListTitle
+	.directory-menuTitle
 	{
 		//text-align: center;
 		position: relative;
@@ -237,7 +237,7 @@
 		line-height: 3rem;
 	}
 
-	.moreResultElementItem
+	.moreResultelement-item
 	{
 		background-color: #F7F7F7;	    
 	    font-size: .95rem;
@@ -260,7 +260,7 @@
 	    line-height: 3.1rem;
 	}
 
-	.moreResultElementItem:hover 
+	.moreResultelement-item:hover 
 	{ 
 		background-color: $secondary-color ;
 		color:white;
@@ -268,7 +268,7 @@
 	}
 }
 
-#inputAddress
+#search-bar
 {
     margin: 0;
     text-align: left;
@@ -284,7 +284,7 @@
     }
 }
 
-#inputAddress-icon
+#search-bar-icon
 {
     color: #777;
     height: 2.4rem;
@@ -295,7 +295,7 @@
     }
 } 
 
-#inputAddress-container
+#search-bar-container
 {
 	padding: .5rem;
 	text-align: center;
