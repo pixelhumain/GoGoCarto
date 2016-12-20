@@ -62,7 +62,7 @@ MarkerManager.prototype.fitMapInBounds = function ()
 		{
 			window.console.log("Trop de fitbounds, faire quelques choses.");
 			$('#modal-title').text("Erreur");
-			$('#popup_content').text("Un problème de connexion semble être survenu. Veuillez actualiser la page pour une nouvelle tentative");
+			$('#popup-content').text("Un problème de connexion semble être survenu. Veuillez actualiser la page pour une nouvelle tentative");
 			$('#popup').openModal({
 		      dismissible: true, 
 		      opacity: 0.5, 

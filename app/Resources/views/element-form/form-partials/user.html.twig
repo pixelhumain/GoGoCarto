@@ -1,18 +1,18 @@
 <!-- SECTION INFOS UTILISATEUR -->
 <section class="row" id="section_vos_infos">
-	<h2 id="titre_informations">Vos informations</h2>
+	<h2 id="informations-title">Vos informations</h2>
 	
 	<!-- etes vous le producteur -->
 	<div class="col s12">
-		<input type="checkbox" name="estLeProducteur" id="estLeProducteur"/>
-		<label for="estLeProducteur">Vous êtes ou travaillez chez le element en question </label> 
+		<input type="checkbox" name="is-part-of-element" id="is-part-of-element"/>
+		<label for="is-part-of-element">Vous êtes ou travaillez chez le element en question </label> 
 		{{ form_widget(form.contributeur) }}			
 	</div>
 
 	<!-- S'engager à bla bla bla -->
 	<div class="col s12">			
 		{{ form_widget(form.engagement, {'id' : 'agree' }) }}
-		<label id="label_agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label) </label>
+		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label) </label>
 	</div>
 
 	<!-- E mail pour validation -->

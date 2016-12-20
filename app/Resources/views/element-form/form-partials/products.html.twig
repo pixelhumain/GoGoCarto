@@ -1,18 +1,18 @@
 <!-- SECTION PRODUITS -->
 <section id="section_products">
 	
-	<h2 id="title_products">Produits du element</h2>
+	<h2 id="title-products">Produits du element</h2>
 
-	<div class="row" id="mainProductDiv" style="display:none">
+	<div class="row" id="div-main-product" style="display:none">
 		<div class="input-field col s12">
-	    <select id="mainProductSelection" name="mainProductSelection">
+	    <select id="main-product-selection" name="main-product-selection">
 	   	   <option value=""  {% if not editMode %}disabled selected{% endif %}>Choisissez le produit principal</option>
 	   	   
 	      {% for product in listProducts %}
 	      	<option value="{{product.nameFormate}}" {% if editMode and product.nameFormate == element.mainProduct %}selected{% endif %}>{{ product.name }}</option>
 	      {% endfor %}
 	    </select>
-    	<label id="label_main_product_selection">Produit principal</label>
+    	<label id="label-main-product-selection">Produit principal</label>
 	  	</div>
 	</div>
 
@@ -20,7 +20,7 @@
 	<div class="row ">			
 		{% for product in form.listeProducts %}
 		    <div class="col s6 m4">	
-		        {{ form_widget(product, {'attr': {'class': 'checkbox_products'}}) }}
+		        {{ form_widget(product, {'attr': {'class': 'checkbox-products'}}) }}
 		        {{ form_label(product) }} 
 		    </div>
 		{% endfor %}
@@ -54,4 +54,4 @@
 	</div>
 
 </section>
-<div class="divider" id="divider_products"></div>
+<div class="divider" id="divider-products"></div>

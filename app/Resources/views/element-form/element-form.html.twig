@@ -24,7 +24,7 @@
 	    </div>
 	{% endfor %}
   
-  {% if not editMode %}<h1 id="titre_ajout">Ajouter un element</h1> {% endif %}
+  {% if not editMode %}<h1 id="element-form-title">Ajouter un element</h1> {% endif %}
 
   {% include "::element-form/form.html.twig" with {'editMode': editMode } %}
 

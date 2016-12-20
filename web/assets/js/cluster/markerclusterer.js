@@ -1216,7 +1216,7 @@ MarkerClusterer.prototype.checkAdjacentsClusters = function ()
                 cluster1.showAsCluster();
                 break;
               }
-              // sinon on met à jour les icones d'un groupe plus petit que 4
+              // sinon on met à day les icones d'un groupe plus petit que 4
               // et on continue l'analyse 
               else 
               {

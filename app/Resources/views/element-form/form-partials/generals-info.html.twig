@@ -1,15 +1,15 @@
 <!-- SECTION INFO FOURNISSEUR -->
-<section class="row" id="section_info_element">
+<section class="row">
 
 	{% if not editMode %}
-		<h2 class="noMarginBottom">Informations</h2>
+		<h2 class="no-margin-bottom">Informations</h2>
 	{% else %}
-		<h2 class="noMarginBottom">Modification des données</h2>
+		<h2 class="no-margin-bottom">Modification des données</h2>
 	{% endif %}
   	<!-- Input name element -->
   	<div class="input-field col s12">
   		<i class="material-icons prefix">account_circle</i>	
-  		{{ form_widget(form.name, {'id': 'inputName', 
+  		{{ form_widget(form.name, {'id': 'input-name', 
   							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
 	</div>
 
@@ -18,42 +18,42 @@
 	<!-- input description element -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">description</i>
-	  	{{ form_widget(form.description, {'id': 'inputDescription',
+	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'validate',
-  											   'placeholder':'Description du element, pas des produits !',
+  											   'placeholder':"Description de l'acteur, pas des produits !",
   											   'length':'80'   }}) }}
 	</div>
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
 	<i class="material-icons prefix">room</i>	
-  	{{ form_widget(form.adresse, {'id': 'inputAdresse',
+  	{{ form_widget(form.adresse, {'id': 'input-address',
   								  'attr': {'class': 'validate required',
   								           'placeholder':'Adresse Complète' 
   								  		   }}) }}
 	
 	</div>	
 
-	<div id="autre_point_vente">D'autres points de ventes (marchés, AMAP...) ? Ajouter les à notre base de donnée 
+	<div id="other-selling-point">D'autres points de ventes (marchés, AMAP...) ? Ajouter les à notre base de donnée 
   		avec un nouveau formulaire !</div>
 
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.latlng.latitude, {'id': 'inputLatitude'}) }}	
-	{{ form_widget(form.latlng.longitude, {'id': 'inputLongitude'}) }}				
+	{{ form_widget(form.latlng.latitude, {'id': 'input-latitude'}) }}	
+	{{ form_widget(form.latlng.longitude, {'id': 'input-longitude'}) }}				
 
-	<!-- Carte google map -->
-	<div id="map" class="col s12"></div>	
+	<!-- Map -->
+	<div id="address-preview-map" class="col s12"></div>	
 
 </section>
 <div class="divider"></div>
 
- <section id="section_optionnal_info">
- 	<h2 class="noMarginBottom">Contact (optionnnel)</h2>
+ <section id="optional-info-section">
+ 	<h2 class="no-margin-bottom">Contact (optionnnel)</h2>
 
 	<!-- input telephone element -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">phone</i>
-	  	{{ form_widget(form.tel, {'id': 'inputTel',
+	  	{{ form_widget(form.tel, {'id': 'input-tel',
   							      'attr': {'class': 'validate',
   											   'placeholder':'Téléphone ',
   											   'pattern':'-?[0-9]*(\.[0-9]+)?'   }}) }}
@@ -62,7 +62,7 @@
 	<!-- input element email -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">mail</i>	
-		{{ form_widget(form.mail, {'id': 'inputElementMail',
+		{{ form_widget(form.mail, {'id': 'input-mail',
   								      		   'attr': {'class': 'validate',
   											   			'placeholder':'Mail' }}) }}
 	</div>
@@ -70,7 +70,7 @@
 	<!-- input webSite element -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">public</i>
-	  	{{ form_widget(form.webSite, {'id': 'inputWebSite',
+	  	{{ form_widget(form.webSite, {'id': 'input-website',
   							      'attr': { 'class': 'validate',
   							      			'type':'url',
   											'placeholder':'Site internet'  }}) }}
@@ -81,14 +81,14 @@
  </section>
  <div class="divider"></div>
 
- <section id="section_AMAP" style="display:none">
- 	<h2 id="title_AMAP">Contact dans l'AMAP (renseignez un téléphone et/ou un e-mail)</h2>
+ <section id="amap-section" style="display:none">
+ 	<h2 id="title-amap">Contact dans l'AMAP (renseignez un téléphone et/ou un e-mail)</h2>
 		<div class="row ">
-	 	<!-- inputName du contact de l'AMAP -->
-		<div class="input-field col s12" id="AMAP_contact">
+	 	<!-- input-name du contact de l'AMAP -->
+		<div class="input-field col s12" id="amap-contact">
 		  	<i class="material-icons prefix">account_circle</i>	
 		  	{{ form_widget(form.contactAmap.children.name, 
-				  				{ 'id' : 'inputNameContactAMAP',									
+				  				{ 'id' : 'input-nameContactAMAP',									
 			  					  'attr': {'placeholder':'Nom du Contact de l\'AMAP',
 			  							   'name' : 'nameAMAP',
 			  					}}) }}
@@ -97,7 +97,7 @@
 		<div class="input-field col s12">
 			<i class="material-icons prefix">phone</i>
 		  	{{ form_widget(form.contactAmap.children.tel, 
-				  				{ 'id' : 'inputTelAMAP',									
+				  				{ 'id' : 'input-tel-amap',									
 			  					  'attr': {'placeholder':'Téléphone du contact',
 			  							   'name' : 'telAMAP',
 			  							   'pattern': '-?[0-9]*(\.[0-9]+)?'

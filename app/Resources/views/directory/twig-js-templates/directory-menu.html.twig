@@ -76,15 +76,15 @@
 	</span>
 </li>
 
-{% set jours = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
+{% set days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
 
-{% for jour in jours %}
+{% for day in days %}
 	<li class="productItem collapsible-header row">
 	     <span class="icon icon-day"></span>
-	    <span class="dayName">{{ jour|capitalize }}</span> 
+	    <span class="dayName">{{ day|capitalize }}</span> 
 	    <span class="product-checkbox-wrapper">
-	      <input type="checkbox" class="filled-in day-checkbox filterCheckbox" id="days-checkbox-{{ jour }}" checked="checked" data-type='day' data="{{ jour }}"/>
-	      <label for="days-checkbox-{{ jour }}" class="elementDay"></label>
+	      <input type="checkbox" class="filled-in day-checkbox filterCheckbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
+	      <label for="days-checkbox-{{ day }}" class="elementDay"></label>
 	    </span>
 	</li>
 {% endfor %}

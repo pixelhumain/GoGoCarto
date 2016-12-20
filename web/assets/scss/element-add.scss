@@ -42,7 +42,7 @@ body
   @include transition(all 1s);
 }
 
-#form_content
+#element-form-content
 {
   overflow: hidden;
   @include transition(all 3s);
@@ -77,7 +77,7 @@ h2.error, h1.error
   font-weight: normal;
 }
 
-h2.noMarginBottom
+h2.no-margin-bottom
 {
   margin-bottom: 0;
 }
@@ -103,7 +103,7 @@ section
   padding: 1rem;
 }
 
-#section_validate_and_send
+#section-validate-and-send
 {
   padding: 0 2.5rem;
   margin-bottom: 2rem;
@@ -122,23 +122,23 @@ section
   }
 }
 
-#titre_horaires
+#titre-open-hourss
 {
   margin-bottom: 0.9rem !important;
 }
 
-#titre_ajout
+#element-form-title
 {
   margin-bottom: 0px !important;
   padding-top: 1.5rem;
 }
 
-#inputWebSite
+#input-website
 {
   margin-bottom: 2rem;
 }
 
-#label_type_element.error, .error
+#type-element-label.error, .error
 {
   color: $error-color !important;
 }
@@ -164,7 +164,7 @@ section
 }
 
 
-#autre_point_vente
+#other-selling-point
 {
   margin-left: 42px;
   display:none;
@@ -273,18 +273,18 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 
 }
 
-.horaire_jour
+.open-hours-day
 {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
-.horaire_container
+.open-hours-container
 {
   padding-bottom:0.8rem;  
 }
 
-.horaire_container.impair
+.open-hours-container.impair
 {
   background-color: #EFEFEF;
 }
@@ -304,7 +304,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
   padding: 0 !important;
 }
 
-.ajout_plage_horaire:hover, .redo_plage_horaire:hover, .clear_plage_horaire:hover
+.add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover
 {
   color: $secondary-color;
   @include transition(color 0.5s);

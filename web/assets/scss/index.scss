@@ -19,7 +19,7 @@ body
 	}
 }
 
-#mainWrapper
+#home-main-wrapper
 {
 	height: 100%;
 	width: 100%;
@@ -31,7 +31,7 @@ body
 @media (max-height : 420px)
 {
 	body { height: auto; }
-	#mainWrapper { height: auto; }
+	#home-main-wrapper { height: auto; }
 }
 
 @media #{$small-only}
@@ -68,7 +68,7 @@ body
 
 .row { margin-bottom: 1rem; }
 
-section#mainContainer, section .content
+section#home-main-container, section .content
 {
 	position: relative;
     width: 100%; 
@@ -94,7 +94,7 @@ section#mainContainer, section .content
     }
 }
 
-section#mainContainer
+section#home-main-container
 {
     background-color: initial;
 
@@ -169,7 +169,7 @@ section#mainContainer
 		}
 	}	    
 
-	#inputAdressContainer
+	#search-bar-container
 	{
 		position: relative;
 		width: 90%;
@@ -230,9 +230,9 @@ section#mainContainer
     	display: inline-block;
 	}	
 
-	.choiceModeContainer
+	.choice-mode-container
 	{
-		.btnChoiceMode 
+		.choice-mode-button 
 		{ 
 			background-color: #c33b40; 
 			&:hover { background-color: lighten(#c33b40,5%);  }
@@ -241,14 +241,14 @@ section#mainContainer
 
 	.divider { margin-bottom : 1.5rem; }
 
-	.btnParticipate 
+	.participate-button 
 	{ 
 		background-color: $secondary-color; 
 		&:hover { background-color: $secondary-color-light;  }
 	}
 }
 
-section.sections_bottom
+section.bottom-section
 {
 	width:100%;
 
@@ -291,9 +291,9 @@ section.sections_bottom
 	}
 }
 
-#section_open_source { background-color: $grey-light; color: #454547; }
-#section_dev, #section_produits_bio { background-color: $secondary-color; }
-#section_contact
+#section-open-source { background-color: $grey-light; color: #454547; }
+#section-in-dev, #section-ethic { background-color: $secondary-color; }
+#section-contact
 {
 	padding-bottom: 0;
 	background-color: #222;

@@ -1,0 +1,103 @@
+<!-- SECTION HORAIRES -->
+<section id="horaires" class="">
+	<h2 id="titre-open-hourss">Horaires (optionnel)</h2>
+	<div class="row ">
+	
+	{% set dayKey = 0 %}
+	{# pour chaque day de la semaine on crée un ligne pour entrée une plage horaire
+	   une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
+	{% for day in form.horaires %}
+		{# // div englobante pour un day donnée, on la marque paire ou impaire pour 
+		// changer la couleur de fond #}
+		{% set isPair = dayKey%2 == 0 ? 'pair' : 'impair' %}
+		<div id="{{ dayKey }}-open-hours" class="open-hours-container {{ isPair }}">
+		
+
+		{# // première ligne de plage horaire #}
+		<div id="{{ dayKey }}-open-hours-first-line" class="valign-wrapper">	
+	  		
+	  		{% if (day.vars.name == "Lundi") %} 
+	  			<div class="col s3">{{ day.vars.name }}</div>
+	  		{% else %}
+	  			<div class="col s2 open-hours-day">{{ day.vars.name }}</div>
+	  			
+	  			{# Redo time slot button #}
+	  			<div class="col s1 center-align">
+	  				<a id="{{ dayKey }}_redo" 
+	  				   class="redo-time-slot-button btn-flat tooltipped" 
+	  				   data-position="bottom" 
+	  				   data-delay="250" 
+	  				   data-tooltip="Recopier les horaires précédentes" 
+	  				   style="padding:0;">
+	  				   	<i class="material-icons">redo</i>
+	  				</a>
+	  			</div>	 
+	  		{% endif %}
+	  		
+	  		<div class="col s1 center-align">De</div>
+	  		<div class="col s3 center-align">
+	  			{{ form_widget(day.children.plage1debut, { 'id' : dayKey ~'-input-1',
+	  														
+  							  'attr': {'class': 'timepicker_1',
+  							  		   'type': 'time',
+  									   'placeholder':'',
+  									   'name' : dayKey ~ '-open-hours-1',
+  									     }}) }}
+	  		</div>
+			<div class="col s1 center-align">à</div>
+			<div class="col s3 center-align">
+				{{ form_widget(day.children.plage1fin, {'id': dayKey ~'-input-2',
+  							  'attr': {'class': 'timepicker_2',
+  									   'placeholder':'',
+  									   'name':'{{ dayKey }}-open-hours-2'   }}) }}
+			</div>
+
+			{# Add time slot button #}
+			<div class="col s1 center-align">
+				<a id="{{ dayKey }}_ajout" 
+				   class="add-time-slot-button btn-flat tooltipped" 
+				   data-position="bottom" 
+				   data-delay="250" 
+				   data-tooltip="Ajouter plage horaire" 
+				   style="padding:0;">
+				   	<i class="material-icons">add_circle</i>
+				</a>
+			</div>
+		</div>	
+
+		
+		{# // deuxième ligne de plagehoraire (cachée) #}
+		<div id="{{ dayKey }}-open-hours-second-line" class="horaire_2 valign-wrapper">	
+			<div class="col s1 offset-s3 center-align">Et</div>
+	  		<div class="col s3 center-align">
+	  			{{ form_widget(day.children.plage2debut, {'id': dayKey ~'-input-3',
+  							  'attr': {'class': 'timepicker_3',
+  									   'placeholder':'',
+  									   'name':'{{ dayKey }}-open-hours-3'   }}) }}
+  			</div>
+			<div class="col s1 center-align">à</div>
+			<div class="col s3 center-align">
+				{{ form_widget(day.children.plage2fin, {'id': dayKey ~'-input-4',
+  							  'attr': {'class': 'timepicker_4',
+  									   'placeholder':'',
+  									   'name':'{{ dayKey }}-open-hours-4'   }}) }}
+  			</div>
+			
+			{# Clear time slot button #}
+			<div class="col s1 center-align">
+				<a id="{{ dayKey }}_clear" c
+				   class="clear-time-slot-button btn-flat" 
+				   style="padding:0;">
+				   	<i class="material-icons">clear</i>
+				</a>
+			</div>
+		</div>			
+
+		</div>
+		{% set dayKey = dayKey + 1 %}
+		
+	{% endfor %}
+
+</div>
+</section>
+<div class="divider"></div>

@@ -36,7 +36,7 @@ function checkForAdress()
 	if (!address)
 	{
 		setTimeout(function() { $('#search-bar').addClass('invalid'); }, 500);
-		$('#inputAdressContainer').effect("shake", { direction: "right", times: 3, distance: 15});
+		$('#search-bar-container').effect("shake", { direction: "right", times: 3, distance: 15});
 	}
 	return address;
 }

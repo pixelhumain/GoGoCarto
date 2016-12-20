@@ -4347,7 +4347,7 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
 @media screen and (min-width: 600px) {
   #div_recherche {
     width: 400px; } }
-#inputAdresse {
+#input-address {
   text-align: center;
   width: calc(100% - 4rem); }
 

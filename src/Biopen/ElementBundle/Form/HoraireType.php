@@ -58,6 +58,6 @@ class HoraireType extends AbstractType
   */
   public function getName()
   {
-    return 'biopen_elementbundle_horaire';
+    return 'biopen_elementbundle_openhours';
   }
 }

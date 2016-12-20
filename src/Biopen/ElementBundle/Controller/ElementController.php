@@ -47,11 +47,14 @@ class ElementController extends Controller
 			return $this->redirectToRoute('biopen_element_add');			
 		}		
 
-		return $this->render('::element-form/add.html.twig', array(
-		'form' => $form->createView(),
-		'listProducts'=> $listProducts 
-		));
-    }    
+		return $this->render('::element-form/element-form.html.twig', 
+					array(
+						'editMode' => false,
+						'form' => $form->createView(),
+						'listProducts'=> $listProducts 
+					));
+  } 
+
 
 	public function editAction($id, Request $request)
 	{
@@ -66,8 +69,7 @@ class ElementController extends Controller
 
 		$element->reinitContributor();
 
-		$listProducts = $em->getRepository('BiopenElementBundle:Product')
-            ->findAll();
+		$listProducts = $em->getRepository('BiopenElementBundle:Product')->findAll();
 
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
 
@@ -82,7 +84,7 @@ class ElementController extends Controller
 		// Submission du formulaire
 		if ($form->handleRequest($request)->isValid()) 
 		{
-		  	$em = $this->getDoctrine()->getManager();
+		   $em = $this->getDoctrine()->getManager();
 
 			$this->handleFormSubmission($form, $element, $em, $request);
 
@@ -92,7 +94,8 @@ class ElementController extends Controller
 			//return $this->redirectToRoute('biopen_element_add');
 		}
 
-		return $this->render('::element-form/edit.html.twig', array(
+		return $this->render('::element-form/element-form.html.twig', array(
+			'editMode' => true,
 			'form' => $form->createView(), 
 			'element' => $element,
 			'listProducts'=> $listProducts
@@ -118,7 +121,7 @@ class ElementController extends Controller
 			$element->addProduct($elementProduct);
 		}
 
-		$mainProduct = $request->request->get('mainProductSelection');
+		$mainProduct = $request->request->get('main-product-selection');
 		//dump($mainProduct);
 		$element->setMainProduct($mainProduct);
 

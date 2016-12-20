@@ -18,18 +18,18 @@ jQuery(document).ready(function()
 	$('.timepicker_4').timepicki({start_time: ["18", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	
 	// EDIT MODE
-	if ($('#type_element').val() > 0)
+	if ($('#element-type').val() > 0)
 	{
-		maj_form_with_type(false);
-		maj_with_main_product($("#mainProductSelection").val());
+		updateFormWithType(false);
+		updateFormWithMainProduct($("#main-product-selection").val());
 	}
 
 	// CHECK si un type de element est d?j? donn? dans l'url
 	var GET = getQueryParams(document.location.search);
 	if (GET.type) 
 	{
-		$('#type_element > option[value="'+GET.type+'"]').prop('selected',true);
-		maj_form_with_type(false);
+		$('#element-type > option[value="'+GET.type+'"]').prop('selected',true);
+		updateFormWithType(false);
 	}	
 	
 	$('select').material_select();
@@ -39,12 +39,12 @@ jQuery(document).ready(function()
 	// ---------------
 	// AJOUT LISTENERS
 	// ---------------
-	$('#type_element').change( maj_form_with_type );
-	$("#mainProductSelection").change(function() { maj_with_main_product($(this).val()); });
+	$('#element-type').change( updateFormWithType );
+	$("#main-product-selection").change(function() { updateFormWithMainProduct($(this).val()); });
 
 	// entrée d'une adresse on geocode
-	$('#inputAdresse').change(function () { handleInputAdressChange(); });
-	$('#inputAdresse').keyup(function(e) 
+	$('#input-address').change(function () { handleInputAdressChange(); });
+	$('#input-address').keyup(function(e) 
 	{    
 		if(e.keyCode == 13) // touche entrée
 		{ 			 
@@ -54,8 +54,8 @@ jQuery(document).ready(function()
 	$('#search-bar').on("place_changed",handleInputAdressChange);
 
 	// quand on check un product l'input de pr?cision apparait ou disparait
-	$('.checkbox_products').click(function() { return !$(this).hasClass('readonly'); });
-	$('.checkbox_products').change(function()
+	$('.checkbox-products').click(function() { return !$(this).hasClass('readonly'); });
+	$('.checkbox-products').change(function()
 	{
         if ($(this).is(':checked')) 
         {
@@ -69,16 +69,16 @@ jQuery(document).ready(function()
 
 	// HORAIRES
 	// gestion d'une seconde plage horaire pour les petits ?crans
-	$('.ajout_plage_horaire').click(function() { ajout_plage_horaire($(this).attr('id').split("_")[0]); });
-    $('.clear_plage_horaire').click(function() { clear_plage_horaire($(this).attr('id').split("_")[0]); });
-	// copie des horaires du jour pr?c?dent
-	$('.redo_plage_horaire').click(function() { redo_plage_horaire($(this).attr('id').split("_")[0]); });
+	$('.add-time-slot-button').click(function() { addTimeSlot($(this).attr('id').split("_")[0]); });
+    $('.clear-time-slot-button').click(function() { clearTimeSlot($(this).attr('id').split("_")[0]); });
+	// copie des horaires du day pr?c?dent
+	$('.redo-time-slot-button').click(function() { redoTimeSlot($(this).attr('id').split("_")[0]); });
 
 
 });
 
 function handleInputAdressChange()
 {
-	geocodeAddress($('#inputAdresse').val());
+	geocodeAddress($('#input-address').val());
 }
 

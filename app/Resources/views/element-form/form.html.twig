@@ -1,31 +1,31 @@
 {{ form_start(form, {'id': 'formElement'}) }}   
 
 <section class="row" id="section_element" {% if editMode %}style="display:none"{% endif %} >
-<!-- Select type de element -->
+	<!-- Select element type-->
 	<div class="input-field col s12">
-    	{{ form_widget(form.type, {'id': "type_element"}) }}
-    <label id="label_type_element">Type de element</label>
+    	{{ form_widget(form.type, {'id': "element-type"}) }}
+    <label id="type-element-label">Type de element</label>
   	</div>
 </section>
 <div class="divider" {% if editMode %}style="display:none"{% endif %} ></div>
 
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
-<div id="form_content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
+<div id="element-form-content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
 
 	{% include "::element-form/form-partials/generals-info.html.twig" %}
 
 	{% include "::element-form/form-partials/products.html.twig" %}
 
-	{% include "::element-form/form-partials/horaires.html.twig" %}
+	{% include "::element-form/form-partials/open-hours.html.twig" %}
 
 	{% include "::element-form/form-partials/user.html.twig" %}	
 
-	<section id="section_validate_and_send">
+	<section id="section-validate-and-send">
 		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
 		<div id="captcha"></div>
 
 		<center>
-			<button onclick="check_and_send()" type="button" class="btn waves-effect waves-light">Envoyer</button>
+			<button onclick="checkAndSend()" type="button" class="btn waves-effect waves-light">Envoyer</button>
 		</center>
     </section>
     <div class="divider"></div>
@@ -36,26 +36,26 @@
 {{ form_end(form) }}
 
 {% block modals %}
-	<!-- Pop up plusieurs jours de marchés -->
-	<div id="modal_marche" class="modal">
-	<div class="modal-content">
-	  <h5>Plusieurs jours de marchés</h5>
-	  <p>Vous avez renseigné plusieurs jours d'ouverture pour ce marché, êtes vous certain que
-	  	l'on retrouve les même products à ces différentes date?</p>
-	  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque jour
-	  		de marché</p>
-	</div>
-	<div class="modal-footer">
-		<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
-	 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
-	</div>
+	<!-- Pop up plusieurs days de marchés -->
+	<div id="modal-multiple-market-days" class="modal">
+		<div class="modal-content">
+		  <h5>Plusieurs days de marchés</h5>
+		  <p>Vous avez renseigné plusieurs days d'ouverture pour ce marché, êtes vous certain que
+		  	l'on retrouve les même products à ces différentes date?</p>
+		  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque day
+		  		de marché</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
+		 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
+		</div>
 	</div>
 
-	<!-- Pop up message alerte-->
+	<!-- Pop up alert message-->
 	<div id="popup" class="modal">
 	<div class="modal-content">
 	  <h5 id="modal-title"></h5>
-	  <p id="popup_content"></p>
+	  <p id="popup-content"></p>
 	</div>
 	<div class="modal-footer">
 		<span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
@@ -67,8 +67,8 @@
 {% block javascripts %}
 
 	<script>
-	var editMode = false;
-	{% if editMode %} editMode = true; {% endif %}
+		var editMode = false;
+		{% if editMode %} editMode = true; {% endif %}
 	</script>
 
     {% javascripts filter="?jsqueeze"

@@ -60,6 +60,6 @@ class JourHoraireType extends AbstractType
   */
   public function getName()
   {
-    return 'biopen_elementbundle_jourhoraire';
+    return 'biopen_elementbundle_dayhoraire';
   }
 }

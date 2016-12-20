@@ -110,7 +110,7 @@
       {% for key, horaire in element.getFormatedHoraires() %} 
         {% if horaire != null %}
           <div class='row'>
-            <span class="col s3 jour">{{ key|capitalize }}</span>
+            <span class="col s3 day">{{ key|capitalize }}</span>
             <span class="col s9 horaires">{{ horaire }} </span>
           </div>
           {% set count = count + 1 %} 

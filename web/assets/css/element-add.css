@@ -3353,7 +3353,7 @@ body {
   -ms-transition: all 1s;
   transition: all 1s; }
 
-#form_content {
+#element-form-content {
   overflow: hidden;
   -webkit-transition: all 3s;
   -moz-transition: all 3s;
@@ -3378,7 +3378,7 @@ h2, h1 {
 h2.error, h1.error {
   font-weight: normal; }
 
-h2.noMarginBottom {
+h2.no-margin-bottom {
   margin-bottom: 0; }
 
 .divider {
@@ -3395,7 +3395,7 @@ h2.noMarginBottom {
 section {
   padding: 1rem; }
 
-#section_validate_and_send {
+#section-validate-and-send {
   padding: 0 2.5rem;
   margin-bottom: 2rem; }
 
@@ -3405,17 +3405,17 @@ section {
 @media screen and (min-width: 600px) {
   section {
     padding: 1.5rem 2.5rem; } }
-#titre_horaires {
+#titre-open-hourss {
   margin-bottom: 0.9rem !important; }
 
-#titre_ajout {
+#element-form-title {
   margin-bottom: 0px !important;
   padding-top: 1.5rem; }
 
-#inputWebSite {
+#input-website {
   margin-bottom: 2rem; }
 
-#label_type_element.error, .error {
+#type-element-label.error, .error {
   color: #B90303 !important; }
 
 #section_element {
@@ -3428,7 +3428,7 @@ section {
   border-right: 2px solid #aaa;
   border-bottom: 2px solid #aaa; }
 
-#autre_point_vente {
+#other-selling-point {
   margin-left: 42px;
   display: none;
   color: rgba(0, 0, 0, 0.85);
@@ -3500,14 +3500,14 @@ a[href^="https://maps.google.com/maps"] {
   display: flex !important;
   height: 100%; }
 
-.horaire_jour {
+.open-hours-day {
   overflow: hidden !important;
   text-overflow: ellipsis !important; }
 
-.horaire_container {
+.open-hours-container {
   padding-bottom: 0.8rem; }
 
-.horaire_container.impair {
+.open-hours-container.impair {
   background-color: #EFEFEF; }
 
 .timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4 {
@@ -3520,7 +3520,7 @@ a[href^="https://maps.google.com/maps"] {
 .col {
   padding: 0 !important; }
 
-.ajout_plage_horaire:hover, .redo_plage_horaire:hover, .clear_plage_horaire:hover {
+.add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover {
   color: #4A7874;
   -webkit-transition: color 0.5s;
   -moz-transition: color 0.5s;

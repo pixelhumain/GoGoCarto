@@ -97,13 +97,13 @@ Star.prototype.setIndex = function (newIndex)
 	
 	this.index_ = newIndex;
 
-  // on met à jour le marqueur des deux elements interchangés
+  // on met à day le marqueur des deux elements interchangés
   App.getMarkerManager().getMarkerById(oldElementId).updateIcon();
   var newMarkerRepresentStar = App.getMarkerManager().getMarkerById(this.getElementId());
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
 
-  // on met à jour les info elements des deux elements interchangés
+  // on met à day les info elements des deux elements interchangés
   $('#element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
   /*$('#ElementList #element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
   /*$('#element-info-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/

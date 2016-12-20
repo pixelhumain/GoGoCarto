@@ -227,25 +227,25 @@ Element.prototype.getFormatedHoraires = function ()
 	return this.formatedHoraire_;
 };
 
-Element.prototype.formateJourHoraire = function (jourHoraire) 
+Element.prototype.formateJourHoraire = function (dayHoraire) 
 {		
-	if (jourHoraire === null)
+	if (dayHoraire === null)
 	{		
 		return 'fermé';
 	}
 	var result = '';
-	if (jourHoraire.plage1debut)
+	if (dayHoraire.plage1debut)
 	{
-		result+= this.formateDate(jourHoraire.plage1debut);
+		result+= this.formateDate(dayHoraire.plage1debut);
 		result+= ' - ';
-		result+= this.formateDate(jourHoraire.plage1fin);
+		result+= this.formateDate(dayHoraire.plage1fin);
 	}
-	if (jourHoraire.plage2debut)
+	if (dayHoraire.plage2debut)
 	{
 		result+= ' et ';
-		result+= this.formateDate(jourHoraire.plage2debut);
+		result+= this.formateDate(dayHoraire.plage2debut);
 		result+= ' - ';
-		result+= this.formateDate(jourHoraire.plage2fin);
+		result+= this.formateDate(dayHoraire.plage2fin);
 	}
 	return result;
 };
