@@ -56,7 +56,7 @@ StarRepresentationChoiceModule.prototype.end = function ()
 	App.getElementModule().clearFocusOnThesesElements(idToClearFocus);
 	App.getClusterer().repaint();	
 
-	animateDownInfoBarComponent(); 
+	App.getInfoBar().hide()(); 
 
 	this.currentStar_ = null;
 

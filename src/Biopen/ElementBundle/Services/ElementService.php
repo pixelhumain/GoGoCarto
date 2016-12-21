@@ -15,7 +15,7 @@ namespace Biopen\ElementBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 
-class ElementManager
+class ElementService
 {	
 	protected $em;
 
@@ -28,6 +28,11 @@ class ElementManager
     {
     	 $this->em = $entityManager;
     	 $this->alreadySendElementIds = [];
+    }
+
+    public function getElementById($elementId)
+    {
+        $this->em->getRepository('BiopenElementBundle:Element')->find($elementId);
     }
 
     public function getElementsAround($geocodePoint, $distance, $maxResult = 0)

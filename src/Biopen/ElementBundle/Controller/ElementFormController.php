@@ -27,7 +27,7 @@ use Wantlet\ORM\Point;
 use Biopen\ElementBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
 
-class ElementController extends Controller
+class ElementFormController extends Controller
 {
     public function addAction(Request $request)
     {

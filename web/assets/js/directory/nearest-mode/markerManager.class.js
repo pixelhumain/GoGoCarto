@@ -81,7 +81,7 @@ MarkerModule.prototype.fitMapInBounds = function ()
 	else
 	{
 		nbreFitMapFailed = 0;
-		$('#spinner-loader').hide();
+		$('#directory-spinner-loader').hide();
 	}
 	
 };

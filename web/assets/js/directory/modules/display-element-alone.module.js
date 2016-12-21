@@ -14,9 +14,11 @@ function DisplayElementAloneModule()
 
 DisplayElementAloneModule.prototype.begin = function (elementId, panToElementLocation) 
 {	
-	//window.console.log("DisplayElementAloneModule begin");
+	
 
 	panToElementLocation = panToElementLocation !== false;
+
+	window.console.log("DisplayElementAloneModule begin", panToElementLocation);
 
 	if (this.elementShownAlone_ !== null) 
 	{
@@ -24,7 +26,7 @@ DisplayElementAloneModule.prototype.begin = function (elementId, panToElementLoc
 		this.elementShownAlone_.isShownAlone = false;
 	}
 
-	if (constellationMode) App.getElementModule().focusOnThesesElements([elementId]);
+	if (constellationMode) App.getElementModule().focusOnThesesElements([element.id]);
 	else 
 	{
 		/*var elements = App.getElementModule().getElements();
@@ -46,12 +48,12 @@ DisplayElementAloneModule.prototype.begin = function (elementId, panToElementLoc
 		App.getElementModule().clearMarkers();
 	}	
 	
-	var element = App.getElementModule().getElementById(elementId); 
+	var element = App.getElementById(elementId);
 	this.elementShownAlone_ = element;
 	element.show();	
 	element.isShownAlone = true;
 
-	App.getInfoBarComponent().showElement(elementId);
+	App.getInfoBarComponent().showElement(element.id);
 
 	if (panToElementLocation)
 	{
@@ -69,7 +71,7 @@ DisplayElementAloneModule.prototype.end = function ()
 	else 
 	{
 		this.elementShownAlone_.hide();
-		App.getElementModule().updateElementList(true,true);
+		App.getElementModule().updateElementToDisplay(true,true);
 	}
 	
 	this.elementShownAlone_.isShownAlone = false;	

@@ -7,11 +7,18 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
+function AjaxModule()
+{
+	this.isRetrievingElements = false;
+	this.requestWaitingToBeExecuted = false;
 
-var isCommunicating = false;
-var reqToExecute = false;
+	this.loaderTimer = null;
 
-function createRequest()
+	classExtends(AjaxModule, EventEmitter);
+}
+
+
+AjaxModule.prototype.createRequest = function()
 {
 	var request = {};
 	request.origin = App.getMap().getCenter();
@@ -19,20 +26,37 @@ function createRequest()
 	request.elementIds = App.getElementModule().getAllElementsIds();
 	request.maxResults = 300;
 	return request;
-}
+};
 
-function getElementListFromAjax(request)
+AjaxModule.prototype.setIsRetrievingElements = function(bool)
 {
-	var currRequest = request ? request : createRequest();	
+	this.isRetrievingElements = bool;
 
-	if (isCommunicating)
+	// if data retrieving take too long, we display a loading symbol
+	if (bool) 
+		$('#directory-loading').show();
+		//this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 500); 
+	else 
+	{
+		clearTimeout(this.loaderTimer);
+		$('#directory-loading').hide();
+	}
+	
+};
+
+AjaxModule.prototype.getElementsAroundCurrentLocation = function(request)
+{
+	var currRequest = request ? request : this.createRequest();	
+
+	if (this.isRetrievingElements)
 	{		
-		reqToExecute = true;
+		this.requestWaitingToBeExecuted = true;
 		return;
 	}
 
 	var start = new Date().getTime();
-	var route = Routing.generate('biopen_directory_ajax');
+	var route = Routing.generate('biopen_api_elements_around_location');
+	var that = this;
 
 	$.ajax({
 		url: route,
@@ -42,36 +66,58 @@ function getElementListFromAjax(request)
 			    distance: currRequest.distance,
 			    elementIds: currRequest.elementIds,
 			    maxResults: currRequest.maxResults },
-		beforeSend: function() { isCommunicating = true; },
+		beforeSend: function() { that.setIsRetrievingElements(true); },
 	    success: function(response) 
 	    {	        
 	        if (response.data !== null)
 			{
 				var end = new Date().getTime();
-				//window.console.log("   receive " + response.data.length + " elements in " + (end-start) + " ms");				
+				window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-				App.getElementModule().addJsonElements(response.data, true);
-				App.getElementModule().updateElementList(); 
+				that.emitEvent("newElements",[response.data]);				
 			}
 	        
 	        if (response.exceedMaxResult)
 	        {
 	        	//window.console.log("   moreElementsToReceive");
-	        	if (!reqToExecute) 
+	        	if (!that.requestWaitingToBeExecuted) 
         		{        			
-        			getElementListFromAjax(createRequest());
+        			that.getElementsAroundCurrentLocation(that.createRequest());
         		}
 	        }	        
 	    },
 	    complete: function() 
 	    {
-	        isCommunicating = false;
-	        if (reqToExecute)
+	        that.setIsRetrievingElements(false);
+	        if (that.requestWaitingToBeExecuted)
 	        {
-	        	//window.console.log("    reqToExecute stored");
-	        	getElementListFromAjax(createRequest());
-	        	reqToExecute = false;
+	        	//window.console.log("    this.requestWaitingToBeExecuted stored");
+	        	that.getElementsAroundCurrentLocation(that.createRequest());
+	        	that.requestWaitingToBeExecuted = false;
 	        }
 	    },
 	});
-}
+};
+
+AjaxModule.prototype.getElementById = function(elementId)
+{
+	var start = new Date().getTime();
+	var route = Routing.generate('biopen_api_element_by_id');
+	var that = this;
+
+	$.ajax({
+		url: route,
+		method: "post",
+		data: { elementId: elementId },
+	    success: function(response) 
+	    {	        
+	        if (response.data !== null)
+			{
+				var end = new Date().getTime();
+				window.console.log("receive element in " + (end-start) + " ms");			
+
+				that.emitEvent("newElement",[response.data]);						
+			}	        
+	    }
+	});
+};

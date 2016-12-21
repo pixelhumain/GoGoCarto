@@ -26,7 +26,12 @@
     
     {% include '::directory/modals/too-many-markers.html.twig'  %}
     {% include '::directory/modals/pick-address-for-directions.html.twig'  %}  
-    {% include '::directory/components/spinner-loader.html.twig'  %}
+    {% include '::directory/components/spinner-loader.html.twig'  
+              with {'id': 'directory-spinner-loader' }%}
+    
+    <div id="directory-loading" style="display:none">
+      Chargement...
+    </div>
 
     <div id="directory-content-map"> </div>
 

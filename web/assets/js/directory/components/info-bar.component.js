@@ -44,17 +44,20 @@ InfoBarComponent.prototype.showElement = function (elementId)
 	$('#element-info').html(element.getHtmlRepresentation());	
 	$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
+	var that = this;
 	$('#btn-close-bandeau-detail').click(function()
-	{  
-		if (App.getState() != App.Mode.StarRepresentationChoice) App.setState("normal");
-		animateDownInfoBarComponent();
+	{  		
+		that.emitEvent("hide");
+		that.hide();
 		return false;
 	});
-	$('#element-info .collapsible-header').click(toggleInfoBarComponentDetails);
-	animateUpInfoBarComponent();
+	
+	$('#element-info .collapsible-header').click(that.toggleDetails);
+	
+	this.show();
 };
 
-function animateUpInfoBarComponent()
+InfoBarComponent.prototype.show = function()
 {
 	App.setTimeoutInfoBarComponent();
 
@@ -85,15 +88,15 @@ function animateUpInfoBarComponent()
 	}
 
 	this.isVisible = true;
-}
+};
 
-function animateDownInfoBarComponent()
+InfoBarComponent.prototype.hide = function()
 {
 	if ($('#element-info-bar').is(':visible'))
 	{
 		if ($('#element-info-bar').css('position') != 'absolute')
 		{
-			hideInfoBarComponentDetails();
+			this.hideDetails();
 			$('#element-info-bar').css('height','0');
 			$('#element-info-bar').hide();
 			updateMapSize(0);
@@ -112,15 +115,15 @@ function animateDownInfoBarComponent()
 	}
 
 	this.isVisible = false;
-}
+};
 
-function toggleInfoBarComponentDetails()
+InfoBarComponent.prototype.toggleDetails = function()
 {	
 	App.setTimeoutInfoBarComponent();
 
 	if ( $('#element-info-bar .moreDetails').is(':visible') )
 	{
-		hideInfoBarComponentDetails();
+		this.hideDetails();
 		$('#bandeau_helper').css('z-index',20).animate({'opacity': '1'},500);
 		$('#menu-button').fadeIn();		
 	}
@@ -150,9 +153,9 @@ function toggleInfoBarComponentDetails()
 		
 		updateMapSize(elementInfoBar_newHeight);			
 	}	
-}
+};
 
-function hideInfoBarComponentDetails()
+InfoBarComponent.prototype.hideDetails = function()
 {
 	App.setTimeoutInfoBarComponent();
 
@@ -168,5 +171,5 @@ function hideInfoBarComponentDetails()
 
 		updateMapSize(elementInfoBar_newHeight);	
 	}	
-}
+};
 

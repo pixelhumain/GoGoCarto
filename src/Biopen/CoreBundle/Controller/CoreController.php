@@ -82,8 +82,8 @@ class CoreController extends Controller
         // // if origin is set get Elements around
         // if ($originPoint != null)
         // {
-        //     $elementManager = $this->get('biopen.element_manager');
-        //     $elementList = $elementManager->getElementsAround($originPoint, 30)['data'];
+        //     $elementService = $this->get('biopen.element_service');
+        //     $elementList = $elementService->getElementsAround($originPoint, 30)['data'];
         // }
 
         return $this->render('::directory/directory.html.twig', 
@@ -95,32 +95,9 @@ class CoreController extends Controller
         //                                                        "slug" => $slug));        
     }      
 
-    public function directoryAjaxAction(Request $request)
-    {
-        if($request->isXmlHttpRequest())
-        {
-            $originPoint = new Point($request->get('originLat'), $request->get('originLng'));
 
-            $elementManager = $this->get('biopen.element_manager');
-            $serializer = $this->container->get('jms_serializer');
 
-            $elementManager->setAlreadySendElementsIds($request->get('elementIds'));
-
-            $response = $elementManager->getElementsAround($originPoint, $request->get('distance'), $request->get('maxResults'));
-
-            $responseJson = $serializer->serialize($response, 'json');  
-
-            $response = new Response($responseJson);    
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-        else 
-        {
-            return new JsonResponse("Ce n'est pas une requete Ajax");
-        }
-    }
-
-        public function constellationAction($slug, $distance)
+    public function constellationAction($slug, $distance)
     {             
         if ($slug == '' && $this->get('session')->get('slug')) $slug = $this->get('session')->get('slug');
       
@@ -141,8 +118,8 @@ class CoreController extends Controller
             $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
             $this->get('session')->set('slug', $slug);
             
-            $elementManager = $this->get('biopen.element_manager');
-            $elementList = $elementManager->getElementsAround($geocodePoint, intval($distance))['data'];
+            $elementService = $this->get('biopen.element_service');
+            $elementList = $elementService->getElementsAround($geocodePoint, intval($distance))['data'];
 
             if( $elementList === null)
             {
@@ -150,18 +127,14 @@ class CoreController extends Controller
                 return $this->render('::core/constellation.html.twig', array('slug'=>''));
             }
             
-            $constellation = $elementManager->buildConstellation($elementList, $geocodeResponse);
+            $constellation = $elementService->buildConstellation($elementList, $geocodeResponse);
             /*dump($constellation);*/
         }    
 
         return $this->render('::core/constellation.html.twig', 
             array('constellationPhp' => $constellation, "elementList" => $elementList, "slug" => $slug, 'search_range' => $distance));
     }  
-
-    public function testAjaxAction(Request $request)
-    {
-        return new JsonResponse("test");
-    }    
+  
 
     private function geocodeFromAdresse($slug)
     {

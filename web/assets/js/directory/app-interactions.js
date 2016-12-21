@@ -96,7 +96,7 @@ jQuery(document).ready(function()
 
 function showDirectoryMenu()
 {
-	animateDownInfoBarComponent();  
+	App.getInfoBar().hide()();  
 	$('#overlay').css('z-index','10');
 	$('#overlay').animate({'opacity': '.6'},700);
 	$('#directory-menu').show( "slide", {direction: 'left', easing: 'swing'} , 350 );

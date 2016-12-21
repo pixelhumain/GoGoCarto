@@ -20,17 +20,17 @@ FilterModule.prototype.showOnlyFavorite = function(data)
 	this.showOnlyFavorite_ = data;
 };
 
-FilterModule.prototype.addFilter = function (data, filterType, updateElementList) 
+FilterModule.prototype.addFilter = function (data, filterType, updateElementToDisplay) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
 	var index = listToFilter.indexOf(data);
 	if ( index < 0) listToFilter.push(data);
 
-	if (updateElementList) App.getElementModule().updateElementList(false);
+	if (updateElementToDisplay) App.getElementModule().updateElementToDisplay(false);
 };
 
-FilterModule.prototype.removeFilter = function (data, filterType, updateElementList) 
+FilterModule.prototype.removeFilter = function (data, filterType, updateElementToDisplay) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
@@ -38,7 +38,7 @@ FilterModule.prototype.removeFilter = function (data, filterType, updateElementL
 	if ( index > -1) 
 	{
 		listToFilter.splice(index, 1);
-		if (updateElementList) App.getElementModule().updateElementList(true);
+		if (updateElementToDisplay) App.getElementModule().updateElementToDisplay(true);
 	}
 };
 

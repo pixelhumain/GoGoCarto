@@ -4325,15 +4325,29 @@ a[href^="https://maps.google.com/maps"]{display:none !important}
         }
     } */ }
 
-.preloader-wrapper {
+#directory-spinner-loader {
   position: absolute;
   margin: auto;
   top: 0;
   left: 0;
   bottom: 0;
-  right: 0; }
-  .preloader-wrapper .spinner-layer {
+  right: 0;
+  z-index: 50; }
+  #directory-spinner-loader .spinner-layer {
     border-color: white; }
+
+#directory-loading {
+  position: absolute;
+  width: 200px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: #f2b523;
+  color: #272626;
+  padding: .2rem 0;
+  text-align: center; }
 
 #too-many-markers-modal {
   display: none;

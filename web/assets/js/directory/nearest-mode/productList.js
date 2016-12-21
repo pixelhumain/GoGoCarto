@@ -56,7 +56,7 @@ if (constellationMode)
 				{
 					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
 				}, 400);
-				animateDownInfoBarComponent();
+				App.getInfoBar().hide()();
 			}		
 		}		
 	});

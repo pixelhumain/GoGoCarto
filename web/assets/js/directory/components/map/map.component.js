@@ -51,8 +51,7 @@ MapComponent.prototype.init = function()
 	var that = this;
 
 	google.maps.event.addListener(this.map_, 'projection_changed', function () 
-	{   
-		$('#spinner-loader').hide();
+	{   		
 		that.clusterer_ = initCluster(null);
 		that.emitEvent("mapReady", []);
 	});	
@@ -85,5 +84,10 @@ MapComponent.prototype.panToLocation = function(newLocation, zoom, changeMapLoca
 		this.map_.locationSlug = capitalize(slugify($('#search-bar').val()));		
 	}
 
-	this.isInitialized_ = true;	
+	if (!this.isInitialized_)
+	{
+		$('#directory-spinner-loader').hide();
+		this.isInitialized_ = true;	
+	}
+	
 };

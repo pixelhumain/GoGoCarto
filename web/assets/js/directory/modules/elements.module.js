@@ -9,7 +9,11 @@
  */
 function ElementsModule(listElementPhp) 
 {
+	classExtends(ElementsModule, EventEmitter);
+
 	this.allElements_ = [];
+	
+	// current visible elements
 	this.currElements_ = [];
 
 	this.allElementsIds_= [];
@@ -40,7 +44,7 @@ ElementsModule.prototype.checkCookies = function()
 ElementsModule.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
 {
 	var element;
-	var newElements = 0;
+	var newElementsCount = 0;
 	for (var i = 0; i < elementList.length; i++)
 	{
 		elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
@@ -49,11 +53,15 @@ ElementsModule.prototype.addJsonElements = function (elementList, checkIfAlready
 		{
 			this.allElements_.push(new Element(elementJson));
 			this.allElementsIds_.push(elementJson.id);
-			newElements++;
+			newElementsCount++;
+		}
+		else
+		{
+			//console.log("addJsonElements, cet element existe deja");
 		}		
 	}
 	this.checkCookies();
-	//window.console.log("addJsonElements newElements = " + newElements);
+	//window.console.log("addJsonElements newElementsCount = " + newElementsCount);
 };
 
 ElementsModule.prototype.addFavorite = function (favoriteId, modifyCookies)
@@ -85,7 +93,8 @@ ElementsModule.prototype.removeFavorite = function (favoriteId, modifyCookies)
 	}
 };
 
-ElementsModule.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
+// check elements in bounds and who are not filtered
+ElementsModule.prototype.updateElementToDisplay = function (checkInAllElements, forceRepaint) 
 {	
 	checkInAllElements = checkInAllElements !== false;
 	forceRepaint = forceRepaint || false;
@@ -101,13 +110,13 @@ ElementsModule.prototype.updateElementList = function (checkInAllElements, force
  	var markersToRemove = [];
  	var markersChanged = false;
 
-	filterModule = App.getFilterModule();
+	var filterModule = App.getFilterModule();	
 
 	i = elements.length;
-
-	window.console.log("UpdateElementList nbre element " + i, checkInAllElements);
+	window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 	var start = new Date().getTime();
 
+	
 	while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 	{
 		element = elements[i];
@@ -136,28 +145,25 @@ ElementsModule.prototype.updateElementList = function (checkInAllElements, force
 		}
 	}
 
-	if (this.currElements_.length >= App.getMaxElements())
-	{
-		/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
-		this.clearMarkers();		
-		return;*/
-		//console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
-	}
-	else
-	{
-		$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
-	}
+	// if (this.currElements_.length >= App.getMaxElements())
+	// {
+	// 	/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
+	// 	this.clearMarkers();		
+	// 	return;*/
+	// 	//console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
+	// }
+	// else
+	// {
+	// 	$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
+	// }
 
 	var end = new Date().getTime();
 	var time = end - start;
-	//window.console.log("    analyse elements en " + time + " ms");	
+	window.console.log("    analyse elements en " + time + " ms");	
 	
 	if (markersChanged || forceRepaint)
 	{		
-		App.getClusterer().addMarkers(newMarkers,true);
-		App.getClusterer().removeMarkers(markersToRemove, true);
-		
-		App.getClusterer().repaint();		
+		this.emitEvent("change", [newMarkers, markersToRemove]);			
 	}
 	
 };
