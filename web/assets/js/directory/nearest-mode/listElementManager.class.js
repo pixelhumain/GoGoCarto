@@ -7,12 +7,12 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function ListElementManager() 
+function ListElementModule() 
 {
 	
 }
 
-ListElementManager.prototype.draw = function () 
+ListElementModule.prototype.draw = function () 
 {
 	$('#ElementList li').remove();
 

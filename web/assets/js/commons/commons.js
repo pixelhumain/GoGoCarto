@@ -11,11 +11,11 @@ jQuery(document).ready(function()
 {	
 	$('#btn-menu-constellation').click(function()
 	{ 
-		redirectTodirectory('biopen_constellation');
+		redirectToDirectory('biopen_constellation');
 	});
 	$('#btn-menu-directory').click(function()
 	{ 
-		redirectTodirectory('biopen_directory');		
+		redirectToDirectory('biopen_directory');		
 	});
 });
 
@@ -27,19 +27,9 @@ function classExtends(child, parent)
   }
 }
 
-function initAutocompletion(element)
-{
-    var options = {
-      componentRestrictions: {country: 'fr'}
-    };
-    var autocomplete = new google.maps.places.Autocomplete(element, options);   
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        $(element).trigger('place_changed');
-        return false;
-    });
-}
 
-function redirectTodirectory(route, address, range)
+
+function redirectToDirectory(route, address, range)
 {
 	address = address || $('#search-bar').val();
 	range = range || '';
@@ -79,18 +69,18 @@ function getQueryParams(qs)
 }
 
 //polyfill for customevent
-(function () {
+// (function () {
 
-  if ( typeof window.CustomEvent === "function" ) return false;
+//   if ( typeof window.CustomEvent === "function" ) return false;
 
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
+//   function CustomEvent ( event, params ) {
+//     params = params || { bubbles: false, cancelable: false, detail: undefined };
+//     var evt = document.createEvent( 'CustomEvent' );
+//     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+//     return evt;
+//    }
 
-  CustomEvent.prototype = window.Event.prototype;
+//   CustomEvent.prototype = window.Event.prototype;
 
-  window.CustomEvent = CustomEvent;
-})();
+//   window.CustomEvent = CustomEvent;
+// })();

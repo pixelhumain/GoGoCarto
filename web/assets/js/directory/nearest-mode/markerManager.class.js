@@ -7,14 +7,14 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function MarkerManager() 
+function MarkerModule() 
 {
 	this.markers_= [];
 	this.markerHome_ = null;
 	this.clusterLines_ = [];	
 }
 
-MarkerManager.prototype.createMarkers = function () 
+MarkerModule.prototype.createMarkers = function () 
 {	
 	var list = App.getElements();
 	var marker, element;
@@ -32,7 +32,7 @@ MarkerManager.prototype.createMarkers = function ()
 
 var nbreFitMapFailed = 0;
 
-MarkerManager.prototype.fitMapInBounds = function () 
+MarkerModule.prototype.fitMapInBounds = function () 
 {	
 	var bounds = new google.maps.LatLngBounds();
 
@@ -86,7 +86,7 @@ MarkerManager.prototype.fitMapInBounds = function ()
 	
 };
 
-MarkerManager.prototype.getMarkerById = function (elementId) 
+MarkerModule.prototype.getMarkerById = function (elementId) 
 {
 	for(var i = 0; i < this.markers_.length; i++)
 	{
@@ -95,7 +95,7 @@ MarkerManager.prototype.getMarkerById = function (elementId)
 	return null;
 };
 
-MarkerManager.prototype.hidePartiallyAllMarkers = function () 
+MarkerModule.prototype.hidePartiallyAllMarkers = function () 
 {
 	for(var i = 0; i < this.markers_.length; i++)
 	{
@@ -103,7 +103,7 @@ MarkerManager.prototype.hidePartiallyAllMarkers = function ()
 	}
 };
 
-MarkerManager.prototype.showNormalHiddenAllMarkers = function () 
+MarkerModule.prototype.showNormalHiddenAllMarkers = function () 
 {
 	for(var i = 0; i < this.markers_.length; i++)
 	{
@@ -111,7 +111,7 @@ MarkerManager.prototype.showNormalHiddenAllMarkers = function ()
 	}
 };
 
-MarkerManager.prototype.drawLinesWithClusters = function () 
+MarkerModule.prototype.drawLinesWithClusters = function () 
 {
 	var i, line;
 
@@ -135,7 +135,7 @@ MarkerManager.prototype.drawLinesWithClusters = function ()
 	}
 };
 
-MarkerManager.prototype.getMarkersIncludingHome = function () 
+MarkerModule.prototype.getMarkersIncludingHome = function () 
 {
 	var array = [];
 	array.push(this.markerHome_);
@@ -143,7 +143,7 @@ MarkerManager.prototype.getMarkersIncludingHome = function ()
 	return array;
 };
 
-MarkerManager.prototype.getMarkers = function () 
+MarkerModule.prototype.getMarkers = function () 
 {
 	var array = [];
 	for(var i = 0; i < this.markers_.length; i++)
@@ -153,7 +153,7 @@ MarkerManager.prototype.getMarkers = function ()
 	return array;
 };
 
-MarkerManager.prototype.getMarkerHome = function () 
+MarkerModule.prototype.getMarkerHome = function () 
 {
 	return this.markerHome_ ;
 };

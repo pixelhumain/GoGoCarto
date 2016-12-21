@@ -7,14 +7,14 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function DisplayElementAloneManager() 
+function DisplayElementAloneModule() 
 {
 	this.elementShownAlone_ = null;
 }
 
-DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLocation) 
+DisplayElementAloneModule.prototype.begin = function (elementId, panToElementLocation) 
 {	
-	//window.console.log("DisplayElementAloneManager begin");
+	//window.console.log("DisplayElementAloneModule begin");
 
 	panToElementLocation = panToElementLocation !== false;
 
@@ -24,10 +24,10 @@ DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLo
 		this.elementShownAlone_.isShownAlone = false;
 	}
 
-	if (constellationMode) App.getElementManager().focusOnThesesElements([elementId]);
+	if (constellationMode) App.getElementModule().focusOnThesesElements([elementId]);
 	else 
 	{
-		/*var elements = App.getElementManager().getElements();
+		/*var elements = App.getElementModule().getElements();
 
 		l = elements.length;
 		//window.console.log("hiding " + l + "elements");
@@ -43,34 +43,33 @@ DisplayElementAloneManager.prototype.begin = function (elementId, panToElementLo
 			clusters[l].hide();
 		}*/
 
-		App.getElementManager().clearMarkers();
+		App.getElementModule().clearMarkers();
 	}	
 	
-	var element = App.getElementManager().getElementById(elementId); 
+	var element = App.getElementModule().getElementById(elementId); 
 	this.elementShownAlone_ = element;
 	element.show();	
 	element.isShownAlone = true;
 
-	App.getElementInfoBar().showElement(elementId);
+	App.getInfoBarComponent().showElement(elementId);
 
 	if (panToElementLocation)
 	{
-		var map = App.getMap();
-		panMapToLocation(element.getPosition(), map, false);
+		App.getMapComponent().panToLocation(element.getPosition(), null, false);
 	}
 };
 
 
-DisplayElementAloneManager.prototype.end = function () 
+DisplayElementAloneModule.prototype.end = function () 
 {	
 
 	if (this.elementShownAlone_ === null) return;
 
-	if (constellationMode) App.getElementManager().clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
+	if (constellationMode) App.getElementModule().clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 	else 
 	{
 		this.elementShownAlone_.hide();
-		App.getElementManager().updateElementList(true,true);
+		App.getElementModule().updateElementList(true,true);
 	}
 	
 	this.elementShownAlone_.isShownAlone = false;	

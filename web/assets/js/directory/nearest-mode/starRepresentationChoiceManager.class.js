@@ -7,13 +7,13 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function StarRepresentationChoiceManager() 
+function StarRepresentationChoiceModule() 
 {
 	this.currentStar_ = null;
 	this.idFocused_ = null;
 }
 
-StarRepresentationChoiceManager.prototype.begin = function (star) 
+StarRepresentationChoiceModule.prototype.begin = function (star) 
 {	
 	this.currentStar_ = star;
 	var idToFocus = star.getElementListId();
@@ -21,13 +21,13 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 	var element;
 	for(var i = 0; i < idToFocus.length; i++)
 	{
-		element = App.getElementManager().getElementById(idToFocus[i]);
+		element = App.getElementModule().getElementById(idToFocus[i]);
 		element.starChoiceForRepresentation = star.getName();	
 	}
 
-	App.setState('starRepresentationChoice');
+	App.setState(App.Mode.StarRepresentationChoice);
 
-	App.getElementManager().focusOnThesesElements(idToFocus);
+	App.getElementModule().focusOnThesesElements(idToFocus);
 	App.getClusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
@@ -40,7 +40,7 @@ StarRepresentationChoiceManager.prototype.begin = function (star)
 };
 
 
-StarRepresentationChoiceManager.prototype.end = function () 
+StarRepresentationChoiceModule.prototype.end = function () 
 {	
 	if (this.currentStar_ === null) return;
 
@@ -49,14 +49,14 @@ StarRepresentationChoiceManager.prototype.end = function ()
 	var element;
 	for(var i = 0; i < idToClearFocus.length; i++)
 	{
-		element = App.getElementManager().getElementById(idToClearFocus[i]);
+		element = App.getElementModule().getElementById(idToClearFocus[i]);
 		element.starChoiceForRepresentation = '';	
 	}
 
-	App.getElementManager().clearFocusOnThesesElements(idToClearFocus);
+	App.getElementModule().clearFocusOnThesesElements(idToClearFocus);
 	App.getClusterer().repaint();	
 
-	animateDownElementInfoBar(); 
+	animateDownInfoBarComponent(); 
 
 	this.currentStar_ = null;
 
@@ -65,17 +65,17 @@ StarRepresentationChoiceManager.prototype.end = function ()
 
 	//ajuster_taille_elementList();
 
-	//App.setState('normal');
+	//App.setState(App.Mode.Normal);
 };
 
-StarRepresentationChoiceManager.prototype.selectElementIndex = function (elementIndex) 
+StarRepresentationChoiceModule.prototype.selectElementIndex = function (elementIndex) 
 {
 	this.currentStar_.setIndex(elementIndex);
-	App.getElementInfoBar().showElement(this.currentStar_.getElementId(), false);
+	App.getInfoBarComponent().showElement(this.currentStar_.getElementId(), false);
 	this.majView();	
 };
 
-StarRepresentationChoiceManager.prototype.majView = function ()
+StarRepresentationChoiceModule.prototype.majView = function ()
 {
 	var elementId = this.currentStar_.getElementId();
 
@@ -86,7 +86,7 @@ StarRepresentationChoiceManager.prototype.majView = function ()
 	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starElement");	
 };
 
-StarRepresentationChoiceManager.prototype.selectElementById = function (elementId)
+StarRepresentationChoiceModule.prototype.selectElementById = function (elementId)
 {
 	var elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
 	this.selectElementIndex(elementIndex);

@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function FilterManager() 
+function FilterModule() 
 {
 	this.productFilters = [];
 	this.typeFilters = [];	
@@ -15,22 +15,22 @@ function FilterManager()
 	this.showOnlyFavorite_ = false;
 }
 
-FilterManager.prototype.showOnlyFavorite = function(data)
+FilterModule.prototype.showOnlyFavorite = function(data)
 {
 	this.showOnlyFavorite_ = data;
 };
 
-FilterManager.prototype.addFilter = function (data, filterType, updateElementList) 
+FilterModule.prototype.addFilter = function (data, filterType, updateElementList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
 	var index = listToFilter.indexOf(data);
 	if ( index < 0) listToFilter.push(data);
 
-	if (updateElementList) App.getElementManager().updateElementList(false);
+	if (updateElementList) App.getElementModule().updateElementList(false);
 };
 
-FilterManager.prototype.removeFilter = function (data, filterType, updateElementList) 
+FilterModule.prototype.removeFilter = function (data, filterType, updateElementList) 
 {	
 	var listToFilter = this.getFilterListFromType(filterType);
 
@@ -38,11 +38,11 @@ FilterManager.prototype.removeFilter = function (data, filterType, updateElement
 	if ( index > -1) 
 	{
 		listToFilter.splice(index, 1);
-		if (updateElementList) App.getElementManager().updateElementList(true);
+		if (updateElementList) App.getElementModule().updateElementList(true);
 	}
 };
 
-FilterManager.prototype.getFilterListFromType = function(type)
+FilterModule.prototype.getFilterListFromType = function(type)
 {
 	var listToFilter = null;
 
@@ -56,7 +56,7 @@ FilterManager.prototype.getFilterListFromType = function(type)
 	return listToFilter;
 };
 
-FilterManager.prototype.checkIfElementPassFilters = function (element) 
+FilterModule.prototype.checkIfElementPassFilters = function (element) 
 {	
 	// FAVORITE FILTER
 	if (this.showOnlyFavorite_ && !element.isFavorite) return false;
@@ -129,7 +129,7 @@ FilterManager.prototype.checkIfElementPassFilters = function (element)
 	return true;
 };
 
-FilterManager.prototype.containsProduct = function (productName) 
+FilterModule.prototype.containsProduct = function (productName) 
 {		
 	for (var i = 0; i < this.productFilters.length; i++) 
 	{
@@ -141,7 +141,7 @@ FilterManager.prototype.containsProduct = function (productName)
 	return false;
 };
 
-FilterManager.prototype.containsOpeningDay = function (day) 
+FilterModule.prototype.containsOpeningDay = function (day) 
 {		
 	for (var i = 0; i < this.dayFilters.length; i++) 
 	{

@@ -12,11 +12,11 @@ jQuery(document).ready(function()
 	$('#element-info-bar .btn-select-as-representant').click(function(event) 
 	{ 
 		var elementId = $('#element-info-bar .element-item').attr('data-element-id');
-		App.getSRCManager().selectElementById( elementId ); 		
+		App.getSRCModule().selectElementById( elementId ); 		
 	});
 });
 
-function ElementManager(listElementPhp) 
+function ElementModule(listElementPhp) 
 {
 	this.elements_ = [];
 
@@ -31,7 +31,7 @@ function ElementManager(listElementPhp)
 	}
 }
 
-ElementManager.prototype.draw = function () 
+ElementModule.prototype.draw = function () 
 {	
 	var element;
 	for(var i = 0; i < App.getConstellation().getStars().length; i++)
@@ -41,9 +41,9 @@ ElementManager.prototype.draw = function ()
 	}	
 };
 
-ElementManager.prototype.focusOnThesesElements = function (idList) 
+ElementModule.prototype.focusOnThesesElements = function (idList) 
 {
-	App.getMarkerManager().hidePartiallyAllMarkers();
+	App.getMarkerModule().hidePartiallyAllMarkers();
 
 	var element;	
 
@@ -56,9 +56,9 @@ ElementManager.prototype.focusOnThesesElements = function (idList)
 	}
 };
 
-ElementManager.prototype.clearFocusOnThesesElements = function (idList) 
+ElementModule.prototype.clearFocusOnThesesElements = function (idList) 
 {
-	App.getMarkerManager().showNormalHiddenAllMarkers();
+	App.getMarkerModule().showNormalHiddenAllMarkers();
 
 	var marker;
 	for(var i = 0; i < idList.length; i++)
@@ -71,12 +71,12 @@ ElementManager.prototype.clearFocusOnThesesElements = function (idList)
 	this.draw();
 };
 
-ElementManager.prototype.getElements = function () 
+ElementModule.prototype.getElements = function () 
 {
 	return this.elements_;
 };
 
-ElementManager.prototype.getElementById = function (elementId) 
+ElementModule.prototype.getElementById = function (elementId) 
 {
 	for (var i = 0; i < this.elements_.length; i++) 
 	{

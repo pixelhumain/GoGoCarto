@@ -13,20 +13,20 @@ jQuery(document).ready(function()
 	$('#btn-constellation').click(function()
 	{ 
 		var address = checkForAdress();
-		if (address) redirectTodirectory('biopen_constellation', address); 
+		if (address) redirectToDirectory('biopen_constellation', address); 
 	});
 
-	//$('#btn-directory').click(function(){ redirectTodirectory('biopen_directory','Labrit'); });
+	//$('#btn-directory').click(function(){ redirectToDirectory('biopen_directory','Labrit'); });
 	$('#btn-directory').click(function()
 	{ 
 		var address = checkForAdress();
-		if (address) redirectTodirectory('biopen_directory',address); 
+		if (address) redirectToDirectory('biopen_directory',address); 
 	});
 
 	$('#search-bar').on("search", function(event, address)
 	{
 		// do nothing
-		/*redirectTodirectory('biopen_directory', address);*/
+		/*redirectToDirectory('biopen_directory', address);*/
 	});
 });
 
@@ -43,5 +43,5 @@ function checkForAdress()
 
 function initMap() 
 {	
-	initAutocompletion(document.getElementById('search-bar'));
+	initAutoCompletionForElement(document.getElementById('search-bar'));
 }

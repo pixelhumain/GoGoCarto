@@ -67,14 +67,15 @@
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var elementListJson = {{ elementList | serialize("json") | raw }}; 
     var constellationMode = false;
-    var onlyInputAdressMode = false;
+    //var onlyInputAdressMode = false;
 
-    var geocodeResponse = null;
-    {% if geocodeResponse is defined %}
-      geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
-    {% endif %}  
+    var originalUrlSlug = "{{ slug }}";
+
+    // var geocodeResponse = null;
+    // {% if geocodeResponse is defined %}
+    //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
+    // {% endif %}  
 
     var App = new AppModule();   
 

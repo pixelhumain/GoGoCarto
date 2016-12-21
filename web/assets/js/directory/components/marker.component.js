@@ -37,13 +37,13 @@ function BiopenMarker(id_, position_)
 	{
 		App.setTimeoutClicking();
 
-		if (that.isHalfHidden_) App.setState('normal');	
+		if (that.isHalfHidden_) App.setState(App.Mode.Normal);	
 
-		App.getElementInfoBar().showElement(that.id_);
+		App.getInfoBarComponent().showElement(that.id_);
 
-		if (App.getState() == 'starRepresentationChoice')
+		if (App.getState() == App.Mode.StarRepresentationChoice)
 		{
-			App.getSRCManager().selectElementById(that.id_);
+			App.getSRCModule().selectElementById(that.id_);
 		}
 
 		ev.preventDefault();
@@ -95,11 +95,11 @@ BiopenMarker.prototype.updateIcon = function ()
 		var lineType;
 		if (element.starChoiceForRepresentation === '')
 		{
-			lineType = 'normal';
+			lineType = App.Mode.Normal;
 		}
 		else
 		{			
-			lineType = element.isCurrentStarChoiceRepresentant() ? 'normal' : 'dashed';
+			lineType = element.isCurrentStarChoiceRepresentant() ? App.Mode.Normal : 'dashed';
 		}		
 
 		this.updatePolyline({lineType: lineType});
@@ -312,7 +312,7 @@ BiopenMarker.prototype.getRichMarker = function ()
 
 BiopenMarker.prototype.getElement = function () 
 {	
-	return App.getElementManager().getElementById(this.id_);
+	return App.getElementModule().getElementById(this.id_);
 	//return this.element_;
 };
 
@@ -323,7 +323,7 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
 	context.polyline_.setMap(context.richMarker_.getMap());	
 
-	if (App.getState() == "showDirections") 
+	if (App.getState() == App.Mode.ShowDirections) 
 	{
 		context.polyline_.setMap(null);	
 		context.polyline_.setVisible(false);

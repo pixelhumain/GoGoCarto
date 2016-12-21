@@ -16,7 +16,7 @@ function createRequest()
 	var request = {};
 	request.origin = App.getMap().getCenter();
 	request.distance = calculateMapWidthInKm(App.getMap()) * 2;
-	request.elementIds = App.getElementManager().getAllElementsIds();
+	request.elementIds = App.getElementModule().getAllElementsIds();
 	request.maxResults = 300;
 	return request;
 }
@@ -31,7 +31,7 @@ function getElementListFromAjax(request)
 		return;
 	}
 
-	var start= new Date().getTime();
+	var start = new Date().getTime();
 	var route = Routing.generate('biopen_directory_ajax');
 
 	$.ajax({
@@ -50,8 +50,8 @@ function getElementListFromAjax(request)
 				var end = new Date().getTime();
 				//window.console.log("   receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-				App.getElementManager().addJsonElements(response.data, true);
-				App.getElementManager().updateElementList(); 
+				App.getElementModule().addJsonElements(response.data, true);
+				App.getElementModule().updateElementList(); 
 			}
 	        
 	        if (response.exceedMaxResult)

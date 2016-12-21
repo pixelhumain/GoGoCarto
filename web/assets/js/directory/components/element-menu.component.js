@@ -44,7 +44,7 @@ function createListenersForElementMenu(object)
 	});
 	object.find('.icon-delete').click(function() 
 	{		
-		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
+		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
 		$('#popup-delete-element .elementName').text(capitalize(element.name));
 		$('#popup-delete-element').openModal({
@@ -60,15 +60,15 @@ function createListenersForElementMenu(object)
 		{
 			$('#modal-pick-address').openModal();
 		}
-		else App.setState("showDirections",{id: getCurrentElementIdShown()});
+		else App.setState(App.Mode.ShowDirections,{id: getCurrentElementIdShown()});
 	});
 	
 	object.find('.tooltipped').tooltip();	
 	
 	object.find('.icon-star-empty').click(function() 
 	{
-		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
-		App.getElementManager().addFavorite(getCurrentElementIdShown());
+		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
+		App.getElementModule().addFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-empty').hide();
 		object.find('.icon-star-full').show();
 		element.getBiopenMarker().updateIcon();
@@ -77,8 +77,8 @@ function createListenersForElementMenu(object)
 	
 	object.find('.icon-star-full').click(function() 
 	{
-		var element = App.getElementManager().getElementById(getCurrentElementIdShown());
-		App.getElementManager().removeFavorite(getCurrentElementIdShown());
+		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
+		App.getElementModule().removeFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-full').hide();
 		object.find('.icon-star-empty').show();
 		element.getBiopenMarker().updateIcon();

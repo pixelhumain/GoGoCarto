@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function ElementManagerdirectory(listElementPhp) 
+function ElementsModule(listElementPhp) 
 {
 	this.allElements_ = [];
 	this.currElements_ = [];
@@ -24,12 +24,12 @@ function ElementManagerdirectory(listElementPhp)
 	}   
 	else this.favoriteIds_ = [];	
 
-	this.addJsonElements(listElementPhp, false);
+	//this.addJsonElements(listElementPhp, false);
 
 	// TODO delete listElementPhp; ?
 }
 
-ElementManagerdirectory.prototype.checkCookies = function()
+ElementsModule.prototype.checkCookies = function()
 {
 	for(var j = 0; j < this.favoriteIds_.length; j++)
   	{
@@ -37,7 +37,7 @@ ElementManagerdirectory.prototype.checkCookies = function()
   	}
 };
 
-ElementManagerdirectory.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
+ElementsModule.prototype.addJsonElements = function (elementList, checkIfAlreadyExist)
 {
 	var element;
 	var newElements = 0;
@@ -56,7 +56,7 @@ ElementManagerdirectory.prototype.addJsonElements = function (elementList, check
 	//window.console.log("addJsonElements newElements = " + newElements);
 };
 
-ElementManagerdirectory.prototype.addFavorite = function (favoriteId, modifyCookies)
+ElementsModule.prototype.addFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
 	var element = this.getElementById(favoriteId);
@@ -70,7 +70,7 @@ ElementManagerdirectory.prototype.addFavorite = function (favoriteId, modifyCook
 	}
 };
 
-ElementManagerdirectory.prototype.removeFavorite = function (favoriteId, modifyCookies)
+ElementsModule.prototype.removeFavorite = function (favoriteId, modifyCookies)
 {
 	modifyCookies = modifyCookies !== false;
 	var element = this.getElementById(favoriteId);
@@ -85,7 +85,7 @@ ElementManagerdirectory.prototype.removeFavorite = function (favoriteId, modifyC
 	}
 };
 
-ElementManagerdirectory.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
+ElementsModule.prototype.updateElementList = function (checkInAllElements, forceRepaint) 
 {	
 	checkInAllElements = checkInAllElements !== false;
 	forceRepaint = forceRepaint || false;
@@ -101,7 +101,7 @@ ElementManagerdirectory.prototype.updateElementList = function (checkInAllElemen
  	var markersToRemove = [];
  	var markersChanged = false;
 
-	filterManager = App.getFilterManager();
+	filterModule = App.getFilterModule();
 
 	i = elements.length;
 
@@ -112,9 +112,9 @@ ElementManagerdirectory.prototype.updateElementList = function (checkInAllElemen
 	{
 		element = elements[i];
 		
-		if (mapBounds.contains(element.getPosition()) && filterManager.checkIfElementPassFilters(element))
+		if (mapBounds.contains(element.getPosition()) && filterModule.checkIfElementPassFilters(element))
 		{
-			if (!element.isVisible() && $.inArray(App.getState(), ["normal","showElement"]) > -1)
+			if (!element.isVisible() && $.inArray(App.getState(), [App.States.Normal,App.States.ShowElement]) > -1)
 			{
 				if (element.isInitialized() === false) element.initialize();
 				element.show();
@@ -141,7 +141,7 @@ ElementManagerdirectory.prototype.updateElementList = function (checkInAllElemen
 		/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
 		this.clearMarkers();		
 		return;*/
-		console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
+		//console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
 	}
 	else
 	{
@@ -162,24 +162,24 @@ ElementManagerdirectory.prototype.updateElementList = function (checkInAllElemen
 	
 };
 
-ElementManagerdirectory.prototype.getElements = function () 
+ElementsModule.prototype.getElements = function () 
 {
 	return this.currElements_;
 };
 
-ElementManagerdirectory.prototype.getAllElementsIds = function () 
+ElementsModule.prototype.getAllElementsIds = function () 
 {
 	return this.allElementsIds_;
 };
 
-ElementManagerdirectory.prototype.clearMarkers = function()
+ElementsModule.prototype.clearMarkers = function()
 {
 	this.hideAllMarkers();
 	this.currElements_ = [];
 	App.getClusterer().clearMarkers();	
 };
 
-ElementManagerdirectory.prototype.getMarkers = function () 
+ElementsModule.prototype.getMarkers = function () 
 {
 	var markers = [];
 	l = this.currElements_.length;
@@ -190,7 +190,7 @@ ElementManagerdirectory.prototype.getMarkers = function ()
 	return markers;
 };
 
-ElementManagerdirectory.prototype.hidePartiallyAllMarkers = function () 
+ElementsModule.prototype.hidePartiallyAllMarkers = function () 
 {
 	l = this.currElements_.length;
 	while(l--)
@@ -199,7 +199,7 @@ ElementManagerdirectory.prototype.hidePartiallyAllMarkers = function ()
 	}
 };
 
-ElementManagerdirectory.prototype.hideAllMarkers = function () 
+ElementsModule.prototype.hideAllMarkers = function () 
 {
 	l = this.currElements_.length;
 	while(l--)
@@ -208,7 +208,7 @@ ElementManagerdirectory.prototype.hideAllMarkers = function ()
 	}
 };
 
-ElementManagerdirectory.prototype.showNormalHiddenAllMarkers = function () 
+ElementsModule.prototype.showNormalHiddenAllMarkers = function () 
 {
 	l = this.allElements_.length;
 	while(l--)
@@ -217,7 +217,7 @@ ElementManagerdirectory.prototype.showNormalHiddenAllMarkers = function ()
 	}
 };
 
-ElementManagerdirectory.prototype.getElementById = function (elementId) 
+ElementsModule.prototype.getElementById = function (elementId) 
 {
 	//return this.allElements_[elementId];
 	for (var i = 0; i < this.allElements_.length; i++) {

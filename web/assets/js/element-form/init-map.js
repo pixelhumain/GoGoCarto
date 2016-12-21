@@ -15,7 +15,7 @@ var geocoding_ok;
 // Google map initialisation
 function initMap() 
 {	
-	initAutocompletion(document.getElementById('input-address'));
+	initAutoCompletionForElement(document.getElementById('input-address'));
 
 	var mapCenter;
 	if (editMode && $('#input-latitude').attr('value'))

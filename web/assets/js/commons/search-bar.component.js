@@ -26,5 +26,17 @@ jQuery(document).ready(function()
 function handleSearchAction()
 {
 	var searchBar = $('#search-bar');
-	if (searchBar.val())	searchBar.trigger("search", [ searchBar.val() ]);
+	if (searchBar.val()) searchBar.trigger("search", [ searchBar.val() ]);
+}
+
+function initAutoCompletionForElement(element)
+{
+    var options = {
+      componentRestrictions: {country: 'fr'}
+    };
+    var autocomplete = new google.maps.places.Autocomplete(element, options);   
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        $(element).trigger('place_changed');
+        return false;
+    });
 }

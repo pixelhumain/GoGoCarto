@@ -18,8 +18,10 @@ jQuery(document).ready(function()
 
 	$('#search-bar').on("search", function(event, address)
 	{
-		if (constellationMode) redirectTodirectory('biopen_constellation', address, $('#search_distance').val());
-		else panToAddress(address);
+		if (constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
+		else App.getGeocoder().geocodeAddress(address, 
+			function(results) { $('#search-bar').val(results[0].formatted_address); },
+			function(results) { $('#search-bar').addClass('invalid'); } );
 
 		// If Menu take all available width (in case of small mobile)
 		if ($('#directory-menu').outerWidth() == $(window).outerWidth())
@@ -77,10 +79,10 @@ jQuery(document).ready(function()
 	$('#overlay').click(hideDirectoryMenu);
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
-	if (onlyInputAdressMode)
-	{
-		showOnlyInputAdress();
-	}
+	// if (onlyInputAdressMode)
+	// {
+	// 	showOnlyInputAdress();
+	// }
 
 	$('#list_tab').click(function(){
 		$("#ElementList").show();
@@ -94,7 +96,7 @@ jQuery(document).ready(function()
 
 function showDirectoryMenu()
 {
-	animateDownElementInfoBar();  
+	animateDownInfoBarComponent();  
 	$('#overlay').css('z-index','10');
 	$('#overlay').animate({'opacity': '.6'},700);
 	$('#directory-menu').show( "slide", {direction: 'left', easing: 'swing'} , 350 );
@@ -136,27 +138,10 @@ function updateComponentsSize()
 
 	if (App) setTimeout(App.updateMaxElements, 500);
 
-	ajuster_taille_elementList();
-	updateElementInfoBarSize();	
+	updateInfoBarSize();	
 	updateMapSize();
 }
 
-function ajuster_taille_elementList()
-{
-	/*if (constellationMode)
-	{
-		if ($('#ElementList').offset().top < 100)
-		{
-			$('#ElementList ul').css('height',$('#ElementList').height() 
-				- $('#ElementList .starRepresentationChoice-helper:visible').outerHeight(true)
-				- $('#ElementList .element-list-title:visible').outerHeight(true) );
-		}
-		else
-		{
-			$('#ElementList ul').css('height','auto');
-		}
-	}*/
-}
 
 var matchMediaBigSize_old;
 function updateMapSize(elementInfoBar_height)
@@ -206,7 +191,7 @@ function updateMapSize(elementInfoBar_height)
 	if (App) setTimeout(function() { google.maps.event.trigger(App.getMap(), 'resize'); },500);
 }
 
-function updateElementInfoBarSize()
+function updateInfoBarSize()
 {
 	if ($('#element-info-bar').width() < '600')
 	{

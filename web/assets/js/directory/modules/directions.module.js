@@ -1,4 +1,4 @@
-function DirectionsManager()
+function DirectionsModule()
 {
 	this.markerDirectionResult = null;
 
@@ -6,7 +6,18 @@ function DirectionsManager()
   	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: App.getMap(), suppressMarkers:true}); 
 }
 
-DirectionsManager.prototype.calculateRoute = function(origin, destination) 
+DirectionsModule.prototype.clear = function()
+{
+	this.clearRoute();
+	this.clearDirectionMarker();
+};
+
+DirectionsModule.prototype.clearRoute = function()
+{
+	this.directionsRenderer_.setDirections({routes: []});
+};
+
+DirectionsModule.prototype.calculateRoute = function(origin, destination) 
 {
   	this.directionsService_.route({
     	origin: origin,
@@ -56,7 +67,7 @@ DirectionsManager.prototype.calculateRoute = function(origin, destination)
   	});
 };
 
-DirectionsManager.prototype.clearDirectionMarker = function()
+DirectionsModule.prototype.clearDirectionMarker = function()
 {
 	if (this.markerDirectionResult !== null)
 	{

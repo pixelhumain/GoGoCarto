@@ -25,12 +25,12 @@ if (constellationMode)
 		{
 			moreResultContainer.stop(true,false).slideUp(slideOptions);
 			moreResultContainer.removeClass("active");
-			App.getSRCManager().end();
+			App.getSRCModule().end();
 		}
 		else
 		{
 			clearDirectoryMenu();
-			App.getSRCManager().end();
+			App.getSRCModule().end();
 			
 			if ($('#directory-menu').outerWidth() == $(window).outerWidth())
 			{
@@ -43,11 +43,11 @@ if (constellationMode)
 
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
 			moreResultContainer.addClass("active");
-			App.getSRCManager().begin(star);	
+			App.getSRCModule().begin(star);	
 
 			if ($(this).attr('data-elements-size') == 1)
 			{			
-				App.getElementInfoBar().showElement(star.getElementId(), false);
+				App.getInfoBarComponent().showElement(star.getElementId(), false);
 			}
 			else
 			{
@@ -56,23 +56,23 @@ if (constellationMode)
 				{
 					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
 				}, 400);
-				animateDownElementInfoBar();
+				animateDownInfoBarComponent();
 			}		
 		}		
 	});
 
 	// Click sur un des choix des représentants de l'étoile
-	$('.moreResultelement-item').click(function() { App.getSRCManager().selectElementIndex( $(this).attr('data-element-index') ); });
+	$('.moreResultelement-item').click(function() { App.getSRCModule().selectElementIndex( $(this).attr('data-element-index') ); });
 
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
 	{
-		if (App.getState() == 'starRepresentationChoice') return;
+		if (App.getState() == App.Mode.StarRepresentationChoice) return;
 		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showBigSize();
 	}).mouseleave(function() 
 	{
-		if (App.getState() == 'starRepresentationChoice') return;
+		if (App.getState() == App.Mode.StarRepresentationChoice) return;
 		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showNormalSize();
 	});
@@ -80,11 +80,11 @@ if (constellationMode)
 	// Gestion hover pour le choix du réprésentant de l'étoile
 	$('.moreResultelement-item, .element-item').mouseenter(function() 
 	{
-		var marker = App.getMarkerManager().getMarkerById($(this).attr('data-element-id'));
+		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showBigSize();
 	}).mouseleave(function() 
 	{
-		var marker = App.getMarkerManager().getMarkerById($(this).attr('data-element-id'));
+		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showNormalSize();
 	});
 

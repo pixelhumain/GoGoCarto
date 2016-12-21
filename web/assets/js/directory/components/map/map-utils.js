@@ -25,11 +25,9 @@ var pointToLatlng = function(point)
 	return latlng; 
 };
 
-
-
-
 function calculateMapWidthInKm(map)
 {
+	if (!map) return;
 	return Math.floor(calculateDistanceFromLatLonInKm(map.getBounds().getNorthEast(), map.getCenter()));
 }
 

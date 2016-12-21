@@ -12,24 +12,20 @@ jQuery(document).ready(function()
 	
 });
 
-function ElementInfoBar()
+function InfoBarComponent()
 {
 	this.isVisible = false;
 	this.isDetailsVisible = false;
 
-	classExtends(ElementInfoBar, EventEmitter);
-
-	
+	classExtends(InfoBarComponent, EventEmitter);	
 }
 
-
-
-// App.getElementInfoBar().showElement;
-ElementInfoBar.prototype.showElement = function (elementId) 
+// App.getInfoBarComponent().showElement;
+InfoBarComponent.prototype.showElement = function (elementId) 
 {
 	this.emitEvent("show", [elementId]);
 
-	var element = App.getElementManager().getElementById(elementId);
+	var element = App.getElementModule().getElementById(elementId);
 
 	if (!constellationMode)
 	{
@@ -50,17 +46,17 @@ ElementInfoBar.prototype.showElement = function (elementId)
 
 	$('#btn-close-bandeau-detail').click(function()
 	{  
-		if (App.getState() != "starRepresentationChoice") App.setState("normal");
-		animateDownElementInfoBar();
+		if (App.getState() != App.Mode.StarRepresentationChoice) App.setState("normal");
+		animateDownInfoBarComponent();
 		return false;
 	});
-	$('#element-info .collapsible-header').click(toggleElementInfoBarDetails);
-	animateUpElementInfoBar();
+	$('#element-info .collapsible-header').click(toggleInfoBarComponentDetails);
+	animateUpInfoBarComponent();
 };
 
-function animateUpElementInfoBar()
+function animateUpInfoBarComponent()
 {
-	App.setTimeoutElementInfoBar();
+	App.setTimeoutInfoBarComponent();
 
 	if ($('#element-info-bar').css('position') != 'absolute')
 	{
@@ -70,13 +66,13 @@ function animateUpElementInfoBar()
 		elementInfoBar_newHeight += $('#element-info-bar .starRepresentationChoice-helper:visible').height();
 
 		$('#element-info-bar').css('height', elementInfoBar_newHeight);
-		updateElementInfoBarSize();
+		updateInfoBarSize();
 		updateMapSize(elementInfoBar_newHeight);
 	}	
 	else
 	{
 		/*$('#element-info-bar').show();
-		updateElementInfoBarSize();*/		
+		updateInfoBarSize();*/		
 
 		if (!$('#element-info-bar').is(':visible'))
 		{
@@ -84,20 +80,20 @@ function animateUpElementInfoBar()
 			$('#element-info-bar').show().animate({'right':'0'},350,'swing',function(){ updateMapSize(0); });
 		}
 		
-		updateElementInfoBarSize();
+		updateInfoBarSize();
 		//$('#element-info-bar').show("slide", {direction: 'rigth', easing: 'swing'} , 350 );
 	}
 
 	this.isVisible = true;
 }
 
-function animateDownElementInfoBar()
+function animateDownInfoBarComponent()
 {
 	if ($('#element-info-bar').is(':visible'))
 	{
 		if ($('#element-info-bar').css('position') != 'absolute')
 		{
-			hideElementInfoBarDetails();
+			hideInfoBarComponentDetails();
 			$('#element-info-bar').css('height','0');
 			$('#element-info-bar').hide();
 			updateMapSize(0);
@@ -118,13 +114,13 @@ function animateDownElementInfoBar()
 	this.isVisible = false;
 }
 
-function toggleElementInfoBarDetails()
+function toggleInfoBarComponentDetails()
 {	
-	App.setTimeoutElementInfoBar();
+	App.setTimeoutInfoBarComponent();
 
 	if ( $('#element-info-bar .moreDetails').is(':visible') )
 	{
-		hideElementInfoBarDetails();
+		hideInfoBarComponentDetails();
 		$('#bandeau_helper').css('z-index',20).animate({'opacity': '1'},500);
 		$('#menu-button').fadeIn();		
 	}
@@ -156,9 +152,9 @@ function toggleElementInfoBarDetails()
 	}	
 }
 
-function hideElementInfoBarDetails()
+function hideInfoBarComponentDetails()
 {
-	App.setTimeoutElementInfoBar();
+	App.setTimeoutInfoBarComponent();
 
 	if ($('#element-info-bar .moreDetails').is(':visible'))
 	{

@@ -19,7 +19,7 @@ function drawLineBetweenPoints(point1, point2, elementType, map_, options)
 
   	options = options || {};
   	// valeurs par default
-  	options.lineType = options.lineType || 'normal';
+  	options.lineType = options.lineType || App.Mode.Normal;
   	options.strokeOpacity = options.strokeOpacity || 0.5;
   	options.strokeWeight = options.strokeWeight || 3;
 

@@ -11,8 +11,8 @@ jQuery(document).ready(function()
 {	
 	$('.favorite-checkbox').change(function ()
 	{
-		App.getFilterManager().showOnlyFavorite($(this).is(':checked'));
-		App.getElementManager().updateElementList($(this).is(':checked'));
+		App.getFilterModule().showOnlyFavorite($(this).is(':checked'));
+		App.getElementModule().updateElementList($(this).is(':checked'));
 	});
 
 	$('#product-checkbox-favorite + label').tooltip();
@@ -20,7 +20,7 @@ jQuery(document).ready(function()
 	$('.filterCheckbox').change(function()
 	{		
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
-		/*App.getElementManager().updateElementList($(this).is(':checked'));*/
+		/*App.getElementModule().updateElementList($(this).is(':checked'));*/
 	});
 
 	$('.title-checkbox').change(function()
@@ -33,14 +33,14 @@ jQuery(document).ready(function()
 			checkFilterFromCheckbox(this, $(this).attr('data-type'), false);
 		});
 
-		App.getElementManager().updateElementList(isChecked);
+		App.getElementModule().updateElementList(isChecked);
 	});	
 });
 
 function checkFilterFromCheckbox(object, filterType, updateElementList)
 {
-	if (!$(object).is(':checked')) App.getFilterManager().addFilter($(object).attr('data'), filterType, updateElementList);
-	else App.getFilterManager().removeFilter($(object).attr('data'), filterType, updateElementList);
+	if (!$(object).is(':checked')) App.getFilterModule().addFilter($(object).attr('data'), filterType, updateElementList);
+	else App.getFilterModule().removeFilter($(object).attr('data'), filterType, updateElementList);
 }
 
 

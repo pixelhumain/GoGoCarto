@@ -40,7 +40,7 @@ Star.prototype.getElementIndexFromId = function (id) {
 
 
 Star.prototype.getElement = function () {
-  return App.getElementManager().getElementById(this.getElementId());  
+  return App.getElementModule().getElementById(this.getElementId());  
 };
 
 Star.prototype.getPosition = function () {
@@ -49,7 +49,7 @@ Star.prototype.getPosition = function () {
 };
 
 Star.prototype.getMarker = function () {
-  return App.getMarkerManager().getMarkerById(this.getElementId());
+  return App.getMarkerModule().getMarkerById(this.getElementId());
 };
 
 Star.prototype.isVisible = function () {
@@ -98,8 +98,8 @@ Star.prototype.setIndex = function (newIndex)
 	this.index_ = newIndex;
 
   // on met à day le marqueur des deux elements interchangés
-  App.getMarkerManager().getMarkerById(oldElementId).updateIcon();
-  var newMarkerRepresentStar = App.getMarkerManager().getMarkerById(this.getElementId());
+  App.getMarkerModule().getMarkerById(oldElementId).updateIcon();
+  var newMarkerRepresentStar = App.getMarkerModule().getMarkerById(this.getElementId());
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
 
@@ -108,7 +108,7 @@ Star.prototype.setIndex = function (newIndex)
   /*$('#ElementList #element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
   /*$('#element-info-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
 
-  App.getListElementManager().draw();
+  App.getListElementModule().draw();
 };
 
 
