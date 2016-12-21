@@ -1,1 +1,0 @@
-body:before{white-space:pre;font-family:monospace;content:"Sass::SyntaxError: \"header\" failed to @extend \".z-depth-2\".\A The selector \".z-depth-2\" was not found.\A Use \"@extend .z-depth-2 !optional\" if the extend should be able to fail.\A "}
