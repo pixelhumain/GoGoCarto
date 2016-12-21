@@ -11,34 +11,35 @@
 function AppModule()
 {
 	var that = this;
-
-	this.map_ = null;
-	this.clusterer_ = null;
 	
 	this.constellationMode_ = constellationMode;
-	this.filterManager_ = constellationMode ? null : new FilterManager();
-	this.listElementManager_ = constellationMode ? new ListElementManager() : null;
-	this.stateName_ = null;
-	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
 	
+	
+	this.stateName_ = null;	
+	
+
+	this.filterManager_ = constellationMode ? null : new FilterManager();
+	this.elementManager_ = new ElementManagerdirectory(elementListJson);
+	this.starRepresentationChoiceManager_ = constellationMode ? new StarRepresentationChoiceManager() : null;
 	this.displayElementAloneManager_ = new DisplayElementAloneManager();
+	this.directionsManager_ = null;
+
 	this.elementInfoBar_ = new ElementInfoBar();
+	this.mapComponent_ = new MapComponent();
 
-	if (constellationMode)
-	{
-		this.constellation_ = new Constellation(constellationRawJson);	
-		this.elementManager_ = new ElementManager(elementListJson);
-		this.markerManager_ = new MarkerManager();			
-	}
-	else
-	{
-		this.constellation_ = null;	
-		this.elementManager_ = new ElementManagerdirectory(elementListJson);
-		this.markerManager_ = null;			
-	}
-
-	this.directionsService_ = null;
-  	this.directionsRenderer_ = null;
+	// if (constellationMode)
+	// {
+	// 	this.constellation_ = new Constellation(constellationRawJson);	
+	// 	this.elementManager_ = new ElementManager(elementListJson);
+	// 	this.markerManager_ = new MarkerManager();
+	//  this.listElementManager_ = constellationMode ? new ListElementManager() : null;			
+	// }
+	// else
+	// {
+	// 	this.constellation_ = null;	
+	// 	this.elementManager_ = new ElementManagerdirectory(elementListJson);
+	// 	this.markerManager_ = null;			
+	// }	
 
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
@@ -53,24 +54,32 @@ function AppModule()
 
   	this.elementInfoBar_.addListener("show",function(elementId)
   	{
-  		var statesToAvoid = ["showRouting","showElementAlone","starRepresentationChoice"];
+  		var statesToAvoid = ["showDirections","showElementAlone","starRepresentationChoice"];
 		if ($.inArray(that.getState(), statesToAvoid) == -1 ) that.setState("showElement", {id: elementId});		
 	});	
+
+	
 }
 
-AppModule.prototype.setMap = function(map)
+var States =
 {
-	this.map_ = map;
-
-	if (!onlyInputAdressMode) this.initialize();	
-
-	this.directionsService_ = new google.maps.DirectionsService();
-  	this.directionsRenderer_ = new google.maps.DirectionsRenderer({map: map, suppressMarkers:true}); 
+	ShowElement : 0,
+    ShowRouting : 1,
+    ShowElementAlone : 2,
+    StarRepresentationChoice : 3
 };
 
-AppModule.prototype.initialize = function()
+// triggered when google maps scripts are loaded
+function initMap()
+{
+	App.mapComponent_.addListener("mapReady",function() { App.initializeMapFeatures(); });	
+	App.mapComponent_.init();	
+}
+
+
+AppModule.prototype.initializeMapFeatures = function()
 {	
-	console.log("initialize");
+	//if (!onlyInputAdressMode) return;
 	if (constellationMode)
 	{
 		App.getMarkerManager().createMarkers();
@@ -84,54 +93,26 @@ AppModule.prototype.initialize = function()
 	}
 	else
 	{
+		this.directionsManager_ = new DirectionsManager();	
+		this.elementManager_.updateElementList();
+
 		this.checkInitialState();
 		//check initial (si des checkbox ont été sauvegardées par le navigateur)
 		$('.product-checkbox, .element-checkbox').trigger("change");
-		this.updateMaxElements();
+		this.updateMaxElements();		
 
-		this.initCluster(null);
-
-		this.elementManager_.updateElementList();
-
-		console.log("add listener");
-
-		google.maps.event.addListener(this.map_, 'idle', function(e) {App.handleMapIdle();});
-
-		google.maps.event.addListener(this.map_, 'click', function(e) {App.handleMapClick();});
+		this.mapComponent_.addListener("idle", function() { App.handleMapIdle();  });
+		this.mapComponent_.addListener("click",function() { App.handleMapClick(); });
 	}
 };
 
-AppModule.prototype.initCluster = function(markersToCluster)
-{
-	// Set Options
-	var clusterOptions = {
-	    title: 'Cluster Title',
-	    enableRetinaIcons: true,
-	    /*styles: styles,
-	    calculator: calculator,*/
-	    //ignoreHidden:false,	    
-	    gridSize: 40, 
-	    maxZoom: 17,
-	    automaticRepaint: this.constellationMode(),
-	};
 
-    var cluster = new MarkerClusterer(this.getMap(), markersToCluster, clusterOptions);
-    this.setClusterer(cluster);
-
-    $('#rangeKernelRadius').change(function() {
-    	cluster.setKernelRadius(parseInt(this.value));
-    });
-
-    $('#rangeClusterRadius').change(function() {
-    	cluster.setClusterRadius(parseInt(this.value));
-    });
-};
 
 var old_zoom = -1;
 AppModule.prototype.handleMapIdle = function(e)
 {
-	
-	//console.log("idle isShowingElementInfoBar "+ AppModule.isShowingElementInfoBar());
+	// showing ElementInfoBar make the map resized and so idle is triggered, 
+	// but we're not interessed in this idling
 	if (this.isShowingElementInfoBar()) return;
 
 	var updateInAllElementList = true;
@@ -176,7 +157,7 @@ AppModule.prototype.setState = function(stateName, options, backFromHistory)
 		return;
 	} */	
 
-	if (stateName != "showRouting") clearDirectionMarker();
+	if (stateName != "showDirections") this.directionsManager_.clearDirectionMarker();
 	
 	switch (stateName)
 	{
@@ -189,7 +170,7 @@ AppModule.prototype.setState = function(stateName, options, backFromHistory)
 			this.displayElementAloneManager_.begin(options.id);						
 			break;
 
-		case 'showRouting':
+		case 'showDirections':
 			if (!options.id) return;			
 			
 			var origin;
@@ -249,7 +230,7 @@ AppModule.prototype.updateHistory_ = function(stateName, oldStateName, options, 
 
 AppModule.prototype.updateRouting_ = function(options)
 {
-	if (this.map_.locationSlug) route = Routing.generate('biopen_directory', { slug : this.map_.locationSlug });
+	if (this.getMap().locationSlug) route = Routing.generate('biopen_directory', { slug : this.getMap().locationSlug });
 	else route = Routing.generate('biopen_directory');
 
 	for (var key in options)
@@ -267,7 +248,7 @@ AppModule.prototype.updateDocumentTitle_ = function(stateName, element)
 	else if (stateName == 'normal') 
 	{
 		var title = this.constellationMode_ ? 'Autour de moi - ' : 'Navigation Libre - ';
-		title += this.map_.locationAddress;
+		title += this.getMap().locationAddress;
 		document.title = title;
 	}
 };
@@ -282,7 +263,7 @@ AppModule.prototype.checkInitialState = function()
 	}
 	else if (GET.routing) 
 	{
-		this.setState('showRouting',{id: GET.routing},true);		
+		this.setState('showDirections',{id: GET.routing},true);		
 	}
 	else
 	{
@@ -319,26 +300,24 @@ AppModule.prototype.setTimeoutElementInfoBar = function()
 	var that = this;
 	setTimeout(function() { that.isShowingElementInfoBar_ = false; }, 1300); 
 };
-AppModule.prototype.getMap = function() { return this.map_; };
-AppModule.prototype.isClicking = function() { return this.isClicking_; };
-AppModule.prototype.getElementInfoBar = function() { return this.elementInfoBar_; };
-AppModule.prototype.isShowingElementInfoBar = function() { return this.isShowingElementInfoBar_; };
-AppModule.prototype.getConstellation = function() { return this.constellation_; };
-AppModule.prototype.setConstellation = function(constellation) { this.constellation_ = constellation;};
-AppModule.prototype.getElementManager = function() { return this.elementManager_; };
-AppModule.prototype.setElementManager = function(manager) { this.elementManager_ = manager; };
-AppModule.prototype.getClusterer = function() { return this.clusterer_; };
-AppModule.prototype.setClusterer = function(clusterer) { this.clusterer_ = clusterer; };
-AppModule.prototype.getMaxElements = function() { return this.maxElementsToShowOnMap_; };
+
+// Getters shortcuts
+AppModule.prototype.getMap = function() { return this.mapComponent_? this.mapComponent_.getMap() : null; };
 AppModule.prototype.getElements = function () { return this.elementManager_.getElements();  };
-AppModule.prototype.getMarkerManager = function() { return this.markerManager_; };
-AppModule.prototype.setMarkerManager = function(markerManager) { this.markerManager_ = markerManager; };
-AppModule.prototype.getFilterManager = function() { return this.filterManager_; };
-AppModule.prototype.setFilterManager = function(filterManager) { this.filterManager_ = filterManager; };
+AppModule.prototype.getClusterer = function() { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
+
+// Private
 AppModule.prototype.constellationMode = function() { return this.constellationMode_; };
+AppModule.prototype.isClicking = function() { return this.isClicking_; };
+AppModule.prototype.isShowingElementInfoBar = function() { return this.isShowingElementInfoBar_; };
+AppModule.prototype.getMaxElements = function() { return this.maxElementsToShowOnMap_; };
+
+// Modules and components
+AppModule.prototype.getElementInfoBar = function() { return this.elementInfoBar_; };
+AppModule.prototype.getElementManager = function() { return this.elementManager_; };
+AppModule.prototype.getMarkerManager = function() { return this.markerManager_; };
+AppModule.prototype.getFilterManager = function() { return this.filterManager_; };
 AppModule.prototype.getSRCManager = function() { return this.starRepresentationChoiceManager_; };
 AppModule.prototype.getDPAManager = function() { return this.displayElementAloneManager_; };
 AppModule.prototype.getListElementManager = function() { return this.listElementManager_; };
-AppModule.prototype.getDirectionsService = function() { return this.directionsService_; };
-AppModule.prototype.getDirectionsRenderer = function() { return this.directionsRenderer_; };
 AppModule.prototype.getState = function() { return this.stateName_; };

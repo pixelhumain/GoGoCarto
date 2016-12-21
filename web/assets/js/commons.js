@@ -19,6 +19,14 @@ jQuery(document).ready(function()
 	});
 });
 
+function classExtends(child, parent)
+{
+  // extends EventEmitter
+  for(var key in parent.prototype) {   
+    child.prototype[key] = parent.prototype[key];
+  }
+}
+
 function initAutocompletion(element)
 {
     var options = {

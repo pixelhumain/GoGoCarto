@@ -60,7 +60,7 @@ function createListenersForElementMenu(object)
 		{
 			$('#modal-pick-address').openModal();
 		}
-		else App.setState("showRouting",{id: getCurrentElementIdShown()});
+		else App.setState("showDirections",{id: getCurrentElementIdShown()});
 	});
 	
 	object.find('.tooltipped').tooltip();	

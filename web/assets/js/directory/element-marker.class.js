@@ -323,7 +323,7 @@ BiopenMarker.prototype.checkPolylineVisibility_ = function (context)
 	context.polyline_.setVisible(context.richMarker_.getVisible());	
 	context.polyline_.setMap(context.richMarker_.getMap());	
 
-	if (App.getState() == "showRouting") 
+	if (App.getState() == "showDirections") 
 	{
 		context.polyline_.setMap(null);	
 		context.polyline_.setVisible(false);

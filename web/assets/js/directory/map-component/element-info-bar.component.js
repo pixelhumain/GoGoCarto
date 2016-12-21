@@ -17,11 +17,12 @@ function ElementInfoBar()
 	this.isVisible = false;
 	this.isDetailsVisible = false;
 
-	// extends EventEmitter
-	for(var key in EventEmitter.prototype) {   
-		ElementInfoBar.prototype[key] = EventEmitter.prototype[key];
-	}
+	classExtends(ElementInfoBar, EventEmitter);
+
+	
 }
+
+
 
 // App.getElementInfoBar().showElement;
 ElementInfoBar.prototype.showElement = function (elementId) 

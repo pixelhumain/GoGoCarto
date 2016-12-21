@@ -19,7 +19,7 @@ jQuery(document).ready(function()
 	$('#search-bar').on("search", function(event, address)
 	{
 		if (constellationMode) redirectTodirectory('biopen_constellation', address, $('#search_distance').val());
-		else panMapToAddress(address);
+		else panToAddress(address);
 
 		// If Menu take all available width (in case of small mobile)
 		if ($('#directory-menu').outerWidth() == $(window).outerWidth())
