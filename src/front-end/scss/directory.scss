@@ -2,7 +2,7 @@
 @import 'vendors/materialize';
 
 
-@import "components/directory/helpers";
+@import "components/directory/helpers-bars";
 @import "components/directory/loaders";
 @import "components/directory/directory-menu";
 @import 'components/directory/icons';
@@ -20,7 +20,7 @@
 
 @import "components/commons/shadow-bottom";
 @import "components/commons/search-bar";
-@import "components/commons/autoComplete";
+@import "components/commons/auto-complete";
 @import "components/commons/scroll-bar";
 
 
