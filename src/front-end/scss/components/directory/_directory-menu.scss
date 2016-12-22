@@ -1,0 +1,329 @@
+@import '../components/search-bar';
+
+#directory-menu
+{
+	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
+
+	z-index: 4000;
+	overflow-y:hidden; 
+
+	@media #{$medium-and-up} 
+	{
+		overflow-y: auto;
+	}
+
+	#directory-menu-main-container
+	{
+		overflow-y: scroll;
+    	@include calc(height, '100% - 2.5rem');
+
+    	@media #{$medium-and-up} 
+    	{
+    		height: auto;
+    		overflow-y: hidden;
+    	}
+	}
+
+	ul
+	{
+		margin: 0;
+		border: 0;
+		box-shadow: none;		
+	}
+
+	.directory-menuTitle
+	{
+		//text-align: center;
+		position: relative;
+	    line-height: 3rem;
+	    padding-left: 1rem;
+	    font-weight: 400;
+	    background-color: $submenu-color;
+	    color: white;
+	}
+
+	#menu-title 
+	{
+		background-color: $primary-color;
+	    line-height: 2.5rem;
+	    padding-right: 1.5rem;
+	    font-weight: 500;
+	    text-align: center;
+
+	    .shadow-bottom
+	    {
+	    	top: 2.5rem;
+	    	display: none;
+	    }	
+
+	    > .icon-close
+	    {
+	    	float: right;
+		    position: absolute;
+		    top: .2rem;
+		    font-weight: 100;
+		    font-size: 1.2rem;
+		    right: 1.3rem;
+
+		    &:hover { cursor: pointer }
+	    }
+
+	    @media #{$medium-and-up} 
+		{
+			display:none;
+		}	
+	}
+
+	.filterCheckbox
+	{
+		+ label:after
+		{
+			top: 2px !important;
+		    width: 18px;
+		    height: 18px;
+		    color : #656565;
+		    background-color: #656565;
+		    border: 2px solid ;		    
+		}
+
+		
+		+ label:before
+		{
+			top: 2px;
+		    left: 1px;
+		    width: 7px;
+		    height: 12px;
+		}
+
+		&:not(:checked) + label:after 
+		{
+			background-color: transparent;
+		}
+	}
+
+	#filter-favorite
+	{
+		.icon-star-full
+		{
+			color: white;
+    		font-size: 18px;
+    		&:before
+    		{
+    			padding: 2px;
+    			padding-bottom: 3px;
+    			border: none;
+    		}
+		}
+
+		&:hover
+		{
+			background-color: white;
+		}
+
+		.favorite-checkbox
+		{
+			@extend .filterCheckbox;
+		} 
+
+		color: $favorite-color;
+
+		.favorite-checkbox:not(:checked) + label:after
+		{
+			background-color: transparent;
+		}
+
+		.favorite-checkbox + label:after
+		{
+			color:$favorite-color;
+			border-color:$favorite-color;
+			background-color: $favorite-color;
+		}  
+	}
+
+	.title-checkbox
+	{
+		@extend .filterCheckbox;
+
+		+ label:after { color : #D2D2D2; background-color: transparent; }
+	}
+
+	.product-checkbox-wrapper
+	{
+		float: right;
+	    position: absolute;
+	    top: .7rem;
+	    right: 0rem;
+	}
+
+	.resultNumber
+	{
+		float: right;
+	    position: absolute;
+	    top: .7rem;
+	    right: .5rem;
+
+		background-color: #EE6E73;
+	    color: white;
+	    font-size: 0.8rem;
+	    @include border-radius(50%);
+	    display: inline-block;
+	    font-weight: 400;
+	    line-height: 1.4rem;
+	    margin-right: 5px;
+	    text-align: center;
+	    width: 1.4rem;	
+
+	    &:before {
+		    bottom: -10px;
+		    content: "";
+		    left: -10px;
+		    position: absolute;
+		    right: -10px;
+		    top: -10px;
+		}	    
+	}
+
+	.productItem, .productTitle
+	{
+		position: relative;
+		margin-bottom: 0;
+		line-height: 3rem;
+		padding: 0;
+		padding-left: .7rem;
+		height: 3rem;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+	}
+
+	.productTitle{
+		font-weight: 500;
+	}
+
+	.productItem:not(.disabled):hover
+	{
+		background-color: $grey-light;
+		cursor: initial;
+
+		.resultNumber
+	    {	    	
+	    	transform: scale(1.2,1.2);
+    		background-color: #B33737;
+    		cursor: pointer;
+	    }	
+	}
+
+	.disabled
+	{
+		color: #DFDFDF;
+		cursor: default;		
+
+		.resultNumber
+		{
+			background-color: #DFDFDF;
+		}
+
+		:hover
+		{
+			cursor: default;
+		}
+	}	
+
+	.see-more-result-on-map
+	{
+		background-color: $secondary-color;
+		text-decoration: underline;
+		color: white;
+		text-align: center;
+		line-height: 3rem;
+	}
+
+	.moreResultelement-item
+	{
+		background-color: #F7F7F7;	    
+	    font-size: .95rem;
+	    padding: 1rem 0.5rem 1rem 1rem;
+	    border-bottom: none;
+	    font-weight: 400;
+
+		.col { padding: 0 }
+
+		&.starElement
+		{
+			font-weight: 900;
+		}
+	}
+
+	.productName
+	{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    line-height: 3.1rem;
+	}
+
+	.moreResultelement-item:hover 
+	{ 
+		background-color: $secondary-color ;
+		color:white;
+		cursor: pointer;
+	}
+}
+
+#search-bar
+{
+    margin: 0;
+    text-align: left;
+    padding-left: 2.2rem;
+    height: 2.4rem;
+    width: 100%;
+    border-color: #777;
+    @include box-sizing(border-box);
+
+    &:focus
+    {
+    	border-color: $secondary-color;
+    }
+}
+
+#search-bar-icon
+{
+    color: #777;
+    height: 2.4rem;
+    line-height: 2.4rem;
+    &:before
+    {
+    	line-height: 2.4rem;
+    }
+} 
+
+#search-bar-container
+{
+	padding: .5rem;
+	text-align: center;
+	margin: 0;
+	background-color: #FFFFFF;
+	padding-bottom: 0;
+}
+
+#search_distance_section
+{
+	margin: 0rem .8rem 0 .8rem;
+
+	#search_distance_container
+	{
+	    display: inline-block;
+    	width: calc(100% - 55px);
+
+		#search_distance
+		{
+			border: none;
+		}
+	}
+
+	#search_distance_value_container
+	{
+		float: right;
+    	line-height: 2.3rem;
+    	width: 55px;
+    	text-align: right;
+	}
+}

@@ -1,0 +1,92 @@
+<div class="directory-menuTitle" id="menu-title">
+	Menu
+	<span class="icon-close">
+	</span>
+	 <div class="shadow-bottom"></div>
+</div>
+
+<ul id="directory-menu-main-container" class="custom-scroll-bar">
+  {#  <form action="#">
+    <p class="range-field">
+      <input type="range" id="rangeKernelRadius" min="0" max="120" />
+    </p>
+    <p class="range-field">
+      <input type="range" id="rangeClusterRadius" min="0" max="120" />
+    </p>
+  </form> #}
+
+{% include '::directory/components/search-bar.html.twig'  %} 
+
+<li class="productItem collapsible-header row"  id="filter-favorite">
+	    <span class="icon icon-star-full"></span>
+	    <span class="productName">Favoris</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in favorite-checkbox " id="product-checkbox-favorite" data-type='favorite' data="favorite" />
+	      <label for="product-checkbox-favorite" data-position="right" data-delay="0" data-tooltip="Afficher uniquement les favoris"></label>
+	    </span>
+</li>
+  
+<li class="directory-menuTitle">
+	Catégories
+	<span class="product-checkbox-wrapper">
+      <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-type" checked="checked" data-type='type'/>
+      <label for="title-checkbox-type" class="titleType"></label>
+	</span>
+</li>
+
+{% set types = {'producteur':'Producteur','amap':'AMAP','marche':'Marché','boutique':'Boutique','epicerie':'Epicerie'} %}
+
+{% for type_formate, type in types %}
+	<li class="productItem collapsible-header row">
+	    <span class="icon icon-marker {{ type_formate }}"></span>
+	    <span class="productName">{{ type|capitalize }}</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in type-checkbox filterCheckbox" id="type-checkbox-{{ type_formate }}" checked="checked" data-type='type' data="{{ type_formate }}"/>
+	      <label for="type-checkbox-{{ type_formate }}" class="elementType"></label>
+	    </span>
+	</li>
+{% endfor %}
+
+<li class="directory-menuTitle">
+	Produits
+	<span class="product-checkbox-wrapper">
+      <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-products" checked="checked" data-type='product'/>
+      <label for="title-checkbox-products" class="titleType"></label>
+	</span>
+</li>
+
+{% for key, product in listProducts %} 
+   
+    <li class="productItem collapsible-header row"  >
+	    <span class="icon icon-{{ product.nameFormate }}"></span>
+	    <span class="productName">{{ product.nameShort|capitalize }}</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in product-checkbox filterCheckbox" id="product-checkbox-{{ product.nameFormate }}" checked="checked" data-type='product' data="{{ product.nameFormate }}"/>
+	      <label for="product-checkbox-{{ product.nameFormate }}"></label>
+	    </span>
+    </li>
+
+{% endfor %} 
+
+<li class="directory-menuTitle">
+	Horaires d'ouverture
+	<span class="product-checkbox-wrapper">
+      <input type="checkbox" class="filled-in title-checkbox" id="title-checkbox-day" checked="checked" data-type='day'/>
+      <label for="title-checkbox-day" class="titleType"></label>
+	</span>
+</li>
+
+{% set days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
+
+{% for day in days %}
+	<li class="productItem collapsible-header row">
+	     <span class="icon icon-day"></span>
+	    <span class="dayName">{{ day|capitalize }}</span> 
+	    <span class="product-checkbox-wrapper">
+	      <input type="checkbox" class="filled-in day-checkbox filterCheckbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
+	      <label for="days-checkbox-{{ day }}" class="elementDay"></label>
+	    </span>
+	</li>
+{% endfor %}
+
+</ul>

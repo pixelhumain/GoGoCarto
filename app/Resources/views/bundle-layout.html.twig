@@ -1,0 +1,18 @@
+{% extends "::base-layout.html.twig" %}
+
+{% block body %}
+
+	<div id="page-container">
+
+		{% include "::header.html.twig" %}
+		
+		<div id="page-content">
+			
+			{% block body_content %}
+			{% endblock %}
+			
+		</div>
+	</div>	
+
+{% endblock %}
+

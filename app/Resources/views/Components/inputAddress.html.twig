@@ -1,4 +1,0 @@
-<div class="input-field " id="inputAddress-container" > 
-	<a class="icon-search" id="inputAddress-icon"></a>
-    <input class="validate" placeholder="Entrez une adresse" type="text" id="inputAddress" name="adresse" onClick="this.setSelectionRange(0, this.value.length)" {% if slug is defined %} value="{{ slug | replace('-', ' ') | capitalize }}" {% endif %}/>
-</div>

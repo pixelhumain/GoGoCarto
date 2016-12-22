@@ -1,0 +1,201 @@
+// Markers
+.cluster
+{
+    z-index: 2;
+}
+
+.marker-wrapper
+{
+	position: relative;	
+    z-index: 1;
+    height: 40px;
+    width: 40px;
+    top: 2px;
+    font-size: 40px;
+    line-height: 40px;
+    opacity: .99; // pour créer un nouveau contexte d'empilement (z-index)
+
+    @extend .colorAs;
+
+    &.disabled { color: grey !important}    
+
+    &.rotateLeft { left: -14px; top: 6px; }
+	&.rotateRight { left: 13px; top: 7px; }
+
+    // Gestion de la taille si on est en hover
+    &.BigSize 
+	{
+		//opacity: 1;
+        z-index: 10000 !important;
+	    @include transform( scale(1.3,1.3) );
+	    top: -4px !important; // pour que l'ancre bottom reste identique
+   
+
+    	&.rotateLeft { left: -18px; top: 2px !important; }
+		&.rotateRight { left: 17px; top: 3px !important; }
+	}
+
+	&:hover { cursor: pointer; }
+
+    .icon-marker
+    {
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+        color: inherit;
+
+        position: absolute;
+        z-index: 1;
+
+        &.rotateRight
+        {
+            @include transform( rotate(45deg) );       
+        }
+
+        &.rotateLeft
+        {
+            @include transform( rotate(-45deg) );      
+        }
+    }
+}
+
+
+
+// l'icone qui représente le produit principal
+.iconInsideMarker-wrapper
+{
+	position: relative;
+    left: 7px;
+    z-index: 2;
+    text-align: center;
+    width: 26px;
+    height: 26px;
+    background-color: #DADADA;
+    border-radius: 50%;
+    top: 4px;
+    font-size: 18px;
+    line-height: 26px;
+
+    &.rotateRight
+    {
+    	left: 10px;
+	    width: 25px;
+	    height: 25px;
+	    top: 5px;
+    }
+
+    &.rotateLeft
+    {
+    	left: 5px;
+	    width: 25px;
+	    height: 25px;
+	    top: 5px;
+    }
+}	
+/* 
+html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
+  top: 2px !important;
+} */
+
+.iconInsideMarker
+{
+	&.disabled {  color: grey; }
+    &:before { line-height: inherit; }
+}
+
+// l'icone pour dire qu'il y a plusieurs produits dans ce fourisseur
+.icon-plus-circle
+{
+	position: absolute;
+    top: -8px;
+    z-index: 3;
+    font-size: 16px;
+    right: 0px;
+
+    &.rotateRight { top: -7px; right: -3px; }
+	&.rotateLeft { top: -9px; right: 3px; }
+
+	&:before
+	{
+		border-radius: 50%;
+    	background-color: #F1F1F1;
+	}
+}
+
+// l'icone pour dire qu'il y a plusieurs produits dans ce fourisseur
+.marker-wrapper .icon-star-full
+{
+    position: absolute;
+    top: -10px;
+    z-index: 3;
+    font-size: 14px;
+    right: -2px;
+    color: #d9dad9;
+
+    &.rotateRight { top: -9px; right: -5px; }
+    &.rotateLeft { top: -10px; right: 1px; }
+}
+
+.icon-star-full:before
+{
+    border-radius: 50%;
+    padding: 1px;
+    padding-bottom: 2px;
+    background-color: $favorite-color;
+    border: 1px solid;
+}
+
+// l'ensemble des autres produits disponibles
+.moreIconContainer
+{
+	display:none;
+	z-index: 10;
+	position: absolute;
+	bottom: 0;
+	left: 36px;
+
+	&.rotateRight { left: 39px }
+	&.rotateLeft { left: 35px; }
+
+	.moreIconWrapper
+	{
+		display: inline-block;
+	    margin-left: 3px;
+	    margin-bottom: 10px;
+	    position: relative;
+	    width: 28px;
+	    height: 28px;
+	    font-size: 16px;
+	    line-height: 22px;
+	    text-align: center;
+	    background-color: #DADAD9;
+	    border: 3px solid;
+		border-radius: 50%;
+
+        &.disabled { color: grey };
+    	// TODO rajouter prefix border radius
+
+        
+	}
+	
+}
+
+ .iconCluster
+{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px 2px rgb(154, 154, 154);
+    background-color: #DCDCDC;
+    border: 4px solid #585858;
+    color: #252525;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 26px;
+} 
+
+.halfHidden
+{
+	opacity: 0.2;
+}

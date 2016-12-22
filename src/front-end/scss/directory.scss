@@ -1,0 +1,69 @@
+@import "partials/base_bundle";
+@import 'vendors/materialize';
+
+
+@import "components/directory/helpers";
+@import "components/directory/loaders";
+@import "components/directory/directory-menu";
+@import 'components/directory/icons';
+
+@import 'components/directory/map/marker';
+@import "components/directory/map/directions";
+@import "components/directory/map/map";
+
+@import "components/directory/info-bar/info-bar";
+@import "components/directory/info-bar/element-menu";
+@import "components/directory/info-bar/element-info";
+
+@import "components/directory/modals/delete-element";
+@import "components/directory/modals/modals";
+
+@import "components/commons/shadow-bottom";
+@import "components/commons/search-bar";
+@import "components/commons/autoComplete";
+@import "components/commons/scroll-bar";
+
+
+
+#directory-menu
+{
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;  
+    @include transition(height .5s);   
+
+    @media screen and (min-width: 400px)
+    {
+        width: 200px;
+    }
+}
+
+#page-content { height: 100% ; background-color: #dfdfdf }
+
+#directory-container { position: relative; height: 100% }   
+
+#directory-content
+{
+    position: relative; 
+    height: 100%;   
+    background-color: #9e9e9e;
+    overflow: hidden;
+}
+
+@media #{$medium-and-up} 
+{
+    #directory-menu
+    {
+        display: block !important;  
+        width: 14.5rem;     
+    }
+
+    #directory-content
+    {
+        margin-left: 14.5rem;
+    }
+} 

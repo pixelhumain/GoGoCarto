@@ -1,0 +1,103 @@
+header 
+{	
+	color: white ;
+	@extend .z-depth-2;		
+
+	#menu
+	{
+		margin: 0 ; 
+	   	font-size: .85rem ;
+		background-color: $header-color;
+		padding: 0 .5rem;
+
+		#menu-home
+		{
+		    display: inline-block;
+		    font-family: 'Yellowtail', cursive;
+		    font-size: 1.4rem;
+		    line-height: 2.3rem;
+		    margin-right: 0;
+
+		    @media screen and (max-width: 500px) { line-height: 2.5rem; }
+		}
+
+		#menu-actions
+		{
+			float : right;
+			color: white;
+		}
+		
+		.menu-item 
+		{ 
+			text-align:center ;
+			line-height: 2.5rem;
+			float: none;
+			display:inline-block;			
+				
+			padding: 0 .5rem !important;
+
+			font-size: inherit ;
+			@include transition(all 0.4s);
+
+			&:hover
+			{
+				color: #EE6E73;
+				//border-bottom: 2px solid rgba(0, 0, 0, 0.46);
+			}
+
+			a 
+			{ 
+				color: inherit; 
+				cursor: pointer;
+				font-size: inherit ;
+				width:100%;
+				border-radius: 0; 
+				border: none;
+				background-color: transparent;
+	    		letter-spacing: .5px;
+			}			
+		}		
+	}
+
+	#menu-home
+	{
+		color: #EE6E73;
+		.small-logo { display: inline-block; }
+		.large-logo { display: none; }
+
+		@media screen and (min-width: 500px)
+		{
+			color: white;
+			.small-logo { display: none; }
+			.large-logo { display: inline-block; }
+		}
+	}	
+	
+
+	@media #{$medium-and-up} 
+	{
+		#menu 
+		{ 
+			font-size:1rem;
+			margin-bottom: 0px ;
+			padding: 0;	
+
+			#menu-home
+			{
+				margin-left: .7rem;
+			    font-size: 1.8rem;
+			    line-height: 3.2rem;
+			}		
+
+			.menu-item 
+			{
+				margin-right: 2rem;
+				line-height: 3.4rem;
+				width: auto;	
+			}
+		}
+
+
+	}
+}
+

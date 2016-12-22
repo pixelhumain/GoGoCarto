@@ -9,110 +9,125 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
-    livereload = require('gulp-livereload'),
+    gzip = require('gulp-gzip');
+    //livereload = require('gulp-livereload'),
     del = require('del'),
     gulpUtil = require('gulp-util');
+    // ts = require("gulp-typescript");
+
+//var coreTsProject = ts.createProject("src/front-end/js/core.tsconfig.json");
 
 
 gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
     //.pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
+    .pipe(gzip())
     .pipe(gulp.dest('web/assets/css'));
     //.pipe(notify({ message: 'Styles task complete' }));
 });
 
 gulp.task('sass', function () {
-  return sass('web/assets/scss/**/*.scss')
-    .on('error', sass.logError)
-    .pipe(gulp.dest('web/assets/css'))
+  return gulp.src('src/front-end/scss/**/*.scss')
+    .pipe(sass().on('error', sass.logError))    
+    .pipe(gulp.dest('web/assets/css'));
 });
 
 gulp.task('prod_js', function() {
-  return gulp.src(['web/js/index.js','web/js/constelisting.js','web/js/element-add-edit.js'])
+  return gulp.src(['web/js/*.js'])
     //.pipe(rename({suffix: '.min'}))
     .pipe(uglify())
+    .pipe(gzip())
     //.pipe(minify())
     //.pipe(sourcemaps.init({loadMaps: true}))
     //.pipe(uglify().on('error', gulpUtil.log)) // notice the error event here
     //.pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('web/js'));;
-});
-
-gulp.task('scriptsConstelisting', function() {
-  return gulp.src(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js', '!web/assets/js/element-add-edit/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('constelisting.js'))
-    .pipe(livereload())
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('scriptsElementAddEdit', function() {
-  return gulp.src(['web/assets/js/element-add-edit/**/*.js','web/assets/js/commons.js'])
+gulp.task('scriptsDirectory', function() {
+  // return coreTsProject.src()
+  //       .pipe(coreTsProject())
+  //       .pipe(gulp.dest('web/js'));
+
+  return gulp.src(['src/front-end/js/directory/**/*.js', 'src/front-end/js/commons/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
     .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('element-add-edit.js'))
-    .pipe(livereload())
+    .pipe(concat('directory.js'))
+    //.pipe(livereload())
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('scriptsIndex', function() {
-  return gulp.src(['web/assets/js/index.js','web/assets/js/commons.js','web/assets/js/components/inputAddress.js'])
+
+gulp.task('scriptsElementForm', function() {
+  return gulp.src(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons/commons.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
     .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('index.js'))
-    .pipe(livereload())
+    .pipe(concat('element-form.js'))
+    //.pipe(livereload())
+    .pipe(gulp.dest('web/js'));
+});
+
+gulp.task('scriptsHome', function() {
+  return gulp.src(['src/front-end/js/home/**/*.js','src/front-end/js/commons/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({ message: 'JS hint fail'}))
+    .pipe(concat('home.js'))
+    //.pipe(livereload())
     .pipe(gulp.dest('web/js'));
 });
 
 gulp.task('scriptsLibs', function() {
-  return gulp.src('web/assets/js/libs/**/*.js')
+  return gulp.src(['src/front-end/js/libs/**/*.js', '!src/front-end/js/libs/materialize/unused/**/*.js'])
     .pipe(concat('libs.js'))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest('web/js'))
-    .pipe(livereload());
+    // .pipe(rename({suffix: '.min'}))
+    // .pipe(uglify())
+    .pipe(gulp.dest('web/js'));
+    //.pipe(livereload());
     //.pipe(notify({ message: 'Scripts Libs task complete' }));
 });
 
+// test
+gulp.task('typescript', function() {
+  return coreTsProject.src()
+        .pipe(coreTsProject())
+        .pipe(gulp.dest('web/js'));
+  // return gulp.src('src/front-end/js/index.ts')
+  //       .pipe(ts({
+  //           noImplicitAny: true,
+  //           out: 'output.js'
+  //       }))
+  //       .pipe(gulp.dest('built/local'));
+});
+
 gulp.task('images', function() {
-  return gulp.src('src/img/*')
+  return gulp.src('web/assets/img/*')
     .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('dist/img'))
+    .pipe(gulp.dest('web/assets/imgMin'))
     .pipe(notify({ message: 'Images task complete' }));
 });
 
-gulp.task('copy', function () {
-    gulp.src('images/**/*')
-    .pipe(gulp.dest('dist/img'));
-    del('images');
-    gulp.src('src/fonctions.inc')
-    .pipe(gulp.dest('dist/'));
-    return gulp.src('src/**/*.php')
-    .pipe(gulp.dest('dist/'));
-})
 
 gulp.task('watch', function() {
 
-  livereload.listen();
+  //livereload.listen();
   // Watch .scss files
-  gulp.watch('web/assets/scss/**/*.scss', ['sass']);
+  gulp.watch('src/front-end/scss/**/*.scss', ['sass']);
 
   // Watch .js files
-  gulp.watch(['web/assets/js/**/*.js', '!web/assets/js/libs/**/*.js', '!web/assets/js/index.js', '!web/assets/js/element-add-edit/**/*.js'], ['scriptsConstelisting']);
+  gulp.watch(['src/front-end/js/**/*.js', '!src/front-end/js/libs/**/*.js', '!src/front-end/js/home/**/*.js', '!src/front-end/js/element-form/**/*.js'], ['scriptsDirectory']);
   
-  gulp.watch(['web/assets/js/element-add-edit/**/*.js','web/assets/js/commons.js'], ['scriptsElementAddEdit']);
+  gulp.watch(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons.js'], ['scriptsElementForm']);
   
-  gulp.watch('web/assets/js/libs/**/*.js', ['scriptsLibs']);
+  gulp.watch('src/front-end/js/libs/**/*.js', ['scriptsLibs']);
 
-  gulp.watch(['web/assets/js/index.js','web/assets/js/commons.js','web/assets/js/components/inputAddress.js'], ['scriptsIndex']);
+  gulp.watch(['src/front-end/js/home/**/*.js','src/front-end/js/commons.js','src/front-end/js/components/search-bar.js'], ['scriptsHome']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 
@@ -120,11 +135,11 @@ gulp.task('watch', function() {
 });
 
 gulp.task('clean', function(cb) {
-    del(['dist/css', 'dist/js', 'dist/img'], cb)
+    del(['web/assets/css', 'web/js'], cb);
 });
 
 gulp.task('build', function() {
-    gulp.start('sass', 'scriptsLibs', 'scriptsIndex', 'scriptsElementAddEdit','scriptsConstelisting');
+    gulp.start('clean','sass', 'scriptsLibs', 'scriptsHome', 'scriptsElementForm','scriptsDirectory');
 });
 
 gulp.task('production', function() {

@@ -24,9 +24,9 @@ Installation
 
 ### Cloning repo
 ```
-cd path-to-wamp-www (default windows c:/wamp/www)
-git clone https://github.com/Biopenlandes/PagesVertes.git
-cd PagesVertes/
+cd path-to-php-server-folder (default linux /var/www/html, windows c:/wamp/www... )
+git clone https://github.com/Biopenlandes/CartoV3.git
+cd CartoV3/
 ```
 
 ### Installing dependencies 

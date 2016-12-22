@@ -1,0 +1,101 @@
+{% extends "::base-layout.html.twig" %}
+
+{% block title %}Mon voisin fait du bio{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+	
+	<link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">		
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body %}
+<div id="home-main-wrapper" class="valign-wrapper">
+	<section id="home-main-container" class="valign">	
+
+		<h1>Mon voisin fait du bio</h1>
+
+		<h2>L'annuaire intéractif de l'alimentation près de chez soi</h2>
+
+		<div class="input-field" id="search-bar-container" >
+			<a class="icon-search" id="search-bar-icon"></a> 
+			<input class="validate" placeholder="Entrez une adresse" type="text" id="search-bar" name="adresse"/>
+		</div>
+
+		<div class="row">
+			<div class="col s6 choice-mode-container right-align">
+				<button id="btn-directory" class="choice-mode-button btn waves-effect waves-light">Navigation libre</button>
+				<p>Parcourez la carte en filtrant les résultats si besoin. Tous les elements sont affichés</p>
+			</div>
+			
+			<div class="col s6 choice-mode-container left-align">
+				<button id="btn-constellation" class="choice-mode-button btn waves-effect waves-light">Autour de moi</button>{# vue d'ensemble #}
+				<p>Visualisez en un coup d'oeil les elements les plus proche de chez vous</p>
+				{# <p>Pour chaque produit, le plus proche element est affiché. D'autres propositions sont accessibles</p> #}
+			</div>
+		</div>
+
+		<div class="divider"></div>
+
+		<a href="{{ path('biopen_element_add') }}">
+			<button class="participate-button btn waves-effect waves-light">Participer</button>
+		</a>
+		<p>Aidez-nous à agrandir notre base de donnée en ajoutant un element !</p>
+	
+	</section>
+</div>
+
+<section id="section-ethic" class="bottom-section valign-wrapper">
+	<div class="content valign">
+		<h2>Du bio, mais pas que !</h2>
+		
+		<p>Pas besoin d'avoir le label Bio pour être inscrit !</p>
+		<p>L'accent est mis sur le local, et sur une agriculture sans pesticide de préférence à petite échelle.</p>
+	</div>
+</section>
+
+<section id="section-open-source" class="bottom-section valign-wrapper">
+	<div class="content valign">
+		<h2>Open Source</h2>
+		<p><span id="logo">Mon voisin fait du bio</span> est un site gratuit et libre de droits. <p>
+		<p>Il a été développé bénévolement en tant que service d'utilité publique, par la communauté informatique BiopenLandes</p>
+		<p>Le code est en accès libre sur <a href="https://github.com/Biopenlandes/PagesVertes">Github</a> </p>
+	</div>
+</section>
+<section id="section-in-dev" class="bottom-section valign-wrapper">
+	<div class="content valign">
+		<h2>En cours de développement</h2>
+		<p>Le site est encore en cours de développement. La base de donnée des elements est pour le moment fictive, et certains bugs peuvent encore faire leur apparition...</p>
+			<p>Merci de votre compréhension !</p>
+	</div>
+</section>
+<section id="section-contact" class="bottom-section">
+	<div class="content">
+		<h2>Made by BiopenLandes</h2>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{% javascripts filter="?jsqueeze"
+		'bundles/fosjsrouting/js/router.js'
+        "js/libs.js"
+        "js/home.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+    <script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+	</script>
+
+{% endblock %}
+

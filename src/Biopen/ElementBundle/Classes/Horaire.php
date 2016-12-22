@@ -61,45 +61,45 @@ class Horaire
 	}
 
 // setters
-	public function setLundi($jourhoraire)
+	public function setLundi($dayhoraire)
 	{
-		$this->Lundi = $jourhoraire;
+		$this->Lundi = $dayhoraire;
 		return $this;
 	}
 
-	public function setMardi($jourhoraire)
+	public function setMardi($dayhoraire)
 	{
-		 $this->Mardi = $jourhoraire;
+		 $this->Mardi = $dayhoraire;
 		return $this;
 	}
 
-	public function setMercredi($jourhoraire)
+	public function setMercredi($dayhoraire)
 	{
-		 $this->Mercredi = $jourhoraire;
+		 $this->Mercredi = $dayhoraire;
 		return $this;
 	}
 
-	public function setJeudi($jourhoraire)
+	public function setJeudi($dayhoraire)
 	{
-		 $this->Jeudi = $jourhoraire;
+		 $this->Jeudi = $dayhoraire;
 		return $this;
 	}
 
-	public function setVendredi($jourhoraire)
+	public function setVendredi($dayhoraire)
 	{
-		 $this->Vendredi = $jourhoraire;
+		 $this->Vendredi = $dayhoraire;
 		return $this;
 	}
 
-	public function setSamedi($jourhoraire)
+	public function setSamedi($dayhoraire)
 	{
-		 $this->Samedi = $jourhoraire;
+		 $this->Samedi = $dayhoraire;
 		return $this;
 	}
 
-	public function setDimanche($jourhoraire)
+	public function setDimanche($dayhoraire)
 	{
-		 $this->Dimanche = $jourhoraire;
+		 $this->Dimanche = $dayhoraire;
 		return $this;
 	}
 
@@ -107,14 +107,14 @@ class Horaire
 	{		
 	}
 
-	public setJourHoraire($jour,$plage1,$plage2)
+	public setJourHoraire($day,$plage1,$plage2)
 	{
-		$this->$jours[$jour] = new JourHoraire($plage1,$plage2);
+		$this->$days[$day] = new JourHoraire($plage1,$plage2);
 	}
 
-	public getJourHoraire($jour)
+	public getJourHoraire($day)
 	{
-		return $this->$jours[$jour];
+		return $this->$days[$day];
 	}*/
 
 }
