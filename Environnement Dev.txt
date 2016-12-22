@@ -1,4 +1,0 @@
-
-  - lancer gulp invite.bat
-  - commande: gulp watch
-
