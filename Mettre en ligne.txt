@@ -1,3 +1,0 @@
-gulp production (pour minifier les css et javascripts)
-Envoyer via ftp
-dans la console sur le serveur distant : cache:clear --env=prod, assetic:dump --env=prod
