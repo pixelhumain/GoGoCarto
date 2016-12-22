@@ -5,7 +5,8 @@
     "node": "6.5.0"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "@types/jquery": "^2.0.34",
     "del": "^2.2.2",
