@@ -9,7 +9,7 @@
  */
 
 import { AppModule } from "../app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 
 export class DisplayElementAloneModule
 {
@@ -33,7 +33,7 @@ export class DisplayElementAloneModule
 			App.elementModule.clearMarkers();
 		//}	
 		
-		var element = App.elementById(elementId);
+		let element = App.elementById(elementId);
 		this.elementShownAlone_ = element;
 		element.show();	
 		element.isShownAlone = true;

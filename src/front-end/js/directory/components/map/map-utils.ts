@@ -10,24 +10,24 @@
 
 
 import { AppModule } from "../../app.module";
-declare var App : AppModule;
-declare var google;
+declare let App : AppModule;
+declare let google;
 
-export var latlngToPoint = function(latlng)
+export let latlngToPoint = function(latlng)
 {
-	var map = App.map;
-	var normalizedPoint = map.getProjection().fromLatLngToPoint(latlng); // returns x,y normalized to 0~255
-	var scale = Math.pow(2, map.getZoom());
-	var pixelCoordinate = new google.maps.Point(normalizedPoint.x * scale, normalizedPoint.y * scale);
+	let map = App.map();
+	let normalizedPoint = map.getProjection().fromLatLngToPoint(latlng); // returns x,y normalized to 0~255
+	let scale = Math.pow(2, map.getZoom());
+	let pixelCoordinate = new google.maps.Point(normalizedPoint.x * scale, normalizedPoint.y * scale);
 	return pixelCoordinate; 
 };
 
-export var pointToLatlng = function(point)
+export let pointToLatlng = function(point)
 {
-	var map = App.map;
-	var scale = Math.pow(2, map.getZoom());
-	var normalizedPoint = new google.maps.Point(point.x / scale, point.y / scale);
-	var latlng = map.getProjection().fromPointToLatLng(normalizedPoint);
+	let map = App.map();
+	let scale = Math.pow(2, map.getZoom());
+	let normalizedPoint = new google.maps.Point(point.x / scale, point.y / scale);
+	let latlng = map.getProjection().fromPointToLatLng(normalizedPoint);
 	return latlng; 
 };
 
@@ -39,21 +39,21 @@ export function calculateMapWidthInKm(map)
 
 export function calculateDistanceFromLatLonInKm(latlng1,latlng2) 
 {
-  var lat1 = latlng1.lat();
-  var lon1 = latlng1.lng();
-  var lat2 = latlng2.lat();
-  var lon2 = latlng2.lng();
+  let lat1 = latlng1.lat();
+  let lon1 = latlng1.lng();
+  let lat2 = latlng2.lat();
+  let lon2 = latlng2.lng();
 
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2-lat1);  // deg2rad below
-  var dLon = deg2rad(lon2-lon1); 
-  var a = 
+  let R = 6371; // Radius of the earth in km
+  let dLat = deg2rad(lat2-lat1);  // deg2rad below
+  let dLon = deg2rad(lon2-lon1); 
+  let a = 
     Math.sin(dLat/2) * Math.sin(dLat/2) +
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
     Math.sin(dLon/2) * Math.sin(dLon/2)
     ; 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c; // Distance in km
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  let d = R * c; // Distance in km
   return d;
 }
 
@@ -66,8 +66,8 @@ export function deg2rad(deg) {
 {
 	window.console.log("fit markers bounds nbre markers " + markers.length);
 	// Bound la carte pour que l'on voit tous les marqueurs
-	var bounds = new google.maps.LatLngBounds();
-	for (var i = 0; i < markers.length; i++) {
+	let bounds = new google.maps.LatLngBounds();
+	for (let i = 0; i < markers.length; i++) {
  		bounds.extend(markers[i].getPosition());
 	}
 	map.fitBounds(bounds);
@@ -75,13 +75,13 @@ export function deg2rad(deg) {
 
 /*function distanceInPixel(marker1, marker2)
 {
-	var point = overlay.getProjection().fromLatLngToDivPixel(marker1.getPosition());
-	var point2 =  overlay.getProjection().fromLatLngToDivPixel(marker2.getPosition());
+	let point = overlay.getProjection().fromLatLngToDivPixel(marker1.getPosition());
+	let point2 =  overlay.getProjection().fromLatLngToDivPixel(marker2.getPosition());
 	return Math.sqrt(Math.pow(point.x - point2.x,2)+Math.pow(point.y - point2.y,2));
 }*/
 
-/*var OFFSET =  268435456;
-var RADIUS = 85445659.4471; /* $offset / pi() */
+/*let OFFSET =  268435456;
+let RADIUS = 85445659.4471; /* $offset / pi() */
     
 /*function lonToX($lon) {
     return Math.round(OFFSET + RADIUS * $lon * Math.PI / 180);        
@@ -114,14 +114,14 @@ function pixelDistanceMarkers($marker1,$marker2)
 
 /*function getMarkerPosition(marker)
 {
-	var scale = Math.pow(2, map.getZoom());
-	var nw = new google.maps.LatLng(
+	let scale = Math.pow(2, map.getZoom());
+	let nw = new google.maps.LatLng(
 	    map.getBounds().getNorthEast().lat(),
 	    map.getBounds().getSouthWest().lng()
 	);
-	var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
-	var worldCoordinate = map.getProjection().fromLatLngToPoint(marker.getPosition());
-	var pixelOffset = new google.maps.Point(
+	let worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+	let worldCoordinate = map.getProjection().fromLatLngToPoint(marker.getPosition());
+	let pixelOffset = new google.maps.Point(
 	    Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
 	    Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
 	);

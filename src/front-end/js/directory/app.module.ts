@@ -8,14 +8,14 @@
  * @Last Modified time: 2016-12-13
  */
 
-declare var originalUrlSlug;
-declare var window, Routing : any;
+declare let originalUrlSlug;
+declare let window, Routing : any;
 
 import $ = require("jquery");
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
-import { ElementsModule } from "./modules/elements.module";
+import { ElementsModule, MarkersChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
@@ -145,14 +145,14 @@ export class AppModule
 	setTimeoutClicking() 
 	{ 
 		this.isClicking_ = true;
-		var that = this;
+		let that = this;
 		setTimeout(function() { that.isClicking_ = false; }, 100); 
 	};
 
 	setTimeoutInfoBarComponent() 
 	{ 
 		this.isShowingInfoBarComponent_ = true;
-		var that = this;
+		let that = this;
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
 
@@ -164,10 +164,10 @@ export class AppModule
 		// but we're not interessed in this idling
 		if ( this.isShowingInfoBarComponent ) return;
 
-		var updateInAllElementList = true;
-		var forceRepaint = false;
+		let updateInAllElementList = true;
+		let forceRepaint = false;
 
-		var zoom = this.map().getZoom();
+		let zoom = this.map().getZoom();
 		if (zoom != this.old_zoom && this.old_zoom != -1)  
 		{
 			if (zoom > this.old_zoom) updateInAllElementList = false;	   		
@@ -196,7 +196,7 @@ export class AppModule
 		this.elementModule.updateElementToDisplay(); 
 	}; 
 
-	handleMarkersChanged(array: any)
+	handleMarkersChanged(array : MarkersChanged)
 	{
 		this.clusterer().addMarkers(array.newMarkers,true);
 		this.clusterer().removeMarkers(array.markersToRemove, true);		
@@ -210,7 +210,7 @@ export class AppModule
 
 	handleInfoBarShow(elementId)
 	{
-		var statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
+		let statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
 		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
 
@@ -246,10 +246,10 @@ export class AppModule
 
 		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
-		var oldStateName = this.currState_;
+		let oldStateName = this.currState_;
 		this.currState_ = stateName;
 
-		var element = options.id ? this.elementById(options.id) : null;
+		let element = options.id ? this.elementById(options.id) : null;
 
 		/*if (oldStateName == stateName)
 		{
@@ -284,7 +284,7 @@ export class AppModule
 			case AppStates.ShowDirections:
 				if (!options.id) return;			
 				
-				var origin;
+				let origin;
 				if (this.constellationMode)
 				{
 					origin = this.constellation.getOrigin();
@@ -323,7 +323,7 @@ export class AppModule
 
 	updateHistory_(stateName, oldStateName, options, backFromHistory)
 	{
-		var route = "";
+		let route = "";
 		if (!this.constellationMode_)
 		{
 			route = this.updateRouting_(options);
@@ -344,7 +344,7 @@ export class AppModule
 		if (this.map().locationSlug) route = Routing.generate('biopen_directory', { slug : this.map().locationSlug });
 		else route = Routing.generate('biopen_directory');
 
-		for (var key in options)
+		for (let key in options)
 		{
 			route += '?' + key + '=' + options[key];
 			//route += '/' + key + '/' + options[key];
@@ -358,7 +358,7 @@ export class AppModule
 		if (element !== null) document.title = capitalize(element.name) + ' - Mon voisin fait du bio';
 		else if (stateName == AppStates.Normal) 
 		{
-			var title = this.constellationMode_ ? 'Autour de moi - ' : 'Navigation Libre - ';
+			let title = this.constellationMode_ ? 'Autour de moi - ' : 'Navigation Libre - ';
 			title += this.map().locationAddress;
 			document.title = title;
 		}

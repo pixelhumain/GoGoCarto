@@ -16,8 +16,8 @@ ListElementModule.prototype.draw = function ()
 {
 	$('#ElementList li').remove();
 
-	var element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
-	for(var i = 0; i < App.constellation.getStars().length; i++)
+	let element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
+	for(let i = 0; i < App.constellation.getStars().length; i++)
 	{
 		element = App.constellation.getStars()[i].getElement();
 		if (element.isProducteurOrAmap())

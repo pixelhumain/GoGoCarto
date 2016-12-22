@@ -9,16 +9,22 @@
  */
 
 import { AppModule, AppStates } from "../app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 
 import * as Cookies from "../utils/cookies";
 import { Event, IEvent } from "../utils/event";
 import { Element } from "../classes/element.class";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
+export interface MarkersChanged
+{ 
+	newMarkers : BiopenMarker[];
+	markersToRemove : BiopenMarker[];
+}
+
 export class ElementsModule
 {
-	onMarkersChanged = new Event<any>();
+	onMarkersChanged = new Event<MarkersChanged>();
 
 	allElements_ : Element[] = [];
 	
@@ -40,7 +46,7 @@ export class ElementsModule
 
 	checkCookies()
 	{
-		for(var j = 0; j < this.favoriteIds_.length; j++)
+		for(let j = 0; j < this.favoriteIds_.length; j++)
 	  	{
 	  		this.addFavorite(this.favoriteIds_[j], false);
 	  	}
@@ -48,9 +54,9 @@ export class ElementsModule
 
 	addJsonElements (elementList, checkIfAlreadyExist)
 	{
-		var element, elementJson;
-		var newElementsCount = 0;
-		for (var i = 0; i < elementList.length; i++)
+		let element, elementJson;
+		let newElementsCount = 0;
+		for (let i = 0; i < elementList.length; i++)
 		{
 			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
 
@@ -72,7 +78,7 @@ export class ElementsModule
 	addFavorite (favoriteId, modifyCookies)
 	{
 		modifyCookies = modifyCookies !== false;
-		var element = this.getElementById(favoriteId);
+		let element = this.getElementById(favoriteId);
 		if (element !== null) element.isFavorite = true;
 		else return;
 		
@@ -86,12 +92,12 @@ export class ElementsModule
 	removeFavorite (favoriteId, modifyCookies)
 	{
 		modifyCookies = modifyCookies !== false;
-		var element = this.getElementById(favoriteId);
+		let element = this.getElementById(favoriteId);
 		if (element !== null) element.isFavorite = false;
 		
 		if (modifyCookies)
 		{
-			var index = this.favoriteIds_.indexOf(favoriteId);
+			let index = this.favoriteIds_.indexOf(favoriteId);
 			if (index > -1) this.favoriteIds_.splice(index, 1);
 
 			Cookies.createCookie('FavoriteIds',JSON.stringify(this.favoriteIds_));
@@ -101,22 +107,22 @@ export class ElementsModule
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
-		var elements = null;
+		let elements = null;
 		if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
 		else elements = this.currElements_;
 
-		var i, element;
-	 	var mapBounds = App.map.getBounds();   
+		let i, element;
+	 	let mapBounds = App.map().getBounds();   
 
-	 	var newMarkers = [];
-	 	var markersToRemove = [];
-	 	var markersChanged = false;
+	 	let newMarkers = [];
+	 	let markersToRemove = [];
+	 	let markersChanged = false;
 
-		var filterModule = App.filterModule;	
+		let filterModule = App.filterModule;	
 
 		i = elements.length;
 		window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
-		var start = new Date().getTime();
+		let start = new Date().getTime();
 
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
@@ -141,7 +147,7 @@ export class ElementsModule
 					element.hide();
 					markersToRemove.push(element.getMarker());
 					markersChanged = true;
-					var index = this.currElements_.indexOf(element);
+					let index = this.currElements_.indexOf(element);
 					if (index > -1) this.currElements_.splice(index, 1);
 				}
 			}
@@ -159,13 +165,13 @@ export class ElementsModule
 		// 	$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
 		// }
 
-		var end = new Date().getTime();
-		var time = end - start;
+		let end = new Date().getTime();
+		let time = end - start;
 		window.console.log("    analyse elements en " + time + " ms");	
 		
 		if (markersChanged || forceRepaint)
 		{		
-			this.onMarkersChanged.emit([newMarkers, markersToRemove]);		
+			this.onMarkersChanged.emit({newMarkers : newMarkers, markersToRemove : markersToRemove});		
 		}
 		
 	};
@@ -184,12 +190,12 @@ export class ElementsModule
 	{
 		this.hideAllMarkers();
 		this.currElements_ = [];
-		App.clusterer.clearMarkers();	
+		App.clusterer().clearMarkers();	
 	};
 
 	getMarkers () 
 	{
-		var markers = [];
+		let markers = [];
 		let l = this.currElements_.length;
 		while(l--)
 		{
@@ -228,7 +234,7 @@ export class ElementsModule
 	getElementById (elementId) 
 	{
 		//return this.allElements_[elementId];
-		for (var i = 0; i < this.allElements_.length; i++) {
+		for (let i = 0; i < this.allElements_.length; i++) {
 			if (this.allElements_[i].id == elementId) return this.allElements_[i];
 		}
 		return null;

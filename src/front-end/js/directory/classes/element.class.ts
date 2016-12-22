@@ -8,11 +8,11 @@
  * @Last Modified time: 2016-12-13
  */
 import { AppModule } from "../app.module";
-declare var App : AppModule;
-declare var google : any;
+declare let App : AppModule;
+declare let google : any;
 import $ = require("jquery");
-declare var Twig : any;
-declare var twigJs_elementInfo : any;
+declare let Twig : any;
+declare let twigJs_elementInfo : any;
 
 export class Element 
 {	
@@ -63,7 +63,7 @@ export class Element
 		this.mail = elementJson.mail;
 
 		this.products = [];
-		var product;
+		let product;
 		if (elementJson.type == 'epicerie') 
 		{
 			product = [];
@@ -76,7 +76,7 @@ export class Element
 		}
 		else
 		{
-			for (var i = 0; i < elementJson.products.length; i++) 
+			for (let i = 0; i < elementJson.products.length; i++) 
 			{
 				product = [];
 
@@ -127,7 +127,7 @@ hide()
 // {		
 // 	if (!App.constellationMode()) return;
 
-// 	var starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
+// 	let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
 // 	if (this.isProducteurOrAmap())
 // 	{
 // 		for(let i = 0; i < this.products.length;i++)
@@ -155,9 +155,9 @@ hide()
 
 getHtmlRepresentation() 
 {	
-	//var starNames = App.constellationMode ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
+	//let starNames = App.constellationMode ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 	let startNames = [];
-	var location = App.map.location;
+	let location = App.map().location;
 	if (location)
 	{
 		this.distance = calculateDistanceFromLatLonInKm(location, this.position);
@@ -166,7 +166,7 @@ getHtmlRepresentation()
 	}
 
 
-	var html = Twig.render(twigJs_elementInfo, 
+	let html = Twig.render(twigJs_elementInfo, 
 				{
 					element : this, 
 					horaires : this.getFormatedHoraires(), 
@@ -184,7 +184,7 @@ getProductsNameToDisplay()
 
 	this.productsToDisplay_.main = [];
 	this.productsToDisplay_.others = [];
-	var productName;
+	let productName;
 
 	if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
 	{
@@ -192,8 +192,8 @@ getProductsNameToDisplay()
 		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
 	}		
 
-	var productIsDisabled;
-	for(var i = 0; i < this.products.length;i++)
+	let productIsDisabled;
+	for(let i = 0; i < this.products.length;i++)
 	{
 		productName = this.products[i].nameFormate;
 		productIsDisabled = this.products[i].disabled;
@@ -237,7 +237,7 @@ private compareProductsDisabled(a,b)
 
 pushToProductToDisplay(productName, disabled)
 {
-	var new_product = [];
+	let new_product = [];
 	new_product.value = productName;
 	new_product.disabled = disabled;
 	this.productsToDisplay_.others.push(new_product);
@@ -248,8 +248,8 @@ getFormatedHoraires()
 	if (this.formatedHoraire_ === null )
 	{		
 		this.formatedHoraire_ = {};
-		var new_key;
-		for(var key in this.horaires)
+		let new_key;
+		for(let key in this.horaires)
 		{
 			new_key = key.split('_')[1];
 			this.formatedHoraire_[new_key] = this.formateJourHoraire(this.horaires[key]);
@@ -264,7 +264,7 @@ formateJourHoraire(dayHoraire)
 	{		
 		return 'fermé';
 	}
-	var result = '';
+	let result = '';
 	if (dayHoraire.plage1debut)
 	{
 		result+= this.formateDate(dayHoraire.plage1debut);
@@ -296,7 +296,7 @@ isCurrentStarChoiceRepresentant()
 {		
 	if ( this.starChoiceForRepresentation !== '')
 	{
-		var elementStarId = App.constellation.getStarFromName(this.starChoiceForRepresentation).getElementId();
+		let elementStarId = App.constellation.getStarFromName(this.starChoiceForRepresentation).getElementId();
 		return (this.id == elementStarId);
 	}
 	return false;	

@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 import { AppModule, AppStates } from "../app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
@@ -26,7 +26,7 @@ export class InfoBarComponent
 	{
 		this.onShow.emit(elementId);
 
-		var element = App.elementModule.getElementById(elementId);
+		let element = App.elementModule.getElementById(elementId);
 
 		if (!App.constellationMode)
 		{
@@ -45,7 +45,7 @@ export class InfoBarComponent
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
-		var that = this;
+		let that = this;
 		$('#btn-close-bandeau-detail').click(function()
 		{  		
 			this.onHide.emit(true);
@@ -66,7 +66,7 @@ export class InfoBarComponent
 		{
 			$('#element-info-bar').show();
 
-			var elementInfoBar_newHeight = $('#element-info').outerHeight(true);
+			let elementInfoBar_newHeight = $('#element-info').outerHeight(true);
 			elementInfoBar_newHeight += $('#element-info-bar .starRepresentationChoice-helper:visible').height();
 
 			$('#element-info-bar').css('height', elementInfoBar_newHeight);
@@ -138,14 +138,14 @@ export class InfoBarComponent
 			
 			$('#element-info-bar .moreDetails').show();		
 
-			var elementInfoBar_newHeight =  $( window ).height();
+			let elementInfoBar_newHeight =  $( window ).height();
 			elementInfoBar_newHeight -= $('header').height();
 			elementInfoBar_newHeight -=$('#bandeau_goToElementList').outerHeight(true);
 
 			$('#element-info-bar').css('height', '100%');
 
-			var elementInfoBar = $("#element-info-bar");
-		  	var height =  elementInfoBar_newHeight;
+			let elementInfoBar = $("#element-info-bar");
+		  	let height =  elementInfoBar_newHeight;
 			height -= elementInfoBar.find('.collapsible-header').outerHeight(true);
 			height -= elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true);
 			height -= elementInfoBar.find(".menu-element").outerHeight(true);
@@ -166,7 +166,7 @@ export class InfoBarComponent
 			$('#element-info-bar .moreInfos').show();
 			$('#element-info-bar .lessInfos').hide();
 
-			var elementInfoBar_newHeight = $('#element-info').outerHeight(true) + $('#element-info-bar .starRepresentationChoice-helper:visible').height();
+			let elementInfoBar_newHeight = $('#element-info').outerHeight(true) + $('#element-info-bar .starRepresentationChoice-helper:visible').height();
 
 			$('#element-info-bar').css('height', elementInfoBar_newHeight);
 

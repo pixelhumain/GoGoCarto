@@ -11,7 +11,7 @@ function Star(name, elementList)
 {
   this.name_ = name; 
   this.elementIdList_ = [];
-  for(var i = 0; i < elementList.length; i++)
+  for(let i = 0; i < elementList.length; i++)
   {
       this.elementIdList_.push(elementList[i].id);
   }
@@ -31,7 +31,7 @@ Star.prototype.getElementListId = function () {
 };
 
 Star.prototype.getElementIndexFromId = function (id) {
-  for(var i = 0; i < this.elementIdList_.length; i++)
+  for(let i = 0; i < this.elementIdList_.length; i++)
   {
      if (this.elementIdList_[i] == id) return i;
   }
@@ -44,7 +44,7 @@ Star.prototype.getElement = function () {
 };
 
 Star.prototype.getPosition = function () {
-  var element = this.getElement();
+  let element = this.getElement();
   return new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
 };
 
@@ -61,7 +61,7 @@ Star.prototype.isClustered = function ()
 {
   if (App.clusterer === null) return false;
 
-  var clusters = App.clusterer.getMinimizedClusters();
+  let clusters = App.clusterer().getMinimizedClusters();
 
   for (j = 0; j < clusters.length; j++)
   {
@@ -90,7 +90,7 @@ Star.prototype.setIndex = function (newIndex)
 {
   if (newIndex < 0 || newIndex >= this.elementIdList_.length) return false;
 
-	var oldElementId = this.getElementId();
+	let oldElementId = this.getElementId();
 
   $('moreResult-'+this.name_+'-'+this.index_).removeClass('starElement');
   $('moreResult-'+this.name_+'-'+newIndex).addClass('starElement');
@@ -99,7 +99,7 @@ Star.prototype.setIndex = function (newIndex)
 
   // on met à day le marqueur des deux elements interchangés
   App.getMarkerModule().getMarkerById(oldElementId).updateIcon();
-  var newMarkerRepresentStar = App.getMarkerModule().getMarkerById(this.getElementId());
+  let newMarkerRepresentStar = App.getMarkerModule().getMarkerById(this.getElementId());
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
 

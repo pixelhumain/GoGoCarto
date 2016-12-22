@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-var slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
+let slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
 jQuery(document).ready(function()
 {
@@ -16,9 +16,9 @@ if (constellationMode)
 	// MODE StarRepresentationChoice
 	$('.productItem:not(.disabled)').click(function()
 	{
-		var star = App.constellation.getStarFromName($(this).attr('data-star-name'));
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		
-		var moreResultContainer = $(this).parent().find('.moreResultContainer');
+		let moreResultContainer = $(this).parent().find('.moreResultContainer');
 		
 		// if the moreResultContainer si already visible
 		if (moreResultContainer.hasClass("active")) 
@@ -51,7 +51,7 @@ if (constellationMode)
 			}
 			else
 			{
-				var that = this;
+				let that = this;
 				setTimeout(function() 
 				{
 					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
@@ -68,23 +68,23 @@ if (constellationMode)
 	$('.productItem:not(.disabled)').mouseenter(function() 
 	{
 		if (App.state == AppStates.StarRepresentationChoice) return;
-		var star = App.constellation.getStarFromName($(this).attr('data-star-name'));
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showBigSize();
 	}).mouseleave(function() 
 	{
 		if (App.state == AppStates.StarRepresentationChoice) return;
-		var star = App.constellation.getStarFromName($(this).attr('data-star-name'));
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showNormalSize();
 	});
 
 	// Gestion hover pour le choix du réprésentant de l'étoile
 	$('.moreResultelement-item, .element-item').mouseenter(function() 
 	{
-		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
+		let marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showBigSize();
 	}).mouseleave(function() 
 	{
-		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
+		let marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showNormalSize();
 	});
 
@@ -94,7 +94,7 @@ if (constellationMode)
 
 function clearDirectoryMenu()
 {
-	var otherContainerVisible = $('.moreResultContainer.active').first();
+	let otherContainerVisible = $('.moreResultContainer.active').first();
 	otherContainerVisible.stop(true,false).slideUp(slideOptions);
 	otherContainerVisible.removeClass("active");
 }

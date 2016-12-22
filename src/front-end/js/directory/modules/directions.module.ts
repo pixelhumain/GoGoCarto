@@ -1,8 +1,8 @@
-declare var google;
+declare let google;
 import { AppModule } from "../app.module";
-declare var App : AppModule;
-declare var RichMarker : any;
-declare var $: any;
+declare let App : AppModule;
+declare let RichMarker : any;
+declare let $: any;
 
 export class DirectionsModule
 {
@@ -36,10 +36,10 @@ export class DirectionsModule
 		      	google.maps.event.trigger(App.map, 'resize');
 		      	this.directionsRenderer_.setDirections(response);		      	
 
-				var distance_to_reach = response.routes[0].legs[0].distance.value / 2;
-				var distance_somme = 0;
-				var i = 0;
-				var route = response.routes[0].legs[0];
+				let distance_to_reach = response.routes[0].legs[0].distance.value / 2;
+				let distance_somme = 0;
+				let i = 0;
+				let route = response.routes[0].legs[0];
 
 				while(i < (route.steps.length - 1) && distance_somme < distance_to_reach)
 				{
@@ -47,10 +47,10 @@ export class DirectionsModule
 					distance_somme += route.steps[i].distance.value;				
 				}
 				
-				var middleStep = Math.max(i,0);			
+				let middleStep = Math.max(i,0);			
 				this.clearDirectionMarker();
 
-				var marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
+				let marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
 
 				this.markerDirectionResult = new RichMarker({		
 					map: App.map,
@@ -59,10 +59,10 @@ export class DirectionsModule
 					flat: true
 				}, null);
 
-				var content = document.createElement("div");
+				let content = document.createElement("div");
 				$(content).attr('id',"markerDirectionResult");
 				$(content).addClass('arrow_box');
-				var innerHtml = '<div class="duration">' + route.duration.text + "</div>";
+				let innerHtml = '<div class="duration">' + route.duration.text + "</div>";
 				innerHtml    += '<div class="distance">' + route.distance.text + "</div>";
 				content.innerHTML = innerHtml;
 				this.markerDirectionResult.setContent(content);

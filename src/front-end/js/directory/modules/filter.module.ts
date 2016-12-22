@@ -10,7 +10,7 @@
 
 
 import { AppModule } from "../app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 
 export class FilterModule
 {
@@ -28,9 +28,9 @@ export class FilterModule
 
 	addFilter (data, filterType, updateElementToDisplay) 
 	{	
-		var listToFilter = this.getFilterListFromType(filterType);
+		let listToFilter = this.getFilterListFromType(filterType);
 
-		var index = listToFilter.indexOf(data);
+		let index = listToFilter.indexOf(data);
 		if ( index < 0) listToFilter.push(data);
 
 		if (updateElementToDisplay) App.elementModule.updateElementToDisplay(false);
@@ -38,9 +38,9 @@ export class FilterModule
 
 	removeFilter (data, filterType, updateElementToDisplay) 
 	{	
-		var listToFilter = this.getFilterListFromType(filterType);
+		let listToFilter = this.getFilterListFromType(filterType);
 
-		var index = listToFilter.indexOf(data);
+		let index = listToFilter.indexOf(data);
 		if ( index > -1) 
 		{
 			listToFilter.splice(index, 1);
@@ -50,7 +50,7 @@ export class FilterModule
 
 	getFilterListFromType(type)
 	{
-		var listToFilter = null;
+		let listToFilter = null;
 
 		switch (type)
 		{
@@ -68,14 +68,14 @@ export class FilterModule
 		if (this.showOnlyFavorite_ && !element.isFavorite) return false;
 
 		// TYPE FILTER
-		var i;
+		let i;
 		for (i = 0; i < this.typeFilters.length; i++) 
 		{
 			if (element.type == this.typeFilters[i]) return false;
 		}
 
 		// PRODUCTS FILTER
-		var atLeastOneProductPassFilter = false;
+		let atLeastOneProductPassFilter = false;
 
 		// si epicerie on ne fait irne
 		if (element.type == 'epicerie') 
@@ -84,9 +84,9 @@ export class FilterModule
 		}
 		else
 		{
-			var products = element.getProducts();
+			let products = element.getProducts();
 			
-			var updateElementIcon = false;
+			let updateElementIcon = false;
 			for (i = 0; i < products.length; i++) 
 			{
 				if (!this.containsProduct(products[i].nameFormate)) 
@@ -119,9 +119,9 @@ export class FilterModule
 		// OPENNING HOURS FILTER
 		if (this.dayFilters.length > 0)
 		{
-			var horaires = element.horaires;
-			var day, atLeastOneDayPassFilter = false;
-			for(var key in horaires)
+			let horaires = element.horaires;
+			let day, atLeastOneDayPassFilter = false;
+			for(let key in horaires)
 			{
 				day = key.split('_')[1];
 				if ( !this.containsOpeningDay(day) )
@@ -137,7 +137,7 @@ export class FilterModule
 
 	containsProduct (productName) 
 	{		
-		for (var i = 0; i < this.productFilters.length; i++) 
+		for (let i = 0; i < this.productFilters.length; i++) 
 		{
 			if (this.productFilters[i] == productName)
 			{
@@ -149,7 +149,7 @@ export class FilterModule
 
 	containsOpeningDay (day) 
 	{		
-		for (var i = 0; i < this.dayFilters.length; i++) 
+		for (let i = 0; i < this.dayFilters.length; i++) 
 		{
 			if (this.dayFilters[i] == day)
 			{

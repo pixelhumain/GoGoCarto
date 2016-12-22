@@ -11,7 +11,7 @@ jQuery(document).ready(function()
 {	
 	$('#element-info-bar .btn-select-as-representant').click(function(event) 
 	{ 
-		var elementId = $('#element-info-bar .element-item').attr('data-element-id');
+		let elementId = $('#element-info-bar .element-item').attr('data-element-id');
 		App.SRCModule().selectElementById( elementId ); 		
 	});
 });
@@ -23,8 +23,8 @@ function ElementModule(listElementPhp)
 	// TODO timer pour voir si c'est long de faire ça. peut etre le faire
 	// direct dans la page twig? pour éviter de serializer....
 
-	var element;
-	for (var i = 0; i < listElementPhp.length; i++)
+	let element;
+	for (let i = 0; i < listElementPhp.length; i++)
 	{
 		element = new Element(listElementPhp[i]);
 		this.elements_.push(element);
@@ -33,8 +33,8 @@ function ElementModule(listElementPhp)
 
 ElementModule.prototype.draw = function () 
 {	
-	var element;
-	for(var i = 0; i < App.constellation.getStars().length; i++)
+	let element;
+	for(let i = 0; i < App.constellation.getStars().length; i++)
 	{
 		element = App.constellation.getStars()[i].getElement();	
 		element.show();	
@@ -45,9 +45,9 @@ ElementModule.prototype.focusOnThesesElements = function (idList)
 {
 	App.getMarkerModule().hidePartiallyAllMarkers();
 
-	var element;	
+	let element;	
 
-	for(var i = 0; i < idList.length; i++)
+	for(let i = 0; i < idList.length; i++)
 	{
 		element = this.getElementById(idList[i]);			
 		element.getBiopenMarker().updateIcon();
@@ -60,8 +60,8 @@ ElementModule.prototype.clearFocusOnThesesElements = function (idList)
 {
 	App.getMarkerModule().showNormalHiddenAllMarkers();
 
-	var marker;
-	for(var i = 0; i < idList.length; i++)
+	let marker;
+	for(let i = 0; i < idList.length; i++)
 	{
 		element = this.getElementById(idList[i]);	
 		//marker.updateIcon();		
@@ -78,7 +78,7 @@ ElementModule.prototype.getElements = function ()
 
 ElementModule.prototype.getElementById = function (elementId) 
 {
-	for (var i = 0; i < this.elements_.length; i++) 
+	for (let i = 0; i < this.elements_.length; i++) 
 	{
 		if (this.elements_[i].getId() == elementId) return this.elements_[i];
 	}

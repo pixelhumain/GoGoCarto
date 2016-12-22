@@ -9,18 +9,18 @@
  */
 
 import { AppModule } from "./app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 
 //import $ = require("jquery");
-declare var $ : any;
-declare var google : any;
+declare let $ : any;
+declare let google : any;
 
 $(document).ready(function()
 {	
 	//animation pour lien d'ancre dans la page
    /* $('a[href^="#"]').click(function(){  
-	    var target = $(this).attr("href");
+	    let target = $(this).attr("href");
 	    $('html, body').animate({scrollTop: $(target).offset().top}, 700);
 	    return false;  
 	}); */
@@ -47,7 +47,7 @@ $(document).ready(function()
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
-	var res;
+	let res;
 	window.onresize = function() 
 	{
 	    if (res) {clearTimeout(res); }
@@ -55,8 +55,8 @@ $(document).ready(function()
 	};	
 
 	// scroller tout seul en haut de la page quand on en est pas loin
-	var lastEndScrollTop = 0, st = 0;
-	var timeout = null;	
+	let lastEndScrollTop = 0, st = 0;
+	let timeout = null;	
 	$(window).scroll(function(event)
 	{
 	   clearTimeout(timeout);
@@ -121,7 +121,7 @@ export function hideDirectoryMenu()
 	//$('#directory-menu').animate({'width': '0px'},700).hide();
 }
 
-var slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
+let slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
 export function hideBandeauHelper()
 {
@@ -142,7 +142,7 @@ export function updateComponentsSize()
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
 	$('#page-content').css('height','auto');
 
-	var content_height = $(window).height() - $('header').height();
+	let content_height = $(window).height() - $('header').height();
 	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
 	$("#directory-container").css('height',content_height);
 	$("#ElementList").css('height',content_height);
@@ -154,7 +154,7 @@ export function updateComponentsSize()
 }
 
 
-var matchMediaBigSize_old;
+let matchMediaBigSize_old;
 export function updateMapSize(elementInfoBar_height?)
 {		
 	elementInfoBar_height = elementInfoBar_height || $('#element-info-bar').outerHeight(true);
@@ -224,8 +224,8 @@ export function updateInfoBarSize()
 	  	} 
 		else 
 		{			
-		  	var elementInfoBar = $("#element-info-bar");
-		  	var height = elementInfoBar.outerHeight(true);
+		  	let elementInfoBar = $("#element-info-bar");
+		  	let height = elementInfoBar.outerHeight(true);
 			height -= elementInfoBar.find('.collapsible-header').outerHeight(true);
 			height -= elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true);
 			height -= elementInfoBar.find(".menu-element").outerHeight(true);

@@ -5,8 +5,8 @@ import { initAutoCompletionForElement } from "../../../commons/search-bar.compon
 import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
 
-declare var App : AppModule;
-declare var initRichMarker, google;
+declare let App : AppModule;
+declare let initRichMarker, google;
 
 // triggered when google maps scripts are loaded
 function initMap()
@@ -43,7 +43,7 @@ export class MapComponent
 		// if (constellationMode)
 		// {
 			// basics settings for the map 
-		var latlng = new google.maps.LatLng(46.897045, 2.425235);
+		let latlng = new google.maps.LatLng(46.897045, 2.425235);
 		this.map_.setZoom(12);
 		this.map_.setCenter(latlng);
 
@@ -52,13 +52,13 @@ export class MapComponent
 		// }	
 		// else
 		// {
-		// 	var center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
+		// 	let center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
 		// 	this.map_.setCenter(center);
 		// 	this.panToLocation(center, map);
 		// }
 
 		// Event Listeners
-		var that = this;
+		let that = this;
 
 		google.maps.event.addListener(this.map_, 'projection_changed', () =>
 		{   		

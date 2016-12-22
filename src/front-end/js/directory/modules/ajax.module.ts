@@ -9,14 +9,12 @@
  */
 
 import { Event, IEvent } from "../utils/event";
-
-declare var Routing;
-
 import { AppModule, AppStates } from "../app.module";
-declare var App : AppModule;
 import { Element } from "../classes/element.class";
-
 import { calculateMapWidthInKm } from "../components/map/map-utils";
+
+declare let App : AppModule;
+declare let Routing;
 
 export class AjaxModule
 {
@@ -32,8 +30,8 @@ export class AjaxModule
 
 	createRequest()
 	{
-		var request : any = {};
-		request.origin = App.map.getCenter();
+		let request : any = {};
+		request.origin = App.map().getCenter();
 		request.distance = calculateMapWidthInKm(App.map) * 2;
 		request.elementIds = App.elementModule.allElementsIds;
 		request.maxResults = 300;
@@ -47,16 +45,16 @@ export class AjaxModule
 
 	getElementsAroundCurrentLocation(request?)
 	{
-		var currRequest = request ? request : this.createRequest();	
+		let currRequest = request ? request : this.createRequest();	
 
 		if (this.isRetrievingElements)
 		{		
 			this.requestWaitingToBeExecuted = true;
 			return;
 		}
-		var start = new Date().getTime();
-		var route = Routing.generate('biopen_api_elements_around_location');
-		var that = this;
+		let start = new Date().getTime();
+		let route = Routing.generate('biopen_api_elements_around_location');
+		let that = this;
 
 		$.ajax({
 			url: route,
@@ -75,7 +73,7 @@ export class AjaxModule
 		    {	        
 		        if (response.data !== null)
 				{
-					var end = new Date().getTime();
+					let end = new Date().getTime();
 					window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
 					this.onNewElements.emit(response.data);				
@@ -110,8 +108,8 @@ export class AjaxModule
 
 	getElementById(elementId)
 	{
-		var start = new Date().getTime();
-		var route = Routing.generate('biopen_api_element_by_id');
+		let start = new Date().getTime();
+		let route = Routing.generate('biopen_api_element_by_id');
 
 		$.ajax({
 			url: route,
@@ -121,7 +119,7 @@ export class AjaxModule
 		    {	        
 		        if (response.data !== null)
 				{
-					var end = new Date().getTime();
+					let end = new Date().getTime();
 					window.console.log("receive element in " + (end-start) + " ms");			
 
 					this.onNewElement.emit(response.data);							

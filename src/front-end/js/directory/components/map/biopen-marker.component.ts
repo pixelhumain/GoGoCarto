@@ -10,8 +10,8 @@
 import { AppModule, AppStates } from "../../app.module";
 import { drawLineBetweenPoints } from "./map-drawing";
 
-declare var App : AppModule;
-declare var RichMarker, google;
+declare let App : AppModule;
+declare let RichMarker, google;
 
 export class BiopenMarker
 {
@@ -28,7 +28,7 @@ export class BiopenMarker
 
 		if (!position_)
 		{
-			var element = this.getElement();
+			let element = this.getElement();
 			if (element === null) window.console.log("element null id = "+ this.id_);
 			else
 			position_ = new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
@@ -95,19 +95,19 @@ export class BiopenMarker
 	{
 		let content = this.richMarker_.getContent(); 
 		this.isAnimating_ = true;
-		var that = this;
+		let that = this;
 		$(content).animate({top: '-=25px'}, 300, 'easeInOutCubic');
 		$(content).animate({top: '+=25px'}, 250, 'easeInOutCubic', function(){that.isAnimating_ = false;});
 	};
 
 	updateIcon () 
 	{		
-		var element = this.getElement();
+		let element = this.getElement();
 
 		if (App.constellationMode())
 		{
 			// POLYLINE TYPE
-			var lineType;
+			let lineType;
 			if (element.starChoiceForRepresentation === '')
 			{
 				lineType = AppStates.Normal;
@@ -120,28 +120,28 @@ export class BiopenMarker
 			this.updatePolyline({lineType: lineType});
 		}
 
-		var productsToDisplay = element.getProductsNameToDisplay();
+		let productsToDisplay = element.getProductsNameToDisplay();
 
-		var content = document.createElement("div");
+		let content = document.createElement("div");
 		$(content).addClass("marker-wrapper");
 		$(content).addClass(element.type);
 		$(content).attr('id',"marker-"+this.id_);
 
-		var disableMarker = false;
+		let disableMarker = false;
 		// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
 		if (element.starChoiceForRepresentation !== '') 
 			disableMarker = !element.isCurrentStarChoiceRepresentant();
 
 		if (disableMarker) $(content).addClass("disabled");
 
-		var disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
+		let disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
 
-		var innerHTML = '<div class="rotate animate icon-marker"></div>';
+		let innerHTML = '<div class="rotate animate icon-marker"></div>';
 	    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>';
 	    
-	    var widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
+	    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
-	    var showMoreIcon = true;
+	    let showMoreIcon = true;
 	    if (App.constellationMode()) showMoreIcon = element.isProducteurOrAmap();
 
 	    if (nbreOthersProducts > 0 && showMoreIcon)
@@ -151,9 +151,9 @@ export class BiopenMarker
 	    	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
 	    	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
 	    	
-	    	var productName, disableProduct;
+	    	let productName, disableProduct;
 
-		    for(var i = 0; i < nbreOthersProducts;i++)
+		    for(let i = 0; i < nbreOthersProducts;i++)
 			{
 				productName = productsToDisplay.others[i].value;
 				disableProduct = productsToDisplay.others[i].disabled ? 'disabled' : '';
@@ -274,7 +274,7 @@ export class BiopenMarker
 		}
 		else
 		{		
-			var map = this.polyline_.getMap();
+			let map = this.polyline_.getMap();
 			this.polyline_.setMap(null);
 			this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, map, options);	
 		}

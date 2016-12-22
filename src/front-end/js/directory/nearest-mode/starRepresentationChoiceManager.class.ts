@@ -16,10 +16,10 @@ function StarRepresentationChoiceModule()
 StarRepresentationChoiceModule.prototype.begin = function (star) 
 {	
 	this.currentStar_ = star;
-	var idToFocus = star.getElementListId();
+	let idToFocus = star.getElementListId();
 
-	var element;
-	for(var i = 0; i < idToFocus.length; i++)
+	let element;
+	for(let i = 0; i < idToFocus.length; i++)
 	{
 		element = App.elementModule.getElementById(idToFocus[i]);
 		element.starChoiceForRepresentation = star.getName();	
@@ -28,7 +28,7 @@ StarRepresentationChoiceModule.prototype.begin = function (star)
 	App.setState(AppStates.StarRepresentationChoice);
 
 	App.elementModule.focusOnThesesElements(idToFocus);
-	App.clusterer.repaint();
+	App.clusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
 	//$('#element-info-bar').addClass('starRepresentantMode');
@@ -44,17 +44,17 @@ StarRepresentationChoiceModule.prototype.end = function ()
 {	
 	if (this.currentStar_ === null) return;
 
-	var idToClearFocus = this.currentStar_.getElementListId();
+	let idToClearFocus = this.currentStar_.getElementListId();
 
-	var element;
-	for(var i = 0; i < idToClearFocus.length; i++)
+	let element;
+	for(let i = 0; i < idToClearFocus.length; i++)
 	{
 		element = App.elementModule.getElementById(idToClearFocus[i]);
 		element.starChoiceForRepresentation = '';	
 	}
 
 	App.elementModule.clearFocusOnThesesElements(idToClearFocus);
-	App.clusterer.repaint();	
+	App.clusterer().repaint();	
 
 	App.getInfoBar().hide()(); 
 
@@ -77,7 +77,7 @@ StarRepresentationChoiceModule.prototype.selectElementIndex = function (elementI
 
 StarRepresentationChoiceModule.prototype.majView = function ()
 {
-	var elementId = this.currentStar_.getElementId();
+	let elementId = this.currentStar_.getElementId();
 
 	/*$('#ElementList .starRepresentant').removeClass('starRepresentant');
 	$('#ElementList #element-info-'+elementId).addClass('starRepresentant');*/
@@ -88,7 +88,7 @@ StarRepresentationChoiceModule.prototype.majView = function ()
 
 StarRepresentationChoiceModule.prototype.selectElementById = function (elementId)
 {
-	var elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
+	let elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
 	this.selectElementIndex(elementIndex);
 };
 

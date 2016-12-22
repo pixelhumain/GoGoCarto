@@ -16,9 +16,9 @@ function MarkerModule()
 
 MarkerModule.prototype.createMarkers = function () 
 {	
-	var list = App.elements;
-	var marker, element;
-	for(var i = 0; i < list.length; i++)
+	let list = App.elements;
+	let marker, element;
+	for(let i = 0; i < list.length; i++)
 	{
 		element = list[i];
 		element.initialize();
@@ -30,21 +30,21 @@ MarkerModule.prototype.createMarkers = function ()
 	});
 };
 
-var nbreFitMapFailed = 0;
+let nbreFitMapFailed = 0;
 
 MarkerModule.prototype.fitMapInBounds = function () 
 {	
-	var bounds = new google.maps.LatLngBounds();
+	let bounds = new google.maps.LatLngBounds();
 
 	bounds.extend(this.markerHome_.getPosition());
 
-	for (var i = 0; i < this.markers_.length; i++) {
+	for (let i = 0; i < this.markers_.length; i++) {
 		if (this.markers_[i].getVisible()) bounds.extend(this.markers_[i].getPosition());
 	}
 
 	if (App.clusterer)
 	{
-		var clusters = App.clusterer.getMinimizedClusters();
+		let clusters = App.clusterer().getMinimizedClusters();
 		
 		for (i = 0; i < clusters.length; i++)
 		{
@@ -52,8 +52,8 @@ MarkerModule.prototype.fitMapInBounds = function ()
 		}
 	}
 
-	App.map.fitBounds(bounds);
-	mapbounds = App.map.getBounds();
+	App.map().fitBounds(bounds);
+	mapbounds = App.map().getBounds();
 
 	//window.console.log ("map contains" + mapbounds.contains(bounds) );
 	if (mapbounds.getNorthEast().lng() == 180)
@@ -74,7 +74,7 @@ MarkerModule.prototype.fitMapInBounds = function ()
 		{
 			window.console.log("fit bounds marche pas, relance");
 			nbreFitMapFailed++;
-			var that = this;
+			let that = this;
 			setTimeout(function() { that.fitMapInBounds(); },1000);
 		}		
 	}
@@ -88,7 +88,7 @@ MarkerModule.prototype.fitMapInBounds = function ()
 
 MarkerModule.prototype.getMarkerById = function (elementId) 
 {
-	for(var i = 0; i < this.markers_.length; i++)
+	for(let i = 0; i < this.markers_.length; i++)
 	{
 		if (this.markers_[i].getId() == elementId) return this.markers_[i];
 	}
@@ -97,7 +97,7 @@ MarkerModule.prototype.getMarkerById = function (elementId)
 
 MarkerModule.prototype.hidePartiallyAllMarkers = function () 
 {
-	for(var i = 0; i < this.markers_.length; i++)
+	for(let i = 0; i < this.markers_.length; i++)
 	{
 		this.markers_[i].showHalfHidden();
 	}
@@ -105,7 +105,7 @@ MarkerModule.prototype.hidePartiallyAllMarkers = function ()
 
 MarkerModule.prototype.showNormalHiddenAllMarkers = function () 
 {
-	for(var i = 0; i < this.markers_.length; i++)
+	for(let i = 0; i < this.markers_.length; i++)
 	{
 		this.markers_[i].showNormalHidden();
 	}
@@ -113,7 +113,7 @@ MarkerModule.prototype.showNormalHiddenAllMarkers = function ()
 
 MarkerModule.prototype.drawLinesWithClusters = function () 
 {
-	var i, line;
+	let i, line;
 
 	// remove previous lines with clusters
 	for (i = 0; i < this.clusterLines_.length; i++)
@@ -125,7 +125,7 @@ MarkerModule.prototype.drawLinesWithClusters = function ()
 	// draw lines with clusters
 	if (App.clusterer !== null) 
 	{
-		var clusters = App.clusterer.getMinimizedClusters();
+		let clusters = App.clusterer().getMinimizedClusters();
 		
 		for (i = 0; i < clusters.length; i++)
 		{
@@ -137,7 +137,7 @@ MarkerModule.prototype.drawLinesWithClusters = function ()
 
 MarkerModule.prototype.getMarkersIncludingHome = function () 
 {
-	var array = [];
+	let array = [];
 	array.push(this.markerHome_);
 	array = array.concat(this.getMarkers());
 	return array;
@@ -145,8 +145,8 @@ MarkerModule.prototype.getMarkersIncludingHome = function ()
 
 MarkerModule.prototype.getMarkers = function () 
 {
-	var array = [];
-	for(var i = 0; i < this.markers_.length; i++)
+	let array = [];
+	for(let i = 0; i < this.markers_.length; i++)
 	{
 		array.push(this.markers_[i].getRichMarker());
 	}

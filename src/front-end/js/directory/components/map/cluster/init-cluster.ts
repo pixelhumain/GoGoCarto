@@ -1,12 +1,12 @@
 import { AppModule } from "../../../app.module";
-declare var App : AppModule;
+declare let App : AppModule;
 
-declare var MarkerClusterer, $;
+declare let MarkerClusterer, $;
 
 export function initCluster(markersToCluster)
 {
 	// Set Options
-	var clusterOptions = {
+	let clusterOptions = {
 	    title: 'Cluster Title',
 	    enableRetinaIcons: true,
 	    /*styles: styles,
@@ -17,7 +17,7 @@ export function initCluster(markersToCluster)
 	    automaticRepaint: App.constellationMode(),
 	};
 
-    var cluster = new MarkerClusterer(App.map, markersToCluster, clusterOptions);
+    let cluster = new MarkerClusterer(App.map, markersToCluster, clusterOptions);
     
 
     $('#rangeKernelRadius').change(function() {
