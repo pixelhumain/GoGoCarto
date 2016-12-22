@@ -82,5 +82,13 @@ http://localhost/PagesVertes/web/app_dev.php
 Production
 ----------
 
-1. gulp production
-2. move files to FTP
+1. Generate compressed js and css files
+```gulp production```
+
+2. Move files to distant Server (FTP or other)
+
+3. In the distant console (http://yoursite.com/web/app_dev.php/_console)
+```
+cache:clear --env=prod
+assetic:dump --env=prod
+```

@@ -143,6 +143,6 @@ gulp.task('build', function() {
 });
 
 gulp.task('production', function() {
-    gulp.start('prod_styles', 'prod_js');
+    gulp.start('build','prod_styles', 'prod_js');
 });
 
