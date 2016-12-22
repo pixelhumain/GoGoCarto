@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import AppModule from "../app.module";
+import { AppModule, AppStates } from "../app.module";
 declare var App : AppModule;
 
 import * as Cookies from "../utils/cookies";
@@ -16,10 +16,9 @@ import { Event, IEvent } from "../utils/event";
 import { Element } from "../classes/element.class";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
-class ElementsModule
+export class ElementsModule
 {
-	private onNewMarkers = new Event<BiopenMarker[]>();
-	private onMarkersToRemove = new Event<BiopenMarker[]>();
+	onMarkersChanged = new Event<any>();
 
 	allElements_ : Element[] = [];
 	
@@ -38,10 +37,6 @@ class ElementsModule
 		}   
 		else this.favoriteIds_ = [];	
 	}
-
-
-	get NewMarkers() : IEvent<BiopenMarker[]>{ return this.onNewMarkers; }
-	get MarkersToRemove() : IEvent<BiopenMarker[]>{ return this.onMarkersToRemove; }
 
 	checkCookies()
 	{
@@ -104,11 +99,8 @@ class ElementsModule
 	};
 
 	// check elements in bounds and who are not filtered
-	updateElementToDisplay (checkInAllElements, forceRepaint) 
+	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
-		checkInAllElements = checkInAllElements !== false;
-		forceRepaint = forceRepaint || false;
-
 		var elements = null;
 		if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
 		else elements = this.currElements_;
@@ -120,7 +112,7 @@ class ElementsModule
 	 	var markersToRemove = [];
 	 	var markersChanged = false;
 
-		var filterModule = App.filterModule();	
+		var filterModule = App.filterModule;	
 
 		i = elements.length;
 		window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
@@ -133,7 +125,7 @@ class ElementsModule
 			
 			if (mapBounds.contains(element.getPosition()) && filterModule.checkIfElementPassFilters(element))
 			{
-				if (!element.isVisible() && $.inArray(App.state, [App.States.Normal,App.States.ShowElement]) > -1)
+				if (!element.isVisible() && $.inArray(App.state, [AppStates.Normal,AppStates.ShowElement]) > -1)
 				{
 					if (element.isInitialized() === false) element.initialize();
 					element.show();
@@ -173,8 +165,7 @@ class ElementsModule
 		
 		if (markersChanged || forceRepaint)
 		{		
-			this.onNewMarkers.emit(newMarkers);
-			this.onMarkersToRemove.emit(markersToRemove);			
+			this.onMarkersChanged.emit([newMarkers, markersToRemove]);		
 		}
 		
 	};

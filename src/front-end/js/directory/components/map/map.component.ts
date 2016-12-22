@@ -1,5 +1,5 @@
 
-import AppModule from "../../app.module";
+import { AppModule, AppStates } from "../../app.module";
 import { Event, IEvent } from "../../utils/event";
 import { initAutoCompletionForElement } from "../../../commons/search-bar.component";
 import { initCluster } from "./cluster/init-cluster";
@@ -16,9 +16,9 @@ function initMap()
 
 export class MapComponent
 {
-	private onMapReady = new Event<any>();
-	private onClick = new Event<any>();
-	private onIdle = new Event<any>();
+	onMapReady = new Event<any>();
+	onClick = new Event<any>();
+	onIdle = new Event<any>();
 
 	map_ = null;
 	clusterer_ = null;
@@ -71,10 +71,8 @@ export class MapComponent
 		google.maps.event.addListener(this.map_, 'click', (e) => { this.onClick.emit(); });  	
 	};
 
-	panToLocation(newLocation, zoom, changeMapLocation)
+	panToLocation(newLocation, zoom = 12, changeMapLocation = false)
 	{
-		changeMapLocation = changeMapLocation !== false;
-		zoom = zoom || 12;
 		console.log("panTolocation", newLocation.toString());
 		// setTimeout(function() 
 		// {

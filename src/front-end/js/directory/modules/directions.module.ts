@@ -1,5 +1,5 @@
 declare var google;
-import AppModule from "../app.module";
+import { AppModule } from "../app.module";
 declare var App : AppModule;
 declare var RichMarker : any;
 declare var $: any;

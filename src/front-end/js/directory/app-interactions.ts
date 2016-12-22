@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import AppModule from "./app.module";
+import { AppModule } from "./app.module";
 declare var App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 

@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import AppModule from "../../app.module";
+import { AppModule, AppStates } from "../../app.module";
 import { drawLineBetweenPoints } from "./map-drawing";
 
 declare var App : AppModule;
@@ -49,11 +49,11 @@ export class BiopenMarker
 		{
 			App.setTimeoutClicking();
 
-			if (this.isHalfHidden_) App.setState(App.States.Normal);	
+			if (this.isHalfHidden_) App.setState(AppStates.Normal);	
 
 			App.infoBarComponent.showElement(this.id_);
 
-			if (App.state == App.States.StarRepresentationChoice)
+			if (App.state == AppStates.StarRepresentationChoice)
 			{
 				App.SRCModule().selectElementById(this.id_);
 			}
@@ -110,11 +110,11 @@ export class BiopenMarker
 			var lineType;
 			if (element.starChoiceForRepresentation === '')
 			{
-				lineType = App.States.Normal;
+				lineType = AppStates.Normal;
 			}
 			else
 			{			
-				lineType = element.isCurrentStarChoiceRepresentant() ? App.States.Normal : 'dashed';
+				lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
 			}		
 
 			this.updatePolyline({lineType: lineType});
@@ -338,7 +338,7 @@ export class BiopenMarker
 		context.polyline_.setVisible(context.richMarker_.getVisible());	
 		context.polyline_.setMap(context.richMarker_.getMap());	
 
-		if (App.state == App.States.ShowDirections) 
+		if (App.state == AppStates.ShowDirections) 
 		{
 			context.polyline_.setMap(null);	
 			context.polyline_.setVisible(false);

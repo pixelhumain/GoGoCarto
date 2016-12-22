@@ -25,7 +25,7 @@ StarRepresentationChoiceModule.prototype.begin = function (star)
 		element.starChoiceForRepresentation = star.getName();	
 	}
 
-	App.setState(App.States.StarRepresentationChoice);
+	App.setState(AppStates.StarRepresentationChoice);
 
 	App.elementModule.focusOnThesesElements(idToFocus);
 	App.clusterer.repaint();
@@ -65,7 +65,7 @@ StarRepresentationChoiceModule.prototype.end = function ()
 
 	//ajuster_taille_elementList();
 
-	//App.setState(App.States.Normal);
+	//App.setState(AppStates.Normal);
 };
 
 StarRepresentationChoiceModule.prototype.selectElementIndex = function (elementIndex) 

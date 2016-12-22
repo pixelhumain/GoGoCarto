@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import AppModule from "../app.module";
+import { AppModule } from "../app.module";
 declare var App : AppModule;
 declare var google : any;
 import $ = require("jquery");

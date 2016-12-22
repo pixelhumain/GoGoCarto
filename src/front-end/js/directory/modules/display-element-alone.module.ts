@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import AppModule from "../app.module";
+import { AppModule } from "../app.module";
 declare var App : AppModule;
 
 export class DisplayElementAloneModule
@@ -17,10 +17,8 @@ export class DisplayElementAloneModule
 
 	constructor() {}
 
-	begin(elementId : number, panToElementLocation : boolean) 
+	begin(elementId : number, panToElementLocation : boolean = true) 
 	{	
-		panToElementLocation = panToElementLocation !== false;
-
 		window.console.log("DisplayElementAloneModule begin", panToElementLocation);
 
 		if (this.elementShownAlone_ !== null) 
@@ -29,27 +27,11 @@ export class DisplayElementAloneModule
 			this.elementShownAlone_.isShownAlone = false;
 		}
 
-		if (App.constellationMode) App.elementModule.focusOnThesesElements([element.id]);
-		else 
-		{
-			/*var elements = App.elementModule.getElements();
-
-			l = elements.length;
-			//window.console.log("hiding " + l + "elements");
-			while(l--)
-			{
-				elements[l].hide();
-			}
-
-			var clusters = App.clusterer.getClusters();
-			l = clusters.length
-			while(l--)
-			{
-				clusters[l].hide();
-			}*/
-
+		// if (App.constellationMode) App.elementModule.focusOnThesesElements([element.id]);
+		// else 
+		// {
 			App.elementModule.clearMarkers();
-		}	
+		//}	
 		
 		var element = App.elementById(elementId);
 		this.elementShownAlone_ = element;
@@ -60,7 +42,7 @@ export class DisplayElementAloneModule
 
 		if (panToElementLocation)
 		{
-			App.mapComponent.panToLocation(element.getPosition(), null, false);
+			App.mapComponent.panToLocation(element.position, null, false);
 		}
 	};
 
@@ -70,12 +52,12 @@ export class DisplayElementAloneModule
 
 		if (this.elementShownAlone_ === null) return;
 
-		if (App.constellationMode) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
-		else 
-		{
+		// if (App.constellationMode) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
+		// else 
+		// {
 			this.elementShownAlone_.hide();
 			App.elementModule.updateElementToDisplay(true,true);
-		}
+		//}
 		
 		this.elementShownAlone_.isShownAlone = false;	
 

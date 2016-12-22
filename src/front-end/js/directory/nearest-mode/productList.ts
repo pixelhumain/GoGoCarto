@@ -67,12 +67,12 @@ if (constellationMode)
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
 	{
-		if (App.state == App.States.StarRepresentationChoice) return;
+		if (App.state == AppStates.StarRepresentationChoice) return;
 		var star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showBigSize();
 	}).mouseleave(function() 
 	{
-		if (App.state == App.States.StarRepresentationChoice) return;
+		if (App.state == AppStates.StarRepresentationChoice) return;
 		var star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showNormalSize();
 	});

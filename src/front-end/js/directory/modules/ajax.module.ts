@@ -12,7 +12,7 @@ import { Event, IEvent } from "../utils/event";
 
 declare var Routing;
 
-import AppModule from "../app.module";
+import { AppModule, AppStates } from "../app.module";
 declare var App : AppModule;
 import { Element } from "../classes/element.class";
 
@@ -20,8 +20,8 @@ import { calculateMapWidthInKm } from "../components/map/map-utils";
 
 export class AjaxModule
 {
-	private onNewElements = new Event<any[]>();
-	private onNewElement = new Event<any>();
+	onNewElements = new Event<any[]>();
+	onNewElement = new Event<any>();
 
 	isRetrievingElements : boolean = false;
 	requestWaitingToBeExecuted : boolean = false;
@@ -29,9 +29,6 @@ export class AjaxModule
 	loaderTimer = null;
 
 	constructor() { }  
-
-	get NewElements() : IEvent<any[]>{ return this.onNewElements; }  
-	get NewElement() : IEvent<any> { return this.onNewElement; }  
 
 	createRequest()
 	{
@@ -48,7 +45,7 @@ export class AjaxModule
 		this.isRetrievingElements = bool;	
 	};
 
-	getElementsAroundCurrentLocation(request)
+	getElementsAroundCurrentLocation(request?)
 	{
 		var currRequest = request ? request : this.createRequest();	
 

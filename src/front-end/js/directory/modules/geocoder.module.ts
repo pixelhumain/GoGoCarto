@@ -4,9 +4,9 @@ import { Event, IEvent } from "../utils/event";
 
 export class GeocoderModule
 {
-	private onResult = new Event<any>();
+	onResult = new Event<any>();
 
-	geocodeAddress( address, callbackComplete, callbackFail ) {
+	geocodeAddress( address, callbackComplete?, callbackFail? ) {
 
 		console.log("geocode address : ", address);
 		var geocoder = new google.maps.Geocoder();

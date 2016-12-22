@@ -9,7 +9,7 @@
  */
 declare var $ : any;
 
-import AppModule from "../app.module";
+import { AppModule } from "../app.module";
 declare var App : AppModule;
 
 jQuery(document).ready(function()

@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-
+import { AppStates } from "../../app.module";
 declare var google;
 export function drawLineBetweenPoints(point1, point2, elementType, map_, options)
 {
@@ -21,7 +21,7 @@ export function drawLineBetweenPoints(point1, point2, elementType, map_, options
 
   	options = options || {};
   	// valeurs par default
-  	options.lineType = options.lineType || App.States.Normal;
+  	options.lineType = options.lineType || AppStates.Normal;
   	options.strokeOpacity = options.strokeOpacity || 0.5;
   	options.strokeWeight = options.strokeWeight || 3;
 

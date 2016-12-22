@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import AppModule from "../app.module";
+import { AppModule, AppStates } from "../app.module";
 declare var App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
@@ -18,11 +18,8 @@ export class InfoBarComponent
 	isVisible : boolean = false;
 	isDetailsVisible = false;
 
-	private onShow = new Event<number>();
-	private onHide = new Event<boolean>();
-
-	get Show() : IEvent<number>{ return this.onShow; }
-	get Hide() : IEvent<boolean>{ return this.onHide; }
+	onShow = new Event<number>();
+	onHide = new Event<boolean>();
 
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 

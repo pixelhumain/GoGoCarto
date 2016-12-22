@@ -12,7 +12,7 @@ declare var grecaptcha;
 declare var $ : any;
 declare var Routing : any;
 
-import AppModule from "../app.module";
+import { AppModule, AppStates } from "../app.module";
 declare var App : AppModule;
 
 import { capitalize } from "../../commons/commons";
@@ -70,7 +70,7 @@ function createListenersForElementMenu(object)
 		{
 			$('#modal-pick-address').openModal();
 		}
-		else App.setState(App.States.ShowDirections,{id: getCurrentElementIdShown()});
+		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});
 	
 	object.find('.tooltipped').tooltip();	
