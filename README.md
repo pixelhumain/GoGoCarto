@@ -4,7 +4,7 @@ CartoV3
 Overview
 --------
 
-We are developing a collaborative directory mapping app.
+We are developing a collaborative mapping directory app.
 
 The main functionalities are
 - Displaying data entries
