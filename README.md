@@ -17,6 +17,9 @@ First we gonna  develop this directory for the project "Près de chez vous", con
 
 Then the goal is to make this application accessible to everyone, with a configuration panel to fit their needs.
 
+Stack
+-----
+Symfony2, Twig templates, SASS, Typescript, Gulp
 
 Documentation
 -------------
