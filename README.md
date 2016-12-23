@@ -1,6 +1,3 @@
-MonVoisinFaitDuBio
-==================
-
 CartoV3
 =======
 
