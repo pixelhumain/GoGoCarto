@@ -1,0 +1,94 @@
+Installation and Production Instructions
+========================================
+
+Feel free to add some more informations if you solve installation issues !
+
+Requirements
+------------
+
+1. Php
+2. [Composer](https://getcomposer.org/download/) 
+3. [Nodejs](https://nodejs.org/en/download/)
+4. [Git](https://git-scm.com/)
+5. Serveur Php ([Wamp server](http://www.wampserver.com/) for example)
+6. Any Text Editor (SublimeText for example)
+
+Help (in french) :
+
+1. [Openclassroom "Vérifier l'installation de PHP en console"](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/symfony2-un-framework-php)
+2. [Openclassroom "Installer composer et git"](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/installer-un-bundle-grace-a-composer)
+
+
+Installation
+------------
+
+### Cloning repo
+```
+cd path-to-php-server-folder (default linux /var/www/html, windows c:/wamp/www... )
+git clone https://github.com/Biopenlandes/CartoV3.git
+cd CartoV3/
+```
+
+### Installing dependencies 
+Php dependency (symfony, bundles...) 
+```
+php path-to/composer.phar install or composer install
+```
+*During installation, config/parameters file will be created, provide database infos or leave default fields*
+
+Workflow dependencies (compiling sass and javascript)
+```
+npm install -g gulp
+npm install
+```
+
+Start
+-----
+Dumping assets
+```
+php bin/console assets:install --symlink web
+```
+
+First build of Javascript and Css
+```
+gulp build
+```
+
+Start watching for file change (automatic recompile)
+```
+gulp watch
+```
+
+
+Generate Database
+-----------------
+
+Lauch php server
+Go to PhpMyAdmin and create a database 
+Change app/config/parameters.yml with database name you juste created, and enter database login information (by default user:"root", password:"null")
+
+Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
+```
+doctrine:schema:update --force
+doctrine:fixtures:load
+```
+
+Then generate if necessary random point on the map :
+http://localhost/cartoV3/PagesVertes/web/app_dev.php/acteurs/generate/500
+
+Everthing is ready, enjoy :
+http://localhost/PagesVertes/web/app_dev.php
+
+Production
+----------
+
+1. Generate compressed js and css files
+```gulp production```
+
+2. Move files to distant Server (FTP or other)
+
+3. In the distant console (http://yoursite.com/web/app_dev.php/_console)
+```
+cache:clear --env=prod
+assetic:dump --env=prod
+```
