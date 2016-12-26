@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "target": "es5"
+    },
+    "files": [
+    	"src/front-end/js/directory/**/*.ts", 
+    	"src/front-end/js/commons/**/*.ts"
+    ]
+    
+}
