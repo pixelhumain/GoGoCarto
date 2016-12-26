@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
+    ts = require("gulp-typescript"),
     imagemin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
@@ -13,10 +14,12 @@ var gulp = require('gulp'),
     //livereload = require('gulp-livereload'),
     del = require('del'),
     gulpUtil = require('gulp-util');
-    // ts = require("gulp-typescript");
 
-//var coreTsProject = ts.createProject("src/front-end/js/core.tsconfig.json");
+var browserify = require("browserify");
+var source = require('vinyl-source-stream');
+var tsify = require("tsify");
 
+var directoryProject = ts.createProject("mytsconfig.json");
 
 gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
@@ -45,19 +48,35 @@ gulp.task('prod_js', function() {
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('scriptsDirectory', function() {
-  // return coreTsProject.src()
-  //       .pipe(coreTsProject())
-  //       .pipe(gulp.dest('web/js'));
+gulp.task("scriptsDirectory2", function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/front-end/js/directory/app.module.ts'],
+        cache: {},
+        packageCache: {}
+    })
+    .plugin(tsify)
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest("web/js"));
+});
 
-  return gulp.src(['src/front-end/js/directory/**/*.js', 'src/front-end/js/commons/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('directory.js'))
-    //.pipe(livereload())
-    .pipe(gulp.dest('web/js'));
+gulp.task('scriptsDirectory', function() {
+  return directoryProject.src()
+        .pipe(directoryProject())
+        .pipe(concat('directory.js'))
+        .pipe(gulp.dest('web/js'));
+
+  // return gulp.src(['src/front-end/js/directory/**/*.js', 'src/front-end/js/commons/**/*.js'])
+  //   .pipe(ts())
+  //   // .pipe(jshint())
+  //   // .pipe(jshint.reporter('default'))
+  //   // .pipe(jshint.reporter('fail'))
+  //   // .on('error', notify.onError({ message: 'JS hint fail'}))
+  //   .pipe(concat('directory.js'))
+  //   //.pipe(livereload())
+  //   .pipe(gulp.dest('web/js'));
 });
 
 
