@@ -31,7 +31,7 @@ export class BiopenMarker
 			let element = this.getElement();
 			if (element === null) window.console.log("element null id = "+ this.id_);
 			else
-			position_ = new google.maps.LatLng(element.latlng.latitude, element.latlng.longitude);
+			position_ = new google.maps.LatLng(element.position.lat(), element.position.lng());
 		} 
 	
 		this.richMarker_ = new RichMarker({		
@@ -55,7 +55,7 @@ export class BiopenMarker
 
 			if (App.state == AppStates.StarRepresentationChoice)
 			{
-				App.SRCModule().selectElementById(this.id_);
+				//App.SRCModule().selectElementById(this.id_);
 			}
 
 			ev.preventDefault();
@@ -77,7 +77,7 @@ export class BiopenMarker
 			this.showNormalSize();
 		});
 
-		if (App.constellationMode())
+		if (App.constellationMode)
 		{
 			google.maps.event.addListener(this.richMarker_, 'visible_changed', () => 
 			{ 
@@ -104,7 +104,7 @@ export class BiopenMarker
 	{		
 		let element = this.getElement();
 
-		if (App.constellationMode())
+		if (App.constellationMode)
 		{
 			// POLYLINE TYPE
 			let lineType;
@@ -142,7 +142,7 @@ export class BiopenMarker
 	    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
 	    let showMoreIcon = true;
-	    if (App.constellationMode()) showMoreIcon = element.isProducteurOrAmap();
+	    if (App.constellationMode) showMoreIcon = element.isProducteurOrAmap();
 
 	    if (nbreOthersProducts > 0 && showMoreIcon)
 	    {
@@ -349,14 +349,14 @@ export class BiopenMarker
 	{	
 		this.richMarker_.setMap(App.map);
 		this.richMarker_.setVisible(true);
-		if (App.constellationMode()) this.polyline_.setMap(App.map);
+		if (App.constellationMode) this.polyline_.setMap(App.map);
 	};
 
 	hide () 
 	{	
 		this.richMarker_.setMap(null);
 		this.richMarker_.setVisible(false);
-		if (App.constellationMode()) this.polyline_.setMap(null);
+		if (App.constellationMode) this.polyline_.setMap(null);
 	};
 
 	getVisible () 

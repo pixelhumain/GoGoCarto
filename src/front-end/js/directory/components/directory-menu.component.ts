@@ -16,7 +16,7 @@ jQuery(document).ready(function()
 {	
 	$('.favorite-checkbox').change(function ()
 	{
-		App.filterModule().showOnlyFavorite($(this).is(':checked'));
+		App.filterModule.showOnlyFavorite($(this).is(':checked'));
 		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
@@ -46,8 +46,8 @@ jQuery(document).ready(function()
 
 function checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
 {
-	if (!$(object).is(':checked')) App.filterModule().addFilter($(object).attr('data'), filterType, updateElementToDisplay);
-	else App.filterModule().removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
+	if (!$(object).is(':checked')) App.filterModule.addFilter($(object).attr('data'), filterType, updateElementToDisplay);
+	else App.filterModule.removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
 }
 
 

@@ -75,9 +75,8 @@ export class ElementsModule
 		//window.console.log("addJsonElements newElementsCount = " + newElementsCount);
 	};
 
-	addFavorite (favoriteId, modifyCookies)
+	addFavorite (favoriteId : number, modifyCookies = true)
 	{
-		modifyCookies = modifyCookies !== false;
 		let element = this.getElementById(favoriteId);
 		if (element !== null) element.isFavorite = true;
 		else return;
@@ -89,9 +88,8 @@ export class ElementsModule
 		}
 	};
 
-	removeFavorite (favoriteId, modifyCookies)
+	removeFavorite (favoriteId : number, modifyCookies = true)
 	{
-		modifyCookies = modifyCookies !== false;
 		let element = this.getElementById(favoriteId);
 		if (element !== null) element.isFavorite = false;
 		

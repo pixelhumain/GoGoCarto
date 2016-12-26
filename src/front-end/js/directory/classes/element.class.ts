@@ -8,6 +8,9 @@
  * @Last Modified time: 2016-12-13
  */
 import { AppModule } from "../app.module";
+import { BiopenMarker } from "../components/map/biopen-marker.component";
+import { calculateDistanceFromLatLonInKm } from "../components/map/map-utils";
+
 declare let App : AppModule;
 declare let google : any;
 import $ = require("jquery");
@@ -18,19 +21,19 @@ export class Element
 {	
 	readonly id : number;
 	readonly name : string;
-	readonly position;
+	readonly position : any;
 	readonly adresse : string;
 	readonly description : string;
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
-	readonly products = [];
+	readonly products : any[] = [];
 
 	//TODO
 	mainProduct : any;
 	mainProductIsDisabled : boolean;
-	horaires ;
-	type;	
+	horaires : any;
+	type : any;	
 
 	distance : number;
 
@@ -40,18 +43,18 @@ export class Element
 	isInElementList : boolean= false;
 
 	//TODO
-	biopenMarker_ = null;
+	biopenMarker_ : BiopenMarker = null;
 	htmlRepresentation_ = '';
-	formatedHoraire_ = null;
+	formatedHoraire_ : any = null;
 
-	productsToDisplay_ = [];
+	productsToDisplay_ : any = {};
 
 	starChoiceForRepresentation = '';
 	isShownAlone : boolean= false;
 
 	isFavorite : boolean= false;
 
-	constructor(elementJson)
+	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
@@ -123,40 +126,40 @@ hide()
 	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
 };
 
-// updateProductsRepresentation() 
-// {		
-// 	if (!App.constellationMode()) return;
+updateProductsRepresentation() 
+{		
+	if (!App.constellationMode) return;
 
-// 	let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
-// 	if (this.isProducteurOrAmap())
-// 	{
-// 		for(let i = 0; i < this.products.length;i++)
-// 		{
-// 			productName = this.products[i].nameFormate;			
+	// let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
+	// if (this.isProducteurOrAmap())
+	// {
+	// 	for(let i = 0; i < this.products.length;i++)
+	// 	{
+	// 		productName = this.products[i].nameFormate;			
 
-// 			if ($.inArray(productName, starNames) == -1)
-// 			{
-// 				this.products[i].disabled = true;				
-// 				if (productName == this.mainProduct) this.mainProductIsDisabled = true;				
-// 			}	
-// 			else
-// 			{
-// 				this.products[i].disabled = false;				
-// 				if (productName == this.mainProduct) this.mainProductIsDisabled = false;		
-// 			}		
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if (starNames.length === 0) this.mainProductIsDisabled = true;	
-// 		else this.mainProductIsDisabled = false;	
-// 	}
-// };
+	// 		if ($.inArray(productName, starNames) == -1)
+	// 		{
+	// 			this.products[i].disabled = true;				
+	// 			if (productName == this.mainProduct) this.mainProductIsDisabled = true;				
+	// 		}	
+	// 		else
+	// 		{
+	// 			this.products[i].disabled = false;				
+	// 			if (productName == this.mainProduct) this.mainProductIsDisabled = false;		
+	// 		}		
+	// 	}
+	// }
+	// else
+	// {
+	// 	if (starNames.length === 0) this.mainProductIsDisabled = true;	
+	// 	else this.mainProductIsDisabled = false;	
+	// }
+};
 
 getHtmlRepresentation() 
 {	
 	//let starNames = App.constellationMode ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
-	let startNames = [];
+	let starNames : any[] = [] ;
 	let location = App.map().location;
 	if (location)
 	{
@@ -170,7 +173,7 @@ getHtmlRepresentation()
 				{
 					element : this, 
 					horaires : this.getFormatedHoraires(), 
-					constellationMode: constellationMode, 
+					constellationMode: App.constellationMode, 
 					productsToDisplay: this.getProductsNameToDisplay(), 
 					starNames : starNames 
 				});
@@ -237,7 +240,7 @@ private compareProductsDisabled(a,b)
 
 pushToProductToDisplay(productName, disabled)
 {
-	let new_product = [];
+	let new_product : any = {};
 	new_product.value = productName;
 	new_product.disabled = disabled;
 	this.productsToDisplay_.others.push(new_product);

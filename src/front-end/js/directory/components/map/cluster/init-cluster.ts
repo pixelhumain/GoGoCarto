@@ -14,7 +14,7 @@ export function initCluster(markersToCluster)
 	    //ignoreHidden:false,	    
 	    gridSize: 40, 
 	    maxZoom: 17,
-	    automaticRepaint: App.constellationMode(),
+	    automaticRepaint: App.constellationMode,
 	};
 
     let cluster = new MarkerClusterer(App.map, markersToCluster, clusterOptions);
