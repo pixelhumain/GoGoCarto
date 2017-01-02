@@ -19,9 +19,13 @@ import { ElementsModule, MarkersChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
-
 import { InfoBarComponent } from "./components/info-bar.component";
 import { MapComponent, initMap } from "./components/map/map.component";
+
+import { initializeDirectoryMenu } from "./components/directory-menu.component";
+import { initializeAppInteractions } from "./app-interactions";
+import { initializeElementMenu } from "./components/element-menu.component";
+import { initializeSearchBar } from "../commons/search-bar.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 
@@ -50,6 +54,10 @@ $(document).ready(function()
    	}
    }, 200);
 
+   initializeDirectoryMenu();
+   initializeAppInteractions();
+   initializeElementMenu();
+   initializeSearchBar();
 
 	// window.onpopstate() 
 	// {

@@ -7,14 +7,14 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-declare let $ : any;
+declare let $, jQuery : any;
 
 import { AppModule } from "../app.module";
 declare let App : AppModule;
 
-jQuery(document).ready(function()
+export function initializeDirectoryMenu()
 {	
-	$('.favorite-checkbox').change(function ()
+	$('.favorite-checkbox').change(function()
 	{
 		App.filterModule.showOnlyFavorite($(this).is(':checked'));
 		App.elementModule.updateElementToDisplay($(this).is(':checked'));
@@ -26,7 +26,7 @@ jQuery(document).ready(function()
 	{		
 		//console.log("filter checkbox change");
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
-		/*App.elementModule.updateElementToDisplay($(this).is(':checked'));*/
+		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
 	$('.title-checkbox').change(function()
@@ -42,7 +42,7 @@ jQuery(document).ready(function()
 		//console.log("title checkbox change");
 		App.elementModule.updateElementToDisplay(isChecked);
 	});	
-});
+}
 
 function checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
 {

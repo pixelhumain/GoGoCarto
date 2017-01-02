@@ -16,7 +16,7 @@ import { redirectToDirectory } from "../commons/commons";
 declare let $ : any;
 declare let google : any;
 
-$(document).ready(function()
+export function initializeAppInteractions()
 {	
 	//animation pour lien d'ancre dans la page
    /* $('a[href^="#"]').click(function(){  
@@ -101,7 +101,7 @@ $(document).ready(function()
 		$('#directory-container').show();
 		$("#ElementList").hide();
 	});
-});
+}
 
 export function showDirectoryMenu()
 {
@@ -155,9 +155,8 @@ export function updateComponentsSize()
 
 
 let matchMediaBigSize_old;
-export function updateMapSize(elementInfoBar_height?)
+export function updateMapSize(elementInfoBar_height = $('#element-info-bar').outerHeight(true))
 {		
-	elementInfoBar_height = elementInfoBar_height || $('#element-info-bar').outerHeight(true);
 
 	if("matchMedia" in window) 
 	{	
@@ -174,7 +173,8 @@ export function updateMapSize(elementInfoBar_height?)
 		{
 		  	if (matchMediaBigSize_old) elementInfoBar_height = 0;
 
-		  	$("#directory-content-map").css('height',$("#directory-content").height()-elementInfoBar_height);	
+		  	console.log("resize map height to", $("#directory-content").outerHeight()-elementInfoBar_height);
+		  	$("#directory-content-map").css('height',$("#directory-content").outerHeight()-elementInfoBar_height);	
 		  	
 
 		  	matchMediaBigSize_old = false;
@@ -195,6 +195,10 @@ export function updateMapSize(elementInfoBar_height?)
 	  		}
 		  	matchMediaBigSize_old = true; 	
 		}
+	}
+	else
+	{
+		console.error("Match Media not available");
 	}
 
 	// après 500ms l'animation de redimensionnement est terminé

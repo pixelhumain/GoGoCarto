@@ -22,7 +22,7 @@ export class Element
 	readonly id : number;
 	readonly name : string;
 	readonly position : any;
-	readonly adresse : string;
+	readonly address : string;
 	readonly description : string;
 	readonly tel : string;
 	readonly webSite : string;
@@ -59,7 +59,7 @@ export class Element
 		this.id = elementJson.id;
 		this.name = elementJson.name;
 		this.position = new google.maps.LatLng(elementJson.latlng.latitude, elementJson.latlng.longitude);
-		this.adresse = elementJson.adresse;
+		this.address = elementJson.adresse;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
@@ -318,7 +318,7 @@ isCurrentStarChoiceRepresentant()
 // --------------------------------------------
 //            SETTERS GETTERS
 // ---------------------------------------------
-get marker() 
+get marker()  : BiopenMarker
 {		
 	// initialize = initialize || false;
 	// if (initialize) this.initialize();

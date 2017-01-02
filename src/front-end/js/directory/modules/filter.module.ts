@@ -26,7 +26,7 @@ export class FilterModule
 		this.showOnlyFavorite_ = data;
 	};
 
-	addFilter (data, filterType, updateElementToDisplay) 
+	addFilter(data, filterType, updateElementToDisplay) 
 	{	
 		let listToFilter = this.getFilterListFromType(filterType);
 
@@ -84,7 +84,7 @@ export class FilterModule
 		}
 		else
 		{
-			let products = element.getProducts();
+			let products = element.products;
 			
 			let updateElementIcon = false;
 			for (i = 0; i < products.length; i++) 
@@ -110,7 +110,7 @@ export class FilterModule
 				}			
 			}	
 
-			if (updateElementIcon && atLeastOneProductPassFilter) element.getBiopenMarker(true).updateIcon();
+			if (updateElementIcon && atLeastOneProductPassFilter) element.marker.updateIcon();
 		}
 
 		if (!atLeastOneProductPassFilter) return false;

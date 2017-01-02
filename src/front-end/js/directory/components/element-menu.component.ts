@@ -17,14 +17,15 @@ declare let App : AppModule;
 
 import { capitalize } from "../../commons/commons";
 
-$(document).ready(function()
+
+export function initializeElementMenu()
 {	
 	//   MENU PROVIDER
 	let menu_element = $('#element-info-bar .menu-element');
 	createListenersForElementMenu(menu_element);	
 
 	$('#popup-delete-element #select-reason').material_select();
-});
+}
 
 function deleteElement()
 {

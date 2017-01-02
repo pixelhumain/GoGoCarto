@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-$(document).ready(function()
+export function initializeSearchBar()
 {	
 	$('#search-bar').keyup(function(e) 
 	{    
@@ -21,7 +21,7 @@ $(document).ready(function()
 		handleSearchAction();
 	});	
 	$('#search-bar').on("place_changed", handleSearchAction);
-});
+}
 
 function handleSearchAction()
 {

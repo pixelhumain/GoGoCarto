@@ -120,7 +120,7 @@ export class ElementsModule
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
@@ -165,7 +165,7 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		window.console.log("    analyse elements en " + time + " ms");	
+		//window.console.log("    analyse elements en " + time + " ms");	
 		
 		if (markersChanged || forceRepaint)
 		{		
