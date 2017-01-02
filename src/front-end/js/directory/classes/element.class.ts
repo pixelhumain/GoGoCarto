@@ -13,7 +13,7 @@ import { calculateDistanceFromLatLonInKm } from "../components/map/map-utils";
 
 declare let App : AppModule;
 declare let google : any;
-import $ = require("jquery");
+declare var $;
 declare let Twig : any;
 declare let twigJs_elementInfo : any;
 
@@ -125,6 +125,8 @@ hide()
 	// unbound events (click etc...)?
 	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
 };
+
+
 
 updateProductsRepresentation() 
 {		

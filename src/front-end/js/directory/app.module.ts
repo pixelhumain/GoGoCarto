@@ -11,7 +11,7 @@
 declare let originalUrlSlug;
 declare let window, Routing : any;
 
-import $ = require("jquery");
+declare var $;
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
@@ -21,19 +21,37 @@ import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
 
 import { InfoBarComponent } from "./components/info-bar.component";
-import { MapComponent } from "./components/map/map.component";
+import { MapComponent, initMap } from "./components/map/map.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
+
+//var App = new AppModule(false); 
+// var App = new AppModule(constellationMode, originalUrlSlug); 
+
+declare var App, googleLoaded;
 
 
 $(document).ready(function()
 {	
-	window.onpopstate(event) 
-	{
-	  window.console.log("OnpopState ", event);
+	console.log("document ready");
+	App = new AppModule(false);  
+   console.log("initDone", App); 
+
+   //console.log("googleLoaded", googleLoaded);
+   var timer;
+   timer = setInterval(function() 
+   { 
+   	console.log("Interval googleLoaded", googleLoaded);
+   	if (googleLoaded) { initMap(); clearInterval(timer); }
+   }, 1000);
+
+
+	// window.onpopstate() 
+	// {
+	//   window.console.log("OnpopState ", event);
 	  
-	  //this.setState(event.state.name,event.state.options,true);
-	};
+	//   //this.setState(event.state.name,event.state.options,true);
+	// };
 });
 
 export enum AppStates {

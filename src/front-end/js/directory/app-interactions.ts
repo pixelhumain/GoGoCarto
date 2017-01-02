@@ -12,7 +12,7 @@ import { AppModule } from "./app.module";
 declare let App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 
-//import $ = require("jquery");
+//declare var $;
 declare let $ : any;
 declare let google : any;
 

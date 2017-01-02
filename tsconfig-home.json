@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
         "noImplicitAny": false,
-        "target": "es5"
+        "target": "es5",
+        "module": "commonsJs"
     },
     "files": [
-    	"src/front-end/js/directory/**/*.ts", 
+    	"src/front-end/js/home/**/*.ts", 
     	"src/front-end/js/commons/**/*.ts"
     ]
     

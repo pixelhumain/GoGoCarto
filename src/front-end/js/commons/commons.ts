@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-import $ = require("jquery");
+declare var $, jQuery;
 declare var Routing;
 
 jQuery(document).ready(function()

@@ -9,7 +9,7 @@ declare let App : AppModule;
 declare let initRichMarker, google;
 
 // triggered when google maps scripts are loaded
-function initMap()
+export function initMap()
 {
 	App.mapComponent.init();	
 }

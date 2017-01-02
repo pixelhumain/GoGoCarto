@@ -13,13 +13,15 @@ var gulp = require('gulp'),
     gzip = require('gulp-gzip');
     //livereload = require('gulp-livereload'),
     del = require('del'),
-    gulpUtil = require('gulp-util');
+    gulpUtil = require('gulp-util'),
+    babel = require('gulp-babel');
 
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
 var tsify = require("tsify");
 
-var directoryProject = ts.createProject("mytsconfig.json");
+var directoryProject = ts.createProject("tsconfig-directory.json");
+var homeProject = ts.createProject("tsconfig-home.json");
 
 gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
@@ -57,15 +59,26 @@ gulp.task("scriptsDirectory2", function () {
         packageCache: {}
     })
     .plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
     .bundle()
-    .pipe(source('bundle.js'))
+    .pipe(source('directory.js'))
     .pipe(gulp.dest("web/js"));
 });
 
 gulp.task('scriptsDirectory', function() {
   return directoryProject.src()
         .pipe(directoryProject())
-        .pipe(concat('directory.js'))
+        // .pipe(babel, {
+        //     presets: ['es2015'],
+        //     extensions: ['.ts']
+        // })
+        .pipe(babel({
+            presets: ['es2015']
+         }))
+        .pipe(concat('directory.js'))        
         .pipe(gulp.dest('web/js'));
 
   // return gulp.src(['src/front-end/js/directory/**/*.js', 'src/front-end/js/commons/**/*.js'])
@@ -92,7 +105,17 @@ gulp.task('scriptsElementForm', function() {
 });
 
 gulp.task('scriptsHome', function() {
-  return gulp.src(['src/front-end/js/home/**/*.js','src/front-end/js/commons/**/*.js'])
+  return homeProject.src()
+        .pipe(homeProject())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(concat('home.js'))        
+        .pipe(gulp.dest('web/js'));
+});
+
+gulp.task('scriptsHome2', function() {
+  return gulp.src(['src/front-end/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
