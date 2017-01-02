@@ -13,12 +13,79 @@ var gulp = require('gulp'),
     gzip = require('gulp-gzip');
     //livereload = require('gulp-livereload'),
     del = require('del'),
-    gulpUtil = require('gulp-util'),
+    gutil = require('gulp-util'),
+    watchify = require("watchify");
     babel = require('gulp-babel');
 
+var gulp = require("gulp");
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
 var tsify = require("tsify");
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var buffer = require('vinyl-buffer');
+
+var watchedBrowserify = watchify(browserify({
+    basedir: '.',
+    debug: true,
+    entries: ['src/front-end/js/directory/app.module.ts'],
+    cache: {},
+    packageCache: {}
+}).plugin(tsify)); 
+  
+function bundle() {
+    return watchedBrowserify
+      .transform('babelify', {
+          presets: ['es2015'],
+          extensions: ['.ts']
+      })
+      .bundle()
+      .pipe(source('directory.js'))
+      //.pipe(buffer())
+      //.pipe(sourcemaps.init({loadMaps: true}))
+      //.pipe(uglify())
+      //.pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest("web/js"));
+}
+
+gulp.task("default", bundle);
+watchedBrowserify.on("update", bundle);
+watchedBrowserify.on("log", gutil.log);
+
+gulp.task("scriptsDirectory", function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/front-end/js/directory/app.module.ts'],
+        cache: {},
+        packageCache: {}
+    })
+    .plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
+    .bundle()
+    .pipe(source('directory.js'))
+    .pipe(gulp.dest("web/js"));
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var directoryProject = ts.createProject("tsconfig-directory.json");
 var homeProject = ts.createProject("tsconfig-home.json");
@@ -50,25 +117,9 @@ gulp.task('prod_js', function() {
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task("scriptsDirectory2", function () {
-    return browserify({
-        basedir: '.',
-        debug: true,
-        entries: ['src/front-end/js/directory/app.module.ts'],
-        cache: {},
-        packageCache: {}
-    })
-    .plugin(tsify)
-    .transform('babelify', {
-        presets: ['es2015'],
-        extensions: ['.ts']
-    })
-    .bundle()
-    .pipe(source('directory.js'))
-    .pipe(gulp.dest("web/js"));
-});
 
-gulp.task('scriptsDirectory', function() {
+
+gulp.task('scriptsDirectory_old', function() {
   return directoryProject.src()
         .pipe(directoryProject())
         // .pipe(babel, {

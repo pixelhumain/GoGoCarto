@@ -14,6 +14,7 @@ import { Element } from "../classes/element.class";
 import { calculateMapWidthInKm } from "../components/map/map-utils";
 
 declare let App : AppModule;
+declare var $ : any;
 declare let Routing;
 
 export class AjaxModule
@@ -32,7 +33,7 @@ export class AjaxModule
 	{
 		let request : any = {};
 		request.origin = App.map().getCenter();
-		request.distance = calculateMapWidthInKm(App.map) * 2;
+		request.distance = calculateMapWidthInKm(App.map()) * 2;
 		request.elementIds = App.elementModule.allElementsIds;
 		request.maxResults = 300;
 		return request;

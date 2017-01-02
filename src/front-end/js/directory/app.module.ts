@@ -42,8 +42,13 @@ $(document).ready(function()
    timer = setInterval(function() 
    { 
    	console.log("Interval googleLoaded", googleLoaded);
-   	if (googleLoaded) { initMap(); clearInterval(timer); }
-   }, 1000);
+   	if (googleLoaded) 
+   	{ 
+   		initMap(); 
+   		clearInterval(timer); 
+
+   	}
+   }, 200);
 
 
 	// window.onpopstate() 
@@ -150,6 +155,7 @@ export class AppModule
 
 			this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 			this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+			console.log("intializeMapFeatures done");
 		//}
 	};
 
@@ -216,9 +222,18 @@ export class AppModule
 
 	handleMarkersChanged(array : MarkersChanged)
 	{
-		this.clusterer().addMarkers(array.newMarkers,true);
-		this.clusterer().removeMarkers(array.markersToRemove, true);		
-		this.clusterer().repaint();	
+		console.log("handleMarkerChanged new : ",array.newMarkers.length );
+		for(let marker of array.newMarkers)
+		{
+			marker.setVisible(true);
+		}
+		for(let marker of array.markersToRemove)
+		{
+			marker.setVisible(false);
+		}
+		// this.clusterer().addMarkers(array.newMarkers,true);
+		// this.clusterer().removeMarkers(array.markersToRemove, true);		
+		// this.clusterer().repaint();	
 	}; 
 
 	handleInfoBarHide()
@@ -234,7 +249,7 @@ export class AppModule
 
 	handleGeocoding(array : any)
 	{
-		console.log("App handle geocoding");
+		//console.log("App handle geocoding");
 		this.mapComponent.panToLocation(array.location, array.zoom);
 		//this.updateState();
 	};
@@ -255,13 +270,13 @@ export class AppModule
 		else
 		{
 			this.geocoderModule_.geocodeAddress(originalUrlSlug);
+			this.map().locationSlug = originalUrlSlug;
 			this.setState(AppStates.Normal);
 		}
 	};
 
 	setState(stateName, options : any = {}, backFromHistory = false) 
 	{ 	
-
 		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
 		let oldStateName = this.currState_;
@@ -279,7 +294,7 @@ export class AppModule
 		
 		switch (stateName)
 		{
-			case 'showElement':				
+			case AppStates.ShowElement:				
 				break;	
 
 			case AppStates.ShowElementAlone:
@@ -342,6 +357,7 @@ export class AppModule
 	updateHistory_(stateName, oldStateName, options, backFromHistory)
 	{
 		let route = "";
+		
 		if (!this.constellationMode_)
 		{
 			route = this.updateRouting_(options);
@@ -359,6 +375,7 @@ export class AppModule
 	updateRouting_(options)
 	{
 		let route;
+		
 		if (this.map().locationSlug) route = Routing.generate('biopen_directory', { slug : this.map().locationSlug });
 		else route = Routing.generate('biopen_directory');
 

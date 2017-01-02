@@ -10,6 +10,7 @@
 
 import { AppModule, AppStates } from "../app.module";
 declare let App : AppModule;
+declare var $;	
 
 import * as Cookies from "../utils/cookies";
 import { Event, IEvent } from "../utils/event";
@@ -105,11 +106,11 @@ export class ElementsModule
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
-		let elements = null;
+		let elements : Element[] = null;
 		if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
 		else elements = this.currElements_;
 
-		let i, element;
+		let i : number, element : Element;
 	 	let mapBounds = App.map().getBounds();   
 
 	 	let newMarkers = [];
@@ -121,29 +122,28 @@ export class ElementsModule
 		i = elements.length;
 		window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
-
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 		{
 			element = elements[i];
 			
-			if (mapBounds.contains(element.getPosition()) && filterModule.checkIfElementPassFilters(element))
+			if (mapBounds.contains(element.position) && filterModule.checkIfElementPassFilters(element))
 			{
-				if (!element.isVisible() && $.inArray(App.state, [AppStates.Normal,AppStates.ShowElement]) > -1)
+				if (!element.isVisible && $.inArray(App.state, [AppStates.Normal,AppStates.ShowElement]) > -1)
 				{
-					if (element.isInitialized() === false) element.initialize();
+					if (element.isInitialized === false) element.initialize();
 					element.show();
 					this.currElements_.push(element);
-					newMarkers.push(element.getMarker());
+					newMarkers.push(element.marker);
 					markersChanged = true;
 				}
 			}
 			else
 			{
-				if (element.isVisible() && !element.isShownAlone ) 
+				if (element.isVisible && !element.isShownAlone ) 
 				{
 					element.hide();
-					markersToRemove.push(element.getMarker());
+					markersToRemove.push(element.marker);
 					markersChanged = true;
 					let index = this.currElements_.indexOf(element);
 					if (index > -1) this.currElements_.splice(index, 1);

@@ -7,6 +7,7 @@ import { capitalize, slugify } from "../../../commons/commons";
 
 declare let App : AppModule;
 declare let initRichMarker, google;
+declare var $;
 
 // triggered when google maps scripts are loaded
 export function initMap()
@@ -62,6 +63,7 @@ export class MapComponent
 
 		google.maps.event.addListener(this.map_, 'projection_changed', () =>
 		{   		
+			console.log("projection changed");
 			this.clusterer_ = initCluster(null);
 			this.onMapReady.emit();
 		});	
@@ -71,7 +73,7 @@ export class MapComponent
 		google.maps.event.addListener(this.map_, 'click', (e) => { this.onClick.emit(); });  	
 	};
 
-	panToLocation(newLocation, zoom = 12, changeMapLocation = false)
+	panToLocation(newLocation, zoom = 12, changeMapLocation = true)
 	{
 		console.log("panTolocation", newLocation.toString());
 		// setTimeout(function() 
@@ -85,8 +87,10 @@ export class MapComponent
 		this.map_.panTo(newLocation);
 		this.map_.setZoom(zoom);
 
+		console.log("changeMaplocation", changeMapLocation);
 		if (changeMapLocation)
 		{
+			console.log(slugify($('#search-bar').val()));
 			this.map_.location = newLocation;	
 			this.map_.locationAddress = $('#search-bar').val();
 			this.map_.locationSlug = capitalize(slugify($('#search-bar').val()));		

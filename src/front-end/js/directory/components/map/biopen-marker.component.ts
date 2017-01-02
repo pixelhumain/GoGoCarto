@@ -347,9 +347,9 @@ export class BiopenMarker
 
 	show () 
 	{	
-		this.richMarker_.setMap(App.map);
+		this.richMarker_.setMap(App.map());
 		this.richMarker_.setVisible(true);
-		if (App.constellationMode) this.polyline_.setMap(App.map);
+		if (App.constellationMode) this.polyline_.setMap(App.map());
 	};
 
 	hide () 

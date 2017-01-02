@@ -16,10 +16,10 @@ export class GeocoderModule
 			if (status == google.maps.GeocoderStatus.OK) 
 			{
 				if (callbackComplete) callbackComplete(results);
-				console.log("results", results);
+				console.log("geocode result", results);
 
 				let zoom = this.calculateAppropriateZoomForResults(results[0]);
-				this.onResult.emit([results[0].geometry.location, zoom]);
+				this.onResult.emit({location : results[0].geometry.location, zoom : zoom});
 			} 	
 			else
 			{

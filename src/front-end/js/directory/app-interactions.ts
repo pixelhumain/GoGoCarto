@@ -199,7 +199,7 @@ export function updateMapSize(elementInfoBar_height?)
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	if (App) setTimeout(function() { google.maps.event.trigger(App.map, 'resize'); },500);
+	if (App.map()) setTimeout(function() { google.maps.event.trigger(App.map(), 'resize'); },500);
 }
 
 export function updateInfoBarSize()

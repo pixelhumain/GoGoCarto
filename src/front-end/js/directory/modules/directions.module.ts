@@ -9,7 +9,7 @@ export class DirectionsModule
 	markerDirectionResult = null;
 
 	directionsService_ = new google.maps.DirectionsService();
-  	directionsRenderer_ = new google.maps.DirectionsRenderer({map: App.map, suppressMarkers:true}); 
+  	directionsRenderer_ = new google.maps.DirectionsRenderer({map: App.map(), suppressMarkers:true}); 
 
   	constructor() {}
 
@@ -33,7 +33,7 @@ export class DirectionsModule
 	  	}, function(response, status) {
 		    if (status === google.maps.DirectionsStatus.OK) 
 		    {
-		      	google.maps.event.trigger(App.map, 'resize');
+		      	google.maps.event.trigger(App.map(), 'resize');
 		      	this.directionsRenderer_.setDirections(response);		      	
 
 				let distance_to_reach = response.routes[0].legs[0].distance.value / 2;
@@ -53,7 +53,7 @@ export class DirectionsModule
 				let marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
 
 				this.markerDirectionResult = new RichMarker({		
-					map: App.map,
+					map: App.map(),
 					draggable: false,
 					position: marker_position,
 					flat: true

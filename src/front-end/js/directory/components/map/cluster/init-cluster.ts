@@ -17,8 +17,8 @@ export function initCluster(markersToCluster)
 	    automaticRepaint: App.constellationMode,
 	};
 
-    let cluster = new MarkerClusterer(App.map, markersToCluster, clusterOptions);
-    
+   //let cluster = new MarkerClusterer(App.map(), markersToCluster, clusterOptions);
+   let cluster = null;
 
     $('#rangeKernelRadius').change(function() {
     	cluster.setKernelRadius(parseInt(this.value));
