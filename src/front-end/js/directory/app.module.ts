@@ -306,7 +306,7 @@ export class AppModule
 			case AppStates.ShowElementAlone:
 				if (element)
 				{
-					this.displayElementAloneModule_.begin(element.id);
+					this.DPAModule.begin(element.id);
 				}
 				else
 				{

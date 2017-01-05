@@ -30,7 +30,7 @@ export class DirectionsModule
 	    	origin: origin,
 	    	destination: destination,
 	    	travelMode: google.maps.TravelMode.DRIVING
-	  	}, function(response, status) {
+	  	}, (response, status) => {
 		    if (status === google.maps.DirectionsStatus.OK) 
 		    {
 		      	google.maps.event.trigger(App.map(), 'resize');
