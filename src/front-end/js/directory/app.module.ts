@@ -59,12 +59,10 @@ $(document).ready(function()
    initializeElementMenu();
    initializeSearchBar();
 
-	// window.onpopstate() 
-	// {
-	//   window.console.log("OnpopState ", event);
-	  
-	//   //this.setState(event.state.name,event.state.options,true);
-	// };
+   window.onpopstate = function(event) {
+	  window.console.log("OnpopState ", event);
+	  this.setState(event.state.name,event.state.options,true);
+	};
 });
 
 export enum AppStates {
