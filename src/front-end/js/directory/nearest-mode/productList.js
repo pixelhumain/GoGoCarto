@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-var slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
+let slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
 jQuery(document).ready(function()
 {
@@ -16,21 +16,21 @@ if (constellationMode)
 	// MODE StarRepresentationChoice
 	$('.productItem:not(.disabled)').click(function()
 	{
-		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		
-		var moreResultContainer = $(this).parent().find('.moreResultContainer');
+		let moreResultContainer = $(this).parent().find('.moreResultContainer');
 		
 		// if the moreResultContainer si already visible
 		if (moreResultContainer.hasClass("active")) 
 		{
 			moreResultContainer.stop(true,false).slideUp(slideOptions);
 			moreResultContainer.removeClass("active");
-			App.getSRCModule().end();
+			App.SRCModule().end();
 		}
 		else
 		{
 			clearDirectoryMenu();
-			App.getSRCModule().end();
+			App.SRCModule().end();
 			
 			if ($('#directory-menu').outerWidth() == $(window).outerWidth())
 			{
@@ -43,15 +43,15 @@ if (constellationMode)
 
 			moreResultContainer.stop(true,false).slideDown(slideOptions);
 			moreResultContainer.addClass("active");
-			App.getSRCModule().begin(star);	
+			App.SRCModule().begin(star);	
 
 			if ($(this).attr('data-elements-size') == 1)
 			{			
-				App.getInfoBarComponent().showElement(star.getElementId(), false);
+				App.infoBarComponent.showElement(star.getElementId(), false);
 			}
 			else
 			{
-				var that = this;
+				let that = this;
 				setTimeout(function() 
 				{
 					$('#directory-menu').animate({scrollTop: '+='+$(that).position().top}, 500);
@@ -62,29 +62,29 @@ if (constellationMode)
 	});
 
 	// Click sur un des choix des représentants de l'étoile
-	$('.moreResultelement-item').click(function() { App.getSRCModule().selectElementIndex( $(this).attr('data-element-index') ); });
+	$('.moreResultelement-item').click(function() { App.SRCModule().selectElementIndex( $(this).attr('data-element-index') ); });
 
 	// Gestion hover pour la liste de produit
 	$('.productItem:not(.disabled)').mouseenter(function() 
 	{
-		if (App.getState() == App.States.StarRepresentationChoice) return;
-		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		if (App.state == AppStates.StarRepresentationChoice) return;
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showBigSize();
 	}).mouseleave(function() 
 	{
-		if (App.getState() == App.States.StarRepresentationChoice) return;
-		var star = App.getConstellation().getStarFromName($(this).attr('data-star-name'));
+		if (App.state == AppStates.StarRepresentationChoice) return;
+		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		star.getMarker().showNormalSize();
 	});
 
 	// Gestion hover pour le choix du réprésentant de l'étoile
 	$('.moreResultelement-item, .element-item').mouseenter(function() 
 	{
-		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
+		let marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showBigSize();
 	}).mouseleave(function() 
 	{
-		var marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
+		let marker = App.getMarkerModule().getMarkerById($(this).attr('data-element-id'));
 		marker.showNormalSize();
 	});
 
@@ -94,7 +94,7 @@ if (constellationMode)
 
 function clearDirectoryMenu()
 {
-	var otherContainerVisible = $('.moreResultContainer.active').first();
+	let otherContainerVisible = $('.moreResultContainer.active').first();
 	otherContainerVisible.stop(true,false).slideUp(slideOptions);
 	otherContainerVisible.removeClass("active");
 }

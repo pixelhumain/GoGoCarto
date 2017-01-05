@@ -1,7 +1,12 @@
-function initCluster(markersToCluster)
+import { AppModule } from "../../../app.module";
+declare let App : AppModule;
+
+declare let MarkerClusterer, $;
+
+export function initCluster(markersToCluster)
 {
 	// Set Options
-	var clusterOptions = {
+	let clusterOptions = {
 	    title: 'Cluster Title',
 	    enableRetinaIcons: true,
 	    /*styles: styles,
@@ -9,11 +14,11 @@ function initCluster(markersToCluster)
 	    //ignoreHidden:false,	    
 	    gridSize: 40, 
 	    maxZoom: 17,
-	    automaticRepaint: App.constellationMode(),
+	    automaticRepaint: App.constellationMode,
 	};
 
-    var cluster = new MarkerClusterer(App.getMap(), markersToCluster, clusterOptions);
-    
+   //let cluster = new MarkerClusterer(App.map(), markersToCluster, clusterOptions);
+   let cluster = null;
 
     $('#rangeKernelRadius').change(function() {
     	cluster.setKernelRadius(parseInt(this.value));

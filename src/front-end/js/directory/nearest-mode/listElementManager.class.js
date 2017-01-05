@@ -16,10 +16,10 @@ ListElementModule.prototype.draw = function ()
 {
 	$('#ElementList li').remove();
 
-	var element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
-	for(var i = 0; i < App.getConstellation().getStars().length; i++)
+	let element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
+	for(let i = 0; i < App.constellation.getStars().length; i++)
 	{
-		element = App.getConstellation().getStars()[i].getElement();
+		element = App.constellation.getStars()[i].getElement();
 		if (element.isProducteurOrAmap())
 		{
 			if (elementsProducteurOrAmapToDisplay.indexOf(element) == -1) elementsProducteurOrAmapToDisplay.push(element);

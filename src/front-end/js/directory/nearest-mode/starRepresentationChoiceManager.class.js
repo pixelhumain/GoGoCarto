@@ -16,19 +16,19 @@ function StarRepresentationChoiceModule()
 StarRepresentationChoiceModule.prototype.begin = function (star) 
 {	
 	this.currentStar_ = star;
-	var idToFocus = star.getElementListId();
+	let idToFocus = star.getElementListId();
 
-	var element;
-	for(var i = 0; i < idToFocus.length; i++)
+	let element;
+	for(let i = 0; i < idToFocus.length; i++)
 	{
-		element = App.getElementModule().getElementById(idToFocus[i]);
+		element = App.elementModule.getElementById(idToFocus[i]);
 		element.starChoiceForRepresentation = star.getName();	
 	}
 
-	App.setState(App.States.StarRepresentationChoice);
+	App.setState(AppStates.StarRepresentationChoice);
 
-	App.getElementModule().focusOnThesesElements(idToFocus);
-	App.getClusterer().repaint();
+	App.elementModule.focusOnThesesElements(idToFocus);
+	App.clusterer().repaint();
 
 	//$('.SRC-helper-starName').html(star.getName());
 	//$('#element-info-bar').addClass('starRepresentantMode');
@@ -44,17 +44,17 @@ StarRepresentationChoiceModule.prototype.end = function ()
 {	
 	if (this.currentStar_ === null) return;
 
-	var idToClearFocus = this.currentStar_.getElementListId();
+	let idToClearFocus = this.currentStar_.getElementListId();
 
-	var element;
-	for(var i = 0; i < idToClearFocus.length; i++)
+	let element;
+	for(let i = 0; i < idToClearFocus.length; i++)
 	{
-		element = App.getElementModule().getElementById(idToClearFocus[i]);
+		element = App.elementModule.getElementById(idToClearFocus[i]);
 		element.starChoiceForRepresentation = '';	
 	}
 
-	App.getElementModule().clearFocusOnThesesElements(idToClearFocus);
-	App.getClusterer().repaint();	
+	App.elementModule.clearFocusOnThesesElements(idToClearFocus);
+	App.clusterer().repaint();	
 
 	App.getInfoBar().hide()(); 
 
@@ -65,19 +65,19 @@ StarRepresentationChoiceModule.prototype.end = function ()
 
 	//ajuster_taille_elementList();
 
-	//App.setState(App.States.Normal);
+	//App.setState(AppStates.Normal);
 };
 
 StarRepresentationChoiceModule.prototype.selectElementIndex = function (elementIndex) 
 {
 	this.currentStar_.setIndex(elementIndex);
-	App.getInfoBarComponent().showElement(this.currentStar_.getElementId(), false);
+	App.infoBarComponent.showElement(this.currentStar_.getElementId(), false);
 	this.majView();	
 };
 
 StarRepresentationChoiceModule.prototype.majView = function ()
 {
-	var elementId = this.currentStar_.getElementId();
+	let elementId = this.currentStar_.getElementId();
 
 	/*$('#ElementList .starRepresentant').removeClass('starRepresentant');
 	$('#ElementList #element-info-'+elementId).addClass('starRepresentant');*/
@@ -88,7 +88,7 @@ StarRepresentationChoiceModule.prototype.majView = function ()
 
 StarRepresentationChoiceModule.prototype.selectElementById = function (elementId)
 {
-	var elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
+	let elementIndex = this.currentStar_.getElementIndexFromId(elementId);	
 	this.selectElementIndex(elementIndex);
 };
 

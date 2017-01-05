@@ -81,8 +81,15 @@
     // {% if geocodeResponse is defined %}
     //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
     // {% endif %}  
+    var App;
+    var googleLoaded = false;
+    console.log("html done");
 
-    var App = new AppModule();   
+    function initMap()
+    {
+      console.log("initMap");
+      googleLoaded = true;
+    }
 
   </script>
 
@@ -95,7 +102,8 @@
 
  
   <script 
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap"
+  async defer>
   </script>
 
   <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
