@@ -12,8 +12,7 @@ declare var $;
 import { redirectToDirectory } from "../commons/commons";
 import { initAutoCompletionForElement } from "../commons/search-bar.component";
 
-
-jQuery(document).ready(function()
+$(document).ready(function()
 {
 	$('#btn-constellation').click(function()
 	{ 
