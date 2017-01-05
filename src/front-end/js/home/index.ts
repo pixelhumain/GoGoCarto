@@ -8,7 +8,11 @@
  * @Last Modified time: 2016-09-06
  */
 
-jQuery(document).ready(function()
+declare var $;
+import { redirectToDirectory } from "../commons/commons";
+import { initAutoCompletionForElement } from "../commons/search-bar.component";
+
+$(document).ready(function()
 {
 	$('#btn-constellation').click(function()
 	{ 

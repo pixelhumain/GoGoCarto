@@ -81,8 +81,15 @@
     // {% if geocodeResponse is defined %}
     //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
     // {% endif %}  
+    var App;
+    var googleLoaded = false;
+    console.log("html done");
 
-    var App = new AppModule();   
+    function initMap()
+    {
+      console.log("initMap");
+      googleLoaded = true;
+    }
 
   </script>
 

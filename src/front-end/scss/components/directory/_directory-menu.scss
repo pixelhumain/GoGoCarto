@@ -1,3 +1,5 @@
+@import '../commons/search-bar';
+
 #directory-menu
 {
 	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));

@@ -10,10 +10,10 @@
 function Constellation(constellationPhp) 
 {
 	this.stars_ = [];
-	var star;
+	let star;
 
 	//$.each(constellationPhp.stars, function( name_star, star )
-	for(var name_star in constellationPhp.stars) 
+	for(let name_star in constellationPhp.stars) 
 	{
 		star = new Star(name_star, constellationPhp.stars[name_star].elementList);
 		this.stars_.push(star);
@@ -39,8 +39,8 @@ Constellation.prototype.getStars = function ()
 
 Constellation.prototype.getStarNamesRepresentedByElementId = function (elementId) 
 {
-	var array= [];
-	for(var i = 0; i < this.stars_.length; i++)
+	let array= [];
+	for(let i = 0; i < this.stars_.length; i++)
 	{		
 		if (this.stars_[i].getElementId() == elementId) array.push(this.stars_[i].getName());		
 	}
@@ -49,7 +49,7 @@ Constellation.prototype.getStarNamesRepresentedByElementId = function (elementId
 
 Constellation.prototype.getStarFromName = function(name)
 {
-	for(var i = 0; i < this.stars_.length; i++)
+	for(let i = 0; i < this.stars_.length; i++)
 	{		
 		if (this.stars_[i].getName() == name) 
 		{

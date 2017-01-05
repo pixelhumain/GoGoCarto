@@ -7,14 +7,25 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-jQuery(document).ready(function()
+
+declare let grecaptcha;
+declare var $ : any;
+declare let Routing : any;
+
+import { AppModule, AppStates } from "../app.module";
+declare let App : AppModule;
+
+import { capitalize } from "../../commons/commons";
+
+
+export function initializeElementMenu()
 {	
 	//   MENU PROVIDER
-	var menu_element = $('#element-info-bar .menu-element');
+	let menu_element = $('#element-info-bar .menu-element');
 	createListenersForElementMenu(menu_element);	
 
 	$('#popup-delete-element #select-reason').material_select();
-});
+}
 
 function deleteElement()
 {
@@ -44,7 +55,7 @@ function createListenersForElementMenu(object)
 	});
 	object.find('.icon-delete').click(function() 
 	{		
-		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
 		$('#popup-delete-element .elementName').text(capitalize(element.name));
 		$('#popup-delete-element').openModal({
@@ -56,42 +67,42 @@ function createListenersForElementMenu(object)
 	});
 	object.find('.icon-directions').click(function() 
 	{
-		if (!constellationMode && !App.getMap().location)
+		if (!App.constellationMode && !App.map().location)
 		{
 			$('#modal-pick-address').openModal();
 		}
-		else App.setState(App.States.ShowDirections,{id: getCurrentElementIdShown()});
+		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});
 	
 	object.find('.tooltipped').tooltip();	
 	
 	object.find('.icon-star-empty').click(function() 
 	{
-		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
-		App.getElementModule().addFavorite(getCurrentElementIdShown());
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
+		App.elementModule.addFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-empty').hide();
 		object.find('.icon-star-full').show();
-		element.getBiopenMarker().updateIcon();
-		element.getBiopenMarker().animateDrop();
+		element.marker.updateIcon();
+		element.marker.animateDrop();
 	});
 	
 	object.find('.icon-star-full').click(function() 
 	{
-		var element = App.getElementModule().getElementById(getCurrentElementIdShown());
-		App.getElementModule().removeFavorite(getCurrentElementIdShown());
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
+		App.elementModule.removeFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-full').hide();
 		object.find('.icon-star-empty').show();
-		element.getBiopenMarker().updateIcon();
+		element.marker.updateIcon();
 	});	
 }
 
-function getCurrentElementIdShown()
+function getCurrentElementIdShown() : number
 {
 	if ( $('#element-info-bar').is(':visible') ) 
 	{
 		return $('#element-info-bar').find('.element-item').attr('data-element-id');
 	}
-	return $('.element-item.active').attr('data-element-id');
+	return parseInt($('.element-item.active').attr('data-element-id'));
 }
 
 /*function bookMarkMe()

@@ -7,19 +7,28 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-jQuery(document).ready(function()
+
+import { AppModule } from "./app.module";
+declare let App : AppModule;
+import { redirectToDirectory } from "../commons/commons";
+
+//declare var $;
+declare let $ : any;
+declare let google : any;
+
+export function initializeAppInteractions()
 {	
 	//animation pour lien d'ancre dans la page
    /* $('a[href^="#"]').click(function(){  
-	    var target = $(this).attr("href");
+	    let target = $(this).attr("href");
 	    $('html, body').animate({scrollTop: $(target).offset().top}, 700);
 	    return false;  
 	}); */
 
 	$('#search-bar').on("search", function(event, address)
 	{
-		if (constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
-		else App.getGeocoder().geocodeAddress(address, 
+		if (App.constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
+		else App.geocoder.geocodeAddress(address, 
 			function(results) { $('#search-bar').val(results[0].formatted_address); },
 			function(results) { $('#search-bar').addClass('invalid'); } );
 
@@ -38,7 +47,7 @@ jQuery(document).ready(function()
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
-	var res;
+	let res;
 	window.onresize = function() 
 	{
 	    if (res) {clearTimeout(res); }
@@ -46,8 +55,8 @@ jQuery(document).ready(function()
 	};	
 
 	// scroller tout seul en haut de la page quand on en est pas loin
-	var lastEndScrollTop = 0, st = 0;
-	var timeout = null;	
+	let lastEndScrollTop = 0, st = 0;
+	let timeout = null;	
 	$(window).scroll(function(event)
 	{
 	   clearTimeout(timeout);
@@ -92,18 +101,18 @@ jQuery(document).ready(function()
 		$('#directory-container').show();
 		$("#ElementList").hide();
 	});
-});
+}
 
-function showDirectoryMenu()
+export function showDirectoryMenu()
 {
-	App.getInfoBar().hide()();  
+	App.infoBarComponent.hide();  
 	$('#overlay').css('z-index','10');
 	$('#overlay').animate({'opacity': '.6'},700);
 	$('#directory-menu').show( "slide", {direction: 'left', easing: 'swing'} , 350 );
 	//$('#directory-menu').css('width','0px').show().animate({'width': '240px'},700);
 }
 
-function hideDirectoryMenu()
+export function hideDirectoryMenu()
 {
 	$('#overlay').css('z-index','-1');
 	$('#overlay').animate({'opacity': '.0'},500);
@@ -112,12 +121,14 @@ function hideDirectoryMenu()
 	//$('#directory-menu').animate({'width': '0px'},700).hide();
 }
 
-function hideBandeauHelper()
+let slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
+
+export function hideBandeauHelper()
 {
 	$('#bandeau_helper').slideUp(slideOptions);
 }
 
-function showOnlyInputAdress()
+export function showOnlyInputAdress()
 {
 	hideBandeauHelper();
 	$('#directory-content').css('margin-left','0');
@@ -126,12 +137,12 @@ function showOnlyInputAdress()
 	updateComponentsSize();
 }
 
-function updateComponentsSize()
+export function updateComponentsSize()
 {	
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
 	$('#page-content').css('height','auto');
 
-	var content_height = $(window).height() - $('header').height();
+	let content_height = $(window).height() - $('header').height();
 	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
 	$("#directory-container").css('height',content_height);
 	$("#ElementList").css('height',content_height);
@@ -143,10 +154,9 @@ function updateComponentsSize()
 }
 
 
-var matchMediaBigSize_old;
-function updateMapSize(elementInfoBar_height)
+let matchMediaBigSize_old;
+export function updateMapSize(elementInfoBar_height = $('#element-info-bar').outerHeight(true))
 {		
-	elementInfoBar_height = elementInfoBar_height || $('#element-info-bar').outerHeight(true);
 
 	if("matchMedia" in window) 
 	{	
@@ -163,7 +173,8 @@ function updateMapSize(elementInfoBar_height)
 		{
 		  	if (matchMediaBigSize_old) elementInfoBar_height = 0;
 
-		  	$("#directory-content-map").css('height',$("#directory-content").height()-elementInfoBar_height);	
+		  	//console.log("resize map height to", $("#directory-content").outerHeight()-elementInfoBar_height);
+		  	$("#directory-content-map").css('height',$("#directory-content").outerHeight()-elementInfoBar_height);	
 		  	
 
 		  	matchMediaBigSize_old = false;
@@ -185,15 +196,19 @@ function updateMapSize(elementInfoBar_height)
 		  	matchMediaBigSize_old = true; 	
 		}
 	}
+	else
+	{
+		console.error("Match Media not available");
+	}
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	if (App) setTimeout(function() { google.maps.event.trigger(App.getMap(), 'resize'); },500);
+	if (App.map()) setTimeout(function() { google.maps.event.trigger(App.map(), 'resize'); },500);
 }
 
-function updateInfoBarSize()
+export function updateInfoBarSize()
 {
-	if ($('#element-info-bar').width() < '600')
+	if ($('#element-info-bar').width() < 600)
 	{
 		$('#element-info-bar').removeClass("largeWidth");
 		$('#element-info-bar').addClass("smallWidth");
@@ -213,8 +228,8 @@ function updateInfoBarSize()
 	  	} 
 		else 
 		{			
-		  	var elementInfoBar = $("#element-info-bar");
-		  	var height = elementInfoBar.outerHeight(true);
+		  	let elementInfoBar = $("#element-info-bar");
+		  	let height = elementInfoBar.outerHeight(true);
 			height -= elementInfoBar.find('.collapsible-header').outerHeight(true);
 			height -= elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true);
 			height -= elementInfoBar.find(".menu-element").outerHeight(true);

@@ -7,12 +7,17 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-jQuery(document).ready(function()
+declare let $, jQuery : any;
+
+import { AppModule } from "../app.module";
+declare let App : AppModule;
+
+export function initializeDirectoryMenu()
 {	
-	$('.favorite-checkbox').change(function ()
+	$('.favorite-checkbox').change(function()
 	{
-		App.getFilterModule().showOnlyFavorite($(this).is(':checked'));
-		App.getElementModule().updateElementToDisplay($(this).is(':checked'));
+		App.filterModule.showOnlyFavorite($(this).is(':checked'));
+		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
 	$('#product-checkbox-favorite + label').tooltip();
@@ -21,13 +26,13 @@ jQuery(document).ready(function()
 	{		
 		//console.log("filter checkbox change");
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
-		/*App.getElementModule().updateElementToDisplay($(this).is(':checked'));*/
+		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
 	$('.title-checkbox').change(function()
 	{		
-		var isChecked = $(this).is(':checked');
-		var checkboxClass = $(this).attr('data-type') + '-checkbox';
+		let isChecked = $(this).is(':checked');
+		let checkboxClass = $(this).attr('data-type') + '-checkbox';
 		$('.' + checkboxClass).each(function()
 		{
 			$(this).prop("checked", isChecked);
@@ -35,14 +40,14 @@ jQuery(document).ready(function()
 		});
 
 		//console.log("title checkbox change");
-		App.getElementModule().updateElementToDisplay(isChecked);
+		App.elementModule.updateElementToDisplay(isChecked);
 	});	
-});
+}
 
 function checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
 {
-	if (!$(object).is(':checked')) App.getFilterModule().addFilter($(object).attr('data'), filterType, updateElementToDisplay);
-	else App.getFilterModule().removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
+	if (!$(object).is(':checked')) App.filterModule.addFilter($(object).attr('data'), filterType, updateElementToDisplay);
+	else App.filterModule.removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
 }
 
 

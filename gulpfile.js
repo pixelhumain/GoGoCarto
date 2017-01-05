@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
+    ts = require("gulp-typescript"),
     imagemin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
@@ -12,11 +13,96 @@ var gulp = require('gulp'),
     gzip = require('gulp-gzip');
     //livereload = require('gulp-livereload'),
     del = require('del'),
-    gulpUtil = require('gulp-util');
-    // ts = require("gulp-typescript");
+    gutil = require('gulp-util'),
+    babel = require('gulp-babel');
 
-//var coreTsProject = ts.createProject("src/front-end/js/core.tsconfig.json");
+var gulp = require("gulp");
+var browserify = require("browserify");
+var source = require('vinyl-source-stream');
+var tsify = require("tsify");
+var uglify = require('gulp-uglify');
+const notifier = require('node-notifier');
 
+function handleError(err) {
+  console.log(err.toString());
+  notifier.notify({
+  'title': 'Gulp worflow',
+  'message': 'Typescript error'
+  });
+  this.emit('end');
+}
+
+var directoryProject = ts.createProject("tsconfig-directory.json");
+var homeProject = ts.createProject("tsconfig-home.json");
+
+gulp.task("scriptsHome", function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/front-end/js/home/index.ts'],
+        cache: {},
+        packageCache: {}
+    })
+    .plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
+    .bundle()
+    .on('error', handleError)
+    .pipe(source('home.js'))
+    .pipe(gulp.dest("web/js"));
+});
+
+
+gulp.task("scriptsDirectory", function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/front-end/js/directory/app.module.ts'],
+        cache: {},
+        packageCache: {}
+    })
+    .plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
+    .bundle()
+    .on('error', handleError)
+    .pipe(source('directory.js'))
+    .pipe(gulp.dest("web/js"));
+});
+
+gulp.task('scriptsElementForm', function() {
+  return gulp.src(['src/front-end/js/element-form/**/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'))
+    .on('error', notify.onError({ message: 'JS hint fail'}))
+    .pipe(concat('element-form.js'))
+    //.pipe(livereload())
+    .pipe(gulp.dest('web/js'));
+});
+
+
+gulp.task('scriptsLibs', function() {
+  return gulp.src(['src/front-end/js/libs/**/*.js', '!src/front-end/js/libs/materialize/unused/**/*.js'])
+    .pipe(concat('libs.js'))
+    // .pipe(rename({suffix: '.min'}))
+    // .pipe(uglify())
+    .pipe(gulp.dest('web/js'));
+    //.pipe(livereload());
+    //.pipe(notify({ message: 'Scripts Libs task complete' }));
+});
+
+
+gulp.task('sass', function () {
+  return gulp.src('src/front-end/scss/**/*.scss')
+    .pipe(sass()
+    .on('error', sass.logError))    
+    .pipe(gulp.dest('web/assets/css'));
+});
 
 gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
@@ -25,12 +111,6 @@ gulp.task('prod_styles', function() {
     .pipe(gzip())
     .pipe(gulp.dest('web/assets/css'));
     //.pipe(notify({ message: 'Styles task complete' }));
-});
-
-gulp.task('sass', function () {
-  return gulp.src('src/front-end/scss/**/*.scss')
-    .pipe(sass().on('error', sass.logError))    
-    .pipe(gulp.dest('web/assets/css'));
 });
 
 gulp.task('prod_js', function() {
@@ -45,66 +125,6 @@ gulp.task('prod_js', function() {
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task('scriptsDirectory', function() {
-  // return coreTsProject.src()
-  //       .pipe(coreTsProject())
-  //       .pipe(gulp.dest('web/js'));
-
-  return gulp.src(['src/front-end/js/directory/**/*.js', 'src/front-end/js/commons/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('directory.js'))
-    //.pipe(livereload())
-    .pipe(gulp.dest('web/js'));
-});
-
-
-gulp.task('scriptsElementForm', function() {
-  return gulp.src(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons/commons.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('element-form.js'))
-    //.pipe(livereload())
-    .pipe(gulp.dest('web/js'));
-});
-
-gulp.task('scriptsHome', function() {
-  return gulp.src(['src/front-end/js/home/**/*.js','src/front-end/js/commons/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('home.js'))
-    //.pipe(livereload())
-    .pipe(gulp.dest('web/js'));
-});
-
-gulp.task('scriptsLibs', function() {
-  return gulp.src(['src/front-end/js/libs/**/*.js', '!src/front-end/js/libs/materialize/unused/**/*.js'])
-    .pipe(concat('libs.js'))
-    // .pipe(rename({suffix: '.min'}))
-    // .pipe(uglify())
-    .pipe(gulp.dest('web/js'));
-    //.pipe(livereload());
-    //.pipe(notify({ message: 'Scripts Libs task complete' }));
-});
-
-// test
-gulp.task('typescript', function() {
-  return coreTsProject.src()
-        .pipe(coreTsProject())
-        .pipe(gulp.dest('web/js'));
-  // return gulp.src('src/front-end/js/index.ts')
-  //       .pipe(ts({
-  //           noImplicitAny: true,
-  //           out: 'output.js'
-  //       }))
-  //       .pipe(gulp.dest('built/local'));
-});
 
 gulp.task('images', function() {
   return gulp.src('web/assets/img/*')
@@ -121,13 +141,13 @@ gulp.task('watch', function() {
   gulp.watch('src/front-end/scss/**/*.scss', ['sass']);
 
   // Watch .js files
-  gulp.watch(['src/front-end/js/**/*.js', '!src/front-end/js/libs/**/*.js', '!src/front-end/js/home/**/*.js', '!src/front-end/js/element-form/**/*.js'], ['scriptsDirectory']);
+  gulp.watch(['src/front-end/js/directory/**/*.ts', 'src/front-end/js/commons/**/*.ts'], ['scriptsDirectory']);
   
   gulp.watch(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons.js'], ['scriptsElementForm']);
   
   gulp.watch('src/front-end/js/libs/**/*.js', ['scriptsLibs']);
 
-  gulp.watch(['src/front-end/js/home/**/*.js','src/front-end/js/commons.js','src/front-end/js/components/search-bar.js'], ['scriptsHome']);
+  gulp.watch(['src/front-end/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'], ['scriptsHome']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 

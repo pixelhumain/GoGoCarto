@@ -31,6 +31,7 @@ Star.prototype.getElementListId = function () {
 };
 
 Star.prototype.getElementIndexFromId = function (id) {
+
   for(var i = 0; i < this.elementIdList_.length; i++)
   {
      if (this.elementIdList_[i] == id) return i;
@@ -40,7 +41,7 @@ Star.prototype.getElementIndexFromId = function (id) {
 
 
 Star.prototype.getElement = function () {
-  return App.getElementModule().getElementById(this.getElementId());  
+  return App.elementModule.getElementById(this.getElementId());  
 };
 
 Star.prototype.getPosition = function () {
@@ -59,9 +60,9 @@ Star.prototype.isVisible = function () {
 
 Star.prototype.isClustered = function () 
 {
-  if (App.getClusterer() === null) return false;
+  if (App.clusterer === null) return false;
 
-  var clusters = App.getClusterer().getMinimizedClusters();
+  var clusters = App.clusterer().getMinimizedClusters();
 
   for (j = 0; j < clusters.length; j++)
   {
@@ -99,7 +100,9 @@ Star.prototype.setIndex = function (newIndex)
 
   // on met à day le marqueur des deux elements interchangés
   App.getMarkerModule().getMarkerById(oldElementId).updateIcon();
+
   var newMarkerRepresentStar = App.getMarkerModule().getMarkerById(this.getElementId());
+
   newMarkerRepresentStar.updateIcon();
   newMarkerRepresentStar.animateDrop();
 

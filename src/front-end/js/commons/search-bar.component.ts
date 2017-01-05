@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-jQuery(document).ready(function()
+export function initializeSearchBar()
 {	
 	$('#search-bar').keyup(function(e) 
 	{    
@@ -21,7 +21,7 @@ jQuery(document).ready(function()
 		handleSearchAction();
 	});	
 	$('#search-bar').on("place_changed", handleSearchAction);
-});
+}
 
 function handleSearchAction()
 {
@@ -29,7 +29,9 @@ function handleSearchAction()
 	if (searchBar.val()) searchBar.trigger("search", [ searchBar.val() ]);
 }
 
-function initAutoCompletionForElement(element)
+declare var google, $;
+
+export function initAutoCompletionForElement(element)
 {
     var options = {
       componentRestrictions: {country: 'fr'}

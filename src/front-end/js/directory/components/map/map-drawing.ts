@@ -7,23 +7,26 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-function drawLineBetweenPoints(point1, point2, elementType, map_, options)
-{
-  	var LineStart = point1;
-  	var LineEnd = point2;
+import { AppStates } from "../../app.module";
+declare let google;
 
-	var LineArray = [
+export function drawLineBetweenPoints(point1, point2, elementType, map_, options)
+{
+  	let LineStart = point1;
+  	let LineEnd = point2;
+
+	let LineArray = [
     	{lat: LineStart.lat(), lng: LineStart.lng()},
     	{lat: LineEnd.lat(), lng: LineEnd.lng()}
   	];
 
   	options = options || {};
   	// valeurs par default
-  	options.lineType = options.lineType || App.States.Normal;
+  	options.lineType = options.lineType || AppStates.Normal;
   	options.strokeOpacity = options.strokeOpacity || 0.5;
   	options.strokeWeight = options.strokeWeight || 3;
 
-  	var color = '#AE3536';
+  	let color = '#AE3536';
 
 	switch(elementType) 
 	{
@@ -34,7 +37,7 @@ function drawLineBetweenPoints(point1, point2, elementType, map_, options)
 	    case 'epicerie': color = '#383D5A'; break;
 	}
 
-	var poly;
+	let poly;
 
 	if (options.lineType == 'dashed')
 	{
