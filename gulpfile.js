@@ -35,25 +35,23 @@ function handleError(err) {
 var directoryProject = ts.createProject("tsconfig-directory.json");
 var homeProject = ts.createProject("tsconfig-home.json");
 
-gulp.task('scriptsHome', function() {
-  return homeProject.src()
-        .pipe(homeProject())
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(concat('home.js'))        
-        .pipe(gulp.dest('web/js'));
-});
-
-gulp.task('scriptsHome2', function() {
-  return gulp.src(['src/front-end/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'))
-    .on('error', notify.onError({ message: 'JS hint fail'}))
-    .pipe(concat('home.js'))
-    //.pipe(livereload())
-    .pipe(gulp.dest('web/js'));
+gulp.task("scriptsHome", function () {
+    return browserify({
+        basedir: '.',
+        debug: true,
+        entries: ['src/front-end/js/home/index.ts'],
+        cache: {},
+        packageCache: {}
+    })
+    .plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts']
+    })
+    .bundle()
+    .on('error', handleError)
+    .pipe(source('home.js'))
+    .pipe(gulp.dest("web/js"));
 });
 
 

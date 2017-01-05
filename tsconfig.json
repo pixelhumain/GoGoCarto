@@ -6,7 +6,8 @@
     },
     "files": [
     	"src/front-end/js/directory/**/*.ts", 
-    	"src/front-end/js/commons/**/*.ts"
+    	"src/front-end/js/commons/**/*.ts",
+    	"src/front-end/js/home/**/*.ts"
     ]
     
 }
