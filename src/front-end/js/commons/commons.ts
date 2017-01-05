@@ -22,14 +22,6 @@ jQuery(document).ready(function()
 	});
 });
 
-export function classExtends(child, parent)
-{
-  // extends EventEmitter
-  for(var key in parent.prototype) {   
-    child.prototype[key] = parent.prototype[key];
-  }
-}
-
 export function redirectToDirectory(route, address = $('#search-bar').val(), range = '')
 {	
 	if (!range) window.location.href = Routing.generate(route, { slug : slugify(address) });
@@ -65,20 +57,3 @@ export function getQueryParams(qs)
 
     return params;
 }
-
-//polyfill for customevent
-// (function () {
-
-//   if ( typeof window.CustomEvent === "function" ) return false;
-
-//   function CustomEvent ( event, params ) {
-//     params = params || { bubbles: false, cancelable: false, detail: undefined };
-//     var evt = document.createEvent( 'CustomEvent' );
-//     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-//     return evt;
-//    }
-
-//   CustomEvent.prototype = window.Event.prototype;
-
-//   window.CustomEvent = CustomEvent;
-// })();
