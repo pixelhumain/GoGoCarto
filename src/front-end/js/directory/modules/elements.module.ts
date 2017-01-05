@@ -188,7 +188,7 @@ export class ElementsModule
 	{
 		this.hideAllMarkers();
 		this.currElements_ = [];
-		App.clusterer().clearMarkers();	
+		if (App.clusterer()) App.clusterer().clearMarkers();	
 	};
 
 	getMarkers () 

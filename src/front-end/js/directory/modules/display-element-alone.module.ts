@@ -30,7 +30,7 @@ export class DisplayElementAloneModule
 		// if (App.constellationMode) App.elementModule.focusOnThesesElements([element.id]);
 		// else 
 		// {
-			App.elementModule.clearMarkers();
+		App.elementModule.clearMarkers();
 		//}	
 		
 		let element = App.elementById(elementId);
@@ -42,7 +42,7 @@ export class DisplayElementAloneModule
 
 		if (panToElementLocation)
 		{
-			App.mapComponent.panToLocation(element.position, null, false);
+			App.mapComponent.panToLocation(element.position, 12, false);
 		}
 	};
 
