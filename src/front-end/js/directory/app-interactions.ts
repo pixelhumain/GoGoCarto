@@ -173,7 +173,7 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 		{
 		  	if (matchMediaBigSize_old) elementInfoBar_height = 0;
 
-		  	console.log("resize map height to", $("#directory-content").outerHeight()-elementInfoBar_height);
+		  	//console.log("resize map height to", $("#directory-content").outerHeight()-elementInfoBar_height);
 		  	$("#directory-content-map").css('height',$("#directory-content").outerHeight()-elementInfoBar_height);	
 		  	
 
