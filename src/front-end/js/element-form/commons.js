@@ -1,3 +1,11 @@
+jQuery(document).ready(function()
+{   
+    $('#btn-menu-directory').click(function()
+    { 
+        window.location.href = Routing.generate('biopen_directory');        
+    });
+});
+
 function getQueryParams(qs) 
 {
     qs = qs.split("+").join(" ");

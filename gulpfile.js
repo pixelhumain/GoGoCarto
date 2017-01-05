@@ -75,7 +75,7 @@ gulp.task("scriptsDirectory", function () {
 });
 
 gulp.task('scriptsElementForm', function() {
-  return gulp.src(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons/commons.js'])
+  return gulp.src(['src/front-end/js/element-form/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
