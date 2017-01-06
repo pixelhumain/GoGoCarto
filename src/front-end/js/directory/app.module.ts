@@ -37,22 +37,7 @@ declare var App, googleLoaded;
 
 $(document).ready(function()
 {	
-	console.log("document ready");
-	App = new AppModule(false);  
-   console.log("initDone", App); 
-
-   //console.log("googleLoaded", googleLoaded);
-   var timer;
-   timer = setInterval(function() 
-   { 
-   	console.log("Interval googleLoaded", googleLoaded);
-   	if (googleLoaded) 
-   	{ 
-   		initMap(); 
-   		clearInterval(timer); 
-
-   	}
-   }, 200);
+	App = new AppModule(false); 
 
    initializeDirectoryMenu();
    initializeAppInteractions();
@@ -118,6 +103,8 @@ export class AppModule
 		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElements(elements); });
 	
 		this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
+	
+		this.mapComponent.init();
 	}
 
 	// if (constellationMode)
@@ -151,7 +138,10 @@ export class AppModule
 		// }
 		// else
 		// {
-			this.directionsModule_ = new DirectionsModule();
+			
+			//this.directionsModule_ = new DirectionsModule();
+
+			
 
 			this.checkInitialState();
 			
@@ -166,7 +156,7 @@ export class AppModule
 	};
 
 
-	updateMaxElements () 
+	updateMaxElements() 
 	{ 
 		this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#directory-content-map').width() * $('#directory-content-map').height() / 1000), 1000);
 		//window.console.log("setting max elements " + this.maxElementsToShowOnMap_);
@@ -228,7 +218,7 @@ export class AppModule
 
 	handleMarkersChanged(array : MarkersChanged)
 	{
-		console.log("handleMarkerChanged new : ",array.newMarkers.length );
+		console.log("handleMarkerChanged new : ", array.newMarkers.length );
 		for(let marker of array.newMarkers)
 		{
 			marker.setVisible(true);
@@ -276,7 +266,7 @@ export class AppModule
 		else
 		{
 			this.geocoderModule_.geocodeAddress(originalUrlSlug);
-			this.map().locationSlug = originalUrlSlug;
+			this.mapComponent.locationSlug = originalUrlSlug;
 			this.setState(AppStates.Normal);
 		}
 	};
@@ -296,7 +286,8 @@ export class AppModule
 			return;
 		} */	
 
-		if (stateName != AppStates.ShowDirections) this.directionsModule_.clear();
+		if (stateName != AppStates.ShowDirections && this.directionsModule_) 
+			this.directionsModule_.clear();
 		
 		switch (stateName)
 		{
@@ -382,7 +373,7 @@ export class AppModule
 	{
 		let route;
 		
-		if (this.map().locationSlug) route = Routing.generate('biopen_directory', { slug : this.map().locationSlug });
+		if (this.mapComponent.locationSlug) route = Routing.generate('biopen_directory', { slug : this.mapComponent.locationSlug });
 		else route = Routing.generate('biopen_directory');
 
 		for (let key in options)

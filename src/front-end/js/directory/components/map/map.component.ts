@@ -8,6 +8,7 @@ import { capitalize, slugify } from "../../../commons/commons";
 declare let App : AppModule;
 declare let initRichMarker, google;
 declare var $;
+declare var L;
 
 // triggered when google maps scripts are loaded
 export function initMap()
@@ -25,53 +26,35 @@ export class MapComponent
 	clusterer_ = null;
 	isInitialized_ = false;
 
+	locationSlug = '';
+
 	getMap(){ return this.map_; }; 
 	getClusterer() { return this.clusterer_; };
 
 	init() 
 	{	
-		initRichMarker();
-		initAutoCompletionForElement(document.getElementById('search-bar'));
+		//initRichMarker();
+		//initAutoCompletionForElement(document.getElementById('search-bar'));
 
-		let mapOptions = 
-		{
-			disableDefaultUI: true,
-			zoomControl: true
-		};
+		this.map_ = L.map('directory-content-map').setView([46.897045, 2.425235], 6);
 
-		this.map_ = new google.maps.Map(document.getElementById("directory-content-map"), mapOptions);	
+		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
+		
+		this.map_.on('click', (e) => { this.onClick.emit(); });
+		this.map_.on('moveend', (e) => { this.onIdle.emit(); });
 
-		// if (constellationMode)
-		// {
-			// basics settings for the map 
-		let latlng = new google.maps.LatLng(46.897045, 2.425235);
-		this.map_.setZoom(12);
-		this.map_.setCenter(latlng);
+	   $('#directory-spinner-loader').hide();
 
-		// this.map_.locationAddress = $('#search-bar').val();
-		// this.map_.locationSlug = capitalize(slugify($('#search-bar').val()));
-		// }	
-		// else
-		// {
-		// 	let center = new google.maps.LatLng(geocodeResponse.coordinates.latitude, geocodeResponse.coordinates.longitude);
-		// 	this.map_.setCenter(center);
-		// 	this.panToLocation(center, map);
-		// }
-
-		// Event Listeners
-		let that = this;
-
-		google.maps.event.addListener(this.map_, 'projection_changed', () =>
-		{   		
-			console.log("projection changed");
-			this.clusterer_ = initCluster(null);
-			this.onMapReady.emit();
-		});	
-
-		google.maps.event.addListener(this.map_, 'idle', (e) => { if(that.isInitialized_) this.onIdle.emit(); });
-
-		google.maps.event.addListener(this.map_, 'click', (e) => { this.onClick.emit(); });  	
+	   this.clusterer_ = initCluster(null);
+		
+		this.onMapReady.emit();
+		this.isInitialized_ = true;
 	};
+
+	resize()
+	{
+		if (this.isInitialized_) this.map_.invalidateSize(true);
+	}
 
 	panToLocation(newLocation, zoom = 12, changeMapLocation = true)
 	{
@@ -91,14 +74,14 @@ export class MapComponent
 		if (changeMapLocation)
 		{
 			console.log(slugify($('#search-bar').val()));
-			this.map_.location = newLocation;	
-			this.map_.locationAddress = $('#search-bar').val();
-			this.map_.locationSlug = capitalize(slugify($('#search-bar').val()));		
+			//this.location = newLocation;	
+			//this.locationAddress = $('#search-bar').val();
+			this.locationSlug = capitalize(slugify($('#search-bar').val()));		
 		}
 
 		if (!this.isInitialized_)
 		{
-			$('#directory-spinner-loader').hide();
+			
 			this.isInitialized_ = true;	
 		}
 		

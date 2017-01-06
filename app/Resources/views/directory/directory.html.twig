@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Yellowtail|Average+Sans" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
-
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
 {% endblock %}
 
 {# BODY CONTENT #}
@@ -68,7 +68,7 @@
   
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
-
+  <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
@@ -81,15 +81,9 @@
     // {% if geocodeResponse is defined %}
     //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
     // {% endif %}  
+    
     var App;
-    var googleLoaded = false;
     console.log("html done");
-
-    function initMap()
-    {
-      console.log("initMap");
-      googleLoaded = true;
-    }
 
   </script>
 
@@ -99,11 +93,6 @@
   %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
   {% endjavascripts %}
-
- 
-  <script 
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
-  </script>
 
   <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
       async defer>
