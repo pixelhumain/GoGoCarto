@@ -161,3 +161,90 @@
 .icon-day:before {
   content: "\52";
 }
+.icon-exclamation:before {
+  content: "\64";
+}
+.icon-exclamation-2:before {
+  content: "\50";
+}
+.icon-thumbs-up2:before {
+  content: "\51";
+}
+.icon-thumbs-down-2:before {
+  content: "\53";
+}
+.icon-material-eye:before {
+  content: "\54";
+}
+.icon-material-no-eye:before {
+  content: "\55";
+}
+.icon-attention:before {
+  content: "\56";
+}
+.icon-no-marker-symbol:before {
+  content: "\57";
+}
+.icon-marker-symbol:before {
+  content: "\58";
+}
+.icon-exclamation-1:before {
+  content: "\59";
+}
+.icon-notify:before {
+  content: "\5a";
+}
+.icon-material-design-icons-11:before {
+  content: "\30";
+}
+.icon-material-design-icons-12:before {
+  content: "\31";
+}
+.icon-reply:before {
+  content: "\32";
+}
+.icon-app:before {
+  content: "\33";
+}
+.icon-ellipsis-v:before {
+  content: "\34";
+}
+.icon-exclamation-circle:before {
+  content: "\35";
+}
+.icon-eye:before {
+  content: "\36";
+}
+.icon-eye-slash:before {
+  content: "\37";
+}
+.icon-external-link:before {
+  content: "\38";
+}
+.icon-external-link-square:before {
+  content: "\39";
+}
+.icon-paper-plane:before {
+  content: "\21";
+}
+.icon-paper-plane-o:before {
+  content: "\22";
+}
+.icon-share:before {
+  content: "\24";
+}
+.icon-share-alt:before {
+  content: "\23";
+}
+.icon-thumbs-o-up:before {
+  content: "\25";
+}
+.icon-thumbs-o-down:before {
+  content: "\26";
+}
+.icon-thumbs-down:before {
+  content: "\27";
+}
+.icon-thumbs-up:before {
+  content: "\28";
+}
