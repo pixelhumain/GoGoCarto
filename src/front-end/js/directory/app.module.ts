@@ -83,6 +83,8 @@ export class AppModule
 	// few milliseconds so the map don't do anything is click event
 	isClicking_ = false;
 
+	readyToWork = false;
+
 	// prevent updateelementList while the action is just
 	//showing element details
 	isShowingInfoBarComponent_ = false;
@@ -91,19 +93,28 @@ export class AppModule
 
 	constructor(constellationMode)
 	{
-		this.constellationMode_ = constellationMode;		
+		this.constellationMode_ = constellationMode;	
+
+		//this.mapComponent.init();
+
+		//check initial (si des checkbox ont été sauvegardées par le navigateur)
+		$('.product-checkbox, .element-checkbox').trigger("change");
+		this.updateMaxElements();	
 
 		this.infoBarComponent_.onShow.do( (elementId) => { this.handleInfoBarShow(elementId); });
   		this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
-		this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
+		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
 		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
 	
-		this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
+		//this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
 	
-		this.mapComponent.init();
+		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+		
+		this.checkInitialState();
 	}
 
 	// if (constellationMode)
@@ -123,35 +134,7 @@ export class AppModule
 
 	initializeMapFeatures()
 	{	
-		//if (!onlyInputAdressMode) return;
-		// if (this.constellationMode)
-		// {
-		// 	this.markerModule().createMarkers();
-		// 	this.elementModule.draw();
-		// 	this.getListElementModule().draw();
-			
-		// 	initCluster(this.getMarkerModule().getMarkers());
-		// 	this.clusterer.addListener('clusteringend', function() { this.getMarkerModule().drawLinesWithClusters(); });
-
-		// 	this.getMarkerModule().fitMapInBounds();
-		// }
-		// else
-		// {
-			
-			//this.directionsModule_ = new DirectionsModule();
-
-			
-
-			this.checkInitialState();
-			
-			//check initial (si des checkbox ont été sauvegardées par le navigateur)
-			$('.product-checkbox, .element-checkbox').trigger("change");
-			this.updateMaxElements();		
-
-			this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
-			this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
-			console.log("intializeMapFeatures done");
-		//}
+		//this.directionsModule_ = new DirectionsModule();
 	};
 
 
@@ -183,6 +166,8 @@ export class AppModule
 		// but we're not interessed in this idling
 		if ( this.isShowingInfoBarComponent ) return;
 
+		if (!this.readyToWork) { console.log("not ready to work"); return; };
+
 		let updateInAllElementList = true;
 		let forceRepaint = false;
 
@@ -196,7 +181,7 @@ export class AppModule
 		}
 
 		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
-		this.ajaxModule.getElementsAroundCurrentLocation();	 
+		this.ajaxModule.getElementsAroundLocation();	 
 	};
 
 	handleMapClick()
@@ -208,27 +193,26 @@ export class AppModule
 
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
-		console.log("App handleNewElementsReceivedFromServer");
 		if (!elementsJson || elementsJson.length === 0) return;
 		this.elementModule.addJsonElements(elementsJson, true);
 		this.elementModule.updateElementToDisplay(); 
 	}; 
 
-	handleMarkersChanged(array : MarkersChanged)
-	{
-		console.log("handleMarkerChanged new : ", array.newMarkers.length );
-		for(let marker of array.newMarkers)
-		{
-			marker.setVisible(true);
-		}
-		for(let marker of array.markersToRemove)
-		{
-			marker.setVisible(false);
-		}
-		// this.clusterer().addMarkers(array.newMarkers,true);
-		// this.clusterer().removeMarkers(array.markersToRemove, true);		
-		// this.clusterer().repaint();	
-	}; 
+	// handleMarkersChanged(array : MarkersChanged)
+	// {
+	// 	console.log("handleMarkerChanged new : ", array.newMarkers.length );
+	// 	for(let marker of array.newMarkers)
+	// 	{
+	// 		marker.setVisible(true);
+	// 	}
+	// 	for(let marker of array.markersToRemove)
+	// 	{
+	// 		marker.setVisible(false);
+	// 	}
+	// 	// this.clusterer().addMarkers(array.newMarkers,true);
+	// 	// this.clusterer().removeMarkers(array.markersToRemove, true);		
+	// 	// this.clusterer().repaint();	
+	// }; 
 
 	handleInfoBarHide()
 	{
@@ -241,13 +225,11 @@ export class AppModule
 		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
 
-	handleGeocoding(results : any)
-	{
-		console.log("App handle geocoding");
-		this.mapComponent.fitBounds(results[0].getBounds());
-		this.mapComponent.updateMapLocation(results[0]);
-		this.updateState();
-	};
+	// handleGeocoding(results : any)
+	// {
+	// 	console.log("App handle geocoding");
+		
+	// };
 
 
 	checkInitialState()
@@ -256,16 +238,31 @@ export class AppModule
 		let GET : any = getQueryParams(document.location.search);
 		if (GET.id) 
 		{
-			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);		
+			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);
+			this.readyToWork = true;		
 		}
 		else if (GET.directions) 
 		{
-			this.setState(AppStates.ShowDirections,{id: GET.directions},true);		
+			this.setState(AppStates.ShowDirections,{id: GET.directions},true);
+			this.readyToWork = true;			
 		}
 		else
 		{
-			this.geocoderModule_.geocodeAddress(originalUrlSlug);
 			this.setState(AppStates.Normal);
+			this.geocoderModule_.geocodeAddress(
+				originalUrlSlug, 
+				(results) => 
+				{ 
+					this.mapComponent.init();
+					this.mapComponent.updateMapLocation(results[0]);
+					this.mapComponent.fitBounds(results[0].getBounds(), false);					
+					this.updateState();
+					this.updateDocumentTitle_();
+
+					this.ajaxModule.getElementsAroundLocation();
+					this.readyToWork = true;					
+				}	
+			);			
 		}
 	};
 
@@ -339,7 +336,7 @@ export class AppModule
 				break;
 		}
 
-		this.updateDocumentTitle_(stateName, element);
+		this.updateDocumentTitle_();
 		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 	};
 
@@ -383,15 +380,30 @@ export class AppModule
 		return route;
 	};
 
-	updateDocumentTitle_(stateName, element)
+	updateDocumentTitle_()
 	{
-		if (element !== null) document.title = capitalize(element.name) + ' - Mon voisin fait du bio';
-		else if (stateName == AppStates.Normal) 
+		let title : string;
+
+		switch (this.currState_)
 		{
-			let title = this.constellationMode_ ? 'Autour de moi - ' : 'Navigation Libre - ';
-			title += this.map().locationAddress;
-			document.title = title;
+			case AppStates.ShowElement:				
+				title = 'show element';
+				break;	
+
+			case AppStates.ShowElementAlone:
+				title = 'show element alone';		
+				break;
+
+			case AppStates.ShowDirections:
+				title = 'show Direction';
+				break;
+
+			case AppStates.Normal:			
+				title = 'Navigation Libre - ' + this.mapComponent.locationAddress;					
+				break;
 		}
+
+		document.title = title;	
 	};
 
 

@@ -13,6 +13,8 @@ declare let App : AppModule;
 import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
 
+declare var $;
+
 export class InfoBarComponent
 {
 	isVisible : boolean = false;
@@ -45,15 +47,14 @@ export class InfoBarComponent
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
-		let that = this;
-		$('#btn-close-bandeau-detail').click(function()
+		$('#btn-close-bandeau-detail').click(() =>
 		{  		
 			this.onHide.emit(true);
-			that.hide();
+			this.hide();
 			return false;
 		});
 		
-		$('#element-info .collapsible-header').click(function() {that.toggleDetails(); });
+		$('#element-info .collapsible-header').click(() => {this.toggleDetails(); });
 		
 		this.show();
 	};

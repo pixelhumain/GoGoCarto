@@ -4,13 +4,21 @@
     z-index: 2;
 }
 
+.leaflet-marker-container
+{
+    width: 0px !important;
+    height: 0px !important;
+    margin: 0 !important;
+}
+
 .marker-wrapper
 {
-	position: relative;	
+	position: absolute;	
     z-index: 1;
     height: 40px;
     width: 40px;
-    top: 2px;
+    bottom: 0px;
+    right: -20px;
     font-size: 40px;
     line-height: 40px;
     opacity: .99; // pour créer un nouveau contexte d'empilement (z-index)
@@ -19,8 +27,8 @@
 
     &.disabled { color: grey !important}    
 
-    &.rotateLeft { left: -14px; top: 6px; }
-	&.rotateRight { left: 13px; top: 7px; }
+    &.rotateLeft { right: -8px; bottom: -6px; }
+	&.rotateRight { right: -35px; bottom: -6px; }
 
     // Gestion de la taille si on est en hover
     &.BigSize 
@@ -28,11 +36,11 @@
 		//opacity: 1;
         z-index: 10000 !important;
 	    @include transform( scale(1.3,1.3) );
-	    top: -4px !important; // pour que l'ancre bottom reste identique
+	    bottom: 5px !important; // pour que l'ancre bottom reste identique
    
 
-    	&.rotateLeft { left: -18px; top: 2px !important; }
-		&.rotateRight { left: 17px; top: 3px !important; }
+    	&.rotateLeft { right: -4px; bottom: -2px  !important; }
+		&.rotateRight { right: -39px; bottom: -2px !important; }
 	}
 
 	&:hover { cursor: pointer; }

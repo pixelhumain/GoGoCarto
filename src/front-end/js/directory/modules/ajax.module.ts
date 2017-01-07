@@ -11,7 +11,6 @@
 import { Event, IEvent } from "../utils/event";
 import { AppModule, AppStates } from "../app.module";
 import { Element } from "../classes/element.class";
-import { calculateMapWidthInKm } from "../components/map/map-utils";
 
 declare let App : AppModule;
 declare var $ : any;
@@ -29,11 +28,11 @@ export class AjaxModule
 
 	constructor() { }  
 
-	createRequest()
+	createRequest(location?, radius?)
 	{
 		let request : any = {};
-		request.origin = App.map().getCenter();
-		request.distance = calculateMapWidthInKm(App.map()) * 2;
+		request.origin = location || App.mapComponent.getCenter();
+		request.distance = radius || App.mapComponent.mapRadiusInKm() * 2;
 		request.elementIds = App.elementModule.allElementsIds;
 		request.maxResults = 300;
 		return request;
@@ -44,15 +43,16 @@ export class AjaxModule
 		this.isRetrievingElements = bool;	
 	};
 
-	getElementsAroundCurrentLocation(request?)
+	getElementsAroundLocation(location?, radius?, request?)
 	{
-		let currRequest = request ? request : this.createRequest();	
+		let currRequest = request ? request : this.createRequest(location, radius);	
 
 		if (this.isRetrievingElements)
 		{		
 			this.requestWaitingToBeExecuted = true;
 			return;
 		}
+
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_elements_around_location');
 		let that = this;
@@ -70,40 +70,40 @@ export class AjaxModule
 				this.setIsRetrievingElements(true);
 				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 2000); 
 			},
-		    success: response =>
-		    {	        
-		        if (response.data !== null)
-				{
-					let end = new Date().getTime();
-					window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+			success: response =>
+			{	        
+			  if (response.data !== null)
+			{
+				let end = new Date().getTime();
+				window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-					this.onNewElements.emit(response.data);				
-				}
-		        
-		        if (response.exceedMaxResult)
-		        {
-		        	//window.console.log("   moreElementsToReceive");
-		        	if (!this.requestWaitingToBeExecuted) 
-	        		{        			
-	        			this.getElementsAroundCurrentLocation(this.createRequest());
-	        		}
-		        }	        
-		    },
-		    complete: () =>
-		    {
-		        this.setIsRetrievingElements(false);
-		        if (this.requestWaitingToBeExecuted)
-		        {
-		        	//window.console.log("    this.requestWaitingToBeExecuted stored");
-		        	this.getElementsAroundCurrentLocation(this.createRequest());
-		        	this.requestWaitingToBeExecuted = false;
-		        }
-		        else
-		        {
-		        	clearTimeout(this.loaderTimer);
-					$('#directory-loading').hide();
-		        }
-		    },
+				this.onNewElements.emit(response.data);				
+			}
+			  
+			  if (response.exceedMaxResult)
+			  {
+			  	//window.console.log("   moreElementsToReceive");
+			  	if (!this.requestWaitingToBeExecuted) 
+					{        			
+						this.getElementsAroundLocation(this.createRequest());
+					}
+			  }	        
+			},
+			complete: () =>
+			{
+			  this.setIsRetrievingElements(false);
+			  if (this.requestWaitingToBeExecuted)
+			  {
+			  	//window.console.log("    this.requestWaitingToBeExecuted stored");
+			  	this.getElementsAroundLocation(this.createRequest());
+			  	this.requestWaitingToBeExecuted = false;
+			  }
+			  else
+			  {
+			  	clearTimeout(this.loaderTimer);
+				$('#directory-loading').hide();
+			  }
+			},
 		});
 	};
 

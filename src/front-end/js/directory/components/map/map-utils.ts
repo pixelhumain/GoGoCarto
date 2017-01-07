@@ -31,33 +31,6 @@ export let pointToLatlng = function(point)
 	return latlng; 
 };
 
-export function calculateMapWidthInKm(map)
-{
-	if (!map) return;
-	return Math.floor(calculateDistanceFromLatLonInKm(map.getBounds().getNorthEast(), map.getCenter()));
-}
-
-export function calculateDistanceFromLatLonInKm(latlng1,latlng2) 
-{
-  // let lat1 = latlng1.lat();
-  // let lon1 = latlng1.lng();
-  // let lat2 = latlng2.lat();
-  // let lon2 = latlng2.lng();
-
-  // let R = 6371; // Radius of the earth in km
-  // let dLat = deg2rad(lat2-lat1);  // deg2rad below
-  // let dLon = deg2rad(lon2-lon1); 
-  // let a = 
-  //   Math.sin(dLat/2) * Math.sin(dLat/2) +
-  //   Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-  //   Math.sin(dLon/2) * Math.sin(dLon/2)
-  //   ; 
-  // let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  // let d = R * c; // Distance in km
-  // return d;
-  return latlng1.distanceTo(latlng2) / 1000;
-  
-}
 
 export function deg2rad(deg) {
   return deg * (Math.PI/180);

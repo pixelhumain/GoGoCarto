@@ -3,7 +3,7 @@ declare let App : AppModule;
 declare var L;
 
 import { AppModule } from "../app.module";
-import { Event, IEvent } from "../utils/event";
+//import { Event, IEvent } from "../utils/event";
 
 export class GeocodeResult
 {
@@ -12,9 +12,8 @@ export class GeocodeResult
 
 export class GeocoderModule
 {
-	onResult = new Event<any>();
+	//onResult = new Event<any>();
 	geocoder : any = null;
-	geocoderOSM : any = null;
 	
 	constructor()
 	{
@@ -32,7 +31,7 @@ export class GeocoderModule
 			{
 				if (callbackComplete) callbackComplete(results);				
 				
-				this.onResult.emit(results);
+				//this.onResult.emit(results);
 			} 	
 			else
 			{

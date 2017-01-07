@@ -28,7 +28,7 @@ export class MapComponent
 	oldZoom = -1;
 
 	locationSlug = '';
-	location = [];
+	location : any = [];
 	locationAddress = '';
 
 	getMap(){ return this.map_; }; 
@@ -41,7 +41,7 @@ export class MapComponent
 		//initRichMarker();
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
 
-		this.map_ = L.map('directory-content-map').setView([46.897045, 2.425235], 6);
+		this.map_ = L.map('directory-content-map');//.setView([46.897045, 2.425235], 6);
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
 		
@@ -62,7 +62,7 @@ export class MapComponent
 		if (this.isInitialized_) this.map_.invalidateSize(true);
 	}
 
-	fitBounds(rawbounds)
+	fitBounds(rawbounds, animate = true)
 	{
 		console.log("fitbounds", rawbounds);
 
@@ -70,8 +70,11 @@ export class MapComponent
 		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
 		let bounds = L.latLngBounds(corner1, corner2);
 		
-		setTimeout( () => { console.log("fitbounds OSM", bounds); App.map().flyToBounds(bounds);}, 500);
+		if (animate) App.map().flyToBounds(bounds);
+		else App.map().fitBounds(bounds);
 	}
+
+	getCenter() { return this.map_.getCenter(); }
 
 	panToLocation(location, zoom = 12)
 	{
@@ -92,5 +95,19 @@ export class MapComponent
 		this.location = result.getCoordinates();	
 		this.locationAddress = result.getFormattedAddress();
 		this.locationSlug = slugify(this.locationAddress);		
+	}
+
+	mapRadiusInKm()
+	{
+		if (!this.map_) return;
+		return Math.floor(this.map_.getBounds().getNorthEast().distanceTo(this.map_.getCenter()) / 1000);
+	}
+
+	// distance from last saved location to a position
+	distanceFromLocationTo(position)
+	{
+		if (!this.location) return null;
+		let loc = new L.LatLng(this.location[0], this.location[1]);
+		return loc.distanceTo(position) / 1000;
 	}
 }

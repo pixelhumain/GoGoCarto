@@ -33,8 +33,9 @@ export function initializeAppInteractions()
 			address, 
 			function(results) 
 			{ 
-				App.handleGeocoding(results);
-				$('#search-bar').val(results[0].getFormattedAddress()); },
+				//App.handleGeocoding(results);
+				$('#search-bar').val(results[0].getFormattedAddress()); 
+			},
 			function(results) { $('#search-bar').addClass('invalid'); } 
 		);
 
@@ -209,7 +210,7 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
+	//if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
 }
 
 export function updateInfoBarSize()

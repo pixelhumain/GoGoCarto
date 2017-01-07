@@ -9,7 +9,6 @@
  */
 import { AppModule } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
-import { calculateDistanceFromLatLonInKm } from "../components/map/map-utils";
 
 declare let App : AppModule;
 declare let google : any;
@@ -162,13 +161,10 @@ getHtmlRepresentation()
 {	
 	//let starNames = App.constellationMode ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 	let starNames : any[] = [] ;
-	let location = App.map().location;
-	if (location)
-	{
-		this.distance = calculateDistanceFromLatLonInKm(location, this.position);
-		// distance vol d'oiseau, on arrondi et on l'augmente un peu
-		this.distance = Math.round(1.2*this.distance);
-	}
+
+	this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+	// distance vol d'oiseau, on arrondi et on l'augmente un peu
+	this.distance = Math.round(1.2*this.distance);
 
 
 	let html = Twig.render(twigJs_elementInfo, 
