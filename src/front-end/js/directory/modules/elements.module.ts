@@ -126,8 +126,8 @@ export class ElementsModule
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 		{
 			element = elements[i];
-			
-			if (mapBounds.contains(element.position) && filterModule.checkIfElementPassFilters(element))
+
+			if ( mapBounds.contains(element.position) && filterModule.checkIfElementPassFilters(element))
 			{
 				if (!element.isVisible && $.inArray(App.state, [AppStates.Normal,AppStates.ShowElement]) > -1)
 				{
@@ -169,7 +169,7 @@ export class ElementsModule
 		
 		if (markersChanged || forceRepaint)
 		{		
-			this.onMarkersChanged.emit({newMarkers : newMarkers, markersToRemove : markersToRemove});		
+			//this.onMarkersChanged.emit({newMarkers : newMarkers, markersToRemove : markersToRemove});		
 		}
 		
 	};

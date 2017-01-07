@@ -59,7 +59,6 @@ export enum AppStates {
     StarRepresentationChoice    
 }
 
-
 export class AppModule
 {	
 	constellationMode_ : boolean = false;
@@ -100,7 +99,7 @@ export class AppModule
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
 		this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
-		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElements(elements); });
+		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
 	
 		this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
 	
@@ -187,13 +186,14 @@ export class AppModule
 		let updateInAllElementList = true;
 		let forceRepaint = false;
 
-		let zoom = this.map().getZoom();
-		if (zoom != this.old_zoom && this.old_zoom != -1)  
+		let zoom = this.mapComponent_.getZoom();
+		let old_zoom = this.mapComponent_.getOldZoom();
+
+		if (zoom != old_zoom && old_zoom != -1)  
 		{
-			if (zoom > this.old_zoom) updateInAllElementList = false;	   		
+			if (zoom > old_zoom) updateInAllElementList = false;	   		
 			forceRepaint = true;
 		}
-		this.old_zoom = zoom;
 
 		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
 		this.ajaxModule.getElementsAroundCurrentLocation();	 
@@ -201,16 +201,14 @@ export class AppModule
 
 	handleMapClick()
 	{
-		console.log("App handle map click");
-
 		if (this.isClicking) return;
 		this.setState(AppStates.Normal);
 		this.infoBarComponent.hide(); 
 	}; 
 
-	handleNewElements(elementsJson)
+	handleNewElementsReceivedFromServer(elementsJson)
 	{
-		console.log("App handle newelements");
+		console.log("App handleNewElementsReceivedFromServer");
 		if (!elementsJson || elementsJson.length === 0) return;
 		this.elementModule.addJsonElements(elementsJson, true);
 		this.elementModule.updateElementToDisplay(); 
@@ -243,11 +241,12 @@ export class AppModule
 		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
 
-	handleGeocoding(array : any)
+	handleGeocoding(results : any)
 	{
-		//console.log("App handle geocoding");
-		this.mapComponent.panToLocation(array.location, array.zoom);
-		//this.updateState();
+		console.log("App handle geocoding");
+		this.mapComponent.fitBounds(results[0].getBounds());
+		this.mapComponent.updateMapLocation(results[0]);
+		this.updateState();
 	};
 
 
@@ -266,7 +265,6 @@ export class AppModule
 		else
 		{
 			this.geocoderModule_.geocodeAddress(originalUrlSlug);
-			this.mapComponent.locationSlug = originalUrlSlug;
 			this.setState(AppStates.Normal);
 		}
 	};

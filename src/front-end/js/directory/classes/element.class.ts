@@ -58,7 +58,7 @@ export class Element
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
-		this.position = new google.maps.LatLng(elementJson.latlng.latitude, elementJson.latlng.longitude);
+		this.position = [elementJson.latlng.latitude, elementJson.latlng.longitude];
 		this.address = elementJson.adresse;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
@@ -113,7 +113,7 @@ initialize()
 show() 
 {		
 	if (!this.isInitialized_) this.initialize();	
-	this.biopenMarker_.updateIcon();
+	//this.biopenMarker_.updateIcon();
 	this.biopenMarker_.show();
 	this.isVisible_ = true;		
 };

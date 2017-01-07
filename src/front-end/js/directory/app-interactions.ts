@@ -27,10 +27,16 @@ export function initializeAppInteractions()
 
 	$('#search-bar').on("search", function(event, address)
 	{
-		if (App.constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
-		else App.geocoder.geocodeAddress(address, 
-			function(results) { $('#search-bar').val(results[0].formatted_address); },
-			function(results) { $('#search-bar').addClass('invalid'); } );
+		// if (App.constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
+		// else 
+		App.geocoder.geocodeAddress(
+			address, 
+			function(results) 
+			{ 
+				App.handleGeocoding(results);
+				$('#search-bar').val(results[0].getFormattedAddress()); },
+			function(results) { $('#search-bar').addClass('invalid'); } 
+		);
 
 		// If Menu take all available width (in case of small mobile)
 		if ($('#directory-menu').outerWidth() == $(window).outerWidth())

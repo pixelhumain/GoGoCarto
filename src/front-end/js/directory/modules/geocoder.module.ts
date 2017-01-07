@@ -30,15 +30,9 @@ export class GeocoderModule
 		{			
 			if (results !== null) 
 			{
-				if (callbackComplete) callbackComplete(results[0]);	
+				if (callbackComplete) callbackComplete(results);				
 				
-				var corner1 = L.latLng(results[0].bounds[0], results[0].bounds[1]),
-				corner2 = L.latLng(results[0].bounds[2], results[0].bounds[3]),
-				bounds = L.latLngBounds(corner1, corner2);
-				
-				setTimeout( () => { console.log("fitbounds OSM", bounds); App.map().fitBounds(bounds);}, 500);
-				
-				//this.onResult.emit(results[0]);
+				this.onResult.emit(results);
 			} 	
 			else
 			{

@@ -11,7 +11,8 @@ import { AppModule, AppStates } from "../../app.module";
 import { drawLineBetweenPoints } from "./map-drawing";
 
 declare let App : AppModule;
-declare let RichMarker, google;
+//declare let RichMarker, google;
+declare let L, $;
 
 export class BiopenMarker
 {
@@ -30,22 +31,25 @@ export class BiopenMarker
 		{
 			let element = this.getElement();
 			if (element === null) window.console.log("element null id = "+ this.id_);
-			else
-			position_ = new google.maps.LatLng(element.position.lat(), element.position.lng());
+			else position_ = element.position;
 		} 
-	
-		this.richMarker_ = new RichMarker({		
-			map: null,
-			draggable: false,
-			position: position_,
-			flat: true
-		}, this);
 
-		this.richMarker_.setVisible(false);
+		
+	
+		// this.richMarker_ = new RichMarker({		
+		// 	map: null,
+		// 	draggable: false,
+		// 	position: position_,
+		// 	flat: true
+		// }, this);
+
+		this.richMarker_ = L.marker(position_);
+
+		//this.richMarker_.setVisible(false);
 
 		this.richMarker_.checkCluster = true;
 	
-		google.maps.event.addListener(this.richMarker_, 'click', (ev) =>
+		this.richMarker_.on('click', (ev) =>
 		{
 			App.setTimeoutClicking();
 
@@ -58,36 +62,36 @@ export class BiopenMarker
 				//App.SRCModule().selectElementById(this.id_);
 			}
 
-			ev.preventDefault();
-			ev.stopPropagation();
+			//ev.preventDefault();
+			//ev.stopPropagation();
 			
 			//event.preventDefault();
   		});
 
 	
-		google.maps.event.addListener(this.richMarker_, 'mouseover', (ev) =>
-		{
-			if (this.isAnimating_) { return; }
-			if (!this.isHalfHidden_) this.showBigSize();
-		});
+		// this.richMarker_.on('mouseover', (ev) =>
+		// {
+		// 	if (this.isAnimating_) { return; }
+		// 	if (!this.isHalfHidden_) this.showBigSize();
+		// });
 
-		google.maps.event.addListener(this.richMarker_, 'mouseout', (ev) =>
-		{
-			if (this.isAnimating_) { return; }
-			this.showNormalSize();
-		});
+		// this.richMarker_.on('mouseout', (ev) =>
+		// {
+		// 	if (this.isAnimating_) { return; }
+		// 	this.showNormalSize();
+		// });
 
-		if (App.constellationMode)
-		{
-			google.maps.event.addListener(this.richMarker_, 'visible_changed', () => 
-			{ 
-				this.checkPolylineVisibility_(this); 
-			});
-		}
+		// if (App.constellationMode)
+		// {
+		// 	google.maps.event.addListener(this.richMarker_, 'visible_changed', () => 
+		// 	{ 
+		// 		this.checkPolylineVisibility_(this); 
+		// 	});
+		// }
 
 		this.isHalfHidden_ = false;			
 
-		this.updateIcon();	
+		//this.updateIcon();	
 	}	
 
 
@@ -102,82 +106,82 @@ export class BiopenMarker
 
 	updateIcon () 
 	{		
-		let element = this.getElement();
+		// let element = this.getElement();
 
-		if (App.constellationMode)
-		{
-			// POLYLINE TYPE
-			let lineType;
-			if (element.starChoiceForRepresentation === '')
-			{
-				lineType = AppStates.Normal;
-			}
-			else
-			{			
-				lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
-			}		
+		// if (App.constellationMode)
+		// {
+		// 	// POLYLINE TYPE
+		// 	let lineType;
+		// 	if (element.starChoiceForRepresentation === '')
+		// 	{
+		// 		lineType = AppStates.Normal;
+		// 	}
+		// 	else
+		// 	{			
+		// 		lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
+		// 	}		
 
-			this.updatePolyline({lineType: lineType});
-		}
+		// 	this.updatePolyline({lineType: lineType});
+		// }
 
-		let productsToDisplay = element.getProductsNameToDisplay();
+		// let productsToDisplay = element.getProductsNameToDisplay();
 
-		let content = document.createElement("div");
-		$(content).addClass("marker-wrapper");
-		$(content).addClass(element.type);
-		$(content).attr('id',"marker-"+this.id_);
+		// let content = document.createElement("div");
+		// $(content).addClass("marker-wrapper");
+		// $(content).addClass(element.type);
+		// $(content).attr('id',"marker-"+this.id_);
 
-		let disableMarker = false;
-		// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
-		if (element.starChoiceForRepresentation !== '') 
-			disableMarker = !element.isCurrentStarChoiceRepresentant();
+		// let disableMarker = false;
+		// // en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
+		// if (element.starChoiceForRepresentation !== '') 
+		// 	disableMarker = !element.isCurrentStarChoiceRepresentant();
 
-		if (disableMarker) $(content).addClass("disabled");
+		// if (disableMarker) $(content).addClass("disabled");
 
-		let disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
+		// let disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
 
-		let innerHTML = '<div class="rotate animate icon-marker"></div>';
-	    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>';
+		// let innerHTML = '<div class="rotate animate icon-marker"></div>';
+	 //    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>';
 	    
-	    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
+	 //    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
-	    let showMoreIcon = true;
-	    if (App.constellationMode) showMoreIcon = element.isProducteurOrAmap();
+	 //    let showMoreIcon = true;
+	 //    if (App.constellationMode) showMoreIcon = element.isProducteurOrAmap();
 
-	    if (nbreOthersProducts > 0 && showMoreIcon)
-	    {
-	    	widthMoreProduct = nbreOthersProducts*39 + 5;    	
+	 //    if (nbreOthersProducts > 0 && showMoreIcon)
+	 //    {
+	 //    	widthMoreProduct = nbreOthersProducts*39 + 5;    	
 
-	    	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
-	    	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
+	 //    	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
+	 //    	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
 	    	
-	    	let productName, disableProduct;
+	 //    	let productName, disableProduct;
 
-		    for(let i = 0; i < nbreOthersProducts;i++)
-			{
-				productName = productsToDisplay.others[i].value;
-				disableProduct = productsToDisplay.others[i].disabled ? 'disabled' : '';
-				innerHTML += '<div class="moreIconWrapper '+disableProduct+'" >';
-				innerHTML += '<span class="moreIcon iconInsideMarker '+disableProduct+' icon-'+productName+'"></span>';
-		    	innerHTML += '</div>';
-		    }
+		//     for(let i = 0; i < nbreOthersProducts;i++)
+		// 	{
+		// 		productName = productsToDisplay.others[i].value;
+		// 		disableProduct = productsToDisplay.others[i].disabled ? 'disabled' : '';
+		// 		innerHTML += '<div class="moreIconWrapper '+disableProduct+'" >';
+		// 		innerHTML += '<span class="moreIcon iconInsideMarker '+disableProduct+' icon-'+productName+'"></span>';
+		//     	innerHTML += '</div>';
+		//     }
 
-			innerHTML += '</div>';
-	    } 
+		// 	innerHTML += '</div>';
+	 //    } 
 
-	    if (element.isFavorite)
-	    {
-	    	innerHTML += '<div class="icon-star-full animate rotate"></div>';
-	    }    
+	 //    if (element.isFavorite)
+	 //    {
+	 //    	innerHTML += '<div class="icon-star-full animate rotate"></div>';
+	 //    }    
 	     
-	    innerHTML += '</div>';
+	 //    innerHTML += '</div>';
 
-	    content.innerHTML = innerHTML;
+	 //    content.innerHTML = innerHTML;
 
-	  	this.richMarker_.setContent(content);	
+	 //  	this.richMarker_.setContent(content);	
 
-	  	if (this.inclination_ == "right") this.inclinateRight();
-	  	if (this.inclination_ == "left") this.inclinateLeft();
+	 //  	if (this.inclination_ == "right") this.inclinateRight();
+	 //  	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
 	addClassToRichMarker_ (classToAdd) 
@@ -347,15 +351,15 @@ export class BiopenMarker
 
 	show () 
 	{	
-		this.richMarker_.setMap(App.map());
-		this.richMarker_.setVisible(true);
+		this.richMarker_.addTo(App.map());
+		//this.richMarker_.setVisible(true);
 		if (App.constellationMode) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{	
-		this.richMarker_.setMap(null);
-		this.richMarker_.setVisible(false);
+		this.richMarker_.remove();
+		//this.richMarker_.setVisible(false);
 		if (App.constellationMode) this.polyline_.setMap(null);
 	};
 
@@ -366,7 +370,9 @@ export class BiopenMarker
 
 	setVisible (bool) 
 	{	
-		this.richMarker_.setVisible(bool);
+		//this.richMarker_.setVisible(bool);
+		if (bool) this.richMarker_.addTo(App.map());
+		else this.richMarker_.remove();
 	};
 
 	getPosition () 

@@ -25,11 +25,16 @@ export class MapComponent
 	map_ = null;
 	clusterer_ = null;
 	isInitialized_ = false;
+	oldZoom = -1;
 
 	locationSlug = '';
+	location = [];
+	locationAddress = '';
 
 	getMap(){ return this.map_; }; 
 	getClusterer() { return this.clusterer_; };
+	getZoom() { return this.map_.getZoom(); }
+	getOldZoom() { return this.oldZoom; }
 
 	init() 
 	{	
@@ -42,10 +47,11 @@ export class MapComponent
 		
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => { this.onIdle.emit(); });
+		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
 	   $('#directory-spinner-loader').hide();
 
-	   this.clusterer_ = initCluster(null);
+	   //this.clusterer_ = initCluster(null);
 		
 		this.onMapReady.emit();
 		this.isInitialized_ = true;
@@ -56,9 +62,20 @@ export class MapComponent
 		if (this.isInitialized_) this.map_.invalidateSize(true);
 	}
 
-	panToLocation(newLocation, zoom = 12, changeMapLocation = true)
+	fitBounds(rawbounds)
 	{
-		console.log("panTolocation", newLocation.toString());
+		console.log("fitbounds", rawbounds);
+
+		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
+		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
+		let bounds = L.latLngBounds(corner1, corner2);
+		
+		setTimeout( () => { console.log("fitbounds OSM", bounds); App.map().flyToBounds(bounds);}, 500);
+	}
+
+	panToLocation(location, zoom = 12)
+	{
+		console.log("panTolocation", location);
 		// setTimeout(function() 
 		// {
 		// 	//on laisse 500ms le temps que l'animation du redimensionnement éventuel termine
@@ -67,23 +84,13 @@ export class MapComponent
 		// 	this.map_.panTo(newLocation);
 		// },500);
 
-		this.map_.panTo(newLocation);
-		this.map_.setZoom(zoom);
-
-		console.log("changeMaplocation", changeMapLocation);
-		if (changeMapLocation)
-		{
-			console.log(slugify($('#search-bar').val()));
-			//this.location = newLocation;	
-			//this.locationAddress = $('#search-bar').val();
-			this.locationSlug = capitalize(slugify($('#search-bar').val()));		
-		}
-
-		if (!this.isInitialized_)
-		{
-			
-			this.isInitialized_ = true;	
-		}
-		
+		this.map_.flyTo(location, zoom);		
 	};
+
+	updateMapLocation(result)
+	{
+		this.location = result.getCoordinates();	
+		this.locationAddress = result.getFormattedAddress();
+		this.locationSlug = slugify(this.locationAddress);		
+	}
 }

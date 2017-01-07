@@ -42,7 +42,7 @@ export class DisplayElementAloneModule
 
 		if (panToElementLocation)
 		{
-			App.mapComponent.panToLocation(element.position, 12, false);
+			App.mapComponent.panToLocation(element.position, 12);
 		}
 	};
 

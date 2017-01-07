@@ -60,8 +60,8 @@ export class AjaxModule
 		$.ajax({
 			url: route,
 			method: "post",
-			data: { originLat: currRequest.origin.lat(), 
-				    originLng: currRequest.origin.lng(), 
+			data: { originLat: currRequest.origin.lat, 
+				    originLng: currRequest.origin.lng, 
 				    distance: currRequest.distance,
 				    elementIds: currRequest.elementIds,
 				    maxResults: currRequest.maxResults },
