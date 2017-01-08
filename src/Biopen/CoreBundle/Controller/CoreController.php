@@ -41,10 +41,19 @@ class CoreController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($slug == '' && $this->get('session')->get('slug')) 
+        if ($slug == '')
         {
-            $slug = $this->get('session')->get('slug');
+            if ($this->get('session')->get('slug')) 
+            {
+                $slug = $this->get('session')->get('slug');
+            }
+            else
+            {
+                // temporairement si pas de slug zoome sur paris
+                $slug = 'paris';
+            }
         }
+
 
         // $geocodeResponse = null;
 
