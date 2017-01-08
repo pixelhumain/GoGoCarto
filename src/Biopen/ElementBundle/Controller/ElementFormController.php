@@ -47,7 +47,7 @@ class ElementFormController extends Controller
 			return $this->redirectToRoute('biopen_element_add');			
 		}		
 
-		return $this->render('::element-form/element-form.html.twig', 
+		return $this->render('@element/element-form/element-form.html.twig', 
 					array(
 						'editMode' => false,
 						'form' => $form->createView(),
@@ -94,7 +94,7 @@ class ElementFormController extends Controller
 			//return $this->redirectToRoute('biopen_element_add');
 		}
 
-		return $this->render('::element-form/element-form.html.twig', array(
+		return $this->render('@element/element-form/element-form.html.twig', array(
 			'editMode' => true,
 			'form' => $form->createView(), 
 			'element' => $element,

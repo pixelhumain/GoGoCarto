@@ -34,7 +34,7 @@ class CoreController extends Controller
     public function indexAction()
     {
         $this->get('session')->clear();
-        return $this->render('::home/home.html.twig');
+        return $this->render('@core/home/home.html.twig');
     }
 
     public function directoryAction($slug, Request $request)
@@ -95,7 +95,7 @@ class CoreController extends Controller
         //     $elementList = $elementService->getElementsAround($originPoint, 30)['data'];
         // }
 
-        return $this->render('::directory/directory.html.twig', 
+        return $this->render('BiopenCoreBundle:directory:directory.html.twig', 
                             array("listProducts" => $listProducts, "slug" => $slug));      
 
         // return $this->render('::directory/directory.html.twig', array("elementList" => $elementList, 
