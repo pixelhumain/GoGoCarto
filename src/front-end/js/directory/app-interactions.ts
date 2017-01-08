@@ -14,7 +14,6 @@ import { redirectToDirectory } from "../commons/commons";
 
 //declare var $;
 declare let $ : any;
-declare let google : any;
 
 export function initializeAppInteractions()
 {	
@@ -27,7 +26,7 @@ export function initializeAppInteractions()
 
 	$('#search-bar').on("search", function(event, address)
 	{
-		// if (App.constellationMode) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
+		// if (App.state == AppStates.Constellation) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
 		// else 
 		App.geocoder.geocodeAddress(
 			address, 

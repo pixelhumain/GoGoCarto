@@ -1,4 +1,4 @@
-import { AppModule } from "../../../app.module";
+import { AppModule, AppStates } from "../../../app.module";
 declare let App : AppModule;
 
 declare let MarkerClusterer, $;
@@ -14,7 +14,7 @@ export function initCluster(markersToCluster)
 	    //ignoreHidden:false,	    
 	    gridSize: 40, 
 	    maxZoom: 17,
-	    automaticRepaint: App.constellationMode,
+	    automaticRepaint: App.state == AppStates.Constellation,
 	};
 
    //let cluster = new MarkerClusterer(App.map(), markersToCluster, clusterOptions);
