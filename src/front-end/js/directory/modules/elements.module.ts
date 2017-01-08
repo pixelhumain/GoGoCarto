@@ -111,7 +111,7 @@ export class ElementsModule
 		else elements = this.currElements_;
 
 		let i : number, element : Element;
-	 	let mapBounds = App.map().getBounds();   
+	 	let mapBounds = App.mapComponent.getBounds();   
 
 	 	let newMarkers = [];
 	 	let markersToRemove = [];
@@ -120,7 +120,7 @@ export class ElementsModule
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		//window.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//ndow.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
