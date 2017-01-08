@@ -19,7 +19,6 @@ declare let Routing;
 export class AjaxModule
 {
 	onNewElements = new Event<any[]>();
-	onNewElement = new Event<any>();
 
 	isRetrievingElements : boolean = false;
 	requestWaitingToBeExecuted : boolean = false;
@@ -121,7 +120,7 @@ export class AjaxModule
 				if (response.data)
 				{
 					let end = new Date().getTime();
-					window.console.log("receive elementById in " + (end-start) + " ms", response.data);			
+					//window.console.log("receive elementById in " + (end-start) + " ms", response.data);			
 
 					if (callbackSuccess) callbackSuccess(response.data); 
 					//this.onNewElement.emit(response.data);							
