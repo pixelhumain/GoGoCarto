@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
-            new JMS\TwigJsBundle\JMSTwigJsBundle()
+            new JMS\TwigJsBundle\JMSTwigJsBundle(),
+            new Biopen\BackOfficeBundle\BiopenBackOfficeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
