@@ -22,6 +22,7 @@ import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { MapComponent } from "./components/map/map.component";
+import { BiopenMarker } from "./components/map/biopen-marker.component";
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
@@ -49,13 +50,13 @@ $(document).ready(function()
 
 export enum AppStates 
 {
-    Normal,
-    ShowElement,
-    ShowElementAlone,
-    ShowDirections,
-    Constellation,
-    StarRepresentationChoice    
-}
+	Normal,
+	ShowElement,
+	ShowElementAlone,
+	ShowDirections,
+	Constellation,
+	StarRepresentationChoice    
+	}
 
 export class AppModule
 {		
@@ -152,9 +153,7 @@ export class AppModule
 		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
 		let oldStateName = this.currState_;
-		this.currState_ = stateName;
-
-		let element = options.id ? this.elementById(options.id) : null;
+		this.currState_ = stateName;		
 
 		/*if (oldStateName == stateName)
 		{
@@ -171,6 +170,10 @@ export class AppModule
 				break;	
 
 			case AppStates.ShowElementAlone:
+
+				if (!options.id) return;
+				
+				let element = this.elementById(options.id);
 				if (element)
 				{
 					this.DPAModule.begin(element.id);
@@ -221,6 +224,20 @@ export class AppModule
 		this.updateDocumentTitle_();
 		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 	};
+
+	handleMarkerClick(marker : BiopenMarker)
+	{
+		this.setTimeoutClicking();
+
+		if (marker.isHalfHidden()) App.setState(AppStates.Normal);	
+
+		this.infoBarComponent.showElement(marker.getId());
+
+		if (App.state == AppStates.StarRepresentationChoice)
+		{
+			//App.SRCModule().selectElementById(this.id_);
+		}
+	}
 
 	handleMapIdle()
 	{
