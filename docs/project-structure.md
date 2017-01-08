@@ -1,7 +1,7 @@
 Project Structure
 =================
 
-Html files (Twig templates) `app/Ressources/views`
+Html files (Twig templates) `app/Ressources/views` and 'src/Biopen/XXXBundle/Ressources/views'
 
 Config `app/config`
 
