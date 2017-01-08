@@ -66,10 +66,7 @@
 
 {% block javascripts %}
 
-	<script>
-		var editMode = false;
-		{% if editMode %} editMode = true; {% endif %}
-	</script>
+
 
     {% javascripts filter="?jsqueeze"
 		'bundles/fosjsrouting/js/router.js'
@@ -79,12 +76,14 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
+   <script>
+		var editMode = false;
+		initMap();
+		{% if editMode %} editMode = true; {% endif %}
+	</script>
+
 
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
-	</script>
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
         async defer>

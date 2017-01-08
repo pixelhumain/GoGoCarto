@@ -15,45 +15,59 @@ var geocoding_ok;
 // Google map initialisation
 function initMap() 
 {	
-	initAutoCompletionForElement(document.getElementById('input-address'));
+	//initAutoCompletionForElement(document.getElementById('input-address'));
 
 	var mapCenter;
 	if (editMode && $('#input-latitude').attr('value'))
 	{
-		markerPosition = new google.maps.LatLng($('#input-latitude').attr('value'), $('#input-longitude').attr('value'));
+		markerPosition = new L.LatLng($('#input-latitude').attr('value'), $('#input-longitude').attr('value'));
 		mapCenter = markerPosition;
 		mapZoom = 16;
 	}
 	else
 	{
 		markerPosition = null;
-		mapCenter = new google.maps.LatLng(46.897045, 2.425235);
+		mapCenter = new L.LatLng(46.897045, 2.425235);
 		mapZoom = 5;
 	}
 
-	var mapOptions = {
-		zoom: mapZoom,
-		center: mapCenter,
-		disableDefaultUI: true,
-		zoomControl: true
-	};
-	
-	map = new google.maps.Map(document.getElementById("address-preview-map"), mapOptions);
-
-	geocoder = new google.maps.Geocoder();
-	
-	marker = new google.maps.Marker({
-		map: map,
-		draggable: true,
-		animation: google.maps.Animation.DROP,
-		position: markerPosition
+	map = L.map('address-preview-map', {
+	    center: mapCenter,
+	    zoom: mapZoom,
+	    zoomControl: false
 	});
 
-	marker.addListener('dragend', function() 
+	// L.Control.Zoom({
+	//    position:'topright'
+	// }).addTo(map);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(map);
+	
+	geocoder = GeocoderJS.createGeocoder('openstreetmap');
+	
+	if (markerPosition) createMarker(markerPosition);
+}
+
+function createMarker(position)
+{
+	marker = new L.Marker(position, { draggable: true } ).addTo(map);
+
+	marker.on('dragend', function() 
 	{
-	   $('#input-latitude').attr('value',marker.getPosition().lat());
-		$('#input-longitude').attr('value',marker.getPosition().lng());	
-    });
+	   $('#input-latitude').attr('value',marker.getLatLng().lat);
+		$('#input-longitude').attr('value',marker.getLatLng().lng);	
+   });
+}
+
+function fitBounds(rawbounds)
+{
+	console.log("fitbounds", rawbounds);
+
+	var corner1 = L.latLng(rawbounds[0], rawbounds[1]);
+	var corner2 = L.latLng(rawbounds[2], rawbounds[3]);
+	var bounds = L.latLngBounds(corner1, corner2);
+	
+	map.fitBounds(bounds);
 }
 
 

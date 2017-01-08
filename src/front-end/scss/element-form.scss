@@ -2,6 +2,7 @@
 @import 'vendors/materialize';
 @import 'vendors/timepicki';
 @import "components/commons/auto-complete";
+@import 'vendors/leaflet';
 
 //   FLASHBAG
 .flash-notice
@@ -200,19 +201,19 @@ section
 // ---------------------------------------
 //             GOOGLE MAP
 // ---------------------------------------
-#directory-content-map
+#address-preview-map
 {
   height:13rem;
   margin-top:1rem;
   //border: 2px solid #D0CCCC;
 }
 
-.gmnoprint a, .gmnoprint span, .gm-style-cc {
-    display:none;
-}
-.gmnoprint div {
-    //background:none !important;
-}
+// .gmnoprint a, .gmnoprint span, .gm-style-cc {
+//     display:none;
+// }
+// .gmnoprint div {
+//     //background:none !important;
+// }
 
 
 // ---------------------------------------

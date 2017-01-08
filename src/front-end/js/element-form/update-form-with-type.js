@@ -26,7 +26,13 @@ function updateFormWithType( init )
 			$('#element-form-content').css('height',$("#element-form-content").get(0).scrollHeight);
 			// puis ? la fin de l'anim on lui donne sa taille auto 
 			setTimeout(function() {$('#element-form-content').css('height','auto');}, 2000);
-			if (init) initMap();
+			
+			if (init) 
+			{
+				//initMap();
+			}	
+
+			map.invalidateSize(true);		
 		}
 		
 		switch($('#element-type').val()) {
