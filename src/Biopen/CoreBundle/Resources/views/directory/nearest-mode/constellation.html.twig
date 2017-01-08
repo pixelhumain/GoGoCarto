@@ -30,7 +30,7 @@
                 {{ flash_message | raw }}
             </div>
         {% endfor %}
-        {% include '::directory/components/search-bar.html.twig'  %} 
+        {% include '@core/directory/components/search-bar.html.twig'  %} 
       </div> 
     </div>  
   {% endif %}
@@ -39,9 +39,9 @@
   {# La Carte et les infos element #} 
   <section id="directory-content">
     
-    {% include '::directory/components/pick-address-for-directions.html.twig'  %}  
+    {% include '@core/directory/components/pick-address-for-directions.html.twig'  %}  
     {#  PRELOADER #}
-    {% include '::directory/components/directory-spinner-loader.html.twig'  %}  
+    {% include '@core/directory/components/directory-spinner-loader.html.twig'  %}  
 
     <div id="map"></div>    
 
@@ -53,7 +53,7 @@
         
       </div> 
       <div id="element-info"></div>
-      {% include '::directory/components/element-menu.html.twig'  %}
+      {% include '@core/directory/components/element-menu.html.twig'  %}
     </section>
 
     <div id="menu-button"><i class='icon-menu'></i></div> 
@@ -119,13 +119,13 @@
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
  
-
+  {#}
     {% javascripts filter="twig_js" 
     '../app/Resources/views/directory/element-info.html.twig'    
     %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
+#}
      <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
     </script>
@@ -138,7 +138,7 @@
 
 {% block modals %} 
 
-  {% include '::directory/components/delete-element.html.twig'  %}
+  {% include '@core/directory/components/delete-element.html.twig'  %}
 
 {% endblock %}
 

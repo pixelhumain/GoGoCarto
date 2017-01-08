@@ -17,15 +17,15 @@
   
   {# Menu #}
   <section id="directory-menu" class="custom-scroll-bar"> 
-      {% include '::directory/twig-js-templates/directory-menu.html.twig' %}    
+      {% include '@core/directory/twig-js-templates/directory-menu.html.twig' %}    
   </section>
    
   {# The directory, map or list displaying, and element information bar #} 
   <section id="directory-content">
     
-    {% include '::directory/modals/too-many-markers.html.twig'  %}
-    {% include '::directory/modals/pick-address-for-directions.html.twig'  %}  
-    {% include '::directory/components/spinner-loader.html.twig'  
+    {% include '@core/directory/modals/too-many-markers.html.twig'  %}
+    {% include '@core/directory/modals/pick-address-for-directions.html.twig'  %}  
+    {% include '@core/directory/components/spinner-loader.html.twig'  
               with {'id': 'directory-spinner-loader' }%}
     
     <div id="directory-loading" style="display:none">
@@ -45,7 +45,7 @@
       {# container to receive the twig-js-template element-info, dynamically created #}
       <div id="element-info"></div> 
 
-      {% include '::directory/components/element-menu.html.twig' %}
+      {% include '@core/directory/components/element-menu.html.twig' %}
 
     </section>
 
@@ -87,7 +87,7 @@
 
   {# create dynamic js template #}
   {% javascripts filter="twig_js"
-    '../app/Resources/views/directory/twig-js-templates/element-info.html.twig'    
+    '../src/Biopen/CoreBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'    
   %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
   {% endjavascripts %}
@@ -100,7 +100,7 @@
 
 {% block modals %} 
 
-  {% include '::directory/modals/delete-element.html.twig'  %}  
+  {% include '@core/directory/modals/delete-element.html.twig'  %}  
 
 {% endblock %}
 

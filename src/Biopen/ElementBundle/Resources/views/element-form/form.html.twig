@@ -12,13 +12,13 @@
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
 <div id="element-form-content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
 
-	{% include "::element-form/form-partials/generals-info.html.twig" %}
+	{% include "@element/element-form/form-partials/generals-info.html.twig" %}
 
-	{% include "::element-form/form-partials/products.html.twig" %}
+	{% include "@element/element-form/form-partials/products.html.twig" %}
 
-	{% include "::element-form/form-partials/open-hours.html.twig" %}
+	{% include "@element/element-form/form-partials/open-hours.html.twig" %}
 
-	{% include "::element-form/form-partials/user.html.twig" %}	
+	{% include "@element/element-form/form-partials/user.html.twig" %}	
 
 	<section id="section-validate-and-send">
 		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>

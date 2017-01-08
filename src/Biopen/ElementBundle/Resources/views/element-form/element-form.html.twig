@@ -26,7 +26,7 @@
   
   {% if not editMode %}<h1 id="element-form-title">Ajouter un element</h1> {% endif %}
 
-  {% include "::element-form/form.html.twig" with {'editMode': editMode } %}
+  {% include "@element/element-form/form.html.twig" with {'editMode': editMode } %}
 
 {% endblock %}
 

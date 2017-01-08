@@ -98,7 +98,7 @@ class CoreController extends Controller
         return $this->render('BiopenCoreBundle:directory:directory.html.twig', 
                             array("listProducts" => $listProducts, "slug" => $slug));      
 
-        // return $this->render('::directory/directory.html.twig', array("elementList" => $elementList, 
+        // return $this->render('@core/directory/directory.html.twig', array("elementList" => $elementList, 
         //                                                        "geocodeResponse" => $geocodeResponse, 
         //                                                        "listProducts" => $listProducts, 
         //                                                        "slug" => $slug));        
