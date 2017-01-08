@@ -56,7 +56,7 @@ export enum AppStates
 	ShowDirections,
 	Constellation,
 	StarRepresentationChoice    
-	}
+}
 
 export class AppModule
 {		
@@ -246,7 +246,7 @@ export class AppModule
 		// but we're not interessed in this idling
 		if ( this.isShowingInfoBarComponent ) return;
 
-		console.log("not ready to work", this.readyToWork);
+		console.log("Ready to work : ", this.readyToWork);
 		if (!this.readyToWork) return; 
 
 		let updateInAllElementList = true;
