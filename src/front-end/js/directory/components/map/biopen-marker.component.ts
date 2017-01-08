@@ -9,6 +9,7 @@
  */
 import { AppModule, AppStates } from "../../app.module";
 import { drawLineBetweenPoints } from "./map-drawing";
+import { Element } from "../../classes/element.class";
 
 declare let App : AppModule;
 declare let $;
@@ -34,25 +35,10 @@ export class BiopenMarker
 		} 
 
 		this.richMarker_ = L.marker(position_);	
-		
-		//this.richMarker_.checkCluster = true;
-	
+			
 		this.richMarker_.on('click', (ev) =>
 		{
-			App.setTimeoutClicking();
-
-			if (this.isHalfHidden_) App.setState(AppStates.Normal);	
-
-			App.infoBarComponent.showElement(this.id_);
-
-			if (App.state == AppStates.StarRepresentationChoice)
-			{
-				//App.SRCModule().selectElementById(this.id_);
-			}
-
-			//ev.preventDefault();
-			//ev.stopPropagation();			
-			//event.preventDefault();
+			App.handleMarkerClick(this);	
   		});
 
 	
@@ -115,11 +101,6 @@ export class BiopenMarker
 		}
 
 		let productsToDisplay = element.getProductsNameToDisplay();
-
-		// let content = document.createElement("div");
-		// domMarker.addClass("marker-wrapper");
-		// domMarker.addClass(element.type);
-		// domMarker.attr('id',"marker-"+this.id_);
 
 		let disableMarker = false;
 		// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
@@ -284,7 +265,6 @@ export class BiopenMarker
 		});
 
 		this.isHalfHidden_ = true;
-		//this.richMarker_.checkCluster = false;
 	};
 
 	showNormalHidden () 
@@ -294,33 +274,22 @@ export class BiopenMarker
 		domMarker.css('z-index','10');
 		domMarker.find('.icon-plus-circle').removeClass("halfHidden");
 		domMarker.find('.moreIconContainer').removeClass("halfHidden");
+		
 		if (this.polyline_) this.setPolylineOptions({
 				strokeOpacity: 0.7,
 				strokeWeight: 3
 		});
 
-			/*this.polyline_.setOptions({
-			strokeOpacity: 0.5
-		});*/
 		this.isHalfHidden_ = false;
-		//this.richMarker_.checkCluster = true;
 	};
 
-	getId () 
-	{	
-		return this.id_;
-	};
+	getId () : number { return this.id_; };
 
-	getRichMarker () 
-	{	
-		return this.richMarker_;
-	};
+	getRichMarker () : L.Marker { return this.richMarker_; };
 
-	getElement () 
-	{	
-		return App.elementModule.getElementById(this.id_);
-		//return this.element_;
-	};
+	isHalfHidden() : boolean { return this.isHalfHidden_; }
+
+	getElement () : Element { return App.elementModule.getElementById(this.id_); };
 
 	checkPolylineVisibility_ (context) 
 	{		
@@ -339,29 +308,20 @@ export class BiopenMarker
 	show () 
 	{	
 		this.richMarker_.addTo(App.map());
-		//this.richMarker2_.addTo(App.map());
-		//this.richMarker_.setVisible(true);
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{	
 		this.richMarker_.remove();
-		//this.richMarker2_.remove();
-		//this.richMarker_.setVisible(false);
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
 
-	// getVisible () 
-	// {	
-	// 	return this.richMarker_.getVisible();
-	// };
-
-	setVisible (bool) 
+	setVisible (bool : boolean) 
 	{	
 		//this.richMarker_.setVisible(bool);
-		if (bool) this.richMarker_.addTo(App.map());
-		else this.richMarker_.remove();
+		if (bool) this.show();
+		else this.hide();
 	};
 
 	getPosition () : L.LatLng
