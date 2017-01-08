@@ -1,0 +1,3 @@
+biopen_backoffice_home:
+    path:     /
+    defaults: { _controller: BiopenBackOfficeBundle:Default:index }
