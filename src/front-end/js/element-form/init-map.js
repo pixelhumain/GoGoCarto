@@ -51,7 +51,7 @@ function initMap()
 
 	marker.addListener('dragend', function() 
 	{
-	    $('#input-latitude').attr('value',marker.getPosition().lat());
+	   $('#input-latitude').attr('value',marker.getPosition().lat());
 		$('#input-longitude').attr('value',marker.getPosition().lng());	
     });
 }
