@@ -12,6 +12,7 @@ declare let originalUrlSlug;
 declare let window, Routing : any;
 
 declare var $;
+import * as L from "leaflet";
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
@@ -20,7 +21,7 @@ import { DisplayElementAloneModule } from "./modules/display-element-alone.modul
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
 import { InfoBarComponent } from "./components/info-bar.component";
-import { MapComponent, initMap } from "./components/map/map.component";
+import { MapComponent } from "./components/map/map.component";
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
@@ -29,15 +30,11 @@ import { initializeSearchBar } from "../commons/search-bar.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 
-//var App = new AppModule(false); 
-// var App = new AppModule(constellationMode, originalUrlSlug); 
-
-declare var App, googleLoaded;
-
+declare var App;
 
 $(document).ready(function()
 {	
-	App = new AppModule(false); 
+   App = new AppModule();
 
    initializeDirectoryMenu();
    initializeAppInteractions();
@@ -50,7 +47,8 @@ $(document).ready(function()
 	};
 });
 
-export enum AppStates {
+export enum AppStates 
+{
     Normal,
     ShowElement,
     ShowElementAlone,
@@ -60,9 +58,7 @@ export enum AppStates {
 }
 
 export class AppModule
-{	
-	constellationMode_ : boolean = false;
-	
+{		
 	geocoderModule_ = new GeocoderModule();
 	filterModule_ = new FilterModule();
 	elementsModule_ = new ElementsModule([]);
@@ -74,33 +70,25 @@ export class AppModule
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
+	// curr state of the app
 	currState_ : AppStates = null;	
-
-	old_zoom = -1;
 
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
 	// few milliseconds so the map don't do anything is click event
 	isClicking_ = false;
 
+	// when all app initialisations are done
 	readyToWork = false;
 
-	// prevent updateelementList while the action is just
-	//showing element details
+	// prevent updateElementList while the action is just
+	// showing element details
 	isShowingInfoBarComponent_ = false;
 
 	maxElementsToShowOnMap_ = 1000;	
 
-	constructor(constellationMode)
+	constructor()
 	{
-		this.constellationMode_ = constellationMode;	
-
-		//this.mapComponent.init();
-
-		//check initial (si des checkbox ont été sauvegardées par le navigateur)
-		$('.product-checkbox, .element-checkbox').trigger("change");
-		this.updateMaxElements();	
-
 		this.infoBarComponent_.onShow.do( (elementId) => { this.handleInfoBarShow(elementId); });
   		this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
 	
@@ -117,47 +105,122 @@ export class AppModule
 		this.checkInitialState();
 	}
 
-	// if (constellationMode)
-	// {
-	// 	constellation_ = new Constellation(constellationRawJson);	
-	// 	elementsModule_ = new ElementModule(elementListJson);
-	// 	markerModule_ = new MarkerModule();
-	//  listElementModule_ = constellationMode ? new ListElementModule() : null;			
-	// }
-	// else
-	// {
-	// 	constellation_ = null;	
-	// 	elementsModule_ = new ElementsModule(elementListJson);
-	// 	markerModule_ = null;			
-	// }	
-
-
 	initializeMapFeatures()
 	{	
 		//this.directionsModule_ = new DirectionsModule();
 	};
 
+	checkInitialState()
+	{
+		// CHECK state from Url
+		let GET : any = getQueryParams(document.location.search);
 
-	updateMaxElements() 
-	{ 
-		this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#directory-content-map').width() * $('#directory-content-map').height() / 1000), 1000);
-		//window.console.log("setting max elements " + this.maxElementsToShowOnMap_);
+		if (GET.id) 
+		{
+			this.mapComponent.init();
+			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);
+			this.readyToWork = true;		
+		}
+		else if (GET.directions) 
+		{
+			this.setState(AppStates.ShowDirections,{id: GET.directions},true);
+			this.readyToWork = true;			
+		}
+		else
+		{
+			this.setState(AppStates.Normal);
+			this.geocoderModule_.geocodeAddress(
+				originalUrlSlug, 
+				(results) => 
+				{ 
+					this.mapComponent.init();
+					this.mapComponent.updateMapLocation(results[0]);
+					this.mapComponent.fitBounds(results[0].getBounds(), false);					
+					this.updateState();
+					this.updateDocumentTitle_();
+
+					console.log("geocoding done, get elements around");
+					this.ajaxModule.getElementsAroundLocation();
+					this.readyToWork = true;					
+				}	
+			);			
+		}
+	};	
+
+	setState(stateName, options : any = {}, backFromHistory = false) 
+	{ 	
+		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
+
+		let oldStateName = this.currState_;
+		this.currState_ = stateName;
+
+		let element = options.id ? this.elementById(options.id) : null;
+
+		/*if (oldStateName == stateName)
+		{
+			this.updateDocumentTitle_(stateName, element);
+			return;
+		} */	
+
+		if (stateName != AppStates.ShowDirections && this.directionsModule_) 
+			this.directionsModule_.clear();
+		
+		switch (stateName)
+		{
+			case AppStates.ShowElement:				
+				break;	
+
+			case AppStates.ShowElementAlone:
+				if (element)
+				{
+					this.DPAModule.begin(element.id);
+				}
+				else
+				{
+					this.ajaxModule_.getElementById(options.id,
+						(elementJson) => {
+							this.elementModule.addJsonElements([elementJson], true);
+							this.DPAModule.begin(elementJson.id); 
+						},
+						(error) => { /*TODO*/ alert("No element with this id"); }
+					);						
+				}			
+										
+				break;
+
+			case AppStates.ShowDirections:
+				if (!options.id) return;			
+				
+				let origin;
+				if (this.currState_ == AppStates.Constellation)
+				{
+					origin = this.constellation.getOrigin();
+				}
+				else
+				{
+					origin = this.map().location;
+				}
+				// got to map tab if actions triggered from list_tab
+				$('#directory-content-map_tab').trigger("click");
+				
+				this.directionsModule_.calculateRoute(origin, element.position); 
+				this.displayElementAloneModule_.begin(options.id, false);									
+				break;
+
+			case AppStates.Normal:			
+				// if (this.currState_ == AppStates.Constellation) 
+				// {
+				// 	clearDirectoryMenu();
+				// 	this.starRepresentationChoiceModule_.end();
+				// }
+				
+				this.displayElementAloneModule_.end();						
+				break;
+		}
+
+		this.updateDocumentTitle_();
+		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 	};
-
-	setTimeoutClicking() 
-	{ 
-		this.isClicking_ = true;
-		let that = this;
-		setTimeout(function() { that.isClicking_ = false; }, 100); 
-	};
-
-	setTimeoutInfoBarComponent() 
-	{ 
-		this.isShowingInfoBarComponent_ = true;
-		let that = this;
-		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
-	}
-
 
 	handleMapIdle()
 	{
@@ -166,7 +229,8 @@ export class AppModule
 		// but we're not interessed in this idling
 		if ( this.isShowingInfoBarComponent ) return;
 
-		if (!this.readyToWork) { console.log("not ready to work"); return; };
+		console.log("not ready to work", this.readyToWork);
+		if (!this.readyToWork) return; 
 
 		let updateInAllElementList = true;
 		let forceRepaint = false;
@@ -231,114 +295,31 @@ export class AppModule
 		
 	// };
 
-
-	checkInitialState()
-	{
-		// CHECK si un type de element est d?j? donn? dans l'url
-		let GET : any = getQueryParams(document.location.search);
-		if (GET.id) 
-		{
-			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);
-			this.readyToWork = true;		
-		}
-		else if (GET.directions) 
-		{
-			this.setState(AppStates.ShowDirections,{id: GET.directions},true);
-			this.readyToWork = true;			
-		}
-		else
-		{
-			this.setState(AppStates.Normal);
-			this.geocoderModule_.geocodeAddress(
-				originalUrlSlug, 
-				(results) => 
-				{ 
-					this.mapComponent.init();
-					this.mapComponent.updateMapLocation(results[0]);
-					this.mapComponent.fitBounds(results[0].getBounds(), false);					
-					this.updateState();
-					this.updateDocumentTitle_();
-
-					this.ajaxModule.getElementsAroundLocation();
-					this.readyToWork = true;					
-				}	
-			);			
-		}
+	updateMaxElements() 
+	{ 
+		this.maxElementsToShowOnMap_ = Math.min(Math.floor($('#directory-content-map').width() * $('#directory-content-map').height() / 1000), 1000);
+		//window.console.log("setting max elements " + this.maxElementsToShowOnMap_);
 	};
 
-	setState(stateName, options : any = {}, backFromHistory = false) 
-	{ 	
-		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
-
-		let oldStateName = this.currState_;
-		this.currState_ = stateName;
-
-		let element = options.id ? this.elementById(options.id) : null;
-
-		/*if (oldStateName == stateName)
-		{
-			this.updateDocumentTitle_(stateName, element);
-			return;
-		} */	
-
-		if (stateName != AppStates.ShowDirections && this.directionsModule_) 
-			this.directionsModule_.clear();
-		
-		switch (stateName)
-		{
-			case AppStates.ShowElement:				
-				break;	
-
-			case AppStates.ShowElementAlone:
-				if (element)
-				{
-					this.DPAModule.begin(element.id);
-				}
-				else
-				{
-					this.ajaxModule_.onNewElement.do( (elementJson) =>
-					{ 
-						this.elementModule.addJsonElements([elementJson], true);
-						this.DPAModule.begin(elementJson.id); 
-					});
-					this.ajaxModule_.getElementById(options.id);
-				}			
-										
-				break;
-
-			case AppStates.ShowDirections:
-				if (!options.id) return;			
-				
-				let origin;
-				if (this.constellationMode)
-				{
-					origin = this.constellation.getOrigin();
-				}
-				else
-				{
-					origin = this.map().location;
-				}
-				// got to map tab if actions triggered from list_tab
-				$('#directory-content-map_tab').trigger("click");
-				
-				this.directionsModule_.calculateRoute(origin, element.position); 
-				this.displayElementAloneModule_.begin(options.id, false);									
-				break;
-
-			case AppStates.Normal:			
-				// if (this.constellationMode_) 
-				// {
-				// 	clearDirectoryMenu();
-				// 	this.starRepresentationChoiceModule_.end();
-				// }
-				
-				this.displayElementAloneModule_.end();						
-				break;
-		}
-
-		this.updateDocumentTitle_();
-		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
+	setTimeoutClicking() 
+	{ 
+		this.isClicking_ = true;
+		let that = this;
+		setTimeout(function() { that.isClicking_ = false; }, 100); 
 	};
+
+	setTimeoutInfoBarComponent() 
+	{ 
+		this.isShowingInfoBarComponent_ = true;
+		let that = this;
+		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
+	}
+
+
+
+	
+
+	
 
 	updateState()
 	{
@@ -350,7 +331,7 @@ export class AppModule
 	{
 		let route = "";
 		
-		if (!this.constellationMode_)
+		if (this.currState_ != AppStates.Constellation)
 		{
 			route = this.updateRouting_(options);
 		}
@@ -414,8 +395,7 @@ export class AppModule
 	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
 
 	get constellation() { return null; }
-	// Private
-	get constellationMode() { return this.constellationMode_; };
+
 	get isClicking() { return this.isClicking_; };
 	get isShowingInfoBarComponent() : boolean { return this.isShowingInfoBarComponent_; };
 	get maxElements() { return this.maxElementsToShowOnMap_; };

@@ -7,11 +7,10 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import { AppModule } from "../app.module";
+import { AppModule, AppStates } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
 declare let App : AppModule;
-declare let google : any;
 declare var $;
 declare let Twig : any;
 declare let twigJs_elementInfo : any;
@@ -20,7 +19,7 @@ export class Element
 {	
 	readonly id : number;
 	readonly name : string;
-	readonly position : any;
+	readonly position : L.LatLng;
 	readonly address : string;
 	readonly description : string;
 	readonly tel : string;
@@ -57,7 +56,7 @@ export class Element
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
-		this.position = [elementJson.latlng.latitude, elementJson.latlng.longitude];
+		this.position = L.latLng(elementJson.latlng.latitude, elementJson.latlng.longitude);
 		this.address = elementJson.adresse;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
@@ -119,7 +118,7 @@ show()
 
 hide() 
 {		
-	this.biopenMarker_.hide();
+	if (this.biopenMarker_) this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
 	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
@@ -129,7 +128,7 @@ hide()
 
 updateProductsRepresentation() 
 {		
-	if (!App.constellationMode) return;
+	if (App.state !== AppStates.Constellation) return;
 
 	// let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
 	// if (this.isProducteurOrAmap())
@@ -159,7 +158,7 @@ updateProductsRepresentation()
 
 getHtmlRepresentation() 
 {	
-	//let starNames = App.constellationMode ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
+	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 	let starNames : any[] = [] ;
 
 	this.distance = App.mapComponent.distanceFromLocationTo(this.position);
@@ -171,7 +170,7 @@ getHtmlRepresentation()
 				{
 					element : this, 
 					horaires : this.getFormatedHoraires(), 
-					constellationMode: App.constellationMode, 
+					constellationMode: App.state == AppStates.Constellation, 
 					productsToDisplay: this.getProductsNameToDisplay(), 
 					starNames : starNames 
 				});

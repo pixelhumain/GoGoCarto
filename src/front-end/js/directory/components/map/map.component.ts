@@ -6,15 +6,7 @@ import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
 
 declare let App : AppModule;
-declare let initRichMarker, google;
 declare var $;
-declare var L;
-
-// triggered when google maps scripts are loaded
-export function initMap()
-{
-	App.mapComponent.init();	
-}
 
 export class MapComponent
 {
@@ -22,14 +14,15 @@ export class MapComponent
 	onClick = new Event<any>();
 	onIdle = new Event<any>();
 
-	map_ = null;
+	map_ : L.Map = null;
 	clusterer_ = null;
-	isInitialized_ = false;
+	isInitialized : boolean = false;
+	isMapInitialized : boolean = false;
 	oldZoom = -1;
 
-	locationSlug = '';
-	location : any = [];
-	locationAddress = '';
+	locationSlug : string = '';
+	location : L.LatLng = null;
+	locationAddress : string = '';
 
 	getMap(){ return this.map_; }; 
 	getClusterer() { return this.clusterer_; };
@@ -41,12 +34,21 @@ export class MapComponent
 		//initRichMarker();
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
 
-		this.map_ = L.map('directory-content-map');//.setView([46.897045, 2.425235], 6);
+		this.map_ = L.map('directory-content-map', {
+		    zoomControl: false
+		    //... other options
+		});
+
+		L.control.zoom({
+		   position:'topright'
+		}).addTo(this.map_);
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
 		
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => { this.onIdle.emit(); });
+
+		this.map_.on('load', (e) => { this.isMapInitialized = true; });
 		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
 	   $('#directory-spinner-loader').hide();
@@ -54,12 +56,14 @@ export class MapComponent
 	   //this.clusterer_ = initCluster(null);
 		
 		this.onMapReady.emit();
-		this.isInitialized_ = true;
+		this.isInitialized = true;
+
+		console.log("map init done");
 	};
 
 	resize()
 	{
-		if (this.isInitialized_) this.map_.invalidateSize(true);
+		if (this.isInitialized) this.map_.invalidateSize(true);
 	}
 
 	fitBounds(rawbounds, animate = true)
@@ -74,40 +78,34 @@ export class MapComponent
 		else App.map().fitBounds(bounds);
 	}
 
-	getCenter() { return this.map_.getCenter(); }
+	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
+	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
 
-	panToLocation(location, zoom = 12)
+	panToLocation(location : L.LatLng, zoom = 12)
 	{
 		console.log("panTolocation", location);
-		// setTimeout(function() 
-		// {
-		// 	//on laisse 500ms le temps que l'animation du redimensionnement éventuel termine
-		// 	google.maps.event.trigger(this.map_, 'resize');
-		// 	//this.map_.setCenter(newLocation.toString());
-		// 	this.map_.panTo(newLocation);
-		// },500);
 
-		this.map_.flyTo(location, zoom);		
+		if (!this.isMapInitialized) this.map_.setView(location, zoom);
+		else this.map_.flyTo(location, zoom);
 	};
 
 	updateMapLocation(result)
 	{
-		this.location = result.getCoordinates();	
+		this.location = L.latLng(result.getCoordinates());	
 		this.locationAddress = result.getFormattedAddress();
 		this.locationSlug = slugify(this.locationAddress);		
 	}
 
-	mapRadiusInKm()
+	mapRadiusInKm() : number
 	{
 		if (!this.map_) return;
 		return Math.floor(this.map_.getBounds().getNorthEast().distanceTo(this.map_.getCenter()) / 1000);
 	}
 
 	// distance from last saved location to a position
-	distanceFromLocationTo(position)
+	distanceFromLocationTo(position : L.LatLng)
 	{
 		if (!this.location) return null;
-		let loc = new L.LatLng(this.location[0], this.location[1]);
-		return loc.distanceTo(position) / 1000;
+		return this.location.distanceTo(position) / 1000;
 	}
 }

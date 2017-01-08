@@ -30,7 +30,7 @@ export class InfoBarComponent
 
 		let element = App.elementModule.getElementById(elementId);
 
-		if (!App.constellationMode)
+		if (App.state !== AppStates.Constellation)
 		{
 			if (!element.isFavorite) 
 			{

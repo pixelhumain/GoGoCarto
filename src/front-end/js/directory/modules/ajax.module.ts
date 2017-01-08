@@ -72,22 +72,22 @@ export class AjaxModule
 			},
 			success: response =>
 			{	        
-			  if (response.data !== null)
-			{
-				let end = new Date().getTime();
-				window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+			  	if (response.data !== null)
+				{
+					let end = new Date().getTime();
+					window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-				this.onNewElements.emit(response.data);				
-			}
+					this.onNewElements.emit(response.data);				
+				}
 			  
-			  if (response.exceedMaxResult)
-			  {
-			  	//window.console.log("   moreElementsToReceive");
-			  	if (!this.requestWaitingToBeExecuted) 
+				if (response.exceedMaxResult)
+				{
+					//window.console.log("   moreElementsToReceive");
+					if (!this.requestWaitingToBeExecuted) 
 					{        			
 						this.getElementsAroundLocation(this.createRequest());
 					}
-			  }	        
+				}	        
 			},
 			complete: () =>
 			{
@@ -107,7 +107,7 @@ export class AjaxModule
 		});
 	};
 
-	getElementById(elementId)
+	getElementById(elementId, callbackSuccess?, callbackFailure?)
 	{
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_element_by_id');
@@ -116,16 +116,22 @@ export class AjaxModule
 			url: route,
 			method: "post",
 			data: { elementId: elementId },
-		    success: response => 
-		    {	        
-		        if (response.data !== null)
+			success: response => 
+			{	        
+				if (response.data)
 				{
 					let end = new Date().getTime();
-					window.console.log("receive element in " + (end-start) + " ms");			
+					window.console.log("receive elementById in " + (end-start) + " ms", response.data);			
 
-					this.onNewElement.emit(response.data);							
-				}	        
-		    }
+					if (callbackSuccess) callbackSuccess(response.data); 
+					//this.onNewElement.emit(response.data);							
+				}	
+				else if (callbackFailure) callbackFailure(response.data); 				       
+			},
+			error: response =>
+			{
+				if (callbackFailure) callbackFailure(response); 		
+			}
 		});
 	};
 

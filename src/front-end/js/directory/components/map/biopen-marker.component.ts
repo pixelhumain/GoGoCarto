@@ -11,20 +11,18 @@ import { AppModule, AppStates } from "../../app.module";
 import { drawLineBetweenPoints } from "./map-drawing";
 
 declare let App : AppModule;
-//declare let RichMarker, google;
-declare let L, $;
+declare let $;
 
 export class BiopenMarker
 {
 	id_ : number;
 	isAnimating_ : boolean = false;
-	richMarker_;
-	richMarker2_;
+	richMarker_ : L.Marker;
 	isHalfHidden_ : boolean = false;
 	inclination_ = "normal";
 	polyline_;
 
-	constructor(id_, position_) 
+	constructor(id_ : number, position_ : L.LatLng) 
 	{
 		this.id_ = id_;
 
@@ -35,12 +33,9 @@ export class BiopenMarker
 			else position_ = element.position;
 		} 
 
-		this.richMarker_ = new L.marker(position_);
-		//this.richMarker2_ = new L.marker(position_);		
+		this.richMarker_ = L.marker(position_);	
 		
-		//this.richMarker_.setVisible(false);
-
-		this.richMarker_.checkCluster = true;
+		//this.richMarker_.checkCluster = true;
 	
 		this.richMarker_.on('click', (ev) =>
 		{
@@ -56,8 +51,7 @@ export class BiopenMarker
 			}
 
 			//ev.preventDefault();
-			//ev.stopPropagation();
-			
+			//ev.stopPropagation();			
 			//event.preventDefault();
   		});
 
@@ -74,7 +68,7 @@ export class BiopenMarker
 			this.showNormalSize();
 		});
 
-		// if (App.constellationMode)
+		// if (App.state == AppStates.Constellation)
 		// {
 		// 	google.maps.event.addListener(this.richMarker_, 'visible_changed', () => 
 		// 	{ 
@@ -104,7 +98,7 @@ export class BiopenMarker
 	{		
 		let element = this.getElement();
 
-		if (App.constellationMode)
+		if (App.state == AppStates.Constellation)
 		{
 			// POLYLINE TYPE
 			let lineType;
@@ -143,7 +137,7 @@ export class BiopenMarker
 	    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
 
 	    let showMoreIcon = true;
-	    if (App.constellationMode) showMoreIcon = element.isProducteurOrAmap();
+	    if (App.state == AppStates.Constellation) showMoreIcon = element.isProducteurOrAmap();
 
 	    if (nbreOthersProducts > 0 && showMoreIcon)
 	    {
@@ -173,12 +167,7 @@ export class BiopenMarker
 	     
 	    innerHTML += '</div></div>';
 
-	    //content.innerHTML = innerHTML;
-
-	  	this.richMarker_.setIcon(new L.divIcon({className: 'leaflet-marker-container', html:innerHTML}));	
-
-	  	if (this.id_ % 2 == 0) this.inclinateRight();
-		else this.inclinateLeft();
+	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html:innerHTML}));	
 
 	  	if (this.inclination_ == "right") this.inclinateRight();
 	  	if (this.inclination_ == "left") this.inclinateLeft();
@@ -270,16 +259,16 @@ export class BiopenMarker
 		
 	updatePolyline (options) 
 	{
-		if (!this.polyline_)
-		{
-			this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, null, options);
-		}
-		else
-		{		
-			let map = this.polyline_.getMap();
-			this.polyline_.setMap(null);
-			this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, map, options);	
-		}
+		// if (!this.polyline_)
+		// {
+		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, null, options);
+		// }
+		// else
+		// {		
+		// 	let map = this.polyline_.getMap();
+		// 	this.polyline_.setMap(null);
+		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, map, options);	
+		// }
 	};
 
 	showHalfHidden () 
@@ -295,7 +284,7 @@ export class BiopenMarker
 		});
 
 		this.isHalfHidden_ = true;
-		this.richMarker_.checkCluster = false;
+		//this.richMarker_.checkCluster = false;
 	};
 
 	showNormalHidden () 
@@ -314,7 +303,7 @@ export class BiopenMarker
 			strokeOpacity: 0.5
 		});*/
 		this.isHalfHidden_ = false;
-		this.richMarker_.checkCluster = true;
+		//this.richMarker_.checkCluster = true;
 	};
 
 	getId () 
@@ -352,7 +341,7 @@ export class BiopenMarker
 		this.richMarker_.addTo(App.map());
 		//this.richMarker2_.addTo(App.map());
 		//this.richMarker_.setVisible(true);
-		if (App.constellationMode) this.polyline_.setMap(App.map());
+		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
@@ -360,7 +349,7 @@ export class BiopenMarker
 		this.richMarker_.remove();
 		//this.richMarker2_.remove();
 		//this.richMarker_.setVisible(false);
-		if (App.constellationMode) this.polyline_.setMap(null);
+		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
 
 	// getVisible () 
@@ -375,9 +364,9 @@ export class BiopenMarker
 		else this.richMarker_.remove();
 	};
 
-	getPosition () 
+	getPosition () : L.LatLng
 	{	
-		return this.richMarker_.getPosition();
+		return this.richMarker_.getLatLng();
 	};
 }
 

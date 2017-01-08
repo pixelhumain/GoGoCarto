@@ -19,7 +19,15 @@ export class DisplayElementAloneModule
 
 	begin(elementId : number, panToElementLocation : boolean = true) 
 	{	
-		window.console.log("DisplayElementAloneModule begin", panToElementLocation);
+		console.log("DisplayElementAloneModule begin", panToElementLocation);
+
+		let element = App.elementById(elementId);
+		this.elementShownAlone_ = element;			
+
+		if (panToElementLocation)
+		{
+			App.mapComponent.panToLocation(element.position, 12);
+		}
 
 		if (this.elementShownAlone_ !== null) 
 		{
@@ -27,31 +35,24 @@ export class DisplayElementAloneModule
 			this.elementShownAlone_.isShownAlone = false;
 		}
 
-		// if (App.constellationMode) App.elementModule.focusOnThesesElements([element.id]);
+		// if (App.state == AppStates.Constellation) App.elementModule.focusOnThesesElements([element.id]);
 		// else 
 		// {
 		App.elementModule.clearMarkers();
-		//}	
-		
-		let element = App.elementById(elementId);
-		this.elementShownAlone_ = element;
+		//}			
+
 		element.show();	
 		element.isShownAlone = true;
 
 		App.infoBarComponent.showElement(element.id);
-
-		if (panToElementLocation)
-		{
-			App.mapComponent.panToLocation(element.position, 12);
-		}
 	};
 
 	end () 
-	{	
+	{
 
 		if (this.elementShownAlone_ === null) return;
 
-		// if (App.constellationMode) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
+		// if (App.state == AppStates.Constellation) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 		// else 
 		// {
 			this.elementShownAlone_.hide();

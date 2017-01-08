@@ -67,7 +67,7 @@ function createListenersForElementMenu(object)
 	});
 	object.find('.icon-directions').click(function() 
 	{
-		if (!App.constellationMode && !App.map().location)
+		if (App.state !== AppStates.Constellation && !App.map().location)
 		{
 			$('#modal-pick-address').openModal();
 		}

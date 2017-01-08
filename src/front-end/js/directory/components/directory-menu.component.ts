@@ -42,6 +42,9 @@ export function initializeDirectoryMenu()
 		//console.log("title checkbox change");
 		App.elementModule.updateElementToDisplay(isChecked);
 	});	
+
+	//check initial (si des checkbox ont été sauvegardées par le navigateur)
+	//$('.product-checkbox, .element-checkbox').trigger("change");
 }
 
 function checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
