@@ -14,6 +14,9 @@ import { Element } from "../../classes/element.class";
 declare let App : AppModule;
 declare let $;
 
+declare let Twig : any;
+declare let biopen_twigJs_marker : any;
+
 export class BiopenMarker
 {
 	id_ : number;
@@ -84,71 +87,39 @@ export class BiopenMarker
 	{		
 		let element = this.getElement();
 
+		let disableMarker = false;
+		let showMoreIcon = true;
+
 		if (App.state == AppStates.Constellation)
 		{
 			// POLYLINE TYPE
 			let lineType;
+
 			if (element.starChoiceForRepresentation === '')
 			{
-				lineType = AppStates.Normal;
+				lineType = AppStates.Normal;				
 			}
 			else
 			{			
 				lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
+				// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
+				disableMarker = !element.isCurrentStarChoiceRepresentant();
 			}		
 
 			this.updatePolyline({lineType: lineType});
+
+			showMoreIcon = element.isProducteurOrAmap();
 		}
 
-		let productsToDisplay = element.getProductsNameToDisplay();
+		let htmlMarker = Twig.render(biopen_twigJs_marker, 
+		{
+			element : element, 
+			productsToDisplay: element.getProductsNameToDisplay(), 
+			showMoreIcon : showMoreIcon,
+			disableMarker : disableMarker
+		});
 
-		let disableMarker = false;
-		// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
-		if (element.starChoiceForRepresentation !== '') 
-			disableMarker = !element.isCurrentStarChoiceRepresentant();
-
-		//if (disableMarker) domMarker.addClass("disabled");
-
-		let disableMainIcon = productsToDisplay.main.disabled ? 'disabled' : '';	
-
-		let innerHTML = `<div class="marker-wrapper ${element.type}" id="marker-${this.id_}">`;
-		innerHTML += '<div class="rotate animate icon-marker"></div>';
-	    innerHTML += '<div class="iconInsideMarker-wrapper rotate"><div class="iconInsideMarker '+disableMainIcon+' icon-'+productsToDisplay.main.value+'"></div></div>';
-	    
-	    let widthMoreProduct, nbreOthersProducts = productsToDisplay.others.length;
-
-	    let showMoreIcon = true;
-	    if (App.state == AppStates.Constellation) showMoreIcon = element.isProducteurOrAmap();
-
-	    if (nbreOthersProducts > 0 && showMoreIcon)
-	    {
-	    	widthMoreProduct = nbreOthersProducts*39 + 5;    	
-
-	    	innerHTML += '<div class="icon-plus-circle animate rotate"></div>';
-	    	innerHTML += '<div class="moreIconContainer animate rotate" style="width:'+widthMoreProduct+'px">';
-	    	
-	    	let productName, disableProduct;
-
-		    for(let i = 0; i < nbreOthersProducts;i++)
-			{
-				productName = productsToDisplay.others[i].value;
-				disableProduct = productsToDisplay.others[i].disabled ? 'disabled' : '';
-				innerHTML += '<div class="moreIconWrapper '+disableProduct+'" >';
-				innerHTML += '<span class="moreIcon iconInsideMarker '+disableProduct+' icon-'+productName+'"></span>';
-		    	innerHTML += '</div>';
-		    }
-
-			innerHTML += '</div>';
-	    } 
-
-	    if (element.isFavorite)
-	    {
-	    	innerHTML += '<div class="icon-star-full animate rotate"></div>';
-	    }    
-	     
-	    innerHTML += '</div></div>';
-
-	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html:innerHTML}));	
+	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
 	  	if (this.inclination_ == "right") this.inclinateRight();
 	  	if (this.inclination_ == "left") this.inclinateLeft();
