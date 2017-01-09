@@ -9,35 +9,46 @@ import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 declare let App : AppModule;
 declare var $;
 
+/**
+* The Map Component who encapsulate the map
+*
+* MapComponent publics methods must be as independant as possible
+* from technology used for the map (google, leaflet ...)
+*
+* Map component is like an interface between the map and the rest of the App
+*/
 export class MapComponent
 {
 	onMapReady = new Event<any>();
 	onClick = new Event<any>();
 	onIdle = new Event<any>();
 
+	//Leaflet map
 	map_ : L.Map = null;
-	clusterer_ = null;
-	isInitialized : boolean = false;
 	isMapInitialized : boolean = false;
+
+	clusterer_ = null;
 	oldZoom = -1;
 
-	locationSlug : string = '';
+	// the location is the "origin" of the map, meaning the last
+	// geocode result from asearch action
 	location : L.LatLng = null;
+	locationSlug : string = '';	
 	locationAddress : string = '';
 
 	getMap(){ return this.map_; }; 
+	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
+	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
 	getClusterer() { return this.clusterer_; };
 	getZoom() { return this.map_.getZoom(); }
 	getOldZoom() { return this.oldZoom; }
 
 	init() 
 	{	
-		//initRichMarker();
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
 
 		this.map_ = L.map('directory-content-map', {
 		    zoomControl: false
-		    //... other options
 		});
 
 		L.control.zoom({
@@ -47,26 +58,31 @@ export class MapComponent
 		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
 		
 		this.map_.on('click', (e) => { this.onClick.emit(); });
-		this.map_.on('moveend', (e) => { this.onIdle.emit(); });
-
+		this.map_.on('moveend', (e) => 
+		{ 
+			this.oldZoom = this.map_.getZoom()
+			this.onIdle.emit(); 
+		});
 		this.map_.on('load', (e) => { this.isMapInitialized = true; });
+
 		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
+		// Hides the loading animation
 	   $('#directory-spinner-loader').hide();
 
 	   //this.clusterer_ = initCluster(null);
 		
 		this.onMapReady.emit();
-		this.isInitialized = true;
 
 		console.log("map init done");
 	};
 
 	resize()
 	{
-		if (this.isInitialized) this.map_.invalidateSize(true);
+		if (this.map_) this.map_.invalidateSize(true);
 	}
 
+	// fit map view to bounds
 	fitBounds(rawbounds : RawBounds, animate : boolean = true)
 	{
 		console.log("fitbounds", rawbounds);
@@ -82,10 +98,7 @@ export class MapComponent
 		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
 		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
 		return L.latLngBounds(corner1, corner2);
-	}
-
-	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
-	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
+	}	
 
 	panToLocation(location : L.LatLng, zoom = 12)
 	{
@@ -95,6 +108,7 @@ export class MapComponent
 		else this.map_.flyTo(location, zoom);
 	};
 
+	// update map location with geocode result
 	updateMapLocation(result : GeocodeResult)
 	{
 		this.location = L.latLng(result.getCoordinates());	
@@ -102,6 +116,7 @@ export class MapComponent
 		this.locationSlug = slugify(this.locationAddress);		
 	}
 
+	// the actual displayed map radius (distance from croner to center)
 	mapRadiusInKm() : number
 	{
 		if (!this.map_) return;
