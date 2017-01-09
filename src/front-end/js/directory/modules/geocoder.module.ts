@@ -3,7 +3,6 @@ declare let App : AppModule;
 declare var L;
 
 import { AppModule } from "../app.module";
-//import { Event, IEvent } from "../utils/event";
 
 export interface GeocodeResult
 {
@@ -15,9 +14,12 @@ export interface GeocodeResult
 // south, west, north, east
 export type RawBounds = [number, number, number, number];
 
+/**
+* Interface between GeocoderJS and the App
+* Allow to change geocode technology without changing code in the App
+*/
 export class GeocoderModule
 {
-	//onResult = new Event<any>();
 	geocoder : any = null;
 	
 	constructor()
@@ -34,9 +36,7 @@ export class GeocoderModule
 		{			
 			if (results !== null) 
 			{
-				if (callbackComplete) callbackComplete(results);				
-				
-				//this.onResult.emit(results);
+				if (callbackComplete) callbackComplete(results);	
 			} 	
 			else
 			{
@@ -44,6 +44,4 @@ export class GeocoderModule
 			}
 		});
 	};
-
-
 }

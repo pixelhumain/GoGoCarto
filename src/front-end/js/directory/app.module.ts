@@ -33,6 +33,9 @@ import { getQueryParams, capitalize } from "../commons/commons";
 
 declare var App;
 
+/**
+* App initialisation when document ready
+*/
 $(document).ready(function()
 {	
    App = new AppModule();
@@ -42,12 +45,17 @@ $(document).ready(function()
    initializeElementMenu();
    initializeSearchBar();
 
-   window.onpopstate = function(event) {
+   // Gets history state from browser
+   window.onpopstate = (event) =>
+   {
 	  window.console.log("OnpopState ", event);
 	  this.setState(event.state.name,event.state.options,true);
 	};
 });
 
+/*
+* App states names
+*/
 export enum AppStates 
 {
 	Normal,
@@ -58,6 +66,11 @@ export enum AppStates
 	StarRepresentationChoice    
 }
 
+/*
+* App Module. Main module of the App
+*
+* AppModule creates all others modules, and deals with theirs events
+*/
 export class AppModule
 {		
 	geocoderModule_ = new GeocoderModule();
@@ -86,6 +99,8 @@ export class AppModule
 	// showing element details
 	isShowingInfoBarComponent_ = false;
 
+	// Put a limit of markers showed on map (markers not clustered)
+	// Because if too many markers are shown, browser slow down
 	maxElementsToShowOnMap_ = 1000;	
 
 	constructor()
@@ -111,6 +126,9 @@ export class AppModule
 		//this.directionsModule_ = new DirectionsModule();
 	};
 
+	/*
+	* Check initial state parsing the Url
+	*/
 	checkInitialState()
 	{
 		// CHECK state from Url
@@ -148,6 +166,9 @@ export class AppModule
 		}
 	};	
 
+	/*
+	* Change App state
+	*/
 	setState(stateName, options : any = {}, backFromHistory = false) 
 	{ 	
 		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
