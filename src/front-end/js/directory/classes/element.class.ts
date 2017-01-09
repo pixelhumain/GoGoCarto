@@ -13,7 +13,7 @@ import { BiopenMarker } from "../components/map/biopen-marker.component";
 declare let App : AppModule;
 declare var $;
 declare let Twig : any;
-declare let twigJs_elementInfo : any;
+declare let biopen_twigJs_elementInfo : any;
 
 export class Element 
 {	
@@ -166,14 +166,15 @@ getHtmlRepresentation()
 	this.distance = Math.round(1.2*this.distance);
 
 
-	let html = Twig.render(twigJs_elementInfo, 
-				{
-					element : this, 
-					horaires : this.getFormatedHoraires(), 
-					constellationMode: App.state == AppStates.Constellation, 
-					productsToDisplay: this.getProductsNameToDisplay(), 
-					starNames : starNames 
-				});
+	let html = Twig.render(biopen_twigJs_elementInfo, 
+	{
+		element : this, 
+		horaires : this.getFormatedHoraires(), 
+		constellationMode: App.state == AppStates.Constellation, 
+		productsToDisplay: this.getProductsNameToDisplay(), 
+		starNames : starNames 
+	});
+	
 	this.htmlRepresentation_ = html;				
 	return html;
 };
