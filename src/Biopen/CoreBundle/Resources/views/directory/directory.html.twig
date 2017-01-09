@@ -80,21 +80,21 @@
     //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
     // {% endif %}  
 
-    var App;   
-    
+    var App;       
 
   </script>
 
   {# create dynamic js template #}
   {% javascripts filter="twig_js"
-    '../src/Biopen/CoreBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'    
+    '../src/Biopen/CoreBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
+     '../src/Biopen/CoreBundle/Resources/views/directory/twig-js-templates/marker.html.twig'     
   %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
   {% endjavascripts %}
 
-  {# <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
       async defer>
-  </script>#}
+  </script>
 
 {% endblock %}
 
