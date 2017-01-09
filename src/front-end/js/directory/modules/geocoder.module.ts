@@ -5,10 +5,15 @@ declare var L;
 import { AppModule } from "../app.module";
 //import { Event, IEvent } from "../utils/event";
 
-export class GeocodeResult
+export interface GeocodeResult
 {
-
+	getCoordinates() : L.LatLngTuple;
+	getFormattedAddress() : string;	
+	getBounds() : RawBounds;
 }
+
+// south, west, north, east
+export type RawBounds = [number, number, number, number];
 
 export class GeocoderModule
 {
@@ -25,7 +30,7 @@ export class GeocoderModule
 
 		console.log("geocode address : ", address);
 
-		this.geocoder.geocode( address, (results) =>
+		this.geocoder.geocode( address, (results : GeocodeResult) =>
 		{			
 			if (results !== null) 
 			{

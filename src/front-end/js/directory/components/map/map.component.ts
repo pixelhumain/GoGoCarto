@@ -4,6 +4,7 @@ import { Event, IEvent } from "../../utils/event";
 import { initAutoCompletionForElement } from "../../../commons/search-bar.component";
 import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
+import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 
 declare let App : AppModule;
 declare var $;
@@ -66,16 +67,21 @@ export class MapComponent
 		if (this.isInitialized) this.map_.invalidateSize(true);
 	}
 
-	fitBounds(rawbounds, animate = true)
+	fitBounds(rawbounds : RawBounds, animate : boolean = true)
 	{
 		console.log("fitbounds", rawbounds);
 
-		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
-		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
-		let bounds = L.latLngBounds(corner1, corner2);
+		let bounds = this.latLngBoundsFromRawBounds(rawbounds);
 		
 		if (animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
+	}
+
+	latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
+	{
+		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
+		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
+		return L.latLngBounds(corner1, corner2);
 	}
 
 	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
@@ -89,7 +95,7 @@ export class MapComponent
 		else this.map_.flyTo(location, zoom);
 	};
 
-	updateMapLocation(result)
+	updateMapLocation(result : GeocodeResult)
 	{
 		this.location = L.latLng(result.getCoordinates());	
 		this.locationAddress = result.getFormattedAddress();
