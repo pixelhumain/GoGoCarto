@@ -1,0 +1,42 @@
+{% twig_js name="biopen_twigJs_marker" %}
+
+<div class="marker-wrapper {{ element.type }}" id="marker-{{ element.id }}">
+
+	<div class="rotate animate icon-marker"></div>
+	
+	<div class="iconInsideMarker-wrapper rotate">
+		<div class="iconInsideMarker {{ productsToDisplay.main.disabled ? 'disabled' : '' }} 				icon-{{ productsToDisplay.main.value }}">
+		</div>
+	</div>
+
+	{% set nbreOthersProducts = productsToDisplay.others.length %}	
+
+	{% if nbreOthersProducts > 0 and showMoreIcon %}
+
+		{% set widthMoreProduct = nbreOthersProducts * 39 + 5;  %}   	
+
+    	<div class="icon-plus-circle animate rotate"></div>
+
+    	<div class="moreIconContainer animate rotate" 
+    		  style="width:{{ widthMoreProduct }} px">
+    	
+			{% for otherProduct in productsToDisplay.others %}
+
+				{% set disableProduct = otherProduct.disabled ? 'disabled' : '' %}
+
+				<div class="moreIconWrapper {{ disableProduct }}">
+					<span class="moreIcon iconInsideMarker {{ disableProduct }} icon-{{ otherProduct.value }}">
+					</span>
+			 	</div>
+
+			 {% endfor %}
+
+		</div>
+
+	{% endif %}
+
+	{% if element.isFavorite %}
+		<div class="icon-star-full animate rotate"></div>
+	{% endif %}
+
+</div>
