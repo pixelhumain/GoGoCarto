@@ -9,6 +9,8 @@
     width: 0px !important;
     height: 0px !important;
     margin: 0 !important;
+
+    &:hover { z-index: 10000000 !important; }
 }
 
 .marker-wrapper
@@ -169,8 +171,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	{
 		display: inline-block;
 	    margin-left: 3px;
-	    margin-bottom: 10px;
-	    position: relative;
+	    bottom: 10px;
+	    position: absolute;
 	    width: 28px;
 	    height: 28px;
 	    font-size: 16px;
@@ -179,13 +181,11 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	    background-color: #DADAD9;
 	    border: 3px solid;
 		border-radius: 50%;
+        z-index: 10;
 
         &.disabled { color: grey };
-    	// TODO rajouter prefix border radius
-
-        
-	}
-	
+    	// TODO rajouter prefix border radius        
+	}	
 }
 
  .iconCluster
