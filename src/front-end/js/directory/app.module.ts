@@ -21,13 +21,13 @@ import { DisplayElementAloneModule } from "./modules/display-element-alone.modul
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
 import { InfoBarComponent } from "./components/info-bar.component";
+import { SearchBarComponent } from "../commons/search-bar.component";
 import { MapComponent } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
-import { initializeSearchBar } from "../commons/search-bar.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 
@@ -43,7 +43,6 @@ $(document).ready(function()
    initializeDirectoryMenu();
    initializeAppInteractions();
    initializeElementMenu();
-   initializeSearchBar();
 
    // Gets history state from browser
    window.onpopstate = (event) =>
@@ -81,6 +80,7 @@ export class AppModule
 	ajaxModule_ = new AjaxModule();
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
+	searchBarComponent = new SearchBarComponent('search-bar');
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
@@ -117,6 +117,8 @@ export class AppModule
 	
 		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+
+		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
 		
 		this.checkInitialState();
 	}
@@ -292,6 +294,24 @@ export class AppModule
 		this.setState(AppStates.Normal);
 		this.infoBarComponent.hide(); 
 	}; 
+
+	handleSearchAction(address : string)
+	{
+		console.log("handle search action", address);
+
+		this.geocoderModule_.geocodeAddress(
+			originalUrlSlug, 
+			(results) => 
+			{ 
+				this.mapComponent.updateMapLocation(results[0]);
+				this.mapComponent.fitBounds(results[0].getBounds(), false);					
+				this.updateState();
+				this.updateDocumentTitle_();
+
+				console.log("geocoding done, get elements around");	
+			}	
+		);	
+	}
 
 	handleNewElementsReceivedFromServer(elementsJson)
 	{

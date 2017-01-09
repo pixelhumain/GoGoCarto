@@ -7,29 +7,48 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-export function initializeSearchBar()
-{	
-	$('#search-bar').keyup(function(e) 
-	{    
-		if(e.keyCode == 13) // touche entrée
-		{ 			 
-			handleSearchAction();
-		}
-	});
-	$('#search-bar-icon').click(function()
-	{		
-		handleSearchAction();
-	});	
-	$('#search-bar').on("place_changed", handleSearchAction);
-}
-
-function handleSearchAction()
-{
-	var searchBar = $('#search-bar');
-	if (searchBar.val()) searchBar.trigger("search", [ searchBar.val() ]);
-}
 
 declare var google, $;
+
+import { Event, IEvent } from "../directory/utils/event";
+
+export class SearchBarComponent
+{
+	domId;
+
+	onSearch = new Event<string>();
+
+	domElement() { return $(`#${this.domId}`); }
+
+	constructor(domId : string)
+	{	
+		this.domId = domId;
+
+		// handle all validation by user (enter press, icon click...)
+		this.domElement().keyup(function(e) 
+		{    
+			if(e.keyCode == 13) // touche entrée
+			{ 			 
+				this.andleSearchAction();
+			}
+		});
+
+		this.domElement().find('#search-bar-icon').click(function()
+		{		
+			this.handleSearchAction();
+		});	
+
+		this.domElement().on("place_changed", this.handleSearchAction);
+	}
+
+	private handleSearchAction()
+	{
+		this.onSearch.emit(this.domElement().val());
+	}
+}
+
+
+
 
 export function initAutoCompletionForElement(element)
 {
