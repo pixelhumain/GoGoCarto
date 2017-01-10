@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-declare let originalUrlSlug;
+declare let initialAddressSlug;
 declare let window, Routing : any;
 
 declare var $;
@@ -151,7 +151,7 @@ export class AppModule
 		{
 			this.setState(AppStates.Normal);
 			this.geocoderModule_.geocodeAddress(
-				originalUrlSlug, 
+				initialAddressSlug, 
 				(results) => 
 				{ 
 					this.mapComponent.init();
@@ -300,7 +300,7 @@ export class AppModule
 		console.log("handle search action", address);
 
 		this.geocoderModule_.geocodeAddress(
-			originalUrlSlug, 
+			initialAddressSlug, 
 			(results) => 
 			{ 
 				this.mapComponent.updateMapLocation(results[0]);
