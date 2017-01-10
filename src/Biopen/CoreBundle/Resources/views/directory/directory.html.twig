@@ -8,6 +8,10 @@
   <link href="https://fonts.googleapis.com/css?family=Yellowtail|Average+Sans" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
+
+  <link rel="stylesheet" href="{{ asset('../../../Leaflet.markercluster/dist/MarkerCluster.css') }}"> 
+  <link rel="stylesheet" href="{{ asset('../../../Leaflet.markercluster/dist/MarkerCluster.Default.css') }}"> 
+
 {% endblock %}
 
 {# BODY CONTENT #}
@@ -67,13 +71,15 @@
   
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
+  <script src="{{ asset('../../../Leaflet.markercluster/dist/leaflet.markercluster-src.js') }}"></script>
+  
   <script>
 
     var iconDirectory = "{{ asset('assets/img/icon/') }}";
     var constellationMode = false;
     //var onlyInputAdressMode = false;
 
-    var originalUrlSlug = "{{ slug }}";
+    var initialAddressSlug = "{{ slug }}";
 
     // var geocodeResponse = null;
     // {% if geocodeResponse is defined %}
