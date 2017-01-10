@@ -43,7 +43,6 @@ export class BiopenMarker
 		{
 			App.handleMarkerClick(this);	
   		});
-
 	
 		this.richMarker_.on('mouseover', (ev) =>
 		{
@@ -278,13 +277,15 @@ export class BiopenMarker
 
 	show () 
 	{	
-		this.richMarker_.addTo(App.map());
+		App.mapComponent.addMarker(this.richMarker_);
+		//this.richMarker_.addTo(App.map());
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
-	{	
-		this.richMarker_.remove();
+	{			
+		App.mapComponent.removeMarker(this.richMarker_);
+		//this.richMarker_.remove();
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
 

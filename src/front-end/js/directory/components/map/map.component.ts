@@ -7,7 +7,7 @@ import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 
 declare let App : AppModule;
-declare var $;
+declare var $, L;
 
 /**
 * The Map Component who encapsulate the map
@@ -25,6 +25,7 @@ export class MapComponent
 
 	//Leaflet map
 	map_ : L.Map = null;
+	markerClustererGroup;
 	isMapInitialized : boolean = false;
 
 	clusterer_ = null;
@@ -50,6 +51,19 @@ export class MapComponent
 		this.map_ = L.map('directory-content-map', {
 		    zoomControl: false
 		});
+
+		this.markerClustererGroup = L.markerClusterGroup({
+		    spiderfyOnMaxZoom: true,
+		    showCoverageOnHover: false,
+		    zoomToBoundsOnClick: true,
+		    maxClusterRadius: (zoom) =>
+		    {
+		    	if (zoom > 8) return 30;
+		    	else return 100;
+		    }
+		});
+
+		this.map_.addLayer(this.markerClustererGroup);
 
 		L.control.zoom({
 		   position:'topright'
@@ -80,6 +94,16 @@ export class MapComponent
 	resize()
 	{
 		if (this.map_) this.map_.invalidateSize(true);
+	}
+
+	addMarker(marker : L.Marker)
+	{
+		this.markerClustererGroup.addLayer(marker);
+	}
+
+	removeMarker(marker : L.Marker)
+	{
+		this.markerClustererGroup.removeLayer(marker);
 	}
 
 	// fit map view to bounds
