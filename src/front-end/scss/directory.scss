@@ -8,6 +8,7 @@
 @import 'components/directory/icons';
 
 @import 'components/directory/map/marker';
+@import "components/directory/map/cluster";
 @import "components/directory/map/directions";
 @import "components/directory/map/map";
 
@@ -22,8 +23,6 @@
 //@import "components/commons/search-bar";
 @import "components/commons/auto-complete";
 @import "components/commons/scroll-bar";
-
-
 
 #directory-menu
 {
