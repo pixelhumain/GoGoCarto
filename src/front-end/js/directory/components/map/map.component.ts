@@ -53,12 +53,14 @@ export class MapComponent
 		});
 
 		this.markerClustererGroup = L.markerClusterGroup({
-		    spiderfyOnMaxZoom: true,
+		    spiderfyOnMaxZoom: false,
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
+		    spiderfyOnHover: true,
+		    spiderfyMaxCount: 8,
 		    maxClusterRadius: (zoom) =>
 		    {
-		    	if (zoom > 8) return 30;
+		    	if (zoom > 8) return 35;
 		    	else return 100;
 		    }
 		});
