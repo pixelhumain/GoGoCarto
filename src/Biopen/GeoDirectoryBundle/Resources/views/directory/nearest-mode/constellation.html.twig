@@ -1,0 +1,144 @@
+{% extends "::bundle-layout.html.twig" %}
+
+{% block title %}Constellation{% if slug is defined %} - {{ slug | capitalize }}{% endif %}{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+  <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/constellation.css') }}">  
+
+{% endblock %}
+
+
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+<div id="directory-container">
+
+  {% if constellationPhp is defined %}
+    {# La liste des products #}
+    <section id="directory-menu" class="custom-scroll-bar">  
+      {% include '::core/section-products-constellation.html.twig' %}      
+    </section>
+  {% else %}
+    <div id="div_recherche_contener" class="valign-wrapper">
+      <div id="div_recherche">
+        {% for flash_message in app.session.flashbag.get('error') %}
+            <div class="flash-error">
+                {{ flash_message | raw }}
+            </div>
+        {% endfor %}
+        {% include '@directory/directory/components/search-bar.html.twig'  %} 
+      </div> 
+    </div>  
+  {% endif %}
+
+   
+  {# La Carte et les infos element #} 
+  <section id="directory-content">
+    
+    {% include '@directory/directory/components/pick-address-for-directions.html.twig'  %}  
+    {#  PRELOADER #}
+    {% include '@directory/directory/components/directory-spinner-loader.html.twig'  %}  
+
+    <div id="map"></div>    
+
+    <div id="bandeau_helper">Pour chaque produit, le plus proche element est affiché. Plus de résultats sont accessibles depuis le menu de gauche<span id="btn-bandeau-helper-close" class='icon-close'></span></div>
+
+    <section id="element-info-bar" class="custom-scroll-bar" style="display:none">
+      <div class="starRepresentationChoice-helper">
+        <button class="btn btn-select-as-representant waves-effect waves-light">Sélectionner</button> en tant que "<span class='SRC-helper-starName'></span>" principal 
+        
+      </div> 
+      <div id="element-info"></div>
+      {% include '@directory/directory/components/element-menu.html.twig'  %}
+    </section>
+
+    <div id="menu-button"><i class='icon-menu'></i></div> 
+    <div id="overlay"></div>
+    
+  </section>  
+
+</div>
+
+
+
+{# Le bandeau qui indique qu'il y a une liste de résultat en bas #}
+{# <div id="bandeau_goToElementList">  
+  <a href='#ElementList'>
+      <i class="icon-expand"></i>
+      <span class="">Résultats sous forme de liste</span>
+      <i class="icon-expand"></i>
+  </a>
+</div> #}
+
+{# Les résultats par liste #}
+<section id="ElementList">  
+  <ul class="collapsible popout custom-scroll-bar" data-collapsible="accordion">
+    <div class="element-list-title" id="title-places">Les emplacements<div class='shadow-bottom'></div></div>
+    <div id="places-end-container"></div> 
+    <div class="element-list-title" id="title-producteurAmap" >Les producteurs & Amaps<div class='shadow-bottom'></div></div> 
+    <div id="producteurAmap-end-container"></div> 
+  </ul>
+</section>
+
+<ul class="tabs" id="bandeau_tabs">
+  <li class="tab col s6"><a id="map_tab" class="active" href="">Carte</a></li>
+  <li class="tab col s6"><a id="list_tab"href="">Liste</a></li>
+</ul>
+
+{% endblock %}
+
+{% block javascripts %}
+
+  <script>
+
+    var iconDirectory = "{{ asset('assets/img/icon/') }}"
+
+    var elementList = null;
+    {% if elementList is defined %}
+      elementListJson = {{ elementList | serialize("json") | raw }};
+    {% endif %}
+
+    var onlyInputAdressMode = false;
+    var constellationRawJson = null;
+    {% if constellationPhp is defined %}
+      constellationRawJson = {{ constellationPhp | serialize("json") | raw }};
+    {% else %}
+      onlyInputAdressMode = true;
+    {% endif %} 
+
+    var constellationMode = true;
+  </script>
+
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+  
+  <script src="{{ asset('js/libs.js') }}"></script>  
+  <script src="{{ asset('js/directory.js') }}"></script>
+ 
+  {#}
+    {% javascripts filter="twig_js" 
+    '../app/Resources/views/directory/element-info.html.twig'    
+    %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+#}
+     <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
+    </script>
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
+
+{% endblock %}
+
+{% block modals %} 
+
+  {% include '@directory/directory/components/delete-element.html.twig'  %}
+
+{% endblock %}
+

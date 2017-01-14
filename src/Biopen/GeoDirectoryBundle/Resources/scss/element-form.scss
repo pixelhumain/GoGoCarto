@@ -1,0 +1,339 @@
+@import 'base';
+
+@import 'vendors/materialize';
+@import 'vendors/timepicki';
+@import "components/commons/auto-complete";
+@import 'vendors/leaflet';
+
+body
+{
+  height: auto !important;
+}
+//   FLASHBAG
+.flash-notice
+{
+    text-align: center;
+    //margin-bottom: 2rem;
+    font-weight: 500;
+    font-style: italic;
+    background-color: #4a7874;
+    color: white;
+    padding: 1rem;
+
+    a 
+    {
+        color: white;
+        text-decoration: underline;
+        &:hover { color: $primary-color; }
+    }
+}
+
+body
+{
+  background-color: $secondary-color;
+  height: auto;
+  min-height: 100%;
+}
+
+#page-content
+{
+	position:relative;
+  margin-top: 0;
+	margin-left: auto;
+  margin-right: auto; 
+  min-height: 121px;
+	width:100%;	
+  background-color : #fafafa;
+  padding: 0; 
+  @include transition(all 1s);
+}
+
+#element-form-content
+{
+  overflow: hidden;
+  @include transition(all 3s);
+}
+
+@media screen and (min-width: 600px)
+{
+   #page-content
+   {
+     margin-top: 20px;
+     max-width: 650px;
+     width:80%;      
+  } 
+}
+
+// ---------------------------------------
+//          MISE EN PAGE GENERALE
+// --------------------------------------- 
+h2, h1
+{
+  font-weight: bold !important;
+  font-size: .95rem !important;
+  line-height: 110% !important;
+  margin: 0.5rem 0 1.3rem 0;
+  color: #3d3d3d;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+h2.error, h1.error
+{
+  font-weight: normal;
+}
+
+h2.no-margin-bottom
+{
+  margin-bottom: 0;
+}
+
+.divider {
+    height: 1rem;
+    overflow: hidden;
+    background-color: #4a7874;
+}
+
+.input-field.error .prefix.active
+{
+  color: $error-color !important;
+}
+
+.input-field label
+{
+  left: 0 !important;
+}
+
+section
+{
+  padding: 1rem;
+}
+
+#section-validate-and-send
+{
+  padding: 0 2.5rem;
+  margin-bottom: 2rem;
+}
+
+#section_vos_infos
+{
+  padding-bottom: 1rem;
+}
+
+@media screen and (min-width: 600px)
+{
+  section
+  {
+    padding: 1.5rem 2.5rem;
+  }
+}
+
+#titre-open-hourss
+{
+  margin-bottom: 0.9rem !important;
+}
+
+#element-form-title
+{
+  margin-bottom: 0px !important;
+  padding-top: 1.5rem;
+}
+
+#input-website
+{
+  margin-bottom: 2rem;
+}
+
+#type-element-label.error, .error
+{
+  color: $error-color !important;
+}
+
+#section_element
+{
+  margin-bottom: 0px;
+  height: 8rem;
+}
+
+#section_products
+{
+  .dropdown-content
+  {
+    max-height: 350px;
+  }
+
+  input[type="checkbox"].readonly  + label:before
+  {
+      border-right: 2px solid #aaa;
+      border-bottom: 2px solid #aaa;
+  }
+}
+
+
+#other-selling-point
+{
+  margin-left: 42px;
+  display:none;
+  color: rgba(0, 0, 0, 0.85);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+#captcha > div 
+{
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+#captcha-error-message
+{
+  display:none;
+  text-align: center;
+  margin: .5rem 0;
+}
+    
+
+.rc-anchor
+{
+  @include box-shadow-1(none);
+}
+
+.rc-anchor-light
+{
+  border: none !important;
+}
+
+// ---------------------------------------
+//             GOOGLE MAP
+// ---------------------------------------
+#address-preview-map
+{
+  height:13rem;
+  margin-top:1rem;
+  //border: 2px solid #D0CCCC;
+}
+
+// .gmnoprint a, .gmnoprint span, .gm-style-cc {
+//     display:none;
+// }
+// .gmnoprint div {
+//     //background:none !important;
+// }
+
+
+// ---------------------------------------
+//             TYPE PRODUIT
+// ---------------------------------------
+[type="checkbox"] + label {
+    padding-left: 26px;
+}
+
+@media screen and (min-width: 600px)
+{
+  [type="checkbox"] + label {
+      padding-left: 32px;
+  }
+}
+
+#section_vos_infos 
+{
+  margin-bottom: 0;
+}
+
+#section_vos_infos  [type="checkbox"] + label
+{
+    padding-left: 42px;
+}
+
+#precisions
+{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.label_precision
+{
+  color:#5A5959 !important;
+  font-weight: bold !important;
+}
+
+
+// ---------------------------------------
+//               HORAIRES
+// ---------------------------------------
+.horaire_2 {
+    display: none !important;
+    @include transition(all 1s);
+    opacity: 0; 
+    height: 0;
+}
+
+.horaire_2.active {
+    opacity: 1;
+    display: flex !important;
+    height: 100%;
+
+}
+
+.open-hours-day
+{
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.open-hours-container
+{
+  padding-bottom:0.8rem;  
+}
+
+.open-hours-container.impair
+{
+  background-color: #EFEFEF;
+}
+
+.timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4
+{
+  height: 2rem !important;
+  margin: 0 !important;
+}
+
+.btn-floating i {
+  color: rgb(52, 52, 52) !important;
+}
+
+.col
+{
+  padding: 0 !important;
+}
+
+.add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover
+{
+  color: $secondary-color;
+  @include transition(color 0.5s);
+}
+
+@media only screen and (max-width: 500px)
+{
+  .modal 
+  {
+      width: 90% !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

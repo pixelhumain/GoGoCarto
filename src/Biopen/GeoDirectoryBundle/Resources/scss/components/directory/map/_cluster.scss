@@ -1,0 +1,43 @@
+.marker-cluster 
+{
+    div 
+    {    
+        margin-left: 5px;
+        margin-top: 5px;
+        text-align: center;
+        border-radius: 50%;
+        font: 13px sans-serif;
+        font-weight: 600;
+        color: white;
+    }
+
+    &.marker-cluster-small div
+    {
+        width: 34px;
+        height: 34px;
+
+        background-color: rgba(243, 165, 48, 0.88);
+
+        span { line-height: 34px; }
+    }
+
+    &.marker-cluster-medium div
+    {
+        width: 38px;
+        height: 38px;
+        
+        background-color: rgba(235, 123, 45, 0.92);
+
+        span { line-height: 38px; }
+    }
+
+    &.marker-cluster-large div
+    {
+        width: 44px;
+        height: 44px;
+        
+        background-color: rgba(210, 77, 26, 0.88);
+
+        span { line-height: 44px; }
+    }
+}

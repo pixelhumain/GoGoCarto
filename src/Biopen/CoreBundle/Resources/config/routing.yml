@@ -1,15 +1,3 @@
 biopen_homepage:
     path:     /
-    defaults: { _controller: BiopenCoreBundle:Core:index }
-
-biopen_constellation:
-    path:     /autourdemoi/{slug}/{distance}
-    defaults: { _controller: BiopenCoreBundle:Core:constellation, slug:'', distance:'50' }
-    options:
-        expose: true
-
-biopen_directory:
-    path:     /navigation/{slug}
-    defaults: { _controller: BiopenCoreBundle:Core:directory, slug:'' }
-    options:
-        expose: true
+    defaults: { _controller: BiopenCoreBundle:Core:home }

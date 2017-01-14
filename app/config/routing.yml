@@ -1,16 +1,11 @@
-biopen_back_office:
-    resource: "@BiopenBackOfficeBundle/Controller/"
-    type:     annotation
-    prefix:   /backoffice
-
 biopen_core:
     resource: "@BiopenCoreBundle/Resources/config/routing.yml"
     prefix:   /
 
-biopen_element:
-    resource: "@BiopenElementBundle/Resources/config/routing.yml"
-    prefix:   /acteurs
+biopen_geo_directory:
+    resource: "@BiopenGeoDirectoryBundle/Resources/config/routing.yml"
+    prefix:   /
 
-fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+
 

@@ -1,0 +1,11 @@
+biopen_constellation:
+    path:     /autourdemoi/{slug}/{distance}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:constellation, slug:'', distance:'50' }
+    options:
+        expose: true
+
+biopen_directory:
+    path:     /{slug}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:directory, slug:'' }
+    options:
+        expose: true

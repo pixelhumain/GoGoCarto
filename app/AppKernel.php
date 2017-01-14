@@ -17,13 +17,12 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Biopen\CoreBundle\BiopenCoreBundle(),
-            new Biopen\ElementBundle\BiopenElementBundle(),
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
+            new Biopen\GeoDirectoryBundle\BiopenGeoDirectoryBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
-            new JMS\TwigJsBundle\JMSTwigJsBundle(),
-            new Biopen\BackOfficeBundle\BiopenBackOfficeBundle(),
+            new JMS\TwigJsBundle\JMSTwigJsBundle(),            
+            new Biopen\CoreBundle\BiopenCoreBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
