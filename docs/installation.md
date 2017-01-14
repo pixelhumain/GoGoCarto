@@ -22,10 +22,10 @@ Help (in french) :
 Installation
 ------------
 
-### Cloning repo
+### Cloning repo (clone dev branch)
 ```
 cd path-to-php-server-folder (default linux /var/www/html, windows c:/wamp/www... )
-git clone https://github.com/Biopenlandes/CartoV3.git
+git clone -b dev https://github.com/Biopenlandes/CartoV3.git
 cd CartoV3/
 ```
 
