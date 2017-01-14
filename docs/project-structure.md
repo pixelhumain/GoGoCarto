@@ -1,17 +1,17 @@
 Project Structure
 =================
 
-Html files (Twig templates) `app/Ressources/views` and 'src/Biopen/XXXBundle/Ressources/views'
+The project is currently organized in two bundles :
 
-Config `app/config`
+- CoreBundle : home page, basic back office (configure credits, home page info etc...)
+- GeoDirectoryBundle : The Directory itself, including the client side and back office app. We're planning to make this bundle reusable, so be shure to put all things directly linked to the directory in this bundle.
 
-Backend sources (symfony-bundles organization) `src/Biopen/XXXBundle`
+In each bundles :
 
-Javascript/TypeScript sources `src/front-end/js`
+Javascript/TypeScript sources `Resources/js`
+SCSS sources `Resources/scss
 
 Javascript compiled folder `web/js`
-
-SCSS sources `serc/front-end/scss`
 
 CSS compiled folder `web/assets/css`
 
