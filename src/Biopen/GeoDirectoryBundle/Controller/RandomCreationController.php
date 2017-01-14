@@ -32,15 +32,15 @@ class RandomCreationController extends Controller
     {
 	    $manager = $this->getDoctrine()->getManager();
 
-	     /*$SOlat = 43.55;
+	    $SOlat = 43.55;
 	    $SOlng = -0.94;
 	    $NElat = 49.22;
-	    $NElng = 5.89;*/
+	    $NElng = 5.89;
 
-	    $SOlat = 42.81519924863995;
-	    $SOlng = -1.0489655173828396;
-	    $NElat = 44.9916584842516;
-	    $NElng = 2.9116057716796604;
+	    // $SOlat = 42.81519924863995;
+	    // $SOlng = -1.0489655173828396;
+	    // $NElat = 44.9916584842516;
+	    // $NElng = 2.9116057716796604;
 
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
