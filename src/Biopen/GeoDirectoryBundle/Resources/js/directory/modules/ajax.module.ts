@@ -71,7 +71,7 @@ export class AjaxModule
 			},
 			success: response =>
 			{	        
-			  	console.log("Ajax response", response.data);
+			  	//console.log("Ajax response", response.data);
 
 			  	if (response.data !== null)
 				{
