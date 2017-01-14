@@ -5,9 +5,9 @@
         "module": "es2015"
     },
     "files": [
-    	"src/front-end/js/directory/**/*.ts", 
-    	"src/front-end/js/commons/**/*.ts",
-    	"src/front-end/js/home/**/*.ts"
+    	"src/Biopen/GeoDirectoryBundle/Resources/js/directory/**/*.ts", 
+    	"src/Biopen/GeoDirectoryBundle/Resources/js/commons/**/*.ts",
+    	"src/Biopen/CoreBundle/Resources/js/home/**/*.ts"
     ]
     
 }

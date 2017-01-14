@@ -1,0 +1,27 @@
+<li>    
+    <div class="productItem collapsible-header row" 
+          data-star-name="{{starName}}"
+          data-elements-size="{{ star.elementList|length }}" >
+    <span class="icon icon-{{starName|lower}}"></span>
+    <span class="productName">{{ star.name|capitalize }}</span>
+    <span class="resultNumber tooltipped {% if star.elementList|length > 1 %} moreThanOneChoice {% endif %}" data-position="right" data-delay="0" data-tooltip="Voir {{ star.elementList|length }} résultats">{{ star.elementList|length }}</span>
+    </div>
+
+    {# {% if star.elementList|length > 1 %} #}
+    <div class="collapsible-body moreResultContainer">
+      <ul class="collection">
+      {% for key, element in star.elementList %} 
+        <li class="row collection-item moreResultelement-item {% if key == 0 %} starElement {% endif %}"
+              id="moreResult-{{starName}}-{{ key }}"
+              data-element-index="{{ key }}"
+              data-element-id="{{ element.id }}"
+              data-star-name="{{ starName }}">
+          <span class="col s8 ">{{ element.name|capitalize }}</span>
+          <span class="col s4 right-align">{{ element.distance|round(1) }} km</span>
+        </li>
+        {% if not loop.last %}<div class="divider"></div>{% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+    {# {% endif %} #}
+</li>

@@ -39,7 +39,7 @@ gulp.task("scriptsHome", function () {
     return browserify({
         basedir: '.',
         debug: true,
-        entries: ['src/front-end/js/home/index.ts'],
+        entries: ['src/Biopen/CoreBundle/Resources/js/home.ts'],
         cache: {},
         packageCache: {}
     })
@@ -59,7 +59,7 @@ gulp.task("scriptsDirectory", function () {
     return browserify({
         basedir: '.',
         debug: true,
-        entries: ['src/front-end/js/directory/app.module.ts'],
+        entries: ['src/Biopen/GeoDirectoryBundle/Resources/js/directory/app.module.ts'],
         cache: {},
         packageCache: {}
     })
@@ -75,7 +75,7 @@ gulp.task("scriptsDirectory", function () {
 });
 
 gulp.task('scriptsElementForm', function() {
-  return gulp.src(['src/front-end/js/element-form/**/*.js'])
+  return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'))
@@ -87,7 +87,7 @@ gulp.task('scriptsElementForm', function() {
 
 
 gulp.task('scriptsLibs', function() {
-  return gulp.src(['src/front-end/js/libs/**/*.js', '!src/front-end/js/libs/materialize/unused/**/*.js'])
+  return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', '!src/Biopen/GeoDirectoryBundle/Resources/js/libs/materialize/unused/**/*.js'])
     .pipe(concat('libs.js'))
     // .pipe(rename({suffix: '.min'}))
     // .pipe(uglify())
@@ -98,7 +98,8 @@ gulp.task('scriptsLibs', function() {
 
 
 gulp.task('sass', function () {
-  return gulp.src('src/front-end/scss/**/*.scss')
+  return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/scss/**/*.scss',
+                  'src/Biopen/CoreBundle/Resources/scss/**/*.scss'])
     .pipe(sass()
     .on('error', sass.logError))    
     .pipe(gulp.dest('web/assets/css'));
@@ -138,16 +139,21 @@ gulp.task('watch', function() {
 
   //livereload.listen();
   // Watch .scss files
-  gulp.watch('src/front-end/scss/**/*.scss', ['sass']);
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/scss/**/*.scss',
+              'src/Biopen/CoreBundle/Resources/scss/**/*.scss'], 
+              ['sass']);
 
   // Watch .js files
-  gulp.watch(['src/front-end/js/directory/**/*.ts', 'src/front-end/js/commons/**/*.ts'], ['scriptsDirectory']);
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/directory/**/*.ts', 
+              'src/Biopen/GeoDirectoryBundle/Resources/js/commons/**/*.ts'], 
+              ['scriptsDirectory']);
   
-  gulp.watch(['src/front-end/js/element-form/**/*.js','src/front-end/js/commons.js'], ['scriptsElementForm']);
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'], 
+              ['scriptsElementForm']);
   
-  gulp.watch('src/front-end/js/libs/**/*.js', ['scriptsLibs']);
+  gulp.watch('src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', ['scriptsLibs']);
 
-  gulp.watch(['src/front-end/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'], ['scriptsHome']);
+  gulp.watch(['src/Biopen/CoreBundle/Resources/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'], ['scriptsHome']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 

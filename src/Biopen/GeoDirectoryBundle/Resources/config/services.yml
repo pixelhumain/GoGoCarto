@@ -1,0 +1,9 @@
+services:
+    biopen.form.element:
+        class: Biopen\GeoDirectoryBundle\Form\ElementType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+    biopen.element_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementService
+       arguments: [ "@doctrine.orm.entity_manager" ]

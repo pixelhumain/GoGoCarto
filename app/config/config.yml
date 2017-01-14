@@ -2,9 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@BiopenCoreBundle/Resources/config/services.yml" }
-    - { resource: "@BiopenElementBundle/Resources/config/services.yml" }
-    - { resource: "@BiopenBackOfficeBundle/Resources/config/services.yml" }
+    - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -44,8 +42,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     paths:
-        "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": core
-        "%kernel.root_dir%/../src/Biopen/ElementBundle/Resources/views": element
+        "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": directory
+        "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
 
 # Doctrine Configuration
 doctrine:

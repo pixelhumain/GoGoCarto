@@ -1,0 +1,78 @@
+.cluster
+{
+	z-index: 2;
+}
+
+.icon
+{
+	font-size: 22px;
+    color: $secondary-color;
+    padding-top: 3px;
+    float: left;
+    margin-right: 1rem;
+}
+
+.icon.disabled
+{
+	color: #DFDFDF;
+}
+
+.icon-element-type
+{
+    @extend .colorAs;
+}
+
+$producteur-color :#B33536;  // rouge:#B33536 teal:#4B7975
+$amap-color :#4B7975 ;
+$boutique-color :#813c81 ;
+$marche-color :#3F51B5 ;
+$epicerie-color :#383D5A ;
+
+.bgdColorAs
+{
+	&.producteur { background-color:$producteur-color } 
+	&.amap { background-color:$amap-color }
+	&.boutique { background-color:$boutique-color }
+	&.marche { background-color:$marche-color }
+	&.epicerie { background-color:$epicerie-color }
+}
+
+.bgdSoftColorAs
+{
+	&.producteur { background-color: rgba(darken($producteur-color,5%),.9) } 
+	&.amap { background-color:$amap-color }
+	&.boutique { background-color: rgba($boutique-color,.85) }
+	&.marche { background-color: rgba(darken($marche-color,5%),.9) }
+	&.epicerie { background-color: rgba(darken($epicerie-color,5%),.9) }
+}
+
+.colorAs
+{
+	&.producteur { color:$producteur-color } 
+	&.amap { color:$amap-color }
+	&.boutique { color:$boutique-color }
+	&.marche { color:$marche-color }
+	&.epicerie { color:$epicerie-color }
+}
+
+.icon-marker { @extend .colorAs; }
+
+.icon-legumes { color: #4A148C }
+.icon-fruits { color: #880E4F }
+.icon-laitier { color: #B77B03 }
+.icon-boissons { color: #258BB9 }
+.icon-plantes { color: #4CAF50 }
+.icon-pain { color: #B37800 } //#795548 brown
+.icon-viande { color: #961616 }
+.icon-poisson { color: #3F51B5 }
+.icon-legumineuses { color: #2F7332 }
+.icon-transformes { color: #37474F }
+.icon-miel { color: #E09703 }
+.icon-huile { color: #082D09 }
+.icon-oeufs { color: #E09703 }
+.icon-autre { color: #444444 }
+
+.icon-marche { color: #2A3677 }
+.icon-epicerie { color: $epicerie-color } //#4A148C
+.icon-boutique { color: #693269 }
+
