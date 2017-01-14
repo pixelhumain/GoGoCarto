@@ -32,9 +32,6 @@ function handleError(err) {
   this.emit('end');
 }
 
-var directoryProject = ts.createProject("tsconfig-directory.json");
-var homeProject = ts.createProject("tsconfig-home.json");
-
 gulp.task("scriptsHome", function () {
     return browserify({
         basedir: '.',
