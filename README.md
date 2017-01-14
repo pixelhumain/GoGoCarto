@@ -27,3 +27,4 @@ Documentation
 - [Installation intructions](docs/installation.md)
 - [Project structure](docs/project-structure.md)
 - [Coding conventions](docs/coding-conventions.md)
+- [How to contribute](docs/contributing.md)
