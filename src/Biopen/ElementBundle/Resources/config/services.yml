@@ -1,9 +1,0 @@
-services:
-    biopen.form.element:
-        class: Biopen\ElementBundle\Form\ElementType
-        arguments: ['@doctrine.orm.entity_manager']
-        tags:
-            - { name: form.type }
-    biopen.element_service:
-       class: Biopen\ElementBundle\Services\ElementService
-       arguments: [ "@doctrine.orm.entity_manager" ]
