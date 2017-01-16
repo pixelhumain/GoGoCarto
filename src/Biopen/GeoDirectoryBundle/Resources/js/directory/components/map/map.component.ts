@@ -31,12 +31,6 @@ export class MapComponent
 	clusterer_ = null;
 	oldZoom = -1;
 
-	// the location is the "origin" of the map, meaning the last
-	// geocode result from asearch action
-	location : L.LatLng = null;
-	locationSlug : string = '';	
-	locationAddress : string = '';
-
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
 	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
@@ -136,14 +130,6 @@ export class MapComponent
 		else this.map_.flyTo(location, zoom);
 	};
 
-	// update map location with geocode result
-	updateMapLocation(result : GeocodeResult)
-	{
-		this.location = L.latLng(result.getCoordinates());	
-		this.locationAddress = result.getFormattedAddress();
-		this.locationSlug = slugify(this.locationAddress);		
-	}
-
 	// the actual displayed map radius (distance from croner to center)
 	mapRadiusInKm() : number
 	{
@@ -154,7 +140,7 @@ export class MapComponent
 	// distance from last saved location to a position
 	distanceFromLocationTo(position : L.LatLng)
 	{
-		if (!this.location) return null;
-		return this.location.distanceTo(position) / 1000;
+		if (!App.geocoder.getLocation()) return null;
+		return App.geocoder.getLocation().distanceTo(position) / 1000;
 	}
 }
