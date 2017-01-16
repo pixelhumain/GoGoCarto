@@ -9,6 +9,8 @@
  */
 
 import { AppModule } from "../app.module";
+import { Element } from "../classes/element.class";
+
 declare let App : AppModule;
 
 export class DisplayElementAloneModule
@@ -16,6 +18,8 @@ export class DisplayElementAloneModule
 	elementShownAlone_ = null;
 
 	constructor() {}
+
+	getElement() : Element { return this.elementShownAlone_; }
 
 	begin(elementId : number, panToElementLocation : boolean = true) 
 	{	
