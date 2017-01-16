@@ -34,7 +34,15 @@
       Chargement...
     </div>
 
-    <div id="directory-content-map"> </div>
+    <div id="directory-content-map">    
+      <div class="show-as-list-button">Afficher sous forme de liste</div>  
+      {# button for openning menu in small screens #}
+      <div id="menu-button"><i class='icon-menu'></i></div> 
+    </div>       
+
+    <div id="directory-content-list" style="display:none">
+      show element list
+    </div>
 
     {# <div id="directions-result-container">
         <span id="distance-value">9,6km</span>
@@ -51,9 +59,6 @@
 
     </section>
 
-    {# button for openning menu in small screens #}
-    <div id="menu-button"><i class='icon-menu'></i></div> 
-
     {# overlay to partially mask the directory-content when openning menu in small screens #}
     <div id="overlay"></div>
   </section>  
@@ -69,7 +74,6 @@
   
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
-  <script src="{{ asset('../../../Leaflet.markercluster/dist/leaflet.markercluster-src.js') }}"></script>
   
   <script>
 

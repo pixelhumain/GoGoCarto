@@ -58,6 +58,7 @@ $(document).ready(function()
 export enum AppStates 
 {
 	Normal,
+	List,
 	ShowElement,
 	ShowElementAlone,
 	ShowDirections,

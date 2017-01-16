@@ -14,3 +14,48 @@ a.leaflet-control-zoom-out {
     margin-right: 20px;
     margin-top: 20px;
 }
+
+.show-as-list-button {
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    left: 100px;
+    background-color: white;
+    padding: .5rem 1rem;
+    @extend .z-depth-1;
+
+    &:hover{ cursor : pointer; }
+
+    @media #{$medium-and-up} 
+    {
+        left: 20px;
+    }
+}
+
+#menu-button
+{
+	position: absolute;
+    left: 1rem;
+    text-align: center;
+    top: 1rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: white;
+    z-index: 500;
+    @extend .z-depth-1;
+    color: #555;
+
+    > i
+    {
+        font-size: 2rem;
+        height: 3rem;
+        &:before { line-height: 3rem }
+    }
+
+    @media #{$medium-and-up} 
+    {
+        display: none !important;
+    }
+}
+
+#menu-button:hover {cursor: pointer;}

@@ -90,7 +90,7 @@ class DirectoryController extends Controller
         // }
 
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("listProducts" => $listProducts, "slug" => $slug));      
+                            array("listProducts" => $listProducts, "slug" => $slug, "searchRange" => 50));      
 
         // return $this->render('@directory/directory/directory.html.twig', array("elementList" => $elementList, 
         //                                                        "geocodeResponse" => $geocodeResponse, 

@@ -27,8 +27,7 @@ ListElementModule.prototype.draw = function ()
 		else
 		{
 			if (elementsPlacesToDisplay.indexOf(element) == -1) elementsPlacesToDisplay.push(element);
-		}
-			
+		}			
 	}
 
 	elementsProducteurOrAmapToDisplay.sort(compareDistance);

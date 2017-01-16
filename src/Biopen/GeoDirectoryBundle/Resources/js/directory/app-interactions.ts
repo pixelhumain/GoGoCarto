@@ -22,29 +22,7 @@ export function initializeAppInteractions()
 	    let target = $(this).attr("href");
 	    $('html, body').animate({scrollTop: $(target).offset().top}, 700);
 	    return false;  
-	}); */
-
-	$('#search-bar').on("search", function(event, address)
-	{
-		// if (App.state == AppStates.Constellation) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
-		// else 
-		App.geocoder.geocodeAddress(
-			address, 
-			function(results) 
-			{ 
-				//App.handleGeocoding(results);
-				$('#search-bar').val(results[0].getFormattedAddress()); 
-			},
-			function(results) { $('#search-bar').addClass('invalid'); } 
-		);
-
-		// If Menu take all available width (in case of small mobile)
-		if ($('#directory-menu').outerWidth() == $(window).outerWidth())
-		{
-			// then we hide menu to show search result
-			hideDirectoryMenu();
-		}
-	});		
+	}); */		
 
 	/*$('#menu-button').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);*/
@@ -76,24 +54,17 @@ export function initializeAppInteractions()
 		   }
 		   lastEndScrollTop = st;
 	   },100);	 	   
-	});
-
-	// affiche une petite ombre sous le titre menu quand on scroll
-	// (uniquement visible sur petts écrans)
-	$("#directory-menu-main-container").scroll(function() 
-	{
-	  if ($(this).scrollTop() > 0) {
-	    $('#menu-title .shadow-bottom').show();
-	  } else {
-	    $('#menu-title .shadow-bottom').hide();
-	  }
-	});
+	});	
 	
-	//Menu CARTE
+	//Menu CARTE	
 	$('#menu-button').click(showDirectoryMenu);
 	$('#overlay').click(hideDirectoryMenu);
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
+	$('#directory-content-map .show-as-list-button').click(() => {
+		$('#directory-content-map').hide();
+		$('#directory-content-list').show();
+	});
 	// if (onlyInputAdressMode)
 	// {
 	// 	showOnlyInputAdress();
