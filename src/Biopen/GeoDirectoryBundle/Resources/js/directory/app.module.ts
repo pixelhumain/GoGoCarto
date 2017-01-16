@@ -30,7 +30,7 @@ import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
-
+import { Element } from "./classes/element.class";
 declare var App;
 
 /**
@@ -155,7 +155,6 @@ export class AppModule
 				initialAddressSlug, 
 				(results) => 
 				{ 					
-					this.mapComponent.updateMapLocation(results[0]);
 					setTimeout(() => this.mapComponent.fitBounds(results[0].getBounds(), false), 100);					
 					this.updateState();
 					this.updateDocumentTitle_();
@@ -199,7 +198,7 @@ export class AppModule
 				let element = this.elementById(options.id);
 				if (element)
 				{
-					this.DPAModule.begin(element.id);
+					this.DPAModule.begin(element.id);					
 				}
 				else
 				{
@@ -207,6 +206,7 @@ export class AppModule
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
 							this.DPAModule.begin(elementJson.id); 
+							this.updateDocumentTitle_(options);
 						},
 						(error) => { /*TODO*/ alert("No element with this id"); }
 					);						
@@ -244,7 +244,7 @@ export class AppModule
 				break;
 		}
 
-		this.updateDocumentTitle_();
+		this.updateDocumentTitle_(options);
 		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
 	};
 
@@ -303,12 +303,11 @@ export class AppModule
 			initialAddressSlug, 
 			(results) => 
 			{ 
-				this.mapComponent.updateMapLocation(results[0]);
 				this.mapComponent.fitBounds(results[0].getBounds(), false);					
 				this.updateState();
 				this.updateDocumentTitle_();
 
-				console.log("geocoding done, get elements around");	
+				//console.log("geocoding done, get elements around");	
 			}	
 		);	
 	}
@@ -407,7 +406,7 @@ export class AppModule
 	{
 		let route;
 		
-		if (this.mapComponent.locationSlug) route = Routing.generate('biopen_directory', { slug : this.mapComponent.locationSlug });
+		if (this.geocoder.getLocationSlug()) route = Routing.generate('biopen_directory', { slug : this.geocoder.getLocationSlug() });
 		else route = Routing.generate('biopen_directory');
 
 		for (let key in options)
@@ -419,26 +418,32 @@ export class AppModule
 		return route;
 	};
 
-	updateDocumentTitle_()
+	updateDocumentTitle_(options : any = {})
 	{
 		let title : string;
+		let elementName : string;
+		if (options.id) 
+		{
+			let element = this.elementById(options.id);
+			elementName = capitalize(element ? element.name : '');
+		}
 
 		switch (this.currState_)
 		{
 			case AppStates.ShowElement:				
-				title = 'show element';
+				title = 'Acteur - ' + elementName;
 				break;	
 
 			case AppStates.ShowElementAlone:
-				title = 'show element alone';		
+				title = 'Acteur - ' + elementName;
 				break;
 
 			case AppStates.ShowDirections:
-				title = 'show Direction';
+				title = 'Itinéraire - ' + elementName;
 				break;
 
 			case AppStates.Normal:			
-				title = 'Navigation Libre - ' + this.mapComponent.locationAddress;					
+				title = 'Annuaire ' + this.geocoder.getLocationAddress();					
 				break;
 		}
 
