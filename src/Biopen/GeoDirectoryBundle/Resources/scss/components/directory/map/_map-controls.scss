@@ -24,6 +24,11 @@ a.leaflet-control-zoom-out {
     padding: .5rem 1rem;
     @extend .z-depth-1;
 
+    line-height: 1.5;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+
     &:hover{ cursor : pointer; }
 
     @media #{$medium-and-up} 
