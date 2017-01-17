@@ -17,15 +17,16 @@ import { Event, IEvent } from "../utils/event";
 import { Element } from "../classes/element.class";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
-export interface MarkersChanged
+export interface ElementsChanged
 { 
-	newMarkers : BiopenMarker[];
-	markersToRemove : BiopenMarker[];
+	elementsToDisplay : Element[];
+	newElements : Element[];
+	elementsToRemove : Element[];
 }
 
 export class ElementsModule
 {
-	onMarkersChanged = new Event<MarkersChanged>();
+	onElementsChanged = new Event<ElementsChanged>();
 
 	allElements_ : Element[] = [];
 	
@@ -113,14 +114,14 @@ export class ElementsModule
 		let i : number, element : Element;
 	 	let mapBounds = App.mapComponent.getBounds();   
 
-	 	let newMarkers = [];
-	 	let markersToRemove = [];
-	 	let markersChanged = false;
+	 	let newElements : Element[] = [];
+	 	let elementsToRemove : Element[] = [];
+	 	let elementsChanged = false;
 
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
@@ -129,13 +130,11 @@ export class ElementsModule
 
 			if ( mapBounds.contains(element.position) && filterModule.checkIfElementPassFilters(element))
 			{
-				if (!element.isVisible && $.inArray(App.state, [AppStates.Normal,AppStates.ShowElement]) > -1)
+				if (!element.isVisible)
 				{
-					if (element.isInitialized === false) element.initialize();
-					element.show();
 					this.currElements_.push(element);
-					newMarkers.push(element.marker);
-					markersChanged = true;
+					newElements.push(element);
+					elementsChanged = true;
 				}
 			}
 			else
@@ -143,8 +142,8 @@ export class ElementsModule
 				if (element.isVisible && !element.isShownAlone ) 
 				{
 					element.hide();
-					markersToRemove.push(element.marker);
-					markersChanged = true;
+					elementsToRemove.push(element);
+					elementsChanged = true;
 					let index = this.currElements_.indexOf(element);
 					if (index > -1) this.currElements_.splice(index, 1);
 				}
@@ -167,9 +166,13 @@ export class ElementsModule
 		let time = end - start;
 		//window.console.log("    analyse elements en " + time + " ms");	
 		
-		if (markersChanged || forceRepaint)
+		if (elementsChanged || forceRepaint)
 		{		
-			//this.onMarkersChanged.emit({newMarkers : newMarkers, markersToRemove : markersToRemove});		
+			this.onElementsChanged.emit({
+				elementsToDisplay: this.currElements_, 
+				newElements : newElements, 
+				elementsToRemove : elementsToRemove
+			});		
 		}
 		
 	};

@@ -61,12 +61,14 @@ export function initializeAppInteractions()
 	$('#overlay').click(hideDirectoryMenu);
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
-	$('#directory-content-map .show-as-list-button').click(() => {
-		$('#directory-content-map').hide();
-		$('#directory-content-list').show();
-
+	$('#directory-content-map .show-as-list-button').click(() => {		
 		App.setState(AppStates.List);
 	});
+
+	$('#directory-content-list .show-as-map-button').click(() => {		
+		App.setState(AppStates.Normal);
+	});
+	
 	// if (onlyInputAdressMode)
 	// {
 	// 	showOnlyInputAdress();

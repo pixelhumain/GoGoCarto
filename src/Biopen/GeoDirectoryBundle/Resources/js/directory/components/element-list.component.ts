@@ -18,11 +18,12 @@ declare var $;
 
 export class ElementListComponent
 {
-
 	//onShow = new Event<number>();
 
 	draw($elementList : Element[]) 
 	{
+		console.log('ElementList draw', $elementList.length);
+		
 		$('#directory-content-list li').remove();
 
 		let element : Element;
@@ -36,7 +37,7 @@ export class ElementListComponent
 		for(let i = startIndex; i < endIndex; i++)
 		{
 			element = elementsToDisplay[i];
-			$('#directory-content-list .element-list-title').after(element.getHtmlRepresentation());
+			$('#directory-content-list ul').append(element.getHtmlRepresentation());
 			createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));				
 		}
 

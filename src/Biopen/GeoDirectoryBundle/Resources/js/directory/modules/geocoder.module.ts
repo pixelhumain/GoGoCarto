@@ -1,9 +1,9 @@
 declare let GeocoderJS;
 declare let App : AppModule;
-declare var L;
+declare var L, $;
 
 import { AppModule } from "../app.module";
-import { slugify } from "../../commons/commons";
+import { slugify, capitalize } from "../../commons/commons";
 
 export interface GeocodeResult
 {
@@ -48,6 +48,7 @@ export class GeocoderModule
 		{			
 			if (results !== null) 
 			{
+				$('.data-location-address').text(capitalize(address));
 				this.lastAddressRequest = slugify(address);
 				this.lastResults = results;
 				if (callbackComplete) callbackComplete(results);	

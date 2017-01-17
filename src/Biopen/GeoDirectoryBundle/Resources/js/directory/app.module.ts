@@ -16,7 +16,7 @@ import * as L from "leaflet";
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
-import { ElementsModule, MarkersChanged } from "./modules/elements.module";
+import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
@@ -116,11 +116,8 @@ export class AppModule
 		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
 		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
 	
-		//this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
+		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
 	
-		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
-		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
-
 		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
 		
 		this.checkInitialState();
@@ -173,25 +170,48 @@ export class AppModule
 	/*
 	* Change App state
 	*/
-	setState(stateName, options : any = {}, backFromHistory = false) 
+	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
 	{ 	
-		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
+		console.log("AppModule set State : " + $newState + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
 
 		let oldStateName = this.currState_;
-		this.currState_ = stateName;		
+		this.currState_ = $newState;		
 
-		/*if (oldStateName == stateName)
+		/*if (oldStateName == $newState)
 		{
-			this.updateDocumentTitle_(stateName, element);
+			this.updateDocumentTitle_($newState, element);
 			return;
 		} */	
 
-		if (stateName != AppStates.ShowDirections && this.directionsModule_) 
+		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
 		
-		switch (stateName)
+		switch ($newState)
 		{
-			case AppStates.List:		
+			case AppStates.Normal:			
+				// if (this.currState_ == AppStates.Constellation) 
+				// {
+				// 	clearDirectoryMenu();
+				// 	this.starRepresentationChoiceModule_.end();
+				// }
+				
+				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+
+				$('#directory-content-map').show();
+				$('#directory-content-list').hide();
+
+				this.displayElementAloneModule_.end();						
+				break;
+
+			case AppStates.List:	
+
+				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
+				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });
+
+				$('#directory-content-map').hide();
+				$('#directory-content-list').show();
+
 				this.elementModule.updateElementToDisplay();
 				this.elementListComponent.draw(this.elementModule.elements);
 				break;
@@ -241,19 +261,11 @@ export class AppModule
 				this.displayElementAloneModule_.begin(options.id, false);									
 				break;
 
-			case AppStates.Normal:			
-				// if (this.currState_ == AppStates.Constellation) 
-				// {
-				// 	clearDirectoryMenu();
-				// 	this.starRepresentationChoiceModule_.end();
-				// }
-				
-				this.displayElementAloneModule_.end();						
-				break;
+			
 		}
 
 		this.updateDocumentTitle_(options);
-		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
+		this.updateHistory_($newState, oldStateName, options, backFromHistory);	
 	};
 
 	handleMarkerClick(marker : BiopenMarker)
@@ -299,7 +311,7 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		this.setState(AppStates.Normal);
+		//this.setState(AppStates.Normal);
 		this.infoBarComponent.hide(); 
 	}; 
 
@@ -327,25 +339,41 @@ export class AppModule
 		this.elementModule.updateElementToDisplay(); 
 	}; 
 
-	// handleMarkersChanged(array : MarkersChanged)
-	// {
-	// 	console.log("handleMarkerChanged new : ", array.newMarkers.length );
-	// 	for(let marker of array.newMarkers)
-	// 	{
-	// 		marker.setVisible(true);
-	// 	}
-	// 	for(let marker of array.markersToRemove)
-	// 	{
-	// 		marker.setVisible(false);
-	// 	}
-	// 	// this.clusterer().addMarkers(array.newMarkers,true);
-	// 	// this.clusterer().removeMarkers(array.markersToRemove, true);		
-	// 	// this.clusterer().repaint();	
-	// }; 
+	handleElementsChanged(result : ElementsChanged)
+	{
+		console.log("handleElementsChanged new : ", result.newElements.length );
+
+		if (this.state == AppStates.List)
+		{
+			this.elementListComponent.draw(result.elementsToDisplay);
+		}
+		else if (this.state == AppStates.Normal)
+		{
+			for(let element of result.newElements)
+			{
+				element.show();
+			}
+			for(let element of result.elementsToRemove)
+			{
+				if (!element.isShownAlone) element.hide();
+			}
+		}
+		// for(let marker of result.newMarkers)
+		// {
+		// 	marker.setVisible(true);
+		// }
+		// for(let marker of result.markersToRemove)
+		// {
+		// 	marker.setVisible(false);
+		// }
+		// this.clusterer().addMarkers(array.newMarkers,true);
+		// this.clusterer().removeMarkers(array.markersToRemove, true);		
+		// this.clusterer().repaint();	
+	}; 
 
 	handleInfoBarHide()
 	{
-		if (this.state != AppStates.StarRepresentationChoice) this.setState("normal");
+		if (this.state != AppStates.StarRepresentationChoice) this.setState(AppStates.Normal);
 	};
 
 	handleInfoBarShow(elementId)
@@ -392,7 +420,7 @@ export class AppModule
 		this.updateHistory_(history.state.name, null, history.state.options, false);
 	};
 
-	updateHistory_(stateName, oldStateName, options, backFromHistory)
+	updateHistory_($newState, oldStateName, options, backFromHistory)
 	{
 		let route = "";
 		
@@ -403,10 +431,10 @@ export class AppModule
 
 		if (!backFromHistory)
 		{
-			if (oldStateName === null || stateName == AppStates.ShowElement || (stateName == AppStates.Normal && oldStateName == AppStates.ShowElement))
-			 	history.replaceState({ name: stateName, options: options }, '', route);
+			if (oldStateName === null || $newState == AppStates.ShowElement || ($newState == AppStates.Normal && oldStateName == AppStates.ShowElement))
+			 	history.replaceState({ name: $newState, options: options }, '', route);
 			else 
-				history.pushState({ name: stateName, options: options }, '', route);
+				history.pushState({ name: $newState, options: options }, '', route);
 		}
 	};
 

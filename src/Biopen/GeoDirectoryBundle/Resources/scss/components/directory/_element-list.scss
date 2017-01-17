@@ -6,12 +6,40 @@
 	border-left: none;
 	height: auto;
 
-	ul
+	.show-as-map-button
 	{
-		height: auto;
+		height: 2rem;
+		line-height: 2rem;
+		text-transform: none;
+		margin-left: 2rem;
+	}
+
+	.element-list-title
+	{
+		display:block;
 		position: relative;
+		width: 100%;
+		line-height: 3rem;
+	   text-align: center;
+	   color: #F5F3F3;
+	   background-color: $secondary-color;	    
+	}	
+
+	ul.collapsible
+	{
+		position: relative;
+		padding-bottom: 100px;
+
+		height: calc(100% - 3rem);
+		overflow-y: auto;
+		margin :0;		
+
 		@media #{$medium-and-up} { padding: 0 3rem; }
-		@media #{$large-only} { padding: 0 10rem; }
+		@media #{$large-only} { padding: 0 10rem; }		
+
+		&.custom-scroll-bar::-webkit-scrollbar {
+		    width: 14px;
+		}
 	}
 
 	.element-item
@@ -21,17 +49,6 @@
 		// .star-names-icons {display:block}
 		.icon-close {display:none}
 		.distance{ margin-right: 0;}
-	}
-
-	.collapsible
-	{
-		height: 100%;
-		overflow-y: auto;
-		margin :0;
-		padding-bottom: 100px;
-		&.custom-scroll-bar::-webkit-scrollbar {
-		    width: 14px;
-		}
 	}
 
 	.collapsible-header
@@ -49,15 +66,6 @@
 	{ 
 		margin: 1rem 0; 
 	}
-
-	.element-list-title
-	{
-		display:block;
-		position: relative;
-		line-height: 3rem;
-	    text-align: center;
-	    color: #F5F3F3;
-	    background-color: $secondary-color;	    
-	}	
+	
 }
 

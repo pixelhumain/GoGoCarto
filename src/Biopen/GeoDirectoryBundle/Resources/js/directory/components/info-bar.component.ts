@@ -49,7 +49,6 @@ export class InfoBarComponent
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
-			this.onHide.emit(true);
 			this.hide();
 			return false;
 		});
@@ -114,6 +113,8 @@ export class InfoBarComponent
 					
 				}		
 			}
+
+			this.onHide.emit(true);
 		}
 
 		this.isVisible = false;
