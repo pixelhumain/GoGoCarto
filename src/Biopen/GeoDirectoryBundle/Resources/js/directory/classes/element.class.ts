@@ -121,7 +121,7 @@ hide()
 	if (this.biopenMarker_) this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
-	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
+	//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 };
 
 
@@ -170,7 +170,7 @@ getHtmlRepresentation()
 	{
 		element : this, 
 		horaires : this.getFormatedHoraires(), 
-		constellationMode: App.state == AppStates.Constellation, 
+		listingMode: App.state == AppStates.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
 	});

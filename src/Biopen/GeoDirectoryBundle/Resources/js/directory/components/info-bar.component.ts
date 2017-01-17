@@ -141,7 +141,7 @@ export class InfoBarComponent
 
 			let elementInfoBar_newHeight =  $( window ).height();
 			elementInfoBar_newHeight -= $('header').height();
-			elementInfoBar_newHeight -=$('#bandeau_goToElementList').outerHeight(true);
+			elementInfoBar_newHeight -=$('#bandeau_goTodirectory-content-list').outerHeight(true);
 
 			$('#element-info-bar').css('height', '100%');
 

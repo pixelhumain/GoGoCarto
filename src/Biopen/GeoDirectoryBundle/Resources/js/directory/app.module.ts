@@ -20,6 +20,7 @@ import { ElementsModule, MarkersChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
+import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
 import { MapComponent } from "./components/map/map.component";
@@ -82,6 +83,7 @@ export class AppModule
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
 	searchBarComponent = new SearchBarComponent('search-bar');
+	elementListComponent = new ElementListComponent();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
@@ -96,7 +98,7 @@ export class AppModule
 	// when all app initialisations are done
 	readyToWork = false;
 
-	// prevent updateElementList while the action is just
+	// prevent updatedirectory-content-list while the action is just
 	// showing element details
 	isShowingInfoBarComponent_ = false;
 
@@ -189,6 +191,11 @@ export class AppModule
 		
 		switch (stateName)
 		{
+			case AppStates.List:		
+				this.elementModule.updateElementToDisplay();
+				this.elementListComponent.draw(this.elementModule.elements);
+				break;
+
 			case AppStates.ShowElement:				
 				break;	
 
@@ -265,7 +272,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		console.log("App handle map idle, Ready to work : ", this.readyToWork);
+		//console.log("App handle map idle, Ready to work : ", this.readyToWork);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling

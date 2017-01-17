@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import { AppModule } from "./app.module";
+import { AppModule, AppStates } from "./app.module";
 declare let App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 
@@ -64,6 +64,8 @@ export function initializeAppInteractions()
 	$('#directory-content-map .show-as-list-button').click(() => {
 		$('#directory-content-map').hide();
 		$('#directory-content-list').show();
+
+		App.setState(AppStates.List);
 	});
 	// if (onlyInputAdressMode)
 	// {
@@ -71,12 +73,12 @@ export function initializeAppInteractions()
 	// }
 
 	$('#list_tab').click(function(){
-		$("#ElementList").show();
+		$("#directory-content-list").show();
 		$('#directory-container').hide();
 	});
 	$('#directory-content-map_tab').click(function(){		
 		$('#directory-container').show();
-		$("#ElementList").hide();
+		$("#directory-content-list").hide();
 	});
 }
 
@@ -110,7 +112,7 @@ export function showOnlyInputAdress()
 	hideBandeauHelper();
 	$('#directory-content').css('margin-left','0');
 	$('#bandeau_tabs').hide();
-	$('#ElementList').hide();
+	$('#directory-content-list').hide();
 	updateComponentsSize();
 }
 
@@ -122,7 +124,7 @@ export function updateComponentsSize()
 	let content_height = $(window).height() - $('header').height();
 	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
 	$("#directory-container").css('height',content_height);
-	$("#ElementList").css('height',content_height);
+	$("#directory-content-list").css('height',content_height);
 
 	if (App) setTimeout(App.updateMaxElements, 500);
 

@@ -14,7 +14,7 @@ function ListElementModule()
 
 ListElementModule.prototype.draw = function () 
 {
-	$('#ElementList li').remove();
+	$('#directory-content-list li').remove();
 
 	let element, elementsPlacesToDisplay = [], elementsProducteurOrAmapToDisplay = [];
 	for(let i = 0; i < App.constellation.getStars().length; i++)
@@ -36,18 +36,18 @@ ListElementModule.prototype.draw = function ()
 	for( i = 0; i < elementsPlacesToDisplay.length; i++)
 	{
 		element = elementsPlacesToDisplay[i];
-		$('#ElementList #places-end-container').before(element.getHtmlRepresentation());
+		$('#directory-content-list #places-end-container').before(element.getHtmlRepresentation());
 		createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));	
 	}
 
 	for( i = 0; i < elementsProducteurOrAmapToDisplay.length; i++)
 	{
 		element = elementsProducteurOrAmapToDisplay[i];
-		$('#ElementList #producteurAmap-end-container').before(element.getHtmlRepresentation());
+		$('#directory-content-list #producteurAmap-end-container').before(element.getHtmlRepresentation());
 		createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));	
 	}	
 
-	$('#ElementList ul').animate({scrollTop: '0'}, 500).collapsible({
+	$('#directory-content-list ul').animate({scrollTop: '0'}, 500).collapsible({
       accordion : true 
     });
 	
