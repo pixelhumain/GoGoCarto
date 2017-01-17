@@ -110,7 +110,7 @@ export class FilterModule
 				}			
 			}	
 
-			if (updateElementIcon && atLeastOneProductPassFilter) element.marker.updateIcon();
+			if (updateElementIcon && atLeastOneProductPassFilter && element.marker) element.marker.updateIcon();
 		}
 
 		if (!atLeastOneProductPassFilter) return false;

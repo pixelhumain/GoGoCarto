@@ -120,7 +120,7 @@ export class ElementsModule
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		//ndow.console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
