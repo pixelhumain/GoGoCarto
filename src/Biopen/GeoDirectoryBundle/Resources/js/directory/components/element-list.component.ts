@@ -45,38 +45,41 @@ export class ElementListComponent
 
 	update($elementsResult : ElementsChanged) 
 	{
-		if (!this.isInitialized)
-		{
-			console.log("Initialize element list");
-			this.draw($elementsResult.elementsToDisplay);
-			this.isInitialized = true;
-		}
-		else
-		{
-			if ($elementsResult.newElements.length > 0 
-				 && $elementsResult.elementsToRemove.length == 0)
-			{
-				console.log("just adds", $elementsResult.newElements.length);
-				// we juste need to adds the news elements to the bottom of the list
-				this.draw($elementsResult.newElements);
-			}
-			else if ($elementsResult.elementsToRemove.length > 0 
-				 && $elementsResult.newElements.length == 0)
-			{
-				console.log("Only removing", $elementsResult.elementsToRemove.length);
-				for(let element of $elementsResult.elementsToRemove)
-				{
-					$('#element-info-'+element.id).remove();
-				}
-			}
-			else
-			{
-				console.log("clean all and redraw");
-				// we remove alls the items and draw again
-				this.clear();
-				this.draw($elementsResult.elementsToDisplay, 0, true);
-			}	
-		}	
+		this.clear();
+		this.draw($elementsResult.elementsToDisplay, 0, false);
+
+		// if (!this.isInitialized)
+		// {
+		// 	console.log("Initialize element list");
+		// 	this.draw($elementsResult.elementsToDisplay);
+		// 	this.isInitialized = true;
+		// }
+		// else
+		// {
+		// 	if ($elementsResult.newElements.length > 0 
+		// 		 && $elementsResult.elementsToRemove.length == 0)
+		// 	{
+		// 		console.log("just adds", $elementsResult.newElements.length);
+		// 		// we juste need to adds the news elements to the bottom of the list
+		// 		this.draw($elementsResult.newElements);
+		// 	}
+		// 	else if ($elementsResult.elementsToRemove.length > 0 
+		// 		 && $elementsResult.newElements.length == 0)
+		// 	{
+		// 		console.log("Only removing", $elementsResult.elementsToRemove.length);
+		// 		for(let element of $elementsResult.elementsToRemove)
+		// 		{
+		// 			$('#element-info-'+element.id).remove();
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		console.log("clean all and redraw");
+		// 		// we remove alls the items and draw again
+		// 		this.clear();
+		// 		this.draw($elementsResult.elementsToDisplay, 0, true);
+		// 	}	
+		// }	
 	}
 
 	clear()
