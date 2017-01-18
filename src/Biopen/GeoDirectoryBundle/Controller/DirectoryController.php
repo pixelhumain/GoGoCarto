@@ -43,8 +43,7 @@ class DirectoryController extends Controller
             }
             else
             {
-                // temporairement si pas de slug zoome sur paris
-                $slug = 'france';
+                $slug = '';
             }
         }
 
