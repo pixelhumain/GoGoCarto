@@ -23,12 +23,25 @@ export class GeocoderModule
 {
 	geocoder : any = null;
 	lastAddressRequest : string = '';
-	lastResults : GeocodeResult = null;
+	lastResults : GeocodeResult[] = null;
 
 	getLocation() : L.LatLng
 	{
 		if (!this.lastResults) return null;
 		return L.latLng(this.lastResults[0].getCoordinates());
+	}
+
+	getBounds() : L.LatLngBounds
+	{
+		if (!this.lastResults) return null;
+		return this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds())
+	}
+
+	private latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
+	{
+		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
+		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
+		return L.latLngBounds(corner1, corner2);
 	}
 
 	getLocationSlug() : string { return slugify(this.lastAddressRequest); }
@@ -44,7 +57,7 @@ export class GeocoderModule
 
 		console.log("geocode address : ", address);
 
-		this.geocoder.geocode( address, (results : GeocodeResult) =>
+		this.geocoder.geocode( address, (results : GeocodeResult[]) =>
 		{			
 			if (results !== null) 
 			{
