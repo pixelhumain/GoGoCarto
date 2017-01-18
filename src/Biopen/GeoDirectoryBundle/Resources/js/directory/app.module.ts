@@ -40,6 +40,7 @@ declare var App;
 $(document).ready(function()
 {	
    App = new AppModule();
+   App.checkInitialState();
 
    initializeDirectoryMenu();
    initializeAppInteractions();
@@ -84,7 +85,6 @@ export class AppModule
 	mapComponent_  = new MapComponent();
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
-
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
@@ -113,14 +113,15 @@ export class AppModule
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
+		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+
 		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
 		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
 	
 		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
 	
 		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
-		
-		this.checkInitialState();
 	}
 
 	initializeMapFeatures()
@@ -139,31 +140,37 @@ export class AppModule
 		if (GET.id) 
 		{
 			this.mapComponent.init();
-			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);
+			this.setState(AppStates.ShowElementAlone,{id: GET.id},false);
 			this.readyToWork = true;		
 		}
 		else if (GET.directions) 
 		{
-			this.setState(AppStates.ShowDirections,{id: GET.directions},true);
+			this.setState(AppStates.ShowDirections,{id: GET.directions},false);
 			this.readyToWork = true;			
 		}
 		else
-		{
-			this.setState(AppStates.Normal);
-			this.mapComponent.init();
+		{			
 			this.geocoderModule_.geocodeAddress(
 				initialAddressSlug, 
 				(results) => 
-				{ 					
-					setTimeout(() => this.mapComponent.fitBounds(results[0].getBounds(), false), 100);					
+				{ 	
+					//console.log("geocoding done, get elements around");	
+					if (GET.list)
+					{
+						this.setState(AppStates.List, {list:1});		
+					}
+					else
+					{
+						this.setState(AppStates.Normal);
+						this.ajaxModule.getElementsAroundLocation();
+					}
+						
 					this.updateState();
 					this.updateDocumentTitle_();
-
-					// console.log("geocoding done, get elements around");
-					// this.ajaxModule.getElementsAroundLocation();
+					$('#directory-spinner-loader').hide();									
 					this.readyToWork = true;					
 				}	
-			);			
+			);						
 		}
 	};	
 
@@ -172,7 +179,7 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + $newState + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
+		console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
 
 		let oldStateName = this.currState_;
 		this.currState_ = $newState;		
@@ -193,26 +200,40 @@ export class AppModule
 				// {
 				// 	clearDirectoryMenu();
 				// 	this.starRepresentationChoiceModule_.end();
-				// }
-				
-				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
-				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
+				// }	
 
 				$('#directory-content-map').show();
-				$('#directory-content-list').hide();
+				$('#directory-content-list').hide();		
 
+				this.mapComponent.init();
+						
+
+				// if (this.mapComponent.getZoom() == 0 && this.geocoder.lastResults)
+				// {
+				// 	console.log("zoom == 0 resize map");
+				// 	this.mapComponent.resize();
+				// 	this.mapComponent.fitBounds(this.geocoder.getBounds(), false);
+				// }
+				this.elementModule.clearCurrentsElement();
+				this.elementModule.updateElementToDisplay(true, true);
+				
 				this.displayElementAloneModule_.end();						
 				break;
 
 			case AppStates.List:	
 
-				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
-				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });
+				// this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
+				// this.mapComponent_.onClick.off( () => { this.handleMapClick(); });
 
 				$('#directory-content-map').hide();
 				$('#directory-content-list').show();
 
-				this.elementModule.updateElementToDisplay();
+				this.elementModule.clearCurrentsElement();
+				this.elementModule.updateElementToDisplay(true, true);
+
+				//this.elementModule.updateElementToDisplay();
+
+				options.list = 1;
 				//this.elementListComponent.draw(this.elementModule.elements);
 				break;
 
@@ -341,7 +362,7 @@ export class AppModule
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		//console.log("handleElementsChanged new : ", result.newElements.length );
+		console.log("handleElementsChanged new : ", result.newElements.length );
 
 		if (this.state == AppStates.List)
 		{
@@ -479,7 +500,11 @@ export class AppModule
 				break;
 
 			case AppStates.Normal:			
-				title = 'Annuaire ' + this.geocoder.getLocationAddress();					
+				title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
+				break;
+
+			case AppStates.List:			
+				title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
 				break;
 		}
 
