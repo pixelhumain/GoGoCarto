@@ -24,17 +24,18 @@ export class GeocoderModule
 	geocoder : any = null;
 	lastAddressRequest : string = '';
 	lastResults : GeocodeResult[] = null;
+	lastResultBounds : L.LatLngBounds = null;
 
 	getLocation() : L.LatLng
 	{
-		if (!this.lastResults) return null;
+		if (!this.lastResults || !this.lastResults[0]) return null;
 		return L.latLng(this.lastResults[0].getCoordinates());
 	}
 
 	getBounds() : L.LatLngBounds
 	{
-		if (!this.lastResults) return null;
-		return this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds())
+		if (!this.lastResultBounds) return null;
+		return this.lastResultBounds;
 	}
 
 	private latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
@@ -57,19 +58,36 @@ export class GeocoderModule
 
 		console.log("geocode address : ", address);
 
-		this.geocoder.geocode( address, (results : GeocodeResult[]) =>
-		{			
-			if (results !== null) 
-			{
-				$('.data-location-address').text(capitalize(address));
-				this.lastAddressRequest = slugify(address);
-				this.lastResults = results;
-				if (callbackComplete) callbackComplete(results);	
-			} 	
-			else
-			{
-				if (callbackFail) callbackFail();			
-			}
-		});
+		// geocoding 'france' has bad results, so we do it ourself
+		if (address == 'france')
+		{
+			console.log("default location");
+			this.lastAddressRequest = 'france';
+			this.lastResults = [];
+			this.lastResultBounds = this.latLngBoundsFromRawBounds([51.68617954855624,8.833007812500002,42.309815415686664, -5.339355468750001]);
+
+			setTimeout( () => { callbackComplete(this.lastResults); }, 200);
+		}
+		else
+		{
+			this.geocoder.geocode( address, (results : GeocodeResult[]) =>
+			{			
+				if (results !== null) 
+				{
+					$('.data-location-address').text(capitalize(address));
+					this.lastAddressRequest = slugify(address);
+					this.lastResults = results;
+					this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+
+					if (callbackComplete) callbackComplete(results);	
+				} 	
+				else
+				{
+					if (callbackFail) callbackFail();			
+				}
+			});
+		}
+
+			
 	};
 }
