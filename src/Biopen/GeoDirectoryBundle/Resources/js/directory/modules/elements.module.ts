@@ -105,6 +105,17 @@ export class ElementsModule
 		}
 	};
 
+	clearCurrentsElement()
+	{
+		let l = this.currElements_.length;
+		while(l--)
+		{
+			this.currElements_[l].hide();
+			this.currElements_[l].isDisplayed = false;
+		}
+		this.currElements_ = [];
+	}
+
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
@@ -113,7 +124,11 @@ export class ElementsModule
 		else elements = this.currElements_;
 
 		let i : number, element : Element;
-	 	let mapBounds = App.mapComponent.getBounds();   
+		let bounds;
+		if (App.state != AppStates.List)
+		{
+			bounds = App.mapComponent.getBounds(); 
+		}
 
 	 	let newElements : Element[] = [];
 	 	let elementsToRemove : Element[] = [];
@@ -130,7 +145,7 @@ export class ElementsModule
 			element = elements[i];
 
 			// in List mode we don't need to check bounds;
-			let elementInBounds = (App.state == AppStates.List) || mapBounds.contains(element.position);
+			let elementInBounds = (App.state == AppStates.List) || bounds.contains(element.position);
 
 			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{
