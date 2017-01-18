@@ -30,11 +30,11 @@
     {% include '@directory/directory/components/spinner-loader.html.twig'  
               with {'id': 'directory-spinner-loader' }%}
     
-    <div id="directory-loading" style="display:none">
-      Chargement...
-    </div>
-
-    <div id="directory-content-map">    
+  
+    <div id="directory-content-map"> 
+      <div id="directory-loading" style="display:none">
+        Chargement...
+      </div>   
       <div class="show-as-list-button">Afficher sous forme de liste</div>  
       {# button for openning menu in small screens #}
       <div id="menu-button"><i class='icon-menu'></i></div> 
