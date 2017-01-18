@@ -8,10 +8,9 @@
 
 	.show-as-map-button
 	{
-		height: 2rem;
-		line-height: 2rem;
-		text-transform: none;
-		margin-left: 2rem;
+		float: right;
+		text-decoration: underline;
+		&:hover { cursor: pointer; color:black; }
 	}
 
 	.element-list-title
@@ -20,7 +19,10 @@
 		position: relative;
 		width: 100%;
 		line-height: 3rem;
-	   text-align: center;
+	   text-align: left;
+    	padding: 0 2rem;
+    	@media #{$medium2-and-up} { padding-left: 3rem; padding-right: calc(3rem + 14px); }
+		@media #{$large-only} {padding-left: 10rem; padding-right: calc(10rem + 14px); }	
 	   color: #F5F3F3;
 	   background-color: $secondary-color;	    
 	}	
