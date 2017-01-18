@@ -56,16 +56,16 @@ export class AjaxModule
 
 	constructor() { }  
 
-	getElementsAroundLocation($location?, $distance?, $maxResults?, $allIds?)
+	getElementsAroundLocation($location?, $distance?, $maxResults?)
 	{
 		$location = $location || App.mapComponent.getCenter();
 		$distance = $distance|| App.mapComponent.mapRadiusInKm() * 2;
 		$maxResults = $maxResults || 0;
 		
-		// there is a limite in ajax data, we can not send more thant a thousand ids
+		// there is a limit in ajax data, we can not send more thant a thousand ids
 		// so for the moment is quite useless to send theses id. See if we manage to
 		// change server config to send more thant 1000 ids;
-		$allIds = $allIds || App.elementModule.getAllElementsIds();
+		let $allIds = App.elementModule.getAllElementsIds();
 
 		this.getElements(new Request($location.lat, $location.lng, $distance, $maxResults, $allIds));
 	}
