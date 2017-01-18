@@ -94,7 +94,7 @@ export class ElementListComponent
 
 	private draw($elementList : Element[], $startIndex = 0, $animate = false) 
 	{
-		console.log('ElementList draw', $elementList.length);
+		//console.log('ElementList draw', $elementList.length);
 
 		let element : Element;
 		let elementsToDisplay : Element[] = $elementList; 
@@ -108,25 +108,39 @@ export class ElementListComponent
 		let endIndex;
 
 		let maxElementsToDisplay = this.ELEMENT_LIST_SIZE_STEP * this.stepsCount;
-		let currElementsDisplayed = this.currElementsDisplayed();
-		console.log('Max elements to display', maxElementsToDisplay);
+		//let currElementsDisplayed = this.currElementsDisplayed();
+		let currElementsDisplayed = 0;
+		// console.log("currElementsDisplayed", currElementsDisplayed);
+		// console.log("ElementsToDisplay", elementsToDisplay.length);
+		// console.log('Max elements to display', maxElementsToDisplay);
 
 		if ( (currElementsDisplayed + elementsToDisplay.length) < maxElementsToDisplay)
 		{
 			endIndex = elementsToDisplay.length;
 			let location = App.geocoder.getLocation();
-			let distance = this.lastDistanceRequest * 5;
-			this.lastDistanceRequest = distance;
-			console.log("list isn't full -> Ajax request");
-			//let maxResults = 20;
-			App.ajaxModule.getElementsAroundLocation(location, distance);
+
+			if (location)
+			{
+				let distance = this.lastDistanceRequest * 5;
+				this.lastDistanceRequest = distance;
+				//console.log("list isn't full -> Ajax request");
+				//let maxResults = 20;
+				App.ajaxModule.getElementsAroundLocation(location, distance);
+			}
+			else
+			{
+				// if location isn't available we diplay elements visible from the
+				// current map view (default behavior in ajax request)
+				App.ajaxModule.getElementsAroundLocation();
+			}
+			
 		}	
 		else
 		{
 			// we draw as many new elements as possible to fill the remaining
 			// space in he list
 			endIndex = Math.min(maxElementsToDisplay - currElementsDisplayed + $startIndex, elementsToDisplay.length);
-			console.log("list is full");
+			//console.log("list is full");
 			this.isListFull = true;
 			// waiting for scroll bottom to add more elements to the list
 		}
@@ -154,7 +168,7 @@ export class ElementListComponent
 		if (this.isListFull) 
 		{
 			this.stepsCount++;
-			console.log("bottom reached");
+			//console.log("bottom reached");
 			this.isListFull = false;
 			this.draw(App.elements(), this.currElementsDisplayed());
 		}		
