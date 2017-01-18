@@ -54,10 +54,11 @@ export class ElementsModule
 	  	}
 	};
 
-	addJsonElements (elementList, checkIfAlreadyExist)
+	addJsonElements (elementList, checkIfAlreadyExist = true)
 	{
 		let element, elementJson;
 		let newElementsCount = 0;
+		//console.log("ElementModule adds " + elementList.length);
 		for (let i = 0; i < elementList.length; i++)
 		{
 			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
@@ -74,7 +75,7 @@ export class ElementsModule
 			}		
 		}
 		this.checkCookies();
-		//window.console.log("addJsonElements newElementsCount = " + newElementsCount);
+		//console.log("ElementModule really added " + newElementsCount);
 	};
 
 	addFavorite (favoriteId : number, modifyCookies = true)
@@ -121,17 +122,21 @@ export class ElementsModule
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
 		
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 		{
 			element = elements[i];
 
-			if ( mapBounds.contains(element.position) && filterModule.checkIfElementPassFilters(element))
+			// in List mode we don't need to check bounds;
+			let elementInBounds = (App.state == AppStates.List) || mapBounds.contains(element.position);
+
+			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{
-				if (!element.isVisible)
+				if (!element.isDisplayed)
 				{
+					element.isDisplayed = true;
 					this.currElements_.push(element);
 					newElements.push(element);
 					elementsChanged = true;
@@ -139,9 +144,9 @@ export class ElementsModule
 			}
 			else
 			{
-				if (element.isVisible && !element.isShownAlone ) 
+				if (element.isDisplayed) 
 				{
-					element.hide();
+					element.isDisplayed = false;
 					elementsToRemove.push(element);
 					elementsChanged = true;
 					let index = this.currElements_.indexOf(element);
@@ -185,6 +190,11 @@ export class ElementsModule
 	get allElementsIds () 
 	{
 		return this.allElementsIds_;
+	};
+
+	getAllElementsIds()
+	{
+		return this.allElementsIds_.slice();
 	};
 
 	clearMarkers()
