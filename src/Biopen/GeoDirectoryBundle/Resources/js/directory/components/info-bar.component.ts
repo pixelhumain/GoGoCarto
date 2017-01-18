@@ -43,7 +43,7 @@ export class InfoBarComponent
 				$('#element-info-bar .menu-element .icon-star-full').show();
 			}
 		}	
-
+		element.updateDistance();
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
