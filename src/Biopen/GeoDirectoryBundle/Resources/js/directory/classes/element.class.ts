@@ -161,9 +161,13 @@ updateProductsRepresentation()
 
 updateDistance()
 {
-	this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+	this.distance = null;
+	if (App.geocoder.getLocation()) 
+		this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+	else 
+		this.distance = App.mapComponent.getCenter().distanceTo(this.position) / 1000;
 	// distance vol d'oiseau, on arrondi et on l'augmente un peu
-	this.distance = Math.round(1.2*this.distance);
+	this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 }
 
 getHtmlRepresentation() 
@@ -174,6 +178,7 @@ getHtmlRepresentation()
 	let html = Twig.render(biopen_twigJs_elementInfo, 
 	{
 		element : this, 
+		showDistance: App.geocoder.getLocation() ? true : false,
 		horaires : this.getFormatedHoraires(), 
 		listingMode: App.state == AppStates.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
