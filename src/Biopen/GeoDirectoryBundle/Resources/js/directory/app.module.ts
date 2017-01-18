@@ -155,7 +155,7 @@ export class AppModule
 				(results) => 
 				{ 	
 					//console.log("geocoding done, get elements around");	
-					if (GET.list)
+					if (GET.list && initialAddressSlug)
 					{
 						this.setState(AppStates.List, {list:1});		
 					}
@@ -179,7 +179,7 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
+		//console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
 
 		let oldStateName = this.currState_;
 		this.currState_ = $newState;		
@@ -349,7 +349,7 @@ export class AppModule
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		console.log("handleElementsChanged new : ", result.newElements.length );
+		//console.log("handleElementsChanged new : ", result.newElements.length );
 
 		if (this.state == AppStates.List)
 		{
