@@ -61,8 +61,9 @@ export function initializeAppInteractions()
 	$('#overlay').click(hideDirectoryMenu);
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
-	$('#directory-content-map .show-as-list-button').click(() => {		
+	$('#directory-content-map .show-as-list-button').click((e : Event) => {		
 		App.setState(AppStates.List);
+		e.preventDefault();
 	});
 
 	$('#directory-content-list .show-as-map-button').click(() => {		
