@@ -159,15 +159,17 @@ updateProductsRepresentation()
 	// }
 };
 
-getHtmlRepresentation() 
-{	
-	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
-	let starNames : any[] = [] ;
-
+updateDistance()
+{
 	this.distance = App.mapComponent.distanceFromLocationTo(this.position);
 	// distance vol d'oiseau, on arrondi et on l'augmente un peu
 	this.distance = Math.round(1.2*this.distance);
+}
 
+getHtmlRepresentation() 
+{	
+	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
+	let starNames : any[] = [];
 
 	let html = Twig.render(biopen_twigJs_elementInfo, 
 	{
