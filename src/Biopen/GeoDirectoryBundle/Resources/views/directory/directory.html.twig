@@ -31,11 +31,11 @@
               with {'id': 'directory-spinner-loader' }%}
     
   
-    <div id="directory-content-map"> 
+    <div id="directory-content-map" style="display:none"> 
       <div id="directory-loading" style="display:none">
         Chargement...
       </div>   
-      <div class="show-as-list-button">Afficher sous forme de liste</div>  
+      <div class="show-as-list-button"><i class="icon-list"></i>Afficher sous forme de liste</div>  
       {# button for openning menu in small screens #}
       <div id="menu-button"><i class='icon-menu'></i></div> 
     </div>       
@@ -43,7 +43,7 @@
     <div id="directory-content-list" style="display:none">
       <div class="element-list-title">
         Résultats autour de <span class="data-location-address"></span>
-        <button class="show-as-map-button btn waves-effect waves-light">Retour à la carte</button>
+        <span class="show-as-map-button">Retour à la carte</span>
         <div class='shadow-bottom'></div>
       </div>
       <ul class="collapsible popout custom-scroll-bar" data-collapsible="accordion">
