@@ -15,7 +15,7 @@ export function redirectToDirectory(route, address = $('#search-bar').val(), ran
     else window.location.href = Routing.generate(route, { slug : slugify(address), distance : range});
 }
 
-export function slugify(text)
+export function slugify(text) : string
 {
   if (!text) return '';
   return text.toString().toLowerCase()
