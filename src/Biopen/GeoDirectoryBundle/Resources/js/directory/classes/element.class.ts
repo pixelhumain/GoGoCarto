@@ -37,6 +37,9 @@ export class Element
 
 	isInitialized_ :boolean = false;
 
+	// for elements module algorithms
+	isDisplayed :boolean = false;
+
 	isVisible_ : boolean = false;
 	isInElementList : boolean= false;
 
