@@ -108,7 +108,7 @@ export class AjaxModule
 			  	if (response.data !== null)
 				{
 					let end = new Date().getTime();
-					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
 					this.onNewElements.emit(response.data);				
 				}
