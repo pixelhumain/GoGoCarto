@@ -59,10 +59,10 @@ export class GeocoderModule
 		console.log("geocode address : ", address);
 
 		// geocoding 'france' has bad results, so we do it ourself
-		if (address == 'france')
+		if (address == '')
 		{
 			console.log("default location");
-			this.lastAddressRequest = 'france';
+			this.lastAddressRequest = '';
 			this.lastResults = [];
 			this.lastResultBounds = this.latLngBoundsFromRawBounds([51.68617954855624,8.833007812500002,42.309815415686664, -5.339355468750001]);
 
