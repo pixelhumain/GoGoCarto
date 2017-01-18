@@ -207,13 +207,6 @@ export class AppModule
 
 				this.mapComponent.init();
 						
-
-				// if (this.mapComponent.getZoom() == 0 && this.geocoder.lastResults)
-				// {
-				// 	console.log("zoom == 0 resize map");
-				// 	this.mapComponent.resize();
-				// 	this.mapComponent.fitBounds(this.geocoder.getBounds(), false);
-				// }
 				this.elementModule.clearCurrentsElement();
 				this.elementModule.updateElementToDisplay(true, true);
 				
@@ -221,9 +214,6 @@ export class AppModule
 				break;
 
 			case AppStates.List:	
-
-				// this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
-				// this.mapComponent_.onClick.off( () => { this.handleMapClick(); });
 
 				$('#directory-content-map').hide();
 				$('#directory-content-list').show();
@@ -332,7 +322,6 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		//this.setState(AppStates.Normal);
 		this.infoBarComponent.hide(); 
 	}; 
 
@@ -347,8 +336,6 @@ export class AppModule
 				this.mapComponent.fitBounds(results[0].getBounds(), false);					
 				this.updateState();
 				this.updateDocumentTitle_();
-
-				//console.log("geocoding done, get elements around");	
 			}	
 		);	
 	}
@@ -379,17 +366,6 @@ export class AppModule
 				if (!element.isShownAlone) element.hide();
 			}
 		}
-		// for(let marker of result.newMarkers)
-		// {
-		// 	marker.setVisible(true);
-		// }
-		// for(let marker of result.markersToRemove)
-		// {
-		// 	marker.setVisible(false);
-		// }
-		// this.clusterer().addMarkers(array.newMarkers,true);
-		// this.clusterer().removeMarkers(array.markersToRemove, true);		
-		// this.clusterer().repaint();	
 	}; 
 
 	handleInfoBarHide()
@@ -402,12 +378,6 @@ export class AppModule
 		let statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
 		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
-
-	// handleGeocoding(results : any)
-	// {
-	// 	console.log("App handle geocoding");
-		
-	// };
 
 	updateMaxElements() 
 	{ 
