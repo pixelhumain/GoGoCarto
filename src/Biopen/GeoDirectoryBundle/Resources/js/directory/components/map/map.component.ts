@@ -89,7 +89,7 @@ export class MapComponent
 		this.onMapReady.emit();
 
 		this.resize();
-		if (App && App.geocoder.lastResults)
+		if (App && App.geocoder.getBounds())
 	   {
 	   	this.fitBounds(App.geocoder.getBounds(), false);
 	   }
