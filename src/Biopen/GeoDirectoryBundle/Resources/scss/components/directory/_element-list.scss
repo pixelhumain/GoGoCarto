@@ -32,10 +32,11 @@
 
 		height: calc(100% - 3rem);
 		overflow-y: auto;
-		margin :0;		
+		margin :0;	
 
-		@media #{$medium-and-up} { padding: 0 3rem; }
-		@media #{$large-only} { padding: 0 10rem; }		
+		padding-left: 0rem; padding-right: 0rem;
+		@media #{$medium2-and-up} { padding-left: 3rem; padding-right: 3rem; }
+		@media #{$large-only} {padding-left: 10rem; padding-right: 10rem; }		
 
 		&.custom-scroll-bar::-webkit-scrollbar {
 		    width: 14px;
