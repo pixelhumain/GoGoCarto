@@ -25,7 +25,7 @@
            
         {# Distance and Close Button #}
         <span class="icon icon-close" id="btn-close-bandeau-detail"></span>
-        {% if element.distance != null %}
+        {% if showDistance and element.distance != null %}
           <span class="right-align distance">~ {{ element.distance }} km</span>
         {% endif %}  
 
