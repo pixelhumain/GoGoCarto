@@ -41,6 +41,7 @@ export class MapComponent
 	init() 
 	{	
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
+		if (this.isMapInitialized) return;
 
 		this.map_ = L.map('directory-content-map', {
 		    zoomControl: false
@@ -73,18 +74,27 @@ export class MapComponent
 			this.oldZoom = this.map_.getZoom()
 			this.onIdle.emit(); 
 		});
-		this.map_.on('load', (e) => { this.isMapInitialized = true; });
+		//this.map_.on('load', (e) => { this.isMapInitialized = true; });
 
 		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
-		// Hides the loading animation
-	   $('#directory-spinner-loader').hide();
+		// Hides the loading animation   
 
 	   //this.clusterer_ = initCluster(null);
+
+	   // if we already have a geocode result (in case for example we strat with list mode
+	   // and we sitch to the map after)
+	   
 		
 		this.onMapReady.emit();
 
 		this.resize();
+		if (App && App.geocoder.lastResults)
+	   {
+	   	this.fitBounds(App.geocoder.getBounds(), false);
+	   }
+
+		this.isMapInitialized = true;
 
 		console.log("map init done");
 	};
@@ -105,22 +115,15 @@ export class MapComponent
 	}
 
 	// fit map view to bounds
-	fitBounds(rawbounds : RawBounds, animate : boolean = true)
+	fitBounds(bounds : L.LatLngBounds, animate : boolean = true)
 	{
-		console.log("fitbounds", rawbounds);
-
-		let bounds = this.latLngBoundsFromRawBounds(rawbounds);
+		console.log("fitbounds", bounds);
 		
 		if (animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
 	}
 
-	latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
-	{
-		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
-		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
-		return L.latLngBounds(corner1, corner2);
-	}	
+		
 
 	panToLocation(location : L.LatLng, zoom = 12)
 	{
