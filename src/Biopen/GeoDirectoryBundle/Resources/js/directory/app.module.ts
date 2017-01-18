@@ -213,7 +213,7 @@ export class AppModule
 				$('#directory-content-list').show();
 
 				this.elementModule.updateElementToDisplay();
-				this.elementListComponent.draw(this.elementModule.elements);
+				//this.elementListComponent.draw(this.elementModule.elements);
 				break;
 
 			case AppStates.ShowElement:				
@@ -341,11 +341,11 @@ export class AppModule
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		console.log("handleElementsChanged new : ", result.newElements.length );
+		//console.log("handleElementsChanged new : ", result.newElements.length );
 
 		if (this.state == AppStates.List)
 		{
-			this.elementListComponent.draw(result.elementsToDisplay);
+			this.elementListComponent.update(result);
 		}
 		else if (this.state == AppStates.Normal)
 		{
