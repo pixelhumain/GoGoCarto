@@ -4,7 +4,6 @@ biopen_element:
 
 biopen_directory:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-directory.yml"
-    prefix:   /nav
 
 biopen_api:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-api.yml"
