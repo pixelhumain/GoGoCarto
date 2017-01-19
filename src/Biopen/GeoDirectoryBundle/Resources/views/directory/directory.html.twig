@@ -83,16 +83,9 @@
   
   <script>
 
-    var iconDirectory = "{{ asset('assets/img/icon/') }}";
-    var constellationMode = false;
-    //var onlyInputAdressMode = false;
+    //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";
 
-    var initialAddressSlug = "{{ slug }}";
-
-    // var geocodeResponse = null;
-    // {% if geocodeResponse is defined %}
-    //   geocodeResponse = {{ geocodeResponse | serialize("json") | raw }};
-    // {% endif %}  
+    var CONFIG = {{ config | json_encode() | raw }};
 
     var App;       
 
@@ -106,9 +99,9 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
   {% endjavascripts %}
 
-  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+  {#<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
       async defer>
-  </script>
+  </script>#}
 
 {% endblock %}
 

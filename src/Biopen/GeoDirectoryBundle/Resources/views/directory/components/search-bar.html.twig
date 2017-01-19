@@ -8,18 +8,22 @@
     	   id="search-bar" 
     	   name="adresse" 
     	   onClick="this.setSelectionRange(0, this.value.length)" 
-    	   {% if slug is defined %} 
-    	   value="{{ slug | replace('-', ' ') | capitalize }}" 
+    	   {% if config.address is defined %}
+    	   value="{{ config.address | replace('-', ' ') | capitalize }}" 
     	   {% endif %}
     />
     
 </div>
 
-<div id="search-distance-component" style="display:none">
+{% if config.range is defined %}
+<div id="search-distance-component">
     <div class="range-field" id="search-distance-container">
-      <input type="range" id="search-distance-input" min="30" max="150" value="{{ searchRange }}" />
+      <input type="range" id="search-distance-input" min="30" max="150" value="{{ config.range }}" />
     </div>
+   
     <div id='search-distance-value-container'>
-        <span id='search-distance-value'>{{ searchRange }} km</span> 
+        <span id='search-distance-value'>{{ config.range }} km</span> 
     </div>
+    
 </div>
+{% endif %}
