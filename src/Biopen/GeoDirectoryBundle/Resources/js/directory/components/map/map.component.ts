@@ -26,13 +26,13 @@ export class MapComponent
 	//Leaflet map
 	map_ : L.Map = null;
 	markerClustererGroup;
-	isMapInitialized : boolean = false;
+	isInitialized : boolean = false;
 	isMapLoaded : boolean = false;
 	clusterer_ = null;
 	oldZoom = -1;
 
 	getMap(){ return this.map_; }; 
-	getCenter() : L.LatLng { return this.map_ ? this.map_.getCenter() : null; }
+	getCenter() : L.LatLng { return this.isMapLoaded ? this.map_.getCenter() : null; }
 	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
 	getClusterer() { return this.clusterer_; };
 	getZoom() { return this.map_.getZoom(); }
@@ -41,7 +41,7 @@ export class MapComponent
 	init() 
 	{	
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
-		if (this.isMapInitialized) return;
+		if (this.isInitialized) return;
 
 		this.map_ = L.map('directory-content-map', {
 		    zoomControl: false
@@ -74,7 +74,7 @@ export class MapComponent
 			this.oldZoom = this.map_.getZoom()
 			this.onIdle.emit(); 
 		});
-		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("MAP LOADED");});
+		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("Map Loaded"); });
 
 		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
@@ -89,18 +89,20 @@ export class MapComponent
 		this.onMapReady.emit();
 
 		this.resize();
+
 		if (App && App.geocoder.getBounds())
 	   {
 	   	this.fitBounds(App.geocoder.getBounds(), false);
 	   }
 
-		this.isMapInitialized = true;
+		this.isInitialized = true;
 
-		console.log("map init done");
+		//console.log("map init done");
 	};
 
 	resize()
 	{
+		//console.log("Resize");
 		if (this.map_) this.map_.invalidateSize(true);
 	}
 
@@ -119,10 +121,9 @@ export class MapComponent
 	{
 		console.log("fitbounds", bounds);
 		
-		if (animate && this.isMapLoaded) App.map().flyToBounds(bounds);
+		if (this.isMapLoaded && animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
 	}
-
 		
 
 	panToLocation(location : L.LatLng, zoom = 12, animate : boolean = true)
@@ -136,7 +137,7 @@ export class MapComponent
 	// the actual displayed map radius (distance from croner to center)
 	mapRadiusInKm() : number
 	{
-		if (!this.map_) return;
+		if (!this.isMapLoaded) return 0;
 		return Math.floor(this.map_.getBounds().getNorthEast().distanceTo(this.map_.getCenter()) / 1000);
 	}
 
@@ -145,5 +146,15 @@ export class MapComponent
 	{
 		if (!App.geocoder.getLocation()) return null;
 		return App.geocoder.getLocation().distanceTo(position) / 1000;
+	}
+
+	contains(position : L.LatLngExpression) : boolean
+	{
+		if (this.isMapLoaded)
+		{
+			 return this.map_.getBounds().contains(position);
+		}
+		console.log("Contains map not loaded");
+		return false;		
 	}
 }
