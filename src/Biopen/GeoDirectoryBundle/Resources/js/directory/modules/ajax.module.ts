@@ -56,11 +56,14 @@ export class AjaxModule
 
 	constructor() { }  
 
-	getElementsAroundLocation($location?, $distance?, $maxResults?)
+	getElementsAroundLocation($location, $distance, $maxResults = 0)
 	{
-		$location = $location || App.mapComponent.getCenter();
-		$distance = $distance|| App.mapComponent.mapRadiusInKm() * 2;
-		$maxResults = $maxResults || 0;
+		// if invalid location we abort
+		if (!$location || !$location.lat) 
+		{
+			console.log("Ajax invalid request return", $location);
+			return;
+		}
 		
 		// there is a limit in ajax data, we can not send more thant a thousand ids
 		// so for the moment is quite useless to send theses id. See if we manage to
@@ -84,7 +87,7 @@ export class AjaxModule
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_elements_around_location');
 
-		//console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
+		console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
 		
 		$.ajax({
 			url: route,
@@ -108,7 +111,7 @@ export class AjaxModule
 			  	if (response.data !== null)
 				{
 					let end = new Date().getTime();
-					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
 					this.onNewElements.emit(response.data);				
 				}
