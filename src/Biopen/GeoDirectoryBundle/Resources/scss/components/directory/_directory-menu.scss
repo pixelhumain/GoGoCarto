@@ -304,22 +304,22 @@
 	padding-bottom: 0;
 }
 
-#search_distance_section
+#search-distance-component
 {
 	margin: 0rem .8rem 0 .8rem;
 
-	#search_distance_container
+	#search-distance-container
 	{
 	    display: inline-block;
     	width: calc(100% - 55px);
 
-		#search_distance
+		#search-distance-input
 		{
 			border: none;
 		}
 	}
 
-	#search_distance_value_container
+	#search-distance-value-container
 	{
 		float: right;
     	line-height: 2.3rem;

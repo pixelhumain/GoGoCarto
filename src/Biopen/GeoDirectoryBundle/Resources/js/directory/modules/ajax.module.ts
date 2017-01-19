@@ -16,57 +16,89 @@ declare let App : AppModule;
 declare var $ : any;
 declare let Routing;
 
+export class Request
+{
+	originLat : number;
+	originLng : number; 
+	distance  : number; 
+	elementIds : number[];
+	maxResults : number;  
+
+	constructor(lat : number, lng : number, distance :number, maxResults : number, allIds : number[])
+	{
+		this.originLat = lat;
+		this.originLng = lng;
+		this.distance = distance;
+		this.elementIds = allIds;
+		this.maxResults = maxResults;
+	};
+
+	update()
+	{
+		if (!this) return;
+		this.elementIds = App.elementModule.getAllElementsIds();
+		return this;
+	}
+}
+
 export class AjaxModule
 {
 	onNewElements = new Event<any[]>();
 
 	isRetrievingElements : boolean = false;
+
 	requestWaitingToBeExecuted : boolean = false;
+	waintingRequest : Request = null;
+
+	currRequest : Request = null;
 
 	loaderTimer = null;
 
 	constructor() { }  
 
-	createRequest(location?, radius?)
+	getElementsAroundLocation($location?, $distance?, $maxResults?)
 	{
-		let request : any = {};
-		request.origin = location || App.mapComponent.getCenter();
-		request.distance = radius || App.mapComponent.mapRadiusInKm() * 2;
-		request.elementIds = App.elementModule.allElementsIds;
-		request.maxResults = 300;
-		return request;
-	};
+		$location = $location || App.mapComponent.getCenter();
+		$distance = $distance|| App.mapComponent.mapRadiusInKm() * 2;
+		$maxResults = $maxResults || 0;
+		
+		// there is a limit in ajax data, we can not send more thant a thousand ids
+		// so for the moment is quite useless to send theses id. See if we manage to
+		// change server config to send more thant 1000 ids;
+		let $allIds = App.elementModule.getAllElementsIds();
 
-	setIsRetrievingElements(bool)
+		this.getElements(new Request($location.lat, $location.lng, $distance, $maxResults, $allIds));
+	}
+
+	private getElements($request : Request)
 	{
-		this.isRetrievingElements = bool;	
-	};
-
-	getElementsAroundLocation(location?, radius?, request?)
-	{
-		let currRequest = request ? request : this.createRequest(location, radius);	
-
 		if (this.isRetrievingElements)
 		{		
 			this.requestWaitingToBeExecuted = true;
+			this.waintingRequest = $request;
 			return;
 		}
 
+		this.currRequest = $request;
+
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_elements_around_location');
-		let that = this;
 
+		//console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
+		
 		$.ajax({
 			url: route,
 			method: "post",
-			data: { originLat: currRequest.origin.lat, 
-				    originLng: currRequest.origin.lng, 
-				    distance: currRequest.distance,
-				    elementIds: currRequest.elementIds,
-				    maxResults: currRequest.maxResults },
+			data: {
+				originLat : $request.originLat,
+				originLng : $request.originLng,
+				distance  : $request.distance,
+				elementIds : $request.elementIds,
+				maxResults : $request.maxResults,
+			},
 			beforeSend: () =>
 			{ 
-				this.setIsRetrievingElements(true);
+				this.isRetrievingElements = true;
 				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 2000); 
 			},
 			success: response =>
@@ -76,33 +108,34 @@ export class AjaxModule
 			  	if (response.data !== null)
 				{
 					let end = new Date().getTime();
-					window.console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
 					this.onNewElements.emit(response.data);				
 				}
 			  
 				if (response.exceedMaxResult)
 				{
-					//window.console.log("   moreElementsToReceive");
+					//console.log("   moreElementsToReceive");
 					if (!this.requestWaitingToBeExecuted) 
 					{        			
-						this.getElementsAroundLocation(this.createRequest());
+						let req = this.currRequest.update();
+						this.getElements(req);
 					}
 				}	        
 			},
 			complete: () =>
 			{
-			  this.setIsRetrievingElements(false);
+			  this.isRetrievingElements = false;
 			  if (this.requestWaitingToBeExecuted)
 			  {
-			  	//window.console.log("    this.requestWaitingToBeExecuted stored");
-			  	this.getElementsAroundLocation(this.createRequest());
-			  	this.requestWaitingToBeExecuted = false;
+			  	 //console.log("    requestWaitingToBeExecuted stored");
+			  	 this.getElements(this.waintingRequest);
+			  	 this.requestWaitingToBeExecuted = false;
 			  }
 			  else
 			  {
-			  	clearTimeout(this.loaderTimer);
-				$('#directory-loading').hide();
+			  	 clearTimeout(this.loaderTimer);
+				 $('#directory-loading').hide();
 			  }
 			},
 		});

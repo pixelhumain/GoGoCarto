@@ -21,7 +21,6 @@
     }
 }
 
-
 #overlay {
     position: absolute;
     top: 0;
@@ -33,31 +32,3 @@
     z-index: -1;
     will-change: opacity;
 }
-
-#menu-button
-{
-	position: absolute;
-    left: 1rem;
-    text-align: center;
-    top: 1rem;
-    width: 3rem;
-    height: 3rem;
-    background-color: white;
-    z-index: 11;
-    @extend .z-depth-1;
-    color: #555;
-
-    > i
-    {
-        font-size: 2rem;
-        height: 3rem;
-        &:before { line-height: 3rem }
-    }
-
-    @media #{$medium-and-up} 
-    {
-        display: none !important;
-    }
-}
-
-#menu-button:hover {cursor: pointer;}

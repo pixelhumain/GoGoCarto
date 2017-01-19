@@ -88,7 +88,7 @@ if (constellationMode)
 		marker.showNormalSize();
 	});
 
-	$('#search_distance').change(function() { $("#search_distance_value").text($(this).val()); });
+	$('#search-distance-input').change(function() { $("#search-distance-value").text($(this).val()); });
 }
 });
 

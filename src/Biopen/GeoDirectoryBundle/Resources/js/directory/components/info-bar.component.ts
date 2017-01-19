@@ -43,13 +43,12 @@ export class InfoBarComponent
 				$('#element-info-bar .menu-element .icon-star-full').show();
 			}
 		}	
-
+		element.updateDistance();
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
-			this.onHide.emit(true);
 			this.hide();
 			return false;
 		});
@@ -114,6 +113,8 @@ export class InfoBarComponent
 					
 				}		
 			}
+
+			this.onHide.emit(true);
 		}
 
 		this.isVisible = false;
@@ -141,7 +142,7 @@ export class InfoBarComponent
 
 			let elementInfoBar_newHeight =  $( window ).height();
 			elementInfoBar_newHeight -= $('header').height();
-			elementInfoBar_newHeight -=$('#bandeau_goToElementList').outerHeight(true);
+			elementInfoBar_newHeight -=$('#bandeau_goTodirectory-content-list').outerHeight(true);
 
 			$('#element-info-bar').css('height', '100%');
 

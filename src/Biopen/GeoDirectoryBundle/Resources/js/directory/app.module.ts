@@ -16,10 +16,11 @@ import * as L from "leaflet";
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
-import { ElementsModule, MarkersChanged } from "./modules/elements.module";
+import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
 import { DirectionsModule } from "./modules/directions.module";
+import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
 import { MapComponent } from "./components/map/map.component";
@@ -39,6 +40,7 @@ declare var App;
 $(document).ready(function()
 {	
    App = new AppModule();
+   App.checkInitialState();
 
    initializeDirectoryMenu();
    initializeAppInteractions();
@@ -47,8 +49,8 @@ $(document).ready(function()
    // Gets history state from browser
    window.onpopstate = (event) =>
    {
-	  window.console.log("OnpopState ", event);
-	  this.setState(event.state.name,event.state.options,true);
+	  console.log("OnpopState ", event);
+	  //this.setState(event.state.name,event.state.options,true);
 	};
 });
 
@@ -63,6 +65,12 @@ export enum AppStates
 	ShowDirections,
 	Constellation,
 	StarRepresentationChoice    
+}
+
+export enum AppModes
+{
+	Map,
+	List
 }
 
 /*
@@ -81,11 +89,12 @@ export class AppModule
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
 	searchBarComponent = new SearchBarComponent('search-bar');
-
+	elementListComponent = new ElementListComponent();
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
-	currState_ : AppStates = null;	
+	private state_ : AppStates = null;	
+	private mode_ : AppModes;
 
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
@@ -95,7 +104,7 @@ export class AppModule
 	// when all app initialisations are done
 	readyToWork = false;
 
-	// prevent updateElementList while the action is just
+	// prevent updatedirectory-content-list while the action is just
 	// showing element details
 	isShowingInfoBarComponent_ = false;
 
@@ -110,17 +119,15 @@ export class AppModule
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
-		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
-		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
-	
-		//this.elementsModule_.onMarkersChanged.do( (array)=> { this.handleMarkersChanged(array); });
-	
 		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
 
+		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
+		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
+	
+		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
+	
 		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
-		
-		this.checkInitialState();
 	}
 
 	initializeMapFeatures()
@@ -138,63 +145,111 @@ export class AppModule
 
 		if (GET.id) 
 		{
-			this.mapComponent.init();
-			this.setState(AppStates.ShowElementAlone,{id: GET.id},true);
+			this.setMode(AppModes.Map);
+			this.setState(AppStates.ShowElementAlone,{id: GET.id},false);
+			$('#directory-spinner-loader').hide();	
 			this.readyToWork = true;		
 		}
 		else if (GET.directions) 
 		{
-			this.setState(AppStates.ShowDirections,{id: GET.directions},true);
+			this.setState(AppStates.ShowDirections,{id: GET.directions},false);
 			this.readyToWork = true;			
 		}
 		else
-		{
-			this.setState(AppStates.Normal);
-			this.mapComponent.init();
+		{			
 			this.geocoderModule_.geocodeAddress(
 				initialAddressSlug, 
 				(results) => 
-				{ 					
-					setTimeout(() => this.mapComponent.fitBounds(results[0].getBounds(), false), 100);					
+				{ 	
+					//console.log("geocoding done, get elements around");	
+					// if (GET.list && initialAddressSlug)
+					// {
+					// 	this.setMode(AppModes.List);		
+					// }
+					// else
+					// {
+						
+					// }
+
+					this.setMode(AppModes.Map);
+					this.setState(AppStates.Normal);
+
+					this.ajaxModule.getElementsAroundLocation();
+						
 					this.updateState();
 					this.updateDocumentTitle_();
-
-					// console.log("geocoding done, get elements around");
-					// this.ajaxModule.getElementsAroundLocation();
+					$('#directory-spinner-loader').hide();									
 					this.readyToWork = true;					
 				}	
-			);			
+			);						
 		}
 	};	
+
+	setMode($mode : AppModes)
+	{
+		if ($mode != this.mode_)
+		{
+			this.mode_ = $mode;
+			if (this.mode_ == AppModes.Map)
+			{
+				$('#directory-content-map').show();
+				$('#directory-content-list').hide();		
+
+				this.mapComponent.init();
+			}
+			else
+			{
+				$('#directory-content-map').hide();
+				$('#directory-content-list').show();
+			}
+
+			if (this.readyToWork)
+			{
+				this.elementModule.clearCurrentsElement();
+				this.elementModule.updateElementToDisplay(true, true);
+			}			
+		}
+	}
 
 	/*
 	* Change App state
 	*/
-	setState(stateName, options : any = {}, backFromHistory = false) 
+	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
 	{ 	
-		//window.console.log("AppModule set State : " + stateName + ', options = ' + options.toString() + ', backfromHistory : ' + backFromHistory);
+		//console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
 
-		let oldStateName = this.currState_;
-		this.currState_ = stateName;		
+		let oldStateName = this.state_;
+		this.state_ = $newState;		
 
-		/*if (oldStateName == stateName)
+		/*if (oldStateName == $newState)
 		{
-			this.updateDocumentTitle_(stateName, element);
+			this.updateDocumentTitle_($newState, element);
 			return;
 		} */	
 
-		if (stateName != AppStates.ShowDirections && this.directionsModule_) 
+		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
 		
-		switch (stateName)
+		switch ($newState)
 		{
+			case AppStates.Normal:			
+				// if (this.state_ == AppStates.Constellation) 
+				// {
+				// 	clearDirectoryMenu();
+				// 	this.starRepresentationChoiceModule_.end();
+				// }	
+
+				this.displayElementAloneModule_.end();						
+				break;
+
+
 			case AppStates.ShowElement:				
 				break;	
 
 			case AppStates.ShowElementAlone:
 
 				if (!options.id) return;
-				
+
 				let element = this.elementById(options.id);
 				if (element)
 				{
@@ -218,7 +273,7 @@ export class AppModule
 				if (!options.id) return;			
 				
 				let origin;
-				if (this.currState_ == AppStates.Constellation)
+				if (this.state_ == AppStates.Constellation)
 				{
 					origin = this.constellation.getOrigin();
 				}
@@ -233,19 +288,11 @@ export class AppModule
 				this.displayElementAloneModule_.begin(options.id, false);									
 				break;
 
-			case AppStates.Normal:			
-				// if (this.currState_ == AppStates.Constellation) 
-				// {
-				// 	clearDirectoryMenu();
-				// 	this.starRepresentationChoiceModule_.end();
-				// }
-				
-				this.displayElementAloneModule_.end();						
-				break;
+			
 		}
 
 		this.updateDocumentTitle_(options);
-		this.updateHistory_(stateName, oldStateName, options, backFromHistory);	
+		this.updateHistory_($newState, oldStateName, options, backFromHistory);	
 	};
 
 	handleMarkerClick(marker : BiopenMarker)
@@ -264,7 +311,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		console.log("App handle map idle, Ready to work : ", this.readyToWork);
+		//console.log("App handle map idle, Ready to work : ", this.readyToWork);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
@@ -291,7 +338,6 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		this.setState(AppStates.Normal);
 		this.infoBarComponent.hide(); 
 	}; 
 
@@ -306,8 +352,6 @@ export class AppModule
 				this.mapComponent.fitBounds(results[0].getBounds(), false);					
 				this.updateState();
 				this.updateDocumentTitle_();
-
-				//console.log("geocoding done, get elements around");	
 			}	
 		);	
 	}
@@ -319,25 +363,31 @@ export class AppModule
 		this.elementModule.updateElementToDisplay(); 
 	}; 
 
-	// handleMarkersChanged(array : MarkersChanged)
-	// {
-	// 	console.log("handleMarkerChanged new : ", array.newMarkers.length );
-	// 	for(let marker of array.newMarkers)
-	// 	{
-	// 		marker.setVisible(true);
-	// 	}
-	// 	for(let marker of array.markersToRemove)
-	// 	{
-	// 		marker.setVisible(false);
-	// 	}
-	// 	// this.clusterer().addMarkers(array.newMarkers,true);
-	// 	// this.clusterer().removeMarkers(array.markersToRemove, true);		
-	// 	// this.clusterer().repaint();	
-	// }; 
+	handleElementsChanged(result : ElementsChanged)
+	{
+		//console.log("handleElementsChanged new : ", result.newElements.length );
+
+		if (this.mode_ == AppModes.List)
+		{
+			this.elementListComponent.update(result);
+		}
+		else if (this.state == AppStates.Normal)
+		{
+			for(let element of result.newElements)
+			{
+				element.show();
+			}
+			for(let element of result.elementsToRemove)
+			{
+				if (!element.isShownAlone) element.hide();
+			}
+		}
+	}; 
 
 	handleInfoBarHide()
 	{
-		if (this.state != AppStates.StarRepresentationChoice) this.setState("normal");
+		if (this.state != AppStates.StarRepresentationChoice 
+			&& this.mode_ != AppModes.List) this.setState(AppStates.Normal);
 	};
 
 	handleInfoBarShow(elementId)
@@ -345,12 +395,6 @@ export class AppModule
 		let statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
 		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
-
-	// handleGeocoding(results : any)
-	// {
-	// 	console.log("App handle geocoding");
-		
-	// };
 
 	updateMaxElements() 
 	{ 
@@ -371,11 +415,6 @@ export class AppModule
 		let that = this;
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
-
-
-
-	
-
 	
 
 	updateState()
@@ -384,21 +423,21 @@ export class AppModule
 		this.updateHistory_(history.state.name, null, history.state.options, false);
 	};
 
-	updateHistory_(stateName, oldStateName, options, backFromHistory)
+	updateHistory_($newState, oldStateName, options, backFromHistory)
 	{
 		let route = "";
 		
-		if (this.currState_ != AppStates.Constellation)
+		if (this.state_ != AppStates.Constellation)
 		{
 			route = this.updateRouting_(options);
 		}
 
 		if (!backFromHistory)
 		{
-			if (oldStateName === null || stateName == AppStates.ShowElement || (stateName == AppStates.Normal && oldStateName == AppStates.ShowElement))
-			 	history.replaceState({ name: stateName, options: options }, '', route);
+			if (oldStateName === null || $newState == AppStates.ShowElement || ($newState == AppStates.Normal && oldStateName == AppStates.ShowElement))
+			 	history.replaceState({ name: $newState, options: options }, '', route);
 			else 
-				history.pushState({ name: stateName, options: options }, '', route);
+				history.pushState({ name: $newState, options: options }, '', route);
 		}
 	};
 
@@ -428,23 +467,30 @@ export class AppModule
 			elementName = capitalize(element ? element.name : '');
 		}
 
-		switch (this.currState_)
+		if (this.mode_ == AppModes.List)
+		{		
+			title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
+		}
+		else
 		{
-			case AppStates.ShowElement:				
-				title = 'Acteur - ' + elementName;
-				break;	
+			switch (this.state_)
+			{
+				case AppStates.ShowElement:				
+					title = 'Acteur - ' + elementName;
+					break;	
 
-			case AppStates.ShowElementAlone:
-				title = 'Acteur - ' + elementName;
-				break;
+				case AppStates.ShowElementAlone:
+					title = 'Acteur - ' + elementName;
+					break;
 
-			case AppStates.ShowDirections:
-				title = 'Itinéraire - ' + elementName;
-				break;
+				case AppStates.ShowDirections:
+					title = 'Itinéraire - ' + elementName;
+					break;
 
-			case AppStates.Normal:			
-				title = 'Annuaire ' + this.geocoder.getLocationAddress();					
-				break;
+				case AppStates.Normal:			
+					title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
+					break;
+			}
 		}
 
 		document.title = title;	
@@ -474,6 +520,7 @@ export class AppModule
 	//get SRCModule() { return this.starRepresentationChoiceModule_; };
 	get DPAModule() { return this.displayElementAloneModule_; };
 	//get listElementModule() { return this.listElementModule_; };
-	get state() { return this.currState_; };
+	get state() { return this.state_; };
+	get mode() { return this.mode_; };
 
 }

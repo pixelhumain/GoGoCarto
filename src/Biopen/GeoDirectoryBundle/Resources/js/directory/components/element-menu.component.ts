@@ -48,7 +48,7 @@ function onloadCaptcha()
     });
 }
 
-function createListenersForElementMenu(object)
+export function createListenersForElementMenu(object)
 {
 	object.find('.icon-edit').click(function() {
 		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 

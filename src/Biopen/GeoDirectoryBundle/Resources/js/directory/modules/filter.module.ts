@@ -9,7 +9,7 @@
  */
 
 
-import { AppModule } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
 declare let App : AppModule;
 
 export class FilterModule
@@ -89,9 +89,12 @@ export class FilterModule
 			let updateElementIcon = false;
 			for (i = 0; i < products.length; i++) 
 			{
+				// if this element's product is not in the black filter product list
 				if (!this.containsProduct(products[i].nameFormate)) 
 				{
 					atLeastOneProductPassFilter = true;
+
+					// if product was previously disabled, we show it again enabled
 					if (products[i].disabled)
 					{
 						products[i].disabled = false;
@@ -101,6 +104,7 @@ export class FilterModule
 				}
 				else
 				{
+					// if product is unselected from directory menu, we show it "disabled"
 					if (!products[i].disabled) 
 					{
 						products[i].disabled = true;
@@ -110,7 +114,11 @@ export class FilterModule
 				}			
 			}	
 
-			if (updateElementIcon && atLeastOneProductPassFilter) element.marker.updateIcon();
+			// if one product have been enabled or disabled we update the element icon
+			if (updateElementIcon 
+				&& atLeastOneProductPassFilter 
+				&& element.marker
+				&& App.mode == AppModes.Map) element.marker.updateIcon();
 		}
 
 		if (!atLeastOneProductPassFilter) return false;
