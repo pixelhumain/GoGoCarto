@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import { AppModule, AppStates } from "./app.module";
+import { AppModule, AppStates, AppModes } from "./app.module";
 declare let App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 
@@ -62,12 +62,12 @@ export function initializeAppInteractions()
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
 	$('#directory-content-map .show-as-list-button').click((e : Event) => {		
-		App.setState(AppStates.List);
+		App.setMode(AppModes.List);
 		e.preventDefault();
 	});
 
 	$('#directory-content-list .show-as-map-button').click(() => {		
-		App.setState(AppStates.Normal);
+		App.setMode(AppModes.Map);
 	});
 	
 	// if (onlyInputAdressMode)

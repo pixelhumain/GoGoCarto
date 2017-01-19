@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
 declare let App : AppModule;
 declare var $;	
 
@@ -125,7 +125,7 @@ export class ElementsModule
 
 		let i : number, element : Element;
 		let bounds;
-		if (App.state != AppStates.List)
+		if (App.mode != AppModes.List)
 		{
 			bounds = App.mapComponent.getBounds(); 
 		}
@@ -145,7 +145,7 @@ export class ElementsModule
 			element = elements[i];
 
 			// in List mode we don't need to check bounds;
-			let elementInBounds = (App.state == AppStates.List) || bounds.contains(element.position);
+			let elementInBounds = (App.mode == AppModes.List) || bounds.contains(element.position);
 
 			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{

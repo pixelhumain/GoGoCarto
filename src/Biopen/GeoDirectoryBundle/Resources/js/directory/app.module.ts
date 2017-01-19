@@ -49,8 +49,8 @@ $(document).ready(function()
    // Gets history state from browser
    window.onpopstate = (event) =>
    {
-	  window.console.log("OnpopState ", event);
-	  this.setState(event.state.name,event.state.options,true);
+	  console.log("OnpopState ", event);
+	  //this.setState(event.state.name,event.state.options,true);
 	};
 });
 
@@ -60,12 +60,17 @@ $(document).ready(function()
 export enum AppStates 
 {
 	Normal,
-	List,
 	ShowElement,
 	ShowElementAlone,
 	ShowDirections,
 	Constellation,
 	StarRepresentationChoice    
+}
+
+export enum AppModes
+{
+	Map,
+	List
 }
 
 /*
@@ -88,7 +93,8 @@ export class AppModule
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
-	currState_ : AppStates = null;	
+	private state_ : AppStates = null;	
+	private mode_ : AppModes;
 
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
@@ -139,8 +145,9 @@ export class AppModule
 
 		if (GET.id) 
 		{
-			this.mapComponent.init();
+			this.setMode(AppModes.Map);
 			this.setState(AppStates.ShowElementAlone,{id: GET.id},false);
+			$('#directory-spinner-loader').hide();	
 			this.readyToWork = true;		
 		}
 		else if (GET.directions) 
@@ -155,15 +162,19 @@ export class AppModule
 				(results) => 
 				{ 	
 					//console.log("geocoding done, get elements around");	
-					if (GET.list && initialAddressSlug)
-					{
-						this.setState(AppStates.List, {list:1});		
-					}
-					else
-					{
-						this.setState(AppStates.Normal);
-						this.ajaxModule.getElementsAroundLocation();
-					}
+					// if (GET.list && initialAddressSlug)
+					// {
+					// 	this.setMode(AppModes.List);		
+					// }
+					// else
+					// {
+						
+					// }
+
+					this.setMode(AppModes.Map);
+					this.setState(AppStates.Normal);
+
+					this.ajaxModule.getElementsAroundLocation();
 						
 					this.updateState();
 					this.updateDocumentTitle_();
@@ -174,6 +185,32 @@ export class AppModule
 		}
 	};	
 
+	setMode($mode : AppModes)
+	{
+		if ($mode != this.mode_)
+		{
+			this.mode_ = $mode;
+			if (this.mode_ == AppModes.Map)
+			{
+				$('#directory-content-map').show();
+				$('#directory-content-list').hide();		
+
+				this.mapComponent.init();
+			}
+			else
+			{
+				$('#directory-content-map').hide();
+				$('#directory-content-list').show();
+			}
+
+			if (this.readyToWork)
+			{
+				this.elementModule.clearCurrentsElement();
+				this.elementModule.updateElementToDisplay(true, true);
+			}			
+		}
+	}
+
 	/*
 	* Change App state
 	*/
@@ -181,8 +218,8 @@ export class AppModule
 	{ 	
 		//console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
 
-		let oldStateName = this.currState_;
-		this.currState_ = $newState;		
+		let oldStateName = this.state_;
+		this.state_ = $newState;		
 
 		/*if (oldStateName == $newState)
 		{
@@ -196,36 +233,15 @@ export class AppModule
 		switch ($newState)
 		{
 			case AppStates.Normal:			
-				// if (this.currState_ == AppStates.Constellation) 
+				// if (this.state_ == AppStates.Constellation) 
 				// {
 				// 	clearDirectoryMenu();
 				// 	this.starRepresentationChoiceModule_.end();
 				// }	
 
-				$('#directory-content-map').show();
-				$('#directory-content-list').hide();		
-
-				this.mapComponent.init();
-						
-				this.elementModule.clearCurrentsElement();
-				this.elementModule.updateElementToDisplay(true, true);
-				
 				this.displayElementAloneModule_.end();						
 				break;
 
-			case AppStates.List:	
-
-				$('#directory-content-map').hide();
-				$('#directory-content-list').show();
-
-				this.elementModule.clearCurrentsElement();
-				this.elementModule.updateElementToDisplay(true, true);
-
-				//this.elementModule.updateElementToDisplay();
-
-				options.list = 1;
-				//this.elementListComponent.draw(this.elementModule.elements);
-				break;
 
 			case AppStates.ShowElement:				
 				break;	
@@ -233,7 +249,7 @@ export class AppModule
 			case AppStates.ShowElementAlone:
 
 				if (!options.id) return;
-				
+
 				let element = this.elementById(options.id);
 				if (element)
 				{
@@ -257,7 +273,7 @@ export class AppModule
 				if (!options.id) return;			
 				
 				let origin;
-				if (this.currState_ == AppStates.Constellation)
+				if (this.state_ == AppStates.Constellation)
 				{
 					origin = this.constellation.getOrigin();
 				}
@@ -351,7 +367,7 @@ export class AppModule
 	{
 		//console.log("handleElementsChanged new : ", result.newElements.length );
 
-		if (this.state == AppStates.List)
+		if (this.mode_ == AppModes.List)
 		{
 			this.elementListComponent.update(result);
 		}
@@ -370,7 +386,8 @@ export class AppModule
 
 	handleInfoBarHide()
 	{
-		if (this.state != AppStates.StarRepresentationChoice) this.setState(AppStates.Normal);
+		if (this.state != AppStates.StarRepresentationChoice 
+			&& this.mode_ != AppModes.List) this.setState(AppStates.Normal);
 	};
 
 	handleInfoBarShow(elementId)
@@ -398,11 +415,6 @@ export class AppModule
 		let that = this;
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
-
-
-
-	
-
 	
 
 	updateState()
@@ -415,7 +427,7 @@ export class AppModule
 	{
 		let route = "";
 		
-		if (this.currState_ != AppStates.Constellation)
+		if (this.state_ != AppStates.Constellation)
 		{
 			route = this.updateRouting_(options);
 		}
@@ -455,27 +467,30 @@ export class AppModule
 			elementName = capitalize(element ? element.name : '');
 		}
 
-		switch (this.currState_)
+		if (this.mode_ == AppModes.List)
+		{		
+			title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
+		}
+		else
 		{
-			case AppStates.ShowElement:				
-				title = 'Acteur - ' + elementName;
-				break;	
+			switch (this.state_)
+			{
+				case AppStates.ShowElement:				
+					title = 'Acteur - ' + elementName;
+					break;	
 
-			case AppStates.ShowElementAlone:
-				title = 'Acteur - ' + elementName;
-				break;
+				case AppStates.ShowElementAlone:
+					title = 'Acteur - ' + elementName;
+					break;
 
-			case AppStates.ShowDirections:
-				title = 'Itinéraire - ' + elementName;
-				break;
+				case AppStates.ShowDirections:
+					title = 'Itinéraire - ' + elementName;
+					break;
 
-			case AppStates.Normal:			
-				title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
-				break;
-
-			case AppStates.List:			
-				title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
-				break;
+				case AppStates.Normal:			
+					title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
+					break;
+			}
 		}
 
 		document.title = title;	
@@ -505,6 +520,7 @@ export class AppModule
 	//get SRCModule() { return this.starRepresentationChoiceModule_; };
 	get DPAModule() { return this.displayElementAloneModule_; };
 	//get listElementModule() { return this.listElementModule_; };
-	get state() { return this.currState_; };
+	get state() { return this.state_; };
+	get mode() { return this.mode_; };
 
 }

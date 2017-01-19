@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
 declare let App : AppModule;
@@ -180,7 +180,7 @@ getHtmlRepresentation()
 		element : this, 
 		showDistance: App.geocoder.getLocation() ? true : false,
 		horaires : this.getFormatedHoraires(), 
-		listingMode: App.state == AppStates.List, 
+		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
 	});

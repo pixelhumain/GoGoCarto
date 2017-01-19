@@ -9,7 +9,7 @@
  */
 
 
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
 declare let App : AppModule;
 
 export class FilterModule
@@ -118,7 +118,7 @@ export class FilterModule
 			if (updateElementIcon 
 				&& atLeastOneProductPassFilter 
 				&& element.marker
-				&& App.state != AppStates.List) element.marker.updateIcon();
+				&& App.mode == AppModes.Map) element.marker.updateIcon();
 		}
 
 		if (!atLeastOneProductPassFilter) return false;
