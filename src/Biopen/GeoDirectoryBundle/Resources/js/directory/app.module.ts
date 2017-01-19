@@ -8,9 +8,9 @@
  * @Last Modified time: 2016-12-13
  */
 
-declare let initialAddressSlug;
-declare let window, Routing : any;
 
+declare let window, Routing : any;
+declare let CONFIG;
 declare var $;
 import * as L from "leaflet";
 
@@ -101,9 +101,6 @@ export class AppModule
 	// few milliseconds so the map don't do anything is click event
 	isClicking_ = false;
 
-	// when all app initialisations are done
-	readyToWork = false;
-
 	// prevent updatedirectory-content-list while the action is just
 	// showing element details
 	isShowingInfoBarComponent_ = false;
@@ -119,9 +116,6 @@ export class AppModule
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
-		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
-		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });
-
 		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
 		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
 	
@@ -136,52 +130,52 @@ export class AppModule
 	};
 
 	/*
-	* Check initial state parsing the Url
+	* Check initial state with CONFIG provided by symfony controller
 	*/
 	checkInitialState()
 	{
-		// CHECK state from Url
-		let GET : any = getQueryParams(document.location.search);
+		console.log("CONFIG", CONFIG);
+		
+		this.setMode(CONFIG.mode == 'Map' ? AppModes.Map : AppModes.List);
 
-		if (GET.id) 
+		switch (CONFIG.state)
 		{
-			this.setMode(AppModes.Map);
-			this.setState(AppStates.ShowElementAlone,{id: GET.id},false);
-			$('#directory-spinner-loader').hide();	
-			this.readyToWork = true;		
-		}
-		else if (GET.directions) 
-		{
-			this.setState(AppStates.ShowDirections,{id: GET.directions},false);
-			this.readyToWork = true;			
-		}
-		else
-		{			
-			this.geocoderModule_.geocodeAddress(
-				initialAddressSlug, 
-				(results) => 
-				{ 	
-					//console.log("geocoding done, get elements around");	
-					// if (GET.list && initialAddressSlug)
-					// {
-					// 	this.setMode(AppModes.List);		
-					// }
-					// else
-					// {
-						
-					// }
+			case "Normal":	
+				this.setState(AppStates.Normal);		
+				this.geocoderModule_.geocodeAddress(
+					CONFIG.address, 
+					(results) => 
+					{ 
+						if (this.mode_ == AppModes.Map)
+						{
+							this.mapComponent.fitBounds(this.geocoder.getBounds());
+						}
+						else
+						{
+							// get elements around location
+							this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+						}
 
-					this.setMode(AppModes.Map);
-					this.setState(AppStates.Normal);
+						//this.updateState();
+						//this.updateDocumentTitle_();
+						$('#directory-spinner-loader').hide();									
+										
+					}	
+				);					
+				break;
 
-					this.ajaxModule.getElementsAroundLocation();
-						
-					this.updateState();
-					this.updateDocumentTitle_();
-					$('#directory-spinner-loader').hide();									
-					this.readyToWork = true;					
-				}	
-			);						
+			case "ShowElementAlone":			
+				this.setState(AppStates.ShowElementAlone,{id: CONFIG.id},false);
+				$('#directory-spinner-loader').hide();						
+				break;
+
+			case "ShowDirections":			
+				// this.setState(AppStates.ShowDirections,{id: CONFIG.id},false);				
+				break;			
+
+			case "Constellation":			
+								
+				break;
 		}
 	};	
 
@@ -192,22 +186,25 @@ export class AppModule
 			this.mode_ = $mode;
 			if (this.mode_ == AppModes.Map)
 			{
+				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
+
 				$('#directory-content-map').show();
-				$('#directory-content-list').hide();		
+				$('#directory-content-list').hide();				
 
 				this.mapComponent.init();
 			}
 			else
 			{
+				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
+				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });		
+
 				$('#directory-content-map').hide();
 				$('#directory-content-list').show();
 			}
 
-			if (this.readyToWork)
-			{
-				this.elementModule.clearCurrentsElement();
-				this.elementModule.updateElementToDisplay(true, true);
-			}			
+			this.elementModule.clearCurrentsElement();
+			this.elementModule.updateElementToDisplay(true, true);	
 		}
 	}
 
@@ -216,7 +213,7 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
 	{ 	
-		//console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
+		console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
 
 		let oldStateName = this.state_;
 		this.state_ = $newState;		
@@ -260,7 +257,8 @@ export class AppModule
 					this.ajaxModule_.getElementById(options.id,
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
-							this.DPAModule.begin(elementJson.id); 
+							// timeout to fixs map initialisation bug
+							setTimeout(() => {this.DPAModule.begin(elementJson.id);}, 0); 
 							this.updateDocumentTitle_(options);
 						},
 						(error) => { /*TODO*/ alert("No element with this id"); }
@@ -297,6 +295,8 @@ export class AppModule
 
 	handleMarkerClick(marker : BiopenMarker)
 	{
+		if ( this.mode != AppModes.Map) return;
+
 		this.setTimeoutClicking();
 
 		if (marker.isHalfHidden()) App.setState(AppStates.Normal);	
@@ -311,13 +311,13 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		//console.log("App handle map idle, Ready to work : ", this.readyToWork);
+		console.log("App handle map idle, maploaded : ", this.mapComponent.isMapLoaded);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
-		if ( this.isShowingInfoBarComponent ) return;
-
-		if (!this.readyToWork) return; 
+		if (this.isShowingInfoBarComponent) return;
+		if (this.mode  != AppModes.Map)     return;
+		if (this.state  != AppStates.Normal)     return;
 
 		let updateInAllElementList = true;
 		let forceRepaint = false;
@@ -331,8 +331,16 @@ export class AppModule
 			forceRepaint = true;
 		}
 
-		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
-		this.ajaxModule.getElementsAroundLocation();	 
+		// sometimes idle event is fired but map is not yet initialized (somes millisecond
+		// after it will be)
+		let delay = this.mapComponent.isMapLoaded ? 0 : 100;
+		setTimeout(() => {
+			this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
+			this.ajaxModule.getElementsAroundLocation(
+				this.mapComponent.getCenter(), 
+				this.mapComponent.mapRadiusInKm() * 2
+			);	 
+		}, delay);		
 	};
 
 	handleMapClick()
@@ -346,7 +354,7 @@ export class AppModule
 		console.log("handle search action", address);
 
 		this.geocoderModule_.geocodeAddress(
-			initialAddressSlug, 
+			address, 
 			(results) => 
 			{ 
 				this.mapComponent.fitBounds(results[0].getBounds(), false);					
@@ -360,12 +368,12 @@ export class AppModule
 	{
 		if (!elementsJson || elementsJson.length === 0) return;
 		this.elementModule.addJsonElements(elementsJson, true);
-		this.elementModule.updateElementToDisplay(); 
+		//this.elementModule.updateElementToDisplay(); 
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		//console.log("handleElementsChanged new : ", result.newElements.length );
+		console.log("handleElementsChanged new : ", result.newElements.length );
 
 		if (this.mode_ == AppModes.List)
 		{
@@ -427,10 +435,10 @@ export class AppModule
 	{
 		let route = "";
 		
-		if (this.state_ != AppStates.Constellation)
-		{
-			route = this.updateRouting_(options);
-		}
+		// if (this.state_ != AppStates.Constellation)
+		// {
+		// 	route = this.updateRouting_(options);
+		// }
 
 		if (!backFromHistory)
 		{
@@ -443,18 +451,18 @@ export class AppModule
 
 	updateRouting_(options)
 	{
-		let route;
+		// let route;
 		
-		if (this.geocoder.getLocationSlug()) route = Routing.generate('biopen_directory', { slug : this.geocoder.getLocationSlug() });
-		else route = Routing.generate('biopen_directory');
+		// if (this.geocoder.getLocationSlug()) route = Routing.generate('biopen_directory', { slug : this.geocoder.getLocationSlug() });
+		// else route = Routing.generate('biopen_directory');
 
-		for (let key in options)
-		{
-			route += '?' + key + '=' + options[key];
-			//route += '/' + key + '/' + options[key];
-		}
+		// for (let key in options)
+		// {
+		// 	route += '?' + key + '=' + options[key];
+		// 	//route += '/' + key + '/' + options[key];
+		// }
 
-		return route;
+		// return route;
 	};
 
 	updateDocumentTitle_(options : any = {})
