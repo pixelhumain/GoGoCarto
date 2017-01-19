@@ -125,10 +125,6 @@ export class ElementsModule
 
 		let i : number, element : Element;
 		let bounds;
-		if (App.mode != AppModes.List)
-		{
-			bounds = App.mapComponent.getBounds(); 
-		}
 
 	 	let newElements : Element[] = [];
 	 	let elementsToRemove : Element[] = [];
@@ -137,15 +133,16 @@ export class ElementsModule
 		let filterModule = App.filterModule;	
 
 		i = elements.length;
-		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+
+		console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		let start = new Date().getTime();
-		
+
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
 		{
 			element = elements[i];
 
 			// in List mode we don't need to check bounds;
-			let elementInBounds = (App.mode == AppModes.List) || bounds.contains(element.position);
+			let elementInBounds = (App.mode == AppModes.List) || App.mapComponent.contains(element.position);
 
 			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{
@@ -185,7 +182,7 @@ export class ElementsModule
 		let end = new Date().getTime();
 		let time = end - start;
 		//window.console.log("    analyse elements en " + time + " ms");	
-		
+
 		if (elementsChanged || forceRepaint)
 		{		
 			this.onElementsChanged.emit({
@@ -216,7 +213,6 @@ export class ElementsModule
 	{
 		this.hideAllMarkers();
 		this.currElements_ = [];
-		if (App.clusterer()) App.clusterer().clearMarkers();	
 	};
 
 	getMarkers () 
