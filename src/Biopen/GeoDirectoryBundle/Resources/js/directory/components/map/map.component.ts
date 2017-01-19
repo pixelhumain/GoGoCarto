@@ -27,7 +27,7 @@ export class MapComponent
 	map_ : L.Map = null;
 	markerClustererGroup;
 	isMapInitialized : boolean = false;
-
+	isMapLoaded : boolean = false;
 	clusterer_ = null;
 	oldZoom = -1;
 
@@ -74,7 +74,7 @@ export class MapComponent
 			this.oldZoom = this.map_.getZoom()
 			this.onIdle.emit(); 
 		});
-		//this.map_.on('load', (e) => { this.isMapInitialized = true; });
+		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("MAP LOADED");});
 
 		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
 
@@ -119,18 +119,18 @@ export class MapComponent
 	{
 		console.log("fitbounds", bounds);
 		
-		if (animate) App.map().flyToBounds(bounds);
+		if (animate && this.isMapLoaded) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
 	}
 
 		
 
-	panToLocation(location : L.LatLng, zoom = 12)
+	panToLocation(location : L.LatLng, zoom = 12, animate : boolean = true)
 	{
 		console.log("panTolocation", location);
 
-		if (!this.isMapInitialized) this.map_.setView(location, zoom);
-		else this.map_.flyTo(location, zoom);
+		if (this.isMapLoaded && animate) this.map_.flyTo(location, zoom);
+		else this.map_.setView(location, zoom);
 	};
 
 	// the actual displayed map radius (distance from croner to center)

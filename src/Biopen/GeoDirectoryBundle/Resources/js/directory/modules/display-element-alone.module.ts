@@ -30,7 +30,7 @@ export class DisplayElementAloneModule
 
 		if (panToElementLocation)
 		{
-			App.mapComponent.panToLocation(element.position, 12);
+			App.mapComponent.panToLocation(element.position, 12, false);
 		}
 
 		if (this.elementShownAlone_ !== null) 
