@@ -130,8 +130,11 @@ export class ElementListComponent
 			else
 			{
 				// if location isn't available we diplay elements visible from the
-				// current map view (default behavior in ajax request)
-				App.ajaxModule.getElementsAroundLocation();
+				// current map view 
+				App.ajaxModule.getElementsAroundLocation(
+					App.mapComponent.getCenter(), 
+					App.mapComponent.mapRadiusInKm()
+				);
 			}
 			
 		}	
