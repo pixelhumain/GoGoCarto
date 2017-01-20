@@ -134,7 +134,8 @@ export class ElementsModule
 
 		i = elements.length;
 
-		console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		
 		let start = new Date().getTime();
 
 		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
