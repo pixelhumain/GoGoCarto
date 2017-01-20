@@ -48,7 +48,7 @@ export class AjaxModule
 	isRetrievingElements : boolean = false;
 
 	requestWaitingToBeExecuted : boolean = false;
-	waintingRequest : Request = null;
+	waitingRequest : Request = null;
 
 	currRequest : Request = null;
 
@@ -78,7 +78,7 @@ export class AjaxModule
 		if (this.isRetrievingElements)
 		{		
 			this.requestWaitingToBeExecuted = true;
-			this.waintingRequest = $request;
+			this.waitingRequest = $request;
 			return;
 		}
 
@@ -87,7 +87,7 @@ export class AjaxModule
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_elements_around_location');
 
-		console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
+		//console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
 		
 		$.ajax({
 			url: route,
@@ -111,7 +111,7 @@ export class AjaxModule
 			  	if (response.data !== null)
 				{
 					let end = new Date().getTime();
-					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
 					this.onNewElements.emit(response.data);				
 				}
@@ -129,15 +129,16 @@ export class AjaxModule
 			complete: () =>
 			{
 			  this.isRetrievingElements = false;
+			  clearTimeout(this.loaderTimer);
 			  if (this.requestWaitingToBeExecuted)
 			  {
-			  	 //console.log("    requestWaitingToBeExecuted stored");
-			  	 this.getElements(this.waintingRequest);
+			  	 //console.log("    requestWaitingToBeExecuted stored", this.waitingRequest);
+			  	 this.getElements(this.waitingRequest);
 			  	 this.requestWaitingToBeExecuted = false;
 			  }
 			  else
 			  {
-			  	 clearTimeout(this.loaderTimer);
+			  	 //console.log("Ajax request complete");			  	 
 				 $('#directory-loading').hide();
 			  }
 			},
