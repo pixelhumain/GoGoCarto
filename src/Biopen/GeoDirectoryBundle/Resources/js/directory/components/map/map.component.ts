@@ -9,6 +9,46 @@ import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 declare let App : AppModule;
 declare var $, L;
 
+export class ViewPort
+{
+	constructor(public lat : number = 0, 
+					public lng :number = 0, 
+					public zoom : number = 0)
+	{
+		this.lat = lat || 0;
+		this.lng = lng || 0;
+		this.zoom = zoom || 0;
+	}
+
+	get location() : L.LatLng
+	{
+		return L.latLng(this.lat, this.lng);
+	}
+
+	toString()
+	{
+		let digits = this.zoom > 14 ? 4 : 2;
+		return `@${this.lat.toFixed(digits)},${this.lng.toFixed(digits)},${this.zoom}z`;
+	}
+
+	fromString(string : string)
+	{
+		let decode = string.split('@').pop().split(',');
+		if (decode.length != 3) {
+			console.log("ViewPort fromString Wrong string", string);
+			return null;
+		}
+		this.lat = parseFloat(decode[0]);
+		this.lng = parseFloat(decode[1]);
+		this.zoom = parseInt(decode[2].slice(0,-1));
+
+		console.log("ViewPort fronString Done", this);
+
+		return this;
+	}
+}
+
+
 /**
 * The Map Component who encapsulate the map
 *
@@ -30,6 +70,7 @@ export class MapComponent
 	isMapLoaded : boolean = false;
 	clusterer_ = null;
 	oldZoom = -1;
+
 
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.isMapLoaded ? this.map_.getCenter() : null; }
@@ -156,5 +197,17 @@ export class MapComponent
 		}
 		console.log("Contains map not loaded");
 		return false;		
+	}
+
+	getViewPort() : ViewPort
+	{
+		if (!this.isMapLoaded) return null;
+		return new ViewPort(this.getCenter().lat, this.getCenter().lng, this.getZoom());
+	}
+
+	setViewPort($viewport : ViewPort)
+	{
+		this.map_.setView($viewport.location, $viewport.zoom);
+		this.resize();
 	}
 }
