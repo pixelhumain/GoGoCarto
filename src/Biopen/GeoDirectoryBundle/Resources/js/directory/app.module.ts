@@ -23,8 +23,9 @@ import { DirectionsModule } from "./modules/directions.module";
 import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
-import { MapComponent } from "./components/map/map.component";
+import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
+import { HitoryModule } from './modules/history.module';
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
@@ -45,13 +46,6 @@ $(document).ready(function()
    initializeDirectoryMenu();
    initializeAppInteractions();
    initializeElementMenu();
-
-   // Gets history state from browser
-   window.onpopstate = (event) =>
-   {
-	  console.log("OnpopState ", event);
-	  //this.setState(event.state.name,event.state.options,true);
-	};
 });
 
 /*
@@ -90,6 +84,7 @@ export class AppModule
 	mapComponent_  = new MapComponent();
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
+	historyModule = new HitoryModule();
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
@@ -138,30 +133,41 @@ export class AppModule
 		
 		this.setMode(CONFIG.mode == 'Map' ? AppModes.Map : AppModes.List);
 
+		let viewport : ViewPort = new ViewPort().fromString(CONFIG.viewport);
+
 		switch (CONFIG.state)
 		{
 			case "Normal":	
-				this.setState(AppStates.Normal);		
-				this.geocoderModule_.geocodeAddress(
-					CONFIG.address, 
-					(results) => 
-					{ 
-						if (this.mode_ == AppModes.Map)
-						{
-							this.mapComponent.fitBounds(this.geocoder.getBounds());
-						}
-						else
-						{
-							// get elements around location
-							this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
-						}
+				this.setState(AppStates.Normal);
+				if (viewport)
+				{
+					setTimeout( () => {this.mapComponent.setViewPort(viewport);}, 200);
+				}		
+				else
+				{
+					this.geocoderModule_.geocodeAddress(
+						CONFIG.address, 
+						(results) => 
+						{ 
+							if (this.mode_ == AppModes.Map)
+							{
+								this.mapComponent.fitBounds(this.geocoder.getBounds());
+							}
+							else
+							{
+								// get elements around location
+								this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+							}
 
-						//this.updateState();
-						//this.updateDocumentTitle_();
-						$('#directory-spinner-loader').hide();									
-										
-					}	
-				);					
+							//this.updateState();
+							//this.updateDocumentTitle_();
+													
+											
+						}	
+					);
+				}
+				$('#directory-spinner-loader').hide();			
+									
 				break;
 
 			case "ShowElementAlone":			
@@ -205,6 +211,8 @@ export class AppModule
 
 			this.elementModule.clearCurrentsElement();
 			this.elementModule.updateElementToDisplay(true, true);	
+
+			this.historyModule.pushNewState();
 		}
 	}
 
@@ -217,6 +225,7 @@ export class AppModule
 
 		let oldStateName = this.state_;
 		this.state_ = $newState;		
+
 
 		/*if (oldStateName == $newState)
 		{
@@ -290,7 +299,6 @@ export class AppModule
 		}
 
 		this.updateDocumentTitle_(options);
-		this.updateHistory_($newState, oldStateName, options, backFromHistory);	
 	};
 
 	handleMarkerClick(marker : BiopenMarker)
@@ -340,7 +348,9 @@ export class AppModule
 				this.mapComponent.getCenter(), 
 				this.mapComponent.mapRadiusInKm() * 2
 			);	 
-		}, delay);		
+		}, delay);	
+
+		if (this.mapComponent.isMapLoaded) this.historyModule.updateCurrState();	
 	};
 
 	handleMapClick()
@@ -358,7 +368,7 @@ export class AppModule
 			(results) => 
 			{ 
 				this.mapComponent.fitBounds(results[0].getBounds(), false);					
-				this.updateState();
+				//this.updateState();
 				this.updateDocumentTitle_();
 			}	
 		);	
@@ -423,49 +433,8 @@ export class AppModule
 		let that = this;
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
-	
 
-	updateState()
-	{
-		if (!history.state) return;
-		this.updateHistory_(history.state.name, null, history.state.options, false);
-	};
-
-	updateHistory_($newState, oldStateName, options, backFromHistory)
-	{
-		let route = "";
-		
-		// if (this.state_ != AppStates.Constellation)
-		// {
-		// 	route = this.updateRouting_(options);
-		// }
-
-		if (!backFromHistory)
-		{
-			if (oldStateName === null || $newState == AppStates.ShowElement || ($newState == AppStates.Normal && oldStateName == AppStates.ShowElement))
-			 	history.replaceState({ name: $newState, options: options }, '', route);
-			else 
-				history.pushState({ name: $newState, options: options }, '', route);
-		}
-	};
-
-	updateRouting_(options)
-	{
-		// let route;
-		
-		// if (this.geocoder.getLocationSlug()) route = Routing.generate('biopen_directory', { slug : this.geocoder.getLocationSlug() });
-		// else route = Routing.generate('biopen_directory');
-
-		// for (let key in options)
-		// {
-		// 	route += '?' + key + '=' + options[key];
-		// 	//route += '/' + key + '/' + options[key];
-		// }
-
-		// return route;
-	};
-
-	updateDocumentTitle_(options : any = {})
+	private updateDocumentTitle_(options : any = {})
 	{
 		let title : string;
 		let elementName : string;
