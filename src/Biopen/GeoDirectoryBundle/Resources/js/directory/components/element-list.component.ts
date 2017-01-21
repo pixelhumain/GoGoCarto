@@ -22,12 +22,13 @@ export class ElementListComponent
 	//onShow = new Event<number>();
 
 	// Number of element in one list
-	ELEMENT_LIST_SIZE_STEP : number = 10;
+	ELEMENT_LIST_SIZE_STEP : number = 15;
 	// Basicly we display 1 ELEMENT_LIST_SIZE_STEP, but if user need
 	// for, we display an others ELEMENT_LIST_SIZE_STEP more
 	stepsCount : number = 1;
 	isListFull : boolean = false;
 
+	// last request was send with this distance
 	lastDistanceRequest = 10;
 
 	isInitialized : boolean = false;
@@ -46,40 +47,7 @@ export class ElementListComponent
 	update($elementsResult : ElementsChanged) 
 	{
 		this.clear();
-		this.draw($elementsResult.elementsToDisplay, 0, false);
-
-		// if (!this.isInitialized)
-		// {
-		// 	console.log("Initialize element list");
-		// 	this.draw($elementsResult.elementsToDisplay);
-		// 	this.isInitialized = true;
-		// }
-		// else
-		// {
-		// 	if ($elementsResult.newElements.length > 0 
-		// 		 && $elementsResult.elementsToRemove.length == 0)
-		// 	{
-		// 		console.log("just adds", $elementsResult.newElements.length);
-		// 		// we juste need to adds the news elements to the bottom of the list
-		// 		this.draw($elementsResult.newElements);
-		// 	}
-		// 	else if ($elementsResult.elementsToRemove.length > 0 
-		// 		 && $elementsResult.newElements.length == 0)
-		// 	{
-		// 		console.log("Only removing", $elementsResult.elementsToRemove.length);
-		// 		for(let element of $elementsResult.elementsToRemove)
-		// 		{
-		// 			$('#element-info-'+element.id).remove();
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		console.log("clean all and redraw");
-		// 		// we remove alls the items and draw again
-		// 		this.clear();
-		// 		this.draw($elementsResult.elementsToDisplay, 0, true);
-		// 	}	
-		// }	
+		this.draw($elementsResult.elementsToDisplay, false);
 	}
 
 	clear()
@@ -92,7 +60,7 @@ export class ElementListComponent
 		return $('#directory-content-list li').length;
 	}
 
-	private draw($elementList : Element[], $startIndex = 0, $animate = false) 
+	private draw($elementList : Element[], $animate = false) 
 	{
 		//console.log('ElementList draw', $elementList.length);
 
@@ -105,19 +73,17 @@ export class ElementListComponent
 		}
 		elementsToDisplay.sort(this.compareDistance);
 
-		let endIndex;
-
 		let maxElementsToDisplay = this.ELEMENT_LIST_SIZE_STEP * this.stepsCount;
-		//let currElementsDisplayed = this.currElementsDisplayed();
-		let currElementsDisplayed = 0;
-		// console.log("currElementsDisplayed", currElementsDisplayed);
-		// console.log("ElementsToDisplay", elementsToDisplay.length);
-		// console.log('Max elements to display', maxElementsToDisplay);
-
-		if ( (currElementsDisplayed + elementsToDisplay.length) < maxElementsToDisplay)
+		let endIndex = Math.min(maxElementsToDisplay, elementsToDisplay.length);  
+		
+		// if the list is not full, we send ajax request
+		if ( elementsToDisplay.length < maxElementsToDisplay)
 		{
-			endIndex = elementsToDisplay.length;
 			let location = App.geocoder.getLocation();
+
+			// we ajust count step to fit as close as possible
+			// the current element displayed
+			this.stepsCount = elementsToDisplay.length % this.ELEMENT_LIST_SIZE_STEP + 1;
 
 			if (location)
 			{
@@ -135,20 +101,16 @@ export class ElementListComponent
 					App.mapComponent.getCenter(), 
 					App.mapComponent.mapRadiusInKm()
 				);
-			}
-			
+			}			
 		}	
 		else
 		{
-			// we draw as many new elements as possible to fill the remaining
-			// space in he list
-			endIndex = Math.min(maxElementsToDisplay - currElementsDisplayed + $startIndex, elementsToDisplay.length);
 			//console.log("list is full");
 			this.isListFull = true;
 			// waiting for scroll bottom to add more elements to the list
 		}
 		
-		for(let i = $startIndex; i < endIndex; i++)
+		for(let i = 0; i < endIndex; i++)
 		{
 			element = elementsToDisplay[i];
 			$('#directory-content-list ul').append(element.getHtmlRepresentation());
@@ -167,13 +129,13 @@ export class ElementListComponent
 
 	private handleBottom()
 	{
-		// if list not yet full, we don't need to add an other ELEMENT_LIST_SIZE_STEP
 		if (this.isListFull) 
 		{
 			this.stepsCount++;
 			//console.log("bottom reached");
 			this.isListFull = false;
-			this.draw(App.elements(), this.currElementsDisplayed());
+			this.clear();
+			this.draw(App.elements());
 		}		
 	}
 
