@@ -3,7 +3,7 @@ declare let App : AppModule;
 declare var L, $;
 
 import { AppModule } from "../app.module";
-import { slugify, capitalize } from "../../commons/commons";
+import { slugify, capitalize, unslugify } from "../../commons/commons";
 
 export interface GeocodeResult
 {
@@ -47,7 +47,9 @@ export class GeocoderModule
 
 	getLocationSlug() : string { return slugify(this.lastAddressRequest); }
 	getLocationAddress() : string { return this.lastAddressRequest; }
-	
+
+	setLocationAddress($address : string) { this.lastAddressRequest = $address; }
+
 	constructor()
 	{
 		this.geocoder = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'countrycodes' : 'fr'});
@@ -57,12 +59,12 @@ export class GeocoderModule
 	geocodeAddress( address, callbackComplete?, callbackFail? ) {
 
 		console.log("geocode address : ", address);
+		this.lastAddressRequest = address;
 
-		// geocoding 'france' has bad results, so we do it ourself
+		// if no address, we show france
 		if (address == '')
 		{
 			console.log("default location");
-			this.lastAddressRequest = '';
 			this.lastResults = [];
 			this.lastResultBounds = this.latLngBoundsFromRawBounds([51.68617954855624,8.833007812500002,42.309815415686664, -5.339355468750001]);
 
@@ -74,8 +76,7 @@ export class GeocoderModule
 			{			
 				if (results !== null) 
 				{
-					$('.data-location-address').text(capitalize(address));
-					this.lastAddressRequest = slugify(address);
+					$('.data-location-address').text(capitalize(unslugify(address)));					
 					this.lastResults = results;
 					this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
 
