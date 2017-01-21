@@ -59,7 +59,6 @@ export class DisplayElementAloneModule
 		// if (App.state == AppStates.Constellation) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 		// else 
 		// {
-			this.elementShownAlone_.hide();
 			App.elementModule.updateElementToDisplay(true,true);
 		//}
 		
