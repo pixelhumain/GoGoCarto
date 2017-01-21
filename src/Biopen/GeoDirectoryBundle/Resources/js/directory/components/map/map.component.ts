@@ -35,14 +35,14 @@ export class ViewPort
 	{
 		let decode = string.split('@').pop().split(',');
 		if (decode.length != 3) {
-			console.log("ViewPort fromString Wrong string", string);
+			console.log("ViewPort fromString erreur", string);
 			return null;
 		}
 		this.lat = parseFloat(decode[0]);
 		this.lng = parseFloat(decode[1]);
 		this.zoom = parseInt(decode[2].slice(0,-1));
 
-		console.log("ViewPort fronString Done", this);
+		//console.log("ViewPort fromString Done", this);
 
 		return this;
 	}
@@ -65,15 +65,17 @@ export class MapComponent
 
 	//Leaflet map
 	map_ : L.Map = null;
+
 	markerClustererGroup;
 	isInitialized : boolean = false;
 	isMapLoaded : boolean = false;
 	clusterer_ = null;
 	oldZoom = -1;
+	viewport : ViewPort = null;
 
 
 	getMap(){ return this.map_; }; 
-	getCenter() : L.LatLng { return this.isMapLoaded ? this.map_.getCenter() : null; }
+	getCenter() : L.LatLng { return this.viewport ? this.viewport.location : null; }
 	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
 	getClusterer() { return this.clusterer_; };
 	getZoom() { return this.map_.getZoom(); }
@@ -112,7 +114,8 @@ export class MapComponent
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
 		{ 
-			this.oldZoom = this.map_.getZoom()
+			this.oldZoom = this.map_.getZoom();
+			this.updateViewPort();
 			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("Map Loaded"); });
@@ -131,9 +134,15 @@ export class MapComponent
 
 		this.resize();
 
+		// if we began with List Mode, when we initialize map
+		// there is already an address geocoded or a viewport defined
 		if (App && App.geocoder.getBounds())
 	   {
 	   	this.fitBounds(App.geocoder.getBounds(), false);
+	   }
+	   else if (this.viewport)
+	   {
+	   	this.setViewPort(this.viewport)
 	   }
 
 		this.isInitialized = true;
@@ -178,7 +187,7 @@ export class MapComponent
 	// the actual displayed map radius (distance from croner to center)
 	mapRadiusInKm() : number
 	{
-		if (!this.isMapLoaded) return 0;
+		if (!this.isMapLoaded) return 50;
 		return Math.floor(this.map_.getBounds().getNorthEast().distanceTo(this.map_.getCenter()) / 1000);
 	}
 
@@ -199,15 +208,21 @@ export class MapComponent
 		return false;		
 	}
 
-	getViewPort() : ViewPort
+	updateViewPort()
 	{
-		if (!this.isMapLoaded) return null;
-		return new ViewPort(this.getCenter().lat, this.getCenter().lng, this.getZoom());
+		if (!this.viewport) this.viewport = new ViewPort();
+		this.viewport.lat =  this.map_.getCenter().lat;
+		this.viewport.lng =  this.map_.getCenter().lng;
+		this.viewport.zoom = this.getZoom();
 	}
 
 	setViewPort($viewport : ViewPort)
 	{
-		this.map_.setView($viewport.location, $viewport.zoom);
-		this.resize();
+		//console.log("setViewPort", this.map_);
+		if (this.map_)
+		{
+			this.map_.setView($viewport.location, $viewport.zoom);
+		}
+		this.viewport = $viewport;
 	}
 }
