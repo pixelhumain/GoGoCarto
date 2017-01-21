@@ -123,6 +123,11 @@ export class ElementsModule
 		if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
 		else elements = this.currElements_;
 
+		// in these state,there is no need to update elements to display
+		if (App.state == AppStates.ShowElementAlone) return;
+		
+		//console.log("Update elements", this);
+
 		let i : number, element : Element;
 		let bounds;
 
