@@ -25,7 +25,7 @@ import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
-import { HitoryModule } from './modules/history.module';
+import { HistoryModule } from './modules/history.module';
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
@@ -84,7 +84,8 @@ export class AppModule
 	mapComponent_  = new MapComponent();
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
-	historyModule = new HitoryModule();
+	historyModule = new HistoryModule();
+
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
@@ -129,45 +130,60 @@ export class AppModule
 	*/
 	checkInitialState()
 	{
-		console.log("CONFIG", CONFIG);
-		
+		//console.log("CONFIG", CONFIG);		
+
+		let viewport : ViewPort = new ViewPort().fromString(CONFIG.viewport);		
+		this.mapComponent.setViewPort(viewport);		
+
 		this.setMode(CONFIG.mode == 'Map' ? AppModes.Map : AppModes.List);
 
-		let viewport : ViewPort = new ViewPort().fromString(CONFIG.viewport);
+		if (viewport)
+		{			
+			$('#directory-spinner-loader').hide();	
+			if (this.mode == AppModes.Map )
+				setTimeout( () => {
+					console.log("SetViewPort and getElementsAround");
+					this.mapComponent.resize();
+					this.mapComponent.setViewPort(viewport);					
+					
+					// this.ajaxModule.getElementsAroundLocation(
+					// 	this.mapComponent.getCenter(), 
+					// 	this.mapComponent.mapRadiusInKm() * 2
+					// );	 
+				},	200);
+			else
+				this.ajaxModule.getElementsAroundLocation(viewport.location, 30);			
+		}	
+
+		// if address is provided we geolocalize
+		if (CONFIG.address || !viewport)
+		{
+			this.geocoderModule_.geocodeAddress(
+				CONFIG.address, 
+				(results) => 
+				{ 
+					// if viewport is given, nothing to do, we already did initialization
+					// with viewport
+					if (viewport) return;
+
+					$('#directory-spinner-loader').hide();		
+
+					// if just address was given
+					if (this.state == AppStates.Normal)
+					{
+						if (this.mode == AppModes.Map )
+							this.mapComponent.fitBounds(this.geocoder.getBounds());
+						else
+							this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+					}
+				}	
+			);
+		}
 
 		switch (CONFIG.state)
 		{
 			case "Normal":	
-				this.setState(AppStates.Normal);
-				if (viewport)
-				{
-					setTimeout( () => {this.mapComponent.setViewPort(viewport);}, 200);
-				}		
-				else
-				{
-					this.geocoderModule_.geocodeAddress(
-						CONFIG.address, 
-						(results) => 
-						{ 
-							if (this.mode_ == AppModes.Map)
-							{
-								this.mapComponent.fitBounds(this.geocoder.getBounds());
-							}
-							else
-							{
-								// get elements around location
-								this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
-							}
-
-							//this.updateState();
-							//this.updateDocumentTitle_();
-													
-											
-						}	
-					);
-				}
-				$('#directory-spinner-loader').hide();			
-									
+				this.setState(AppStates.Normal);									
 				break;
 
 			case "ShowElementAlone":			
@@ -179,18 +195,21 @@ export class AppModule
 				// this.setState(AppStates.ShowDirections,{id: CONFIG.id},false);				
 				break;			
 
-			case "Constellation":			
-								
+			case "Constellation":								
 				break;
 		}
+
+		this.historyModule.pushNewState();
+
+		
 	};	
 
 	setMode($mode : AppModes)
 	{
 		if ($mode != this.mode_)
 		{
-			this.mode_ = $mode;
-			if (this.mode_ == AppModes.Map)
+			
+			if ($mode == AppModes.Map)
 			{
 				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
@@ -209,10 +228,13 @@ export class AppModule
 				$('#directory-content-list').show();
 			}
 
-			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true, true);	
+			// if previous mode wasn't null 
+			let oldMode = this.mode_;
+			this.mode_ = $mode;
+			if (oldMode != null) this.historyModule.pushNewState();
 
-			this.historyModule.pushNewState();
+			this.elementModule.clearCurrentsElement();
+			this.elementModule.updateElementToDisplay(true, true);			
 		}
 	}
 
@@ -227,11 +249,14 @@ export class AppModule
 		this.state_ = $newState;		
 
 
-		/*if (oldStateName == $newState)
+		if (oldStateName !== null)
 		{
-			this.updateDocumentTitle_($newState, element);
-			return;
-		} */	
+			if (oldStateName != $newState 
+				|| $newState == AppStates.ShowElement
+				|| $newState == AppStates.ShowElementAlone
+				|| $newState == AppStates.ShowDirections)
+			this.historyModule.pushNewState();
+		} 	
 
 		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
@@ -245,7 +270,12 @@ export class AppModule
 				// 	this.starRepresentationChoiceModule_.end();
 				// }	
 
-				this.displayElementAloneModule_.end();						
+				if (oldStateName == AppStates.ShowElementAlone)	
+				{
+					this.elementModule.clearCurrentsElement();
+					this.displayElementAloneModule_.end();		
+				}				
+							
 				break;
 
 
@@ -319,13 +349,13 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		console.log("App handle map idle, maploaded : ", this.mapComponent.isMapLoaded);
+		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
 		if (this.isShowingInfoBarComponent) return;
 		if (this.mode  != AppModes.Map)     return;
-		if (this.state  != AppStates.Normal)     return;
+		//if (this.state  != AppStates.Normal)     return;
 
 		let updateInAllElementList = true;
 		let forceRepaint = false;
@@ -341,16 +371,18 @@ export class AppModule
 
 		// sometimes idle event is fired but map is not yet initialized (somes millisecond
 		// after it will be)
-		let delay = this.mapComponent.isMapLoaded ? 0 : 100;
-		setTimeout(() => {
-			this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
-			this.ajaxModule.getElementsAroundLocation(
-				this.mapComponent.getCenter(), 
-				this.mapComponent.mapRadiusInKm() * 2
-			);	 
-		}, delay);	
+		// let delay = this.mapComponent.isMapLoaded ? 0 : 100;
+		// setTimeout(() => {
+			
+		// }, delay);	
 
-		if (this.mapComponent.isMapLoaded) this.historyModule.updateCurrState();	
+		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
+		this.ajaxModule.getElementsAroundLocation(
+			this.mapComponent.getCenter(), 
+			this.mapComponent.mapRadiusInKm() * 2
+		);	 
+
+		this.historyModule.updateCurrState();
 	};
 
 	handleMapClick()
@@ -378,12 +410,12 @@ export class AppModule
 	{
 		if (!elementsJson || elementsJson.length === 0) return;
 		this.elementModule.addJsonElements(elementsJson, true);
-		//this.elementModule.updateElementToDisplay(); 
+		this.elementModule.updateElementToDisplay(); 
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		console.log("handleElementsChanged new : ", result.newElements.length );
+		//console.log("handleElementsChanged new : ", result);
 
 		if (this.mode_ == AppModes.List)
 		{
