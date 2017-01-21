@@ -9,6 +9,7 @@
  */
 
 import { Event, IEvent } from "../utils/event";
+import { slugify, capitalize } from "../../commons/commons";
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { Element } from "../classes/element.class";
 import { ViewPort } from "../components/map/map.component";
@@ -36,21 +37,21 @@ class HitoryState
 	id : number;
 }
 
-export class HitoryModule
+export class HistoryModule
 {
 
 	constructor() { }  
 
 	updateCurrState()
 	{
-		console.log("Update Curr State", history);
-		if (!history.state) { console.log("curr state NULL");return;}
+		//console.log("Update Curr State", history.state);
+		if (!history.state) { console.log("curr state null");return;}
 		this.updateHistory(false);
 	};
 
 	pushNewState()
 	{
-		console.log("Push New State", history);
+		//console.log("Push New State", history.state);
 		//if (!history.state) return;
 		this.updateHistory(true);
 	};
@@ -61,11 +62,13 @@ export class HitoryModule
 		historyState.mode = App.mode;
 		historyState.state = App.state;
 		historyState.address = App.geocoder.getLocationSlug();
-		historyState.viewport = App.mapComponent.getViewPort();
+		historyState.viewport = App.mapComponent.viewport;
 
-		console.log("updateHistory", historyState);
+		//console.log("updateHistory", historyState);
 
 		let route = this.generateRoute();
+		if (!route) return;
+
 		if ($pushState)
 			history.pushState(historyState, '', route);
 		else 
@@ -85,7 +88,7 @@ export class HitoryModule
 		let route;
 		let mode = App.mode == AppModes.Map ? 'carte' : 'liste';
 		let address = App.geocoder.getLocationSlug();
-		let viewport = App.mapComponent.getViewPort();
+		let viewport = App.mapComponent.viewport;
 		let addressAndViewport = '';
 		if (address) addressAndViewport += address;
 		// in Map Mode we add viewport
@@ -97,7 +100,7 @@ export class HitoryModule
 		switch (App.state)
 		{
 			case AppStates.Normal:	
-				route = Routing.generate('biopen_directory_normal', { mode :  mode });							
+				route = Routing.generate('biopen_directory_normal', { mode :  mode });	
 				// forjsrouting doesn't support speacial characts like in viewport
 				// so we add them manually
 				if (addressAndViewport) route += '/' + addressAndViewport;
@@ -105,26 +108,26 @@ export class HitoryModule
 
 
 			case AppStates.ShowElement:	
-			case AppStates.ShowElementAlone:		
-										
+				let element = App.infoBarComponent.elementVisible;	
+				if (!element) return;			
+				route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
+				// forjsrouting doesn't support speacial characts like in viewport
+				// so we add them manually
+				if (addressAndViewport) route += '/' + addressAndViewport;
+			case AppStates.ShowElementAlone:											
 				break;
 
 			case AppStates.ShowDirections:
 												
-				break;
-
-			
+				break;			
 		}		
 		
-		for (let key in options)
-		{
-			route += '?' + key + '=' + options[key];
-			//route += '/' + key + '/' + options[key];
-		}
+		// for (let key in options)
+		// {
+		// 	route += '?' + key + '=' + options[key];
+		// 	//route += '/' + key + '/' + options[key];
+		// }
 
 		return route;
 	};
-
-
-
 }
