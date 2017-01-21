@@ -26,6 +26,12 @@ export function slugify(text) : string
     .replace(/-+$/, '');            // Trim - from end of text
 }
 
+export function unslugify(text : string) : string
+{
+  if (!text) return '';
+  return text.toString().replace(/\-+/g, ' ');
+}
+
 export function capitalize(text)
 {
     return text.substr(0,1).toUpperCase()+text.substr(1,text.length).toLowerCase();
