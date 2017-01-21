@@ -8,6 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 import { AppModule, AppStates } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
@@ -20,15 +21,16 @@ export class InfoBarComponent
 	isVisible : boolean = false;
 	isDetailsVisible = false;
 
+	elementVisible : Element = null;
+
 	onShow = new Event<number>();
 	onHide = new Event<boolean>();
 
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
-		this.onShow.emit(elementId);
-
 		let element = App.elementModule.getElementById(elementId);
+		this.elementVisible = element;		
 
 		if (App.state !== AppStates.Constellation)
 		{
@@ -42,8 +44,10 @@ export class InfoBarComponent
 				$('#element-info-bar .menu-element .icon-star-empty').hide();
 				$('#element-info-bar .menu-element .icon-star-full').show();
 			}
-		}	
+		}
+
 		element.updateDistance();
+
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
@@ -56,6 +60,8 @@ export class InfoBarComponent
 		$('#element-info .collapsible-header').click(() => {this.toggleDetails(); });
 		
 		this.show();
+
+		this.onShow.emit(elementId);
 	};
 
 	show()
@@ -116,7 +122,7 @@ export class InfoBarComponent
 
 			this.onHide.emit(true);
 		}
-
+		this.elementVisible = null;
 		this.isVisible = false;
 	};
 
