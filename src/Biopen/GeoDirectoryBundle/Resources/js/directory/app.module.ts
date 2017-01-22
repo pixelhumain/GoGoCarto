@@ -92,6 +92,10 @@ export class AppModule
 	private state_ : AppStates = null;	
 	private mode_ : AppModes;
 
+	// somes states need a element id, we store it in this property
+	private stateElementId : number = null;
+
+
 	// when click on marker it also triger click on map
 	// when click on marker we put isClicking to true during
 	// few milliseconds so the map don't do anything is click event
@@ -201,8 +205,7 @@ export class AppModule
 	setMode($mode : AppModes, $backFromHistory : boolean = false)
 	{
 		if ($mode != this.mode_)
-		{
-			
+		{			
 			if ($mode == AppModes.Map)
 			{
 				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
@@ -228,7 +231,10 @@ export class AppModule
 			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true, true);			
+			this.elementModule.updateElementToDisplay(true, true);
+
+			// after clearing, we set the current state again
+			if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});			
 		}
 	}
 
@@ -244,6 +250,8 @@ export class AppModule
 
 		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
+
+		this.stateElementId = options ? options.id : null;
 		
 		switch ($newState)
 		{
@@ -263,14 +271,13 @@ export class AppModule
 							
 				break;
 
-
 			case AppStates.ShowElement:
 				if (!options.id) return;
+
 				this.infoBarComponent.showElement(options.id);
 				break;	
 
 			case AppStates.ShowElementAlone:
-
 				if (!options.id) return;
 
 				let element = this.elementById(options.id);
@@ -430,6 +437,10 @@ export class AppModule
 			{
 				if (!element.isShownAlone) element.hide();
 			}
+		}
+		else
+		{
+			console.log("nothing to do, list or showAlone");
 		}
 	}; 
 
