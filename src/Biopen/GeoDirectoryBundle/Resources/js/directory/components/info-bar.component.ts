@@ -72,7 +72,7 @@ export class InfoBarComponent
 			{
 				App.mapComponent.panToLocation(element.position);
 			}			
-		}, 1000);
+		}, 800);
 
 		this.onShow.emit(elementId);
 	};
