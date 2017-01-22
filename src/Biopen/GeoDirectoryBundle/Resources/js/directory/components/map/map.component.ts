@@ -79,7 +79,11 @@ export class MapComponent
 	init() 
 	{	
 		//initAutoCompletionForElement(document.getElementById('search-bar'));
-		if (this.isInitialized) return;
+		if (this.isInitialized) 
+		{
+			this.resize();
+			return;
+		}
 
 		this.map_ = L.map('directory-content-map', {
 		    zoomControl: false
