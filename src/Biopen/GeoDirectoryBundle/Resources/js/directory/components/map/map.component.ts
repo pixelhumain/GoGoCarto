@@ -7,7 +7,7 @@ import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 
 declare let App : AppModule;
-declare var $, L;
+declare var $, L : any;
 
 export class ViewPort
 {
@@ -18,11 +18,6 @@ export class ViewPort
 		this.lat = lat || 0;
 		this.lng = lng || 0;
 		this.zoom = zoom || 0;
-	}
-
-	get location() : L.LatLng
-	{
-		return L.latLng(this.lat, this.lng);
 	}
 
 	toString()
@@ -75,7 +70,7 @@ export class MapComponent
 
 
 	getMap(){ return this.map_; }; 
-	getCenter() : L.LatLng { return this.viewport ? this.viewport.location : null; }
+	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
 	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
 	getClusterer() { return this.clusterer_; };
 	getZoom() { return this.map_.getZoom(); }
@@ -120,18 +115,6 @@ export class MapComponent
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("Map Loaded"); });
 
-		//this.map_.on('zoomend '), (e) => { this.oldZoom = this.map_.getZoom(); };
-
-		// Hides the loading animation   
-
-	   //this.clusterer_ = initCluster(null);
-
-	   // if we already have a geocode result (in case for example we strat with list mode
-	   // and we sitch to the map after)
-	   
-		
-		this.onMapReady.emit();
-
 		this.resize();
 
 		// if we began with List Mode, when we initialize map
@@ -142,18 +125,23 @@ export class MapComponent
 	   }
 	   else if (this.viewport)
 	   {
-	   	this.setViewPort(this.viewport)
+	   	setTimeout( () => {this.setViewPort(this.viewport);},500);
 	   }
 
 		this.isInitialized = true;
-
-		//console.log("map init done");
+		console.log("map init done");
+		this.onMapReady.emit();
 	};
 
 	resize()
 	{
-		//console.log("Resize");
-		if (this.map_) this.map_.invalidateSize(true);
+		//console.log("Resize, curr viewport :");
+		// Warning !I changed the leaflet.js file library myself
+		// because the options doesn't work properly
+		// I changed it to avoi panning when resizing the map
+		// be careful if updating the leaflet library this will
+		// not work anymore
+		if (this.map_) this.map_.invalidateSize(false);
 	}
 
 	addMarker(marker : L.Marker)
@@ -173,11 +161,11 @@ export class MapComponent
 		
 		if (this.isMapLoaded && animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
-	}
-		
+	}		
 
-	panToLocation(location : L.LatLng, zoom = 12, animate : boolean = true)
+	panToLocation(location : L.LatLng, zoom?, animate : boolean = true)
 	{
+		zoom = zoom || this.getZoom() || 12;
 		console.log("panTolocation", location);
 
 		if (this.isMapLoaded && animate) this.map_.flyTo(location, zoom);
@@ -216,12 +204,15 @@ export class MapComponent
 		this.viewport.zoom = this.getZoom();
 	}
 
-	setViewPort($viewport : ViewPort)
-	{
-		//console.log("setViewPort", this.map_);
-		if (this.map_)
+	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)
+	{		
+		if (this.map_ && $viewport && $panMapToViewport)
 		{
-			this.map_.setView($viewport.location, $viewport.zoom);
+			console.log("setViewPort", $viewport);
+			this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);
+			//this.resize();
+			// wewait the resize to be done before setting the view
+			//setTimeout( () => {this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);},100);
 		}
 		this.viewport = $viewport;
 	}
