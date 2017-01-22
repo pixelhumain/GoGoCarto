@@ -121,31 +121,41 @@ export class HistoryModule
 
 		//console.log("generate route", viewport);
 
-		switch (App.state)
+		// in list mode we don't care about state
+		if (App.mode == AppModes.List)
 		{
-			case AppStates.Normal:	
-				route = Routing.generate('biopen_directory_normal', { mode :  mode });	
-				// forjsrouting doesn't support speacial characts like in viewport
-				// so we add them manually
-				if (addressAndViewport) route += '/' + addressAndViewport;
-				break;
+			route = Routing.generate('biopen_directory_normal', { mode :  mode });	
+			if (addressAndViewport) route += '/' + addressAndViewport;
+		}
+		else
+		{
+			switch (App.state)
+			{
+				case AppStates.Normal:	
+					route = Routing.generate('biopen_directory_normal', { mode :  mode });	
+					// forjsrouting doesn't support speacial characts like in viewport
+					// so we add them manually
+					if (addressAndViewport) route += '/' + addressAndViewport;
+					break;
 
 
-			case AppStates.ShowElement:	
-			case AppStates.ShowElementAlone:
-				if (!historyState.id) return;
-				let element = App.elementById(historyState.id);
-				if (!element) return;			
-				route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
-				// forjsrouting doesn't support speacial characts like in viewport
-				// so we add them manually
-				if (addressAndViewport) route += '/' + addressAndViewport;										
-				break;
+				case AppStates.ShowElement:	
+				case AppStates.ShowElementAlone:
+					if (!historyState.id) return;
+					let element = App.elementById(historyState.id);
+					if (!element) return;			
+					route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
+					// forjsrouting doesn't support speacial characts like in viewport
+					// so we add them manually
+					if (addressAndViewport) route += '/' + addressAndViewport;										
+					break;
 
-			case AppStates.ShowDirections:
-												
-				break;			
-		}		
+				case AppStates.ShowDirections:
+													
+					break;			
+			}		
+		}
+		
 		
 		// for (let key in options)
 		// {
