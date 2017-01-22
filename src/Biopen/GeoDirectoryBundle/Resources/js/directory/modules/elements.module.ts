@@ -124,7 +124,7 @@ export class ElementsModule
 		else elements = this.currElements_;
 
 		// in these state,there is no need to update elements to display
-		if (App.state == AppStates.ShowElementAlone) return;
+		if (App.state == AppStates.ShowElementAlone && App.mode != AppModes.List) return;
 		
 		//console.log("Update elements", this);
 
