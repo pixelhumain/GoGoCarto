@@ -31,150 +31,103 @@ class DirectoryController extends Controller
 {
     private $callnumber = 0;    
 
-    public function directoryAction($slug, Request $request)
+    public function normalAction($mode, $addressAndViewport, Request $request)
+    {
+        list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);       
+        //$address = $this->checkAddressInSession($address);
+
+        $config['address'] = $address;
+        $config['viewport'] = $viewport;
+        $config['mode'] = $this->formatMode($mode);
+        $config['state'] = 'Normal';
+
+        return $this->renderDirectory($config);      
+
+    }  
+
+    public function showElementAction($name, $id, $addressAndViewport)
+    {
+        list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
+
+        $config['address'] = $address;
+        $config['viewport'] = $viewport;
+        $config['mode'] = 'Map';
+        $config['state'] = 'ShowElementAlone';
+        $config['id'] = $id;
+
+        return $this->renderDirectory($config);  
+    }    
+
+    public function constellationAction($mode, $address, $range)
+    {             
+        $address = $this->checkAddressInSession($address);
+
+        $config['address'] = $address;
+        $config['viewport'] = '';
+        $config['mode'] = $this->formatMode($mode);
+        $config['state'] = 'Constellation';
+        $config['range'] = $range;
+
+        return $this->renderDirectory($config);    
+    } 
+
+    public function directionsAction($address, $name, $id)
+    {             
+        $address = $this->checkAddressInSession($address);
+
+        $config['address'] = $address;
+        $config['viewport'] = '';
+        $config['mode'] = 'Map';
+        $config['state'] = 'ShowDirections';
+        $config['id'] = $id;
+
+        return $this->renderDirectory($config);      
+    } 
+
+    private function renderDirectory($config)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if ($slug == '')
-        {
-            if ($this->get('session')->get('slug')) 
-            {
-                $slug = $this->get('session')->get('slug');
-            }
-            else
-            {
-                // temporairement si pas de slug zoome sur paris
-                $slug = 'paris';
-            }
-        }
-
-
-        // $geocodeResponse = null;
-
-        // if ($slug != '')
-        // {
-        //     $geocodeResponse = $this->geocodeFromAdresse($slug);
-        //     dump($geocodeResponse);
-
-        //     if ($geocodeResponse === null) $slug = 'Erreur de localisation';
-        //     else                           $this->get('session')->set('slug', $slug);
-        // }      
-        
-        // // the point around we want to show elements
-        // $originPoint = null;
-
-        // $id = $request->query->get('id');
-        // // if a elementId is asked, we center around this element
-        // if ($id)
-        // {
-        //     $elementToShow = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findOneById($id); 
-        //     if ($elementToShow) $originPoint = $elementToShow->getLatlng();
-        // }
-        // // else we center around the adress asked
-        // else if ($geocodeResponse !== null)
-        // {
-        //     $originPoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-        // }           
 
         // Get Product List        
         $listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
         ->findAll(); 
 
-        // $elementList = [];
-
-        // // if origin is set get Elements around
-        // if ($originPoint != null)
-        // {
-        //     $elementService = $this->get('biopen.element_service');
-        //     $elementList = $elementService->getElementsAround($originPoint, 30)['data'];
-        // }
-
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("listProducts" => $listProducts, "slug" => $slug));      
+                            array("listProducts" => $listProducts, "config" => $config));
+    }
+    
 
-        // return $this->render('@directory/directory/directory.html.twig', array("elementList" => $elementList, 
-        //                                                        "geocodeResponse" => $geocodeResponse, 
-        //                                                        "listProducts" => $listProducts, 
-        //                                                        "slug" => $slug));        
-    }      
-
-
-
-    public function constellationAction($slug, $distance)
-    {             
-        if ($slug == '' && $this->get('session')->get('slug')) $slug = $this->get('session')->get('slug');
-      
-        if ($slug == '')
+    private function checkAddressInSession($address)
+    {
+        if ($address == '' && $this->get('session')->get('address'))
         {
-            return $this->render('::core/constellation.html.twig', array('slug'=>''));
+            return $this->get('session')->get('address');
+        }
+        if ($address != '') $this->get('session')->set('address', $address);
+        return $address;
+    }  
+
+    private function parseAddressViewport($addressViewport)
+    {
+        $splited = split('@', $addressViewport);
+
+        if (count($splited) == 1)
+        {
+            return array($addressViewport, '');
         }
         else
-        {           
-            $geocodeResponse = $this->geocodeFromAdresse($slug);                     
+        {
+            return $splited;
+        }  
+    }
 
-            if ($geocodeResponse === null)
-            {  
-                $this->get('session')->getFlashBag()->set('error', 'Erreur de localisation');
-                return $this->render('::core/constellation.html.twig', array('slug'=>''));
-            } 
+    private function formatMode($mode)
+    {
+        return $mode == 'carte' ? 'Map' : 'List';
+    }
 
-            $geocodePoint = new Point($geocodeResponse->getLatitude(), $geocodeResponse->getLongitude());
-            $this->get('session')->set('slug', $slug);
-            
-            $elementService = $this->get('biopen.element_service');
-            $elementList = $elementService->getElementsAround($geocodePoint, intval($distance))['data'];
-
-            if( $elementList === null)
-            {
-                $this->get('session')->getFlashBag()->set('error', 'Aucun element n\'a été trouvé autour de cette adresse');
-                return $this->render('::core/constellation.html.twig', array('slug'=>''));
-            }
-            
-            $constellation = $elementService->buildConstellation($elementList, $geocodeResponse);
-            /*dump($constellation);*/
-        }    
-
-        return $this->render('::core/constellation.html.twig', 
-            array('constellationPhp' => $constellation, "elementList" => $elementList, "slug" => $slug, 'search_range' => $distance));
-    }  
+     
   
 
-    private function geocodeFromAdresse($slug)
-    {
-        $geocode_ok = true;
-        try 
-        { 
-            $logger = $this->get('logger'); 
-            $logger->error('geocodeFromAdresse');  
-
-             dump($this->container
-            ->get('bazinga_geocoder.geocoder'));
-
-            dump($this->container
-            ->get('bazinga_geocoder.geocoder')->using('openstreetmap'));
-            dump($this->container
-            ->get('bazinga_geocoder.geocoder')->using('google_maps'));    
-            
-            $result = $this->container
-            ->get('bazinga_geocoder.geocoder')
-            ->using('openstreetmap')
-            ->geocode($slug);
-
-           
-        }
-        catch (\Exception $e) 
-        { 
-            $geocode_ok = false;
-            $logger = $this->get('logger'); 
-            $logger->error('no result : ' + $e->getMessage());                          
-        }
-        
-        if (!$geocode_ok)
-        {
-            return null;            
-        }
-
-        return $result->first();
-
-    }
+    
 }

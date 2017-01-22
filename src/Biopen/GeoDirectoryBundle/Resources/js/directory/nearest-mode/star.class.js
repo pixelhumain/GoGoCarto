@@ -26,7 +26,7 @@ Star.prototype.getElementId = function () {
   return this.elementIdList_[this.index_];
 };
 
-Star.prototype.getElementListId = function () {
+Star.prototype.getdirectory-content-listId = function () {
   return this.elementIdList_;
 };
 
@@ -108,7 +108,7 @@ Star.prototype.setIndex = function (newIndex)
 
   // on met à day les info elements des deux elements interchangés
   $('#element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');
-  /*$('#ElementList #element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
+  /*$('#directory-content-list #element-info-'+this.getElementId()).find('.row.'+this.name_).find('.disabled').removeClass('disabled');*/
   /*$('#element-info-'+oldElementId).find('.row.'+this.name_).find('.product, .icon, .detail').addClass('disabled');*/
 
   App.getListElementModule().draw();

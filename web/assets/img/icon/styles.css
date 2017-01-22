@@ -38,12 +38,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-legumineuses:before {
-  content: "\61";
-}
-.icon-epicerie:before {
-  content: "\62";
-}
 .icon-fruits:before {
   content: "\63";
 }
@@ -112,9 +106,6 @@
 }
 .icon-boutique:before {
   content: "\42";
-}
-.icon-house:before {
-  content: "\43";
 }
 .icon-marker:before {
   content: "\41";
@@ -247,4 +238,13 @@
 }
 .icon-thumbs-up:before {
   content: "\28";
+}
+.icon-legumineuses:before {
+  content: "\61";
+}
+.icon-list:before {
+  content: "\29";
+}
+.icon-epicerie:before {
+  content: "\2a";
 }

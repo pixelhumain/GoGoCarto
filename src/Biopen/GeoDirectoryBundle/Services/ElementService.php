@@ -48,8 +48,7 @@ class ElementService
         $exceedMaxResult = false;
         
         while($i < $length && !$exceedMaxResult)
-        { 
-             
+        {              
             $element = $elementListFromDataBase[$i];
             // le fournissurReponse a 1 champ Element et 1 champ Distance
             // on regroupe les deux dans un simple objet element
@@ -59,13 +58,24 @@ class ElementService
             {
             	$elementList[] = $element;
             	$nbreNewElements++;
-            	if ($maxResult != 0 && $nbreNewElements >= $maxResult) $exceedMaxResult = true;
+            	if ($maxResult != 0 && count($elementList) >= $maxResult) 
+                    $exceedMaxResult = true;
             }  
 
             $i++;      
         }  
 
-        $response['data'] = $elementList; 
+        $response['data'] = $elementList;
+        // $var = array(
+        //     'element from data base' => $length,
+        //     'count element list' => count($elementList),
+        //     'nbreNewElements' => $nbreNewElements,
+        //     'elementsIdArray' => $this->alreadySendElementIds,
+        //     'maxResult' => $maxResult,
+        //     'maxResult asserton' => $maxResult != 0 && count($elementList) >= $maxResult
+
+        // );
+        // dump($var);
         $response['exceedMaxResult'] = $exceedMaxResult;
 
         return $response;     

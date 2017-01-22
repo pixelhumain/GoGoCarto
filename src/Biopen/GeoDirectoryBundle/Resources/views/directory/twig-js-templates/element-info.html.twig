@@ -25,7 +25,7 @@
            
         {# Distance and Close Button #}
         <span class="icon icon-close" id="btn-close-bandeau-detail"></span>
-        {% if element.distance != null %}
+        {% if showDistance and element.distance != null %}
           <span class="right-align distance">~ {{ element.distance }} km</span>
         {% endif %}  
 
@@ -78,7 +78,7 @@
   <div class="collapsible-body moreDetails custom-scroll-bar" > 
   
     {# Menu in constellation mode #}
-    {% if constellationMode %}
+    {% if listingMode %}
       <div class="menu-element {{ element.type }}">      
         <center>
           <span class="menu-icon icon-directions tooltipped" 

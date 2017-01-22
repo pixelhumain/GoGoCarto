@@ -1,9 +1,9 @@
 declare let GeocoderJS;
 declare let App : AppModule;
-declare var L;
+declare var L, $;
 
 import { AppModule } from "../app.module";
-import { slugify } from "../../commons/commons";
+import { slugify, capitalize, unslugify } from "../../commons/commons";
 
 export interface GeocodeResult
 {
@@ -23,17 +23,33 @@ export class GeocoderModule
 {
 	geocoder : any = null;
 	lastAddressRequest : string = '';
-	lastResults : GeocodeResult = null;
+	lastResults : GeocodeResult[] = null;
+	lastResultBounds : L.LatLngBounds = null;
 
 	getLocation() : L.LatLng
 	{
-		if (!this.lastResults) return null;
+		if (!this.lastResults || !this.lastResults[0]) return null;
 		return L.latLng(this.lastResults[0].getCoordinates());
+	}
+
+	getBounds() : L.LatLngBounds
+	{
+		if (!this.lastResultBounds) return null;
+		return this.lastResultBounds;
+	}
+
+	private latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
+	{
+		let corner1 = L.latLng(rawbounds[0], rawbounds[1]);
+		let corner2 = L.latLng(rawbounds[2], rawbounds[3]);
+		return L.latLngBounds(corner1, corner2);
 	}
 
 	getLocationSlug() : string { return slugify(this.lastAddressRequest); }
 	getLocationAddress() : string { return this.lastAddressRequest; }
-	
+
+	setLocationAddress($address : string) { this.lastAddressRequest = $address; }
+
 	constructor()
 	{
 		this.geocoder = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'countrycodes' : 'fr'});
@@ -43,19 +59,36 @@ export class GeocoderModule
 	geocodeAddress( address, callbackComplete?, callbackFail? ) {
 
 		console.log("geocode address : ", address);
+		this.lastAddressRequest = address;
 
-		this.geocoder.geocode( address, (results : GeocodeResult) =>
-		{			
-			if (results !== null) 
-			{
-				this.lastAddressRequest = slugify(address);
-				this.lastResults = results;
-				if (callbackComplete) callbackComplete(results);	
-			} 	
-			else
-			{
-				if (callbackFail) callbackFail();			
-			}
-		});
+		// if no address, we show france
+		if (address == '')
+		{
+			console.log("default location");
+			this.lastResults = [];
+			this.lastResultBounds = this.latLngBoundsFromRawBounds([51.68617954855624,8.833007812500002,42.309815415686664, -5.339355468750001]);
+
+			setTimeout( () => { callbackComplete(this.lastResults); }, 200);
+		}
+		else
+		{
+			this.geocoder.geocode( address, (results : GeocodeResult[]) =>
+			{			
+				if (results !== null) 
+				{
+					$('.data-location-address').text(capitalize(unslugify(address)));					
+					this.lastResults = results;
+					this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+
+					if (callbackComplete) callbackComplete(results);	
+				} 	
+				else
+				{
+					if (callbackFail) callbackFail();			
+				}
+			});
+		}
+
+			
 	};
 }

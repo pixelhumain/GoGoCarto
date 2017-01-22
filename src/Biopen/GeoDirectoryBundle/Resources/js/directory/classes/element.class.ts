@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 
 declare let App : AppModule;
@@ -36,6 +36,9 @@ export class Element
 	distance : number;
 
 	isInitialized_ :boolean = false;
+
+	// for elements module algorithms
+	isDisplayed :boolean = false;
 
 	isVisible_ : boolean = false;
 	isInElementList : boolean= false;
@@ -121,7 +124,7 @@ hide()
 	if (this.biopenMarker_) this.biopenMarker_.hide();
 	this.isVisible_ = false;
 	// unbound events (click etc...)?
-	//if (constellationMode) $('#ElementList #element-info-'+this.id).hide();
+	//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 };
 
 
@@ -156,21 +159,28 @@ updateProductsRepresentation()
 	// }
 };
 
+updateDistance()
+{
+	this.distance = null;
+	if (App.geocoder.getLocation()) 
+		this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+	else 
+		this.distance = App.mapComponent.getCenter().distanceTo(this.position) / 1000;
+	// distance vol d'oiseau, on arrondi et on l'augmente un peu
+	this.distance = this.distance ? Math.round(1.2*this.distance) : null;
+}
+
 getHtmlRepresentation() 
 {	
 	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
-	let starNames : any[] = [] ;
-
-	this.distance = App.mapComponent.distanceFromLocationTo(this.position);
-	// distance vol d'oiseau, on arrondi et on l'augmente un peu
-	this.distance = Math.round(1.2*this.distance);
-
+	let starNames : any[] = [];
 
 	let html = Twig.render(biopen_twigJs_elementInfo, 
 	{
 		element : this, 
+		showDistance: App.geocoder.getLocation() ? true : false,
 		horaires : this.getFormatedHoraires(), 
-		constellationMode: App.state == AppStates.Constellation, 
+		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
 	});

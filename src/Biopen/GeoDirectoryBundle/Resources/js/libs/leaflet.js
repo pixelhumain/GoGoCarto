@@ -2751,8 +2751,8 @@ L.Map = L.Evented.extend({
 
 		options = L.extend({
 			animate: false,
-			pan: true
-		}, options === true ? {animate: true} : options);
+			pan: false
+		}, options === true ? {animate: true, pan : false} : options);
 
 		var oldSize = this.getSize();
 		this._sizeChanged = true;

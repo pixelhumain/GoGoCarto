@@ -16,7 +16,7 @@ function StarRepresentationChoiceModule()
 StarRepresentationChoiceModule.prototype.begin = function (star) 
 {	
 	this.currentStar_ = star;
-	let idToFocus = star.getElementListId();
+	let idToFocus = star.getdirectory-content-listId();
 
 	let element;
 	for(let i = 0; i < idToFocus.length; i++)
@@ -44,7 +44,7 @@ StarRepresentationChoiceModule.prototype.end = function ()
 {	
 	if (this.currentStar_ === null) return;
 
-	let idToClearFocus = this.currentStar_.getElementListId();
+	let idToClearFocus = this.currentStar_.getdirectory-content-listId();
 
 	let element;
 	for(let i = 0; i < idToClearFocus.length; i++)
@@ -79,8 +79,8 @@ StarRepresentationChoiceModule.prototype.majView = function ()
 {
 	let elementId = this.currentStar_.getElementId();
 
-	/*$('#ElementList .starRepresentant').removeClass('starRepresentant');
-	$('#ElementList #element-info-'+elementId).addClass('starRepresentant');*/
+	/*$('#directory-content-list .starRepresentant').removeClass('starRepresentant');
+	$('#directory-content-list #element-info-'+elementId).addClass('starRepresentant');*/
 
 	$('.moreResultContainer:visible .starElement').removeClass('starElement');
 	$('#moreResult-'+this.currentStar_.getName()+'-'+this.currentStar_.getIndex()).addClass("starElement");	

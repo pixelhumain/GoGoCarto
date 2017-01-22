@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import { AppModule } from "./app.module";
+import { AppModule, AppStates, AppModes } from "./app.module";
 declare let App : AppModule;
 import { redirectToDirectory } from "../commons/commons";
 
@@ -22,91 +22,67 @@ export function initializeAppInteractions()
 	    let target = $(this).attr("href");
 	    $('html, body').animate({scrollTop: $(target).offset().top}, 700);
 	    return false;  
-	}); */
-
-	$('#search-bar').on("search", function(event, address)
-	{
-		// if (App.state == AppStates.Constellation) redirectToDirectory('biopen_constellation', address, $('#search_distance').val());
-		// else 
-		App.geocoder.geocodeAddress(
-			address, 
-			function(results) 
-			{ 
-				//App.handleGeocoding(results);
-				$('#search-bar').val(results[0].getFormattedAddress()); 
-			},
-			function(results) { $('#search-bar').addClass('invalid'); } 
-		);
-
-		// If Menu take all available width (in case of small mobile)
-		if ($('#directory-menu').outerWidth() == $(window).outerWidth())
-		{
-			// then we hide menu to show search result
-			hideDirectoryMenu();
-		}
-	});		
+	}); */		
 
 	/*$('#menu-button').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);*/
 
-	setTimeout(updateComponentsSize,50);
+	updateComponentsSize();
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
 	let res;
 	window.onresize = function() 
 	{
-	    if (res) {clearTimeout(res); }
-	    res = setTimeout(updateComponentsSize,200);
+	   if (res) {clearTimeout(res); }
+	   res = setTimeout(updateComponentsSize,200);
 	};	
 
-	// scroller tout seul en haut de la page quand on en est pas loin
-	let lastEndScrollTop = 0, st = 0;
-	let timeout = null;	
-	$(window).scroll(function(event)
-	{
-	   clearTimeout(timeout);
-	   st = $(this).scrollTop();
-	   timeout = setTimeout(function()
-	   {
-	       //end of scrolling
-	       if (st < 250 && lastEndScrollTop > 250)
-		   {		    	
-		    	$('html, body').animate({scrollTop: 0}, 400);		    	
-		   }
-		   lastEndScrollTop = st;
-	   },100);	 	   
-	});
-
-	// affiche une petite ombre sous le titre menu quand on scroll
-	// (uniquement visible sur petts écrans)
-	$("#directory-menu-main-container").scroll(function() 
-	{
-	  if ($(this).scrollTop() > 0) {
-	    $('#menu-title .shadow-bottom').show();
-	  } else {
-	    $('#menu-title .shadow-bottom').hide();
-	  }
-	});
+	// Automatically scrool on top of page when we are close to top
+	// let lastEndScrollTop = 0, st = 0;
+	// let timeout = null;	
+	// $(window).scroll(function(event)
+	// {
+	//    clearTimeout(timeout);
+	//    st = $(this).scrollTop();
+	//    timeout = setTimeout(function()
+	//    {
+	//        //end of scrolling
+	//        if (st < 250 && lastEndScrollTop > 250)
+	// 	   {		    	
+	// 	    	$('html, body').animate({scrollTop: 0}, 400);		    	
+	// 	   }
+	// 	   lastEndScrollTop = st;
+	//    },100);	 	   
+	// });	
 	
-	//Menu CARTE
+	//Menu CARTE	
 	$('#menu-button').click(showDirectoryMenu);
 	$('#overlay').click(hideDirectoryMenu);
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
+	$('#directory-content-map .show-as-list-button').click((e : Event) => {		
+		App.setMode(AppModes.List);
+		e.preventDefault();
+	});
+
+	$('#directory-content-list .show-as-map-button').click(() => {		
+		App.setMode(AppModes.Map);
+	});
+	
 	// if (onlyInputAdressMode)
 	// {
 	// 	showOnlyInputAdress();
 	// }
 
-	$('#list_tab').click(function(){
-		$("#ElementList").show();
-		$('#directory-container').hide();
-	});
-	$('#directory-content-map_tab').click(function(){		
-		$('#directory-container').show();
-		$("#ElementList").hide();
-	});
+	// $('#list_tab').click(function(){
+	// 	$("#directory-content-list").show();
+	// 	$('#directory-container').hide();
+	// });
+	// $('#directory-content-map_tab').click(function(){		
+	// 	$('#directory-container').show();
+	// 	$("#directory-content-list").hide();
+	// });
 }
 
 export function showDirectoryMenu()
@@ -139,19 +115,20 @@ export function showOnlyInputAdress()
 	hideBandeauHelper();
 	$('#directory-content').css('margin-left','0');
 	$('#bandeau_tabs').hide();
-	$('#ElementList').hide();
+	$('#directory-content-list').hide();
 	updateComponentsSize();
 }
 
 export function updateComponentsSize()
 {	
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
+	//console.log("Update component size");
 	$('#page-content').css('height','auto');
 
 	let content_height = $(window).height() - $('header').height();
 	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
 	$("#directory-container").css('height',content_height);
-	$("#ElementList").css('height',content_height);
+	$("#directory-content-list").css('height',content_height);
 
 	if (App) setTimeout(App.updateMaxElements, 500);
 
@@ -163,7 +140,7 @@ export function updateComponentsSize()
 let matchMediaBigSize_old;
 export function updateMapSize(elementInfoBar_height = $('#element-info-bar').outerHeight(true))
 {		
-
+	//console.log("updateMapSize", elementInfoBar_height);
 	if("matchMedia" in window) 
 	{	
 		if (window.matchMedia("(max-width: 600px)").matches) 
@@ -209,7 +186,7 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	//if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
+	if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
 }
 
 export function updateInfoBarSize()

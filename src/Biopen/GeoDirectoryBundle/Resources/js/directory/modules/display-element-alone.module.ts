@@ -30,7 +30,7 @@ export class DisplayElementAloneModule
 
 		if (panToElementLocation)
 		{
-			App.mapComponent.panToLocation(element.position, 12);
+			App.mapComponent.panToLocation(element.position, 12, false);
 		}
 
 		if (this.elementShownAlone_ !== null) 
@@ -59,7 +59,6 @@ export class DisplayElementAloneModule
 		// if (App.state == AppStates.Constellation) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 		// else 
 		// {
-			this.elementShownAlone_.hide();
 			App.elementModule.updateElementToDisplay(true,true);
 		//}
 		

@@ -8,6 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 import { AppModule, AppStates } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
@@ -20,15 +21,20 @@ export class InfoBarComponent
 	isVisible : boolean = false;
 	isDetailsVisible = false;
 
+	elementVisible : Element = null;
+
 	onShow = new Event<number>();
 	onHide = new Event<boolean>();
+
+	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
 
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
-		this.onShow.emit(elementId);
+		//console.log("showElement", elementId);
 
 		let element = App.elementModule.getElementById(elementId);
+		this.elementVisible = element;		
 
 		if (App.state !== AppStates.Constellation)
 		{
@@ -42,14 +48,15 @@ export class InfoBarComponent
 				$('#element-info-bar .menu-element .icon-star-empty').hide();
 				$('#element-info-bar .menu-element .icon-star-full').show();
 			}
-		}	
+		}
+
+		element.updateDistance();
 
 		$('#element-info').html(element.getHtmlRepresentation());	
 		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
-			this.onHide.emit(true);
 			this.hide();
 			return false;
 		});
@@ -57,6 +64,17 @@ export class InfoBarComponent
 		$('#element-info .collapsible-header').click(() => {this.toggleDetails(); });
 		
 		this.show();
+
+		// after infobar animation, we check if the marker 
+		// is not hidded by the info bar
+		setTimeout(()=> {
+			if (!App.mapComponent.contains(element.position))
+			{
+				App.mapComponent.panToLocation(element.position);
+			}			
+		}, 800);
+
+		this.onShow.emit(elementId);
 	};
 
 	show()
@@ -114,8 +132,11 @@ export class InfoBarComponent
 					
 				}		
 			}
+
+			this.onHide.emit(true);
 		}
 
+		this.elementVisible = null;
 		this.isVisible = false;
 	};
 
@@ -141,7 +162,7 @@ export class InfoBarComponent
 
 			let elementInfoBar_newHeight =  $( window ).height();
 			elementInfoBar_newHeight -= $('header').height();
-			elementInfoBar_newHeight -=$('#bandeau_goToElementList').outerHeight(true);
+			elementInfoBar_newHeight -=$('#bandeau_goTodirectory-content-list').outerHeight(true);
 
 			$('#element-info-bar').css('height', '100%');
 

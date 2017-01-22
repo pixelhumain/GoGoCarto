@@ -2,6 +2,7 @@
 
 @import 'vendors/materialize';
 @import 'vendors/leaflet';
+@import "vendors/marker-clusterer";
 
 @import "components/directory/helpers-bars";
 @import "components/directory/loaders";
@@ -14,6 +15,8 @@
 @import "components/directory/map/directions";
 @import "components/directory/map/map";
 @import "components/directory/map/map-controls";
+
+@import "components/directory/element-list";
 
 @import "components/directory/info-bar/info-bar";
 @import "components/directory/info-bar/element-menu";
