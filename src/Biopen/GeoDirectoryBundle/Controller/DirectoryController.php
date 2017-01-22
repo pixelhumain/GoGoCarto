@@ -34,7 +34,7 @@ class DirectoryController extends Controller
     public function normalAction($mode, $addressAndViewport, Request $request)
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);       
-        $address = $this->checkAddressInSession($address);
+        //$address = $this->checkAddressInSession($address);
 
         $config['address'] = $address;
         $config['viewport'] = $viewport;
