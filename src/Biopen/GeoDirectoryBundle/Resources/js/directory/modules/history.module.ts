@@ -90,11 +90,11 @@ export class HistoryModule
 		if ($pushState)
 		{
 			history.pushState(historyState, '', route);
-			console.log("Pushing new state", historyState);
+			//console.log("Pushing new state", historyState);
 		}
 		else 
 		{
-			console.log("Replace state", historyState);
+			//console.log("Replace state", historyState);
 			history.replaceState(historyState, '', route);
 		}
 
