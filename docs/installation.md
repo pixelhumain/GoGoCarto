@@ -63,9 +63,9 @@ gulp watch
 Generate Database
 -----------------
 
-Lauch php server
-Go to PhpMyAdmin and create a database 
-Change app/config/parameters.yml with database name you juste created, and enter database login information (by default user:"root", password:"null")
+Lauch php server, go to PhpMyAdmin and create a database (called "carto" for example)
+
+Change app/config/parameters.yml with the database name you juste created, and enter database login information (by default user:"root", password:"null")
 
 Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
 ```
