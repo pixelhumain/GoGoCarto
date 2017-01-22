@@ -113,7 +113,7 @@ export class MapComponent
 			this.updateViewPort();
 			this.onIdle.emit(); 
 		});
-		this.map_.on('load', (e) => { this.isMapLoaded = true; console.log("Map Loaded"); });
+		this.map_.on('load', (e) => { this.isMapLoaded = true; /*console.log("Map Loaded");*/ });
 
 		this.resize();
 
@@ -129,7 +129,7 @@ export class MapComponent
 	   }
 
 		this.isInitialized = true;
-		console.log("map init done");
+		//console.log("map init done");
 		this.onMapReady.emit();
 	};
 
@@ -208,11 +208,8 @@ export class MapComponent
 	{		
 		if (this.map_ && $viewport && $panMapToViewport)
 		{
-			console.log("setViewPort", $viewport);
+			//console.log("setViewPort", $viewport);
 			this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);
-			//this.resize();
-			// wewait the resize to be done before setting the view
-			//setTimeout( () => {this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);},100);
 		}
 		this.viewport = $viewport;
 	}
