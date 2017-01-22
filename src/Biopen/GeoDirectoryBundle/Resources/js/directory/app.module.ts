@@ -12,7 +12,7 @@
 declare let window, Routing : any;
 declare let CONFIG;
 declare var $;
-import * as L from "leaflet";
+//import * as L from "leaflet";
 
 import { GeocoderModule } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
@@ -25,7 +25,7 @@ import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
-import { HistoryModule } from './modules/history.module';
+import { HistoryModule, HistoryState } from './modules/history.module';
 
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
@@ -41,7 +41,7 @@ declare var App;
 $(document).ready(function()
 {	
    App = new AppModule();
-   App.checkInitialState();
+   App.loadHistoryState();
 
    initializeDirectoryMenu();
    initializeAppInteractions();
@@ -126,45 +126,46 @@ export class AppModule
 	};
 
 	/*
-	* Check initial state with CONFIG provided by symfony controller
+	* Load initial state with CONFIG provided by symfony controller or
+	  with state poped by window history manager
 	*/
-	checkInitialState()
+	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
-		//console.log("CONFIG", CONFIG);		
+		if (historystate === null) return;
 
-		let viewport : ViewPort = new ViewPort().fromString(CONFIG.viewport);		
-		this.mapComponent.setViewPort(viewport);		
+		// if no backfromhistory that means historystate is actually the CONFIG
+		// given by symfony, so we need to convert this obect in real Historystate class
+		if (!$backFromHistory)
+			historystate = new HistoryState().parse(historystate);		
 
-		this.setMode(CONFIG.mode == 'Map' ? AppModes.Map : AppModes.List);
-
-		if (viewport)
+		if (historystate.viewport)
 		{			
+			// we just set de mapComponent viewport without changing the
+			// actual viewport of the map, because it will be done in
+			// map initialisation
+			this.mapComponent.setViewPort(historystate.viewport, false);
+
 			$('#directory-spinner-loader').hide();	
-			if (this.mode == AppModes.Map )
-				setTimeout( () => {
-					console.log("SetViewPort and getElementsAround");
-					this.mapComponent.resize();
-					this.mapComponent.setViewPort(viewport);					
-					
-					// this.ajaxModule.getElementsAroundLocation(
-					// 	this.mapComponent.getCenter(), 
-					// 	this.mapComponent.mapRadiusInKm() * 2
-					// );	 
-				},	200);
-			else
-				this.ajaxModule.getElementsAroundLocation(viewport.location, 30);			
+
+			if (this.mode == AppModes.List )
+			{
+				let location = L.latLng(historystate.viewport.lat, historystate.viewport.lng);
+				this.ajaxModule.getElementsAroundLocation(location, 30);	
+			}	
 		}	
 
+		this.setMode(historystate.mode, $backFromHistory);
+
 		// if address is provided we geolocalize
-		if (CONFIG.address || !viewport)
+		if (historystate.address || !historystate.viewport)
 		{
 			this.geocoderModule_.geocodeAddress(
-				CONFIG.address, 
+				historystate.address, 
 				(results) => 
 				{ 
 					// if viewport is given, nothing to do, we already did initialization
 					// with viewport
-					if (viewport) return;
+					if (historystate.viewport) return;
 
 					$('#directory-spinner-loader').hide();		
 
@@ -180,31 +181,24 @@ export class AppModule
 			);
 		}
 
-		switch (CONFIG.state)
+		if (historystate.id) 
 		{
-			case "Normal":	
-				this.setState(AppStates.Normal);									
-				break;
-
-			case "ShowElementAlone":			
-				this.setState(AppStates.ShowElementAlone,{id: CONFIG.id},false);
-				$('#directory-spinner-loader').hide();						
-				break;
-
-			case "ShowDirections":			
-				// this.setState(AppStates.ShowDirections,{id: CONFIG.id},false);				
-				break;			
-
-			case "Constellation":								
-				break;
+			this.setState(
+				historystate.state,
+				{
+					id: historystate.id, 
+					panToLocation: !(historystate.viewport)
+				},
+				$backFromHistory);
+			$('#directory-spinner-loader').hide();			
 		}
-
-		this.historyModule.pushNewState();
-
-		
+		else
+		{
+			this.setState(historystate.state, null, $backFromHistory);		
+		}		
 	};	
 
-	setMode($mode : AppModes)
+	setMode($mode : AppModes, $backFromHistory : boolean = false)
 	{
 		if ($mode != this.mode_)
 		{
@@ -231,7 +225,7 @@ export class AppModule
 			// if previous mode wasn't null 
 			let oldMode = this.mode_;
 			this.mode_ = $mode;
-			if (oldMode != null) this.historyModule.pushNewState();
+			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
 			this.elementModule.clearCurrentsElement();
 			this.elementModule.updateElementToDisplay(true, true);			
@@ -241,22 +235,12 @@ export class AppModule
 	/*
 	* Change App state
 	*/
-	setState($newState : AppStates, options : any = {}, backFromHistory : boolean = false) 
+	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + AppStates[$newState]  + ', backfromHistory : ' + backFromHistory + ', options = ',options);
+		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
 
 		let oldStateName = this.state_;
-		this.state_ = $newState;		
-
-
-		if (oldStateName !== null)
-		{
-			if (oldStateName != $newState 
-				|| $newState == AppStates.ShowElement
-				|| $newState == AppStates.ShowElementAlone
-				|| $newState == AppStates.ShowDirections)
-			this.historyModule.pushNewState();
-		} 	
+		this.state_ = $newState;			
 
 		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
@@ -269,17 +253,20 @@ export class AppModule
 				// 	clearDirectoryMenu();
 				// 	this.starRepresentationChoiceModule_.end();
 				// }	
+				if ($backFromHistory) this.infoBarComponent.hide();
 
 				if (oldStateName == AppStates.ShowElementAlone)	
 				{
 					this.elementModule.clearCurrentsElement();
-					this.displayElementAloneModule_.end();		
+					this.displayElementAloneModule_.end();	
 				}				
 							
 				break;
 
 
-			case AppStates.ShowElement:				
+			case AppStates.ShowElement:
+				if (!options.id) return;
+				this.infoBarComponent.showElement(options.id);
 				break;	
 
 			case AppStates.ShowElementAlone:
@@ -289,16 +276,22 @@ export class AppModule
 				let element = this.elementById(options.id);
 				if (element)
 				{
-					this.DPAModule.begin(element.id);					
+					this.DPAModule.begin(element.id, options.panToLocation);					
 				}
 				else
 				{
 					this.ajaxModule_.getElementById(options.id,
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
-							// timeout to fixs map initialisation bug
-							setTimeout(() => {this.DPAModule.begin(elementJson.id);}, 0); 
+							this.DPAModule.begin(elementJson.id, options.panToLocation);
 							this.updateDocumentTitle_(options);
+							this.historyModule.pushNewState(options);
+							// we get element around so if the user end the DPAMdoule
+							// the elements will already be available to display
+							this.ajaxModule.getElementsAroundLocation(
+								this.mapComponent.getCenter(), 
+								this.mapComponent.mapRadiusInKm() * 2
+							);	 
 						},
 						(error) => { /*TODO*/ alert("No element with this id"); }
 					);						
@@ -323,10 +316,15 @@ export class AppModule
 				
 				this.directionsModule_.calculateRoute(origin, element.position); 
 				this.displayElementAloneModule_.begin(options.id, false);									
-				break;
-
-			
+				break;			
 		}
+
+		if (!$backFromHistory &&
+			 ( oldStateName !== $newState 
+				|| $newState == AppStates.ShowElement
+				|| $newState == AppStates.ShowElementAlone
+				|| $newState == AppStates.ShowDirections) )
+			this.historyModule.pushNewState(options);
 
 		this.updateDocumentTitle_(options);
 	};
@@ -337,9 +335,9 @@ export class AppModule
 
 		this.setTimeoutClicking();
 
-		if (marker.isHalfHidden()) App.setState(AppStates.Normal);	
+		if (marker.isHalfHidden()) this.setState(AppStates.Normal);	
 
-		this.infoBarComponent.showElement(marker.getId());
+		this.setState(AppStates.ShowElement, { id: marker.getId() });		
 
 		if (App.state == AppStates.StarRepresentationChoice)
 		{
@@ -349,7 +347,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
+		console.log("App handle map idle, showinginfobar : " , this.isShowingInfoBarComponent);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
@@ -442,8 +440,8 @@ export class AppModule
 
 	handleInfoBarShow(elementId)
 	{
-		let statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
-		if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
+		//let statesToAvoid = [AppStates.ShowDirections,AppStates.ShowElementAlone,AppStates.StarRepresentationChoice];
+		//if ($.inArray(this.state, statesToAvoid) == -1 ) this.setState(AppStates.ShowElement, {id: elementId});		
 	};
 
 	updateMaxElements() 
@@ -470,7 +468,7 @@ export class AppModule
 	{
 		let title : string;
 		let elementName : string;
-		if (options.id) 
+		if (options && options.id) 
 		{
 			let element = this.elementById(options.id);
 			elementName = capitalize(element ? element.name : '');
