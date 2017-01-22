@@ -95,9 +95,10 @@ export class MapComponent
 		    zoomToBoundsOnClick: true,
 		    spiderfyOnHover: true,
 		    spiderfyMaxCount: 8,
+		    spiderfyDistanceMultiplier: 1,
 		    maxClusterRadius: (zoom) =>
 		    {
-		    	if (zoom > 8) return 35;
+		    	if (zoom > 9) return 55;
 		    	else return 100;
 		    }
 		});
