@@ -351,7 +351,8 @@ export class AppModule
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
-		if (this.isShowingInfoBarComponent) return;
+		//if (this.isShowingInfoBarComponent) return;
+		
 		if (this.mode  != AppModes.Map)     return;
 		//if (this.state  != AppStates.Normal)     return;
 

@@ -71,6 +71,7 @@ export class InfoBarComponent
 			if (!App.mapComponent.contains(element.position))
 			{
 				App.mapComponent.panToLocation(element.position);
+				//App.elementModule.updateElementToDisplay()
 			}			
 		}, 800);
 
@@ -79,7 +80,7 @@ export class InfoBarComponent
 
 	show()
 	{
-		App.setTimeoutInfoBarComponent();
+		//App.setTimeoutInfoBarComponent();
 
 		if ($('#element-info-bar').css('position') != 'absolute')
 		{
@@ -142,7 +143,7 @@ export class InfoBarComponent
 
 	toggleDetails()
 	{	
-		App.setTimeoutInfoBarComponent();
+		//App.setTimeoutInfoBarComponent();
 
 		if ( $('#element-info-bar .moreDetails').is(':visible') )
 		{
@@ -180,7 +181,7 @@ export class InfoBarComponent
 
 	hideDetails()
 	{
-		App.setTimeoutInfoBarComponent();
+		//App.setTimeoutInfoBarComponent();
 
 		if ($('#element-info-bar .moreDetails').is(':visible'))
 		{
