@@ -26,9 +26,13 @@ export class InfoBarComponent
 	onShow = new Event<number>();
 	onHide = new Event<boolean>();
 
+	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
+
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
+		//console.log("showElement", elementId);
+
 		let element = App.elementModule.getElementById(elementId);
 		this.elementVisible = element;		
 
@@ -60,6 +64,15 @@ export class InfoBarComponent
 		$('#element-info .collapsible-header').click(() => {this.toggleDetails(); });
 		
 		this.show();
+
+		// after infobar animation, we check if the marker 
+		// is not hidded by the info bar
+		setTimeout(()=> {
+			if (!App.mapComponent.contains(element.position))
+			{
+				App.mapComponent.panToLocation(element.position);
+			}			
+		}, 1000);
 
 		this.onShow.emit(elementId);
 	};
@@ -122,6 +135,7 @@ export class InfoBarComponent
 
 			this.onHide.emit(true);
 		}
+
 		this.elementVisible = null;
 		this.isVisible = false;
 	};
