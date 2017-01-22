@@ -21,20 +21,34 @@ declare let Routing;
 $(document).ready(function()
 {	
    // Gets history state from browser
-   window.onpopstate = (event) =>
+   window.onpopstate = (event : PopStateEvent) =>
    {
-	  console.log("OnpopState ", event);
-	  //this.setState(event.state.name,event.state.options,true);
+	  console.log("OnpopState ", event.state);
+	  let historystate : HistoryState = event.state;
+	  // transform jsonViewport into ViewPort object (if we don't do so,
+	  // the ViewPort methods will not be accessible)
+	  historystate.viewport = $.extend(new ViewPort(), event.state.viewport);
+	  App.loadHistoryState(event.state, true);
 	};
 });
 
-class HitoryState
+export class HistoryState
 {
 	mode: AppModes;
 	state : AppStates;
 	address : string;
 	viewport : ViewPort;
 	id : number;
+
+	parse($historyState : any) : HistoryState
+	{
+		this.mode = $historyState.mode == 'Map' ? AppModes.Map : AppModes.List;
+		this.state = parseInt(AppStates[$historyState.state]);
+		this.address = $historyState.address;
+		this.viewport = new ViewPort().fromString($historyState.viewport);
+		this.id = $historyState.id;
+		return this;
+	}
 }
 
 export class HistoryModule
@@ -42,37 +56,47 @@ export class HistoryModule
 
 	constructor() { }  
 
-	updateCurrState()
+	updateCurrState(options?)
 	{
 		//console.log("Update Curr State", history.state);
-		if (!history.state) { console.log("curr state null");return;}
-		this.updateHistory(false);
+		//if (!history.state) { console.log("curr state null");this.pushNewState();}
+		this.updateHistory(false, options);
 	};
 
-	pushNewState()
+	pushNewState(options?)
 	{
 		//console.log("Push New State", history.state);
 		//if (!history.state) return;
-		this.updateHistory(true);
+		if (history.state === null) this.updateCurrState(options);
+		else this.updateHistory(true, options);
 	};
 
-	private updateHistory($pushState : boolean, $backFromHistory : boolean = false)
+	private updateHistory($pushState : boolean, $options? : any)
 	{
-		let historyState = new HitoryState;
+		$options = $options || {};
+		let historyState = new HistoryState;
 		historyState.mode = App.mode;
 		historyState.state = App.state;
 		historyState.address = App.geocoder.getLocationSlug();
 		historyState.viewport = App.mapComponent.viewport;
+		historyState.id = App.infoBarComponent.getCurrElementId() || $options.id;
 
 		//console.log("updateHistory", historyState);
 
-		let route = this.generateRoute();
+		let route = this.generateRoute(historyState);
+
 		if (!route) return;
 
 		if ($pushState)
+		{
 			history.pushState(historyState, '', route);
+			console.log("Pushing new state", historyState);
+		}
 		else 
+		{
+			console.log("Replace state", historyState);
 			history.replaceState(historyState, '', route);
+		}
 
 		// if (!backFromHistory)
 		// {
@@ -83,19 +107,19 @@ export class HistoryModule
 		// }
 	};
 
-	private generateRoute(options = {})
+	private generateRoute(historyState : HistoryState)
 	{
 		let route;
 		let mode = App.mode == AppModes.Map ? 'carte' : 'liste';
-		let address = App.geocoder.getLocationSlug();
-		let viewport = App.mapComponent.viewport;
+		let address = historyState.address;
+		let viewport = historyState.viewport;
 		let addressAndViewport = '';
 		if (address) addressAndViewport += address;
 		// in Map Mode we add viewport
 		// in List mode we add viewport only when no address provided
 		if (viewport && (App.mode == AppModes.Map || !address)) addressAndViewport += viewport.toString();
 
-		//console.log("generate route", addressAndViewport);
+		//console.log("generate route", viewport);
 
 		switch (App.state)
 		{
@@ -108,13 +132,14 @@ export class HistoryModule
 
 
 			case AppStates.ShowElement:	
-				let element = App.infoBarComponent.elementVisible;	
+			case AppStates.ShowElementAlone:
+				if (!historyState.id) return;
+				let element = App.elementById(historyState.id);
 				if (!element) return;			
 				route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
 				// forjsrouting doesn't support speacial characts like in viewport
 				// so we add them manually
-				if (addressAndViewport) route += '/' + addressAndViewport;
-			case AppStates.ShowElementAlone:											
+				if (addressAndViewport) route += '/' + addressAndViewport;										
 				break;
 
 			case AppStates.ShowDirections:
@@ -127,6 +152,8 @@ export class HistoryModule
 		// 	route += '?' + key + '=' + options[key];
 		// 	//route += '/' + key + '/' + options[key];
 		// }
+
+		//console.log("route generated", route);
 
 		return route;
 	};
