@@ -140,10 +140,10 @@ export class AppModule
 
 		if (historystate.viewport)
 		{			
-			// we just set de mapComponent viewport without changing the
+			// if map not loaded we just set de mapComponent viewport without changing the
 			// actual viewport of the map, because it will be done in
 			// map initialisation
-			this.mapComponent.setViewPort(historystate.viewport, false);
+			this.mapComponent.setViewPort(historystate.viewport, this.mapComponent.isMapLoaded);
 
 			$('#directory-spinner-loader').hide();	
 
@@ -237,7 +237,7 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
 
 		let oldStateName = this.state_;
 		this.state_ = $newState;			
@@ -347,7 +347,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		console.log("App handle map idle, showinginfobar : " , this.isShowingInfoBarComponent);
+		//console.log("App handle map idle, showinginfobar : " , this.isShowingInfoBarComponent);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
@@ -419,7 +419,7 @@ export class AppModule
 		{
 			this.elementListComponent.update(result);
 		}
-		else if (this.state == AppStates.Normal)
+		else if (this.state != AppStates.ShowElementAlone)
 		{
 			for(let element of result.newElements)
 			{
