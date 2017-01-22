@@ -27,34 +27,34 @@ export function initializeAppInteractions()
 	/*$('#menu-button').click(animate_up_bandeau_options);
 	$('#overlay').click(animate_down_bandeau_options);*/
 
-	setTimeout(updateComponentsSize,50);
+	updateComponentsSize();
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
 	let res;
 	window.onresize = function() 
 	{
-	    if (res) {clearTimeout(res); }
-	    res = setTimeout(updateComponentsSize,200);
+	   if (res) {clearTimeout(res); }
+	   res = setTimeout(updateComponentsSize,200);
 	};	
 
-	// scroller tout seul en haut de la page quand on en est pas loin
-	let lastEndScrollTop = 0, st = 0;
-	let timeout = null;	
-	$(window).scroll(function(event)
-	{
-	   clearTimeout(timeout);
-	   st = $(this).scrollTop();
-	   timeout = setTimeout(function()
-	   {
-	       //end of scrolling
-	       if (st < 250 && lastEndScrollTop > 250)
-		   {		    	
-		    	$('html, body').animate({scrollTop: 0}, 400);		    	
-		   }
-		   lastEndScrollTop = st;
-	   },100);	 	   
-	});	
+	// Automatically scrool on top of page when we are close to top
+	// let lastEndScrollTop = 0, st = 0;
+	// let timeout = null;	
+	// $(window).scroll(function(event)
+	// {
+	//    clearTimeout(timeout);
+	//    st = $(this).scrollTop();
+	//    timeout = setTimeout(function()
+	//    {
+	//        //end of scrolling
+	//        if (st < 250 && lastEndScrollTop > 250)
+	// 	   {		    	
+	// 	    	$('html, body').animate({scrollTop: 0}, 400);		    	
+	// 	   }
+	// 	   lastEndScrollTop = st;
+	//    },100);	 	   
+	// });	
 	
 	//Menu CARTE	
 	$('#menu-button').click(showDirectoryMenu);
@@ -75,14 +75,14 @@ export function initializeAppInteractions()
 	// 	showOnlyInputAdress();
 	// }
 
-	$('#list_tab').click(function(){
-		$("#directory-content-list").show();
-		$('#directory-container').hide();
-	});
-	$('#directory-content-map_tab').click(function(){		
-		$('#directory-container').show();
-		$("#directory-content-list").hide();
-	});
+	// $('#list_tab').click(function(){
+	// 	$("#directory-content-list").show();
+	// 	$('#directory-container').hide();
+	// });
+	// $('#directory-content-map_tab').click(function(){		
+	// 	$('#directory-container').show();
+	// 	$("#directory-content-list").hide();
+	// });
 }
 
 export function showDirectoryMenu()
@@ -122,6 +122,7 @@ export function showOnlyInputAdress()
 export function updateComponentsSize()
 {	
 	//$("#bandeau_option").css('height',$( window ).height()-$('header').height());
+	//console.log("Update component size");
 	$('#page-content').css('height','auto');
 
 	let content_height = $(window).height() - $('header').height();
@@ -139,7 +140,7 @@ export function updateComponentsSize()
 let matchMediaBigSize_old;
 export function updateMapSize(elementInfoBar_height = $('#element-info-bar').outerHeight(true))
 {		
-
+	//console.log("updateMapSize", elementInfoBar_height);
 	if("matchMedia" in window) 
 	{	
 		if (window.matchMedia("(max-width: 600px)").matches) 
@@ -185,7 +186,7 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 
 	// après 500ms l'animation de redimensionnement est terminé
 	// on trigger cet évenement pour que la carte se redimensionne vraiment
-	//if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
+	if (App.mapComponent) setTimeout(function() { App.mapComponent.resize(); },500);
 }
 
 export function updateInfoBarSize()
