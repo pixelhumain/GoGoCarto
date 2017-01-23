@@ -1,0 +1,16 @@
+ 
+Install mongodb extension for php
+ 
+http://php.net/manual/fr/mongodb.installation.php
+     
+    beware of choosing the right version of the extension (php7 or ph5)
+    
+Install an additional driver for the bundle
+
+  php path-to-composer.phar/composer.phar  require alcaeus/mongo-php-adapter 
+ 
+Add Mongodb bundle
+
+  Follow the instruction of this link
+
+  http://symfony.com/doc/current/bundles/DoctrineMongoDBBundle/index.html
