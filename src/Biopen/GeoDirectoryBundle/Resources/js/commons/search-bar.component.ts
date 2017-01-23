@@ -45,6 +45,11 @@ export class SearchBarComponent
 	{
 		this.onSearch.emit(this.domElement().val());
 	}
+
+	setValue($value : string)
+	{
+		this.domElement().val($value);
+	}
 }
 
 
