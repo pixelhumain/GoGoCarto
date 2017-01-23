@@ -55,6 +55,7 @@ export class ViewPort
 export class MapComponent
 {
 	onMapReady = new Event<any>();
+	onMapLoaded = new Event<any>();
 	onClick = new Event<any>();
 	onIdle = new Event<any>();
 
@@ -118,7 +119,7 @@ export class MapComponent
 			this.updateViewPort();
 			this.onIdle.emit(); 
 		});
-		this.map_.on('load', (e) => { this.isMapLoaded = true; /*console.log("Map Loaded");*/ });
+		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
 
 		this.resize();
 
@@ -130,11 +131,12 @@ export class MapComponent
 	   }
 	   else if (this.viewport)
 	   {
-	   	setTimeout( () => {this.setViewPort(this.viewport);},500);
+	   	// setTimeout waiting for the map to be resized
+	   	setTimeout( () => { this.setViewPort(this.viewport); },200);
 	   }
 
 		this.isInitialized = true;
-		//console.log("map init done");
+		console.log("map init done");
 		this.onMapReady.emit();
 	};
 
@@ -180,7 +182,7 @@ export class MapComponent
 	// the actual displayed map radius (distance from croner to center)
 	mapRadiusInKm() : number
 	{
-		if (!this.isMapLoaded) return 50;
+		if (!this.isMapLoaded) return 0;
 		return Math.floor(this.map_.getBounds().getNorthEast().distanceTo(this.map_.getCenter()) / 1000);
 	}
 
