@@ -10,6 +10,7 @@
 import { AppModule, AppStates } from "../app.module";
 declare let App : AppModule;
 import { ElementsChanged } from "../modules/elements.module";
+import { slugify, capitalize, unslugify } from "../../commons/commons";
 
 import { createListenersForElementMenu } from "./element-menu.component";
 import { Element } from "../classes/element.class";
@@ -48,6 +49,17 @@ export class ElementListComponent
 	{
 		this.clear();
 		this.draw($elementsResult.elementsToDisplay, false);
+		
+		let address = App.geocoder.lastAddressRequest;
+		if (address)
+			this.setTitle(' autour de <i>' + capitalize(unslugify(address))) + '</i>';
+		else
+			this.setTitle(' autour du centre de la carte');
+	}
+
+	setTitle($value : string)
+	{
+		$('.element-list-title-text').html($value);
 	}
 
 	clear()
@@ -125,6 +137,8 @@ export class ElementListComponent
 		$('#directory-content-list ul').collapsible({
       	accordion : true 
    	});
+
+   	$('.element-list-title-number-results').text('(' + elementsToDisplay.length + ')');
 	}
 
 	private handleBottom()
