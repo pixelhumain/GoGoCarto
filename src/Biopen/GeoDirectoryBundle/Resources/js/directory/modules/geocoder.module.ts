@@ -76,8 +76,7 @@ export class GeocoderModule
 			this.geocoder.geocode( address, (results : GeocodeResult[]) =>
 			{			
 				if (results !== null) 
-				{
-					$('.data-location-address').text(capitalize(unslugify(address)));					
+				{				
 					this.lastResults = results;
 					this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
 
