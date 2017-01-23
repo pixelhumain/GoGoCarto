@@ -151,7 +151,7 @@ export class AppModule
 
 			$('#directory-spinner-loader').hide();	
 
-			if (this.mode == AppModes.List )
+			if (historystate.mode == AppModes.List )
 			{
 				let location = L.latLng(historystate.viewport.lat, historystate.viewport.lng);
 				this.ajaxModule.getElementsAroundLocation(location, 30);	
