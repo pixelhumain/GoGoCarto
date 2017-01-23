@@ -170,16 +170,15 @@ export class AppModule
 					// if viewport is given, nothing to do, we already did initialization
 					// with viewport
 					if (historystate.viewport) return;
-
-					$('#directory-spinner-loader').hide();		
-
-					// if just address was given
-					if (this.state == AppStates.Normal)
+					this.handleGeocodeResult(results);
+				},
+				() => {
+					// failure callback
+					this.searchBarComponent.setValue("Erreur de localisation : " + historystate.address);
+					if (!historystate.viewport) 
 					{
-						if (this.mode == AppModes.Map )
-							this.mapComponent.fitBounds(this.geocoder.getBounds());
-						else
-							this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+						// geocode default location
+						this.geocoderModule_.geocodeAddress('', (r) => { this.handleGeocodeResult(r); });
 					}
 				}	
 			);
@@ -335,6 +334,20 @@ export class AppModule
 
 		this.updateDocumentTitle_(options);
 	};
+
+	handleGeocodeResult(results)
+	{
+		$('#directory-spinner-loader').hide();		
+
+		// if just address was given
+		if (this.state == AppStates.Normal)
+		{
+			if (this.mode == AppModes.Map )
+				this.mapComponent.fitBounds(this.geocoder.getBounds());
+			else
+				this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+		}
+	}
 
 	handleMarkerClick(marker : BiopenMarker)
 	{
