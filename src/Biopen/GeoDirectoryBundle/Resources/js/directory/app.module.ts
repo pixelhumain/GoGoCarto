@@ -229,11 +229,14 @@ export class AppModule
 			this.mode_ = $mode;
 			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
+			this.updateDocumentTitle_();
+
 			this.elementModule.clearCurrentsElement();
 			this.elementModule.updateElementToDisplay(true, true);
 
 			// after clearing, we set the current state again
 			if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});			
+			
 		}
 	}
 
@@ -337,6 +340,7 @@ export class AppModule
 
 	handleGeocodeResult(results)
 	{
+		//console.log("handleGeocodeResult", results);
 		$('#directory-spinner-loader').hide();		
 
 		// if just address was given
@@ -367,14 +371,26 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		//console.log("App handle map idle, showinginfobar : " , this.isShowingInfoBarComponent);
+		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
 		//if (this.isShowingInfoBarComponent) return;
 		
-		if (this.mode  != AppModes.Map)     return;
+		if (this.mode != AppModes.Map)     return;
 		//if (this.state  != AppStates.Normal)     return;
+
+		// we need map to be loaded to get the radius of the viewport
+		// and get the elements inside
+		if (!this.mapComponent.isMapLoaded)
+		{
+			this.mapComponent.onMapLoaded.do(() => {this.handleMapIdle(); });
+			return;
+		}
+		else
+		{
+			this.mapComponent.onMapLoaded.off(() => {this.handleMapIdle(); });
+		}
 
 		let updateInAllElementList = true;
 		let forceRepaint = false;
