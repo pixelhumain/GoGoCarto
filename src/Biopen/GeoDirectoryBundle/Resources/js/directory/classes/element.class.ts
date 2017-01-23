@@ -164,6 +164,8 @@ updateDistance()
 	this.distance = null;
 	if (App.geocoder.getLocation()) 
 		this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+	else if (App.mapComponent.getCenter())
+		this.distance = App.mapComponent.getCenter().distanceTo(this.position);
 	// distance vol d'oiseau, on arrondi et on l'augmente un peu
 	this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 }
