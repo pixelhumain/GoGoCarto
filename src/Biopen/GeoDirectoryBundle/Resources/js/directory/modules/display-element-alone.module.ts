@@ -28,11 +28,6 @@ export class DisplayElementAloneModule
 		let element = App.elementById(elementId);
 		this.elementShownAlone_ = element;			
 
-		if (panToElementLocation)
-		{
-			App.mapComponent.panToLocation(element.position, 12, false);
-		}
-
 		if (this.elementShownAlone_ !== null) 
 		{
 			this.elementShownAlone_.hide();
@@ -49,6 +44,13 @@ export class DisplayElementAloneModule
 		element.isShownAlone = true;
 
 		App.infoBarComponent.showElement(element.id);
+
+		if (panToElementLocation)
+		{
+			// we set a timeout to let the infobar show up
+			// if we not do so, the map will not be centered in the element.position
+			setTimeout( () => {App.mapComponent.panToLocation(element.position, 12, false);}, 500);
+		}
 	};
 
 	end () 
