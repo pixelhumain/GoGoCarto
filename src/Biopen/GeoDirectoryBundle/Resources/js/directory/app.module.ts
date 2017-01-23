@@ -283,14 +283,14 @@ export class AppModule
 				let element = this.elementById(options.id);
 				if (element)
 				{
-					this.DPAModule.begin(element.id, options.panToLocation);					
+					this.DEAModule.begin(element.id, options.panToLocation);					
 				}
 				else
 				{
 					this.ajaxModule_.getElementById(options.id,
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
-							this.DPAModule.begin(elementJson.id, options.panToLocation);
+							this.DEAModule.begin(elementJson.id, options.panToLocation);
 							this.updateDocumentTitle_(options);
 							this.historyModule.pushNewState(options);
 							// we get element around so if the user end the DPAMdoule
@@ -537,7 +537,7 @@ export class AppModule
 	//get markerModule() { return this.markerModule_; };
 	get filterModule() { return this.filterModule_; };
 	//get SRCModule() { return this.starRepresentationChoiceModule_; };
-	get DPAModule() { return this.displayElementAloneModule_; };
+	get DEAModule() { return this.displayElementAloneModule_; };
 	//get listElementModule() { return this.listElementModule_; };
 	get state() { return this.state_; };
 	get mode() { return this.mode_; };
