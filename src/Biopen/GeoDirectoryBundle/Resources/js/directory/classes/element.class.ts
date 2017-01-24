@@ -30,7 +30,7 @@ export class Element
 	//TODO
 	mainProduct : any;
 	mainProductIsDisabled : boolean;
-	horaires : any;
+	openHours : any;
 	type : any;	
 
 	distance : number;
@@ -96,7 +96,7 @@ export class Element
 
 		this.mainProduct = elementJson.main_product;
 		this.mainProductIsDisabled = false;
-		this.horaires = elementJson.horaires;
+		this.openHours = elementJson.openHours;
 		this.type = elementJson.type;	
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
@@ -179,7 +179,7 @@ getHtmlRepresentation()
 	{
 		element : this, 
 		showDistance: App.geocoder.getLocation() ? true : false,
-		horaires : this.getFormatedOpenHourss(), 
+		openHours : this.getFormatedOpenHourss(), 
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
@@ -260,10 +260,10 @@ getFormatedOpenHourss()
 	{		
 		this.formatedOpenHours_ = {};
 		let new_key;
-		for(let key in this.horaires)
+		for(let key in this.openHours)
 		{
 			new_key = key.split('_')[1];
-			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.horaires[key]);
+			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
 		}
 	}
 	return this.formatedOpenHours_;

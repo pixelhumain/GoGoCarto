@@ -6,7 +6,7 @@
 	<div class="col s12">
 		<input type="checkbox" name="is-part-of-element" id="is-part-of-element"/>
 		<label for="is-part-of-element">Vous êtes ou travaillez chez le element en question </label> 
-		{{ form_widget(form.contributeur) }}			
+		{{ form_widget(form.contributor) }}			
 	</div>
 
 	<!-- S'engager à bla bla bla -->
@@ -18,7 +18,7 @@
 	<!-- E mail pour validation -->
 	<div class="input-field col s12">
 		<i class="material-icons prefix">mail</i>	
-		{{ form_widget(form.contributeurMail, {'id': 'inputMail',
+		{{ form_widget(form.contributorMail, {'id': 'inputMail',
   								      		   'attr': {'class': 'validate required',
   											   			'placeholder':'Votre adresse mail personelle' }}) }}
 	</div>

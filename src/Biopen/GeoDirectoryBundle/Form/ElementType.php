@@ -73,7 +73,7 @@ class ElementType extends AbstractType
                   'multiple' =>'true',
                   'mapped'=> false
           ))  
-          ->add('horaires', OpenHoursType::class, array('required' => false))
+          ->add('openHours', OpenHoursType::class, array('required' => false))
           ->add('type', ChoiceType::class, array(
                           'choices'  => array(
                                 '' => null,
@@ -85,14 +85,14 @@ class ElementType extends AbstractType
                                 ),
                           'choices_as_values' => true,
                           ))
-          ->add('contributeur', CheckboxType::class, array(
+          ->add('contributor', CheckboxType::class, array(
                     'label'    => 'Vous êtes ou travaillez chez le element en question',
                     'required' => false))
           ->add('engagement', CheckboxType::class, array(
                 'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label)',
                 'mapped' => false,
                 'required' => false))
-          ->add('contributeurMail', EmailType::class, array('required' => false));        
+          ->add('contributorMail', EmailType::class, array('required' => false));        
   }
 
   

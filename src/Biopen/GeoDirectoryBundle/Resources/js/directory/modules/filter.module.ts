@@ -127,9 +127,9 @@ export class FilterModule
 		// OPENNING HOURS FILTER
 		if (this.dayFilters.length > 0)
 		{
-			let horaires = element.horaires;
+			let openHours = element.openHours;
 			let day, atLeastOneDayPassFilter = false;
-			for(let key in horaires)
+			for(let key in openHours)
 			{
 				day = key.split('_')[1];
 				if ( !this.containsOpeningDay(day) )
