@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 17:43:25
+ * @Last Modified time: 2017-01-24 17:56:25
  */
  
 
@@ -96,9 +96,9 @@ class Element
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="horaires", type="object", nullable=true)
+     * @ORM\Column(name="openHours", type="object", nullable=true)
      */
-    private $horaires;
+    private $openHours;
 
     /**
      * @var string
@@ -134,13 +134,6 @@ class Element
      * @ORM\Column(name="valide", type="boolean")
      */
     private $valide = false;
-
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="contactAmap", type="object", nullable=true)
-     */
-    private $contactAmap;
 
 
     private $distance;
@@ -407,27 +400,27 @@ class Element
     }
 
     /**
-     * Set horaires
+     * Set openHours
      *
-     * @param \stdClass $horaires
+     * @param \stdClass $openHours
      *
      * @return Element
      */
-    public function setHoraires($horaires)
+    public function setOpenHours($openHours)
     {
-        $this->horaires = $horaires;
+        $this->openHours = $openHours;
 
         return $this;
     }
 
     /**
-     * Get horaires
+     * Get openHours
      *
      * @return \stdClass
      */
-    public function getHoraires()
+    public function getOpenHours()
     {
-        return $this->horaires;
+        return $this->openHours;
     }
 
     /**
@@ -550,29 +543,6 @@ class Element
         return $this->valide;
     }
 
-    /**
-     * Set contactAmap
-     *
-     * @param \stdClass $contactAmap
-     *
-     * @return Element
-     */
-    public function setContactAmap($contactAmap)
-    {
-        $this->contactAmap = $contactAmap;
-
-        return $this;
-    }
-
-    /**
-     * Get contactAmap
-     *
-     * @return \stdClass
-     */
-    public function getContactAmap()
-    {
-        return $this->contactAmap;
-    }
 
     /**
      * Add product
