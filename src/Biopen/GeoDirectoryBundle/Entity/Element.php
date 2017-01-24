@@ -364,7 +364,7 @@ class Element
      *
      * @return Element
      */
-    public function setHoraires($horaires)
+    public function setOpenHourss($horaires)
     {
         $this->horaires = $horaires;
 
@@ -376,7 +376,7 @@ class Element
      *
      * @return \stdClass
      */
-    public function getHoraires()
+    public function getOpenHourss()
     {
         return $this->horaires;
     }

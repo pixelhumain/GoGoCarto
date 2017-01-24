@@ -111,15 +111,6 @@ class RandomCreationController extends Controller
 	        $new_element->setMainProduct($type);
 	      }
 
-	      if ($type == "amap")
-	      {
-	        $contactAmap = new ContactAmap();
-	        $contactAmap->setName("Jean-charles Dupont");
-	        $contactAmap->setMail("amap@yahoo.fr");
-	        $contactAmap->setTel("0656758968");
-	        $new_element->setContactAmap($contactAmap);
-	      }
-
 	      $currListProducts = $listProducts;
 	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
 	      {

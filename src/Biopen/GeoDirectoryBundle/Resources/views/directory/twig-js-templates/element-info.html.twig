@@ -143,11 +143,11 @@
       {% endif %}
 
       {# Open Hours #}
-      <h3>Horaires</h3>   
-      <div class="section row sectionHoraires">  
+      <h3>OpenHourss</h3>   
+      <div class="section row sectionOpenHourss">  
         {% set count = 0 %} 
 
-        {% for key, horaire in element.getFormatedHoraires() %} 
+        {% for key, horaire in element.getFormatedOpenHourss() %} 
           {% if horaire != null %}
 
             <div class='row'>

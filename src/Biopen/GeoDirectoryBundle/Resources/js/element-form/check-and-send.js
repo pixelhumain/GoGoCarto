@@ -14,7 +14,7 @@ productionMode = false;
 function checkAndSend() 
 {	
 	checkElementType();
-	checkContactAmap();
+	//checkContactAmap();
 	checkMainProduct();
 	checkProducts();
 	checkAgreeConditions();

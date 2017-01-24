@@ -30,7 +30,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
-use Biopen\GeoDirectoryBundle\Form\HoraireType;
+use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
 use Biopen\GeoDirectoryBundle\Form\ContactAmapType;
 use Biopen\GeoDirectoryBundle\Form\PointType;
 use Biopen\GeoDirectoryBundle\Entity\Product;
@@ -73,7 +73,7 @@ class ElementType extends AbstractType
                   'multiple' =>'true',
                   'mapped'=> false
           ))  
-          ->add('horaires', HoraireType::class, array('required' => false))
+          ->add('horaires', OpenHoursType::class, array('required' => false))
           ->add('type', ChoiceType::class, array(
                           'choices'  => array(
                                 '' => null,

@@ -23,10 +23,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use Doctrine\ORM\EntityRepository;
 
-use Biopen\GeoDirectoryBundle\Form\JourHoraireType;
+use Biopen\GeoDirectoryBundle\Form\DailyTimeSlotType;
 
 
-class HoraireType extends AbstractType
+class OpenHoursType extends AbstractType
 {
   /**
    * @param FormBuilderInterface $builder
@@ -34,13 +34,13 @@ class HoraireType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-      $builder->add('Lundi', JourHoraireType::class)
-              ->add('Mardi', JourHoraireType::class)
-              ->add('Mercredi', JourHoraireType::class)
-              ->add('Jeudi', JourHoraireType::class)
-              ->add('Vendredi', JourHoraireType::class)
-              ->add('Samedi', JourHoraireType::class)
-              ->add('Dimanche', JourHoraireType::class) ;
+      $builder->add('Monday', DailyTimeSlotType::class)
+              ->add('Tuesday', DailyTimeSlotType::class)
+              ->add('Wednesday', DailyTimeSlotType::class)
+              ->add('Thursday', DailyTimeSlotType::class)
+              ->add('Friday', DailyTimeSlotType::class)
+              ->add('Saturday', DailyTimeSlotType::class)
+              ->add('Sunday', DailyTimeSlotType::class) ;
   }
   
   /**
@@ -49,7 +49,7 @@ class HoraireType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\GeoDirectoryBundle\Classes\Horaire'
+          'data_class' => 'Biopen\GeoDirectoryBundle\Classes\OpenHours'
       ));
   }
 

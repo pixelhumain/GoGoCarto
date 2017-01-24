@@ -1,6 +1,6 @@
 <!-- SECTION HORAIRES -->
 <section id="horaires" class="">
-	<h2 id="titre-open-hourss">Horaires (optionnel)</h2>
+	<h2 id="titre-open-hourss">OpenHourss (optionnel)</h2>
 	<div class="row ">
 	
 	{% set dayKey = 0 %}
@@ -16,7 +16,7 @@
 		{# // première ligne de plage horaire #}
 		<div id="{{ dayKey }}-open-hours-first-line" class="valign-wrapper">	
 	  		
-	  		{% if (day.vars.name == "Lundi") %} 
+	  		{% if (day.vars.name == "Monday") %} 
 	  			<div class="col s3">{{ day.vars.name }}</div>
 	  		{% else %}
 	  			<div class="col s2 open-hours-day">{{ day.vars.name }}</div>
@@ -36,7 +36,7 @@
 	  		
 	  		<div class="col s1 center-align">De</div>
 	  		<div class="col s3 center-align">
-	  			{{ form_widget(day.children.plage1debut, { 'id' : dayKey ~'-input-1',
+	  			{{ form_widget(day.children.slot1start, { 'id' : dayKey ~'-input-1',
 	  														
   							  'attr': {'class': 'timepicker_1',
   							  		   'type': 'time',
@@ -46,7 +46,7 @@
 	  		</div>
 			<div class="col s1 center-align">à</div>
 			<div class="col s3 center-align">
-				{{ form_widget(day.children.plage1fin, {'id': dayKey ~'-input-2',
+				{{ form_widget(day.children.slot1end, {'id': dayKey ~'-input-2',
   							  'attr': {'class': 'timepicker_2',
   									   'placeholder':'',
   									   'name':'{{ dayKey }}-open-hours-2'   }}) }}
@@ -70,14 +70,14 @@
 		<div id="{{ dayKey }}-open-hours-second-line" class="horaire_2 valign-wrapper">	
 			<div class="col s1 offset-s3 center-align">Et</div>
 	  		<div class="col s3 center-align">
-	  			{{ form_widget(day.children.plage2debut, {'id': dayKey ~'-input-3',
+	  			{{ form_widget(day.children.slot2start, {'id': dayKey ~'-input-3',
   							  'attr': {'class': 'timepicker_3',
   									   'placeholder':'',
   									   'name':'{{ dayKey }}-open-hours-3'   }}) }}
   			</div>
 			<div class="col s1 center-align">à</div>
 			<div class="col s3 center-align">
-				{{ form_widget(day.children.plage2fin, {'id': dayKey ~'-input-4',
+				{{ form_widget(day.children.slot2end, {'id': dayKey ~'-input-4',
   							  'attr': {'class': 'timepicker_4',
   									   'placeholder':'',
   									   'name':'{{ dayKey }}-open-hours-4'   }}) }}
