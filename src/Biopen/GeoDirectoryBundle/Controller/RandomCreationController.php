@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-01-24 16:48:45
  */
  
 
@@ -111,15 +111,6 @@ class RandomCreationController extends Controller
 	        $new_element->setMainProduct($type);
 	      }
 
-	      if ($type == "amap")
-	      {
-	        $contactAmap = new ContactAmap();
-	        $contactAmap->setName("Jean-charles Dupont");
-	        $contactAmap->setMail("amap@yahoo.fr");
-	        $contactAmap->setTel("0656758968");
-	        $new_element->setContactAmap($contactAmap);
-	      }
-
 	      $currListProducts = $listProducts;
 	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
 	      {
@@ -138,8 +129,8 @@ class RandomCreationController extends Controller
 	        }
 	      }
 
-	      $new_element->setContributeur('true');
-	      $new_element->setContributeurMail('contributeur@gmail.com');
+	      $new_element->setContributor('true');
+	      $new_element->setContributorMail('contributor@gmail.com');
 		
 		  //dump($new_element);
 		 // On la persiste
