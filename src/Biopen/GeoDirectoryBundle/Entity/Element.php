@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-01-24 17:56:25
  */
  
 
@@ -96,9 +96,9 @@ class Element
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="horaires", type="object", nullable=true)
+     * @ORM\Column(name="openHours", type="object", nullable=true)
      */
-    private $horaires;
+    private $openHours;
 
     /**
      * @var string
@@ -110,16 +110,16 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="contributeur", type="string", length=255)
+     * @ORM\Column(name="contributor", type="string", length=255)
      */
-    private $contributeur;
+    private $contributor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="contributeur_mail", type="string", length=255)
+     * @ORM\Column(name="contributor_mail", type="string", length=255)
      */
-    private $contributeurMail;
+    private $contributorMail;
 
     /**
      * @var string
@@ -135,13 +135,6 @@ class Element
      */
     private $valide = false;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="contactAmap", type="object", nullable=true)
-     */
-    private $contactAmap;
-
 
     private $distance;
 
@@ -154,14 +147,14 @@ class Element
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributeur = '';
+        $this->contributor = '';
     }
 
     public function reinitContributor()
     {
         $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributeurMail = '';
-        $this->contributeur = '';
+        $this->contributorMail = '';
+        $this->contributor = '';
     }
 
     public function resetProducts()
@@ -178,10 +171,12 @@ class Element
         return $this->getDistance() * $waste;
     }
 
+ 
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -191,56 +186,7 @@ class Element
     /**
      * Set name
      *
-     * @param float $distance
-     *
-     * @return Element
-     */
-    public function setDistance($distance)
-    {
-        $this->distance = $distance;
-        $this->wastedDistance = $this->calculateWastedDistance();
-
-        return $this;
-    }
-
-    /**
-     * Get id
-     *
-     * @return float
-     */
-    public function getDistance()
-    {
-        return $this->distance;
-    }
-
-    /**
-     * Set name
-     *
-     * @param float $distance
-     *
-     * @return Element
-     */
-    public function setWastedDistance($distance)
-    {
-        $this->wastedDistance = $distance;
-
-        return $this;
-    }
-
-    /**
-     * Get id
-     *
-     * @return float
-     */
-    public function getWastedDistance()
-    {
-        return $this->wastedDistance;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $distance
+     * @param string $name
      *
      * @return Element
      */
@@ -259,6 +205,54 @@ class Element
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Element
+     */
+    public function setDistance($distance)
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getDistance()
+    {
+        return $this->distance;
+    }
+
+    /**
+     * Set latlng
+     *
+     * @param point $latlng
+     *
+     * @return Element
+     */
+    public function setLatlng($latlng)
+    {
+        $this->latlng = $latlng;
+
+        return $this;
+    }
+
+    /**
+     * Get latlng
+     *
+     * @return point
+     */
+    public function getLatlng()
+    {
+        return $this->latlng;
     }
 
     /**
@@ -334,51 +328,99 @@ class Element
     }
 
     /**
-     * Set products
+     * Set mail
      *
-     * @param array $products
+     * @param string $mail
      *
      * @return Element
      */
-    public function setProducts($products)
+    public function setMail($mail)
     {
-        $this->products = $products;
+        $this->mail = $mail;
 
         return $this;
     }
 
     /**
-     * Get products
+     * Get mail
      *
-     * @return array
+     * @return string
      */
-    public function getProducts()
+    public function getMail()
     {
-        return $this->products;
+        return $this->mail;
     }
 
     /**
-     * Set horaires
+     * Set webSite
      *
-     * @param \stdClass $horaires
+     * @param string $webSite
      *
      * @return Element
      */
-    public function setHoraires($horaires)
+    public function setWebSite($webSite)
     {
-        $this->horaires = $horaires;
+        $this->webSite = $webSite;
 
         return $this;
     }
 
     /**
-     * Get horaires
+     * Get webSite
+     *
+     * @return string
+     */
+    public function getWebSite()
+    {
+        return $this->webSite;
+    }
+
+    /**
+     * Set mainProduct
+     *
+     * @param string $mainProduct
+     *
+     * @return Element
+     */
+    public function setMainProduct($mainProduct)
+    {
+        $this->mainProduct = $mainProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get mainProduct
+     *
+     * @return string
+     */
+    public function getMainProduct()
+    {
+        return $this->mainProduct;
+    }
+
+    /**
+     * Set openHours
+     *
+     * @param \stdClass $openHours
+     *
+     * @return Element
+     */
+    public function setOpenHours($openHours)
+    {
+        $this->openHours = $openHours;
+
+        return $this;
+    }
+
+    /**
+     * Get openHours
      *
      * @return \stdClass
      */
-    public function getHoraires()
+    public function getOpenHours()
     {
-        return $this->horaires;
+        return $this->openHours;
     }
 
     /**
@@ -406,55 +448,55 @@ class Element
     }
 
     /**
-     * Set contributeur
+     * Set contributor
      *
-     * @param string $contributeur
+     * @param string $contributor
      *
      * @return Element
      */
-    public function setContributeur($contributeur)
+    public function setContributor($contributor)
     {
-        $this->contributeur = $contributeur;
+        $this->contributor = $contributor;
 
         return $this;
     }
 
     /**
-     * Get contributeur
+     * Get contributor
      *
      * @return string
      */
-    public function getContributeur()
+    public function getContributor()
     {
-        return ($this->contributeur == 'true');
+        return $this->contributor;
     }
 
     /**
-     * Set contributeurMail
+     * Set contributorMail
      *
-     * @param string $contributeurMail
+     * @param string $contributorMail
      *
      * @return Element
      */
-    public function setContributeurMail($contributeurMail)
+    public function setContributorMail($contributorMail)
     {
-        $this->contributeurMail = $contributeurMail;
+        $this->contributorMail = $contributorMail;
 
         return $this;
     }
 
     /**
-     * Get contributeurMail
+     * Get contributorMail
      *
      * @return string
      */
-    public function getContributeurMail()
+    public function getContributorMail()
     {
-        return $this->contributeurMail;
+        return $this->contributorMail;
     }
 
     /**
-     * Set validation_code
+     * Set validationCode
      *
      * @param string $validationCode
      *
@@ -468,7 +510,7 @@ class Element
     }
 
     /**
-     * Get validation_code
+     * Get validationCode
      *
      * @return string
      */
@@ -494,38 +536,12 @@ class Element
     /**
      * Get valide
      *
-     * @return bool
+     * @return boolean
      */
     public function getValide()
     {
         return $this->valide;
     }
-
-    /**
-     * Set contactAmap
-     *
-     * @param string $contactAmap
-     *
-     * @return Element
-     */
-    public function setContactAmap($contactAmap)
-    {
-        $this->contactAmap = $contactAmap;
-
-        return $this;
-    }
-
-    /**
-     * Get contactAmap
-     *
-     * @return string
-     */
-    public function getContactAmap()
-    {
-        return $this->contactAmap;
-    }
-    
-
 
 
     /**
@@ -538,7 +554,7 @@ class Element
     public function addProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
     {
         $this->products[] = $product;
-        $product->setElement($this);
+
         return $this;
     }
 
@@ -553,100 +569,12 @@ class Element
     }
 
     /**
-     * Set latlng
+     * Get products
      *
-     * @param string $latlng
-     *
-     * @return Element
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setLatlng($latlng)
+    public function getProducts()
     {
-        $this->latlng = $latlng;
-
-        return $this;
-    }
-
-    /**
-     * Get latlng
-     *
-     * @return string
-     */
-    public function getLatlng()
-    {
-        return $this->latlng;
-    }
-
-    /**
-     * Set mainProduct
-     *
-     * @param string $mainProduct
-     *
-     * @return Element
-     */
-    public function setMainProduct($mainProduct)
-    {
-        $this->mainProduct = $mainProduct;
-
-        return $this;
-    }
-
-    /**
-     * Get mainProduct
-     *
-     * @return string
-     */
-    public function getMainProduct()
-    {
-        return $this->mainProduct;
-    }
-
-  
-
-    /**
-     * Set webSite
-     *
-     * @param string $webSite
-     *
-     * @return Element
-     */
-    public function setWebSite($webSite)
-    {
-        $this->webSite = $webSite;
-
-        return $this;
-    }
-
-    /**
-     * Get webSite
-     *
-     * @return string
-     */
-    public function getWebSite()
-    {
-        return $this->webSite;
-    }
-
-    /**
-     * Set mail
-     *
-     * @param string $mail
-     *
-     * @return Element
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    /**
-     * Get mail
-     *
-     * @return string
-     */
-    public function getMail()
-    {
-        return $this->mail;
+        return $this->products;
     }
 }

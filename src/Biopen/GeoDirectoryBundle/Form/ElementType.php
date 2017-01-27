@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-01-24 18:40:25
  */
  
 
@@ -30,8 +30,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
-use Biopen\GeoDirectoryBundle\Form\HoraireType;
-use Biopen\GeoDirectoryBundle\Form\ContactAmapType;
+use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
 use Biopen\GeoDirectoryBundle\Form\PointType;
 use Biopen\GeoDirectoryBundle\Entity\Product;
 
@@ -63,7 +62,6 @@ class ElementType extends AbstractType
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
           ->add('latlng', PointType::class) 
-          ->add('contactAmap', ContactAmapType::class, array('required' => false))
           ->add('listeProducts', EntityType::class, array(
                   'class' => 'Biopen\GeoDirectoryBundle\Entity\Product',
                   'choice_label' => 'name',
@@ -73,7 +71,7 @@ class ElementType extends AbstractType
                   'multiple' =>'true',
                   'mapped'=> false
           ))  
-          ->add('horaires', HoraireType::class, array('required' => false))
+          ->add('openHours', OpenHoursType::class, array('required' => false))
           ->add('type', ChoiceType::class, array(
                           'choices'  => array(
                                 '' => null,
@@ -85,14 +83,14 @@ class ElementType extends AbstractType
                                 ),
                           'choices_as_values' => true,
                           ))
-          ->add('contributeur', CheckboxType::class, array(
-                    'label'    => 'Vous êtes ou travaillez chez le element en question',
-                    'required' => false))
+          // ->add('contributor', CheckboxType::class, array(
+          //           'label'    => 'Vous êtes ou travaillez chez le element en question',
+          //           'required' => false))
           ->add('engagement', CheckboxType::class, array(
                 'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label)',
                 'mapped' => false,
                 'required' => false))
-          ->add('contributeurMail', EmailType::class, array('required' => false));        
+          ->add('contributorMail', EmailType::class, array('required' => false));        
   }
 
   

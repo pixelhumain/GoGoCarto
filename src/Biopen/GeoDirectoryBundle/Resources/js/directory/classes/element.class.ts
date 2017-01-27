@@ -30,7 +30,7 @@ export class Element
 	//TODO
 	mainProduct : any;
 	mainProductIsDisabled : boolean;
-	horaires : any;
+	openHours : any;
 	type : any;	
 
 	distance : number;
@@ -46,7 +46,7 @@ export class Element
 	//TODO
 	biopenMarker_ : BiopenMarker = null;
 	htmlRepresentation_ = '';
-	formatedHoraire_ : any = null;
+	formatedOpenHours_ : any = null;
 
 	productsToDisplay_ : any = {};
 
@@ -96,7 +96,7 @@ export class Element
 
 		this.mainProduct = elementJson.main_product;
 		this.mainProductIsDisabled = false;
-		this.horaires = elementJson.horaires;
+		this.openHours = elementJson.openHours;
 		this.type = elementJson.type;	
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
@@ -179,7 +179,7 @@ getHtmlRepresentation()
 	{
 		element : this, 
 		showDistance: App.geocoder.getLocation() ? true : false,
-		horaires : this.getFormatedHoraires(), 
+		openHours : this.getFormatedOpenHourss(), 
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
@@ -254,40 +254,40 @@ pushToProductToDisplay(productName, disabled)
 	this.productsToDisplay_.others.push(new_product);
 };
 
-getFormatedHoraires() 
+getFormatedOpenHourss() 
 {		
-	if (this.formatedHoraire_ === null )
+	if (this.formatedOpenHours_ === null )
 	{		
-		this.formatedHoraire_ = {};
+		this.formatedOpenHours_ = {};
 		let new_key;
-		for(let key in this.horaires)
+		for(let key in this.openHours)
 		{
 			new_key = key.split('_')[1];
-			this.formatedHoraire_[new_key] = this.formateJourHoraire(this.horaires[key]);
+			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
 		}
 	}
-	return this.formatedHoraire_;
+	return this.formatedOpenHours_;
 };
 
-formateJourHoraire(dayHoraire) 
+formateDailyTimeSlot(dailySlot) 
 {		
-	if (dayHoraire === null)
+	if (dailySlot === null)
 	{		
 		return 'fermé';
 	}
 	let result = '';
-	if (dayHoraire.plage1debut)
+	if (dailySlot.slot1start)
 	{
-		result+= this.formateDate(dayHoraire.plage1debut);
+		result+= this.formateDate(dailySlot.slot1start);
 		result+= ' - ';
-		result+= this.formateDate(dayHoraire.plage1fin);
+		result+= this.formateDate(dailySlot.slot1end);
 	}
-	if (dayHoraire.plage2debut)
+	if (dailySlot.slot2start)
 	{
 		result+= ' et ';
-		result+= this.formateDate(dayHoraire.plage2debut);
+		result+= this.formateDate(dailySlot.slot2start);
 		result+= ' - ';
-		result+= this.formateDate(dayHoraire.plage2fin);
+		result+= this.formateDate(dailySlot.slot2end);
 	}
 	return result;
 };
