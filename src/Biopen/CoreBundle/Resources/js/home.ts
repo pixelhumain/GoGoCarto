@@ -8,23 +8,22 @@
  * @Last Modified time: 2016-09-06
  */
 
-declare var $;
-import { redirectToDirectory } from "./header";
+declare var $ : any, Routing;
 //import { initAutoCompletionForElement } from "../commons/search-bar.component";
 
 $(document).ready(function()
 {
-	$('#btn-constellation').click(function()
-	{ 
-		var address = checkForAdress();
-		if (address) redirectToDirectory('biopen_constellation', address); 
-	});
+	// $('#btn-constellation').click(function()
+	// { 
+	// 	var address = checkForAdress();
+	// 	if (address) redirectToDirectory('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
+	// });
 
 	//$('#btn-directory').click(function(){ redirectToDirectory('biopen_directory','Labrit'); });
 	$('#btn-directory').click(function()
 	{ 
 		var address = checkForAdress();
-		if (address) redirectToDirectory('biopen_directory',address); 
+		if (address) window.location.href = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
 	});
 
 	$('#search-bar').on("search", function(event, address)
