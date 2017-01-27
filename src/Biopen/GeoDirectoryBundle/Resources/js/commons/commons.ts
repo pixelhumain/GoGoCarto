@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-declare var Routing;
+declare var Routing, $;
 
 export function redirectToDirectory(route, address = $('#search-bar').val(), range = '')
 {    
