@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 16:48:45
+ * @Last Modified time: 2017-01-27 14:55:27
  */
  
 
@@ -120,7 +120,7 @@ class RandomCreationController extends Controller
 	        $elementProduct = new ElementProduct();
 	        $elementProduct->setProduct($product);
 	        $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
-
+	        $elementProduct->setElement($new_element);
 	        $new_element->addProduct($elementProduct);
 
 	        if ($j == 0 && !$new_element->getMainProduct()) 
