@@ -51,7 +51,6 @@ gulp.task("scriptsHome", function () {
     .pipe(gulp.dest("web/js"));
 });
 
-
 gulp.task("scriptsDirectory", function () {
     return browserify({
         basedir: '.',
@@ -150,7 +149,7 @@ gulp.task('watch', function() {
   
   gulp.watch('src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', ['scriptsLibs']);
 
-  gulp.watch(['src/Biopen/CoreBundle/Resources/js/home/**/*.ts','src/front-end/js/commons/**/*.ts'], ['scriptsHome']);
+  gulp.watch(['src/Biopen/CoreBundle/Resources/js/**/*.ts'], ['scriptsHome']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 
