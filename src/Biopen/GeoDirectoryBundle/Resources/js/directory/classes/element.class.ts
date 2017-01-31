@@ -182,7 +182,8 @@ getHtmlRepresentation()
 		openHours : this.getFormatedOpenHourss(), 
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
-		starNames : starNames 
+		starNames : starNames ,
+		element_url : window.location.href,
 	});
 	
 	this.htmlRepresentation_ = html;				
