@@ -87,7 +87,9 @@
   <script src="{{ asset('vendors/twig.js') }}"></script> 
   {# templates generated via the assetic:dump above #} 
   <script src="{{ asset('templates/directory-templates.js') }}"></script>  
-  {# create dynamic js template #}
+  {# create dynamic js template 
+  comment out the following lines and do "assetic:dump" to generate the new
+  twig js template files #}
   {#{% javascripts filter="twig_js" output='templates/directory-templates.js'
     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
      '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig'     
