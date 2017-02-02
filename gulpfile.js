@@ -165,6 +165,6 @@ gulp.task('build', function() {
 });
 
 gulp.task('production', function() {
-    gulp.start('build','prod_styles', 'prod_js');
+    gulp.start('prod_styles', 'prod_js');
 });
 
