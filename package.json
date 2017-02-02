@@ -17,9 +17,7 @@
   "engines": {
     "node": "6.5.0"
   },
-  "dependencies": {
-    "twig": "^0.10.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jquery": "^2.0.34",
     "@types/leaflet": "^1.0.42",

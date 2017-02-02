@@ -130,11 +130,6 @@ gulp.task('images', function() {
     .pipe(notify({ message: 'Images task complete' }));
 });
 
-gulp.task('twig_templates', function() {
-  return gulp.src('src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/*')
-    .pipe(gulp.dest('web/templates'));
-    //.pipe(notify({ message: 'Template copy done' }));
-});
 
 gulp.task('watch', function() {
 
@@ -143,9 +138,6 @@ gulp.task('watch', function() {
   gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/scss/**/*.scss',
               'src/Biopen/CoreBundle/Resources/scss/**/*.scss'], 
               ['sass']);
-
-  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/*.html.twig'], 
-              ['twig_templates']);
 
   // Watch .js files
   gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/directory/**/*.ts', 
@@ -169,10 +161,10 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('build', function() {
-    gulp.start('clean','twig_templates', 'sass', 'scriptsLibs', 'scriptsHome', 'scriptsElementForm','scriptsDirectory');
+    gulp.start('clean','sass', 'scriptsLibs', 'scriptsHome', 'scriptsElementForm','scriptsDirectory');
 });
 
 gulp.task('production', function() {
-    gulp.start('build','prod_styles', 'prod_js');
+    gulp.start('prod_styles', 'prod_js');
 });
 
