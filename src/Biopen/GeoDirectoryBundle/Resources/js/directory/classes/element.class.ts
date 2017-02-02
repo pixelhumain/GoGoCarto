@@ -12,7 +12,7 @@ import { BiopenMarker } from "../components/map/biopen-marker.component";
 
 declare let App : AppModule;
 declare var $;
-declare let Twig : any, twig : any;
+declare let Twig : any;
 declare let biopen_twigJs_elementInfo : any;
 
 export class Element 
@@ -175,30 +175,7 @@ getHtmlRepresentation()
 	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 	let starNames : any[] = [];
 
-	var template = twig({
-    id: "marker",
-    href: "../templates/marker.html.twig",
-    // for this example we'll block until the template is loaded
-    async: false
-
-    // The default is to load asynchronously, and call the load function 
-    //   when the template is loaded.
-
-    // load: function(template) { }
-	});
-
-	let html1 = twig({ ref: "marker" }).render({
-		element : this, 
-		showDistance: App.geocoder.getLocation() ? true : false,
-		openHours : this.getFormatedOpenHourss(), 
-		listingMode: App.mode == AppModes.List, 
-		productsToDisplay: this.getProductsNameToDisplay(), 
-		starNames : starNames 
-	});
-
-	console.log("Twig Render 1", html1);
-
-	let html = Twig.renderFile('../templates/marker.html.twig', 
+	let html = Twig.render(biopen_twigJs_elementInfo, 
 	{
 		element : this, 
 		showDistance: App.geocoder.getLocation() ? true : false,
@@ -206,15 +183,10 @@ getHtmlRepresentation()
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
-	},
-	(err, html) => {
-  	console.log("Twig RenderFile Async", html); 
-  	console.log("Twig RenderFile Async error : ", err);
 	});
 	
 	this.htmlRepresentation_ = html;				
-	return "<span>marker</span>";
-	//return html;
+	return html;
 };
 
 getProductsNameToDisplay()

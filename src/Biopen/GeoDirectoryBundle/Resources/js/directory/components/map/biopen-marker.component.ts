@@ -14,7 +14,7 @@ import { Element } from "../../classes/element.class";
 declare let App : AppModule;
 declare let $;
 
-declare let Twig : any, twig : any;
+declare let Twig : any;
 declare let biopen_twigJs_marker : any;
 
 export class BiopenMarker
@@ -25,7 +25,6 @@ export class BiopenMarker
 	isHalfHidden_ : boolean = false;
 	inclination_ = "normal";
 	polyline_;
-	markerTemplate;
 
 	constructor(id_ : number, position_ : L.LatLng) 
 	{
@@ -65,19 +64,7 @@ export class BiopenMarker
 		// 	});
 		// }
 
-		this.isHalfHidden_ = false;	
-
-		this.markerTemplate = Twig.twig({
-	    id: "marker",
-	    href: "../../templates/marker.html.twig",
-	    // for this example we'll block until the template is loaded
-	    async: false
-
-	    // The default is to load asynchronously, and call the load function 
-	    //   when the template is loaded.
-
-	    // load: function(template) { }
-		});		
+		this.isHalfHidden_ = false;			
 
 		this.updateIcon();	
 	};	
@@ -121,40 +108,7 @@ export class BiopenMarker
 			this.updatePolyline({lineType: lineType});
 
 			showMoreIcon = element.isProducteurOrAmap();
-		}		
-
-		// let html1 = Twig.twig({
-	 //    href: "../../templates/marker.html.twig",
-	 //    // for this example we'll block until the template is loaded
-	 //    async: false
-
-	 //    // The default is to load asynchronously, and call the load function 
-	 //    //   when the template is loaded.
-
-	 //    // load: function(template) { }
-		// });
-		// .render({
-		// 	element : element, 
-		// 		productsToDisplay: element.getProductsNameToDisplay(), 
-		// 		showMoreIcon : showMoreIcon,
-		// 		disableMarker : disableMarker
-		// });
-
-		//console.log("Twig Render 1", html1);
-
-		// let markerhtml = Twig.renderFile('../../templates/marker.html.twig', 
-		// {
-		// 	element : element, 
-		// 		productsToDisplay: element.getProductsNameToDisplay(), 
-		// 		showMoreIcon : showMoreIcon,
-		// 		disableMarker : disableMarker
-		// },
-		// (err, html) => {
-	 //  	console.log("Twig RenderFile Async", html); 
-	 //  	console.log("Twig RenderFile Async error : ", err);
-		// });
-					
-		//return "<span>marker</span>";
+		}
 
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
@@ -163,7 +117,6 @@ export class BiopenMarker
 			showMoreIcon : showMoreIcon,
 			disableMarker : disableMarker
 		});
-
 
 	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
