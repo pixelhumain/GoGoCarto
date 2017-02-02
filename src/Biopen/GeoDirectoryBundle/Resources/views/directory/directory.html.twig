@@ -77,9 +77,24 @@
 
 {% block javascripts %}
 
+  {# Making the routes accessibles from javascript #}
   <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
   <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
   
+  {# FMS twig.js file, not necessary if twig js templates are generated via assetic
+  but there is a bug in assetic dump with certains workspaces, so we include it
+  when we want to use twig template in javascript by hand #}
+  <script src="{{ asset('vendors/twig.js') }}"></script> 
+  {# templates generated via the assetic:dump above #} 
+  <script src="{{ asset('templates/directory-templates.js') }}"></script>  
+  {# create dynamic js template #}
+  {#{% javascripts filter="twig_js" output='templates/directory-templates.js'
+    '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
+     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig'     
+  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}#}
+
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
   
@@ -91,15 +106,7 @@
 
     var App;       
 
-  </script>
-
-  {# create dynamic js template #}
-  {% javascripts filter="twig_js"
-    '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
-     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig'     
-  %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-  {% endjavascripts %}
+  </script>  
 
   {#<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
       async defer>
