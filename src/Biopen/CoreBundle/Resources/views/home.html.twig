@@ -83,13 +83,9 @@
 
 {% block javascripts %}
 
-	{% javascripts
-				'bundles/fosjsrouting/js/router.js'
-        "js/libs.js"
-        "js/home.js"
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ asset('js/libs.js') }}"></script>
+    <script src="{{ asset('js/home.js') }}"></script>
 
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
