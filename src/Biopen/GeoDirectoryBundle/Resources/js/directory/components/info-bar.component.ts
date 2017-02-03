@@ -144,7 +144,7 @@ export class InfoBarComponent
 			this.onHide.emit(true);
 		}
 
-		if (this.elementVisible.marker) this.elementVisible.marker.showNormalSize(true);
+		if (this.elementVisible && this.elementVisible.marker) this.elementVisible.marker.showNormalSize(true);
 
 		this.elementVisible = null;
 		this.isVisible = false;		
