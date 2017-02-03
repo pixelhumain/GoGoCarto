@@ -34,6 +34,13 @@ export class InfoBarComponent
 		//console.log("showElement", elementId);
 
 		let element = App.elementModule.getElementById(elementId);
+		
+		// if element already visible
+		if (this.elementVisible)
+		{
+			this.elementVisible.marker.showNormalSize(true);
+		}
+
 		this.elementVisible = element;		
 
 		if (App.state !== AppStates.Constellation)
@@ -130,15 +137,16 @@ export class InfoBarComponent
 				if ($('#element-info-bar').is(':visible'))
 				{		
 					$('#element-info-bar').animate({'right':'-500px'},350,'swing',function(){ $(this).hide();updateMapSize(0);  });
-					
 				}		
 			}
 
 			this.onHide.emit(true);
 		}
 
+		this.elementVisible.marker.showNormalSize(true);
+
 		this.elementVisible = null;
-		this.isVisible = false;
+		this.isVisible = false;		
 	};
 
 	toggleDetails()
