@@ -78,6 +78,7 @@ export class InfoBarComponent
 			if (!App.mapComponent.contains(element.position))
 			{
 				App.mapComponent.panToLocation(element.position);
+				setTimeout( () => { this.elementVisible.marker.showBigSize(); }, 500);
 				//App.elementModule.updateElementToDisplay()
 			}			
 		}, 1000);
@@ -143,7 +144,7 @@ export class InfoBarComponent
 			this.onHide.emit(true);
 		}
 
-		this.elementVisible.marker.showNormalSize(true);
+		if (this.elementVisible.marker) this.elementVisible.marker.showNormalSize(true);
 
 		this.elementVisible = null;
 		this.isVisible = false;		
