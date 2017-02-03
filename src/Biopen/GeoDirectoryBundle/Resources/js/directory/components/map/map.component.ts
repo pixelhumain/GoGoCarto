@@ -94,7 +94,7 @@ export class MapComponent
 		    spiderfyOnMaxZoom: false,
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
-		    spiderfyOnHover: true,
+		    spiderfyOnHover: false,
 		    spiderfyMaxCount: 8,
 		    spiderfyDistanceMultiplier: 1.1,
 		    maxClusterRadius: (zoom) =>
