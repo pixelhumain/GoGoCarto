@@ -1,4 +1,5 @@
 /app/config/parameters.yml
+/app/config/parameters.yml.dist
 /build/
 /phpunit.xml
 /var/*
@@ -21,4 +22,9 @@
 /TODO
 .sass-cache
 *.DS_Store
+<<<<<<< HEAD
 /composer.phar
+=======
+/composer.phar
+
+>>>>>>> master

@@ -1,5 +1,7 @@
 {% twig_js name="biopen_twigJs_marker" %}
 
+<div class="marker-name {{ element.type }}" style="display:none">{{ element.name | capitalize }}</div>
+
 <div class="marker-wrapper {{ element.type }}" id="marker-{{ element.id }}">
 
 	<div class="rotate animate icon-marker"></div>
