@@ -138,6 +138,7 @@ export class BiopenMarker
 	{			
 		this.addClassToRichMarker_("BigSize");
 		let domMarker = this.domMarker();
+		domMarker.parent().find('.marker-name').show();
 		domMarker.find('.moreIconContainer').show();
 		domMarker.find('.icon-plus-circle').hide();
 		
@@ -154,6 +155,7 @@ export class BiopenMarker
 	{	
 		let domMarker = this.domMarker();
 		this.removeClassToRichMarker_("BigSize");
+		domMarker.parent().find('.marker-name').hide();
 		domMarker.find('.moreIconContainer').hide();
 		domMarker.find('.icon-plus-circle').show();
 		
