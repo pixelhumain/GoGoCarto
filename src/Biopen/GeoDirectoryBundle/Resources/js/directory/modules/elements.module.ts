@@ -35,6 +35,7 @@ export class ElementsModule
 
 	allElementsIds_ : number[] = [];
 	favoriteIds_ : number[] = [];
+	isShowingHalfHidden : boolean = false;
 
 	constructor(elementsListJson)
 	{
@@ -234,11 +235,12 @@ export class ElementsModule
 
 	hidePartiallyAllMarkers () 
 	{
-		let l = this.currElements_.length;
+		this.isShowingHalfHidden = true;
+		let l = this.allElements_.length;
 		while(l--)
 		{
-			this.currElements_[l].marker.showHalfHidden();
-		}
+			if (this.allElements_[l].marker) this.allElements_[l].marker.showHalfHidden();
+		}		
 	};
 
 	hideAllMarkers () 
@@ -252,10 +254,13 @@ export class ElementsModule
 
 	showNormalHiddenAllMarkers () 
 	{
+		this.isShowingHalfHidden = false;
+		$('.marker-cluster').removeClass('halfHidden');
+		
 		let l = this.allElements_.length;
 		while(l--)
 		{
-			this.currElements_[l].marker.showNormalHidden();
+			if (this.allElements_[l].marker) this.allElements_[l].marker.showNormalHidden();
 		}
 	};
 
