@@ -11,52 +11,49 @@
  */
  
 
-namespace Biopen\GeoDirectoryBundle\Entity;
+namespace Biopen\GeoDirectoryBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * Product
  *
- * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
  */
 class Product
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="auto")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nameFormate", type="string", length=255, unique=true)
+     * @MongoDB\Field(type="string")
      */
     private $nameFormate;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="nameShort", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $nameShort;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="precisions", type="string", length=255, unique=false, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $precision;
 

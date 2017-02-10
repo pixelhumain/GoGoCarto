@@ -23,6 +23,8 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
             new JMS\TwigJsBundle\JMSTwigJsBundle(),            
             new Biopen\CoreBundle\BiopenCoreBundle(),
+            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
+            new Acme2\StoreBundle\Acme2StoreBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

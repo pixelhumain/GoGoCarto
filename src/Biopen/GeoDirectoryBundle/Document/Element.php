@@ -11,127 +11,124 @@
  */
  
 
-namespace Biopen\GeoDirectoryBundle\Entity;
+namespace Biopen\GeoDirectoryBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * Element
  *
- * @ORM\Table(name="element")
- * @ORM\Entity(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
  */
 class Element
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="auto")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @MongoDB\Field(name="name", type="string")
      */
     private $name;
 
     /**
      * 
      *
-     * @ORM\Column(type="point", name="latlng")
+     * @MongoDB\Field(type="point", name="latlng")
      */
     private $latlng;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=255)
+     * @MongoDB\Field(name="adresse", type="string")
      */
     private $adresse;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @MongoDB\Field(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
+     * @MongoDB\Field(name="tel", type="string")
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     * @MongoDB\Field(name="mail", type="string")
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="webSite", type="string", length=255, nullable=true)
+     * @MongoDB\Field(name="webSite", type="string")
      */
     private $webSite;
 
     /**
-    * @ORM\OneToMany(targetEntity="Biopen\GeoDirectoryBundle\Entity\ElementProduct", mappedBy="element", cascade={"persist", "remove"}, orphanRemoval=true)
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Entity\ElementProduct")
     */
     private $products; 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mainProduct", type="text", nullable=false)
+     * MongoDB\Field(name="mainProduct", type="text")
      */
     private $mainProduct;
 
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="openHours", type="object", nullable=true)
+     * MongoDB\Field(name="openHours", type="object")
      */
     private $openHours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * MongoDB\Field(name="type", type="string")
      */
     private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="contributor", type="string", length=255)
+     * MongoDB\Field(name="contributor", type="string")
      */
     private $contributor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="contributor_mail", type="string", length=255)
+     * MongoDB\Field(name="contributor_mail", type="string")
      */
     private $contributorMail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="validation_code", type="string", length=255)
+     * MongoDB\Field(name="validation_code", type="string",)
      */
     private $validationCode;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="valide", type="boolean")
+     * MongoDB\Field(name="valide", type="boolean")
      */
     private $valide = false;
 
