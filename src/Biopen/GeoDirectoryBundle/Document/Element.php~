@@ -18,7 +18,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * Element
  *
- * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
  */
 class Element
 {
@@ -32,103 +32,110 @@ class Element
     /**
      * @var string
      *
-     * @MongoDB\Field(name="name", type="string")
+     * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * 
      *
-     * @MongoDB\Field(type="point", name="latlng")
+     * @MongoDB\Field(type="int")
      */
-    private $latlng;
+    private $lat;
+
+    /**
+     * 
+     *
+     * @MongoDB\Field(type="int")
+     */
+    private $lng;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(name="adresse", type="string")
+     * @MongoDB\Field(type="string")
      */
     private $adresse;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(name="description", type="text", nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $description;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(name="tel", type="string")
+     * @MongoDB\Field(type="string")
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(name="mail", type="string")
+     * @MongoDB\Field(type="string")
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(name="webSite", type="string")
+     * @MongoDB\Field(type="string")
      */
     private $webSite;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Entity\ElementProduct")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct")
     */
     private $products; 
 
     /**
      * @var string
      *
-     * MongoDB\Field(name="mainProduct", type="text")
+     * MongoDB\Field(type="string")
      */
     private $mainProduct;
 
     /**
      * @var \stdClass
      *
-     * MongoDB\Field(name="openHours", type="object")
+     * MongoDB\Field(type="object")
      */
     private $openHours;
 
     /**
      * @var string
      *
-     * MongoDB\Field(name="type", type="string")
+     * MongoDB\Field(type="string")
      */
     private $type;
 
     /**
      * @var string
      *
-     * MongoDB\Field(name="contributor", type="string")
+     * MongoDB\Field(type="string")
      */
     private $contributor;
 
     /**
      * @var string
      *
-     * MongoDB\Field(name="contributor_mail", type="string")
+     * MongoDB\Field(type="string")
      */
     private $contributorMail;
 
     /**
      * @var string
      *
-     * MongoDB\Field(name="validation_code", type="string",)
+     * MongoDB\Field(type="string",)
      */
     private $validationCode;
 
     /**
      * @var bool
      *
-     * MongoDB\Field(name="valide", type="boolean")
+     * MongoDB\Field(type="boolean")
      */
     private $valide = false;
 
@@ -573,5 +580,49 @@ class Element
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param int $lat
+     * @return $this
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return int $lat
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param int $lng
+     * @return $this
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return int $lng
+     */
+    public function getLng()
+    {
+        return $this->lng;
     }
 }

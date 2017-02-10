@@ -18,7 +18,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * ElementProduct
  *
- * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementProductRepository")
  */
 class ElementProduct
 {
@@ -28,7 +28,7 @@ class ElementProduct
   private $id;
 
   /**
-   * @MongoDB\Id(name="descriptif", type="string")
+   * @MongoDB\Id(type="string")
    */
   private $descriptif;
 
