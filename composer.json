@@ -37,7 +37,10 @@
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "Wantlet": "dev-master",
         "jms/twig-js-bundle": "dev-master",
-        "joshtronic/php-loremipsum": "dev-master"
+        "joshtronic/php-loremipsum": "dev-master",
+        "doctrine/mongodb-odm": "^1.0",
+        "doctrine/mongodb-odm-bundle": "^3.0",
+        "alcaeus/mongo-php-adapter": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -70,7 +73,7 @@
     },
     "config": {
         "platform": {
-            "php": "5.5.9"
+            "php": "5.6.25"
         }
     },
     "extra": {

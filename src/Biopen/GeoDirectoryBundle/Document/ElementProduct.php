@@ -11,38 +11,34 @@
  */
  
 
-namespace Biopen\GeoDirectoryBundle\Entity;
+namespace Biopen\GeoDirectoryBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * ElementProduct
  *
- * @ORM\Entity(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ProductRepository")
  */
 class ElementProduct
 {
   /**
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @MongoDB\Id(strategy="auto")
    */
   private $id;
 
   /**
-   * @ORM\Column(name="descriptif", type="string", length=255)
+   * @MongoDB\Id(name="descriptif", type="string")
    */
   private $descriptif;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Biopen\GeoDirectoryBundle\Entity\Element", inversedBy="products")
-   * @ORM\JoinColumn(nullable=false)
+   * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
    */
   private $element;
 
   /**
-   * @ORM\ManyToOne(targetEntity="Biopen\GeoDirectoryBundle\Entity\Product")
-   * @ORM\JoinColumn(nullable=false)
+   * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Product")
    */
   private $product;
 
@@ -142,5 +138,50 @@ class ElementProduct
     public function getNameShort()
     {
         return $this->product->getNameShort();
+    }
+    public function __construct()
+    {
+        $this->element = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add element
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Element $element
+     */
+    public function addElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
+    {
+        $this->element[] = $element;
+    }
+
+    /**
+     * Remove element
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Element $element
+     */
+    public function removeElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
+    {
+        $this->element->removeElement($element);
+    }
+
+    /**
+     * Add product
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Product $product
+     */
+    public function addProduct(\Biopen\GeoDirectoryBundle\Document\Product $product)
+    {
+        $this->product[] = $product;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Product $product
+     */
+    public function removeProduct(\Biopen\GeoDirectoryBundle\Document\Product $product)
+    {
+        $this->product->removeElement($product);
     }
 }
