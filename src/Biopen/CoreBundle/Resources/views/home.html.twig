@@ -29,9 +29,20 @@
 		<div class="row">
 			<div class="col s6 choice-mode-container right-align">
 				<button id="btn-directory" class="choice-mode-button btn waves-effect waves-light">Navigation libre</button>
+                
 				<p>Parcourez la carte en filtrant les résultats si besoin. Tous les elements sont affichés</p>
 			</div>
-			
+		    <div class="col s6 choice-mode-container left-align">
+		        <a href="{{ path('biopen_partners') }}">
+			    <button id="btn-directory" class="choice-mode-button btn waves-effect waves-light">Partenaires</button>
+			    </a>
+			    <p>Consultez la liste de tous nos partenaires !</p>
+		    			
+            </div>
+
+
+
+
 			<!-- <div class="col s6 choice-mode-container left-align">
 				<button id="btn-constellation" class="choice-mode-button btn waves-effect waves-light">Autour de moi</button>{# vue d'ensemble #}
 				<p>Visualisez en un coup d'oeil les elements les plus proche de chez vous</p>
@@ -84,11 +95,14 @@
 {% block javascripts %}
 
 	{% javascripts
-				'bundles/fosjsrouting/js/router.js'
+		"bundles/fosjsrouting/js/router.js"
         "js/libs.js"
         "js/home.js"
     %}
+
         <script src="{{ asset_url }}"></script>
+        
+
     {% endjavascripts %}
 
     <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
@@ -97,5 +111,6 @@
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
 	</script>
 
+	
 {% endblock %}
 

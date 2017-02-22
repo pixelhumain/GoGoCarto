@@ -424,22 +424,31 @@ export class AppModule
 	{
 		if (this.isClicking) return;
 		this.infoBarComponent.hide(); 
-	}; 
+		
+	};
+
+
+    
 
 	handleSearchAction(address : string)
 	{
 		console.log("handle search action", address);
-
-		this.geocoderModule_.geocodeAddress(
+		
+			this.geocoderModule_.geocodeAddress(
 			address, 
 			(results) => 
 			{ 
-				this.mapComponent.fitBounds(results[0].getBounds(), false);					
+				this.handleGeocodeResult(results);
+				//this.mapComponent.fitBounds(results[0].getBounds(), false);					
 				//this.updateState();
 				this.updateDocumentTitle_();
+				
+
+
 			}	
 		);	
-	}
+	};
+	
 
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
