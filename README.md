@@ -19,7 +19,7 @@ Then the goal is to make this application accessible to everyone, with a configu
 
 Stack
 -----
-Symfony2, Twig templates, SASS, Typescript, Gulp
+Symfony2, Twig templates, SASS, MaterializeCSS, Typescript, Gulp
 
 Documentation
 -------------

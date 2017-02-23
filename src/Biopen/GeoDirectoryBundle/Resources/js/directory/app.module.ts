@@ -275,8 +275,11 @@ export class AppModule
 
 			case AppStates.ShowElement:
 				if (!options.id) return;
-
+				
+				this.elementById(options.id).marker.showNormalHidden();
+				this.elementById(options.id).marker.showBigSize();
 				this.infoBarComponent.showElement(options.id);
+
 				break;	
 
 			case AppStates.ShowElementAlone:
@@ -468,17 +471,13 @@ export class AppModule
 		else if (this.state != AppStates.ShowElementAlone)
 		{
 			for(let element of result.newElements)
-			{
+			{				
 				element.show();
 			}
 			for(let element of result.elementsToRemove)
 			{
 				if (!element.isShownAlone) element.hide();
 			}
-		}
-		else
-		{
-			console.log("nothing to do, list or showAlone");
 		}
 	}; 
 

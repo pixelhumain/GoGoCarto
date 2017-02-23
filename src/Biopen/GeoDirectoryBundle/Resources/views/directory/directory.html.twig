@@ -90,12 +90,12 @@
   {# create dynamic js template 
   comment out the following lines and do "assetic:dump" to generate the new
   twig js template files #}
-  {#{% javascripts filter="twig_js" output='templates/directory-templates.js'
+  {% javascripts filter="twig_js" output='templates/directory-templates.js'
     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
      '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig'     
   %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
-  {% endjavascripts %}#}
+  {% endjavascripts %}
 
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>

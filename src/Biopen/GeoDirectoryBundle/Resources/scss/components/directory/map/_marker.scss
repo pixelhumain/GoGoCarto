@@ -6,6 +6,21 @@
 
     &:hover { z-index: 10000000 !important; }
 }
+.marker-name
+{
+    position: absolute;
+    white-space: nowrap;
+    opacity: .9;
+    font-size: 1rem;
+    font-family: Roboto, sans-serif;
+    border-radius: 5px;
+    padding: 5px 10px;
+    bottom: 55px;
+    left: -30px;
+    color: #dadada;
+
+    @extend .bgdColorAs;
+}
 
 .marker-wrapper
 {
@@ -184,5 +199,5 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 
 .halfHidden
 {
-	opacity: 0.2;
+	opacity: 0.6;
 }
