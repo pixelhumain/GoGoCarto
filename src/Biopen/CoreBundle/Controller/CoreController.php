@@ -12,4 +12,18 @@ class CoreController extends Controller
         $this->get('session')->clear();
         return $this->render('@BiopenCoreBundle/home.html.twig');
     }
+    
+    public function partnersAction()
+    {
+        
+    	$repository = $this
+    	  ->getDoctrine()
+    	  ->getManager()
+    	  ->getRepository('BiopenCoreBundle:Partner');
+
+        $listPartners = $repository->findAll();
+
+        return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
+        
+    }
 }

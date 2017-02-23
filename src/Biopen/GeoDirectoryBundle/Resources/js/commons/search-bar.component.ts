@@ -25,21 +25,24 @@ export class SearchBarComponent
 		this.domId = domId;
 
 		// handle all validation by user (enter press, icon click...)
-		this.domElement().keyup(function(e) 
+		this.domElement().keyup((e) =>
 		{    
 			if(e.keyCode == 13) // touche entrée
 			{ 			 
 				this.handleSearchAction();
+				console.log(this.domId);
 			}
 		});
 
-		this.domElement().find('#search-bar-icon').click(function()
+		this.domElement().parents().find('#search-bar-icon').click(() =>
 		{		
+			
 			this.handleSearchAction();
 		});	
 
-		this.domElement().on("place_changed", this.handleSearchAction);
+		this.domElement().on("place_changed", this.handleSearchAction());
 	}
+
 
 	private handleSearchAction()
 	{
@@ -50,7 +53,13 @@ export class SearchBarComponent
 	{
 		this.domElement().val($value);
 	}
+
+
+        
+    
 }
+
+
 
 
 export function initAutoCompletionForElement(element)

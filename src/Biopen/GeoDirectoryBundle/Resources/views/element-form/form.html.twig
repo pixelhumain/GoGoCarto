@@ -66,24 +66,17 @@
 
 {% block javascripts %}
 
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
-
-    {% javascripts
-		'bundles/fosjsrouting/js/router.js'
-        "js/libs.js"	
-        "js/element-form.js"
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script src="{{ asset('js/libs.js') }}"></script>
+    <script src="{{ asset('js/element-form.js') }}"></script>
 
    <script>
 		var editMode = false;
 		initMap();
 		{% if editMode %} editMode = true; {% endif %}
 	</script>
-
-
-    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
         async defer>
