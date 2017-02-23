@@ -22,5 +22,9 @@
 /TODO
 .sass-cache
 *.DS_Store
+<<<<<<< HEAD
+/composer.phar
+=======
 /composer.phar
 
+>>>>>>> master
