@@ -1,0 +1,34 @@
+{% extends "::bundle-layout.html.twig" %}
+
+{% block title %}Partenaires{% endblock %}
+
+{# Stylessheets #}
+{% block stylesheets %}
+
+  <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
+
+{% endblock %}
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+<h2>Liste des partenaires</h2>
+
+    <div class="row">
+    {% for partner in listPartners %}
+      <div class="col s2">
+        Nom: {{ partner.name }} <br/>
+        Description: {{ partner.content }} <br/>
+        Logo: {{ partner.logoUrl }} <br/>
+        Site internet: {{ partner.websiteUrl }}
+      </div>
+    {% else %}
+      <div class="col s2">
+      Pas (encore !) de partenaires
+      </div>
+    {% endfor %}
+  </div>
+
+   
+{% endblock %}
