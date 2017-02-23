@@ -162,6 +162,14 @@
         {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
       
       </div> 
+      {# Show URL #} 
+      <div class="divider"></div>
+      <div class="collapsible-body-url">
+          {% if element.isurlshown == true %}
+              <h3>URL</h3> <a>{{ element_url }}</a>
+          {% endif %}
+      </div>
+
     </div>
   </div>
 </li>

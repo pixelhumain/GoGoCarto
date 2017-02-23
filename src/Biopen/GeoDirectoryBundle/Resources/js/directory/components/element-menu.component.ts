@@ -73,7 +73,24 @@ export function createListenersForElementMenu(object)
 		}
 		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});
-	
+	object.find('.icon-share-alt').click(function()
+	{
+		//On click update of the URL
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
+		if (element.isurlshown == true)
+		{
+			element.seturlshown("");
+		}
+		else 
+		{
+			element.seturlshown(window.location.href);
+		}
+		App.infoBarComponent.showElement(getCurrentElementIdShown());
+		// The URL is displayed at the bottom of Element-info.
+		// Preferable to use a ScrollTo('bottom') to display the URL instantly after the click
+	});
+
+
 	object.find('.tooltipped').tooltip();	
 	
 	object.find('.icon-star-empty').click(function() 

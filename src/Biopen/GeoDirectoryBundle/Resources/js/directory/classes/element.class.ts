@@ -55,6 +55,11 @@ export class Element
 
 	isFavorite : boolean= false;
 
+	// Attributes to show URL
+	urlshown_ : string = "";
+
+	isurlshown : boolean = false;
+
 	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
@@ -182,7 +187,8 @@ getHtmlRepresentation()
 		openHours : this.getFormatedOpenHourss(), 
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
-		starNames : starNames 
+		starNames : starNames ,
+		element_url : this.urlshown
 	});
 	
 	this.htmlRepresentation_ = html;				
@@ -341,6 +347,23 @@ get isInitialized()
 	return this.isInitialized_;
 };
 
+get urlshown()
+{
+    return this.urlshown_;
+};
+
+seturlshown(shown:string)
+{
+	this.urlshown_ = shown;
+	if (shown === "")
+	{
+		this.isurlshown = false;
+	}
+	else
+	{
+		this.isurlshown = true;
+	}
+};
 
 }
 
