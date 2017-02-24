@@ -10,20 +10,22 @@ class CoreController extends Controller
     public function homeAction()
     {
         $this->get('session')->clear();
+        
         return $this->render('@BiopenCoreBundle/home.html.twig');
     }
     
     public function partnersAction()
     {
-        
-    	$repository = $this
-    	  ->getDoctrine()
-    	  ->getManager()
-    	  ->getRepository('BiopenCoreBundle:Partner');
+        $em = $this->getDoctrine()->getManager();
 
-        $listPartners = $repository->findAll();
+        // Get Product List        
+        $listPartners = $em->getRepository('BiopenCoreBundle:Partner')
+        ->findAll();
+        // Get About list
+        $listAbouts = $em->getRepository('BiopenCoreBundle:About')
+        ->findAll();
 
-        return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
+        return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners, 'listAbouts' => $listAbouts));
         
     }
 }
