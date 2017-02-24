@@ -79,17 +79,39 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element {{ element.type }}">      
-        <center>
+      <div class="menu-element {{ element.type }}">  
+
+        <div class="menu-element-item item-add-favorite" style="display:none">
+          <span class="menu-icon icon-star-empty icon-favorite tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="Enregistrer comme favoris"></span>
+          <span class="menu-element-item-text">Enregistrer</span>
+        </div>
+        <div class="menu-element-item item-remove-favorite" style="display:none">
+          <span class="menu-icon icon-star-full icon-favorite tooltipped"
+          data-position="top" data-delay="0" data-tooltip="Retirer des favoris"></span>
+          <span class="menu-element-item-text favorite">Enregistré</span>
+        </div>
+        <div class="menu-element-item item-share">
+          <span class="menu-icon icon-share-alt tooltipped"
+          data-position="top" data-delay="0" data-tooltip="Partager l'URL"></span>
+          <span class="menu-element-item-text">Partager l'URL</span>
+        </div>
+        <div class="menu-element-item item-directions">
           <span class="menu-icon icon-directions tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce element"></span>
+          data-position="top" data-delay="0" data-tooltip="Itinéraire vers cet élément"></span>
+          <span class="menu-element-item-text">Itinéraire</span>
+        </div>
+        <div class="menu-element-item item-edit">
           <span class="menu-icon icon-edit tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Modifier ces informations"></span>
-          <span class="menu-icon icon-delete tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Supprimer ce element"></span>
-          {# <button id="" class="btn waves-effect waves-light">Modifier</button>
-          <button id="" class="btn waves-effect waves-light">Supprimer</button> #}
-        </center>       
+          data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>
+          <span class="menu-element-item-text">Proposer des modifications</span>
+        </div>
+        <div class="menu-element-item item-delete"> 
+          <span class="menu-icon btn-delete icon-exclamation-1 tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="Signaler une erreur"></span>
+          <span class="menu-element-item-text">Signaler une erreur</span>
+        </div>  
+            
       </div> 
     {% endif %}
   
@@ -143,7 +165,7 @@
       {% endif %}
 
       {# Open Hours #}
-      <h3>OpenHourss</h3>   
+      <h3>Horaires d'ouverture</h3>   
       <div class="section row sectionOpenHourss">  
         {% set count = 0 %} 
 
@@ -162,6 +184,7 @@
         {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
       
       </div> 
+
     </div>
   </div>
 </li>

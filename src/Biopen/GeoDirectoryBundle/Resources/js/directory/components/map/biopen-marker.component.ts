@@ -42,17 +42,18 @@ export class BiopenMarker
 		this.richMarker_.on('click', (ev) =>
 		{
 			App.handleMarkerClick(this);	
-  		});
+  	});
 	
 		this.richMarker_.on('mouseover', (ev) =>
 		{
 			if (this.isAnimating_) { return; }
-			if (!this.isHalfHidden_) this.showBigSize();
+			//if (!this.isNearlyHidden_) // for constellation mode !
+				this.showBigSize();
 		});
 
 		this.richMarker_.on('mouseout', (ev) =>
 		{
-			if (this.isAnimating_) { return; }
+			if (this.isAnimating_) { return; }			
 			this.showNormalSize();
 		});
 
@@ -68,6 +69,11 @@ export class BiopenMarker
 
 		this.updateIcon();	
 	};	
+
+	isDisplayedOnElementInfoBar()
+	{
+		return App.infoBarComponent.getCurrElementId() == this.id_;
+	}
 
 	private domMarker()
 	{
@@ -120,18 +126,22 @@ export class BiopenMarker
 
 	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
+	  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
+
 	  	if (this.inclination_ == "right") this.inclinateRight();
 	  	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
 	addClassToRichMarker_ (classToAdd) 
 	{		
-		this.domMarker().addClass(classToAdd);   
+		this.domMarker().addClass(classToAdd);
+		this.domMarker().siblings('.marker-name').addClass(classToAdd); 
 	};
 
 	removeClassToRichMarker_ (classToRemove) 
 	{		
-		this.domMarker().removeClass(classToRemove);   
+		this.domMarker().removeClass(classToRemove);
+		this.domMarker().siblings('.marker-name').removeClass(classToRemove);      
 	};
 
 	showBigSize () 
@@ -151,8 +161,10 @@ export class BiopenMarker
 		}	
 	};
 
-	showNormalSize () 
+	showNormalSize ($force : boolean = false) 
 	{	
+		if (!$force && this.isDisplayedOnElementInfoBar()) return;
+
 		let domMarker = this.domMarker();
 		this.removeClassToRichMarker_("BigSize");
 		domMarker.parent().find('.marker-name').hide();
@@ -224,8 +236,10 @@ export class BiopenMarker
 		// }
 	};
 
-	showHalfHidden () 
+	showHalfHidden ($force : boolean = false) 
 	{		
+		if (!$force && this.isDisplayedOnElementInfoBar()) return;
+
 		this.addClassToRichMarker_("halfHidden");
 		let domMarker = this.domMarker();
 		domMarker.css('z-index','1');

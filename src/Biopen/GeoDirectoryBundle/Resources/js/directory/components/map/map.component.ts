@@ -94,9 +94,9 @@ export class MapComponent
 		    spiderfyOnMaxZoom: false,
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
-		    spiderfyOnHover: true,
+		    spiderfyOnHover: false,
 		    spiderfyMaxCount: 8,
-		    spiderfyDistanceMultiplier: 1,
+		    spiderfyDistanceMultiplier: 1.1,
 		    maxClusterRadius: (zoom) =>
 		    {
 		    	if (zoom > 9) return 55;
@@ -219,5 +219,15 @@ export class MapComponent
 			this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);
 		}
 		this.viewport = $viewport;
+	}
+
+	hidePartiallyClusters()
+	{
+		$('.marker-cluster').addClass('halfHidden');
+	}
+
+	showNormalHiddenClusters()
+	{
+		$('.marker-cluster').removeClass('halfHidden');
 	}
 }

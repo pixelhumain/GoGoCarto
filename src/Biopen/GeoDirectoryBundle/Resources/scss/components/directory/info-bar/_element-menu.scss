@@ -5,45 +5,75 @@
 	@extend .bgdSoftColorAs;
 	position: absolute;
 	bottom: 0;
+	text-align: center;
 	width: 100%;
 
-	.menu-icon
+	.menu-element-item-text { display: none; }
+
+	&.full-text
 	{
-		font-size: 20px;
+		padding: .5rem 0 .8rem 0;
+
+		.menu-element-item-text
+		{
+			display: inline;
+			text-transform: uppercase;
+			font-size: 0.85rem;
+			line-height: 3rem;
+    	margin-left: .5rem;
+
+			&.favorite { color : rgb(255, 171, 0); }
+		}
+
+	}
+
+	.menu-element-item
+	{
+		display: inline-block;
 		color: #CECECE;
 		margin: 0 1rem;
-
-		&.icon-favorite { font-size: 18px; }
 
 		&:hover
 		{
 			color: white;
 			cursor: pointer;
 		}
-		&:before
+
+		.menu-icon
 		{
-			line-height: 2.3rem;
-		}
+			font-size: 20px;	
+			float: left;			
 
-		@media #{$medium-and-up} 
-		{
-			font-size: 22px;
+			&.icon-favorite { font-size: 18px; }
 
-			&.icon-favorite { font-size: 20px; }
-
+			
 			&:before
 			{
-				line-height: 3rem;
+				line-height: 2.3rem;
+			}
+
+			@media #{$medium-and-up} 
+			{
+				font-size: 22px;
+
+				&.icon-favorite { font-size: 20px; }
+
+				&:before
+				{
+					line-height: 3rem;
+				}
 			}
 		}
-	}
 
-	.icon-star-full:before
-	{
-		padding: 2px;
-		padding-bottom: 3px;
-		border: none;
-	}	
+		.icon-star-full:before
+		{
+			padding: 2px;
+			padding-bottom: 3px;
+			border: none;
+		}	
+
+		
+	}
 }
 
 #directory-content-list

@@ -12,10 +12,11 @@ declare let grecaptcha;
 declare var $ : any;
 declare let Routing : any;
 
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
 
-import { capitalize } from "../../commons/commons";
+import { capitalize, slugify } from "../../commons/commons";
 
 
 export function initializeElementMenu()
@@ -48,12 +49,35 @@ function onloadCaptcha()
     });
 }
 
+export function updateFavoriteIcon(object, element : Element)
+{
+	if (!element.isFavorite) 
+	{
+		object.find('.item-add-favorite').show();
+		object.find('.item-remove-favorite').hide();
+	}	
+	else 
+	{
+		object.find('.item-add-favorite').hide();
+		object.find('.item-remove-favorite').show();
+	}
+}
+
+export function showFullTextMenu(object)
+{
+	object.addClass("full-text");
+	object.find('.tooltipped').tooltip('remove');	
+}
+
 export function createListenersForElementMenu(object)
 {
-	object.find('.icon-edit').click(function() {
+	object.find('.tooltipped').tooltip();	
+
+	object.find('.item-edit').click(function() {
 		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
 	});
-	object.find('.icon-delete').click(function() 
+
+	object.find('.item-delete').click(function() 
 	{		
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
@@ -65,7 +89,8 @@ export function createListenersForElementMenu(object)
 		      out_duration: 200
     		});
 	});
-	object.find('.icon-directions').click(function() 
+
+	object.find('.item-directions').click(function() 
 	{
 		if (App.state !== AppStates.Constellation && !App.map().location)
 		{
@@ -73,37 +98,70 @@ export function createListenersForElementMenu(object)
 		}
 		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});
+
+	object.find('.item-share').click(function()
+	{
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
+		
+		let modal = $('#modal-share-element');
+
+		modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
+		modal.find(".input-share-url").removeClass().addClass("input-share-url " + element.type);
+
+		let url;
+		if (App.mode == AppModes.Map)
+		{
+			url = window.location.href;
+		}
+		else
+		{
+			url = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id }, true);	
+		}
+
+		modal.find('.input-share-url').val(url);
+		modal.openModal({
+	      dismissible: true, 
+	      opacity: 0.5, 
+	      in_duration: 300, 
+	      out_duration: 200
+   	});
+	});	
 	
-	object.find('.tooltipped').tooltip();	
-	
-	object.find('.icon-star-empty').click(function() 
+	object.find('.item-add-favorite').click(function() 
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		App.elementModule.addFavorite(getCurrentElementIdShown());
-		object.find('.icon-star-empty').hide();
-		object.find('.icon-star-full').show();
-		element.marker.updateIcon();
-		element.marker.animateDrop();
+
+		updateFavoriteIcon(object, element);
+
+		if (App.mode == AppModes.Map)
+		{
+			element.marker.updateIcon();
+			element.marker.animateDrop();
+		}
+		
 	});
 	
-	object.find('.icon-star-full').click(function() 
+	object.find('.item-remove-favorite').click(function() 
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		App.elementModule.removeFavorite(getCurrentElementIdShown());
-		object.find('.icon-star-full').hide();
-		object.find('.icon-star-empty').show();
-		element.marker.updateIcon();
+		
+		updateFavoriteIcon(object, element);
+
+		if (App.mode == AppModes.Map) element.marker.updateIcon();
 	});	
 }
 
 function getCurrentElementIdShown() : number
 {
-	if ( $('#element-info-bar').is(':visible') ) 
+	if ( App.mode == AppModes.Map ) 
 	{
 		return $('#element-info-bar').find('.element-item').attr('data-element-id');
 	}
 	return parseInt($('.element-item.active').attr('data-element-id'));
 }
+
 
 /*function bookMarkMe()
 {

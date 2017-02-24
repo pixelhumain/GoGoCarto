@@ -13,6 +13,7 @@ declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
+import { updateFavoriteIcon, showFullTextMenu } from "./element-menu.component";
 
 declare var $;
 
@@ -28,32 +29,41 @@ export class InfoBarComponent
 
 	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
 
+	private isDisplayedAside()
+	{
+		return $('#element-info-bar').css('position') == 'absolute';
+	}
+
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
 		//console.log("showElement", elementId);
 
 		let element = App.elementModule.getElementById(elementId);
-		this.elementVisible = element;		
-
-		if (App.state !== AppStates.Constellation)
+		
+		// if element already visible
+		if (this.elementVisible)
 		{
-			if (!element.isFavorite) 
-			{
-				$('#element-info-bar .menu-element .icon-star-empty').show();
-				$('#element-info-bar .menu-element .icon-star-full').hide();
-			}	
-			else 
-			{
-				$('#element-info-bar .menu-element .icon-star-empty').hide();
-				$('#element-info-bar .menu-element .icon-star-full').show();
-			}
+			this.elementVisible.marker.showNormalSize(true);
 		}
+
+		this.elementVisible = element;				
 
 		element.updateDistance();
 
 		$('#element-info').html(element.getHtmlRepresentation());	
-		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
+
+		let domMenu = $('#element-info-bar .menu-element');
+		domMenu.removeClass().addClass("menu-element " +element.type);
+
+		updateFavoriteIcon(domMenu, element);
+
+		// on large screen info bar is displayed aside and so we have enough space
+		// to show menu actions details in full text
+		if (this.isDisplayedAside())
+		{
+			showFullTextMenu(domMenu);
+		}
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
@@ -71,6 +81,7 @@ export class InfoBarComponent
 			if (!App.mapComponent.contains(element.position))
 			{
 				App.mapComponent.panToLocation(element.position);
+				setTimeout( () => { this.elementVisible.marker.showBigSize(); }, 500);
 				//App.elementModule.updateElementToDisplay()
 			}			
 		}, 1000);
@@ -82,7 +93,7 @@ export class InfoBarComponent
 	{
 		//App.setTimeoutInfoBarComponent();
 
-		if ($('#element-info-bar').css('position') != 'absolute')
+		if (!this.isDisplayedAside())
 		{
 			$('#element-info-bar').show();
 
@@ -130,15 +141,16 @@ export class InfoBarComponent
 				if ($('#element-info-bar').is(':visible'))
 				{		
 					$('#element-info-bar').animate({'right':'-500px'},350,'swing',function(){ $(this).hide();updateMapSize(0);  });
-					
 				}		
 			}
 
 			this.onHide.emit(true);
 		}
 
+		if (this.elementVisible && this.elementVisible.marker) this.elementVisible.marker.showNormalSize(true);
+
 		this.elementVisible = null;
-		this.isVisible = false;
+		this.isVisible = false;		
 	};
 
 	toggleDetails()

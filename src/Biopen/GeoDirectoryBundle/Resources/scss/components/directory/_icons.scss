@@ -28,6 +28,25 @@ $boutique-color :#813c81 ;
 $marche-color :#3F51B5 ;
 $epicerie-color :#383D5A ;
 
+.bgdSoftColorAs
+{
+	background-color : black;
+	&.producteur { background-color: rgba(darken($producteur-color,5%),.9) } 
+	&.amap { background-color:$amap-color }
+	&.boutique { background-color: rgba($boutique-color,.85) }
+	&.marche { background-color: rgba(darken($marche-color,5%),.9) }
+	&.epicerie { background-color: rgba(darken($epicerie-color,5%),.9) }
+}
+
+.borderSoftColorAs
+{
+	&.producteur { border-color: rgba(darken($producteur-color,5%),.9) } 
+	&.amap { border-color:$amap-color }
+	&.boutique { border-color: rgba($boutique-color,.85) }
+	&.marche { border-color: rgba(darken($marche-color,5%),.9) }
+	&.epicerie { border-color: rgba(darken($epicerie-color,5%),.9) }
+}
+
 .bgdColorAs
 {
 	&.producteur { background-color:$producteur-color } 
@@ -35,15 +54,6 @@ $epicerie-color :#383D5A ;
 	&.boutique { background-color:$boutique-color }
 	&.marche { background-color:$marche-color }
 	&.epicerie { background-color:$epicerie-color }
-}
-
-.bgdSoftColorAs
-{
-	&.producteur { background-color: rgba(darken($producteur-color,5%),.9) } 
-	&.amap { background-color:$amap-color }
-	&.boutique { background-color: rgba($boutique-color,.85) }
-	&.marche { background-color: rgba(darken($marche-color,5%),.9) }
-	&.epicerie { background-color: rgba(darken($epicerie-color,5%),.9) }
 }
 
 .colorAs
