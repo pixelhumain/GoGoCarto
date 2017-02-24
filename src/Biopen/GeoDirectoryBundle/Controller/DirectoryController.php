@@ -109,7 +109,7 @@ class DirectoryController extends Controller
 
     private function parseAddressViewport($addressViewport)
     {
-        $splited = explode('@', $addressViewport);
+        $splited = split('@', $addressViewport);
 
         if (count($splited) == 1)
         {
