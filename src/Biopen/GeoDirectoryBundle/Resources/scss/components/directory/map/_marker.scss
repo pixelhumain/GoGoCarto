@@ -55,7 +55,7 @@
 
         .iconInsideMarker-wrapper
         {
-            left: 6px !important;
+            @media #{$medium-and-up} { left: 6px !important; }
         }
 	}
 

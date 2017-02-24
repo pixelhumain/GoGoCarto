@@ -51,27 +51,33 @@ function onloadCaptcha()
 
 export function updateFavoriteIcon(object, element : Element)
 {
-	if (App.state !== AppStates.Constellation)
+	if (!element.isFavorite) 
 	{
-		if (!element.isFavorite) 
-		{
-			object.find('.icon-star-empty').show();
-			object.find('.icon-star-full').hide();
-		}	
-		else 
-		{
-			object.find('.icon-star-empty').hide();
-			object.find('.icon-star-full').show();
-		}
+		object.find('.item-add-favorite').show();
+		object.find('.item-remove-favorite').hide();
+	}	
+	else 
+	{
+		object.find('.item-add-favorite').hide();
+		object.find('.item-remove-favorite').show();
 	}
+}
+
+export function showFullTextMenu(object)
+{
+	object.addClass("full-text");
+	object.find('.tooltipped').tooltip('remove');	
 }
 
 export function createListenersForElementMenu(object)
 {
-	object.find('.icon-edit').click(function() {
+	object.find('.tooltipped').tooltip();	
+
+	object.find('.item-edit').click(function() {
 		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
 	});
-	object.find('.btn-delete').click(function() 
+
+	object.find('.item-delete').click(function() 
 	{		
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
@@ -83,7 +89,8 @@ export function createListenersForElementMenu(object)
 		      out_duration: 200
     		});
 	});
-	object.find('.icon-directions').click(function() 
+
+	object.find('.item-directions').click(function() 
 	{
 		if (App.state !== AppStates.Constellation && !App.map().location)
 		{
@@ -91,7 +98,8 @@ export function createListenersForElementMenu(object)
 		}
 		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});
-	object.find('.icon-share-alt').click(function()
+
+	object.find('.item-share').click(function()
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		
@@ -117,17 +125,14 @@ export function createListenersForElementMenu(object)
 	      in_duration: 300, 
 	      out_duration: 200
    	});
-	});
-
-	object.find('.tooltipped').tooltip();	
+	});	
 	
-	object.find('.icon-star-empty').click(function() 
+	object.find('.item-add-favorite').click(function() 
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		App.elementModule.addFavorite(getCurrentElementIdShown());
 
-		object.find('.icon-star-empty').hide();
-		object.find('.icon-star-full').show();
+		updateFavoriteIcon(object, element);
 
 		if (App.mode == AppModes.Map)
 		{
@@ -137,12 +142,12 @@ export function createListenersForElementMenu(object)
 		
 	});
 	
-	object.find('.icon-star-full').click(function() 
+	object.find('.item-remove-favorite').click(function() 
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		App.elementModule.removeFavorite(getCurrentElementIdShown());
-		object.find('.icon-star-full').hide();
-		object.find('.icon-star-empty').show();
+		
+		updateFavoriteIcon(object, element);
 
 		if (App.mode == AppModes.Map) element.marker.updateIcon();
 	});	

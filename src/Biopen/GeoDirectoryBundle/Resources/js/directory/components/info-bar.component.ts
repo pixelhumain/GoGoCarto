@@ -13,7 +13,7 @@ declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
-import { updateFavoriteIcon } from "./element-menu.component";
+import { updateFavoriteIcon, showFullTextMenu } from "./element-menu.component";
 
 declare var $;
 
@@ -29,6 +29,11 @@ export class InfoBarComponent
 
 	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
 
+	private isDisplayedAside()
+	{
+		return $('#element-info-bar').css('position') == 'absolute';
+	}
+
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
@@ -42,14 +47,23 @@ export class InfoBarComponent
 			this.elementVisible.marker.showNormalSize(true);
 		}
 
-		this.elementVisible = element;	
-
-		updateFavoriteIcon($('#element-info-bar .menu-element'), element);	
+		this.elementVisible = element;				
 
 		element.updateDistance();
 
 		$('#element-info').html(element.getHtmlRepresentation());	
-		$('#element-info-bar .menu-element').removeClass().addClass("menu-element " +element.type);
+
+		let domMenu = $('#element-info-bar .menu-element');
+		domMenu.removeClass().addClass("menu-element " +element.type);
+
+		updateFavoriteIcon(domMenu, element);
+
+		// on large screen info bar is displayed aside and so we have enough space
+		// to show menu actions details in full text
+		if (this.isDisplayedAside())
+		{
+			showFullTextMenu(domMenu);
+		}
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
@@ -79,7 +93,7 @@ export class InfoBarComponent
 	{
 		//App.setTimeoutInfoBarComponent();
 
-		if ($('#element-info-bar').css('position') != 'absolute')
+		if (!this.isDisplayedAside())
 		{
 			$('#element-info-bar').show();
 

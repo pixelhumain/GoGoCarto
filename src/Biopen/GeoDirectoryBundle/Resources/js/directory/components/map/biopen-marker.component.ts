@@ -126,6 +126,8 @@ export class BiopenMarker
 
 	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
+	  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
+
 	  	if (this.inclination_ == "right") this.inclinateRight();
 	  	if (this.inclination_ == "left") this.inclinateLeft();
 	};

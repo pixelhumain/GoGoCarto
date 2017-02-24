@@ -5,23 +5,35 @@
   this is a lack of feature in TwigJsTemplate who does not implements the twig "include" method
 #}
 <div class="menu-element">      
-    <center>
-      <span class="menu-icon icon-star-empty icon-favorite tooltipped" style="display:none"
+    <div class="menu-element-item item-add-favorite" style="display:none">
+      <span class="menu-icon icon-star-empty icon-favorite tooltipped" 
       data-position="top" data-delay="0" data-tooltip="Enregistrer comme favoris"></span>
-
-      <span class="menu-icon icon-star-full icon-favorite tooltipped" style="display:none"
+      <span class="menu-element-item-text">Enregistrer</span>
+    </div>
+    <div class="menu-element-item item-remove-favorite" style="display:none">
+      <span class="menu-icon icon-star-full icon-favorite tooltipped"
       data-position="top" data-delay="0" data-tooltip="Retirer des favoris"></span>
-
+      <span class="menu-element-item-text favorite">Enregistré</span>
+    </div>
+    <div class="menu-element-item item-share">
       <span class="menu-icon icon-share-alt tooltipped"
       data-position="top" data-delay="0" data-tooltip="Partager l'URL"></span>
-
+      <span class="menu-element-item-text">Partager l'URL</span>
+    </div>
+    <div class="menu-element-item item-directions">
       <span class="menu-icon icon-directions tooltipped" 
       data-position="top" data-delay="0" data-tooltip="Itinéraire vers cet élément"></span>
-
+      <span class="menu-element-item-text">Itinéraire</span>
+    </div>
+    <div class="menu-element-item item-edit">
       <span class="menu-icon icon-edit tooltipped" 
       data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>
-      
-      <span class="menu-icon btn-delete icon-exclamation-circle tooltipped" 
+      <span class="menu-element-item-text">Proposer des modifications</span>
+    </div>
+    <div class="menu-element-item item-delete"> 
+      <span class="menu-icon btn-delete icon-exclamation-1 tooltipped" 
       data-position="top" data-delay="0" data-tooltip="Signaler une erreur"></span>
-    </center>       
+      <span class="menu-element-item-text">Signaler une erreur</span>
+    </div>     
 </div>   
+
