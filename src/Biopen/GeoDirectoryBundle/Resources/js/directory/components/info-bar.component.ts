@@ -13,6 +13,7 @@ declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
+import { updateFavoriteIcon } from "./element-menu.component";
 
 declare var $;
 
@@ -41,21 +42,9 @@ export class InfoBarComponent
 			this.elementVisible.marker.showNormalSize(true);
 		}
 
-		this.elementVisible = element;		
+		this.elementVisible = element;	
 
-		if (App.state !== AppStates.Constellation)
-		{
-			if (!element.isFavorite) 
-			{
-				$('#element-info-bar .menu-element .icon-star-empty').show();
-				$('#element-info-bar .menu-element .icon-star-full').hide();
-			}	
-			else 
-			{
-				$('#element-info-bar .menu-element .icon-star-empty').hide();
-				$('#element-info-bar .menu-element .icon-star-full').show();
-			}
-		}
+		updateFavoriteIcon($('#element-info-bar .menu-element'), element);	
 
 		element.updateDistance();
 

@@ -1,0 +1,51 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-02-24 10:26:15
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-02-24 12:41:00
+*/
+.input-share-url
+{
+  margin: 0;
+  margin-top: 1rem;
+  padding: 0 .5rem 0 .5rem;
+  border: 2px solid rgb(142, 142, 142);
+  @include border-radius(10px);
+
+  &:focus
+  {
+    border-color: $secondary-color; 
+  	box-shadow: none;
+  }
+
+  &::selection {
+      background-color: $secondary-color; 
+  		color: white;
+	}
+	&::-moz-selection {
+      background-color: $secondary-color; 
+  		color: white;
+	}
+}
+
+#modal-share-element.modal
+{
+	z-index: 2000;
+	max-width: 1200px;
+	top: 30% !important;
+	position: absolute !important;
+
+	.modal-content
+	{
+		padding-bottom: 0 !important;
+	}
+
+  .modal-footer
+  {
+    @extend .bgdSoftColorAs;
+    .modal-action
+    {
+      color: white !important;
+    }
+  }
+}

@@ -12,10 +12,11 @@ declare let grecaptcha;
 declare var $ : any;
 declare let Routing : any;
 
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppModes } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
 
-import { capitalize } from "../../commons/commons";
+import { capitalize, slugify } from "../../commons/commons";
 
 
 export function initializeElementMenu()
@@ -48,12 +49,29 @@ function onloadCaptcha()
     });
 }
 
+export function updateFavoriteIcon(object, element : Element)
+{
+	if (App.state !== AppStates.Constellation)
+	{
+		if (!element.isFavorite) 
+		{
+			object.find('.icon-star-empty').show();
+			object.find('.icon-star-full').hide();
+		}	
+		else 
+		{
+			object.find('.icon-star-empty').hide();
+			object.find('.icon-star-full').show();
+		}
+	}
+}
+
 export function createListenersForElementMenu(object)
 {
 	object.find('.icon-edit').click(function() {
 		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
 	});
-	object.find('.icon-delete').click(function() 
+	object.find('.btn-delete').click(function() 
 	{		
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
@@ -75,21 +93,31 @@ export function createListenersForElementMenu(object)
 	});
 	object.find('.icon-share-alt').click(function()
 	{
-		//On click update of the URL
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
-		if (element.isurlshown == true)
-		{
-			element.seturlshown("");
-		}
-		else 
-		{
-			element.seturlshown(window.location.href);
-		}
-		App.infoBarComponent.showElement(getCurrentElementIdShown());
-		// The URL is displayed at the bottom of Element-info.
-		// Preferable to use a ScrollTo('bottom') to display the URL instantly after the click
-	});
+		
+		let modal = $('#modal-share-element');
 
+		modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
+		modal.find(".input-share-url").removeClass().addClass("input-share-url " + element.type);
+
+		let url;
+		if (App.mode == AppModes.Map)
+		{
+			url = window.location.href;
+		}
+		else
+		{
+			url = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id }, true);	
+		}
+
+		modal.find('.input-share-url').val(url);
+		modal.openModal({
+	      dismissible: true, 
+	      opacity: 0.5, 
+	      in_duration: 300, 
+	      out_duration: 200
+   	});
+	});
 
 	object.find('.tooltipped').tooltip();	
 	
@@ -97,10 +125,16 @@ export function createListenersForElementMenu(object)
 	{
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		App.elementModule.addFavorite(getCurrentElementIdShown());
+
 		object.find('.icon-star-empty').hide();
 		object.find('.icon-star-full').show();
-		element.marker.updateIcon();
-		element.marker.animateDrop();
+
+		if (App.mode == AppModes.Map)
+		{
+			element.marker.updateIcon();
+			element.marker.animateDrop();
+		}
+		
 	});
 	
 	object.find('.icon-star-full').click(function() 
@@ -109,18 +143,20 @@ export function createListenersForElementMenu(object)
 		App.elementModule.removeFavorite(getCurrentElementIdShown());
 		object.find('.icon-star-full').hide();
 		object.find('.icon-star-empty').show();
-		element.marker.updateIcon();
+
+		if (App.mode == AppModes.Map) element.marker.updateIcon();
 	});	
 }
 
 function getCurrentElementIdShown() : number
 {
-	if ( $('#element-info-bar').is(':visible') ) 
+	if ( App.mode == AppModes.Map ) 
 	{
 		return $('#element-info-bar').find('.element-item').attr('data-element-id');
 	}
 	return parseInt($('.element-item.active').attr('data-element-id'));
 }
+
 
 /*function bookMarkMe()
 {

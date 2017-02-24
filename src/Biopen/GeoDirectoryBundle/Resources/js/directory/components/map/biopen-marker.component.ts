@@ -133,7 +133,7 @@ export class BiopenMarker
 	addClassToRichMarker_ (classToAdd) 
 	{		
 		this.domMarker().addClass(classToAdd);
-		this.domMarker().siblings('.marker-name').addClass(classToAdd);   
+		this.domMarker().siblings('.marker-name').addClass(classToAdd); 
 	};
 
 	removeClassToRichMarker_ (classToRemove) 
