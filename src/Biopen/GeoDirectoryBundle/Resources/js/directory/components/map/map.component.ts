@@ -112,6 +112,40 @@ export class MapComponent
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
 		
+		L.Routing.control({
+		  waypoints: [
+		    L.latLng(44.10,-0.54),
+		    L.latLng(44.03,-0.53)
+		  ],
+		  language: 'fr',
+		  routeWhileDragging: false,
+		  showAlternatives: true,
+		}).addTo(this.map_);
+
+		let lrmConfig = {
+		//    serviceUrl: 'https://api.mapbox.com/directions/v5',
+		//    profile: 'mapbox/driving',
+		};
+
+		// var control = L.Routing.control({
+		// 	waypoints: [
+		// 		L.latLng(57.74, 11.94),
+		// 		L.latLng(57.6792, 11.949)
+		// 	],
+		//   language: 'fr',
+		// 	geocoder: L.Control.Geocoder.nominatim(),
+		//     routeWhileDragging: true,
+		//     reverseWaypoints: true,
+		//     showAlternatives: true,
+		//     altLineOptions: {
+		//         styles: [
+		//             {color: 'black', opacity: 0.15, weight: 9},
+		//             {color: 'white', opacity: 0.8, weight: 6},
+		//             {color: 'blue', opacity: 0.5, weight: 2}
+		//         ]
+		//     }
+		// }).addTo(this.map_);
+
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
 		{ 
