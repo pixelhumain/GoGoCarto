@@ -51,7 +51,7 @@ export class InfoBarComponent
 
 		element.updateDistance();
 
-		$('#element-info').html(element.getHtmlRepresentation());	
+		$('#element-info').html(element.getHtmlRepresentation());
 
 		let domMenu = $('#element-info-bar .menu-element');
 		domMenu.removeClass().addClass("menu-element " +element.type);
