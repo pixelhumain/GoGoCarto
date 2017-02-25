@@ -81,7 +81,7 @@ export class InfoBarComponent
 			if (!App.mapComponent.contains(element.position))
 			{
 				App.mapComponent.panToLocation(element.position);
-				setTimeout( () => { this.elementVisible.marker.showBigSize(); }, 500);
+				setTimeout( () => { this.elementVisible.marker.showBigSize(); }, 1000);
 				//App.elementModule.updateElementToDisplay()
 			}			
 		}, 1000);
@@ -126,7 +126,7 @@ export class InfoBarComponent
 	{
 		if ($('#element-info-bar').is(':visible'))
 		{
-			if ($('#element-info-bar').css('position') != 'absolute')
+			if (!this.isDisplayedAside())
 			{			
 				this.hideDetails();
 				$('#element-info-bar').css('height','0');

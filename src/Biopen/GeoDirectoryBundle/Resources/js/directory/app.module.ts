@@ -14,7 +14,7 @@ declare let CONFIG;
 declare var $;
 //import * as L from "leaflet";
 
-import { GeocoderModule } from "./modules/geocoder.module";
+import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
 import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
@@ -269,7 +269,7 @@ export class AppModule
 				{
 					this.elementModule.clearCurrentsElement();
 					this.displayElementAloneModule_.end();	
-				}				
+				}	
 							
 				break;
 
@@ -347,12 +347,16 @@ export class AppModule
 		$('#directory-spinner-loader').hide();		
 
 		// if just address was given
-		if (this.state == AppStates.Normal)
+		if (this.mode == AppModes.Map)
 		{
-			if (this.mode == AppModes.Map )
-				this.mapComponent.fitBounds(this.geocoder.getBounds());
-			else
-				this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+			this.setState(AppStates.Normal);
+			this.mapComponent.fitBounds(this.geocoder.getBounds());
+		}
+		else
+		{
+			this.elementModule.clearCurrentsElement();
+			this.elementModule.updateElementToDisplay(true,true);
+			this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);	
 		}
 	}
 
@@ -426,11 +430,8 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		this.infoBarComponent.hide(); 
-		
+		this.infoBarComponent.hide(); 		
 	};
-
-
     
 
 	handleSearchAction(address : string)
@@ -439,15 +440,14 @@ export class AppModule
 		
 			this.geocoderModule_.geocodeAddress(
 			address, 
-			(results) => 
+			(results : GeocodeResult[]) => 
 			{ 
+				//this.searchBarComponent.setValue(results[0].getFormattedAddress());
+				this.infoBarComponent.hide();
 				this.handleGeocodeResult(results);
 				//this.mapComponent.fitBounds(results[0].getBounds(), false);					
 				//this.updateState();
 				this.updateDocumentTitle_();
-				
-
-
 			}	
 		);	
 	};
