@@ -30,13 +30,11 @@ export class SearchBarComponent
 			if(e.keyCode == 13) // touche entrée
 			{ 			 
 				this.handleSearchAction();
-				console.log(this.domId);
 			}
 		});
 
 		this.domElement().parents().find('#search-bar-icon').click(() =>
-		{		
-			
+		{					
 			this.handleSearchAction();
 		});	
 
@@ -52,15 +50,9 @@ export class SearchBarComponent
 	setValue($value : string)
 	{
 		this.domElement().val($value);
-	}
-
-
-        
+	}  
     
 }
-
-
-
 
 export function initAutoCompletionForElement(element)
 {
