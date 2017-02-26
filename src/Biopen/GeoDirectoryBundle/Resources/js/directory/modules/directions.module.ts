@@ -1,17 +1,24 @@
 declare let google;
 import { AppModule } from "../app.module";
 declare let App : AppModule;
-declare let RichMarker : any;
-declare let $: any;
+declare let $, L: any;
+
+declare let window : any;
 
 export class DirectionsModule
 {
 	markerDirectionResult = null;
 
-	directionsService_ = new google.maps.DirectionsService();
-  	directionsRenderer_ = new google.maps.DirectionsRenderer({map: App.map(), suppressMarkers:true}); 
+	routingControl : any;
+	
 
-  	constructor() {}
+  constructor() {
+  	window.lrmConfig = {
+			//    serviceUrl: 'https://api.mapbox.com/directions/v5',
+			//    profile: 'mapbox/driving',
+		};
+
+  }
 
 	clear()
 	{
@@ -21,58 +28,99 @@ export class DirectionsModule
 
 	clearRoute()
 	{
-		this.directionsRenderer_.setDirections({routes: []});
+		if (this.routingControl) 
+		{
+			this.routingControl.spliceWaypoints(0,2);
+			App.map().removeControl(this.routingControl);
+		}
 	};
 
-	calculateRoute(origin, destination) 
+	calculateRoute(origin : L.LatLng, destination : L.LatLng) 
 	{
-	  	this.directionsService_.route({
-	    	origin: origin,
-	    	destination: destination,
-	    	travelMode: google.maps.TravelMode.DRIVING
-	  	}, (response, status) => {
-		    if (status === google.maps.DirectionsStatus.OK) 
-		    {
-		      	google.maps.event.trigger(App.map(), 'resize');
-		      	this.directionsRenderer_.setDirections(response);		      	
+		this.clear();
 
-				let distance_to_reach = response.routes[0].legs[0].distance.value / 2;
-				let distance_somme = 0;
-				let i = 0;
-				let route = response.routes[0].legs[0];
+		let waypoints = [
+		    origin,
+		    destination
+		];
 
-				while(i < (route.steps.length - 1) && distance_somme < distance_to_reach)
+		this.routingControl = L.Routing.control({
+			plan: L.Routing.plan(
+				waypoints, 
 				{
-					i++;
-					distance_somme += route.steps[i].distance.value;				
+					// deleteing start and end markers
+					createMarker: function(i, wp) { return null; },
+					routeWhileDragging: false
 				}
-				
-				let middleStep = Math.max(i,0);			
-				this.clearDirectionMarker();
+			),
+			routeWhileDragging: false,
+			showAlternatives: false,
+			altLineOptions: {
+				styles: [
+					{color: 'black', opacity: 0.15, weight: 9},
+					{color: 'white', opacity: 0.8, weight: 6},
+					{color: 'red', opacity: 0.5, weight: 2}
+				]
+			}
+		}).setPosition('topright').addTo(App.map());		
 
-				let marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
+  	// this.directionsService_.route({
+   //  	origin: origin,
+   //  	destination: destination,
+   //  	travelMode: google.maps.TravelMode.DRIVING
+  	// }, (response, status) => {
+	  //   if (status === google.maps.DirectionsStatus.OK) 
+	  //   {
+	  //     	google.maps.event.trigger(App.map(), 'resize');
+	  //     	this.directionsRenderer_.setDirections(response);		      	
 
-				this.markerDirectionResult = new RichMarker({		
-					map: App.map(),
-					draggable: false,
-					position: marker_position,
-					flat: true
-				}, null);
+			// let distance_to_reach = response.routes[0].legs[0].distance.value / 2;
+			// let distance_somme = 0;
+			// let i = 0;
+			// let route = response.routes[0].legs[0];
 
-				let content = document.createElement("div");
-				$(content).attr('id',"markerDirectionResult");
-				$(content).addClass('arrow_box');
-				let innerHtml = '<div class="duration">' + route.duration.text + "</div>";
-				innerHtml    += '<div class="distance">' + route.distance.text + "</div>";
-				content.innerHTML = innerHtml;
-				this.markerDirectionResult.setContent(content);
-		    } 
-		    else
-		    {
-		      $('#modal-directions-fail').openModal();
-		    }
-	  	});
+			// while(i < (route.steps.length - 1) && distance_somme < distance_to_reach)
+			// {
+			// 	i++;
+			// 	distance_somme += route.steps[i].distance.value;				
+			// }
+			
+			// let middleStep = Math.max(i,0);			
+			// this.clearDirectionMarker();
+
+			// let marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
+
+			// this.markerDirectionResult = new RichMarker({		
+			// 	map: App.map(),
+			// 	draggable: false,
+			// 	position: marker_position,
+			// 	flat: true
+			// }, null);
+
+			// let content = document.createElement("div");
+			// $(content).attr('id',"markerDirectionResult");
+			// $(content).addClass('arrow_box');
+			// let innerHtml = '<div class="duration">' + route.duration.text + "</div>";
+			// innerHtml    += '<div class="distance">' + route.distance.text + "</div>";
+			// content.innerHTML = innerHtml;
+			// this.markerDirectionResult.setContent(content);
+	    // } 
+	    // else
+	    // {
+	    //   $('#modal-directions-fail').openModal();
+	    // }
+  	// });
 	};
+
+	hideItineraryPanel()
+	{
+		this.routingControl.hide();
+	}
+
+	showItineraryPanel()
+	{
+		this.routingControl.show();
+	}
 
 	clearDirectionMarker()
 	{

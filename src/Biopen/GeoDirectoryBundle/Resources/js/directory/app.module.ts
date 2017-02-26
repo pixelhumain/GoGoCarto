@@ -7,12 +7,11 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-
+/// <reference types="leaflet" />
 
 declare let window, Routing : any;
 declare let CONFIG;
 declare var $;
-//import * as L from "leaflet";
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
@@ -78,7 +77,7 @@ export class AppModule
 	filterModule_ = new FilterModule();
 	elementsModule_ = new ElementsModule([]);
 	displayElementAloneModule_ = new DisplayElementAloneModule();
-	directionsModule_ : DirectionsModule = null;
+	directionsModule_ : DirectionsModule = new DirectionsModule();
 	ajaxModule_ = new AjaxModule();
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
@@ -126,7 +125,7 @@ export class AppModule
 
 	initializeMapFeatures()
 	{	
-		//this.directionsModule_ = new DirectionsModule();
+		
 	};
 
 	/*
@@ -246,6 +245,7 @@ export class AppModule
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
 		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		let element;
 
 		let oldStateName = this.state_;
 		this.state_ = $newState;			
@@ -285,7 +285,7 @@ export class AppModule
 			case AppStates.ShowElementAlone:
 				if (!options.id) return;
 
-				let element = this.elementById(options.id);
+				element = this.elementById(options.id);
 				if (element)
 				{
 					this.DEAModule.begin(element.id, options.panToLocation);					
@@ -314,17 +314,19 @@ export class AppModule
 			case AppStates.ShowDirections:
 				if (!options.id) return;			
 				
+				element = this.elementById(options.id);
 				let origin;
+
 				if (this.state_ == AppStates.Constellation)
 				{
 					origin = this.constellation.getOrigin();
 				}
 				else
 				{
-					origin = this.map().location;
+					origin = this.geocoder.getLocation();
 				}
 				// got to map tab if actions triggered from list_tab
-				$('#directory-content-map_tab').trigger("click");
+				// TODO this.setMode(AppModes.Map);
 				
 				this.directionsModule_.calculateRoute(origin, element.position); 
 				this.displayElementAloneModule_.begin(options.id, false);									
@@ -554,7 +556,7 @@ export class AppModule
 
 
 	// Getters shortcuts
-	map() : any { return this.mapComponent_? this.mapComponent_.getMap() : null; };
+	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
 	elements() { return this.elementsModule_.elements;  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
 	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
