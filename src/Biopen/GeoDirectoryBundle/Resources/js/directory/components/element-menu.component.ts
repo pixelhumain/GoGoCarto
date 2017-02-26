@@ -92,7 +92,7 @@ export function createListenersForElementMenu(object)
 
 	object.find('.item-directions').click(function() 
 	{
-		if (App.state !== AppStates.Constellation && !App.map().location)
+		if (App.state !== AppStates.Constellation && !App.geocoder.getLocation())
 		{
 			$('#modal-pick-address').openModal();
 		}
