@@ -325,11 +325,29 @@ export class AppModule
 				{
 					origin = this.geocoder.getLocation();
 				}
-				// got to map tab if actions triggered from list_tab
-				// TODO this.setMode(AppModes.Map);
+
+				// local function
+				let calculateRoute = function (origin : L.LatLng, element : Element)
+				{
+					App.directionsModule.calculateRoute(origin, element.position); 
+					App.DEAModule.begin(element.id, false);		
+				};
 				
-				this.directionsModule_.calculateRoute(origin, element.position); 
-				this.displayElementAloneModule_.begin(options.id, false);									
+				if (this.mode == AppModes.List)
+				{
+					this.mapComponent.onMapReady.do(() => 
+					{
+						calculateRoute(origin, element);
+						this.mapComponent.onMapReady.off(() => { calculateRoute(origin, element); });
+					});
+
+					this.setMode(AppModes.Map);
+				} 
+				else
+				{
+					calculateRoute(origin, element);
+				}	
+
 				break;			
 		}
 
@@ -573,6 +591,7 @@ export class AppModule
 	get geocoder() { return this.geocoderModule_; };
 	get ajaxModule() { return this.ajaxModule_; };
 	get elementModule() { return this.elementsModule_; };
+	get directionsModule() { return this.directionsModule_; };
 	//get markerModule() { return this.markerModule_; };
 	get filterModule() { return this.filterModule_; };
 	//get SRCModule() { return this.starRepresentationChoiceModule_; };

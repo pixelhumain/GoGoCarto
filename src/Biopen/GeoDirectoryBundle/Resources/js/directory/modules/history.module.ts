@@ -141,6 +141,7 @@ export class HistoryModule
 
 				case AppStates.ShowElement:	
 				case AppStates.ShowElementAlone:
+				case AppStates.ShowDirections:
 					if (!historyState.id) return;
 					let element = App.elementById(historyState.id);
 					if (!element) return;			
@@ -150,9 +151,9 @@ export class HistoryModule
 					if (addressAndViewport) route += '/' + addressAndViewport;										
 					break;
 
-				case AppStates.ShowDirections:
+				// case AppStates.ShowDirections:
 													
-					break;			
+				// 	break;			
 			}		
 		}
 		

@@ -136,7 +136,7 @@ export class MapComponent
 	   }
 
 		this.isInitialized = true;
-		//console.log("map init done");
+		console.log("map init done");
 		this.onMapReady.emit();
 	};
 
