@@ -14,7 +14,7 @@ export class DirectionsModule
 
   constructor() {
   	window.lrmConfig = {
-			//    serviceUrl: 'https://api.mapbox.com/directions/v5',
+			serviceUrl: '//router.project-osrm.org/viaroute',
 			//    profile: 'mapbox/driving',
 		};
 
@@ -62,7 +62,7 @@ export class DirectionsModule
 					{color: 'red', opacity: 0.5, weight: 2}
 				]
 			}
-		}).setPosition('topright').addTo(App.map());		
+		}).setPosition('bottomleft').addTo(App.map());			
 
   	// this.directionsService_.route({
    //  	origin: origin,
