@@ -26,6 +26,31 @@ export function initializeElementMenu()
 	createListenersForElementMenu(menu_element);	
 
 	$('#popup-delete-element #select-reason').material_select();
+
+	$('#btn-calculate-directions').click(() => 
+	{
+		let address = $('#modal-pick-address input').val();
+		
+		if (address)
+		{			
+			App.geocoder.geocodeAddress(address,
+			() => {
+				$("#modal-pick-address .modal-error-msg").hide();
+				$('#modal-pick-address').closeModal();
+				App.searchBarComponent.setValue(address);
+
+				App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
+			},
+			() => {
+				$("#modal-pick-address .modal-error-msg").show();
+			});			
+		}
+		else
+		{
+			$('#modal-pick-address input').addClass('invalid');
+		}
+
+	});
 }
 
 function deleteElement()
@@ -97,13 +122,13 @@ export function createListenersForElementMenu(object)
 		if (App.state !== AppStates.Constellation && !App.geocoder.getLocation())
 		{
 			let modal = $('#modal-pick-address');
-			modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
+			modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);			
 			
 			modal.openModal({
 	      dismissible: true, 
 	      opacity: 0.5, 
 	      in_duration: 300, 
-	      out_duration: 200
+	      out_duration: 200,
    		});
 		}
 		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
@@ -116,7 +141,7 @@ export function createListenersForElementMenu(object)
 		let modal = $('#modal-share-element');
 
 		modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
-		modal.find(".input-share-url").removeClass().addClass("input-share-url " + element.type);
+		modal.find(".input-simple-modal").removeClass().addClass("input-simple-modal " + element.type);
 
 		let url;
 		if (App.mode == AppModes.Map)
@@ -128,7 +153,7 @@ export function createListenersForElementMenu(object)
 			url = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id }, true);	
 		}
 
-		modal.find('.input-share-url').val(url);
+		modal.find('.input-simple-modal').val(url);
 		modal.openModal({
 	      dismissible: true, 
 	      opacity: 0.5, 

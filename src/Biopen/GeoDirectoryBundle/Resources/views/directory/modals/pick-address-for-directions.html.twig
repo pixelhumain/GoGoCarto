@@ -1,13 +1,18 @@
-<div id="modal-pick-address" class="modal">
+<div id="modal-pick-address" class="modal simple-modal">
   <div class="modal-content">
 
     <h5 id="modal-title">Entrez une adresse de départ</h5>
+    <div class="modal-error-msg">Impossible de localiser cette adresse !</div>
     <input type="text" 
-          class="input-share-url"
-          onClick="this.setSelectionRange(0, this.value.length)" />  
+          class="input-simple-modal"
+          onClick="this.setSelectionRange(0, this.value.length)"
+          placeholder="L'adresse de départ"  />  
   </div>
   <div class="modal-footer">
-  	<span  class=" modal-action modal-close waves-effect waves-green btn-flat">OK</span>
+
+    <span id='btn-calculate-directions' class="modal-action waves-effect waves-green btn">Calculer l'itinéraire</span>
+    <span class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</span>
+  	
   </div>
    
 </div>
@@ -20,6 +25,7 @@
     <p>Impossible de calculer l'itinéraire demandé !</p>   
   </div>
   <div class="modal-footer">
-  	<span  class=" modal-action modal-close waves-effect waves-green btn-flat">OK</span>
+   <span  class=" modal-action modal-close waves-effect waves-green btn-flat">OK</span>
+
   </div>   
 </div>

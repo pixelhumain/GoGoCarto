@@ -31,6 +31,11 @@ export function initializeAppInteractions()
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
+	$('#btn-close-directions').click( () => 
+	{
+		App.setState(AppStates.Normal);
+	});
+
 	let res;
 	window.onresize = function() 
 	{
