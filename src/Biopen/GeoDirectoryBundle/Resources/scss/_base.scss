@@ -4,3 +4,11 @@
 
 // Reset
 @import "modules/normalize";
+
+@font-face {
+    font-family: "Yellowtail";
+    src:
+        local(Yellowtail),
+        url("../fonts/Yellowtail/Yellowtail-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
