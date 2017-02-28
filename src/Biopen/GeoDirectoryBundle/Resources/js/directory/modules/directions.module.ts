@@ -29,6 +29,10 @@ export class DirectionsModule
 		this.clearRoute();
 		//this.clearDirectionMarker();
 		this.hideItineraryPanel();
+
+		App.DEAModule.end();
+
+		this.routingControl = null;
 	};
 
 	clearRoute()
@@ -74,6 +78,16 @@ export class DirectionsModule
 		{
 			this.showItineraryPanel(element);
 		});
+
+		// fit bounds 
+		this.routingControl.on('routeselected', function(e) 
+		{	    
+	    var r = e.route;
+	    var line = L.Routing.line(r);
+	    var bounds = line.getBounds();
+	    console.log("route selected", bounds);
+	    App.map().fitBounds(bounds);
+		});
 			
 	};
 
@@ -84,6 +98,8 @@ export class DirectionsModule
 		$('#directory-menu-main-container').removeClass();
 		$('.directory-menu-header').removeClass().addClass('directory-menu-header');
 		$('#search-bar').removeClass();
+
+		
 	}
 
 	showItineraryPanel(element : Element)
@@ -92,12 +108,7 @@ export class DirectionsModule
 		$('.leaflet-routing-container').prependTo('.directory-menu-content');
 		$('#directory-menu-main-container').removeClass().addClass("directions");	
 		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
-		$('#search-bar').removeClass().addClass(element.type);
-
-		$('#btn-close-directions').click( () => 
-		{
-			App.setState(AppStates.Normal);
-		})
+		$('#search-bar').removeClass().addClass(element.type);		
 	}
 
 	clearDirectionMarker()

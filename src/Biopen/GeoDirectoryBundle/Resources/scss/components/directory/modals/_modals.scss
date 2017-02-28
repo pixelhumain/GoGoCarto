@@ -1,7 +1,54 @@
 #modal-pick-address.modal, #modal-directions-fail.modal
 {
     position: absolute;
+}  
+
+.simple-modal.modal
+{
+  z-index: 2000;
+  max-width: 1200px;
+  top: 30% !important;
+  position: absolute !important;
+
+  .modal-content
+  {
+    padding-bottom: 0 !important;
+
+    .modal-error-msg
+    {
+      display: none;
+      color: $error-color;
+    }
+  }
+
+  .modal-footer
+  {
+    @extend .bgdSoftColorAs;
+    .modal-action
+    {
+      color: white !important;
+    }
+  }
+
+  .input-simple-modal
+  {
+    &:focus
+    {
+      border-color: $secondary-color; 
+      box-shadow: none;
+    }
+
+    &::selection {
+      background-color: $secondary-color; 
+        color: white;
+    }
+    &::-moz-selection {
+      background-color: $secondary-color; 
+        color: white;
+    }
+  }
 }
+
 
 #too-many-markers-modal
 {

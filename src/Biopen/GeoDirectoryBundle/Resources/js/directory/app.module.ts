@@ -462,12 +462,23 @@ export class AppModule
 			address, 
 			(results : GeocodeResult[]) => 
 			{ 
-				//this.searchBarComponent.setValue(results[0].getFormattedAddress());
-				this.infoBarComponent.hide();
-				this.handleGeocodeResult(results);
-				//this.mapComponent.fitBounds(results[0].getBounds(), false);					
-				//this.updateState();
-				this.updateDocumentTitle_();
+				switch (App.state)
+				{
+					case AppStates.Normal:	
+					case AppStates.ShowElement:	
+						this.handleGeocodeResult(results);
+						this.updateDocumentTitle_();
+						break;
+					case AppStates.ShowElementAlone:
+						this.infoBarComponent.hide();
+						this.handleGeocodeResult(results);
+						this.updateDocumentTitle_();
+						break;
+					
+					case AppStates.ShowDirections:	
+						this.setState(AppStates.ShowDirections,{id: this.infoBarComponent.getCurrElementId() });
+						break;		
+				}					
 			}	
 		);	
 	};

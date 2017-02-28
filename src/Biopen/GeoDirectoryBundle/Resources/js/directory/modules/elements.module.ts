@@ -79,6 +79,12 @@ export class ElementsModule
 		//console.log("ElementModule really added " + newElementsCount);
 	};
 
+	showElement(element : Element)
+	{
+		element.show();
+		this.currElements_.push(element);
+	}
+
 	addFavorite (favoriteId : number, modifyCookies = true)
 	{
 		let element = this.getElementById(favoriteId);
@@ -108,6 +114,7 @@ export class ElementsModule
 
 	clearCurrentsElement()
 	{
+		console.log("learCurrElements");
 		let l = this.currElements_.length;
 		while(l--)
 		{
@@ -125,9 +132,11 @@ export class ElementsModule
 		else elements = this.currElements_;
 
 		// in these state,there is no need to update elements to display
-		if (App.state == AppStates.ShowElementAlone && App.mode != AppModes.List) return;
+		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
+					&& App.mode != AppModes.List) 
+				return;
 		
-		//console.log("Update elements", this);
+		//console.log("Update elements 0", this);
 
 		let i : number, element : Element;
 		let bounds;
@@ -186,6 +195,7 @@ export class ElementsModule
 		// 	$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
 		// }
 
+
 		let end = new Date().getTime();
 		let time = end - start;
 		//window.console.log("    analyse elements en " + time + " ms");	
@@ -198,6 +208,7 @@ export class ElementsModule
 				elementsToRemove : elementsToRemove
 			});		
 		}
+
 		
 	};
 
@@ -218,6 +229,7 @@ export class ElementsModule
 
 	clearMarkers()
 	{
+		console.log("clearMarkers");
 		this.hideAllMarkers();
 		this.currElements_ = [];
 	};
