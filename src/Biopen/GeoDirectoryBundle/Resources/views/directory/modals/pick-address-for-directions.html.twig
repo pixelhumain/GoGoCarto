@@ -1,8 +1,10 @@
 <div id="modal-pick-address" class="modal">
   <div class="modal-content">
 
-    <h5 id="modal-title">Calcul d'un itinéraire</h5>
-    <p>Vous devez d'abord saisir une adresse dans le menu pour pouvoir calculer un itinéraire</p>   
+    <h5 id="modal-title">Entrez une adresse de départ</h5>
+    <input type="text" 
+          class="input-share-url"
+          onClick="this.setSelectionRange(0, this.value.length)" />  
   </div>
   <div class="modal-footer">
   	<span  class=" modal-action modal-close waves-effect waves-green btn-flat">OK</span>

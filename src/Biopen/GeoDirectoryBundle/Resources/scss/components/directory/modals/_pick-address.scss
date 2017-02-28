@@ -1,0 +1,28 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-02-28 13:45:26
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-02-28 13:47:58
+*/
+
+#modal-pick-address.modal
+{
+	z-index: 2000;
+	max-width: 1200px;
+	top: 30% !important;
+	position: absolute !important;
+
+	.modal-content
+	{
+		padding-bottom: 0 !important;
+	}
+
+  .modal-footer
+  {
+    @extend .bgdSoftColorAs;
+    .modal-action
+    {
+      color: white !important;
+    }
+  }
+}
