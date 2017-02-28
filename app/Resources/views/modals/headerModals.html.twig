@@ -1,0 +1,19 @@
+<!-- Pop up page A propos-->
+
+{% for about in listAbouts %}
+
+<div id="popup-{{about.id}}"  class="modal">
+    <div class="modal-content">
+        <h3 id="modal-title">{{ about.name }}</h3>
+	    <p>{{ about.content }}</p>  
+		
+		<button type="button"
+				onclick="$('#popup-{{about.id}}').closeModal()"  
+				class="btn waves-effect waves-light">
+			Compris!
+		</button>
+
+    </div>
+</div>
+
+{% endfor %}
