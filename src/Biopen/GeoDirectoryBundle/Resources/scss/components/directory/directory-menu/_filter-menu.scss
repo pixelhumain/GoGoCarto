@@ -1,38 +1,29 @@
-@import '../commons/search-bar';
-
-#directory-menu
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-02-28 13:25:52
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-02-28 14:33:00
+*/
+#directory-menu 
 {
-	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
+	.filter-menu { height: 100%; }
 
-	z-index: 20;
-	overflow-y:hidden; 
-
-	@media #{$medium-and-up} 
+	.main-categories
 	{
-		overflow-y: hidden;
+		width: 3rem;
+    height: 100%;
+    background-color: #272626;
 	}
 
-	#directory-menu-main-container
+	.sub-categories
 	{
-		//overflow-y: scroll;
-  	@include calc(height, '100% - 2.5rem');
-
-  	@media #{$medium-and-up} 
-  	{
-  		height: auto;
-  		//overflow-y: hidden;
-  	}
-
-  	.directory-menu-content
-  	{
-  		overflow-y: auto;
-	    position: absolute;
-	    top: 6rem;
-	    bottom: 0;
-	    width: 100%;
-	    @extend .custom-scroll-bar;
-  	}
-  	
+		left: 3rem;
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+		@extend .custom-scroll-bar;
 	}
 
 	ul
@@ -191,7 +182,7 @@
 	    position: absolute;
 	    right: -10px;
 	    top: -10px;
-	}	    
+		}	    
 	}
 
 	.productItem, .productTitle
@@ -276,65 +267,5 @@
 		background-color: $secondary-color ;
 		color:white;
 		cursor: pointer;
-	}
-}
-
-#search-bar
-{
-    margin: 0;
-    text-align: left;
-    padding-left: 2.2rem;
-    height: 2.4rem;
-    width: 100%;
-    border-color: #777;
-    @include box-sizing(border-box);
-
-    &:focus
-    {
-    	border-color: $secondary-color;
-    }
-}
-
-#search-bar-icon
-{
-    color: #777;
-    height: 2.4rem;
-    line-height: 2.4rem;
-    &:before
-    {
-    	line-height: 2.4rem;
-    }
-} 
-
-#search-bar-container
-{
-	padding: .5rem;
-	text-align: center;
-	margin: 0;
-	background-color: #FFFFFF;
-	padding-bottom: 0;
-}
-
-#search-distance-component
-{
-	margin: 0rem .8rem 0 .8rem;
-
-	#search-distance-container
-	{
-	    display: inline-block;
-    	width: calc(100% - 55px);
-
-		#search-distance-input
-		{
-			border: none;
-		}
-	}
-
-	#search-distance-value-container
-	{
-		float: right;
-    	line-height: 2.3rem;
-    	width: 55px;
-    	text-align: right;
 	}
 }

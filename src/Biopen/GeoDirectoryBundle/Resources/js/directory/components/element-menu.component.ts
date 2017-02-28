@@ -92,9 +92,19 @@ export function createListenersForElementMenu(object)
 
 	object.find('.item-directions').click(function() 
 	{
+		let element = App.elementModule.getElementById(getCurrentElementIdShown());
+
 		if (App.state !== AppStates.Constellation && !App.geocoder.getLocation())
 		{
-			$('#modal-pick-address').openModal();
+			let modal = $('#modal-pick-address');
+			modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
+			
+			modal.openModal({
+	      dismissible: true, 
+	      opacity: 0.5, 
+	      in_duration: 300, 
+	      out_duration: 200
+   		});
 		}
 		else App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 	});

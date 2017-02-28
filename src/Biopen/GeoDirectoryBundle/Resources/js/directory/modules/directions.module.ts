@@ -1,5 +1,6 @@
 declare let google;
-import { AppModule } from "../app.module";
+import { AppModule, AppStates } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
 declare let $, L: any;
 
@@ -23,8 +24,11 @@ export class DirectionsModule
 
 	clear()
 	{
+		if (!this.routingControl) return;
+
 		this.clearRoute();
-		this.clearDirectionMarker();
+		//this.clearDirectionMarker();
+		this.hideItineraryPanel();
 	};
 
 	clearRoute()
@@ -36,13 +40,13 @@ export class DirectionsModule
 		}
 	};
 
-	calculateRoute(origin : L.LatLng, destination : L.LatLng) 
+	calculateRoute(origin : L.LatLng, element : Element) 
 	{
 		this.clear();
 
 		let waypoints = [
 		    origin,
-		    destination
+		    element.position,
 		];
 
 		this.routingControl = L.Routing.control({
@@ -64,17 +68,36 @@ export class DirectionsModule
 					{color: '#00b3fd', opacity: 0.5, weight: 2}
 				]
 			}
-		}).setPosition('bottomleft').addTo(App.map());			
+		}).setPosition('bottomleft').addTo(App.map());	
+
+		this.routingControl.on('routesfound', (ev) => 
+		{
+			this.showItineraryPanel(element);
+		});
+			
 	};
 
 	hideItineraryPanel()
 	{
 		this.routingControl.hide();
+		//$('.leaflet-routing-container').prependTo('.directory-menu-content');
+		$('#directory-menu-main-container').removeClass();
+		$('.directory-menu-header').removeClass().addClass('directory-menu-header');
+		$('#search-bar').removeClass();
 	}
 
-	showItineraryPanel()
+	showItineraryPanel(element : Element)
 	{
-		this.routingControl.show();
+		//this.routingControl.show();
+		$('.leaflet-routing-container').prependTo('.directory-menu-content');
+		$('#directory-menu-main-container').removeClass().addClass("directions");	
+		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
+		$('#search-bar').removeClass().addClass(element.type);
+
+		$('#btn-close-directions').click( () => 
+		{
+			App.setState(AppStates.Normal);
+		})
 	}
 
 	clearDirectionMarker()

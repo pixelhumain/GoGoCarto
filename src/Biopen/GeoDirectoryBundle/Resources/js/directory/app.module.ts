@@ -329,7 +329,7 @@ export class AppModule
 				// local function
 				let calculateRoute = function (origin : L.LatLng, element : Element)
 				{
-					App.directionsModule.calculateRoute(origin, element.position); 
+					App.directionsModule.calculateRoute(origin, element); 
 					App.DEAModule.begin(element.id, false);		
 				};
 				
