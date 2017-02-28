@@ -2,8 +2,9 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 10:25:51
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-02-28 13:36:15
+* @Last Modified time: 2017-02-28 22:26:22
 */
+
 .leaflet-routing-container, .leaflet-routing-error {
         /* width: 320px; */
     position: absolute;
@@ -27,27 +28,56 @@
 }
 
 .leaflet-routing-container h2 {
-        font-size: 1rem;
+    font-size: 1.2rem;
     text-align: center;
-    text-transform: uppercase;
+    //text-transform: uppercase;
     margin: .5rem;
     margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+
+    .distance
+    {
+        font-weight: normal;
+        color: #5d5d5d;
+        margin-left: 5px;
+    }
 }
 
 .leaflet-routing-container h3 {
-    font-size: 1rem;
+    font-size: .9rem;
     font-weight: normal;
     text-align: center;
-    text-decoration: underline;
+    //text-decoration: underline;
     margin: .5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 2px solid #888888;
+    border-bottom: 1px solid #888888;
 }
 
 .leaflet-routing-collapsible .leaflet-routing-geocoders {
     margin-top: 20px;
 }
 
+.td-leaflet-routing-icon
+{
+    padding-left: 15px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.td-leaflet-routing-text
+{
+    font-size: .9rem;
+    vertical-align: top;
+}
+
+.td-leaflet-routing-distance
+{
+    font-size: .8rem;
+    color: #777;
+    font-weight: 300;
+    vertical-align: top;
+}
 .leaflet-routing-alt, .leaflet-routing-geocoders, .leaflet-routing-error {
     height: 100%;
     padding: 0;
@@ -234,6 +264,7 @@
 }
 
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn {
+    display:none;
     position: relative;
     left: 4px;
     top: 4px;
@@ -243,9 +274,9 @@
     background-image: url('routing-icon.png');
 }
 
-.leaflet-routing-container-hide .leaflet-routing-collapse-btn:after {
-    content: none;
-}
+// .leaflet-routing-container-hide .leaflet-routing-collapse-btn:after {
+//     content: none;
+// }
 
 .leaflet-top .leaflet-routing-container.leaflet-routing-container-hide {
     margin-top: 10px !important;

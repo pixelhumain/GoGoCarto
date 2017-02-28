@@ -62,7 +62,7 @@ export class DirectionsModule
 					routeWhileDragging: false
 				}
 			),
-			langage: 'fr',
+			language: 'fr',
 			routeWhileDragging: false,
 			showAlternatives: false,
 			altLineOptions: {
