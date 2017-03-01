@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-02-28 14:33:00
+* @Last Modified time: 2017-03-01 09:36:04
 */
 #directory-menu 
 {
@@ -11,7 +11,8 @@
 	.main-categories
 	{
 		width: 3rem;
-    height: 100%;
+
+    height: calc(100% - 3rem);
     background-color: #272626;
 	}
 
