@@ -14,6 +14,14 @@ biopen_directory_showElement:
     requirements:
         id: \d+
 
+biopen_directory_showDirections:
+    path:     /itineraire/{name}/{id}/{addressAndViewport}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:showDirections, addressAndViewport:''}
+    options:
+        expose: true
+    requirements:
+        id: \d+
+
 biopen_directory_constellation:
     path:     /{mode}/constellation/{address}/{range}
     defaults: { _controller: BiopenGeoDirectoryBundle:Directory:constellation, address: '', range:'50' }
