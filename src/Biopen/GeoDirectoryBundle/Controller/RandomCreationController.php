@@ -17,10 +17,10 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\ElementProduct;
+use Biopen\GeoDirectoryBundle\Document\Product;
 
 use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
@@ -30,23 +30,27 @@ class RandomCreationController extends Controller
 {    
     public function generateAction($nombre)
     {
-	    $manager = $this->getDoctrine()->getManager();
+	    $manager = $this->get('doctrine_mongodb')->getManager();
 
 	    $SOlat = 43.55;
 	    $SOlng = -0.94;
 	    $NElat = 49.22;
 	    $NElng = 5.89;
 
-	    // $SOlat = 42.81519924863995;
-	    // $SOlng = -1.0489655173828396;
-	    // $NElat = 44.9916584842516;
-	    // $NElng = 2.9116057716796604;
+	 //    // $SOlat = 42.81519924863995;
+	 //    // $SOlng = -1.0489655173828396;
+	 //    // $NElat = 44.9916584842516;
+	 //    // $NElng = 2.9116057716796604;
 
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $listProducts = $manager->getRepository('BiopenGeoDirectoryBundle:Product')
+		// $dm = $this->get('doctrine_mongodb')->getRepository('Acme2StoreBundle:Product');
+
+	    $listProducts2 = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
 	            ->findAll();
+	    $listProducts=[];
+
 
 	    $lipsum = new LoremIpsum();
 

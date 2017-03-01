@@ -80,11 +80,11 @@ class ElementProduct
     /**
      * Set element
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\Element $element
+     * @param \Biopen\GeoDirectoryBundle\Document\Element $element
      *
      * @return ElementProduct
      */
-    public function setElement(\Biopen\GeoDirectoryBundle\Entity\Element $element)
+    public function setElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
     {
         $this->element = $element;
 
@@ -94,7 +94,7 @@ class ElementProduct
     /**
      * Get element
      *
-     * @return \Biopen\GeoDirectoryBundle\Entity\Element
+     * @return \Biopen\GeoDirectoryBundle\Document\Element
      */
     public function getElement()
     {
@@ -104,11 +104,11 @@ class ElementProduct
     /**
      * Set product
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\Product $product
+     * @param \Biopen\GeoDirectoryBundle\Document\Product $product
      *
      * @return ElementProduct
      */
-    public function setProduct(\Biopen\GeoDirectoryBundle\Entity\Product $product)
+    public function setProduct(\Biopen\GeoDirectoryBundle\Document\Product $product)
     {
         $this->product = $product;
 
@@ -118,7 +118,7 @@ class ElementProduct
     /**
      * Get product
      *
-     * @return \Biopen\GeoDirectoryBundle\Entity\Product
+     * @return \Biopen\GeoDirectoryBundle\Document\Product
      */
     public function getProduct()
     {

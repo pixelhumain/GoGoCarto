@@ -551,11 +551,11 @@ class Element
     /**
      * Add product
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
+     * @param \Biopen\GeoDirectoryBundle\Document\ElementProduct $product
      *
      * @return Element
      */
-    public function addProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
+    public function addProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
     {
         $this->products[] = $product;
 
@@ -565,9 +565,9 @@ class Element
     /**
      * Remove product
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
+     * @param \Biopen\GeoDirectoryBundle\Document\ElementProduct $product
      */
-    public function removeProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
+    public function removeProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
     {
         $this->products->removeElement($product);
     }
