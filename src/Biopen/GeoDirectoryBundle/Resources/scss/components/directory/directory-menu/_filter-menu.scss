@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-01 09:36:04
+* @Last Modified time: 2017-03-01 12:10:26
 */
 #directory-menu 
 {
@@ -10,15 +10,39 @@
 
 	.main-categories
 	{
-		width: 3rem;
+		width: 3.5rem;
 
     height: calc(100% - 3rem);
     background-color: #272626;
+
+    .icon
+    {
+	    width: 3.5rem;
+    	height: 3.5rem;
+    	line-height: 3.5rem;
+	    margin: 0;
+	    text-align: center;
+	    color: $grey-light;
+	    border-bottom: 1px solid #616161;
+
+	    &:hover
+	    {
+	    	color:white;
+	    	cursor: pointer;
+	    	background-color: #4a4a4a;
+	    }
+
+	    &.active
+	    {
+	    	background-color: #dedede;
+    		color: black;
+	    }
+    }
 	}
 
 	.sub-categories
 	{
-		left: 3rem;
+		left: 3.5rem;
     position: absolute;
     top: 3rem;
     right: 0;
