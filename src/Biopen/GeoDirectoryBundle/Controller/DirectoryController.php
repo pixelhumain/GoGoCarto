@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-01 08:32:05
  */
  
 
@@ -53,6 +53,19 @@ class DirectoryController extends Controller
         $config['viewport'] = $viewport;
         $config['mode'] = 'Map';
         $config['state'] = 'ShowElementAlone';
+        $config['id'] = $id;
+
+        return $this->renderDirectory($config);  
+    }   
+
+    public function showDirectionsAction($name, $id, $addressAndViewport)
+    {
+        list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
+
+        $config['address'] = $address;
+        $config['viewport'] = $viewport;
+        $config['mode'] = 'Map';
+        $config['state'] = 'ShowDirections';
         $config['id'] = $id;
 
         return $this->renderDirectory($config);  
