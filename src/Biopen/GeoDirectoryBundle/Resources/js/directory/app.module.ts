@@ -593,7 +593,7 @@ export class AppModule
 
 	private updateDocumentTitle_(options : any = {})
 	{
-		console.log("updateDocumentTitle", options);
+		//console.log("updateDocumentTitle", options);
 
 		let title : string;
 		let elementName : string;
@@ -605,7 +605,7 @@ export class AppModule
 
 		if (this.mode_ == AppModes.List)
 		{		
-			title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
+			title = 'Liste des acteurs ' + this.getLocationAddressForTitle();		
 		}
 		else
 		{
@@ -624,13 +624,22 @@ export class AppModule
 					break;
 
 				case AppStates.Normal:			
-					title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
+					title = 'Carte des acteurs ' + this.getLocationAddressForTitle();			
 					break;
 			}
 		}
 
 		document.title = title;	
 	};
+
+	private getLocationAddressForTitle()
+	{
+		if (this.geocoder.getLocationAddress())
+		{
+			return "- " + this.geocoder.getLocationAddress();
+		}
+		return "- France";
+	}
 
 
 	// Getters shortcuts
