@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 10:25:51
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-02-28 22:26:22
+* @Last Modified time: 2017-03-01 09:30:25
 */
 
 .leaflet-routing-container, .leaflet-routing-error {
@@ -99,6 +99,7 @@
 }
 
 .leaflet-routing-alt-minimized {
+    display: none;
     color: #888;
     max-height: 64px;
     overflow: hidden;
@@ -251,6 +252,7 @@
 }
 
 .leaflet-routing-collapse-btn {
+    display:none;
     position: absolute;
     top: 0;
     right: 6px;
@@ -259,9 +261,9 @@
     font-weight: bold;
 }
 
-.leaflet-routing-collapse-btn:after {
-    content: '\00d7';
-}
+// .leaflet-routing-collapse-btn:after {
+//     content: '\00d7';
+// }
 
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn {
     display:none;
