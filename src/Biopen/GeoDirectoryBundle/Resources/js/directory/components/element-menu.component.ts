@@ -27,7 +27,8 @@ export function initializeElementMenu()
 
 	$('#popup-delete-element #select-reason').material_select();
 
-	$('#btn-calculate-directions').click(() => 
+	// button to confirm calculate idrections in modal pick address for directions
+	$('#modal-pick-address #btn-calculate-directions').click(() => 
 	{
 		let address = $('#modal-pick-address input').val();
 		

@@ -39,8 +39,8 @@ export class DirectionsModule
 	{
 		if (this.routingControl) 
 		{
-			this.routingControl.spliceWaypoints(0,2);
-			App.map().removeControl(this.routingControl);
+			this.routingControl.spliceWaypoints(0,2);		
+			App.map().removeControl(this.routingControl);	
 		}
 	};
 
@@ -53,13 +53,16 @@ export class DirectionsModule
 		    element.position,
 		];
 
+		//console.log("calculate route", waypoints);
+
 		this.routingControl = L.Routing.control({
 			plan: L.Routing.plan(
 				waypoints, 
 				{
 					// deleteing start and end markers
 					createMarker: function(i, wp) { return null; },
-					routeWhileDragging: false
+					routeWhileDragging: false,
+					showAlternatives: false
 				}
 			),
 			language: 'fr',
@@ -72,7 +75,7 @@ export class DirectionsModule
 					{color: '#00b3fd', opacity: 0.5, weight: 2}
 				]
 			}
-		}).setPosition('bottomleft').addTo(App.map());	
+		}).addTo(App.map());	
 
 		this.routingControl.on('routesfound', (ev) => 
 		{
@@ -85,30 +88,41 @@ export class DirectionsModule
 	    var r = e.route;
 	    var line = L.Routing.line(r);
 	    var bounds = line.getBounds();
-	    console.log("route selected", bounds);
 	    App.map().fitBounds(bounds);
+		});
+
+		this.routingControl.on('routingerror', (ev) => 
+		{
+			$('#modal-directions-fail').openModal();
 		});
 			
 	};
 
 	hideItineraryPanel()
 	{
-		this.routingControl.hide();
+		//this.routingControl.hide();
+		//App.map().removeControl(this.routingControl);
+
+		//$('.leaflet-routing-container').hide();
 		//$('.leaflet-routing-container').prependTo('.directory-menu-content');
 		$('#directory-menu-main-container').removeClass();
 		$('.directory-menu-header').removeClass().addClass('directory-menu-header');
-		$('#search-bar').removeClass();
-
-		
+		$('#search-bar').removeClass();		
 	}
 
 	showItineraryPanel(element : Element)
 	{
 		//this.routingControl.show();
+		//App.map().addControl(this.routingControl);	
+
+		//$('.leaflet-routing-container').show();
+
 		$('.leaflet-routing-container').prependTo('.directory-menu-content');
 		$('#directory-menu-main-container').removeClass().addClass("directions");	
 		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
-		$('#search-bar').removeClass().addClass(element.type);		
+		$('#search-bar').removeClass().addClass(element.type);	
+
+		
 	}
 
 	clearDirectionMarker()

@@ -200,7 +200,7 @@ export class AppModule
 		}		
 	};	
 
-	setMode($mode : AppModes, $backFromHistory : boolean = false)
+	setMode($mode : AppModes, $backFromHistory : boolean = false, $updateTitleAndState = true)
 	{
 		if ($mode != this.mode_)
 		{			
@@ -226,15 +226,20 @@ export class AppModule
 			// if previous mode wasn't null 
 			let oldMode = this.mode_;
 			this.mode_ = $mode;
-			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
-			this.updateDocumentTitle_();
+			// update history if we need to
+			if (oldMode != null && !$backFromHistory && $mode == AppModes.List) this.historyModule.pushNewState();
 
 			this.elementModule.clearCurrentsElement();
 			this.elementModule.updateElementToDisplay(true, true);
 
-			// after clearing, we set the current state again
-			if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});			
+			if ($updateTitleAndState)
+			{
+				this.updateDocumentTitle_();			
+
+				// after clearing, we set the current state again
+				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
+			}		
 			
 		}
 	}
@@ -250,8 +255,14 @@ export class AppModule
 		let oldStateName = this.state_;
 		this.state_ = $newState;			
 
-		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
+		if (oldStateName == AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
+
+		if (oldStateName == AppStates.ShowElementAlone)	
+		{
+			this.elementModule.clearCurrentsElement();
+			this.displayElementAloneModule_.end();	
+		}	
 
 		this.stateElementId = options ? options.id : null;
 		
@@ -263,13 +274,7 @@ export class AppModule
 				// 	clearDirectoryMenu();
 				// 	this.starRepresentationChoiceModule_.end();
 				// }	
-				if ($backFromHistory) this.infoBarComponent.hide();
-
-				if (oldStateName == AppStates.ShowElementAlone)	
-				{
-					this.elementModule.clearCurrentsElement();
-					this.displayElementAloneModule_.end();	
-				}	
+				if ($backFromHistory) this.infoBarComponent.hide();			
 							
 				break;
 
@@ -332,21 +337,55 @@ export class AppModule
 					App.directionsModule.calculateRoute(origin, element); 
 					App.DEAModule.begin(element.id, false);		
 				};
-				
-				if (this.mode == AppModes.List)
-				{
-					this.mapComponent.onMapReady.do(() => 
-					{
-						calculateRoute(origin, element);
-						this.mapComponent.onMapReady.off(() => { calculateRoute(origin, element); });
-					});
 
-					this.setMode(AppModes.Map);
-				} 
+				// if no element, we get it from ajax 
+				if (!element)
+				{
+					this.ajaxModule_.getElementById(options.id, (elementJson) => 
+					{
+						this.elementModule.addJsonElements([elementJson], true);
+						element = this.elementById(elementJson.id);
+						
+						origin = this.geocoder.getLocation();
+						// we geolocalized origin in loadHistory function
+						// maybe the geocoding is not already done so we wait a little bit for it
+						if (!origin)
+						{
+							setTimeout(() => {
+								origin = this.geocoder.getLocation();
+								if (!origin)
+									setTimeout(() => {
+										origin = this.geocoder.getLocation();
+										calculateRoute(origin, element);		
+									}, 1000);
+								else
+									calculateRoute(origin, element);		
+							}, 500);
+						}
+						else
+							calculateRoute(origin, element);		
+											
+					},
+					(error) => { /*TODO*/ alert("No element with this id"); }
+					);										
+				}	
 				else
 				{
-					calculateRoute(origin, element);
-				}	
+					if (this.mode == AppModes.List)
+					{
+						this.mapComponent.onMapReady.do(() => 
+						{
+							calculateRoute(origin, element);
+							this.mapComponent.onMapReady.off(() => { calculateRoute(origin, element); });
+						});
+
+						this.setMode(AppModes.Map, false, false);
+					} 
+					else
+					{
+						calculateRoute(origin, element);
+					}	
+				}					
 
 				break;			
 		}
@@ -450,7 +489,13 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		this.infoBarComponent.hide(); 		
+
+		//console.log("handle Map Click", AppStates[this.state]);
+		
+		if (this.state == AppStates.ShowElement)
+			this.infoBarComponent.hide(); 		
+		else if (this.state == AppStates.ShowDirections)
+			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				
 	};
     
 
@@ -514,8 +559,10 @@ export class AppModule
 
 	handleInfoBarHide()
 	{
-		if (this.state != AppStates.StarRepresentationChoice 
-			&& this.mode_ != AppModes.List) this.setState(AppStates.Normal);
+		if (this.state != AppStates.StarRepresentationChoice && this.mode_ != AppModes.List) 
+		{
+			this.setState(AppStates.Normal);
+		}
 	};
 
 	handleInfoBarShow(elementId)
