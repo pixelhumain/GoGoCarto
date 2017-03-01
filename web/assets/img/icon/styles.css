@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family: "untitled-font-1";
-  src:url("fonts/untitled-font-1.eot");
-  src:url("fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"),
-    url("fonts/untitled-font-1.woff") format("woff"),
-    url("fonts/untitled-font-1.ttf") format("truetype"),
-    url("fonts/untitled-font-1.svg#untitled-font-1") format("svg");
+  font-family: "carto";
+  src:url("fonts/carto.eot");
+  src:url("fonts/carto.eot?#iefix") format("embedded-opentype"),
+    url("fonts/carto.woff") format("woff"),
+    url("fonts/carto.ttf") format("truetype"),
+    url("fonts/carto.svg#carto") format("svg");
   font-weight: normal;
   font-style: normal;
 
 }
 
 [data-icon]:before {
-  font-family: "untitled-font-1" !important;
+  font-family: "carto" !important;
   content: attr(data-icon);
   font-style: normal !important;
   font-weight: normal !important;
@@ -27,7 +27,7 @@
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-  font-family: "untitled-font-1" !important;
+  font-family: "carto" !important;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -109,9 +109,6 @@
 }
 .icon-marker:before {
   content: "\41";
-}
-.icon-map-1:before {
-  content: "\44";
 }
 .icon-close:before {
   content: "\45";
@@ -247,4 +244,106 @@
 }
 .icon-epicerie:before {
   content: "\2a";
+}
+.icon-bike:before {
+  content: "\62";
+}
+.icon-boat:before {
+  content: "\43";
+}
+.icon-car:before {
+  content: "\44";
+}
+.icon-coffee-1:before {
+  content: "\2b";
+}
+.icon-glass:before {
+  content: "\2c";
+}
+.icon-flower:before {
+  content: "\2d";
+}
+.icon-restaurant:before {
+  content: "\2e";
+}
+.icon-truck:before {
+  content: "\2f";
+}
+.icon-building:before {
+  content: "\3a";
+}
+.icon-earth:before {
+  content: "\3b";
+}
+.icon-education:before {
+  content: "\3c";
+}
+.icon-people:before {
+  content: "\3d";
+}
+.icon-bed:before {
+  content: "\3e";
+}
+.icon-cocktail:before {
+  content: "\3f";
+}
+.icon-coffee:before {
+  content: "\40";
+}
+.icon-education-1:before {
+  content: "\5b";
+}
+.icon-flask:before {
+  content: "\5d";
+}
+.icon-headphones:before {
+  content: "\5e";
+}
+.icon-home:before {
+  content: "\5f";
+}
+.icon-music:before {
+  content: "\60";
+}
+.icon-paint-brush:before {
+  content: "\7b";
+}
+.icon-paw:before {
+  content: "\7c";
+}
+.icon-university:before {
+  content: "\7d";
+}
+.icon-users:before {
+  content: "\7e";
+}
+.icon-leaf:before {
+  content: "\5c";
+}
+.icon-scissors:before {
+  content: "\e000";
+}
+.icon-women:before {
+  content: "\e001";
+}
+.icon-003-flower:before {
+  content: "\e002";
+}
+.icon-clothe-1:before {
+  content: "\e003";
+}
+.icon-clothe:before {
+  content: "\e004";
+}
+.icon-hairdryer:before {
+  content: "\e005";
+}
+.icon-scissors-1:before {
+  content: "\e006";
+}
+.icon-hairdryer-1:before {
+  content: "\e007";
+}
+.icon-leaf-1:before {
+  content: "\e008";
 }
