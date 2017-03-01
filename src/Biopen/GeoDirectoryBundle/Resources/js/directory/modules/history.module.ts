@@ -81,7 +81,8 @@ export class HistoryModule
 		historyState.viewport = App.mapComponent.viewport;
 		historyState.id = App.infoBarComponent.getCurrElementId() || $options.id;
 
-		//console.log("updateHistory", historyState);
+		//if ($pushState) console.log("NEW STATE", historyState);
+		//else console.log("update State", historyState);
 
 		let route = this.generateRoute(historyState);
 
@@ -138,14 +139,21 @@ export class HistoryModule
 					if (addressAndViewport) route += '/' + addressAndViewport;
 					break;
 
-
 				case AppStates.ShowElement:	
 				case AppStates.ShowElementAlone:
 				case AppStates.ShowDirections:
 					if (!historyState.id) return;
 					let element = App.elementById(historyState.id);
-					if (!element) return;			
-					route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
+					if (!element) return;		
+
+					if (App.state == AppStates.ShowDirections)
+					{
+						route = Routing.generate('biopen_directory_showDirections', { name :  capitalize(slugify(element.name)), id : element.id });	
+					}	
+					else
+					{
+						route = Routing.generate('biopen_directory_showElement', { name :  capitalize(slugify(element.name)), id : element.id });	
+					}
 					// forjsrouting doesn't support speacial characts like in viewport
 					// so we add them manually
 					if (addressAndViewport) route += '/' + addressAndViewport;										

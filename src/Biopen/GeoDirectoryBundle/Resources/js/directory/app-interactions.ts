@@ -33,7 +33,7 @@ export function initializeAppInteractions()
 
 	$('#btn-close-directions').click( () => 
 	{
-		App.setState(AppStates.Normal);
+		App.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });
 	});
 
 	let res;
@@ -67,8 +67,11 @@ export function initializeAppInteractions()
 	$('#menu-title > .icon-close').click(hideDirectoryMenu);
 
 	$('#directory-content-map .show-as-list-button').click((e : Event) => {		
+		App.setTimeoutClicking();
 		App.setMode(AppModes.List);
+
 		e.preventDefault();
+		e.stopPropagation();
 	});
 
 	$('#directory-content-list .show-as-map-button').click(() => {		

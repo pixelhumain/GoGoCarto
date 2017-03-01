@@ -114,7 +114,7 @@ export class ElementsModule
 
 	clearCurrentsElement()
 	{
-		console.log("learCurrElements");
+		//console.log("clearCurrElements");
 		let l = this.currElements_.length;
 		while(l--)
 		{
