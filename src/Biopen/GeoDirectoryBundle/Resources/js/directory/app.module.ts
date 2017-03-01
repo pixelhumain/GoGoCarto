@@ -157,7 +157,7 @@ export class AppModule
 			}	
 		}	
 
-		this.setMode(historystate.mode, $backFromHistory);
+		this.setMode(historystate.mode, $backFromHistory, false);
 
 		// if address is provided we geolocalize
 		if (historystate.address || !historystate.viewport)
@@ -249,7 +249,7 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
 		let element;
 
 		let oldStateName = this.state_;
@@ -345,7 +345,7 @@ export class AppModule
 					{
 						this.elementModule.addJsonElements([elementJson], true);
 						element = this.elementById(elementJson.id);
-						
+						this.updateDocumentTitle_(options);
 						origin = this.geocoder.getLocation();
 						// we geolocalized origin in loadHistory function
 						// maybe the geocoding is not already done so we wait a little bit for it
@@ -593,6 +593,8 @@ export class AppModule
 
 	private updateDocumentTitle_(options : any = {})
 	{
+		console.log("updateDocumentTitle", options);
+
 		let title : string;
 		let elementName : string;
 		if (options && options.id) 
