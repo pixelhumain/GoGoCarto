@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-01 12:10:26
+* @Last Modified time: 2017-03-01 21:47:12
 */
 #directory-menu 
 {
@@ -12,7 +12,7 @@
 	{
 		width: 3.5rem;
 
-    height: calc(100% - 3rem);
+    height: 100%;
     background-color: #272626;
 
     .icon
@@ -21,21 +21,31 @@
     	height: 3.5rem;
     	line-height: 3.5rem;
 	    margin: 0;
+	    padding-right: 8px;
 	    text-align: center;
-	    color: $grey-light;
-	    border-bottom: 1px solid #616161;
+	    color: #505050;
+	    //border-bottom: 1px solid #616161;
 
 	    &:hover
 	    {
-	    	color:white;
+	    	// color:white;
 	    	cursor: pointer;
-	    	background-color: #4a4a4a;
+	    	// background-color: #4a4a4a;
+	    	background-color: #404040;
+		    color: #bfbfbf;
+		    padding-right: 8px;
+		    border-radius: 0 50% 50% 0;
 	    }
 
 	    &.active
 	    {
-	    	background-color: #dedede;
-    		color: black;
+	    	// background-color: #dedede;
+    		// color: black;
+
+    		background-color: #676565;
+		    color: white;
+		    padding-right: 8px;
+		    border-radius: 0 50% 50% 0;
 	    }
     }
 	}
@@ -43,83 +53,91 @@
 	.sub-categories
 	{
 		left: 3.5rem;
+		padding-left: 7px;
+    padding-right: 4px;
     position: absolute;
-    top: 3rem;
+    background-color: #eeeeee;
+    top: 0;
     right: 0;
     bottom: 0;
-    overflow-y: auto;
-		@extend .custom-scroll-bar;
-	}
+    
 
-	ul
-	{
-		margin: 0;
-		border: 0;
-		box-shadow: none;		
-	}
+		.sub-categorie-main-title
+		{
+			height: 3rem;
+			line-height: 3rem;
+			font-weight:bold;
+			text-align:center;			
+			color: $grey-dark;
+		}
+
+		.sub-categories-content
+		{
+			//position: absolute;
+			//width: 100%;
+			height: calc(100% - 3rem);
+			//top: 2.7rem;
+			//bottom: 0;
+			@include border-radius(5px);
+			padding-right: 5px;
+			padding-top:5px;
+			background-color: white;
+
+			ul
+			{
+				height: 100%;
+				margin: 0;
+				border: 0;
+				box-shadow: none;		
+
+				overflow-y: auto;
+				@extend .custom-scroll-bar-light;
+			}
+		}
+	}	
 
 	.directory-menuTitle
 	{
 		//text-align: center;
 		position: relative;
-	    line-height: 3rem;
-	    padding-left: 1rem;
-	    font-weight: 400;
-	    background-color: $submenu-color;
-	    color: white;
-	}
+    line-height: 3rem;
+    padding-top: .5rem;
+    padding-left: .8rem;
+    font-weight: bold;
+    font-size: .95rem;
+    //background-color: $submenu-color;
+    //color: white;
+    text-transform: uppercase;
 
-	#menu-title 
-	{
-		background-color: $primary-color;
-    line-height: 2.5rem;
-    padding-right: 1.5rem;
-    font-weight: 500;
-    text-align: center;
 
-    .shadow-bottom
+    border-top: 2px dashed #eeeeee;
+    margin-top: 1rem;
+
+    &.first
     {
-    	top: 2.5rem;
-    	display: none;
-    }	
-
-    > .icon-close
-    {
-    	float: right;
-	    position: absolute;
-	    top: .2rem;
-	    font-weight: 100;
-	    font-size: 1.2rem;
-	    right: 1.3rem;
-
-	    &:hover { cursor: pointer }
+    	margin-top: .6rem;
     }
-
-	    @media #{$medium-and-up} 
-		{
-			display:none;
-		}	
 	}
 
-	.filterCheckbox
+	.title-checkbox
 	{
 		+ label:after
 		{
-			top: 2px !important;
-		    width: 18px;
-		    height: 18px;
-		    color : #656565;
-		    background-color: #656565;
-		    border: 2px solid ;		    
+			top: 10px !important;
+	    width: 17px;
+	    height: 17px;
+	    color : #717171;
+	    background-color: #717171;
+	    border: 2px solid ;		    
 		}
 
 		
 		+ label:before
 		{
-			top: 2px;
-		    left: 1px;
-		    width: 7px;
-		    height: 12px;
+			top: 10px;
+	    left: 1px;
+	    width: 6px;
+	    height: 11px;
 		}
 
 		&:not(:checked) + label:after 
@@ -128,18 +146,60 @@
 		}
 	}
 
+	.filterCheckbox[type="checkbox"] {
+
+  + label:before {
+    width: 13px;
+    height: 13px;
+    left: 3px;
+    top: 3px;
+    z-index: 0;
+    border: 2px solid $radio-empty-color;
+    @include border-radius(50%);
+    margin-top: 2px;
+  }
+
+  &:not(:checked):disabled + label:before {
+  }
+
+}
+
+.filterCheckbox[type="checkbox"]:checked {
+  + label:before {
+    top: 2px;
+	  left: 1px;
+    width: 7px; height: 13px;
+    border-color: $grey-dark;
+    border-top: none;
+    border-left: none;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-radius: 0;
+    @include transform(rotate(40deg));
+    -webkit-backface-visibility: hidden;
+    @include transform-origin(100% 100%);
+  }
+
+  &:disabled + label:before 
+  {
+    border-right: 2px solid $input-disabled-color;
+    border-bottom: 2px solid $input-disabled-color;
+  }
+
+}
+
 	#filter-favorite
 	{
 		.icon-star-full
 		{
 			color: white;
-    		font-size: 18px;
-    		&:before
-    		{
-    			padding: 2px;
-    			padding-bottom: 3px;
-    			border: none;
-    		}
+  		font-size: 18px;
+  		&:before
+  		{
+  			padding: 2px;
+  			padding-bottom: 3px;
+  			border: none;
+  		}
 		}
 
 		&:hover
@@ -154,32 +214,33 @@
 
 		color: $favorite-color;
 
-		.favorite-checkbox:not(:checked) + label:after
+		.favorite-checkbox:not(:checked) + label:before
 		{
 			background-color: transparent;
+			border-color:$favorite-color;
 		}
 
-		.favorite-checkbox + label:after
+		.favorite-checkbox + label:before
 		{
 			color:$favorite-color;
-			border-color:$favorite-color;
-			background-color: $favorite-color;
 		}  
 	}
 
-	.title-checkbox
-	{
-		@extend .filterCheckbox;
+	// .title-checkbox
+	// {
+	// 	@extend .filterCheckbox;
 
-		+ label:after { color : #D2D2D2; background-color: transparent; }
-	}
+	// 	+ label:before { top: 10px; border-color:black;}
+
+	// 	+ label:after { color : #D2D2D2; background-color: transparent; top:10px !important}
+	// }
 
 	.product-checkbox-wrapper
 	{
 		float: right;
-	    position: absolute;
-	    top: .7rem;
-	    right: 0rem;
+    position: absolute;
+    top: .7rem;
+    right: 0rem;
 	}
 
 	.resultNumber
@@ -214,12 +275,17 @@
 	{
 		position: relative;
 		margin-bottom: 0;
-		line-height: 3rem;
+		line-height: 2.8rem;
 		padding: 0;
 		padding-left: .7rem;
-		height: 3rem;
-    	overflow: hidden;
-    	text-overflow: ellipsis;
+		height: 2.8rem;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+
+  	.icon
+  	{
+  		font-size: 1.4rem;
+  	}
 	}
 
 	.productTitle{
