@@ -19,10 +19,10 @@
 }
 
 .custom-scroll-bar-light::-webkit-scrollbar {
-    width: 6px;
+    width: 7px;
 }
 
 .custom-scroll-bar-light::-webkit-scrollbar-thumb {
     @include border-radius(10px);
-    background-color: #a5a5a5;
+    background-color: #c3c3c3;
 } 

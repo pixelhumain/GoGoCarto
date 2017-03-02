@@ -1,0 +1,113 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-02 08:57:20
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-02 09:41:48
+*/
+.subcategorie-option-item
+{
+	position: relative;
+	margin-bottom: 0;
+	line-height: 2.8rem;
+	padding: 0;
+	padding-left: .7rem;
+	height: 2.8rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	
+
+	.icon
+	{
+		font-size: 1.4rem;
+	}	
+
+	.subcategorie-option-checkbox 
+	{
+	  + label:before 
+	  {
+	    width: 13px;
+	    height: 13px;
+	    left: 3px;
+	    top: 3px;
+	    z-index: 0;
+	    border: 2px solid $radio-empty-color;
+	    @include border-radius(50%);
+	    margin-top: 2px;
+	  }
+
+		&:checked 
+		{
+		  + label:before 
+		  {
+		    top: 2px;
+			  left: 1px;
+		    width: 7px; height: 13px;
+		    border-color: $grey-dark;
+		    border-top: none;
+		    border-left: none;
+		    border-right: 2px solid;
+		    border-bottom: 2px solid;
+		    border-radius: 0;
+		    @include transform(rotate(40deg));
+		    -webkit-backface-visibility: hidden;
+		    @include transform-origin(100% 100%);
+		  }
+		}
+
+		+ label:hover
+		{
+			&:before
+			{
+				color: #222;
+				border-color:black;
+			}
+		}
+	}
+
+	.checkbox-wrapper
+	{
+		float: right;
+    position: absolute;
+    top: .6rem;
+    right: 0rem;
+	}
+
+	.btn-show-only
+	{
+		float: right;
+		margin-right: 3.3rem;
+    color: #636363;
+    font-size: 1.3rem;
+
+    &:hover 
+    {
+    	color: black;
+    }
+	}
+
+	&:hover
+	{
+		background-color: $grey-light;
+		cursor: pointer;
+	}	
+
+	&.disabled 
+  {
+  	.icon { color: $option-disabled-color; }
+
+  	color: #828282;
+
+  	.subcategorie-option-checkbox + label:before
+  	{
+  		border-color: $option-disabled-color;
+  	}
+  }
+
+	
+
+}
+
+
+
+	

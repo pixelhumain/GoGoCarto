@@ -56,14 +56,14 @@ export function initializeDirectoryMenu()
 
 	$('#product-checkbox-favorite + label').tooltip();
 
-	$('.filterCheckbox').change(function()
+	$('.subcategorie-option-checkbox').change(function()
 	{		
 		//console.log("filter checkbox change");
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
 		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
-	$('.title-checkbox').change(function()
+	$('.subcategorie-checkbox').change(function()
 	{		
 		let isChecked = $(this).is(':checked');
 		let checkboxClass = $(this).attr('data-type') + '-checkbox';
