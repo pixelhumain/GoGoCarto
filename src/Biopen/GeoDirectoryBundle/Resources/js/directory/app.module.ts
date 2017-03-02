@@ -492,7 +492,7 @@ export class AppModule
 
 		//console.log("handle Map Click", AppStates[this.state]);
 		
-		if (this.state == AppStates.ShowElement)
+		if (this.state == AppStates.ShowElement || this.state == AppStates.ShowElementAlone)
 			this.infoBarComponent.hide(); 		
 		else if (this.state == AppStates.ShowDirections)
 			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				
