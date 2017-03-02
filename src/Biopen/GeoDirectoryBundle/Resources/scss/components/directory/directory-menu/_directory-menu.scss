@@ -1,6 +1,7 @@
 @import '../../commons/search-bar';
 @import 'leaflet-routing-machine';
 @import 'filter-menu/filter-menu';
+@import 'directory-menu-directions';
 
 #directory-menu
 {
@@ -28,93 +29,44 @@
 
     .directory-menu-header
     {      
-      height: 3.5rem;
       position: absolute;
       width: 103%;
       background-color: #676565;
       border-radius: 0 0 5px 5px;
+
+      @include transition(all .5s);
     }
 
     .shadow-bottom { top: 3.5rem; }
 
   	.directions-header { display : none; position: relative }
 
-  	&.directions
-  	{
-			.directory-menu-header
-	  	{
-	  		@extend .bgdSoftColorAs;
-
-        
-
-  			.directions-header 
-  			{ 
-  				display : block; 
-
-  				h3
-  				{
-  					font-size: 1rem;
-            text-align: left;
-            text-transform: uppercase;
-            padding-left: 1rem;
-            color: white;
-            font-weight: 600;
-            line-height: 3rem;
-            margin: 0;
-  				}
-
-          #btn-close-directions
-          {
-            position: absolute;
-            bottom: .3rem;
-            right: 1rem;
-            margin: 0;
-            color: #CECECE;
-
-            &:hover
-            {
-              color: white;
-              cursor: pointer;
-            }
-          }
-  			}
-  		}
-
-  		.directory-menu-content.filter-menu { display : none; }
-
-  		#search-bar
-  		{
-  			@extend .borderSoftColorAs;
-  		}
-  	}  	
-
-  	.directory-menu-content
-  	{  		
-	    position: absolute;
-	    top: 3.5rem;
-	    bottom: 0;
-	    width: 100%;	    
-  	}  	
+    .directory-menu-content
+    {     
+      position: absolute;
+      top: 3.5rem;
+      bottom: 0;
+      width: 100%;      
+    }      		
 	}
 }
 
-
 #search-bar
 {
-    margin: 0;
-    text-align: left;
-    padding-left: 2rem;    
-    height: 2rem;
-    border: none;
-    width: 100%;
-    background-color: white;
-    @include border-radius(5px);
-    @include box-sizing(border-box);
+  margin: 0;
+  text-align: left;
+  padding-left: 2rem;    
+  height: 2rem;
+  border: none;
+  width: 100%;
+  background-color: white;
+  @include border-radius(5px);
+  @include box-sizing(border-box);
 
-    &:focus
-    {
-    	border-color: $secondary-color;
-    }
+  &:focus
+  {
+  	border-color: $secondary-color;
+  }
 }
 
 #search-bar-icon
@@ -131,7 +83,8 @@
 
 #search-bar-container
 {
-	padding: .7rem;
+	height: 3.5rem;
+  padding: .7rem;
 	text-align: center;
 	margin: 0;
 	padding-bottom: 0;

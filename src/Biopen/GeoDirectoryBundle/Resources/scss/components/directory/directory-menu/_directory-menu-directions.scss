@@ -1,0 +1,54 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-02 20:08:08
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-02 20:16:27
+*/
+#directory-menu #directory-menu-main-container.directions
+{
+	.directory-menu-header
+	{
+		@extend .bgdSoftColorAs; 
+
+    width: 100%;   
+    border-radius: 0;  
+
+		.directions-header 
+		{ 
+			display : block; 
+
+			h3
+			{
+				font-size: 1rem;
+        text-align: left;
+        text-transform: uppercase;
+        padding-left: 1rem;
+        color: white;
+        font-weight: 600;
+        line-height: 3rem;
+        margin: 0;
+			}
+
+      #btn-close-directions
+      {
+        position: absolute;
+        bottom: .3rem;
+        right: 1rem;
+        margin: 0;
+        color: #CECECE;
+
+        &:hover
+        {
+          color: white;
+          cursor: pointer;
+        }
+      }
+		}
+	}
+
+	.shadow-bottom { top: 6.5rem; z-index: 4000;}
+
+	.directory-menu-content.filter-menu { display : none; }
+
+	.directory-menu-content { top: 6.5rem; }
+}

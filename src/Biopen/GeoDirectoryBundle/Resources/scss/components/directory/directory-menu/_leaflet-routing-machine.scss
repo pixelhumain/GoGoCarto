@@ -2,13 +2,13 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 10:25:51
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-01 09:30:25
+* @Last Modified time: 2017-03-02 20:15:39
 */
 
 .leaflet-routing-container, .leaflet-routing-error {
         /* width: 320px; */
     position: absolute;
-
+    border-radius: 0;
     box-shadow: none;
     height: 100%;
     background-color: white;
