@@ -345,6 +345,7 @@ export class AppModule
 					{
 						this.elementModule.addJsonElements([elementJson], true);
 						element = this.elementById(elementJson.id);
+						this.updateDocumentTitle_(options);
 						
 						origin = this.geocoder.getLocation();
 						// we geolocalized origin in loadHistory function
