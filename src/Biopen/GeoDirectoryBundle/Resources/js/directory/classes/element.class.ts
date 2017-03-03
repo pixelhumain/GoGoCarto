@@ -30,7 +30,6 @@ export class Element
 	//TODO
 	mainProduct : any;
 	mainProductIsDisabled : boolean;
-	openHours : any;
 	type : any;	
 
 	distance : number;
@@ -46,7 +45,6 @@ export class Element
 	//TODO
 	biopenMarker_ : BiopenMarker = null;
 	htmlRepresentation_ = '';
-	formatedOpenHours_ : any = null;
 
 	productsToDisplay_ : any = {};
 
@@ -59,7 +57,7 @@ export class Element
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
-		this.position = L.latLng(elementJson.latlng.latitude, elementJson.latlng.longitude);
+		this.position = L.latLng(elementJson.latitude, elementJson.longitude);
 		this.address = elementJson.adresse;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
@@ -96,7 +94,6 @@ export class Element
 
 		this.mainProduct = elementJson.main_product;
 		this.mainProductIsDisabled = false;
-		this.openHours = elementJson.openHours;
 		this.type = elementJson.type;	
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
@@ -179,7 +176,6 @@ getHtmlRepresentation()
 	{
 		element : this, 
 		showDistance: App.geocoder.getLocation() ? true : false,
-		openHours : this.getFormatedOpenHourss(), 
 		listingMode: App.mode == AppModes.List, 
 		productsToDisplay: this.getProductsNameToDisplay(), 
 		starNames : starNames 
@@ -254,20 +250,20 @@ pushToProductToDisplay(productName, disabled)
 	this.productsToDisplay_.others.push(new_product);
 };
 
-getFormatedOpenHourss() 
-{		
-	if (this.formatedOpenHours_ === null )
-	{		
-		this.formatedOpenHours_ = {};
-		let new_key;
-		for(let key in this.openHours)
-		{
-			new_key = key.split('_')[1];
-			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
-		}
-	}
-	return this.formatedOpenHours_;
-};
+// getFormatedOpenHourss() 
+// {		
+// 	if (this.formatedOpenHours_ === null )
+// 	{		
+// 		this.formatedOpenHours_ = {};
+// 		let new_key;
+// 		for(let key in this.openHours)
+// 		{
+// 			new_key = key.split('_')[1];
+// 			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
+// 		}
+// 	}
+// 	return this.formatedOpenHours_;
+// };
 
 formateDailyTimeSlot(dailySlot) 
 {		

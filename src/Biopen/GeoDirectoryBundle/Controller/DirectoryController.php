@@ -22,8 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Biopen\GeoDirectoryBundle\Entity\Product;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Product;
+use Biopen\GeoDirectoryBundle\Document\Element;
 
 use Wantlet\ORM\Point;
 
@@ -86,7 +86,7 @@ class DirectoryController extends Controller
 
     private function renderDirectory($config)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->get('doctrine_mongodb')->getManager();
 
         // Get Product List        
         $listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')

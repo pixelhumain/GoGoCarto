@@ -11,11 +11,11 @@
  */
  
 
-namespace Biopen\GeoDirectoryBundle\DataFixtures\ORM;
+namespace Biopen\GeoDirectoryBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\Product;
 
 class LoadProduct implements FixtureInterface
 {
