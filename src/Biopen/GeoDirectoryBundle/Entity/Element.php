@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 17:56:25
+ * @Last Modified time: 2017-03-03 15:35:18
  */
  
 
@@ -49,14 +49,21 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255)
      */
-    private $adresse;
+    private $address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="postal_code", type="string", length=255)
+     */
+    private $postalCode;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=false)
      */
     private $description;
 
@@ -77,21 +84,16 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="webSite", type="string", length=255, nullable=true)
+     * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
     private $webSite;
 
     /**
-    * @ORM\OneToMany(targetEntity="Biopen\GeoDirectoryBundle\Entity\ElementProduct", mappedBy="element", cascade={"persist", "remove"}, orphanRemoval=true)
-    */
-    private $products; 
-
-    /**
-     * @var string
+     * @var \stdClass
      *
-     * @ORM\Column(name="mainProduct", type="text", nullable=false)
+     * @ORM\Column(name="categories", type="object", nullable=false)
      */
-    private $mainProduct;
+    private $categories;
 
     /**
      * @var \stdClass
@@ -103,9 +105,9 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="open_hours_more_infos", type="string", length=255, nullable=true)
      */
-    private $type;
+    private $openHoursMoreInfos;
 
     /**
      * @var string
@@ -576,5 +578,101 @@ class Element
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Element
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set postalCode
+     *
+     * @param string $postalCode
+     *
+     * @return Element
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    /**
+     * Get postalCode
+     *
+     * @return string
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * Set categories
+     *
+     * @param \stdClass $categories
+     *
+     * @return Element
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \stdClass
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set openHoursMoreInfos
+     *
+     * @param string $openHoursMoreInfos
+     *
+     * @return Element
+     */
+    public function setOpenHoursMoreInfos($openHoursMoreInfos)
+    {
+        $this->openHoursMoreInfos = $openHoursMoreInfos;
+
+        return $this;
+    }
+
+    /**
+     * Get openHoursMoreInfos
+     *
+     * @return string
+     */
+    public function getOpenHoursMoreInfos()
+    {
+        return $this->openHoursMoreInfos;
     }
 }
