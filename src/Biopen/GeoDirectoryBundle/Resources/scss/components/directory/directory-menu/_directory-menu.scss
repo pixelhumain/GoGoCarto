@@ -31,7 +31,11 @@
     {      
       position: absolute;
       width: 103%;
-      background-color: #676565;
+      background-color: $primary-color;
+      //yellow #da952a
+      // green #4e9c51
+      // red #d24c51
+      // grey #676565
       border-radius: 0 0 5px 5px;
 
       @include transition(all .5s);
