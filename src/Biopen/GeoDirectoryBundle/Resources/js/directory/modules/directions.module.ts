@@ -94,6 +94,7 @@ export class DirectionsModule
 		this.routingControl.on('routingerror', (ev) => 
 		{
 			$('#modal-directions-fail').openModal();
+			App.map().removeControl(this.routingControl);	
 		});
 			
 	};
