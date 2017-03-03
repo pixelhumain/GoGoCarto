@@ -50,7 +50,15 @@
       position: absolute;
       top: 3.5rem;
       bottom: 0;
-      width: 100%;      
+      width: 100%;  
+
+      #directory-menu-spinner-loader
+      {
+        top: 40%;
+        left: 40%;
+        position: absolute;
+        display: none;
+      }    
     }      		
 	}
 }

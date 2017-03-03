@@ -30,6 +30,9 @@
 
 	 <div class="directory-menu-content">
 
+	 	{% include '@directory/directory/components/spinner-loader.html.twig'  
+              with {'id': 'directory-menu-spinner-loader' }%}
+
 	 	{% include '@directory/directory/components/directory-menu/filters-menu.html.twig'  %} 
 
 	 </div>

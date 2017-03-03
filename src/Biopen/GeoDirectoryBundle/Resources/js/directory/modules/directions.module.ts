@@ -37,6 +37,7 @@ export class DirectionsModule
 
 	clearRoute()
 	{
+		console.log("clearing route");
 		if (this.routingControl) 
 		{
 			this.routingControl.spliceWaypoints(0,2);		
@@ -75,7 +76,11 @@ export class DirectionsModule
 					{color: '#00b3fd', opacity: 0.5, weight: 2}
 				]
 			}
-		}).addTo(App.map());	
+		}).addTo(App.map());
+
+		// show Itinerary panel without itinerary, just to show user
+		// somethingis happenning an display spinner loader
+		this.showItineraryPanel(element);
 
 		this.routingControl.on('routesfound', (ev) => 
 		{
@@ -94,7 +99,7 @@ export class DirectionsModule
 		this.routingControl.on('routingerror', (ev) => 
 		{
 			$('#modal-directions-fail').openModal();
-			App.map().removeControl(this.routingControl);	
+			this.clear();
 		});
 			
 	};
@@ -118,10 +123,14 @@ export class DirectionsModule
 
 		//$('.leaflet-routing-container').show();
 
-		$('.leaflet-routing-container').prependTo('.directory-menu-content');
+		console.log("show itinerary");
+
 		$('#directory-menu-main-container').removeClass().addClass("directions");	
 		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
 		$('#search-bar').removeClass().addClass(element.type);	
+
+		$('.leaflet-routing-container').prependTo('.directory-menu-content');
+			
 
 		
 	}
