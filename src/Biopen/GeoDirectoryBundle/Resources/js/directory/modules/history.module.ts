@@ -9,7 +9,7 @@
  */
 
 import { Event, IEvent } from "../utils/event";
-import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNumber } from "../../commons/commons";
+import { slugify, capitalize } from "../../commons/commons";
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { Element } from "../classes/element.class";
 import { ViewPort } from "../components/map/map.component";
@@ -120,8 +120,6 @@ export class HistoryModule
 		// in List mode we add viewport only when no address provided
 		if (viewport && (App.mode == AppModes.Map || !address)) addressAndViewport += viewport.toString();
 
-		//console.log("generate route", viewport);
-
 		// in list mode we don't care about state
 		if (App.mode == AppModes.List)
 		{
@@ -164,6 +162,12 @@ export class HistoryModule
 				// 	break;			
 			}		
 		}
+
+		let categories = App.filterModule.getFiltersToString();
+		if (categories)
+		{
+			route += '?cat=' + categories;
+		}
 		
 		
 		// for (let key in options)
@@ -176,14 +180,4 @@ export class HistoryModule
 
 		return route;
 	};
-
-	parse(array : number[])
-	{
-		return parseArrayNumberIntoString(array);
-	}
-
-	parseString(string : string) : number[]
-	{
-		return parseStringIntoArrayNumber(string);
-	}
 }

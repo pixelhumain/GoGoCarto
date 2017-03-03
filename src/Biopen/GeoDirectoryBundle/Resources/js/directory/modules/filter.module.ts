@@ -10,6 +10,7 @@
 
 
 import { AppModule, AppStates, AppModes } from "../app.module";
+import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNumber } from "../../commons/commons";
 declare let App : AppModule;
 
 export class FilterModule
@@ -170,4 +171,37 @@ export class FilterModule
 		}
 		return false;
 	};
+
+	loadFiltersFromString(string : string)
+	{
+		let splited = string.split('@');
+		let mainCategorieSlug = splited[0];
+
+		let filtersString : string;
+		let addingMode : boolean;
+
+		if ( splited.length == 2)
+		{
+			filtersString = splited[1];
+
+			if (filtersString[0] == '!') addingMode = false;
+			else addingMode = true;
+
+			filtersString = filtersString.substring(1);
+		}
+		else if ( splited.length > 2)
+		{
+			console.error("Error spliting in loadFilterFromString");
+		}
+
+		let filters = parseStringIntoArrayNumber(filtersString);
+
+		console.log('filters');
+
+	}
+
+	getFiltersToString() : string
+	{
+		return "education@!ht67j4ki56";
+	}
 }

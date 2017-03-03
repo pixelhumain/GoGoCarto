@@ -134,6 +134,13 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
+		// Get filters from URL
+		let params : any = getQueryParams(document.location.search);
+		if (params.cat)
+		{
+			this.filterModule.loadFiltersFromString(params.cat);
+		}
+
 		if (historystate === null) return;
 
 		// if no backfromhistory that means historystate is actually the CONFIG
