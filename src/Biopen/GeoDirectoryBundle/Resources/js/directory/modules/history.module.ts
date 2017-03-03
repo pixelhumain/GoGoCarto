@@ -9,7 +9,7 @@
  */
 
 import { Event, IEvent } from "../utils/event";
-import { slugify, capitalize } from "../../commons/commons";
+import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNumber } from "../../commons/commons";
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { Element } from "../classes/element.class";
 import { ViewPort } from "../components/map/map.component";
@@ -176,4 +176,14 @@ export class HistoryModule
 
 		return route;
 	};
+
+	parse(array : number[])
+	{
+		return parseArrayNumberIntoString(array);
+	}
+
+	parseString(string : string) : number[]
+	{
+		return parseStringIntoArrayNumber(string);
+	}
 }
