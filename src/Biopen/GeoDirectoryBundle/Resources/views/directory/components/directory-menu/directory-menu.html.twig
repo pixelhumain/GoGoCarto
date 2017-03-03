@@ -1,4 +1,4 @@
-<div class="directory-menuTitle" id="menu-title">
+<div class="subcategory-item" id="menu-title">
 	Menu
 	<span class="icon-close">
 	</span>
@@ -22,13 +22,16 @@
 		<div class="directions-header">
 			<h3>Calcul d'itinéraire</h3>
 			<span class="icon icon-close" id="btn-close-directions"></span>
-			<div class="shadow-bottom"></div>
 		</div>		
 		
 
 	</div>
+	<div class="shadow-bottom"></div>
 
 	 <div class="directory-menu-content">
+
+	 	{% include '@directory/directory/components/spinner-loader.html.twig'  
+              with {'id': 'directory-menu-spinner-loader' }%}
 
 	 	{% include '@directory/directory/components/directory-menu/filters-menu.html.twig'  %} 
 

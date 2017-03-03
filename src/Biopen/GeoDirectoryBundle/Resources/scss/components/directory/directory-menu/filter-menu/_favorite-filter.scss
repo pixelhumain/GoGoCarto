@@ -1,0 +1,43 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-02 09:08:21
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-02 09:08:26
+*/
+#filter-favorite
+{
+	.icon-star-full
+	{
+		color: white;
+		font-size: 18px;
+		&:before
+		{
+			padding: 2px;
+			padding-bottom: 3px;
+			border: none;
+		}
+	}
+
+	&:hover
+	{
+		background-color: white;
+	}
+
+	.favorite-checkbox
+	{
+		@extend .subcategorie-option-checkbox;
+	} 
+
+	color: $favorite-color;
+
+	.favorite-checkbox:not(:checked) + label:before
+	{
+		background-color: transparent;
+		border-color:$favorite-color;
+	}
+
+	.favorite-checkbox + label:before
+	{
+		color:$favorite-color;
+	}  
+}

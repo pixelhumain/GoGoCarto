@@ -18,7 +18,7 @@ a.leaflet-control-zoom-out {
 .show-as-list-button {
     position: absolute;
     z-index: 500;
-    top: 20px;
+    top: 15px;
     left: 100px;
     color: #3d3d3d;
     background-color: #ffffff;
@@ -54,7 +54,7 @@ a.leaflet-control-zoom-out {
 
     @media #{$medium-and-up} 
     {
-        left: 20px;
+        left: 30px;
     }
 }
 

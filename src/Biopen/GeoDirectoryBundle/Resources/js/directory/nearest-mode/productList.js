@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-02 08:49:12
  */
 let slideOptions = { duration: 500, easing: "easeOutQuart", queue: false, complete: function() {}};
 
@@ -14,7 +14,7 @@ jQuery(document).ready(function()
 if (constellationMode)	
 {
 	// MODE StarRepresentationChoice
-	$('.productItem:not(.disabled)').click(function()
+	$('.subcategorie-option-item:not(.disabled)').click(function()
 	{
 		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));
 		
@@ -65,7 +65,7 @@ if (constellationMode)
 	$('.moreResultelement-item').click(function() { App.SRCModule().selectElementIndex( $(this).attr('data-element-index') ); });
 
 	// Gestion hover pour la liste de produit
-	$('.productItem:not(.disabled)').mouseenter(function() 
+	$('.subcategorie-option-item:not(.disabled)').mouseenter(function() 
 	{
 		if (App.state == AppStates.StarRepresentationChoice) return;
 		let star = App.constellation.getStarFromName($(this).attr('data-star-name'));

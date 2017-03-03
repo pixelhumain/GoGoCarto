@@ -30,6 +30,10 @@ export class FilterModule
 	{	
 		let listToFilter = this.getFilterListFromType(filterType);
 
+		if (listToFilter == null)
+		{
+			console.log("AddFilter not existing filtertype", filterType );
+		}
 		let index = listToFilter.indexOf(data);
 		if ( index < 0) listToFilter.push(data);
 

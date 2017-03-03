@@ -154,7 +154,7 @@
             <div class='row {{ product.nameFormate }} {% if product.nameFormate == element.mainProduct %}strong{% endif %}'>
               <span class="col s6 m4 product {{ isDisabled }}">
                 <span class="icon icon-{{ product.nameFormate }} {{ isDisabled }}"></span>            
-                <span class="productName">{{ product.nameShort|capitalize }}</span> 
+                <span class="option-name">{{ product.nameShort|capitalize }}</span> 
               </span>
               <span class="col s6 m8 detail {{ isDisabled }}">{{ product.descriptif|capitalize }}</span>
             </div>

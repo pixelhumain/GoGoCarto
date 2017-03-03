@@ -346,6 +346,7 @@ export class AppModule
 						this.elementModule.addJsonElements([elementJson], true);
 						element = this.elementById(elementJson.id);
 						this.updateDocumentTitle_(options);
+            
 						origin = this.geocoder.getLocation();
 						// we geolocalized origin in loadHistory function
 						// maybe the geocoding is not already done so we wait a little bit for it
@@ -492,7 +493,7 @@ export class AppModule
 
 		//console.log("handle Map Click", AppStates[this.state]);
 		
-		if (this.state == AppStates.ShowElement)
+		if (this.state == AppStates.ShowElement || this.state == AppStates.ShowElementAlone)
 			this.infoBarComponent.hide(); 		
 		else if (this.state == AppStates.ShowDirections)
 			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				

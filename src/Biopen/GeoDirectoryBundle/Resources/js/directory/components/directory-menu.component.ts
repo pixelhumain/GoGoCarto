@@ -13,6 +13,8 @@ import { AppModule } from "../app.module";
 import { hideDirectoryMenu } from "../app-interactions";
 declare let App : AppModule;
 
+var isItemClicking;
+
 export function initializeDirectoryMenu()
 {	
 	$('#search-bar').on("search", function(event, address)
@@ -50,20 +52,60 @@ export function initializeDirectoryMenu()
 
 	$('.favorite-checkbox').change(function()
 	{
+		setTimeoutClicking();
 		App.filterModule.showOnlyFavorite($(this).is(':checked'));
 		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
 	$('#product-checkbox-favorite + label').tooltip();
 
-	$('.filterCheckbox').change(function()
+	$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
 	{		
+		console.log("checkbox click");
+		setTimeoutClicking();
 		//console.log("filter checkbox change");
 		checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
 		App.elementModule.updateElementToDisplay($(this).is(':checked'));
 	});
 
-	$('.title-checkbox').change(function()
+	$('.subcategorie-option-item:not(#filter-favorite)').click(function()
+	{
+		if (isItemClicking) return;
+		console.log("categorie click");
+
+		let checkbox = $(this).find('.subcategorie-option-checkbox');
+		checkbox.prop("checked", $(this).hasClass('disabled'));
+
+		if ( $(this).attr('id') == 'filter-favorite')
+		{
+			App.filterModule.showOnlyFavorite(checkbox.is(':checked'));
+			App.elementModule.updateElementToDisplay(checkbox.is(':checked'));
+		}
+		else
+		{					
+			checkFilterFromCheckbox(checkbox, checkbox.attr('data-type'), true);
+		}
+	});
+
+	$('.btn-show-only').click(function(e: Event)
+	{
+		setTimeoutClicking();
+		console.log("show only click");
+		$(this).parent().siblings('li').each( function()
+		{
+			if (!$(this).hasClass('disabled'))
+			{
+				let checkbox = $(this).find('.subcategorie-option-checkbox');
+				checkbox.prop("checked", false);
+				checkFilterFromCheckbox(checkbox, checkbox.attr('data-type'), false);
+			}
+
+			App.elementModule.updateElementToDisplay(false);
+			
+		});
+	});
+
+	$('.subcategorie-checkbox').change(function()
 	{		
 		let isChecked = $(this).is(':checked');
 		let checkboxClass = $(this).attr('data-type') + '-checkbox';
@@ -81,10 +123,26 @@ export function initializeDirectoryMenu()
 	//$('.product-checkbox, .element-checkbox').trigger("change");
 }
 
+function setTimeoutClicking() 
+{ 
+	isItemClicking = true;
+	setTimeout(() => { isItemClicking = false; }, 200); 
+};
+
 function checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
 {
-	if (!$(object).is(':checked')) App.filterModule.addFilter($(object).attr('data'), filterType, updateElementToDisplay);
-	else App.filterModule.removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
+	if (!$(object).is(':checked')) 
+	{
+		App.filterModule.addFilter($(object).attr('data'), filterType, updateElementToDisplay);
+		$(object).parent().parent().addClass('disabled');
+	}
+	else
+	{ 
+		App.filterModule.removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
+		$(object).parent().parent().removeClass('disabled');
+	}
+
+
 }
 
 

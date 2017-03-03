@@ -3,10 +3,13 @@
 	//background-color:$submenu-color;	
 	//background-color:$secondary-color;	
 	@extend .bgdSoftColorAs;
+	height: 3rem;
 	position: absolute;
 	bottom: 0;
 	text-align: center;
 	width: 100%;
+
+	@media #{$medium-and-up} { height: auto; }
 
 	.menu-element-item-text { display: none; }
 

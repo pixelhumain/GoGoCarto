@@ -495,8 +495,8 @@ form p:last-child {
       left: 1px;
       width: 8px;
       height: 13px;
-      border-top: 2px solid transparent;
-      border-left: 2px solid transparent;
+      border-top: none;
+      border-left: none;
       border-right: 2px solid $input-bg-color;
       border-bottom: 2px solid $input-bg-color;
       -webkit-transform: rotateZ(37deg);
