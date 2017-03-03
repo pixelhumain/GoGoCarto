@@ -11,15 +11,15 @@
  */
  
 
-namespace Biopen\GeoDirectoryBundle\DataFixtures\ORM;
+namespace Biopen\GeoDirectoryBundle\DataFixtures\ODM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
-use Biopen\GeoDirectoryBundle\Entity\Product;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
+use Biopen\GeoDirectoryBundle\Document\Product;
+use Biopen\GeoDirectoryBundle\Document\ElementProduct;
 
 class LoadElement implements FixtureInterface
 {

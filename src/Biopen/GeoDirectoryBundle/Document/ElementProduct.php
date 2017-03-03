@@ -28,17 +28,17 @@ class ElementProduct
   private $id;
 
   /**
-   * @MongoDB\Id(type="string")
+   * @MongoDB\Field(type="string")
    */
   private $descriptif;
 
   /**
-   * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
+   * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
    */
   private $element;
 
   /**
-   * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Product")
+   * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Product")
    */
   private $product;
 
@@ -133,55 +133,5 @@ class ElementProduct
     public function getNameFormate()
     {
         return $this->product->getNameFormate();
-    }
-
-    public function getNameShort()
-    {
-        return $this->product->getNameShort();
-    }
-    public function __construct()
-    {
-        $this->element = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add element
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Element $element
-     */
-    public function addElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
-    {
-        $this->element[] = $element;
-    }
-
-    /**
-     * Remove element
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Element $element
-     */
-    public function removeElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
-    {
-        $this->element->removeElement($element);
-    }
-
-    /**
-     * Add product
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Product $product
-     */
-    public function addProduct(\Biopen\GeoDirectoryBundle\Document\Product $product)
-    {
-        $this->product[] = $product;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Product $product
-     */
-    public function removeProduct(\Biopen\GeoDirectoryBundle\Document\Product $product)
-    {
-        $this->product->removeElement($product);
     }
 }

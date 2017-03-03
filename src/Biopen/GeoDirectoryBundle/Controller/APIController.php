@@ -16,10 +16,10 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\ElementProduct;
+use Biopen\GeoDirectoryBundle\Document\Product;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -59,7 +59,7 @@ class APIController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $em = $this->getDoctrine()->getManager(); 
+            $em = $this->get('doctrine_mongodb')->getManager();
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->find($request->get('elementId'));
 

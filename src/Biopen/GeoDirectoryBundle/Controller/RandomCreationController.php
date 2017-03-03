@@ -45,11 +45,8 @@ class RandomCreationController extends Controller
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-		// $dm = $this->get('doctrine_mongodb')->getRepository('Acme2StoreBundle:Product');
-
-	    $listProducts2 = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
+	    $listProducts = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
 	            ->findAll();
-	    $listProducts=[];
 
 
 	    $lipsum = new LoremIpsum();
@@ -99,7 +96,8 @@ class RandomCreationController extends Controller
 	      $lat = $SOlat + $latSpan * $this->random_0_1();
 	      $lng = $SOlng + $lngSpan * $this->random_0_1();
 
-	      $new_element->setLatLng(new Point($lat,$lng));
+	      $new_element->setLng($lng);
+	      $new_element->setLat($lat);
 	      $new_element->setAdresse($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
@@ -126,6 +124,7 @@ class RandomCreationController extends Controller
 	        $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
 	        $elementProduct->setElement($new_element);
 	        $new_element->addProduct($elementProduct);
+	        $manager->persist($elementProduct);
 
 	        if ($j == 0 && !$new_element->getMainProduct()) 
 	        {

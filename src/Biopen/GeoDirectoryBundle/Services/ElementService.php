@@ -13,7 +13,7 @@
 
 namespace Biopen\GeoDirectoryBundle\Services;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class ElementService
 {	
@@ -24,9 +24,9 @@ class ElementService
 	/**
      * Constructor
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(DocumentManager $documentManager)
     {
-    	 $this->em = $entityManager;
+    	 $this->em = $documentManager;
     	 $this->alreadySendElementIds = [];
     }
 
@@ -39,7 +39,7 @@ class ElementService
     {
         // La liste des element autour de l'adresse demandée
         $elementListFromDataBase = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')
-        ->findFromPoint($distance, $geocodePoint);
+        ->findAll();
         
         $elementList = [];
         $i = 0;
@@ -52,7 +52,7 @@ class ElementService
             $element = $elementListFromDataBase[$i];
             // le fournissurReponse a 1 champ Element et 1 champ Distance
             // on regroupe les deux dans un simple objet element
-            $element = $element['Element']->setDistance($element['distance']);
+            $element = $element->setDistance(10);
 
             if (!in_array($element->getId(), $this->alreadySendElementIds))
             {

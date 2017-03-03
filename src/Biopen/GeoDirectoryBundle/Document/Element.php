@@ -86,7 +86,7 @@ class Element
     private $webSite;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct", cascade={"persist", "remove"})
     */
     private $products; 
 
@@ -96,13 +96,6 @@ class Element
      * MongoDB\Field(type="string")
      */
     private $mainProduct;
-
-    /**
-     * @var \stdClass
-     *
-     * MongoDB\Field(type="object")
-     */
-    private $openHours;
 
     /**
      * @var string
@@ -250,16 +243,6 @@ class Element
     }
 
     /**
-     * Get latlng
-     *
-     * @return point
-     */
-    public function getLatlng()
-    {
-        return $this->latlng;
-    }
-
-    /**
      * Set adresse
      *
      * @param string $adresse
@@ -401,30 +384,6 @@ class Element
     public function getMainProduct()
     {
         return $this->mainProduct;
-    }
-
-    /**
-     * Set openHours
-     *
-     * @param \stdClass $openHours
-     *
-     * @return Element
-     */
-    public function setOpenHours($openHours)
-    {
-        $this->openHours = $openHours;
-
-        return $this;
-    }
-
-    /**
-     * Get openHours
-     *
-     * @return \stdClass
-     */
-    public function getOpenHours()
-    {
-        return $this->openHours;
     }
 
     /**
