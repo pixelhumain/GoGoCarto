@@ -57,7 +57,7 @@ export class Element
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
-		this.position = L.latLng(elementJson.latitude, elementJson.longitude);
+		this.position = L.latLng(elementJson.lat, elementJson.lng);
 		this.address = elementJson.adresse;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
