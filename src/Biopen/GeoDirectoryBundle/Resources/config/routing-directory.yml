@@ -11,16 +11,12 @@ biopen_directory_showElement:
     defaults: { _controller: BiopenGeoDirectoryBundle:Directory:showElement, addressAndViewport:''}
     options:
         expose: true
-    requirements:
-        id: \d+
 
 biopen_directory_showDirections:
     path:     /itineraire/{name}/{id}/{addressAndViewport}
     defaults: { _controller: BiopenGeoDirectoryBundle:Directory:showDirections, addressAndViewport:''}
     options:
         expose: true
-    requirements:
-        id: \d+
 
 biopen_directory_constellation:
     path:     /{mode}/constellation/{address}/{range}

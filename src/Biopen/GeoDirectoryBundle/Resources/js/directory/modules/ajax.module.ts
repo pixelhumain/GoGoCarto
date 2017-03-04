@@ -106,9 +106,9 @@ export class AjaxModule
 			},
 			success: response =>
 			{	        
-			  	//console.log("Ajax response", response.data);
+			  //console.log("Ajax response", response.data[0]);
 
-			  	if (response.data !== null)
+			  if (response.data !== null)
 				{
 					let end = new Date().getTime();
 					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				

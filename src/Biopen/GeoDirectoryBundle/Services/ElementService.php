@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-04 21:05:55
  */
  
 
@@ -46,26 +46,33 @@ class ElementService
         $length = count($elementListFromDataBase);
         $nbreNewElements = 0;
         $exceedMaxResult = false;
+
+        if ($length > $maxResult and $maxResult > 0)
+        {
+            $exceedMaxResult = true;
+        }
         
-        while($i < $length && !$exceedMaxResult)
-        {              
-            $element = $elementListFromDataBase[$i];
-            // le fournissurReponse a 1 champ Element et 1 champ Distance
-            // on regroupe les deux dans un simple objet element
-            $element = $element->setDistance(10);
+        // while($i < $length && !$exceedMaxResult)
+        // {              
+        //     $element = $elementListFromDataBase[$i];
+        //     // le fournissurReponse a 1 champ Element et 1 champ Distance
+        //     // on regroupe les deux dans un simple objet element
+        //     //$element = $element->setDistance(10);
 
-            if (!in_array($element->getId(), $this->alreadySendElementIds))
-            {
-            	$elementList[] = $element;
-            	$nbreNewElements++;
-            	if ($maxResult != 0 && count($elementList) >= $maxResult) 
-                    $exceedMaxResult = true;
-            }  
+        //     if (!in_array($element->getId(), $this->alreadySendElementIds))
+        //     {
+        //     	$elementList[] = $element;
+        //     	$nbreNewElements++;
+        //     	if ($maxResult != 0 && count($elementList) >= $maxResult) 
+        //             $exceedMaxResult = true;
+        //     }  
 
-            $i++;      
-        }  
+        //     $i++;      
+        // }  
 
-        $response['data'] = $elementList;
+        $offset = $maxResult > 0 ? min($length, $maxResult) : $length;
+
+        $response['data'] = array_slice($elementListFromDataBase, 0, $offset);
         // $var = array(
         //     'element from data base' => $length,
         //     'count element list' => count($elementList),

@@ -240,7 +240,7 @@ biopen_twigJs_elementInfo.prototype.render_ = function(sb, context, blocks) {
             sb.append(twig.filter.escape(this.env_, twig.attr(("product" in context ? context["product"] : null), "nameFormate"), "html", null, true));
             sb.append(" ");
             sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
-            sb.append("\"><\/span>            \n                <span class=\"productName\">");
+            sb.append("\"><\/span>            \n                <span class=\"option-name\">");
             // line 157
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("product" in context ? context["product"] : null), "nameShort")), "html", null, true));
             sb.append("<\/span> \n              <\/span>\n              <span class=\"col s6 m8 detail ");
@@ -463,7 +463,7 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*             <div class='row {{ product.nameFormate }} {% if product.nameFormate == element.mainProduct %}strong{% endif %}'>*/
 /*               <span class="col s6 m4 product {{ isDisabled }}">*/
 /*                 <span class="icon icon-{{ product.nameFormate }} {{ isDisabled }}"></span>            */
-/*                 <span class="productName">{{ product.nameShort|capitalize }}</span> */
+/*                 <span class="option-name">{{ product.nameShort|capitalize }}</span> */
 /*               </span>*/
 /*               <span class="col s6 m8 detail {{ isDisabled }}">{{ product.descriptif|capitalize }}</span>*/
 /*             </div>*/
