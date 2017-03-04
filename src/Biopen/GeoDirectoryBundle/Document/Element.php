@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 17:56:25
+ * @Last Modified time: 2017-03-04 15:49:54
  */
  
 
@@ -39,14 +39,14 @@ class Element
     /**
      * 
      *
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="float")
      */
     private $lat;
 
     /**
      * 
      *
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="float")
      */
     private $lng;
 
@@ -228,19 +228,6 @@ class Element
         return $this->distance;
     }
 
-    /**
-     * Set latlng
-     *
-     * @param point $latlng
-     *
-     * @return Element
-     */
-    public function setLatlng($latlng)
-    {
-        $this->latlng = $latlng;
-
-        return $this;
-    }
 
     /**
      * Set adresse
