@@ -41,7 +41,7 @@ export class InfoBarComponent
 
 		let element = App.elementModule.getElementById(elementId);
 
-		console.log("showElement", element);
+		//console.log("showElement", element);
 		
 		// if element already visible
 		if (this.elementVisible)
