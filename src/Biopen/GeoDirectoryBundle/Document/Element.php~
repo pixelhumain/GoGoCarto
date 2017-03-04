@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 17:56:25
+ * @Last Modified time: 2017-03-04 15:49:54
  */
  
 
@@ -39,14 +39,14 @@ class Element
     /**
      * 
      *
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="float")
      */
     private $lat;
 
     /**
      * 
      *
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="float")
      */
     private $lng;
 
@@ -86,7 +86,7 @@ class Element
     private $webSite;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct", cascade={"persist", "remove"})
     */
     private $products; 
 
@@ -96,13 +96,6 @@ class Element
      * MongoDB\Field(type="string")
      */
     private $mainProduct;
-
-    /**
-     * @var \stdClass
-     *
-     * MongoDB\Field(type="object")
-     */
-    private $openHours;
 
     /**
      * @var string
@@ -235,29 +228,6 @@ class Element
         return $this->distance;
     }
 
-    /**
-     * Set latlng
-     *
-     * @param point $latlng
-     *
-     * @return Element
-     */
-    public function setLatlng($latlng)
-    {
-        $this->latlng = $latlng;
-
-        return $this;
-    }
-
-    /**
-     * Get latlng
-     *
-     * @return point
-     */
-    public function getLatlng()
-    {
-        return $this->latlng;
-    }
 
     /**
      * Set adresse
@@ -404,30 +374,6 @@ class Element
     }
 
     /**
-     * Set openHours
-     *
-     * @param \stdClass $openHours
-     *
-     * @return Element
-     */
-    public function setOpenHours($openHours)
-    {
-        $this->openHours = $openHours;
-
-        return $this;
-    }
-
-    /**
-     * Get openHours
-     *
-     * @return \stdClass
-     */
-    public function getOpenHours()
-    {
-        return $this->openHours;
-    }
-
-    /**
      * Set type
      *
      * @param string $type
@@ -551,11 +497,11 @@ class Element
     /**
      * Add product
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
+     * @param \Biopen\GeoDirectoryBundle\Document\ElementProduct $product
      *
      * @return Element
      */
-    public function addProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
+    public function addProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
     {
         $this->products[] = $product;
 
@@ -565,9 +511,9 @@ class Element
     /**
      * Remove product
      *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
+     * @param \Biopen\GeoDirectoryBundle\Document\ElementProduct $product
      */
-    public function removeProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
+    public function removeProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
     {
         $this->products->removeElement($product);
     }
