@@ -39,8 +39,7 @@
         "jms/twig-js-bundle": "dev-master",
         "joshtronic/php-loremipsum": "dev-master",
         "doctrine/mongodb-odm": "^1.0",
-        "doctrine/mongodb-odm-bundle": "^3.0",
-        "alcaeus/mongo-php-adapter": "^1.0"
+        "doctrine/mongodb-odm-bundle": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

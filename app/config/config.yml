@@ -3,12 +3,12 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services.yml" }
-    - { resource: "@Acme2StoreBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    mongodb_server: "mongodb://localhost:27017"
 
 fos_js_routing:
     routes_to_expose: [ (.*) ]
