@@ -1,4 +1,4 @@
-<div class="directory-menuTitle" id="menu-title">
+<div class="subcategory-item" id="menu-title">
   Menu
   <span class="icon-close">
   </span>
@@ -10,7 +10,7 @@
 {% include '@directory/directory/components/search-bar.html.twig'  %} 
 
 
-<li class="directory-menuTitle">
+<li class="subcategory-item">
   Emplacements
 </li>
 
@@ -21,16 +21,16 @@
         {% include '::core/starIndirectory-menu.html.twig' 
                   with {'star':star, 'starName':type} only %} 
     {% else %}
-        <li class="row collection-item collapsible-header productItem disabled">
+        <li class="row collection-item collapsible-header subcategorie-option-item disabled">
           <span class="icon disabled icon-{{type}}"></span>
-          <span class="productName">{{ type|capitalize }}</span>
+          <span class="option-name">{{ type|capitalize }}</span>
           <span class="resultNumber">0</span>
         </li>
     {% endif %}
 
 {% endfor %}
 
-<li class="directory-menuTitle">
+<li class="subcategory-item">
   Produits
 </li>
 
@@ -47,10 +47,10 @@
 <ul class="collection">
 {% for key, product in constellationPhp.listProductsNonProvided %} 
   
-  <li class="row collection-item collapsible-header productItem disabled">
+  <li class="row collection-item collapsible-header subcategorie-option-item disabled">
 
     <span class="icon disabled icon-{{product.nameFormate}}"></span>
-     <span class="productName">{{ product.nameShort|capitalize }}</span>
+     <span class="option-name">{{ product.nameShort|capitalize }}</span>
 
     <span class="resultNumber">0</span>
 

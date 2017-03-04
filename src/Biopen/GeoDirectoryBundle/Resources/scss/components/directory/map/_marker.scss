@@ -52,6 +52,11 @@
 
     	&.rotateLeft { right: -4px; bottom: -2px  !important; }
 		&.rotateRight { right: -39px; bottom: -2px !important; }
+
+        .iconInsideMarker-wrapper
+        {
+            @media #{$medium-and-up} { left: 6px !important; }
+        }
 	}
 
 	&:hover { cursor: pointer; }

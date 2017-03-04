@@ -1,78 +1,139 @@
 declare let google;
-import { AppModule } from "../app.module";
+import { AppModule, AppStates } from "../app.module";
+import { Element } from "../classes/element.class";
 declare let App : AppModule;
-declare let RichMarker : any;
-declare let $: any;
+declare let $, L: any;
+
+declare let window : any;
 
 export class DirectionsModule
 {
 	markerDirectionResult = null;
 
-	directionsService_ = new google.maps.DirectionsService();
-  	directionsRenderer_ = new google.maps.DirectionsRenderer({map: App.map(), suppressMarkers:true}); 
+	routingControl : any;
+	
 
-  	constructor() {}
+  constructor() {
+  	window.lrmConfig = {
+			// TODO change this demo serviceUrl
+			// 		serviceUrl: '//router.project-osrm.org/viaroute',
+			//    profile: 'mapbox/driving',
+		};
+
+  }
 
 	clear()
 	{
+		if (!this.routingControl) return;
+
 		this.clearRoute();
-		this.clearDirectionMarker();
+		//this.clearDirectionMarker();
+		this.hideItineraryPanel();
+
+		App.DEAModule.end();
+
+		this.routingControl = null;
 	};
 
 	clearRoute()
 	{
-		this.directionsRenderer_.setDirections({routes: []});
+		console.log("clearing route");
+		if (this.routingControl) 
+		{
+			this.routingControl.spliceWaypoints(0,2);		
+			App.map().removeControl(this.routingControl);	
+		}
 	};
 
-	calculateRoute(origin, destination) 
+	calculateRoute(origin : L.LatLng, element : Element) 
 	{
-	  	this.directionsService_.route({
-	    	origin: origin,
-	    	destination: destination,
-	    	travelMode: google.maps.TravelMode.DRIVING
-	  	}, (response, status) => {
-		    if (status === google.maps.DirectionsStatus.OK) 
-		    {
-		      	google.maps.event.trigger(App.map(), 'resize');
-		      	this.directionsRenderer_.setDirections(response);		      	
+		this.clear();
 
-				let distance_to_reach = response.routes[0].legs[0].distance.value / 2;
-				let distance_somme = 0;
-				let i = 0;
-				let route = response.routes[0].legs[0];
+		let waypoints = [
+		    origin,
+		    element.position,
+		];
 
-				while(i < (route.steps.length - 1) && distance_somme < distance_to_reach)
+		//console.log("calculate route", waypoints);
+
+		this.routingControl = L.Routing.control({
+			plan: L.Routing.plan(
+				waypoints, 
 				{
-					i++;
-					distance_somme += route.steps[i].distance.value;				
+					// deleteing start and end markers
+					createMarker: function(i, wp) { return null; },
+					routeWhileDragging: false,
+					showAlternatives: false
 				}
-				
-				let middleStep = Math.max(i,0);			
-				this.clearDirectionMarker();
+			),
+			language: 'fr',
+			routeWhileDragging: false,
+			showAlternatives: false,
+			altLineOptions: {
+				styles: [
+					{color: 'black', opacity: 0.15, weight: 9},
+					{color: 'white', opacity: 0.8, weight: 6},
+					{color: '#00b3fd', opacity: 0.5, weight: 2}
+				]
+			}
+		}).addTo(App.map());
 
-				let marker_position = route.steps[middleStep].path[Math.floor(route.steps[middleStep].path.length/2)];
+		// show Itinerary panel without itinerary, just to show user
+		// somethingis happenning an display spinner loader
+		this.showItineraryPanel(element);
 
-				this.markerDirectionResult = new RichMarker({		
-					map: App.map(),
-					draggable: false,
-					position: marker_position,
-					flat: true
-				}, null);
+		this.routingControl.on('routesfound', (ev) => 
+		{
+			this.showItineraryPanel(element);
+		});
 
-				let content = document.createElement("div");
-				$(content).attr('id',"markerDirectionResult");
-				$(content).addClass('arrow_box');
-				let innerHtml = '<div class="duration">' + route.duration.text + "</div>";
-				innerHtml    += '<div class="distance">' + route.distance.text + "</div>";
-				content.innerHTML = innerHtml;
-				this.markerDirectionResult.setContent(content);
-		    } 
-		    else
-		    {
-		      $('#modal-directions-fail').openModal();
-		    }
-	  	});
+		// fit bounds 
+		this.routingControl.on('routeselected', function(e) 
+		{	    
+	    var r = e.route;
+	    var line = L.Routing.line(r);
+	    var bounds = line.getBounds();
+	    App.map().fitBounds(bounds);
+		});
+
+		this.routingControl.on('routingerror', (ev) => 
+		{
+			$('#modal-directions-fail').openModal();
+			this.clear();
+		});
+			
 	};
+
+	hideItineraryPanel()
+	{
+		//this.routingControl.hide();
+		//App.map().removeControl(this.routingControl);
+
+		//$('.leaflet-routing-container').hide();
+		//$('.leaflet-routing-container').prependTo('.directory-menu-content');
+		$('#directory-menu-main-container').removeClass();
+		$('.directory-menu-header').removeClass().addClass('directory-menu-header');
+		$('#search-bar').removeClass();		
+	}
+
+	showItineraryPanel(element : Element)
+	{
+		//this.routingControl.show();
+		//App.map().addControl(this.routingControl);	
+
+		//$('.leaflet-routing-container').show();
+
+		console.log("show itinerary");
+
+		$('#directory-menu-main-container').removeClass().addClass("directions");	
+		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
+		$('#search-bar').removeClass().addClass(element.type);	
+
+		$('.leaflet-routing-container').prependTo('.directory-menu-content');
+			
+
+		
+	}
 
 	clearDirectionMarker()
 	{

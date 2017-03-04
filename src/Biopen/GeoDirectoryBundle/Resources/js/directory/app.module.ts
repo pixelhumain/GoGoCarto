@@ -7,14 +7,13 @@
  * @license    MIT License
  * @Last Modified time: 2016-12-13
  */
-
+/// <reference types="leaflet" />
 
 declare let window, Routing : any;
 declare let CONFIG;
 declare var $;
-//import * as L from "leaflet";
 
-import { GeocoderModule } from "./modules/geocoder.module";
+import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
 import { FilterModule } from "./modules/filter.module";
 import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
@@ -78,7 +77,7 @@ export class AppModule
 	filterModule_ = new FilterModule();
 	elementsModule_ = new ElementsModule([]);
 	displayElementAloneModule_ = new DisplayElementAloneModule();
-	directionsModule_ : DirectionsModule = null;
+	directionsModule_ : DirectionsModule = new DirectionsModule();
 	ajaxModule_ = new AjaxModule();
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
@@ -126,7 +125,7 @@ export class AppModule
 
 	initializeMapFeatures()
 	{	
-		//this.directionsModule_ = new DirectionsModule();
+		
 	};
 
 	/*
@@ -158,7 +157,7 @@ export class AppModule
 			}	
 		}	
 
-		this.setMode(historystate.mode, $backFromHistory);
+		this.setMode(historystate.mode, $backFromHistory, false);
 
 		// if address is provided we geolocalize
 		if (historystate.address || !historystate.viewport)
@@ -201,7 +200,7 @@ export class AppModule
 		}		
 	};	
 
-	setMode($mode : AppModes, $backFromHistory : boolean = false)
+	setMode($mode : AppModes, $backFromHistory : boolean = false, $updateTitleAndState = true)
 	{
 		if ($mode != this.mode_)
 		{			
@@ -227,15 +226,20 @@ export class AppModule
 			// if previous mode wasn't null 
 			let oldMode = this.mode_;
 			this.mode_ = $mode;
-			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
-			this.updateDocumentTitle_();
+			// update history if we need to
+			if (oldMode != null && !$backFromHistory && $mode == AppModes.List) this.historyModule.pushNewState();
 
 			this.elementModule.clearCurrentsElement();
 			this.elementModule.updateElementToDisplay(true, true);
 
-			// after clearing, we set the current state again
-			if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});			
+			if ($updateTitleAndState)
+			{
+				this.updateDocumentTitle_();			
+
+				// after clearing, we set the current state again
+				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
+			}		
 			
 		}
 	}
@@ -245,13 +249,20 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		let element;
 
 		let oldStateName = this.state_;
 		this.state_ = $newState;			
 
-		if ($newState != AppStates.ShowDirections && this.directionsModule_) 
+		if (oldStateName == AppStates.ShowDirections && this.directionsModule_) 
 			this.directionsModule_.clear();
+
+		if (oldStateName == AppStates.ShowElementAlone)	
+		{
+			this.elementModule.clearCurrentsElement();
+			this.displayElementAloneModule_.end();	
+		}	
 
 		this.stateElementId = options ? options.id : null;
 		
@@ -263,13 +274,7 @@ export class AppModule
 				// 	clearDirectoryMenu();
 				// 	this.starRepresentationChoiceModule_.end();
 				// }	
-				if ($backFromHistory) this.infoBarComponent.hide();
-
-				if (oldStateName == AppStates.ShowElementAlone)	
-				{
-					this.elementModule.clearCurrentsElement();
-					this.displayElementAloneModule_.end();	
-				}				
+				if ($backFromHistory) this.infoBarComponent.hide();			
 							
 				break;
 
@@ -285,7 +290,7 @@ export class AppModule
 			case AppStates.ShowElementAlone:
 				if (!options.id) return;
 
-				let element = this.elementById(options.id);
+				element = this.elementById(options.id);
 				if (element)
 				{
 					this.DEAModule.begin(element.id, options.panToLocation);					
@@ -314,20 +319,75 @@ export class AppModule
 			case AppStates.ShowDirections:
 				if (!options.id) return;			
 				
+				element = this.elementById(options.id);
 				let origin;
+
 				if (this.state_ == AppStates.Constellation)
 				{
 					origin = this.constellation.getOrigin();
 				}
 				else
 				{
-					origin = this.map().location;
+					origin = this.geocoder.getLocation();
 				}
-				// got to map tab if actions triggered from list_tab
-				$('#directory-content-map_tab').trigger("click");
-				
-				this.directionsModule_.calculateRoute(origin, element.position); 
-				this.displayElementAloneModule_.begin(options.id, false);									
+
+				// local function
+				let calculateRoute = function (origin : L.LatLng, element : Element)
+				{
+					App.directionsModule.calculateRoute(origin, element); 
+					App.DEAModule.begin(element.id, false);		
+				};
+
+				// if no element, we get it from ajax 
+				if (!element)
+				{
+					this.ajaxModule_.getElementById(options.id, (elementJson) => 
+					{
+						this.elementModule.addJsonElements([elementJson], true);
+						element = this.elementById(elementJson.id);
+						this.updateDocumentTitle_(options);
+            
+						origin = this.geocoder.getLocation();
+						// we geolocalized origin in loadHistory function
+						// maybe the geocoding is not already done so we wait a little bit for it
+						if (!origin)
+						{
+							setTimeout(() => {
+								origin = this.geocoder.getLocation();
+								if (!origin)
+									setTimeout(() => {
+										origin = this.geocoder.getLocation();
+										calculateRoute(origin, element);		
+									}, 1000);
+								else
+									calculateRoute(origin, element);		
+							}, 500);
+						}
+						else
+							calculateRoute(origin, element);		
+											
+					},
+					(error) => { /*TODO*/ alert("No element with this id"); }
+					);										
+				}	
+				else
+				{
+					if (this.mode == AppModes.List)
+					{
+						this.mapComponent.onMapReady.do(() => 
+						{
+							calculateRoute(origin, element);
+							this.mapComponent.onMapReady.off(() => { calculateRoute(origin, element); });
+						});
+
+						this.setMode(AppModes.Map, false, false);
+					} 
+					else
+					{
+						calculateRoute(origin, element);
+					}	
+				}					
+
 				break;			
 		}
 
@@ -347,12 +407,16 @@ export class AppModule
 		$('#directory-spinner-loader').hide();		
 
 		// if just address was given
-		if (this.state == AppStates.Normal)
+		if (this.mode == AppModes.Map)
 		{
-			if (this.mode == AppModes.Map )
-				this.mapComponent.fitBounds(this.geocoder.getBounds());
-			else
-				this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);
+			this.setState(AppStates.Normal);
+			this.mapComponent.fitBounds(this.geocoder.getBounds());
+		}
+		else
+		{
+			this.elementModule.clearCurrentsElement();
+			this.elementModule.updateElementToDisplay(true,true);
+			this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);	
 		}
 	}
 
@@ -426,23 +490,45 @@ export class AppModule
 	handleMapClick()
 	{
 		if (this.isClicking) return;
-		this.infoBarComponent.hide(); 
-	}; 
+
+		//console.log("handle Map Click", AppStates[this.state]);
+		
+		if (this.state == AppStates.ShowElement || this.state == AppStates.ShowElementAlone)
+			this.infoBarComponent.hide(); 		
+		else if (this.state == AppStates.ShowDirections)
+			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				
+	};
+    
 
 	handleSearchAction(address : string)
 	{
 		console.log("handle search action", address);
-
-		this.geocoderModule_.geocodeAddress(
+		
+			this.geocoderModule_.geocodeAddress(
 			address, 
-			(results) => 
+			(results : GeocodeResult[]) => 
 			{ 
-				this.mapComponent.fitBounds(results[0].getBounds(), false);					
-				//this.updateState();
-				this.updateDocumentTitle_();
+				switch (App.state)
+				{
+					case AppStates.Normal:	
+					case AppStates.ShowElement:	
+						this.handleGeocodeResult(results);
+						this.updateDocumentTitle_();
+						break;
+					case AppStates.ShowElementAlone:
+						this.infoBarComponent.hide();
+						this.handleGeocodeResult(results);
+						this.updateDocumentTitle_();
+						break;
+					
+					case AppStates.ShowDirections:	
+						this.setState(AppStates.ShowDirections,{id: this.infoBarComponent.getCurrElementId() });
+						break;		
+				}					
 			}	
 		);	
-	}
+	};
+	
 
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
@@ -474,8 +560,10 @@ export class AppModule
 
 	handleInfoBarHide()
 	{
-		if (this.state != AppStates.StarRepresentationChoice 
-			&& this.mode_ != AppModes.List) this.setState(AppStates.Normal);
+		if (this.state != AppStates.StarRepresentationChoice && this.mode_ != AppModes.List) 
+		{
+			this.setState(AppStates.Normal);
+		}
 	};
 
 	handleInfoBarShow(elementId)
@@ -506,6 +594,8 @@ export class AppModule
 
 	private updateDocumentTitle_(options : any = {})
 	{
+		//console.log("updateDocumentTitle", options);
+
 		let title : string;
 		let elementName : string;
 		if (options && options.id) 
@@ -516,7 +606,7 @@ export class AppModule
 
 		if (this.mode_ == AppModes.List)
 		{		
-			title = 'Liste des acteurs ' + this.geocoder.getLocationAddress();					
+			title = 'Liste des acteurs ' + this.getLocationAddressForTitle();		
 		}
 		else
 		{
@@ -535,7 +625,7 @@ export class AppModule
 					break;
 
 				case AppStates.Normal:			
-					title = 'Carte des acteurs ' + this.geocoder.getLocationAddress();					
+					title = 'Carte des acteurs ' + this.getLocationAddressForTitle();			
 					break;
 			}
 		}
@@ -543,9 +633,18 @@ export class AppModule
 		document.title = title;	
 	};
 
+	private getLocationAddressForTitle()
+	{
+		if (this.geocoder.getLocationAddress())
+		{
+			return "- " + this.geocoder.getLocationAddress();
+		}
+		return "- France";
+	}
+
 
 	// Getters shortcuts
-	map() : any { return this.mapComponent_? this.mapComponent_.getMap() : null; };
+	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
 	elements() { return this.elementsModule_.elements;  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
 	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
@@ -562,6 +661,7 @@ export class AppModule
 	get geocoder() { return this.geocoderModule_; };
 	get ajaxModule() { return this.ajaxModule_; };
 	get elementModule() { return this.elementsModule_; };
+	get directionsModule() { return this.directionsModule_; };
 	//get markerModule() { return this.markerModule_; };
 	get filterModule() { return this.filterModule_; };
 	//get SRCModule() { return this.starRepresentationChoiceModule_; };

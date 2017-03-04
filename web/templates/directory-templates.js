@@ -165,69 +165,67 @@ biopen_twigJs_elementInfo.prototype.render_ = function(sb, context, blocks) {
         // line 82
         sb.append("      <div class=\"menu-element ");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "type"), "html", null, true));
-        sb.append("\">      \n        <center>\n          <span class=\"menu-icon icon-directions tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Itin\u00e9raire vers ce element\"><\/span>\n          <span class=\"menu-icon icon-edit tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Modifier ces informations\"><\/span>\n          <span class=\"menu-icon icon-delete tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Supprimer ce element\"><\/span>\n          ");
-        // line 92
-        sb.append("        <\/center>       \n      <\/div> \n    ");
+        sb.append("\">  \n\n        <div class=\"menu-element-item item-add-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-empty icon-favorite tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Enregistrer comme favoris\"><\/span>\n          <span class=\"menu-element-item-text\">Enregistrer<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-remove-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-full icon-favorite tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Retirer des favoris\"><\/span>\n          <span class=\"menu-element-item-text favorite\">Enregistr\u00e9<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-share\">\n          <span class=\"menu-icon icon-share-alt tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Partager l'URL\"><\/span>\n          <span class=\"menu-element-item-text\">Partager l'URL<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-directions\">\n          <span class=\"menu-icon icon-directions tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Itin\u00e9raire vers cet \u00e9l\u00e9ment\"><\/span>\n          <span class=\"menu-element-item-text\">Itin\u00e9raire<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-edit\">\n          <span class=\"menu-icon icon-edit tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Proposer des modifications\"><\/span>\n          <span class=\"menu-element-item-text\">Proposer des modifications<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-delete\"> \n          <span class=\"menu-icon btn-delete icon-exclamation-1 tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Signaler une erreur\"><\/span>\n          <span class=\"menu-element-item-text\">Signaler une erreur<\/span>\n        <\/div>  \n            \n      <\/div> \n    ");
     }
-    // line 95
+    // line 117
     sb.append("  \n    ");
-    // line 97
+    // line 119
     sb.append("    <div class=\"collapsible-body-main-content\"> \n\n      ");
-    // line 100
+    // line 122
     sb.append("      <h3>Infos<\/h3>   \n      <div class=\"section row sectionInfos\">\n\n        ");
-    // line 104
+    // line 126
     sb.append("        <span class=\"col s12 address\">");
     sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("element" in context ? context["element"] : null), "address")), "html", null, true));
     sb.append("<\/span>\n        \n        ");
-    // line 107
+    // line 129
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "tel")) {
-        // line 108
+        // line 130
         sb.append("          <span class=\"col s12 tel\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "tel"), "html", null, true));
         sb.append("<\/span>\n        ");
     }
-    // line 110
+    // line 132
     sb.append("\n        ");
-    // line 112
+    // line 134
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "mail")) {
-        // line 113
+        // line 135
         sb.append("          <span class=\"col s12 tel\"><a href=\"mailto:");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "mail"), "html", null, true));
         sb.append("\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "mail"), "html", null, true));
         sb.append("<\/a>\n          <\/span>\n        ");
     }
-    // line 116
+    // line 138
     sb.append("\n        ");
-    // line 118
+    // line 140
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "webSite")) {
-        // line 119
+        // line 141
         sb.append("          <span class=\"col s12 tel\"><a href=\"");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "webSite"), "html", null, true));
         sb.append("\" target=\"_blank\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "webSite"), "html", null, true));
         sb.append("<\/a>\n          <\/span>\n        ");
     }
-    // line 122
+    // line 144
     sb.append("\n      <\/div>\n      <div class=\"divider\"><\/div>\n\n      ");
-    // line 127
+    // line 149
     sb.append("      ");
     if (((twig.attr(("element" in context ? context["element"] : null), "type")) != ("epicerie"))) {
-        // line 128
+        // line 150
         sb.append("        <h3>Les produits<\/h3>   \n        <div class=\"section sectionDetailProducts\"> \n          ");
-        // line 130
+        // line 152
         context['_parent'] = context;
         var seq = twig.attr(("element" in context ? context["element"] : null), "products");
         twig.forEach(seq, function(v, k) {
             context["_key"] = k;
             context["product"] = v;
             sb.append(" \n            ");
-            // line 131
+            // line 153
             context["isDisabled"] = ((twig.attr(("product" in context ? context["product"] : null), "disabled")) ? ("disabled") : (""));
-            // line 132
+            // line 154
             sb.append("            <div class='row ");
             sb.append(twig.filter.escape(this.env_, twig.attr(("product" in context ? context["product"] : null), "nameFormate"), "html", null, true));
             sb.append(" ");
@@ -235,63 +233,63 @@ biopen_twigJs_elementInfo.prototype.render_ = function(sb, context, blocks) {
                 sb.append("strong");
             }
             sb.append("'>\n              <span class=\"col s6 m4 product ");
-            // line 133
+            // line 155
             sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
             sb.append("\">\n                <span class=\"icon icon-");
-            // line 134
+            // line 156
             sb.append(twig.filter.escape(this.env_, twig.attr(("product" in context ? context["product"] : null), "nameFormate"), "html", null, true));
             sb.append(" ");
             sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
             sb.append("\"><\/span>            \n                <span class=\"productName\">");
-            // line 135
+            // line 157
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("product" in context ? context["product"] : null), "nameShort")), "html", null, true));
             sb.append("<\/span> \n              <\/span>\n              <span class=\"col s6 m8 detail ");
-            // line 137
+            // line 159
             sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
             sb.append("\">");
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("product" in context ? context["product"] : null), "descriptif")), "html", null, true));
             sb.append("<\/span>\n            <\/div>\n          ");
         }, this);
-        // line 139
+        // line 161
         sb.append("          \n\n        <\/div>       \n        <div class=\"divider\"><\/div>\n      ");
     }
-    // line 144
+    // line 166
     sb.append("\n      ");
-    // line 146
-    sb.append("      <h3>OpenHourss<\/h3>   \n      <div class=\"section row sectionOpenHourss\">  \n        ");
-    // line 148
+    // line 168
+    sb.append("      <h3>Horaires d'ouverture<\/h3>   \n      <div class=\"section row sectionOpenHourss\">  \n        ");
+    // line 170
     context["count"] = 0;
     sb.append(" \n\n        ");
-    // line 150
+    // line 172
     context['_parent'] = context;
     var seq = twig.attr(("element" in context ? context["element"] : null), "getFormatedOpenHourss", undefined, "method");
     twig.forEach(seq, function(v, k) {
         context["key"] = k;
         context["horaire"] = v;
         sb.append(" \n          ");
-        // line 151
+        // line 173
         if (((("horaire" in context ? context["horaire"] : null)) != (null))) {
-            // line 152
+            // line 174
             sb.append("\n            <div class='row'>\n              <span class=\"col s3 day\">");
-            // line 154
+            // line 176
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, ("key" in context ? context["key"] : null)), "html", null, true));
             sb.append("<\/span>\n              <span class=\"col s9 openHours\">");
-            // line 155
+            // line 177
             sb.append(twig.filter.escape(this.env_, ("horaire" in context ? context["horaire"] : null), "html", null, true));
             sb.append(" <\/span>\n            <\/div>\n            ");
-            // line 157
+            // line 179
             context["count"] = (Number(("count" in context ? context["count"] : null)) + Number(1));
             sb.append(" \n\n          ");
         }
-        // line 160
+        // line 182
         sb.append("        ");
     }, this);
     sb.append("  \n\n        ");
-    // line 162
+    // line 184
     if (((("count" in context ? context["count"] : null)) == (0))) {
         sb.append("<div class='col'> Non renseign\u00e9es <\/div>");
     }
-    sb.append(" \n      \n      <\/div> \n    <\/div>\n  <\/div>\n<\/li>\n\n");
+    sb.append(" \n      \n      <\/div> \n\n    <\/div>\n  <\/div>\n<\/li>\n\n");
 };
 
 /**
@@ -390,17 +388,39 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*   */
 /*     {# Menu in constellation mode #}*/
 /*     {% if listingMode %}*/
-/*       <div class="menu-element {{ element.type }}">      */
-/*         <center>*/
+/*       <div class="menu-element {{ element.type }}">  */
+/* */
+/*         <div class="menu-element-item item-add-favorite" style="display:none">*/
+/*           <span class="menu-icon icon-star-empty icon-favorite tooltipped" */
+/*           data-position="top" data-delay="0" data-tooltip="Enregistrer comme favoris"></span>*/
+/*           <span class="menu-element-item-text">Enregistrer</span>*/
+/*         </div>*/
+/*         <div class="menu-element-item item-remove-favorite" style="display:none">*/
+/*           <span class="menu-icon icon-star-full icon-favorite tooltipped"*/
+/*           data-position="top" data-delay="0" data-tooltip="Retirer des favoris"></span>*/
+/*           <span class="menu-element-item-text favorite">Enregistré</span>*/
+/*         </div>*/
+/*         <div class="menu-element-item item-share">*/
+/*           <span class="menu-icon icon-share-alt tooltipped"*/
+/*           data-position="top" data-delay="0" data-tooltip="Partager l'URL"></span>*/
+/*           <span class="menu-element-item-text">Partager l'URL</span>*/
+/*         </div>*/
+/*         <div class="menu-element-item item-directions">*/
 /*           <span class="menu-icon icon-directions tooltipped" */
-/*           data-position="top" data-delay="0" data-tooltip="Itinéraire vers ce element"></span>*/
+/*           data-position="top" data-delay="0" data-tooltip="Itinéraire vers cet élément"></span>*/
+/*           <span class="menu-element-item-text">Itinéraire</span>*/
+/*         </div>*/
+/*         <div class="menu-element-item item-edit">*/
 /*           <span class="menu-icon icon-edit tooltipped" */
-/*           data-position="top" data-delay="0" data-tooltip="Modifier ces informations"></span>*/
-/*           <span class="menu-icon icon-delete tooltipped" */
-/*           data-position="top" data-delay="0" data-tooltip="Supprimer ce element"></span>*/
-/*           {# <button id="" class="btn waves-effect waves-light">Modifier</button>*/
-/*           <button id="" class="btn waves-effect waves-light">Supprimer</button> #}*/
-/*         </center>       */
+/*           data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>*/
+/*           <span class="menu-element-item-text">Proposer des modifications</span>*/
+/*         </div>*/
+/*         <div class="menu-element-item item-delete"> */
+/*           <span class="menu-icon btn-delete icon-exclamation-1 tooltipped" */
+/*           data-position="top" data-delay="0" data-tooltip="Signaler une erreur"></span>*/
+/*           <span class="menu-element-item-text">Signaler une erreur</span>*/
+/*         </div>  */
+/*             */
 /*       </div> */
 /*     {% endif %}*/
 /*   */
@@ -454,7 +474,7 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*       {% endif %}*/
 /* */
 /*       {# Open Hours #}*/
-/*       <h3>OpenHourss</h3>   */
+/*       <h3>Horaires d'ouverture</h3>   */
 /*       <div class="section row sectionOpenHourss">  */
 /*         {% set count = 0 %} */
 /* */
@@ -473,6 +493,7 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*         {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} */
 /*       */
 /*       </div> */
+/* */
 /*     </div>*/
 /*   </div>*/
 /* </li>*/

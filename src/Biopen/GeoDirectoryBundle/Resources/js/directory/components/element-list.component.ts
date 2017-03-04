@@ -12,7 +12,7 @@ declare let App : AppModule;
 import { ElementsChanged } from "../modules/elements.module";
 import { slugify, capitalize, unslugify } from "../../commons/commons";
 
-import { createListenersForElementMenu } from "./element-menu.component";
+import { createListenersForElementMenu, updateFavoriteIcon } from "./element-menu.component";
 import { Element } from "../classes/element.class";
 import { Event, IEvent } from "../utils/event";
 
@@ -93,10 +93,6 @@ export class ElementListComponent
 		{
 			let location = App.geocoder.getLocation();
 
-			// we ajust count step to fit as close as possible
-			// the current element displayed
-			this.stepsCount = elementsToDisplay.length % this.ELEMENT_LIST_SIZE_STEP + 1;
-
 			if (location)
 			{
 				let distance = this.lastDistanceRequest * 5;
@@ -126,7 +122,9 @@ export class ElementListComponent
 		{
 			element = elementsToDisplay[i];
 			$('#directory-content-list ul').append(element.getHtmlRepresentation());
-			createListenersForElementMenu($('#element-info-'+element.id +' .menu-element'));				
+			let domMenu = $('#element-info-'+element.id +' .menu-element');
+			createListenersForElementMenu(domMenu);	
+			updateFavoriteIcon(domMenu, element)		
 		}
 
 		if ($animate)

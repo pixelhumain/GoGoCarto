@@ -26,8 +26,8 @@
       lStack = (++_stack);
 
       // Store a reference of the overlay
-      $overlay.attr('id', overlayID).css('z-index', 1000 + lStack * 2);
-      $modal.data('overlay-id', overlayID).css('z-index', 1000 + lStack * 2 + 1);
+      $overlay.attr('id', overlayID).css('z-index', 6000 + lStack * 2);
+      $modal.data('overlay-id', overlayID).css('z-index', 6000 + lStack * 2 + 1);
 
       $("body").append($overlay);
 

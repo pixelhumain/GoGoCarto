@@ -1,0 +1,159 @@
+@import '../../commons/search-bar';
+@import 'leaflet-routing-machine';
+@import 'filter-menu/filter-menu';
+@import 'directory-menu-directions';
+
+#directory-menu
+{
+	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
+
+	z-index: 20;
+	overflow-y:hidden; 
+
+	@media #{$medium-and-up} 
+	{
+		overflow: visible;
+	}
+
+	#directory-menu-main-container
+	{
+		//overflow-y: scroll;
+  	@include calc(height, '100% - 2.5rem');
+
+  	@media #{$medium-and-up} 
+  	{
+  		height: 100%;
+      background-color: #272626;
+  		//overflow-y: hidden;
+  	}
+
+    .directory-menu-header
+    {      
+      position: absolute;
+      width: 103%;
+      background-color: $primary-color;
+      //yellow #da952a
+      // green #4e9c51
+      // red #d24c51
+      // grey #676565
+      border-radius: 0 0 5px 5px;
+
+      @include transition(all .5s);
+    }
+
+    .shadow-bottom { top: 3.5rem; }
+
+  	.directions-header { display : none; position: relative }
+
+    .directory-menu-content
+    {     
+      position: absolute;
+      top: 3.5rem;
+      bottom: 0;
+      width: 100%;  
+
+      #directory-menu-spinner-loader
+      {
+        top: 40%;
+        left: 40%;
+        position: absolute;
+        display: none;
+      }    
+    }      		
+	}
+}
+
+#search-bar
+{
+  margin: 0;
+  text-align: left;
+  padding-left: 2rem;    
+  height: 2rem;
+  border: none;
+  width: 100%;
+  background-color: white;
+  @include border-radius(5px);
+  @include box-sizing(border-box);
+
+  &:focus
+  {
+  	border-color: $secondary-color;
+  }
+}
+
+#search-bar-icon
+{
+  color: #777;
+  height: 2rem;
+  line-height: 2rem;
+
+  &:before
+  {
+  	line-height: 2rem;
+  }
+} 
+
+#search-bar-container
+{
+	height: 3.5rem;
+  padding: .7rem;
+	text-align: center;
+	margin: 0;
+	padding-bottom: 0;
+}
+
+#search-distance-component
+{
+	margin: 0rem .8rem 0 .8rem;
+
+	#search-distance-container
+	{
+    display: inline-block;
+  	width: calc(100% - 55px);
+
+		#search-distance-input
+		{
+			border: none;
+		}
+	}
+
+	#search-distance-value-container
+	{
+		float: right;
+  	line-height: 2.3rem;
+  	width: 55px;
+  	text-align: right;
+	}
+}
+
+#menu-title 
+{
+  background-color: $primary-color;
+  line-height: 2.5rem;
+  padding-right: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+
+  .shadow-bottom
+  {
+    top: 2.5rem;
+    display: none;
+  } 
+
+  > .icon-close
+  {
+    float: right;
+    position: absolute;
+    top: .2rem;
+    font-weight: 100;
+    font-size: 1.2rem;
+    right: 1.3rem;
+
+    &:hover { cursor: pointer }
+  }
+
+    @media #{$medium-and-up} 
+  {
+    display:none;
+  } 
+}

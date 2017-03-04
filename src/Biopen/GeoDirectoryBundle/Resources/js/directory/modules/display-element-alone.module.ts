@@ -37,10 +37,10 @@ export class DisplayElementAloneModule
 		// if (App.state == AppStates.Constellation) App.elementModule.focusOnThesesElements([element.id]);
 		// else 
 		// {
-		App.elementModule.clearMarkers();
+		//App.elementModule.clearMarkers();
+		App.elementModule.clearCurrentsElement();
 		//}			
-
-		element.show();	
+		App.elementModule.showElement(element);
 		element.isShownAlone = true;
 
 		App.infoBarComponent.showElement(element.id);

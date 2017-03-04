@@ -111,7 +111,7 @@ export class MapComponent
 		}).addTo(this.map_);
 
 		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
-		
+
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
 		{ 
@@ -136,7 +136,7 @@ export class MapComponent
 	   }
 
 		this.isInitialized = true;
-		console.log("map init done");
+		//console.log("map init done");
 		this.onMapReady.emit();
 	};
 

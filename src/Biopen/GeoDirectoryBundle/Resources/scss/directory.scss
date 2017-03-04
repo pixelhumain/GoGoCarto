@@ -6,7 +6,7 @@
 
 @import "components/directory/helpers-bars";
 @import "components/directory/loaders";
-@import "components/directory/directory-menu";
+@import "components/directory/directory-menu/directory-menu";
 
 @import 'components/directory/icons';
 
@@ -64,11 +64,11 @@
     #directory-menu
     {
         display: block !important;  
-        width: 14.5rem;     
+        width: 22rem;     
     }
 
     #directory-content
     {
-        margin-left: 14.5rem;
+        margin-left: 22rem;
     }
 } 

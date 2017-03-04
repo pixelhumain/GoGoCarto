@@ -23,6 +23,8 @@ $black-light:#272626;
 $submenu-color: $grey-dark;
 $header-color: $black-light;
 
+$option-disabled-color: #a5a5a5;
+
 
 
 // bleugris:#383D5A violet:#813c81 rose:#ad2264 	bleufoncé:#4a148c bleuclair: #3f51b5
@@ -57,7 +59,7 @@ $dropdown-hover-bg-color: #eee !default;
 $dropdown-color: $secondary-color !default;
 
 /*** Fonts ***/
-$roboto-font-path: "../font/roboto/" !default;
+$roboto-font-path: "../fonts/Roboto/" !default;
 $icons-font-path: "../font/material-design-icons/" !default;
 
 /*** Forms ***/

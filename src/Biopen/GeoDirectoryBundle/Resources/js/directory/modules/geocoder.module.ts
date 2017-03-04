@@ -58,7 +58,7 @@ export class GeocoderModule
 
 	geocodeAddress( address, callbackComplete?, callbackFail? ) {
 
-		console.log("geocode address : ", address);
+		//console.log("geocode address : ", address);
 		this.lastAddressRequest = address;
 
 		// if no address, we show france
@@ -73,22 +73,49 @@ export class GeocoderModule
 		}
 		else
 		{
-			this.geocoder.geocode( address, (results : GeocodeResult[]) =>
-			{			
-				if (results !== null) 
-				{				
-					this.lastResults = results;
-					this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+			// fake geocoder when no internet connexion
+			let fake = true;
 
-					if (callbackComplete) callbackComplete(results);	
-				} 	
-				else
-				{
-					if (callbackFail) callbackFail();			
+			if (!fake)
+			{
+				this.geocoder.geocode( address, (results : GeocodeResult[]) =>
+				{			
+					if (results !== null) 
+					{				
+						this.lastResults = results;
+						this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+
+						if (callbackComplete) callbackComplete(results);	
+					} 	
+					else
+					{
+						if (callbackFail) callbackFail();			
+					}
+				});
+			}
+			else
+			{
+				let result = {
+					bounds: [.069185,-0.641415,44.1847351,-0.4699835],
+					city: 'Labrit',
+					formattedAddress: "Labrit 40420",
+					latitude:44.1049567,
+					longitude:-0.5445296,
+					postal_code:"40420",
+					region:"Nouvelle-Aquitaine",
+					getBounds() { return this.bounds; },
+					getCoordinates() { return [this.latitude, this.longitude]; },
+					getFormattedAddress() { return this.formattedAddress; }
 				}
-			});
-		}
 
-			
+				let results = [];
+				results.push(result);
+
+				this.lastResults = results;
+				this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+
+				callbackComplete(results);
+			}	
+		}			
 	};
 }

@@ -5,7 +5,6 @@
 {# Stylessheets #}
 {% block stylesheets %}
 
-  <link href="https://fonts.googleapis.com/css?family=Yellowtail|Average+Sans" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
   <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
@@ -18,8 +17,8 @@
 <div id="directory-container">
   
   {# Menu #}
-  <section id="directory-menu" class="custom-scroll-bar"> 
-      {% include '@directory/directory/twig-js-templates/directory-menu.html.twig' %}    
+  <section id="directory-menu"> 
+      {% include '@directory/directory/components/directory-menu/directory-menu.html.twig' %}    
   </section>
    
   {# The directory, map or list displaying, and element information bar #} 
@@ -27,6 +26,8 @@
     
     {% include '@directory/directory/modals/too-many-markers.html.twig'  %}
     {% include '@directory/directory/modals/pick-address-for-directions.html.twig'  %}  
+    {% include '@directory/directory/modals/share-element-url.html.twig'  %}  
+
     {% include '@directory/directory/components/spinner-loader.html.twig'  
               with {'id': 'directory-spinner-loader' }%}
     
@@ -98,8 +99,9 @@
   {% endjavascripts %}
 
   <script src="{{ asset('js/libs.js') }}"></script>  
+  <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
-  
+  <script src="{{ asset('js/home.js') }}"></script>
   <script>
 
     //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";

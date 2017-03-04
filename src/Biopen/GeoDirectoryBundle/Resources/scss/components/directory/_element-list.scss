@@ -2,7 +2,7 @@
 {
 	display:none;
 	overflow: auto;
-
+	background-color: $secondary-color;
 	border-left: none;
 	height: auto;
 
@@ -24,7 +24,7 @@
     	@media #{$medium2-and-up} { padding-left: 3rem; padding-right: calc(3rem + 14px); }
 		@media #{$large-only} {padding-left: 10rem; padding-right: calc(10rem + 14px); }	
 	   color: #F5F3F3;
-	   background-color: $secondary-color;	    
+	   background-color: #404040;	    
 	}	
 
 	ul.collapsible
