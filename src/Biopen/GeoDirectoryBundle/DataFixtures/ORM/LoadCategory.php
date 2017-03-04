@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-03 15:52:32
+ * @Last Modified time: 2017-03-04 10:54:12
  */
  
 
@@ -23,6 +23,97 @@ class LoadCategory implements FixtureInterface
 	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
 	public function load(ObjectManager $manager)
 	{
+		// main
+		$mainCategory = new Category();
+		$mainCategory->setName('Main');
+		$mainCategory->setIndex(1);
+		$mainCategory->singleOption(false);
+		$mainCategory->enableDescription(false);
+		$mainCategory->displayCategoryName(false);
+		$mainCategory->depth(0);
+
+		// Liste des names de catégorie à ajouter
+		$mains = array(
+			array('Agriculture & Alimentation'  , 'leaf'     , '#B33536', ''        , ''),
+			array('Education & Formation'    , 'education'      , '#383D5A',''        , ''),
+			array('Mobilité'        , 'bike'      				, '#4B7975',''        , ''),
+			array('Voyages'      , 'bed'     		, '#3F51B5','', ''),			
+			array('Habitat'    , 'house'      , '#813c81',''        , ''),
+			array('Sortie & Culture'    , 'coffee'      , '#813c81',''        , ''),
+		);
+
+
+		foreach ($mains as $key => $main) 
+		{
+			$new_main = new CategoryOption();
+			$new_main->setName($main[0]);
+
+			$new_main->setIcon('icon-' + $main[1]);
+			$new_main->setColor($main[2]);
+
+			$new_main->setNameShort($main[0]);
+
+			$new_main->setTextHelper($main[4]);
+
+			$new_main->setIconForMarker(true);
+			$new_main->setColorForMarker(true);
+
+			$new_main->setIndex($key);
+
+			$mainCategory->addOption($new_main);
+		}
+		
+
+
+		// TYPE
+		$typeCategory = new Category();
+		$typeCategory->setName('Catégorie');
+		$typeCategory->setIndex(0);
+		$typeCategory->singleOption(false);
+		$typeCategory->enableDescription(false);
+		$typeCategory->displayCategoryName(true);
+		$typeCategory->depth(1);
+
+		// Liste des names de catégorie à ajouter
+		$types = array(
+			array('Producteur'  , 'producteur'     , '#B33536', ''        , falsee),
+			array('AMAP'        , 'amap'      , '#4B7975',''        , false),
+			array('Marché'      , 'marche'     , '#3F51B5','Laitiers', true),
+			array('Epicerie'    , 'epicerie'      , '#383D5A',''        , true),
+			array('Boutique'    , 'boutique'      , '#813c81',''        , true),
+		);
+
+
+		foreach ($types as $key => $type) 
+		{
+			$new_type = new CategoryOption();
+			$new_type->setName($type[0]);
+
+			$new_type->setIcon('icon-' + $type[1]);
+			$new_type->setColor($type[2]);
+
+			$new_type->setNameShort($type[0]);
+
+			$new_type->setTextHelper('');
+
+			$new_type->setIconForMarker($type[4]);
+			$new_type->setColorForMarker(true);
+
+			$new_type->setIndex($key);
+
+			$typeCategory->addOption($new_type);
+		}
+
+
+		// PRODUITS
+		$productCategory = new Category();
+		$productCategory->setName('Produits');
+		$productCategory->setIndex(1);
+		$productCategory->singleOption(false);
+		$productCategory->enableDescription(true);
+		$productCategory->displayCategoryName(true);
+		$productCategory->depth(1);
+
 		// Liste des names de catégorie à ajouter
 		$products = array(
 			array('Légumes'             , 'legumes'     , '#4A148C', ''        , ''),
@@ -58,7 +149,15 @@ class LoadCategory implements FixtureInterface
 			$new_product->setColorForMarker(false);
 
 			$new_product->setIndex($key);
+
+			$productCategory->addOption($new_product);
 		}
+
+
+		// COMPILE
+
+		$mains[0]->addSubcategory($typeCategory);
+		$mains[1]->addSubcategory($productCategory);
 
 		// On déclenche l'enregistrement de toutes les catégories
 		$manager->flush();
