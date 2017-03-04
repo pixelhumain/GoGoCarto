@@ -70,13 +70,6 @@ class Category
     /**
      * @var bool
      *
-     * @ORM\Column(name="enable_main_option", type="boolean")
-     */
-    private $enableMainOption;
-
-    /**
-     * @var bool
-     *
      * @ORM\Column(name="display_category_name", type="boolean")
      */
     private $displayCategoryName;
