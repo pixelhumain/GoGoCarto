@@ -1,0 +1,11 @@
+<style>
+  {% for option in listOptions %} 
+       
+    .bgdSoftColorAs.option-{{ option.id }} { background-color: {{ option.softColor }} }
+    .borderSoftColorAs.option-{{ option.id }} { border-color: {{ option.softColor }} }
+    .bgdColorAs.option-{{ option.id }} { background-color: {{ option.color }} }
+    .colorAs.option-{{ option.id }} { color: {{ option.color }} }
+
+
+  {% endfor %} 
+</style>
