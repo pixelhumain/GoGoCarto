@@ -33,14 +33,14 @@ class CategoryOption
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Entity\Category", mappedBy="optionOwner", cascade={"persist", "remove"}, orphanRemoval=true)
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", cascade={"persist", "remove"})
     */
     private $subcategories;
 
-    /**
-    * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Entity\Category", inversedBy="options")
-    */
-    private $categoryOwner;
+    // *
+    // * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options")
+    
+    // private $categoryOwner;
 
     /**
      * @var int
@@ -84,13 +84,6 @@ class CategoryOption
      */
     private $useColorForMarker;
 
-    /**
-     * @var bool
-     *
-     * @MongoDB\Field(type="boolean")
-     */
-    private $booleanType = false;
-   
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
@@ -153,9 +146,9 @@ class CategoryOption
     /**
      * Add subcategory
      *
-     * @param Biopen\GeoDirectoryBundle\Entity\Category $subcategory
+     * @param Biopen\GeoDirectoryBundle\Document\Category $subcategory
      */
-    public function addSubcategory(\Biopen\GeoDirectoryBundle\Entity\Category $subcategory)
+    public function addSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory)
     {
         $this->subcategories[] = $subcategory;
     }
@@ -163,9 +156,9 @@ class CategoryOption
     /**
      * Remove subcategory
      *
-     * @param Biopen\GeoDirectoryBundle\Entity\Category $subcategory
+     * @param Biopen\GeoDirectoryBundle\Document\Category $subcategory
      */
-    public function removeSubcategory(\Biopen\GeoDirectoryBundle\Entity\Category $subcategory)
+    public function removeSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory)
     {
         $this->subcategories->removeElement($subcategory);
     }
@@ -178,28 +171,6 @@ class CategoryOption
     public function getSubcategories()
     {
         return $this->subcategories;
-    }
-
-    /**
-     * Set categoryOwner
-     *
-     * @param Biopen\GeoDirectoryBundle\Entity\Category $categoryOwner
-     * @return $this
-     */
-    public function setCategoryOwner(\Biopen\GeoDirectoryBundle\Entity\Category $categoryOwner)
-    {
-        $this->categoryOwner = $categoryOwner;
-        return $this;
-    }
-
-    /**
-     * Get categoryOwner
-     *
-     * @return Biopen\GeoDirectoryBundle\Entity\Category $categoryOwner
-     */
-    public function getCategoryOwner()
-    {
-        return $this->categoryOwner;
     }
 
     /**
@@ -332,27 +303,5 @@ class CategoryOption
     public function getUseColorForMarker()
     {
         return $this->useColorForMarker;
-    }
-
-    /**
-     * Set booleanType
-     *
-     * @param boolean $booleanType
-     * @return $this
-     */
-    public function setBooleanType($booleanType)
-    {
-        $this->booleanType = $booleanType;
-        return $this;
-    }
-
-    /**
-     * Get booleanType
-     *
-     * @return boolean $booleanType
-     */
-    public function getBooleanType()
-    {
-        return $this->booleanType;
     }
 }

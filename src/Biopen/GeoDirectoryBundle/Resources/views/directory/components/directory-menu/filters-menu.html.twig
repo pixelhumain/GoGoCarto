@@ -2,19 +2,20 @@
 
 	<div class="main-categories">
 
-		<div class="icon icon-plantes" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-bike active" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-bed" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-home" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-paw" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-education" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-coffee" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
+		{% for key, option in mainCategory.options %}
+
+			<div class="icon {{ option.icon }}" data-position="right" data-delay="0" data-tooltip="{{ option.name }}"></div> 
+
+		{% endfor %}
 
 	</div>
 
 	<div class="sub-categories">
 
-		<div class="sub-categorie-main-title">Agriculture</div>
+		{% set currentMainOption = mainCategory.options[0] %}
+
+		
+		{#<div class="sub-categorie-main-title">Agriculture</div>
 
 		<div class="sub-categories-content">
 		<ul>
@@ -94,6 +95,8 @@
 
 		</ul>
 		</div>
+
+		#}
 
 	</div>
 

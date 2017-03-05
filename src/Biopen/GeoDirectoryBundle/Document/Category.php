@@ -33,14 +33,14 @@ class Category
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Entity\CategoryOption", mappedBy="categoryOwner", cascade={"persist", "remove"}, orphanRemoval=true)
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\CategoryOption", cascade={"persist", "remove"})
     */
     private $options; 
 
-    /**
-    * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Entity\Category", inversedBy="subcategories")
-    */
-    private $optionOwner;
+    // *
+    // * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="subcategories")
+    
+    // private $optionOwner;
 
     /**
      * @var int
@@ -76,6 +76,8 @@ class Category
      * @MongoDB\Field(type="int")
      */
     private $depth;
+
+
     public function __construct()
     {
         $this->options = new \Doctrine\Common\Collections\ArrayCollection();
@@ -138,9 +140,9 @@ class Category
     /**
      * Add option
      *
-     * @param Biopen\GeoDirectoryBundle\Entity\CategoryOption $option
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryOption $option
      */
-    public function addOption(\Biopen\GeoDirectoryBundle\Entity\CategoryOption $option)
+    public function addOption(\Biopen\GeoDirectoryBundle\Document\CategoryOption $option)
     {
         $this->options[] = $option;
     }
@@ -148,9 +150,9 @@ class Category
     /**
      * Remove option
      *
-     * @param Biopen\GeoDirectoryBundle\Entity\CategoryOption $option
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryOption $option
      */
-    public function removeOption(\Biopen\GeoDirectoryBundle\Entity\CategoryOption $option)
+    public function removeOption(\Biopen\GeoDirectoryBundle\Document\CategoryOption $option)
     {
         $this->options->removeElement($option);
     }
@@ -163,28 +165,6 @@ class Category
     public function getOptions()
     {
         return $this->options;
-    }
-
-    /**
-     * Set optionOwner
-     *
-     * @param Biopen\GeoDirectoryBundle\Entity\Category $optionOwner
-     * @return $this
-     */
-    public function setOptionOwner(\Biopen\GeoDirectoryBundle\Entity\Category $optionOwner)
-    {
-        $this->optionOwner = $optionOwner;
-        return $this;
-    }
-
-    /**
-     * Get optionOwner
-     *
-     * @return Biopen\GeoDirectoryBundle\Entity\Category $optionOwner
-     */
-    public function getOptionOwner()
-    {
-        return $this->optionOwner;
     }
 
     /**

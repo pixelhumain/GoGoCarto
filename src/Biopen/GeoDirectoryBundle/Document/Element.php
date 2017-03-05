@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-05 09:53:05
+ * @Last Modified time: 2017-03-05 11:27:18
  */
  
 
@@ -67,7 +67,7 @@ class Element
     /**
      * @var string
      *
-     * @MongoDB\Field(type="text", nullable=false)
+     * @MongoDB\Field(type="string", nullable=false)
      */
     private $description;
 
@@ -95,14 +95,14 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\Field(type="object", nullable=false)
+     * @MongoDB\Field(type="object_id", nullable=false)
      */
     private $categories;
 
     /**
      * @var \stdClass
      *
-     * @MongoDB\Field(type="object", nullable=true)
+     * @MongoDB\Field(type="object_id", nullable=true)
      */
     private $openHours;
 
@@ -174,6 +174,7 @@ class Element
     }
 
  
+
 
     /**
      * Get id
@@ -298,10 +299,10 @@ class Element
     /**
      * Set description
      *
-     * @param text $description
+     * @param string $description
      * @return $this
      */
-    public function setDescription(\text $description)
+    public function setDescription($description)
     {
         $this->description = $description;
         return $this;
@@ -310,7 +311,7 @@ class Element
     /**
      * Get description
      *
-     * @return text $description
+     * @return string $description
      */
     public function getDescription()
     {
@@ -386,10 +387,10 @@ class Element
     /**
      * Set categories
      *
-     * @param object $categories
+     * @param object_id $categories
      * @return $this
      */
-    public function setCategories(\object $categories)
+    public function setCategories($categories)
     {
         $this->categories = $categories;
         return $this;
@@ -398,7 +399,7 @@ class Element
     /**
      * Get categories
      *
-     * @return object $categories
+     * @return object_id $categories
      */
     public function getCategories()
     {
@@ -408,10 +409,10 @@ class Element
     /**
      * Set openHours
      *
-     * @param object $openHours
+     * @param object_id $openHours
      * @return $this
      */
-    public function setOpenHours(\object $openHours)
+    public function setOpenHours($openHours)
     {
         $this->openHours = $openHours;
         return $this;
@@ -420,7 +421,7 @@ class Element
     /**
      * Get openHours
      *
-     * @return object $openHours
+     * @return object_id $openHours
      */
     public function getOpenHours()
     {

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-04 10:54:12
+ * @Last Modified time: 2017-03-05 11:28:59
  */
  
 
@@ -15,8 +15,8 @@ namespace Biopen\GeoDirectoryBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Biopen\GeoDirectoryBundle\Entity\Category;
-use Biopen\GeoDirectoryBundle\Entity\CategoryOption;
+use Biopen\GeoDirectoryBundle\Document\Category;
+use Biopen\GeoDirectoryBundle\Document\CategoryOption;
 
 class LoadCategory implements FixtureInterface
 {
@@ -27,18 +27,18 @@ class LoadCategory implements FixtureInterface
 		$mainCategory = new Category();
 		$mainCategory->setName('Main');
 		$mainCategory->setIndex(1);
-		$mainCategory->singleOption(false);
-		$mainCategory->enableDescription(false);
-		$mainCategory->displayCategoryName(false);
-		$mainCategory->depth(0);
+		$mainCategory->setSingleOption(false);
+		$mainCategory->setEnableDescription(false);
+		$mainCategory->setDisplayCategoryName(false);
+		$mainCategory->setDepth(0);
 
 		// Liste des names de catégorie à ajouter
 		$mains = array(
-			array('Agriculture & Alimentation'  , 'leaf'     , '#B33536', ''        , ''),
+			array('Agriculture & Alimentation'  , 'plantes'     , '#B33536', ''        , ''),
 			array('Education & Formation'    , 'education'      , '#383D5A',''        , ''),
 			array('Mobilité'        , 'bike'      				, '#4B7975',''        , ''),
 			array('Voyages'      , 'bed'     		, '#3F51B5','', ''),			
-			array('Habitat'    , 'house'      , '#813c81',''        , ''),
+			array('Habitat'    , 'home'      , '#813c81',''        , ''),
 			array('Sortie & Culture'    , 'coffee'      , '#813c81',''        , ''),
 		);
 
@@ -48,15 +48,15 @@ class LoadCategory implements FixtureInterface
 			$new_main = new CategoryOption();
 			$new_main->setName($main[0]);
 
-			$new_main->setIcon('icon-' + $main[1]);
+			$new_main->setIcon('icon-' . $main[1]);
 			$new_main->setColor($main[2]);
 
 			$new_main->setNameShort($main[0]);
 
 			$new_main->setTextHelper($main[4]);
 
-			$new_main->setIconForMarker(true);
-			$new_main->setColorForMarker(true);
+			$new_main->setUseIconForMarker(true);
+			$new_main->setUseColorForMarker(true);
 
 			$new_main->setIndex($key);
 
@@ -69,14 +69,14 @@ class LoadCategory implements FixtureInterface
 		$typeCategory = new Category();
 		$typeCategory->setName('Catégorie');
 		$typeCategory->setIndex(0);
-		$typeCategory->singleOption(false);
-		$typeCategory->enableDescription(false);
-		$typeCategory->displayCategoryName(true);
-		$typeCategory->depth(1);
+		$typeCategory->setSingleOption(false);
+		$typeCategory->setEnableDescription(false);
+		$typeCategory->setDisplayCategoryName(true);
+		$typeCategory->setDepth(1);
 
 		// Liste des names de catégorie à ajouter
 		$types = array(
-			array('Producteur'  , 'producteur'     , '#B33536', ''        , falsee),
+			array('Producteur'  , 'producteur'     , '#B33536', ''        , false),
 			array('AMAP'        , 'amap'      , '#4B7975',''        , false),
 			array('Marché'      , 'marche'     , '#3F51B5','Laitiers', true),
 			array('Epicerie'    , 'epicerie'      , '#383D5A',''        , true),
@@ -89,15 +89,15 @@ class LoadCategory implements FixtureInterface
 			$new_type = new CategoryOption();
 			$new_type->setName($type[0]);
 
-			$new_type->setIcon('icon-' + $type[1]);
+			$new_type->setIcon('icon-' . $type[1]);
 			$new_type->setColor($type[2]);
 
 			$new_type->setNameShort($type[0]);
 
 			$new_type->setTextHelper('');
 
-			$new_type->setIconForMarker($type[4]);
-			$new_type->setColorForMarker(true);
+			$new_type->setUseIconForMarker($type[4]);
+			$new_type->setUseColorForMarker(true);
 
 			$new_type->setIndex($key);
 
@@ -109,10 +109,10 @@ class LoadCategory implements FixtureInterface
 		$productCategory = new Category();
 		$productCategory->setName('Produits');
 		$productCategory->setIndex(1);
-		$productCategory->singleOption(false);
-		$productCategory->enableDescription(true);
-		$productCategory->displayCategoryName(true);
-		$productCategory->depth(1);
+		$productCategory->setSingleOption(false);
+		$productCategory->setEnableDescription(true);
+		$productCategory->setDisplayCategoryName(true);
+		$productCategory->setDepth(1);
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
@@ -137,7 +137,7 @@ class LoadCategory implements FixtureInterface
 			$new_product = new CategoryOption();
 			$new_product->setName($product[0]);
 
-			$new_product->setIcon('icon-' + $product[1]);
+			$new_product->setIcon('icon-' . $product[1]);
 			$new_product->setColor($product[2]);
 
 			if ($product[2] == '') $new_product->setNameShort($product[0]);
@@ -145,8 +145,8 @@ class LoadCategory implements FixtureInterface
 
 			$new_product->setTextHelper($product[4]);
 
-			$new_product->setIconForMarker(true);
-			$new_product->setColorForMarker(false);
+			$new_product->setUseIconForMarker(true);
+			$new_product->setUseColorForMarker(false);
 
 			$new_product->setIndex($key);
 
@@ -156,9 +156,10 @@ class LoadCategory implements FixtureInterface
 
 		// COMPILE
 
-		$mains[0]->addSubcategory($typeCategory);
-		$mains[1]->addSubcategory($productCategory);
+		$mainCategory->getOptions()[0]->addSubcategory($typeCategory);
+		$mainCategory->getOptions()[0]->addSubcategory($productCategory);
 
+		$manager->persist($mainCategory);
 		// On déclenche l'enregistrement de toutes les catégories
 		$manager->flush();
 	}

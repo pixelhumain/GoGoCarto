@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-01 08:32:05
+ * @Last Modified time: 2017-03-05 11:32:55
  */
  
 
@@ -99,14 +99,23 @@ class DirectoryController extends Controller
 
     private function renderDirectory($config)
     {
+        $mainCategory = $this->getMainCategory();
+
+        dump($mainCategory);
+
+        return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
+                            array("mainCategory" => $mainCategory, "config" => $config));
+    }
+
+    private function getMainCategory()
+    {
         $em = $this->get('doctrine_mongodb')->getManager();
 
         // Get Product List        
-        $listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
-        ->findAll(); 
+        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+        ->findOneByDepth(0); 
 
-        return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("listProducts" => $listProducts, "config" => $config));
+        return $mainCategory;
     }
     
 
@@ -122,7 +131,7 @@ class DirectoryController extends Controller
 
     private function parseAddressViewport($addressViewport)
     {
-        $splited = split('@', $addressViewport);
+        $splited = explode('@', $addressViewport);
 
         if (count($splited) == 1)
         {

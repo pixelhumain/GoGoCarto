@@ -9,7 +9,7 @@
     	   name="adresse" 
     	   onClick="this.setSelectionRange(0, this.value.length)" 
     	   {% if config.address is defined %}
-    	   value="{{ config.address | replace('-', ' ') | capitalize }}" 
+    	   value="{{ config.address | replace({'-': ' '}) | capitalize }}" 
     	   {% endif %}
     />
     
