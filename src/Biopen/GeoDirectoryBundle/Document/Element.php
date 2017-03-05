@@ -7,49 +7,53 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-03 15:35:18
+ * @Last Modified time: 2017-01-24 17:56:25
  */
  
 
-namespace Biopen\GeoDirectoryBundle\Entity;
+namespace Biopen\GeoDirectoryBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * Element
  *
- * @ORM\Table(name="element")
- * @ORM\Entity(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
  */
 class Element
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="ALNUM") 
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * 
      *
-     * @ORM\Column(type="point", name="latlng")
+     * @MongoDB\Field(type="float")
      */
-    private $latlng;
+    private $lat;
+
+    /**
+     * 
+     *
+     * @MongoDB\Field(type="float")
+     */
+    private $lng;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $address;
 
@@ -70,24 +74,25 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $tel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $webSite;
 
+    
     /**
      * @var \stdClass
      *
@@ -112,28 +117,28 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="contributor", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $contributor;
 
-    /**
+   /**
      * @var string
      *
-     * @ORM\Column(name="contributor_mail", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $contributorMail;
 
-    /**
+   /**
      * @var string
      *
-     * @ORM\Column(name="validation_code", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $validationCode;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="valide", type="boolean")
+     * MongoDB\Field(type="boolean")
      */
     private $valide = false;
 
@@ -578,101 +583,5 @@ class Element
     public function getProducts()
     {
         return $this->products;
-    }
-
-    /**
-     * Set address
-     *
-     * @param string $address
-     *
-     * @return Element
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
-     * Set postalCode
-     *
-     * @param string $postalCode
-     *
-     * @return Element
-     */
-    public function setPostalCode($postalCode)
-    {
-        $this->postalCode = $postalCode;
-
-        return $this;
-    }
-
-    /**
-     * Get postalCode
-     *
-     * @return string
-     */
-    public function getPostalCode()
-    {
-        return $this->postalCode;
-    }
-
-    /**
-     * Set categories
-     *
-     * @param \stdClass $categories
-     *
-     * @return Element
-     */
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
-    /**
-     * Get categories
-     *
-     * @return \stdClass
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
-    /**
-     * Set openHoursMoreInfos
-     *
-     * @param string $openHoursMoreInfos
-     *
-     * @return Element
-     */
-    public function setOpenHoursMoreInfos($openHoursMoreInfos)
-    {
-        $this->openHoursMoreInfos = $openHoursMoreInfos;
-
-        return $this;
-    }
-
-    /**
-     * Get openHoursMoreInfos
-     *
-     * @return string
-     */
-    public function getOpenHoursMoreInfos()
-    {
-        return $this->openHoursMoreInfos;
     }
 }

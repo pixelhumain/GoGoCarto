@@ -10,14 +10,9 @@ Requirements
 2. [Composer](https://getcomposer.org/download/) 
 3. [Nodejs](https://nodejs.org/en/download/)
 4. [Git](https://git-scm.com/)
-5. Serveur Php ([Wamp server](http://www.wampserver.com/) for example)
-6. Any Text Editor (SublimeText for example)
-
-Help (in french) :
-
-1. [Openclassroom "Vérifier l'installation de PHP en console"](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/symfony2-un-framework-php)
-2. [Openclassroom "Installer composer et git"](https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/installer-un-bundle-grace-a-composer)
-
+5. Php Server (Apache, [Wamp server](http://www.wampserver.com/) for example)
+6. MongoDB (http://php.net/manual/fr/mongodb.installation.php)
+7. Any Text Editor (SublimeText for example)
 
 Installation
 ------------
@@ -34,7 +29,7 @@ Php dependency (symfony, bundles...)
 ```
 php path-to/composer.phar install or composer install
 ```
-*During installation, config/parameters file will be created, provide database infos or leave default fields*
+*During installation, config/parameters file will be created, leave default fields*
 
 Workflow dependencies (compiling sass and javascript)
 ```
@@ -63,14 +58,10 @@ gulp watch
 Generate Database
 -----------------
 
-Lauch php server, go to PhpMyAdmin and create a database (called "carto" for example)
-
-Change app/config/parameters.yml with the database name you juste created, and enter database login information (by default user:"root", password:"null")
-
 Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
 ```
-doctrine:schema:update --force
-doctrine:fixtures:load
+doctrine:mongodb:schema:create
+doctrine:mongodb:fixtures:load
 ```
 
 Then generate if necessary random point on the map :

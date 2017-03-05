@@ -8,6 +8,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    mongodb_server: "mongodb://localhost:27017"
 
 fos_js_routing:
     routes_to_expose: [ (.*) ]
@@ -75,6 +76,16 @@ doctrine:
             numeric_functions:
                 DISTANCE: Wantlet\ORM\Distance
                 POINT_STR: Wantlet\ORM\PointStr
+# Mongodb Configuration
+doctrine_mongodb:
+    connections:
+        default:
+            server: "%mongodb_server%"
+            options: {}
+    default_database: cartoV3
+    document_managers:
+        default:
+            auto_mapping: true
 
 # Swiftmailer Configuration
 swiftmailer:

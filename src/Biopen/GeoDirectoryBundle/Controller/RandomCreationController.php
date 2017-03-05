@@ -17,10 +17,10 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\ElementProduct;
+use Biopen\GeoDirectoryBundle\Document\Product;
 
 use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
@@ -30,23 +30,24 @@ class RandomCreationController extends Controller
 {    
     public function generateAction($nombre)
     {
-	    $manager = $this->getDoctrine()->getManager();
+	    $manager = $this->get('doctrine_mongodb')->getManager();
 
 	    $SOlat = 43.55;
 	    $SOlng = -0.94;
 	    $NElat = 49.22;
 	    $NElng = 5.89;
 
-	    // $SOlat = 42.81519924863995;
-	    // $SOlng = -1.0489655173828396;
-	    // $NElat = 44.9916584842516;
-	    // $NElng = 2.9116057716796604;
+	 //    // $SOlat = 42.81519924863995;
+	 //    // $SOlng = -1.0489655173828396;
+	 //    // $NElat = 44.9916584842516;
+	 //    // $NElng = 2.9116057716796604;
 
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $listProducts = $manager->getRepository('BiopenGeoDirectoryBundle:Product')
+	    $listProducts = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
 	            ->findAll();
+
 
 	    $lipsum = new LoremIpsum();
 
@@ -95,7 +96,8 @@ class RandomCreationController extends Controller
 	      $lat = $SOlat + $latSpan * $this->random_0_1();
 	      $lng = $SOlng + $lngSpan * $this->random_0_1();
 
-	      $new_element->setLatLng(new Point($lat,$lng));
+	      $new_element->setLng($lng);
+	      $new_element->setLat($lat);
 	      $new_element->setAdresse($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
@@ -122,6 +124,7 @@ class RandomCreationController extends Controller
 	        $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
 	        $elementProduct->setElement($new_element);
 	        $new_element->addProduct($elementProduct);
+	        $manager->persist($elementProduct);
 
 	        if ($j == 0 && !$new_element->getMainProduct()) 
 	        {
