@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 17:56:25
+ * @Last Modified time: 2017-03-05 09:53:05
  */
  
 
@@ -60,14 +60,14 @@ class Element
     /**
      * @var string
      *
-     * @ORM\Column(name="postal_code", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
     private $postalCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=false)
+     * @MongoDB\Field(type="text", nullable=false)
      */
     private $description;
 
@@ -91,26 +91,25 @@ class Element
      * @MongoDB\Field(type="string")
      */
     private $webSite;
-
     
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="categories", type="object", nullable=false)
+     * @MongoDB\Field(type="object", nullable=false)
      */
     private $categories;
 
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="openHours", type="object", nullable=true)
+     * @MongoDB\Field(type="object", nullable=true)
      */
     private $openHours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_hours_more_infos", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string", nullable=true)
      */
     private $openHoursMoreInfos;
 
@@ -142,10 +141,6 @@ class Element
      */
     private $valide = false;
 
-
-    private $distance;
-
-    private $wastedDistance;
 
     /**
      * Constructor
@@ -183,7 +178,7 @@ class Element
     /**
      * Get id
      *
-     * @return integer
+     * @return custom_id $id
      */
     public function getId()
     {
@@ -194,20 +189,18 @@ class Element
      * Set name
      *
      * @param string $name
-     *
-     * @return Element
+     * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string
+     * @return string $name
      */
     public function getName()
     {
@@ -215,95 +208,109 @@ class Element
     }
 
     /**
-     * Set name
+     * Set lat
      *
-     * @param string $name
-     *
-     * @return Element
+     * @param float $lat
+     * @return $this
      */
-    public function setDistance($distance)
+    public function setLat($lat)
     {
-        $this->distance = $distance;
-
+        $this->lat = $lat;
         return $this;
     }
 
     /**
-     * Get name
+     * Get lat
      *
-     * @return string
+     * @return float $lat
      */
-    public function getDistance()
+    public function getLat()
     {
-        return $this->distance;
+        return $this->lat;
     }
 
     /**
-     * Set latlng
+     * Set lng
      *
-     * @param point $latlng
-     *
-     * @return Element
+     * @param float $lng
+     * @return $this
      */
-    public function setLatlng($latlng)
+    public function setLng($lng)
     {
-        $this->latlng = $latlng;
-
+        $this->lng = $lng;
         return $this;
     }
 
     /**
-     * Get latlng
+     * Get lng
      *
-     * @return point
+     * @return float $lng
      */
-    public function getLatlng()
+    public function getLng()
     {
-        return $this->latlng;
+        return $this->lng;
     }
 
     /**
-     * Set adresse
+     * Set address
      *
-     * @param string $adresse
-     *
-     * @return Element
+     * @param string $address
+     * @return $this
      */
-    public function setAdresse($adresse)
+    public function setAddress($address)
     {
-        $this->adresse = $adresse;
-
+        $this->address = $address;
         return $this;
     }
 
     /**
-     * Get adresse
+     * Get address
      *
-     * @return string
+     * @return string $address
      */
-    public function getAdresse()
+    public function getAddress()
     {
-        return $this->adresse;
+        return $this->address;
+    }
+
+    /**
+     * Set postalCode
+     *
+     * @param string $postalCode
+     * @return $this
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+        return $this;
+    }
+
+    /**
+     * Get postalCode
+     *
+     * @return string $postalCode
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
     }
 
     /**
      * Set description
      *
-     * @param string $description
-     *
-     * @return Element
+     * @param text $description
+     * @return $this
      */
-    public function setDescription($description)
+    public function setDescription(\text $description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string
+     * @return text $description
      */
     public function getDescription()
     {
@@ -314,20 +321,18 @@ class Element
      * Set tel
      *
      * @param string $tel
-     *
-     * @return Element
+     * @return $this
      */
     public function setTel($tel)
     {
         $this->tel = $tel;
-
         return $this;
     }
 
     /**
      * Get tel
      *
-     * @return string
+     * @return string $tel
      */
     public function getTel()
     {
@@ -338,20 +343,18 @@ class Element
      * Set mail
      *
      * @param string $mail
-     *
-     * @return Element
+     * @return $this
      */
     public function setMail($mail)
     {
         $this->mail = $mail;
-
         return $this;
     }
 
     /**
      * Get mail
      *
-     * @return string
+     * @return string $mail
      */
     public function getMail()
     {
@@ -362,20 +365,18 @@ class Element
      * Set webSite
      *
      * @param string $webSite
-     *
-     * @return Element
+     * @return $this
      */
     public function setWebSite($webSite)
     {
         $this->webSite = $webSite;
-
         return $this;
     }
 
     /**
      * Get webSite
      *
-     * @return string
+     * @return string $webSite
      */
     public function getWebSite()
     {
@@ -383,47 +384,43 @@ class Element
     }
 
     /**
-     * Set mainProduct
+     * Set categories
      *
-     * @param string $mainProduct
-     *
-     * @return Element
+     * @param object $categories
+     * @return $this
      */
-    public function setMainProduct($mainProduct)
+    public function setCategories(\object $categories)
     {
-        $this->mainProduct = $mainProduct;
-
+        $this->categories = $categories;
         return $this;
     }
 
     /**
-     * Get mainProduct
+     * Get categories
      *
-     * @return string
+     * @return object $categories
      */
-    public function getMainProduct()
+    public function getCategories()
     {
-        return $this->mainProduct;
+        return $this->categories;
     }
 
     /**
      * Set openHours
      *
-     * @param \stdClass $openHours
-     *
-     * @return Element
+     * @param object $openHours
+     * @return $this
      */
-    public function setOpenHours($openHours)
+    public function setOpenHours(\object $openHours)
     {
         $this->openHours = $openHours;
-
         return $this;
     }
 
     /**
      * Get openHours
      *
-     * @return \stdClass
+     * @return object $openHours
      */
     public function getOpenHours()
     {
@@ -431,47 +428,43 @@ class Element
     }
 
     /**
-     * Set type
+     * Set openHoursMoreInfos
      *
-     * @param string $type
-     *
-     * @return Element
+     * @param string $openHoursMoreInfos
+     * @return $this
      */
-    public function setType($type)
+    public function setOpenHoursMoreInfos($openHoursMoreInfos)
     {
-        $this->type = $type;
-
+        $this->openHoursMoreInfos = $openHoursMoreInfos;
         return $this;
     }
 
     /**
-     * Get type
+     * Get openHoursMoreInfos
      *
-     * @return string
+     * @return string $openHoursMoreInfos
      */
-    public function getType()
+    public function getOpenHoursMoreInfos()
     {
-        return $this->type;
+        return $this->openHoursMoreInfos;
     }
 
     /**
      * Set contributor
      *
      * @param string $contributor
-     *
-     * @return Element
+     * @return $this
      */
     public function setContributor($contributor)
     {
         $this->contributor = $contributor;
-
         return $this;
     }
 
     /**
      * Get contributor
      *
-     * @return string
+     * @return string $contributor
      */
     public function getContributor()
     {
@@ -482,20 +475,18 @@ class Element
      * Set contributorMail
      *
      * @param string $contributorMail
-     *
-     * @return Element
+     * @return $this
      */
     public function setContributorMail($contributorMail)
     {
         $this->contributorMail = $contributorMail;
-
         return $this;
     }
 
     /**
      * Get contributorMail
      *
-     * @return string
+     * @return string $contributorMail
      */
     public function getContributorMail()
     {
@@ -506,82 +497,21 @@ class Element
      * Set validationCode
      *
      * @param string $validationCode
-     *
-     * @return Element
+     * @return $this
      */
     public function setValidationCode($validationCode)
     {
         $this->validationCode = $validationCode;
-
         return $this;
     }
 
     /**
      * Get validationCode
      *
-     * @return string
+     * @return string $validationCode
      */
     public function getValidationCode()
     {
         return $this->validationCode;
-    }
-
-    /**
-     * Set valide
-     *
-     * @param boolean $valide
-     *
-     * @return Element
-     */
-    public function setValide($valide)
-    {
-        $this->valide = $valide;
-
-        return $this;
-    }
-
-    /**
-     * Get valide
-     *
-     * @return boolean
-     */
-    public function getValide()
-    {
-        return $this->valide;
-    }
-
-
-    /**
-     * Add product
-     *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
-     *
-     * @return Element
-     */
-    public function addProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
-    {
-        $this->products[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product
-     *
-     * @param \Biopen\GeoDirectoryBundle\Entity\ElementProduct $product
-     */
-    public function removeProduct(\Biopen\GeoDirectoryBundle\Entity\ElementProduct $product)
-    {
-        $this->products->removeElement($product);
-    }
-
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProducts()
-    {
-        return $this->products;
     }
 }
