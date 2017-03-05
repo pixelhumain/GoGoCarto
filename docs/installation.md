@@ -61,8 +61,7 @@ Generate Database
 Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
 ```
 doctrine:mongodb:schema:create
-doctrine:mongodb:fixtures:load BiopenGeoDirectoryBundle
-doctrine:mongodb:fixtures:load BiopenCoreBundle
+doctrine:mongodb:fixtures:load
 ```
 
 Then generate if necessary random point on the map :
