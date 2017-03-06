@@ -23,6 +23,8 @@ export class FilterModule
 	checkedOptionsIds = [];
 	uncheckedOptionsIds = [];
 
+	isInitialized : boolean = false;
+
 	constructor() 
 	{		
 		
@@ -56,6 +58,8 @@ export class FilterModule
 				}
 			}
 		}
+
+		this.isInitialized = true;
 
 		console.log(this.checkedOptionsIds);
 	}
@@ -268,6 +272,43 @@ export class FilterModule
 
 	getFiltersToString() : string
 	{
-		return "education@!ht67j4ki56";
+		if (!this.isInitialized) return;
+
+		let mainOptionId = App.directoryMenuComponent.currentActiveMainOptionId;
+
+		let mainOptionName;
+		if (mainOptionId == 'all')
+			mainOptionName = "all";
+		else
+			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).name;
+
+		let checkedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.checkedOptionsIds[mainOptionId]));
+		let uncheckedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.uncheckedOptionsIds[mainOptionId]));
+
+		let addingMode = (checkedIdsParsed.length < uncheckedIdsParsed.length);
+
+		let addingSymbol = addingMode ? '+' : '!';
+
+		let filtersString = addingMode ? checkedIdsParsed : uncheckedIdsParsed;
+
+		if (!addingMode && filtersString == "" ) return mainOptionName;
+
+		return mainOptionName + '@' + addingSymbol + filtersString;
 	}
+
+	private getIdsIn(categoriesIds) : number[]
+	{
+		let resultIds = [];
+		for(let categoryId in categoriesIds)
+		{
+			for (let optionsId of categoriesIds[categoryId])
+			{
+				resultIds.push(optionsId);
+			}
+		}
+
+		return resultIds;
+	}
+
+
 }

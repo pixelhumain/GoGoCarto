@@ -165,6 +165,8 @@ export class DirectoryMenuComponent
 		$('.main-categories .main-icon').removeClass('active');
 		$('#main-option-icon-' + optionId).addClass('active');
 
+		App.historyModule.updateCurrState();
+
 	}
 
 	toggleOption(optionId : number, updateElements : boolean = true, bool : boolean = null)
@@ -191,7 +193,11 @@ export class DirectoryMenuComponent
 
 			App.filterModule.updateFilter(optionId, check);
 
-			if(updateElements) App.elementModule.updateElementToDisplay(check);
+			if(updateElements) 
+			{
+				App.elementModule.updateElementToDisplay(check);
+				App.historyModule.updateCurrState();
+			}
 	}
 
 	showCategory(categoryId : number, check : boolean)
@@ -205,7 +211,11 @@ export class DirectoryMenuComponent
 				count++;
 			}
 
-			App.elementModule.updateElementToDisplay(check);	
+			setTimeout( () =>
+			{
+				App.elementModule.updateElementToDisplay(check);
+				App.historyModule.updateCurrState();
+			}, count * 50);			
 	}
 
 	private setTimeoutClicking() 

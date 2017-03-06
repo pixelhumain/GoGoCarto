@@ -247,7 +247,7 @@ export class AppModule
 
 			if ($updateTitleAndState)
 			{
-				this.updateDocumentTitle_();			
+				this.updateDocumentTitle();			
 
 				// after clearing, we set the current state again
 				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
@@ -313,7 +313,7 @@ export class AppModule
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
 							this.DEAModule.begin(elementJson.id, options.panToLocation);
-							this.updateDocumentTitle_(options);
+							this.updateDocumentTitle(options);
 							this.historyModule.pushNewState(options);
 							// we get element around so if the user end the DPAMdoule
 							// the elements will already be available to display
@@ -357,7 +357,7 @@ export class AppModule
 					{
 						this.elementModule.addJsonElements([elementJson], true);
 						element = this.elementById(elementJson.id);
-						this.updateDocumentTitle_(options);
+						this.updateDocumentTitle(options);
             
 						origin = this.geocoder.getLocation();
 						// we geolocalized origin in loadHistory function
@@ -410,7 +410,7 @@ export class AppModule
 				|| $newState == AppStates.ShowDirections) )
 			this.historyModule.pushNewState(options);
 
-		this.updateDocumentTitle_(options);
+		this.updateDocumentTitle(options);
 	};
 
 	handleGeocodeResult(results)
@@ -525,12 +525,12 @@ export class AppModule
 					case AppStates.Normal:	
 					case AppStates.ShowElement:	
 						this.handleGeocodeResult(results);
-						this.updateDocumentTitle_();
+						this.updateDocumentTitle();
 						break;
 					case AppStates.ShowElementAlone:
 						this.infoBarComponent.hide();
 						this.handleGeocodeResult(results);
-						this.updateDocumentTitle_();
+						this.updateDocumentTitle();
 						break;
 					
 					case AppStates.ShowDirections:	
@@ -604,15 +604,16 @@ export class AppModule
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
 
-	private updateDocumentTitle_(options : any = {})
+	updateDocumentTitle(options : any = {})
 	{
 		//console.log("updateDocumentTitle", options);
 
 		let title : string;
 		let elementName : string;
-		if (options && options.id) 
+
+		if ( (options && options.id) || this.infoBarComponent.getCurrElementId) 
 		{
-			let element = this.elementById(options.id);
+			let element = this.elementById(this.infoBarComponent.getCurrElementId);
 			elementName = capitalize(element ? element.name : '');
 		}
 
