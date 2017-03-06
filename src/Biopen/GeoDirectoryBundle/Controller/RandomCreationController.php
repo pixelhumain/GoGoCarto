@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-27 14:55:27
+ * @Last Modified time: 2017-03-06 16:56:17
  */
  
 
@@ -17,13 +17,11 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Document\Element;
-use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Document\ElementProduct;
-use Biopen\GeoDirectoryBundle\Document\Product;
 
-use Wantlet\ORM\Point;
-use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
+use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Classes\CategoryValue;
+use Biopen\GeoDirectoryBundle\Classes\CategoryOptionValue;
+
 use joshtronic\LoremIpsum;
 
 class RandomCreationController extends Controller
@@ -37,55 +35,28 @@ class RandomCreationController extends Controller
 	    $NElat = 49.22;
 	    $NElng = 5.89;
 
-	 //    // $SOlat = 42.81519924863995;
-	 //    // $SOlng = -1.0489655173828396;
-	 //    // $NElat = 44.9916584842516;
-	 //    // $NElng = 2.9116057716796604;
-
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $listProducts = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
-	            ->findAll();
+	    $mainCategory = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Category')
+	            ->findOneByDepth(0);
 
 
 	    $lipsum = new LoremIpsum();
 
-	    $listType = ['producteur', 'amap', 'marche', 'epicerie', 'boutique'];
-
-	    $typeSet = [
-		  0 => 0.5,
-		  1 => 0.1,
-		  2 => 0.15,
-		  3 => 0.15,
-		  4 => 0.1,
+	   $nbreMainOptionsSet = [
+		  1 => 0.7,
+		  2 => 0.2,
+		  3 => 0.1,
 		];
 
-		$productsSet = [
+		$nbreOptionSet = [
 		  1 => 0.5,
 		  2 => 0.3,
 		  3 => 0.1,
 		  4 => 0.05,
 		  5 => 0.05
 		];
-
-		/*$productSet = [
-		  0 => 0.1,
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05,
-		  6 => 0.05,
-		  7 => 0.05,
-		  8 => 0.05,
-		  9 => 0.05,
-		  10 => 0.05,
-		  11 => 0.05,
-		  12 => 0.05,
-
-		];*/
-
 
 	    for ($i= 0; $i < $nombre; $i++) 
 	    {
@@ -98,13 +69,34 @@ class RandomCreationController extends Controller
 
 	      $new_element->setLng($lng);
 	      $new_element->setLat($lat);
-	      $new_element->setAdresse($lipsum->words(rand(6,10)));       
+	      $new_element->setAddress($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
 	      $type = $listType[$this->randWithSet($typeSet)];
+
+	      $nbreMainOptions = $this->randWithSet($nbreMainOptionsSet);
+
+	      $mainOptions = $mainCategory->getOptions();
+
+	      $mainCategoryValue = new CategoryValue();
+
+	      for ($j = 0; $j < $nbreMainOptions; $j++) 
+	      {
+	      	$key = rand(0,count($mainOptions)-1);
+	      	
+	      	$optionValue = new OptionValue();
+	      	$optionValue->setOptionId($mainOptions[$key]->getId());
+	      	if ($mainCategory->getEnableDescription())
+	      		$optionValue->setDescription($lipsum->words(rand(0,15)));
+	      	$optionValue->setIndex($j);
+
+	      	$mainCategoryValue->addOptionValue($optionValue);
+	      }
+
+	      $new_element->addCategory($mainCategoryValue);
 
 	      $new_element->setType($type);
 

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-05 11:27:18
+ * @Last Modified time: 2017-03-06 16:38:38
  */
  
 
@@ -147,7 +147,7 @@ class Element
      */
     public function __construct()
     {
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
         $this->contributor = '';
     }
@@ -159,21 +159,11 @@ class Element
         $this->contributor = '';
     }
 
-    public function resetProducts()
-    {
-        $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->products->clear();
-    }
-
-    private function calculateWastedDistance()
-    {
-        if ( count($this->getProducts()) == 0 || in_array($this->getType(), array("epicerie","marche","boutique") )) return $this->getDistance();
-        //$waste = 1.0 / pow(count($this->getProducts()),2);
-        $waste = -1.0*count($this->getProducts())/10.0 + 1.0;
-        return $this->getDistance() * $waste;
-    }
-
- 
+    // public function resetProducts()
+    // {
+    //     $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
+    //     $this->products->clear();
+    // } 
 
 
     /**
