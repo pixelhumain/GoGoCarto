@@ -44,6 +44,8 @@ $(document).ready(function()
    App = new AppModule();
    App.loadHistoryState();
 
+   App.filterModule.initialize();
+
    initializeAppInteractions();
    initializeElementMenu();
 });

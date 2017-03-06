@@ -20,52 +20,118 @@ export class FilterModule
 	dayFilters = [];	
 	showOnlyFavorite_ = false;
 
-	constructor() {}
+	checkedOptionsIds = [];
+	uncheckedOptionsIds = [];
+
+	constructor() 
+	{		
+		
+	}
+
+	initialize()
+	{
+		let mainCategory = App.categoryModule.mainCategory;
+
+		this.checkedOptionsIds['all'] = [];
+		this.uncheckedOptionsIds['all'] = [];
+
+		this.checkedOptionsIds['all'][mainCategory.id] = [];
+		this.uncheckedOptionsIds['all'][mainCategory.id] = [];
+
+		for(let mainOption of mainCategory.options)
+		{
+			this.checkedOptionsIds['all'][mainCategory.id].push(mainOption.id);			
+
+			this.checkedOptionsIds[mainOption.id] = [];
+			this.uncheckedOptionsIds[mainOption.id] = [];
+
+			for(let category of mainOption.subcategories)
+			{
+				this.checkedOptionsIds[mainOption.id][category.id] = [];
+				this.uncheckedOptionsIds[mainOption.id][category.id] = [];
+
+				for(let option of category.options)
+				{
+					this.checkedOptionsIds[mainOption.id][category.id].push(option.id);
+				}
+			}
+		}
+
+		console.log(this.checkedOptionsIds);
+	}
 
 	showOnlyFavorite(data)
 	{
 		this.showOnlyFavorite_ = data;
 	};
 
-	addFilter(data, filterType, updateElementToDisplay) 
-	{	
-		let listToFilter = this.getFilterListFromType(filterType);
-
-		if (listToFilter == null)
-		{
-			console.log("AddFilter not existing filtertype", filterType );
-		}
-		let index = listToFilter.indexOf(data);
-		if ( index < 0) listToFilter.push(data);
-
-		if (updateElementToDisplay) App.elementModule.updateElementToDisplay(false);
-	};
-
-	removeFilter (data, filterType, updateElementToDisplay) 
-	{	
-		let listToFilter = this.getFilterListFromType(filterType);
-
-		let index = listToFilter.indexOf(data);
-		if ( index > -1) 
-		{
-			listToFilter.splice(index, 1);
-			if (updateElementToDisplay) App.elementModule.updateElementToDisplay(true);
-		}
-	};
-
-	getFilterListFromType(type)
+	updateFilter(optionId : number, checked : boolean)
 	{
-		let listToFilter = null;
+		let option = App.categoryModule.getOptionById(optionId);
 
-		switch (type)
+		if(!option) { console.log("OptionId doesn't exist"); return; }		
+
+		let categoryId = option.categoryOwnerId;
+		let mainId = App.directoryMenuComponent.currentActiveMainOptionId;
+
+		let checkedArray = this.checkedOptionsIds[mainId][categoryId];
+		let uncheckedArray = this.uncheckedOptionsIds[mainId][categoryId];
+
+		if (checked)
 		{
-			case 'type': listToFilter = this.typeFilters; break;
-			case 'product': listToFilter = this.productFilters; break;
-			case 'day': listToFilter = this.dayFilters; break;
-		}
+			checkedArray.push(option.id);
 
-		return listToFilter;
-	};
+			let index = uncheckedArray.indexOf(option.id);
+			if ( index > -1) uncheckedArray.splice(index, 1);
+		}
+		else
+		{
+			let index = checkedArray.indexOf(option.id);
+			if ( index > -1) checkedArray.splice(index, 1);
+			uncheckedArray.push(option.id);
+
+		}
+	}
+
+	// addFilter(data, filterType, updateElementToDisplay) 
+	// {	
+	// 	let listToFilter = this.getFilterListFromType(filterType);
+
+	// 	if (listToFilter == null)
+	// 	{
+	// 		console.log("AddFilter not existing filtertype", filterType );
+	// 	}
+	// 	let index = listToFilter.indexOf(data);
+	// 	if ( index < 0) listToFilter.push(data);
+
+	// 	if (updateElementToDisplay) App.elementModule.updateElementToDisplay(false);
+	// };
+
+	// removeFilter (data, filterType, updateElementToDisplay) 
+	// {	
+	// 	let listToFilter = this.getFilterListFromType(filterType);
+
+	// 	let index = listToFilter.indexOf(data);
+	// 	if ( index > -1) 
+	// 	{
+	// 		listToFilter.splice(index, 1);
+	// 		if (updateElementToDisplay) App.elementModule.updateElementToDisplay(true);
+	// 	}
+	// };
+
+	// getFilterListFromType(type)
+	// {
+	// 	let listToFilter = null;
+
+	// 	switch (type)
+	// 	{
+	// 		case 'type': listToFilter = this.typeFilters; break;
+	// 		case 'product': listToFilter = this.productFilters; break;
+	// 		case 'day': listToFilter = this.dayFilters; break;
+	// 	}
+
+	// 	return listToFilter;
+	// };
 
 	checkIfElementPassFilters (element) 
 	{	

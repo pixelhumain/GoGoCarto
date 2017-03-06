@@ -37,10 +37,6 @@ class CategoryOption
     */
     private $subcategories;
 
-    // *
-    // * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options")
-    
-    // private $categoryOwner;
 
     /**
      * @var int

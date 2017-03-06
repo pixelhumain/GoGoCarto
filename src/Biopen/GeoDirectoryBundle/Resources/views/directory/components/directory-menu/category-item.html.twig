@@ -10,15 +10,15 @@
 
 {% for key, option in category.options %} 
    
-    <li class="subcategorie-option-item row">
+    <li class="subcategorie-option-item row" data-option-id='{{ option.id }}'>
     	{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}
 	    <span class="icon {{ iconClass }} {{option.name|lower }}"></span>
 	    <span class="option-name">{{ option.nameShort|capitalize }}</span> 
 	    <span class="icon btn-show-only icon-material-eye"></span>
 	    <span class="checkbox-wrapper">
-	      <input type="checkbox" class=" product-checkbox subcategorie-option-checkbox" 
-	      id="option-checkbox-{{ option.id }}" checked="checked" data-option-id='{{ option.id }}'/>
-	      <label for="product-checkbox-{{ option.id }}"></label>
+	      <input type="checkbox" class="product-checkbox subcategorie-option-checkbox" 
+	      id="option-checkbox-{{ option.id }}" checked="checked" />
+	      <label for="option-checkbox-{{ option.id }}"></label>
 	    </span>
     </li>
 

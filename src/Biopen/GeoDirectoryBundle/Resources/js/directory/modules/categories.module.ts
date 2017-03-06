@@ -21,6 +21,7 @@ export interface Category
 	enableDescription : boolean;
 	displayCategorieName : boolean;
 	depth : number;
+	optionOwnerId: number;
 }
 
 export interface Option
@@ -31,34 +32,48 @@ export interface Option
 	index : number;
 	color : string;
 	icon : string;
+	subcategories : Category[];
 	useIconForMarker: boolean;
 	useColorForMarker : boolean;
 	showOpenHours : boolean;
+	categoryOwnerId : number;
 }
 
 export class CategoriesModule
 {
 	readonly categories : Category[] = [];
-	readonly mainCategory;
+	readonly options : Option[] = [];
+	readonly mainCategory : Category;
 
 	constructor(mainCatgeoryJson)
 	{
 		this.mainCategory = mainCatgeoryJson;
+		this.options = this.options.concat(this.mainCategory.options);
 
-		for(let mainOption of mainCatgeoryJson.options)
+		for(let mainOption of this.mainCategory.options)
 		{
+			mainOption.categoryOwnerId = this.mainCategory.id;
+
 			for(let category of mainOption.subcategories)
 			{
+				category.optionOwnerId = mainOption.id;
+
 				this.categories.push(category);
+				this.options = this.options.concat(category.options);
+
+				for(let option of category.options)
+				{
+					option.categoryOwnerId = category.id;
+				}
 			}
 		}
 
-		console.log(this.categories);
+		//console.log(this.mainCategory.options);
 	}
 
 	getMainOptions() : Option[]
 	{
-		return null;
+		return this.mainCategory.options;
 	}
 
 	getMainOptionBySlug($slug) : Option
@@ -71,13 +86,13 @@ export class CategoriesModule
 		return this.mainCategory.options.filter( (option : Option) => option.id == $id).shift();
 	};
 
-	getCategorieById ($id) : Category
+	getCategoryById ($id) : Category
 	{
 		return this.categories.filter( (category : Category) => category.id == $id).shift();
 	};
 
 	getOptionById ($id) : Option
 	{
-		return null;
+		return this.options.filter( (option : Option) => option.id == $id).shift();
 	};
 }
