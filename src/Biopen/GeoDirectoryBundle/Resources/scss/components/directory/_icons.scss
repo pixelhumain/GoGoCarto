@@ -34,7 +34,7 @@ $epicerie-color :#383D5A ;
 	&.producteur { background-color: rgba(darken($producteur-color,5%),.9) } 
 	&.amap { background-color:$amap-color }
 	&.boutique { background-color: rgba($boutique-color,.85) }
-	&.marche { background-color: rgba(darken($marche-color,5%),.9) }
+	&.marché { background-color: rgba(darken($marche-color,5%),.9) }
 	&.epicerie { background-color: rgba(darken($epicerie-color,5%),.9) }
 }
 
@@ -43,7 +43,7 @@ $epicerie-color :#383D5A ;
 	&.producteur { border-color: rgba(darken($producteur-color,5%),.9) } 
 	&.amap { border-color:$amap-color }
 	&.boutique { border-color: rgba($boutique-color,.85) }
-	&.marche { border-color: rgba(darken($marche-color,5%),.9) }
+	&.marché { border-color: rgba(darken($marche-color,5%),.9) }
 	&.epicerie { border-color: rgba(darken($epicerie-color,5%),.9) }
 }
 
@@ -52,7 +52,7 @@ $epicerie-color :#383D5A ;
 	&.producteur { background-color:$producteur-color } 
 	&.amap { background-color:$amap-color }
 	&.boutique { background-color:$boutique-color }
-	&.marche { background-color:$marche-color }
+	&.marché { background-color:$marche-color }
 	&.epicerie { background-color:$epicerie-color }
 }
 
@@ -61,7 +61,7 @@ $epicerie-color :#383D5A ;
 	&.producteur { color:$producteur-color } 
 	&.amap { color:$amap-color }
 	&.boutique { color:$boutique-color }
-	&.marche { color:$marche-color }
+	&.marché { color:$marche-color }
 	&.epicerie { color:$epicerie-color }
 }
 

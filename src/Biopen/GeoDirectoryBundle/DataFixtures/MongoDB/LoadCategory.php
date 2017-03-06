@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-05 11:28:59
+ * @Last Modified time: 2017-03-06 09:19:56
  */
  
 
@@ -25,21 +25,21 @@ class LoadCategory implements FixtureInterface
 	{
 		// main
 		$mainCategory = new Category();
-		$mainCategory->setName('Main');
+		$mainCategory->setName('Catégories Principales');
 		$mainCategory->setIndex(1);
 		$mainCategory->setSingleOption(false);
 		$mainCategory->setEnableDescription(false);
-		$mainCategory->setDisplayCategoryName(false);
+		$mainCategory->setDisplayCategoryName(true);
 		$mainCategory->setDepth(0);
 
 		// Liste des names de catégorie à ajouter
 		$mains = array(
-			array('Agriculture & Alimentation'  , 'plantes'     , '#B33536', ''        , ''),
-			array('Education & Formation'    , 'education'      , '#383D5A',''        , ''),
-			array('Mobilité'        , 'bike'      				, '#4B7975',''        , ''),
-			array('Voyages'      , 'bed'     		, '#3F51B5','', ''),			
-			array('Habitat'    , 'home'      , '#813c81',''        , ''),
-			array('Sortie & Culture'    , 'coffee'      , '#813c81',''        , ''),
+			array('Agriculture & Alimentation'  , 'plantes'     , '#B33536', 'Agriculture'        , true),
+			array('Education & Formation'    , 'education'      , '#383D5A','Education'        , false),
+			array('Mobilité'        , 'bike'      				, '#4B7975',''        , false),
+			array('Voyages'      , 'bed'     		, '#3F51B5','', false),			
+			array('Habitat'    , 'home'      , '#813c81',''        , false),
+			array('Sortie & Culture'    , 'coffee'      , '#813c81',''        , false),
 		);
 
 
@@ -51,14 +51,17 @@ class LoadCategory implements FixtureInterface
 			$new_main->setIcon('icon-' . $main[1]);
 			$new_main->setColor($main[2]);
 
-			$new_main->setNameShort($main[0]);
+			if ($main[3] == '') $new_main->setNameShort($main[0]);
+			else $new_main->setNameShort($main[3]);
 
-			$new_main->setTextHelper($main[4]);
+			$new_main->setTextHelper('');
 
 			$new_main->setUseIconForMarker(true);
 			$new_main->setUseColorForMarker(true);
 
 			$new_main->setIndex($key);
+
+			$new_main->setShowOpenHours($main[4]);
 
 			$mainCategory->addOption($new_main);
 		}
@@ -140,7 +143,7 @@ class LoadCategory implements FixtureInterface
 			$new_product->setIcon('icon-' . $product[1]);
 			$new_product->setColor($product[2]);
 
-			if ($product[2] == '') $new_product->setNameShort($product[0]);
+			if ($product[3] == '') $new_product->setNameShort($product[0]);
 			else $new_product->setNameShort($product[3]);
 
 			$new_product->setTextHelper($product[4]);

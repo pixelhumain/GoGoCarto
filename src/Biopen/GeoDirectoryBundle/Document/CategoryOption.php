@@ -84,6 +84,14 @@ class CategoryOption
      */
     private $useColorForMarker;
 
+     /**
+     * @var bool
+     *
+     * @MongoDB\Field(type="boolean")
+     * Only for main options
+     */
+    private $showOpenHours = false;
+
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
@@ -303,5 +311,27 @@ class CategoryOption
     public function getUseColorForMarker()
     {
         return $this->useColorForMarker;
+    }
+
+    /**
+     * Set showOpenHours
+     *
+     * @param boolean $showOpenHours
+     * @return $this
+     */
+    public function setShowOpenHours($showOpenHours)
+    {
+        $this->showOpenHours = $showOpenHours;
+        return $this;
+    }
+
+    /**
+     * Get showOpenHours
+     *
+     * @return boolean $showOpenHours
+     */
+    public function getShowOpenHours()
+    {
+        return $this->showOpenHours;
     }
 }

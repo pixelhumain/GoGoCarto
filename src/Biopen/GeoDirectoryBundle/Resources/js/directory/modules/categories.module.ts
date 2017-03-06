@@ -13,21 +13,47 @@ declare let App : AppModule;
 
 export interface Category
 { 
-	
+	id : number;
+	name : string;
+	options : Option[];
+	index: number;
+	singleOption : boolean;
+	enableDescription : boolean;
+	displayCategorieName : boolean;
+	depth : number;
 }
 
 export interface Option
 { 
-	
+	id : number;
+	name : string;
+	nameShort: string;
+	index : number;
+	color : string;
+	icon : string;
+	useIconForMarker: boolean;
+	useColorForMarker : boolean;
+	showOpenHours : boolean;
 }
 
 export class CategoriesModule
 {
-	readonly categories : Category[];
+	readonly categories : Category[] = [];
+	readonly mainCategory;
 
-	constructor(categoriesJson)
+	constructor(mainCatgeoryJson)
 	{
-		
+		this.mainCategory = mainCatgeoryJson;
+
+		for(let mainOption of mainCatgeoryJson.options)
+		{
+			for(let category of mainOption.subcategories)
+			{
+				this.categories.push(category);
+			}
+		}
+
+		console.log(this.categories);
 	}
 
 	getMainOptions() : Option[]
@@ -40,9 +66,14 @@ export class CategoriesModule
 		return null;
 	}
 
+	getMainOptionById ($id) : Option
+	{
+		return this.mainCategory.options.filter( (option : Option) => option.id == $id).shift();
+	};
+
 	getCategorieById ($id) : Category
 	{
-		return null;
+		return this.categories.filter( (category : Category) => category.id == $id).shift();
 	};
 
 	getOptionById ($id) : Option

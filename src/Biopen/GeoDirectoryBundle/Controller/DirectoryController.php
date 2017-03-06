@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-05 11:32:55
+ * @Last Modified time: 2017-03-06 09:44:40
  */
  
 
@@ -103,8 +103,12 @@ class DirectoryController extends Controller
 
         dump($mainCategory);
 
+         $serializer = $this->container->get('jms_serializer');
+
+          $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
+
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("mainCategory" => $mainCategory, "config" => $config));
+                            array("mainCategory" => $mainCategory, "config" => $config, "mainCategoryJson" => $mainCategoryJson));
     }
 
     private function getMainCategory()

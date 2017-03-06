@@ -10,7 +10,7 @@
 /// <reference types="leaflet" />
 
 declare let window, Routing : any;
-declare let CONFIG;
+declare let CONFIG, MAIN_CATEGORY;
 declare var $;
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
@@ -18,15 +18,17 @@ import { FilterModule } from "./modules/filter.module";
 import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
+import { CategoriesModule } from './modules/categories.module';
 import { DirectionsModule } from "./modules/directions.module";
 import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
+import { DirectoryMenuComponent } from "./components/directory-menu.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
 import { HistoryModule, HistoryState } from './modules/history.module';
 
-import { initializeDirectoryMenu } from "./components/directory-menu.component";
+
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
 
@@ -42,7 +44,6 @@ $(document).ready(function()
    App = new AppModule();
    App.loadHistoryState();
 
-   initializeDirectoryMenu();
    initializeAppInteractions();
    initializeElementMenu();
 });
@@ -84,6 +85,8 @@ export class AppModule
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
 	historyModule = new HistoryModule();
+	categoryModule = new CategoriesModule(MAIN_CATEGORY);
+	directoryMenuComponent = new DirectoryMenuComponent();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
