@@ -90,15 +90,12 @@ export class DirectoryMenuComponent
 			that.setMainOption(optionId);
 		});
 
-		// $('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
-		// {		
-		// 	if (that.isItemClicking) return;
-		// 	console.log("checkbox click");
-		// 	that.setTimeoutClicking();
-
-		// 	that.checkFilterFromCheckbox(this, $(this).attr('data-type'), true);
-		// 	App.elementModule.updateElementToDisplay($(this).is(':checked'));
-		// });
+		$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
+		{		
+			if (that.isItemClicking) return;
+			console.log("checkbox click");
+			return false;
+		});
 
 		// -------------------------------
 		// ------ SUB OPTIONS ------------
@@ -131,19 +128,12 @@ export class DirectoryMenuComponent
 		// 	});
 		// });
 
-		// $('.subcategorie-checkbox').change(function()
-		// {		
-		// 	let isChecked = $(this).is(':checked');
-		// 	let checkboxClass = $(this).attr('data-type') + '-checkbox';
-		// 	$('.' + checkboxClass).each(function()
-		// 	{
-		// 		$(this).prop("checked", isChecked);
-		// 		that.checkFilterFromCheckbox(this, $(this).attr('data-type'), false);
-		// 	});
+		$('.subcategorie-checkbox').change(function()
+		{		
+			let optionId = $(this).attr('data-category-id');
 
-		// 	//console.log("title checkbox change");
-		// 	App.elementModule.updateElementToDisplay(isChecked);
-		// });	
+			that.showCategory(optionId, $(this).is(':checked'));			
+		});	
 
 		//check initial (si des checkbox ont été sauvegardées par le navigateur)
 		//$('.product-checkbox, .element-checkbox').trigger("change");
@@ -177,22 +167,45 @@ export class DirectoryMenuComponent
 
 	}
 
-	toggleOption(optionId)
+	toggleOption(optionId : number, updateElements : boolean = true, bool : boolean = null)
 	{
 			let checkbox = $('#option-checkbox-' + optionId);
 
-			checkbox.prop("checked", !checkbox.is(':checked'));
+			let check;
+			if (bool != null) check = bool;
+			else check = !checkbox.is(':checked');
 
-			if (checkbox.is(':checked')) 
+			//console.log("toogleOption bool = " + bool + ", check = " + check);
+
+			checkbox.prop("checked", check);
+
+			if (check) 
 			{
 				checkbox.parent().parent().removeClass('disabled');
 			}
 			else
 			{ 
-				checkbox.parent().parent().addClass('disabled');
+				let parent = checkbox.parent().parent();
+				if (!parent.hasClass('disabled')) parent.addClass('disabled');
 			}		
 
-			App.filterModule.updateFilter(optionId, checkbox.is(':checked'));
+			App.filterModule.updateFilter(optionId, check);
+
+			if(updateElements) App.elementModule.updateElementToDisplay(check);
+	}
+
+	showCategory(categoryId : number, check : boolean)
+	{
+			let category = App.categoryModule.getCategoryById( categoryId );
+
+			let count = 0;
+			for(let option of category.options)
+			{
+				setTimeout( ()=> { this.toggleOption(option.id, false, check) }, count * 50);
+				count++;
+			}
+
+			App.elementModule.updateElementToDisplay(check);	
 	}
 
 	private setTimeoutClicking() 

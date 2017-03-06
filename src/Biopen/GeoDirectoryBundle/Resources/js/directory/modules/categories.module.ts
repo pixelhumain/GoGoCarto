@@ -49,6 +49,7 @@ export class CategoriesModule
 	{
 		this.mainCategory = mainCatgeoryJson;
 		this.options = this.options.concat(this.mainCategory.options);
+		this.categories.push(this.mainCategory);
 
 		for(let mainOption of this.mainCategory.options)
 		{
