@@ -30,7 +30,7 @@
                 <a id='btn-about' class='dropdown-button' data-activates='listAbout'>A propos</a>                        
                     <ul id='listAbout' class='dropdown-content'>
                     {% for about in listAbouts %}
-                        <li><a id='modal{{about.id}}'>{{about.name}}</a></li>
+                        <li><a id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
                         <li class="divider"></li>
                     {% endfor %}            
                     </ul>

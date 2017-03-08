@@ -30,7 +30,6 @@ import { HistoryModule, HistoryState } from './modules/history.module';
 import { initializeDirectoryMenu } from "./components/directory-menu.component";
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
-import { initializeHeader } from "../commons/components/header";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 import { Element } from "./classes/element.class";
@@ -47,7 +46,6 @@ $(document).ready(function()
    initializeDirectoryMenu();
    initializeAppInteractions();
    initializeElementMenu();
-   initializeHeader();
 });
 
 /*

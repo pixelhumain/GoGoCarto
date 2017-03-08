@@ -2,7 +2,7 @@
 
 {% for about in listAbouts %}
 
-<div id="popup-{{about.id}}"  class="modal">
+<div id="popup-{{about.id}}"  class="modal" style="background-color: {{about.backgroundColor}}">
     <div class="modal-content">
         <h3 id="modal-title">{{ about.name }}</h3>
 	    <p>{{ about.content }}</p>  

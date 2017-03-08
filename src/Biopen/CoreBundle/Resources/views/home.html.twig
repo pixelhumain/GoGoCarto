@@ -58,6 +58,19 @@
 	</section>
 </div>
 
+
+{% for wrapper in listWrappers %}
+	<section id="section-ethic" class="bottom-section valign-wrapper" style="background-color: {{wrapper.backgroundColor}}">
+	    <div class="content valign">
+	    	<h2>{{wrapper.title}}</h2>
+	    	<p>{{wrapper.content}}</p>
+        </div>
+    </section>
+{% endfor %}
+
+
+
+<!--
 <section id="section-ethic" class="bottom-section valign-wrapper">
 	<div class="content valign">
 		<h2>Du bio, mais pas que !</h2>
@@ -81,7 +94,10 @@
 		<p>Le site est encore en cours de développement. La base de donnée des elements est pour le moment fictive, et certains bugs peuvent encore faire leur apparition...</p>
 			<p>Merci de votre compréhension !</p>
 	</div>
+
 </section>
+-->
+
 <section id="section-contact" class="bottom-section">
 	<div class="content">
 		<h2>Made by BiopenLandes</h2>
