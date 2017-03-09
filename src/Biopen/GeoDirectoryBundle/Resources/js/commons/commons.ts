@@ -107,6 +107,8 @@ export function parseStringIntoArrayNumber(string : string) : number[]
 {
     let result : number[] = [];
 
+    if (!string) return result;
+
     let array = string.match(/[a-z]+|[0-9]+/g);
 
     for(let element of array)

@@ -60,8 +60,6 @@ export class FilterModule
 		}
 
 		this.isInitialized = true;
-
-		console.log(this.checkedOptionsIds);
 	}
 
 	showOnlyFavorite(data)
@@ -83,16 +81,19 @@ export class FilterModule
 
 		if (checked)
 		{
-			checkedArray.push(option.id);
+			let index = checkedArray.indexOf(option.id);
+			if ( index == -1) checkedArray.push(option.id);
 
-			let index = uncheckedArray.indexOf(option.id);
+			index = uncheckedArray.indexOf(option.id);
 			if ( index > -1) uncheckedArray.splice(index, 1);
 		}
 		else
 		{
 			let index = checkedArray.indexOf(option.id);
 			if ( index > -1) checkedArray.splice(index, 1);
-			uncheckedArray.push(option.id);
+
+			index = uncheckedArray.indexOf(option.id);
+			if ( index == -1) uncheckedArray.push(option.id);
 
 		}
 	}
@@ -245,7 +246,10 @@ export class FilterModule
 	loadFiltersFromString(string : string)
 	{
 		let splited = string.split('@');
-		let mainCategorieSlug = splited[0];
+		let mainOptionSlug = splited[0];
+
+		let mainOptionId = mainOptionSlug == 'all' ? 'all' : App.categoryModule.getMainOptionBySlug(mainOptionSlug).id;
+		App.directoryMenuComponent.setMainOption(mainOptionId);		
 
 		let filtersString : string;
 		let addingMode : boolean;
@@ -266,7 +270,25 @@ export class FilterModule
 
 		let filters = parseStringIntoArrayNumber(filtersString);
 
-		console.log('filters');
+		console.log('filters', filters);
+		console.log('addingMode', addingMode);
+
+		// if addingMode, we first put all the filter to false
+		if (addingMode)
+		{
+			let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getSupOptionsOfOption(App.categoryModule.getMainOptionBySlug(mainOptionSlug));
+			for (let option of options)
+			{
+				App.directoryMenuComponent.toggleOption(option.id, false, false);
+			}
+		}
+
+		for(let filterId of filters)
+		{
+			App.directoryMenuComponent.toggleOption(filterId, false, addingMode);
+		}
+
+		App.elementModule.updateElementToDisplay(true);
 
 	}
 
@@ -280,7 +302,7 @@ export class FilterModule
 		if (mainOptionId == 'all')
 			mainOptionName = "all";
 		else
-			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).name;
+			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).name_short;
 
 		let checkedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.checkedOptionsIds[mainOptionId]));
 		let uncheckedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.uncheckedOptionsIds[mainOptionId]));

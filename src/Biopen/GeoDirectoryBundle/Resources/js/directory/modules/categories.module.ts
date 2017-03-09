@@ -11,7 +11,7 @@
 import { AppModule, AppStates, AppModes } from "../app.module";
 declare let App : AppModule;
 
-export interface Category
+export class Category
 { 
 	id : number;
 	name : string;
@@ -24,11 +24,11 @@ export interface Category
 	optionOwnerId: number;
 }
 
-export interface Option
+export class Option
 { 
 	id : number;
 	name : string;
-	nameShort: string;
+	name_short: string;
 	index : number;
 	color : string;
 	icon : string;
@@ -59,6 +59,8 @@ export class CategoriesModule
 			{
 				category.optionOwnerId = mainOption.id;
 
+				//let cat: Category = (<any>Object).assign(new Category(), category);
+
 				this.categories.push(category);
 				this.options = this.options.concat(category.options);
 
@@ -72,6 +74,8 @@ export class CategoriesModule
 		//console.log(this.mainCategory.options);
 	}
 
+
+
 	getMainOptions() : Option[]
 	{
 		return this.mainCategory.options;
@@ -79,7 +83,7 @@ export class CategoriesModule
 
 	getMainOptionBySlug($slug) : Option
 	{
-		return null;
+		return this.getMainOptions().filter( (option : Option) => option.name_short == $slug).shift();
 	}
 
 	getMainOptionById ($id) : Option
@@ -96,4 +100,32 @@ export class CategoriesModule
 	{
 		return this.options.filter( (option : Option) => option.id == $id).shift();
 	};
+
+	getOptionsOfCategoryId($id) : Option[]
+	{
+		if ($id == 'all') return this.getMainOptions();
+		else 
+		{
+			let subcats = this.mainCategory.options[$id].subcategories;
+			let options = [];
+
+			for (let cat of subcats)
+			{
+				options = options.concat(cat.options);
+			}
+
+			return options;
+		}
+	}
+
+	getSupOptionsOfOption(option : Option) : Option[]
+	{
+		let options = [];
+		for (let cat of option.subcategories)
+		{
+			options = options.concat(cat.options);
+		}
+
+		return options;
+	}	
 }

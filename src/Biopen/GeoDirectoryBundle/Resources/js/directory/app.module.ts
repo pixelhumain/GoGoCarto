@@ -41,10 +41,11 @@ declare var App;
 */
 $(document).ready(function()
 {	
-   App = new AppModule();
-   App.loadHistoryState();
+   App = new AppModule();   
 
    App.filterModule.initialize();
+
+   App.loadHistoryState();
 
    initializeAppInteractions();
    initializeElementMenu();
