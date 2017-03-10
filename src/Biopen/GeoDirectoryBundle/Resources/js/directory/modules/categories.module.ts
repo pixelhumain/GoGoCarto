@@ -9,35 +9,15 @@
  */
 
 import { AppModule, AppStates, AppModes } from "../app.module";
+import { Category } from "../classes/category.class";
+import { Option } from "../classes/option.class";
+
+export { Category } from "../classes/category.class";
+export { Option } from "../classes/option.class";
+
 declare let App : AppModule;
+declare let $ : any;
 
-export class Category
-{ 
-	id : number;
-	name : string;
-	options : Option[];
-	index: number;
-	singleOption : boolean;
-	enableDescription : boolean;
-	displayCategorieName : boolean;
-	depth : number;
-	optionOwnerId: number;
-}
-
-export class Option
-{ 
-	id : number;
-	name : string;
-	name_short: string;
-	index : number;
-	color : string;
-	icon : string;
-	subcategories : Category[];
-	useIconForMarker: boolean;
-	useColorForMarker : boolean;
-	showOpenHours : boolean;
-	categoryOwnerId : number;
-}
 
 export class CategoriesModule
 {
@@ -47,31 +27,37 @@ export class CategoriesModule
 
 	constructor(mainCatgeoryJson)
 	{
-		this.mainCategory = mainCatgeoryJson;
-		this.options = this.options.concat(this.mainCategory.options);
-		this.categories.push(this.mainCategory);
+		
+		this.options = [];
+		this.categories = [];
 
-		for(let mainOption of this.mainCategory.options)
+		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
+
+		console.log(this.mainCategory);
+	}
+
+	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
+	{
+		let category = new Category(categoryJson);
+
+		for(let optionJson of categoryJson.options)
 		{
-			mainOption.categoryOwnerId = this.mainCategory.id;
+			let option = new Option(optionJson);
+			option.categoryOwnerId = categoryJson.id;
 
-			for(let category of mainOption.subcategories)
+			for(let subcategoryJson of optionJson.subcategories)
 			{
-				category.optionOwnerId = mainOption.id;
-
-				//let cat: Category = (<any>Object).assign(new Category(), category);
-
-				this.categories.push(category);
-				this.options = this.options.concat(category.options);
-
-				for(let option of category.options)
-				{
-					option.categoryOwnerId = category.id;
-				}
+				let subcategory = this.recursivelyCreateCategoryAndOptions(subcategoryJson);
+				option.addCategory(subcategory);
 			}
+
+			category.addOption(option);	
+			this.options.push(option);	
 		}
 
-		//console.log(this.mainCategory.options);
+		this.categories.push(category);
+
+		return category;
 	}
 
 
@@ -83,7 +69,7 @@ export class CategoriesModule
 
 	getMainOptionBySlug($slug) : Option
 	{
-		return this.getMainOptions().filter( (option : Option) => option.name_short == $slug).shift();
+		return this.getMainOptions().filter( (option : Option) => option.nameShort == $slug).shift();
 	}
 
 	getMainOptionById ($id) : Option
@@ -100,32 +86,4 @@ export class CategoriesModule
 	{
 		return this.options.filter( (option : Option) => option.id == $id).shift();
 	};
-
-	getOptionsOfCategoryId($id) : Option[]
-	{
-		if ($id == 'all') return this.getMainOptions();
-		else 
-		{
-			let subcats = this.mainCategory.options[$id].subcategories;
-			let options = [];
-
-			for (let cat of subcats)
-			{
-				options = options.concat(cat.options);
-			}
-
-			return options;
-		}
-	}
-
-	getSupOptionsOfOption(option : Option) : Option[]
-	{
-		let options = [];
-		for (let cat of option.subcategories)
-		{
-			options = options.concat(cat.options);
-		}
-
-		return options;
-	}	
 }

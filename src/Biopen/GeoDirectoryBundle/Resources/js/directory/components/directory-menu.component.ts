@@ -106,8 +106,7 @@ export class DirectoryMenuComponent
 			that.setTimeoutClicking();
 
 			let optionId = $(this).attr('data-option-id');
-
-			that.toggleOption(optionId);
+			App.categoryModule.getOptionById(optionId).toggle();
 		});
 
 		// $('.btn-show-only').click(function(e: Event)
@@ -130,9 +129,8 @@ export class DirectoryMenuComponent
 
 		$('.subcategorie-checkbox').change(function()
 		{		
-			let optionId = $(this).attr('data-category-id');
-
-			that.showCategory(optionId, $(this).is(':checked'));			
+			let categoryId = $(this).attr('data-category-id');
+			App.categoryModule.getCategoryById(categoryId).toggle( $(this).is(':checked') );
 		});	
 
 		//check initial (si des checkbox ont été sauvegardées par le navigateur)
@@ -169,54 +167,43 @@ export class DirectoryMenuComponent
 
 	}
 
-	toggleOption(optionId : number, updateElements : boolean = true, bool : boolean = null)
-	{
-			let checkbox = $('#option-checkbox-' + optionId);
+	// toggleOption(optionId : number, updateElements : boolean = true, bool : boolean = null)
+	// {
+	// 		let checkbox = $('#option-checkbox-' + optionId);
 
-			let check;
-			if (bool != null) check = bool;
-			else check = !checkbox.is(':checked');
+	// 		let check;
+	// 		if (bool != null) check = bool;
+	// 		else check = !checkbox.is(':checked');
 
-			//console.log("toogleOption bool = " + bool + ", check = " + check);
+	// 		//console.log("toogleOption bool = " + bool + ", check = " + check);
 
-			checkbox.prop("checked", check);
+	// 		checkbox.prop("checked", check);
 
-			if (check) 
-			{
-				checkbox.parent().parent().removeClass('disabled');
-			}
-			else
-			{ 
-				let parent = checkbox.parent().parent();
-				if (!parent.hasClass('disabled')) parent.addClass('disabled');
-			}		
+	// 		if (check) 
+	// 		{
+	// 			checkbox.parent().parent().removeClass('disabled');
+	// 		}
+	// 		else
+	// 		{ 
+	// 			let parent = checkbox.parent().parent();
+	// 			if (!parent.hasClass('disabled')) parent.addClass('disabled');
+	// 		}	
 
-			App.filterModule.updateFilter(optionId, check);
+	// 		let option = App.categoryModule.getOptionById(optionId);
+	// 		let categoryParent = option.getParent();
 
-			if(updateElements) 
-			{
-				App.elementModule.updateElementToDisplay(check);
-				App.historyModule.updateCurrState();
-			}
-	}
+	// 		categoryParent.options.filter()	
 
-	showCategory(categoryId : number, check : boolean)
-	{
-			let category = App.categoryModule.getCategoryById( categoryId );
+	// 		App.filterModule.updateFilter(optionId, check);
 
-			let count = 0;
-			for(let option of category.options)
-			{
-				setTimeout( ()=> { this.toggleOption(option.id, false, check) }, count * 50);
-				count++;
-			}
+	// 		if(updateElements) 
+	// 		{
+	// 			App.elementModule.updateElementToDisplay(check);
+	// 			App.historyModule.updateCurrState();
+	// 		}
+	// }
 
-			setTimeout( () =>
-			{
-				App.elementModule.updateElementToDisplay(check);
-				App.historyModule.updateCurrState();
-			}, count * 50);			
-	}
+
 
 	private setTimeoutClicking() 
 	{ 

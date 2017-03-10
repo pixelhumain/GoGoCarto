@@ -276,16 +276,17 @@ export class FilterModule
 		// if addingMode, we first put all the filter to false
 		if (addingMode)
 		{
-			let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getSupOptionsOfOption(App.categoryModule.getMainOptionBySlug(mainOptionSlug));
+			let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getMainOptionBySlug(mainOptionSlug).getSupOptions();
 			for (let option of options)
-			{
-				App.directoryMenuComponent.toggleOption(option.id, false, false);
+			{				
+				option.toggle(false, false);
 			}
 		}
 
 		for(let filterId of filters)
 		{
-			App.directoryMenuComponent.toggleOption(filterId, false, addingMode);
+			let option = App.categoryModule.getOptionById(filterId);
+			option.toggle(false, addingMode);
 		}
 
 		App.elementModule.updateElementToDisplay(true);
@@ -302,7 +303,7 @@ export class FilterModule
 		if (mainOptionId == 'all')
 			mainOptionName = "all";
 		else
-			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).name_short;
+			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).nameShort;
 
 		let checkedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.checkedOptionsIds[mainOptionId]));
 		let uncheckedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.uncheckedOptionsIds[mainOptionId]));
