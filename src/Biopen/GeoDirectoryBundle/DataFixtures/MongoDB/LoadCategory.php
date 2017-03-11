@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-06 09:19:56
+ * @Last Modified time: 2017-03-11 20:51:47
  */
  
 
@@ -122,17 +122,20 @@ class LoadCategory implements FixtureInterface
 			array('Légumes'             , 'legumes'     , '#4A148C', ''        , ''),
 			array('Fruits'              , 'fruits'      , '#880E4F',''        , ''),
 			array('Produits laitiers'   , 'laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
-			array('Viande'              , 'viande'      , '#961616',''        , ''),
-			array('Oeufs'               , 'oeufs'       , '#E09703',''        , ''),
-			array('Poisson'             , 'poisson'     , '#3F51B5',''        , ''),
-			array('Légumineuses'        , 'legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches'),
-			array('Produits transformés', 'transformes' , '#37474F','Transformés', ''),
+			array('Viande'              , 'viande'      , '#961616',''        , ''),			
 			array('Miel'                , 'miel'        , '#E09703',''        , ''),
 			array('Pain, farine'        , 'pain'        , '#B37800','Pain/Farine'        , ''),
 			array('Huiles'              , 'huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
 			array('Boissons'            , 'boissons'    , '#258BB9',''        , ''),
 			array('Plantes'             , 'plantes'     , '#4CAF50',''        , ''),
 			array('Autre'               , 'autre'       , '#444444',''        , ''),
+		);
+
+		$subproducts = array(
+			array('Oeufs'               , 'oeufs'       , '#E09703',''        , ''),
+			array('Poisson'             , 'poisson'     , '#3F51B5',''        , ''),
+			array('Légumineuses'        , 'legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches'),
+			array('Produits transformés', 'transformes' , '#37474F','Transformés', ''),
 		);
 
 		foreach ($products as $key => $product) 
@@ -153,8 +156,45 @@ class LoadCategory implements FixtureInterface
 
 			$new_product->setIndex($key);
 
+			if ($key == 3)
+			{
+				// PRODUITS
+				$subproductCategory = new Category();
+				$subproductCategory->setName('Sous Produits');
+				$subproductCategory->setIndex(1);
+				$subproductCategory->setSingleOption(false);
+				$subproductCategory->setEnableDescription(true);
+				$subproductCategory->setDisplayCategoryName(false);
+				$subproductCategory->setDepth(2);
+
+				foreach ($subproducts as $key => $subproduct) 
+				{
+					$new_subproduct = new CategoryOption();
+					$new_subproduct->setName($subproduct[0]);
+
+					$new_subproduct->setIcon('icon-' . $subproduct[1]);
+					$new_subproduct->setColor($subproduct[2]);
+
+					if ($subproduct[3] == '') $new_subproduct->setNameShort($subproduct[0]);
+					else $new_subproduct->setNameShort($subproduct[3]);
+
+					$new_subproduct->setTextHelper($subproduct[4]);
+
+					$new_subproduct->setUseIconForMarker(true);
+					$new_subproduct->setUseColorForMarker(false);
+
+					$new_subproduct->setIndex($key);
+
+					$subproductCategory->addOption($new_subproduct);
+				}
+
+				$new_product->addSubcategory($subproductCategory);
+			}
+
 			$productCategory->addOption($new_product);
 		}
+
+
 
 
 		// COMPILE
