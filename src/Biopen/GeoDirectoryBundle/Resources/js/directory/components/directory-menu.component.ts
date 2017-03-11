@@ -80,7 +80,7 @@ export class DirectoryMenuComponent
 			e.preventDefault();
 		});
 
-		$('#product-checkbox-favorite + label').tooltip();
+		$('#filter-favorite').tooltip();
 
 		// -------------------------------
 		// ------ MAIN OPTIONS -----------
