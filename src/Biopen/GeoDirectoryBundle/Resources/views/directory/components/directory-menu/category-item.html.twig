@@ -1,6 +1,12 @@
 {% if category.displayCategoryName %}
 <li class="subcategory-item" id="category-{{category.id}}">
-	{{ category.name|capitalize }}
+
+	<span class="name">
+		{{ category.name|capitalize }}		
+	</span>
+
+	<div class="arrow-before"></div>	
+
 	<span class="checkbox-wrapper">
       <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-{{ category.id }}" checked="checked" data-category-id='{{ category.id }}'/>
       <label for="subcategorie-checkbox-{{ category.id }}"></label>
@@ -12,6 +18,7 @@
    
     <li class="subcategorie-option-item row" data-option-id='{{ option.id }}' id="option-{{ option.id }}">
     	{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}
+	    <div class="arrow"></div>
 	    <span class="icon {{ iconClass }} {{option.name|lower }}"></span>
 	    <span class="option-name">{{ option.nameShort|capitalize }}</span> 
 	    <!-- <span class="icon btn-show-only icon-material-eye"></span>  -->

@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-06 09:11:59
+* @Last Modified time: 2017-03-11 18:39:50
 */
 .subcategory-item
 {
@@ -10,7 +10,7 @@
 	position: relative;
   line-height: 3rem;
   padding-top: .5rem;
-  padding-left: .8rem;
+  padding-left: 1rem;
   font-weight: bold;
   font-size: .95rem;
   //background-color: $submenu-color;
@@ -19,6 +19,24 @@
 
   border-top: 2px dashed #eeeeee;
   margin-top: 1rem;  
+
+  .arrow-after
+	{
+		display: inline-block;
+    margin-left: 1.5rem;
+    border: solid 5px;
+    border-color: #272626 transparent transparent transparent ;
+  }
+
+  .arrow-before
+	{
+		position: absolute;
+		top: 1.7rem;
+    margin-left: -1rem;
+    border: solid 5px;
+    border-color: #272626 transparent transparent transparent ;
+  }
+	 
 
 	.checkbox-wrapper
 	{
