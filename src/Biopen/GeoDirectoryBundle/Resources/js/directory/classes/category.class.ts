@@ -47,7 +47,7 @@ export class Category
 
 		for(let option of this.getSubOptions() )
 		{
-			option.toggle(false, check);
+			option.toggle(check, false, false);
 		}
 
 		App.elementModule.updateElementToDisplay(check);

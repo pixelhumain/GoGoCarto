@@ -60,8 +60,6 @@ export class CategoriesModule
 		return category;
 	}
 
-
-
 	getMainOptions() : Option[]
 	{
 		return this.mainCategory.options;

@@ -33,13 +33,13 @@ export class Option
 
 	addCategory($category : Category) { this.subcategories.push($category); }
 
-	toggle(updateElements : boolean = true, bool : boolean = null)
+	toggle(value : boolean = null, updateElements : boolean = true, recursive : boolean = true)
 	{
 			let checkbox = this.getDomCheckbox();
 
 			let check;
-			if (bool != null) check = bool;
-			else check = !checkbox.is(':checked');
+			if (value != null) check = value;
+			else check = !this.isChecked;
 
 			this.isChecked = check;
 			checkbox.prop("checked", check);
@@ -57,7 +57,12 @@ export class Option
 
 			App.filterModule.updateFilter(this.id, check);
 
-			if(updateElements) 
+			if (recursive)
+			{
+				for (let option of this.getSupOptions()) option.toggle(check, updateElements, recursive);
+			}
+
+			if(updateElements && !recursive)
 			{
 				App.elementModule.updateElementToDisplay(check);
 				App.historyModule.updateCurrState();

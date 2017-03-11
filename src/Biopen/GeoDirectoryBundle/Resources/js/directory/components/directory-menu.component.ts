@@ -15,8 +15,7 @@ import { hideDirectoryMenu } from "../app-interactions";
 declare let App : AppModule;
 
 export class DirectoryMenuComponent
-{
-	isItemClicking: boolean;
+{	
 	currentActiveMainOptionId = 'all';
 
 	constructor()
@@ -65,11 +64,20 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		// --------- FAVORITE-------------
 		// -------------------------------
-		$('.favorite-checkbox').change(function()
+		$('#filter-favorite').click(function(e : Event)
 		{
-			that.setTimeoutClicking();
-			App.filterModule.showOnlyFavorite($(this).is(':checked'));
-			App.elementModule.updateElementToDisplay($(this).is(':checked'));
+			let favoriteCheckbox = $('#product-checkbox-favorite');
+
+			let checkValue = !favoriteCheckbox.is(':checked');
+
+			App.filterModule.showOnlyFavorite(checkValue);
+			App.elementModule.updateElementToDisplay(checkValue);
+
+			favoriteCheckbox.prop('checked',checkValue);
+
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
 		});
 
 		$('#product-checkbox-favorite + label').tooltip();
@@ -90,23 +98,24 @@ export class DirectoryMenuComponent
 			that.setMainOption(optionId);
 		});
 
-		$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
-		{		
-			if (that.isItemClicking) return;
-			console.log("checkbox click");
-			return false;
-		});
+		
 
 		// -------------------------------
 		// ------ SUB OPTIONS ------------
 		// -------------------------------
-		$('.subcategorie-option-item:not(#filter-favorite)').click(function()
+		$('.subcategorie-option-item:not(#filter-favorite)').click(function(e : Event)
 		{
-			if (that.isItemClicking) return;
-			that.setTimeoutClicking();
-
 			let optionId = $(this).attr('data-option-id');
 			App.categoryModule.getOptionById(optionId).toggle();
+
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
+
+		$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
+		{		
+			return false;
 		});
 
 		// $('.btn-show-only').click(function(e: Event)
@@ -127,14 +136,14 @@ export class DirectoryMenuComponent
 		// 	});
 		// });
 
+		// ----------------------------------
+		// ------ SUB CATEGORIES ------------
+		// ----------------------------------
 		$('.subcategorie-checkbox').change(function()
 		{		
 			let categoryId = $(this).attr('data-category-id');
 			App.categoryModule.getCategoryById(categoryId).toggle( $(this).is(':checked') );
 		});	
-
-		//check initial (si des checkbox ont été sauvegardées par le navigateur)
-		//$('.product-checkbox, .element-checkbox').trigger("change");
 	}
 
 	setMainOption(optionId)
@@ -205,11 +214,7 @@ export class DirectoryMenuComponent
 
 
 
-	private setTimeoutClicking() 
-	{ 
-		this.isItemClicking = true;
-		setTimeout(() => { this.isItemClicking = false; }, 200); 
-	};
+	
 
 	// private checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
 	// {
@@ -226,6 +231,7 @@ export class DirectoryMenuComponent
 	// }
 
 }
+
 
 
 

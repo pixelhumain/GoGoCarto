@@ -279,14 +279,14 @@ export class FilterModule
 			let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getMainOptionBySlug(mainOptionSlug).getSupOptions();
 			for (let option of options)
 			{				
-				option.toggle(false, false);
+				option.toggle(false, false, false);
 			}
 		}
 
 		for(let filterId of filters)
 		{
 			let option = App.categoryModule.getOptionById(filterId);
-			option.toggle(false, addingMode);
+			option.toggle(addingMode, false, false );
 		}
 
 		App.elementModule.updateElementToDisplay(true);
