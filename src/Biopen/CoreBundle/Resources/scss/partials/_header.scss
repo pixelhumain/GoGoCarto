@@ -6,19 +6,24 @@ header
 	#menu
 	{
 		margin: 0 ; 
-	   	font-size: .85rem ;
+	  font-size: .85rem ;
 		background-color: #272626;
 		padding: 0 .5rem;
 
 		#menu-home
 		{
-		    display: inline-block;
-		    font-family: 'Yellowtail', cursive;
-		    font-size: 1.4rem;
-		    line-height: 2.3rem;
-		    margin-right: 0;
+	    display: inline-block;
 
-		    @media screen and (max-width: 500px) { line-height: 2.5rem; }
+	    font-family: 'Gloria Hallelujah', cursive;
+	    font-weight: bold;
+	    letter-spacing: -1px;
+
+	    // font-family: 'Yellowtail', cursive;
+	    font-size: 1.4rem;
+	    line-height: 2.3rem;
+	    margin-right: 0;
+
+	    @media screen and (max-width: 500px) { line-height: 2.5rem; }
 		}
 
 		#menu-actions
@@ -54,7 +59,6 @@ header
 				border-radius: 0; 
 				border: none;
 				background-color: transparent;
-	    		letter-spacing: .5px;
 			}			
 		}		
 	}
@@ -85,8 +89,8 @@ header
 			#menu-home
 			{
 				margin-left: .7rem;
-			    font-size: 1.8rem;
-			    line-height: 3.2rem;
+		    font-size: 1.6rem;
+		    line-height: 3.2rem;
 			}		
 
 			.menu-item 

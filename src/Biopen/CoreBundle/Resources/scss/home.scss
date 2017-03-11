@@ -120,37 +120,41 @@ section#home-main-container
 
     @media #{$medium2-and-up}
     {
-		width: 80%;
+			width: 80%;
     	max-width: 900px;    	
     }
 
 	h1
 	{
 		position: relative;
-		font-family: 'Yellowtail', cursive;
-	    text-shadow: 3px 4px 4px #000000;
-	    font-size: 2.8rem;
-	    margin: 1rem 0;	 	    
 
-	    @media #{$medium-and-up}
+		font-family: 'Gloria Hallelujah', cursive;
+    font-weight: bold;
+    letter-spacing: -2px;
+		//font-family: 'Yellowtail', cursive;
+		
+    text-shadow: 5px 4px 1px #191b16;
+    font-size: 2.8rem;
+    margin: 1rem 0;	 	    
+
+	  @media #{$medium-and-up}
 		{
 			position: absolute;	
 			left: 0;
-	    	right: 0;	
-	    	top: -3rem;
-	    	letter-spacing: 2px;
+    	right: 0;	
+    	top: -3rem;
 		}
 
-	    @media #{$medium1-only}
-	    {
-	    	font-size: 4.8rem;
-    		top: -4.3rem;
-	    }
+    @media #{$medium1-only}
+    {
+    	font-size: 4.8rem;
+  		top: -4.3rem;
+    }
 
 		@media #{$medium2-and-up}
 		{
 			font-size: 6.4rem;
-    		top: -5.8rem;
+    	top: -5.8rem;
 		}	
 	}
 
@@ -158,9 +162,9 @@ section#home-main-container
 	{
 		font-size: 1.25rem;
 		line-height: 130%;
-	    margin: 0;
-	    margin-top: 1rem;	    
-    	font-family: 'Kalam', cursive;
+    margin: 0;
+    margin-top: 1rem;	    
+  	font-family: 'Kalam', cursive;
 
 		@media #{$medium1-only}
 		{
