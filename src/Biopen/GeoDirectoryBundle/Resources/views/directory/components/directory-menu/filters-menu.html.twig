@@ -33,7 +33,7 @@
 				<div id="main-option-all" class="main-option-subcategories-container">		
 
 				{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
-            						with {'category': mainCategory } %}
+            						with {'category': mainCategory, 'recursive': false } %}
 
 				</div>
 
@@ -45,7 +45,7 @@
 					{% for key, category in mainOption.subcategories %}
 
 							{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
-              						with {'category': category } %}
+              						with {'category': category, 'recursive': true } %}
 
 					{% endfor %} 
 

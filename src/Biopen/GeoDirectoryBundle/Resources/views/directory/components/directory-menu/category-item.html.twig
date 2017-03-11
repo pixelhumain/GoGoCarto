@@ -1,11 +1,11 @@
 {% if category.displayCategoryName %}
-<li class="subcategory-item" id="category-{{category.id}}">
+<li class="subcategory-item depth-{{category.depth}}" id="category-{{category.id}}">
 
 	<span class="name">
 		{{ category.name|capitalize }}		
 	</span>
 
-	<div class="arrow-before"></div>	
+	<div class="arrow-after"></div>	
 
 	<span class="checkbox-wrapper">
       <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-{{ category.id }}" checked="checked" data-category-id='{{ category.id }}'/>
@@ -18,7 +18,7 @@
    
     <li class="subcategorie-option-item row" data-option-id='{{ option.id }}' id="option-{{ option.id }}">
     	{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}
-	    <div class="arrow"></div>
+	    {% if recursive and option.subcategories|length %}<div class="arrow"></div>{% endif %}
 	    <span class="icon {{ iconClass }} {{option.name|lower }}"></span>
 	    <span class="option-name">{{ option.nameShort|capitalize }}</span> 
 	    <!-- <span class="icon btn-show-only icon-material-eye"></span>  -->
@@ -28,5 +28,14 @@
 	      <label for="option-checkbox-{{ option.id }}"></label>
 	    </span>
     </li>
+
+    {% if recursive %}
+	    {% for subkey, subcategory in option.subcategories %}
+
+					{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+	        						with {'category': subcategory, 'recursive': true} %}
+
+			{% endfor %} 
+		{% endif %}
 
  {% endfor %}
