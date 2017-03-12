@@ -66,7 +66,7 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		$('#filter-favorite').click(function(e : Event)
 		{
-			let favoriteCheckbox = $('#product-checkbox-favorite');
+			let favoriteCheckbox = $('#favorite-checkbox');
 
 			let checkValue = !favoriteCheckbox.is(':checked');
 
@@ -103,19 +103,22 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		// ------ SUB OPTIONS ------------
 		// -------------------------------
-		$('.subcategorie-option-item:not(#filter-favorite)').click(function(e : Event)
+		$('.subcategorie-option-item:not(#filter-favorite) .icon-name-wrapper').click(function(e : Event)
 		{
 			let optionId = $(this).attr('data-option-id');
-			App.categoryModule.getOptionById(optionId).toggle();
+			let option = App.categoryModule.getOptionById(optionId);
 
-			e.stopPropagation();
-			e.stopImmediatePropagation();
-			e.preventDefault();
+			option.isCollapsible() ? option.toggleSubcategoriesDetail() : option.toggle();
+			// e.stopPropagation();
+			// e.stopImmediatePropagation();
+			// e.preventDefault();
 		});
 
 		$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
 		{		
-			return false;
+			console.log("checkbox change");
+			let optionId = $(this).attr('data-option-id');
+			App.categoryModule.getOptionById(optionId).toggle();
 		});
 
 		// $('.btn-show-only').click(function(e: Event)
@@ -139,11 +142,33 @@ export class DirectoryMenuComponent
 		// ----------------------------------
 		// ------ SUB CATEGORIES ------------
 		// ----------------------------------
-		$('.subcategorie-checkbox').change(function()
+		$('.subcategory-item .name-wrapper').click(function()
 		{		
 			let categoryId = $(this).attr('data-category-id');
-			App.categoryModule.getCategoryById(categoryId).toggle( $(this).is(':checked') );
+			App.categoryModule.getCategoryById(categoryId).toggleOptionsDetail();
 		});	
+
+		$('.subcategory-item .checkbox-wrapper').click(function(e)
+		{		
+			console.log("category checkbox click");
+
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
+
+			let categoryId = $(this).attr('data-category-id');
+			App.categoryModule.getCategoryById(categoryId).toggle();
+			
+		});	
+
+		$('.subcategorie-checkbox').change(function()
+		{		
+			console.log("category checkbox change");
+			// let categoryId = $(this).attr('data-category-id');
+			// App.categoryModule.getCategoryById(categoryId).toggle();
+		});	
+
+		
 	}
 
 	setMainOption(optionId)

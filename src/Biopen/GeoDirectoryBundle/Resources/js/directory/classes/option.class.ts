@@ -51,11 +51,13 @@ export class Option
 			else
 				if (!optionItem.hasClass('disabled')) optionItem.addClass('disabled');
 
-			// this.getParent();
 
 			// TODO checker categorie parent si toutes les options sont décochés categoryParent.options.filter()	
+			
+			
+			
 
-			App.filterModule.updateFilter(this.id, check);
+			//App.filterModule.updateFilter(this.id, check);
 
 			if (recursive)
 			{
@@ -93,6 +95,24 @@ export class Option
 		}
 
 		return options;
+	}
+
+	isCollapsible() : boolean { return this.getDom().hasClass('option-collapsible'); }
+
+	isExpanded() : boolean { return this.getDom().hasClass('expanded'); }
+
+	toggleSubcategoriesDetail()
+	{
+		if (this.isExpanded())
+		{
+			this.getDom().next('.category-wrapper').stop(true,false).slideUp({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
+			this.getDom().removeClass('expanded');
+		}
+		else
+		{
+			this.getDom().next('.category-wrapper').stop(true,false).slideDown({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
+			this.getDom().addClass('expanded');
+		}
 	}
 
 	getDom()

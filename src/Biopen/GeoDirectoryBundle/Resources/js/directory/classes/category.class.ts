@@ -14,6 +14,7 @@ export class Category
 	displayCategoryName : boolean;
 	depth : number;
 	optionOwnerId: number;
+
 	isChecked : boolean = true;
 
 	constructor($categoryJson : any)
@@ -41,9 +42,16 @@ export class Category
 		return options.concat(this.options);
 	}
 
-	toggle(check : boolean)
-	{
+	toggle(value : boolean = null)
+	{	
+		let checkbox = this.getDomCheckbox();
+
+		let check;
+		if (value != null) check = value;
+		else check = !this.isChecked;
+
 		this.isChecked = check;
+		checkbox.prop("checked", check);
 
 		for(let option of this.getSubOptions() )
 		{
@@ -54,8 +62,31 @@ export class Category
 		App.historyModule.updateCurrState();
 	}
 
+	isExpanded() : boolean { return this.getDom().hasClass('expanded'); }
+
+	toggleOptionsDetail()
+	{
+		if (this.isExpanded())
+		{
+			this.getDom().next('.options-wrapper').stop(true,false).slideUp({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
+			this.getDom().removeClass('expanded');
+		}
+		else
+		{
+			this.getDom().next('.options-wrapper').stop(true,false).slideDown({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
+			this.getDom().addClass('expanded');
+		}
+	}
+
+
+
 	getDom()
 	{
 		return $('#category-' + this.id);
+	}
+
+	getDomCheckbox()
+	{
+		return $('#subcategorie-checkbox' + this.id);
 	}
 }

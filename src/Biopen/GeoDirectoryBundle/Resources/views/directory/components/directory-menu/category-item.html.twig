@@ -1,41 +1,79 @@
-{% if category.displayCategoryName %}
-<li class="subcategory-item depth-{{category.depth}}" id="category-{{category.id}}">
+<div class="category-wrapper depth-{{category.depth}}" {% if showSubcategories is defined and not showSubcategories%} style="display:none"{% endif %}>
 
-	<span class="name">
-		{{ category.name|capitalize }}		
-	</span>
+	{# ---- CATEGORY TITLE IF REQUIRED ----- #}
+	{% if category.displayCategoryName %}
+	<li class="subcategory-item tooltipped expanded" id="category-{{category.id}}" data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail">
 
-	<div class="arrow-after"></div>	
+		{# --- ICON & NAME--- #}
+		<div class="name-wrapper" data-category-id='{{ category.id }}' >		
+			<span class="name">
+				{{ category.name|capitalize }}		
+			</span>
+			<div class="arrow-after"></div>	
+		</div>
 
-	<span class="checkbox-wrapper">
-      <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-{{ category.id }}" checked="checked" data-category-id='{{ category.id }}'/>
-      <label for="subcategorie-checkbox-{{ category.id }}"></label>
-	</span>
-</li>
-{% endif %}
+		{# --- CHECKBOX ---- #}
+		<div class="checkbox-wrapper" data-category-id='{{ category.id }}' >
+			<div class="checkbox-container">
+		      <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-{{ category.id }}" checked="checked" data-category-id='{{ category.id }}'/>
+		      <label for="subcategorie-checkbox-{{ category.id }}"></label>
+			</div>
+		</div>
+	</li>
+	{% endif %}
 
-{% for key, option in category.options %} 
-   
-    <li class="subcategorie-option-item row" data-option-id='{{ option.id }}' id="option-{{ option.id }}">
-    	{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}
-	    {% if recursive and option.subcategories|length %}<div class="arrow"></div>{% endif %}
-	    <span class="icon {{ iconClass }} {{option.name|lower }}"></span>
-	    <span class="option-name">{{ option.nameShort|capitalize }}</span> 
-	    <!-- <span class="icon btn-show-only icon-material-eye"></span>  -->
-	    <span class="checkbox-wrapper">
-	      <input type="checkbox" class="product-checkbox subcategorie-option-checkbox" 
-	      id="option-checkbox-{{ option.id }}" checked="checked" />
-	      <label for="option-checkbox-{{ option.id }}"></label>
-	    </span>
-    </li>
+	{# ---- CATEGORY LIST OPTIONS ----- #}
+	<div class="options-wrapper">
 
-    {% if recursive %}
-	    {% for subkey, subcategory in option.subcategories %}
+	{% for key, option in category.options %} 
 
-					{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
-	        						with {'category': subcategory, 'recursive': true} %}
+		{% set isSubcategories = recursive and option.subcategories|length %}
+	   
+	    <li class="subcategorie-option-item row {{ isSubcategories ? 'option-collapsible tooltipped' : ''}} {{ option.showSubcategories ? 'expanded' : '' }}"    		
+	    		id="option-{{ option.id }}"
+	    		{% if isSubcategories %}data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail"{% endif %}
+	    		>
+	    	
+	    		{# --- ICON & NAME--- #}
+	    		<div class="icon-name-wrapper" data-option-id='{{ option.id }}' >
 
-			{% endfor %} 
-		{% endif %}
+						{# --- ICON ---- #}
+						{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}	    
+						<span class="icon {{ iconClass }} {{option.name|lower }}"></span>
 
- {% endfor %}
+						{# --- NAME ---- #}
+						<span class="option-name">{{ option.nameShort|capitalize }}</span> 
+
+						{# --- ARROW COLAPSIBLE ---- #}
+						{% if isSubcategories %}<div class="arrow-after"></div>{% endif %}
+						
+					</div>
+
+					{# --- SHOW ONLY---- #}
+					<!-- <span class="icon btn-show-only icon-material-eye"></span>  -->
+
+					{# --- CHECKBOX ---- #}
+					<div class="checkbox-wrapper">
+						<div class="checkbox-container">
+						  <input type="checkbox" class="subcategorie-option-checkbox {{ isSubcategories ? 'tooltipped' : ''}}" data-option-id='{{ option.id }}' 
+						  id="option-checkbox-{{ option.id }}" checked="checked"  {% if isSubcategories %} data-position="right" data-delay="0" data-tooltip="Cocher/Décocher tout"{% endif %}/>
+						  <label for="option-checkbox-{{ option.id }}"></label>
+						</div>
+					</div>
+
+	    </li>
+
+	    {% if recursive %}
+		    {% for subkey, subcategory in option.subcategories %}
+
+						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+		        						with {'category': subcategory, 'recursive': true, 'showSubcategories' : option.showSubcategories} %}
+
+				{% endfor %} 
+			{% endif %}
+
+	 {% endfor %}
+
+	 </div>
+
+ </div>

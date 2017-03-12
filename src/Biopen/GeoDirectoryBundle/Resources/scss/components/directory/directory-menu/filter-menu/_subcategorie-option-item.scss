@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-11 18:37:17
+* @Last Modified time: 2017-03-12 11:31:41
 */
 .subcategorie-option-item
 {
@@ -15,20 +15,40 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 
-	.depth-1
+	.icon-name-wrapper 
 	{
+    margin-right: 3rem;
 
+    &:hover
+    {
+    	.arrow-after 
+			{ 
+				border: solid 6px;
+	    	margin-bottom: -5px;
+	    	border-color: #de5a5f transparent transparent transparent; 
+	    }
+    }
 	}
 
-	.arrow
+	.arrow-before
 	{
 		content: '';
     position: absolute;
     top: 1.2rem;
     margin-left: -.9rem;
     border: solid 5px;
-    border-color: transparent transparent transparent #272626;
+    border-color: transparent transparent transparent #757575;
   }
+
+  .arrow-after
+	{
+		display: inline-block;
+    margin-left: 1rem;
+    border: solid 5px;
+   	margin-bottom: -3px;
+    border-color: #545454 transparent transparent transparent ;
+  }
+
 
 	.icon
 	{
@@ -72,18 +92,10 @@
 		{
 			&:before
 			{
-				color: #222;
+				color: $primary-color;
 				//border-color:black;
 			}
 		}
-	}
-
-	.checkbox-wrapper
-	{
-		float: right;
-    position: absolute;
-    top: .6rem;
-    right: 0rem;
 	}
 
 	.btn-show-only
@@ -99,10 +111,29 @@
     }
 	}
 
+	.checkbox-wrapper
+	{
+		width: 3rem;
+		height: 100%;
+		float: right;
+
+		.checkbox-container
+		{
+	    position: absolute;
+	    top: .6rem;
+	    right: 0rem;
+		}	
+	}
+
 	&:hover
 	{
 		background-color: $grey-light;
-		cursor: pointer;
+		cursor: pointer;		
+
+    &:not(.option-collapsible)
+    {
+    	.subcategorie-option-checkbox + label:before { color: $primary-color; }
+    }
 	}	
 
 	&.disabled 
@@ -115,8 +146,7 @@
   	{
   		border-color: $option-disabled-color;
   	}
-
-  	.arrow { border-color: transparent transparent transparent #828282; }
+  	.arrow-after { border-color: #828282 transparent transparent transparent ;}
   }
 
 	

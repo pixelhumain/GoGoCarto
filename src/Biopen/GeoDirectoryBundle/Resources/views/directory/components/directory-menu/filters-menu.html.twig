@@ -19,14 +19,18 @@
 			<div class="sub-categories-content">
 			<ul>
 
-			{# FAVORITE #}
+				{# FAVORITE #}
 				<li class="subcategorie-option-item row" id="filter-favorite" data-position="right" data-delay="0" data-tooltip="Afficher uniquement les favoris">
 						    <span class="icon icon-star-full"></span>
 						    <span class="option-name">Favoris</span> 
-						    <span class="checkbox-wrapper">
-						      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="product-checkbox-favorite" data-type='favorite' data="favorite" />
-						      <label for="product-checkbox-favorite" ></label>
-						    </span>
+
+						    {# --- CHECKBOX ---- #}
+								<div class="checkbox-wrapper">
+									<div class="checkbox-container">
+							      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="favorite-checkbox" data-type='favorite' data="favorite" />
+							      <label for="favorite-checkbox" ></label>
+						    	</div>
+						    </div>
 				</li>
 
 				{# ALL CATEGORIES MENU #}
@@ -53,27 +57,38 @@
 
 				{% endfor %}
 
+				{# OPEN HOURS FILTER #}
 				<div id="open-hours-filter" style="display:none">
-					<li class="subcategory-item">
+
+					<li class="subcategory-item tooltipped" data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail">
 						Horaires d'ouverture
-						<span class="checkbox-wrapper">
-					      <input type="checkbox" class=" subcategorie-checkbox filled-in" id="subcategorie-checkbox-day" checked="checked" data-type='day'/>
-					      <label for="subcategorie-checkbox-day"></label>
-						</span>
+						<div class="checkbox-wrapper">
+							<div class="checkbox-container">
+								<input type="checkbox" class=" subcategorie-checkbox filled-in" id="subcategorie-checkbox-day" checked="checked" data-type='day'/>
+								<label for="subcategorie-checkbox-day"></label>
+							</div>
+						 </div>
 					</li>
 
 					{% set days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
+
+					<div class="options-wrapper">
 
 					{% for day in days %}
 						<li class="subcategorie-option-item row">
 						    <span class="icon icon-day"></span>
 						    <span class="dayName">{{ day|capitalize }}</span> 
-						    <span class="checkbox-wrapper">
-						      <input type="checkbox" class="day-checkbox subcategorie-option-checkbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
-						      <label for="days-checkbox-{{ day }}"></label>
-						    </span>
+						    {# --- CHECKBOX ---- #}
+								<div class="checkbox-wrapper">
+									<div class="checkbox-container">
+							      <input type="checkbox" class="day-checkbox subcategorie-option-checkbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
+							      <label for="days-checkbox-{{ day }}"></label>
+						    	</div>
+						    </div>
 						</li>
 					{% endfor %}
+
+					</div>
 				</div>
 
 		</ul>

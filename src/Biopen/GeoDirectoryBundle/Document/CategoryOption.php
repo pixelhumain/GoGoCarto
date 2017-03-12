@@ -80,6 +80,13 @@ class CategoryOption
      */
     private $useColorForMarker;
 
+    /**
+     * @var bool
+     *
+     * @MongoDB\Field(type="boolean")
+     */
+    private $showSubcategories = false;
+
      /**
      * @var bool
      *
@@ -329,5 +336,27 @@ class CategoryOption
     public function getShowOpenHours()
     {
         return $this->showOpenHours;
+    }
+
+    /**
+     * Set showSubcategories
+     *
+     * @param boolean $showSubcategories
+     * @return $this
+     */
+    public function setShowSubcategories($showSubcategories)
+    {
+        $this->showSubcategories = $showSubcategories;
+        return $this;
+    }
+
+    /**
+     * Get showSubcategories
+     *
+     * @return boolean $showSubcategories
+     */
+    public function getShowSubcategories()
+    {
+        return $this->showSubcategories;
     }
 }
