@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-12 09:02:01
+ * @Last Modified time: 2017-03-12 17:03:29
  */
  
 
@@ -158,7 +158,7 @@ class LoadCategory implements FixtureInterface
 
 			if ($key == 3)
 			{
-				// PRODUITS
+				// SOUS PRODUITS
 				$subproductCategory = new Category();
 				$subproductCategory->setName('Sous Produits');
 				$subproductCategory->setIndex(1);

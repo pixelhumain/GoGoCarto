@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-12 12:45:20
+* @Last Modified time: 2017-03-12 15:48:24
 */
 
 .subcategory-item
@@ -63,7 +63,7 @@
 		{
 	    position: absolute;
 	    top: 3px;
-    	right: -2px;
+    	right: 0px;
 
 	    .subcategorie-checkbox
 			{
@@ -93,6 +93,20 @@
 			}
 		}
 	}
+
+	&.disabled 
+  {
+  	.icon { color: $option-disabled-color; }
+
+  	color: #828282;
+
+  	.subcategorie-checkbox + label:after
+  	{
+  		color: #9a9a9a !important;
+  	}
+
+  	.arrow-after { border-color: #828282 transparent transparent transparent ;}
+  }
 
   
 

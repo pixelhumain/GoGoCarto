@@ -73,7 +73,7 @@ export class FilterModule
 
 		if(!option) { console.log("OptionId doesn't exist"); return; }		
 
-		let categoryId = option.categoryOwnerId;
+		let categoryId = option.ownerId;
 		let mainId = App.directoryMenuComponent.currentActiveMainOptionId;
 
 		let checkedArray = this.checkedOptionsIds[mainId][categoryId];
@@ -276,17 +276,17 @@ export class FilterModule
 		// if addingMode, we first put all the filter to false
 		if (addingMode)
 		{
-			let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getMainOptionBySlug(mainOptionSlug).getSupOptions();
-			for (let option of options)
-			{				
-				option.toggle(false, false, false);
-			}
+			// let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getMainOptionBySlug(mainOptionSlug).options;
+			// for (let option of options)
+			// {				
+			// 	option.toggle(false, false);
+			// }
 		}
 
 		for(let filterId of filters)
 		{
 			let option = App.categoryModule.getOptionById(filterId);
-			option.toggle(addingMode, false, false );
+			option.toggle(addingMode, false);
 		}
 
 		App.elementModule.updateElementToDisplay(true);

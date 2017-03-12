@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-12 11:20:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-12 11:20:30
+* @Last Modified time: 2017-03-12 17:06:55
 */
 .category-wrapper.depth-2
 {   
@@ -34,9 +34,9 @@
 
   	.subcategorie-option-checkbox 
 		{
-		  + label:before { width: 10px; height: 10px; left: 5px; }
+		  + label:before { width: 10px; height: 10px; left: 3px; }
 
-			&:checked + label:before { width: 6px; height: 10px; left: 3px; }
+			&:checked + label:before { width: 6px; height: 10px; left: 2px; }
 		}
   }  
 }

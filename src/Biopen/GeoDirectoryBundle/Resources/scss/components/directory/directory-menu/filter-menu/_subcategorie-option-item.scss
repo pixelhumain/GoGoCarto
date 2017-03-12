@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-12 11:31:41
+* @Last Modified time: 2017-03-12 17:06:38
 */
 .subcategorie-option-item
 {
@@ -61,7 +61,7 @@
 	  {
 	    width: 13px;
 	    height: 13px;
-	    left: 3px;
+	    left: 2px;
 	    top: 3px;
 	    z-index: 0;
 	    border: 2px solid $radio-empty-color;
@@ -114,8 +114,10 @@
 	.checkbox-wrapper
 	{
 		width: 3rem;
-		height: 100%;
-		float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
 
 		.checkbox-container
 		{

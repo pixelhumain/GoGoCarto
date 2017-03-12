@@ -2,7 +2,7 @@
 
 	{# ---- CATEGORY TITLE IF REQUIRED ----- #}
 	{% if category.displayCategoryName %}
-	<li class="subcategory-item tooltipped expanded" id="category-{{category.id}}" data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail">
+	<li class="subcategory-item tooltipped expanded" id="category-{{category.id}}" data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail">
 
 		{# --- ICON & NAME--- #}
 		<div class="name-wrapper" data-category-id='{{ category.id }}' >		
@@ -28,8 +28,8 @@
 	{% for key, option in category.options %} 
 
 		{% set isSubcategories = recursive and option.subcategories|length %}
-	   
-	    <li class="subcategorie-option-item row {{ isSubcategories ? 'option-collapsible tooltipped' : ''}} {{ option.showSubcategories ? 'expanded' : '' }}"    		
+
+	    <li class="subcategorie-option-item row {{isSubcategories ? 'option-collapsible tooltipped' : ''}}{{ option.showSubcategories ? 'expanded' : '' }}"    		
 	    		id="option-{{ option.id }}"
 	    		{% if isSubcategories %}data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail"{% endif %}
 	    		>
@@ -53,10 +53,10 @@
 					<!-- <span class="icon btn-show-only icon-material-eye"></span>  -->
 
 					{# --- CHECKBOX ---- #}
-					<div class="checkbox-wrapper">
+					<div class="checkbox-wrapper" data-option-id='{{ option.id }}' >
 						<div class="checkbox-container">
-						  <input type="checkbox" class="subcategorie-option-checkbox {{ isSubcategories ? 'tooltipped' : ''}}" data-option-id='{{ option.id }}' 
-						  id="option-checkbox-{{ option.id }}" checked="checked"  {% if isSubcategories %} data-position="right" data-delay="0" data-tooltip="Cocher/Décocher tout"{% endif %}/>
+						  <input type="checkbox" class="subcategorie-option-checkbox {{ isSubcategories ? 'tooltipped' : ''}}" 
+						  id="option-checkbox-{{ option.id }}" checked="checked"  {% if isSubcategories %} data-position="right" data-delay="400" data-tooltip="Cocher/Décocher tout"{% endif %}/>
 						  <label for="option-checkbox-{{ option.id }}"></label>
 						</div>
 					</div>

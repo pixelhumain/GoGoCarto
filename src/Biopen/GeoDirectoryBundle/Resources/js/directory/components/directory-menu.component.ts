@@ -91,14 +91,29 @@ export class DirectoryMenuComponent
 
 		$('.main-categories .main-icon').click( function(e)
 		{
-			console.log("main categorie click", $(this).attr('data-option-id'));
-
 			let optionId = $(this).attr('data-option-id');
-
 			that.setMainOption(optionId);
 		});
 
-		
+		// ----------------------------------
+		// ------ CATEGORIES ----------------
+		// ----------------------------------
+		$('.subcategory-item .name-wrapper').click(function()
+		{		
+			let categoryId = $(this).attr('data-category-id');
+			App.categoryModule.getCategoryById(categoryId).toggleChildrenDetail();
+		});	
+
+		$('.subcategory-item .checkbox-wrapper').click(function(e)
+		{		
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
+
+			let categoryId = $(this).attr('data-category-id');
+			App.categoryModule.getCategoryById(categoryId).toggle();
+			
+		});			
 
 		// -------------------------------
 		// ------ SUB OPTIONS ------------
@@ -108,67 +123,19 @@ export class DirectoryMenuComponent
 			let optionId = $(this).attr('data-option-id');
 			let option = App.categoryModule.getOptionById(optionId);
 
-			option.isCollapsible() ? option.toggleSubcategoriesDetail() : option.toggle();
-			// e.stopPropagation();
-			// e.stopImmediatePropagation();
-			// e.preventDefault();
+			option.isCollapsible() ? option.toggleChildrenDetail() : option.toggle();
 		});
 
-		$('.subcategorie-option-checkbox:not(.favorite-checkbox)').change(function()
+		$('.subcategorie-option-item:not(#filter-favorite) .checkbox-wrapper').click(function(e)
 		{		
-			console.log("checkbox change");
-			let optionId = $(this).attr('data-option-id');
-			App.categoryModule.getOptionById(optionId).toggle();
-		});
-
-		// $('.btn-show-only').click(function(e: Event)
-		// {
-		// 	that.setTimeoutClicking();
-		// 	console.log("show only click");
-		// 	$(this).parent().siblings('li').each( function()
-		// 	{
-		// 		if (!$(this).hasClass('disabled'))
-		// 		{
-		// 			let checkbox = $(this).find('.subcategorie-option-checkbox');
-		// 			checkbox.prop("checked", false);
-		// 			that.checkFilterFromCheckbox(checkbox, checkbox.attr('data-type'), false);
-		// 		}
-
-		// 		App.elementModule.updateElementToDisplay(false);
-				
-		// 	});
-		// });
-
-		// ----------------------------------
-		// ------ SUB CATEGORIES ------------
-		// ----------------------------------
-		$('.subcategory-item .name-wrapper').click(function()
-		{		
-			let categoryId = $(this).attr('data-category-id');
-			App.categoryModule.getCategoryById(categoryId).toggleOptionsDetail();
-		});	
-
-		$('.subcategory-item .checkbox-wrapper').click(function(e)
-		{		
-			console.log("category checkbox click");
-
 			e.stopPropagation();
 			e.stopImmediatePropagation();
 			e.preventDefault();
 
-			let categoryId = $(this).attr('data-category-id');
-			App.categoryModule.getCategoryById(categoryId).toggle();
-			
-		});	
+			let optionId = $(this).attr('data-option-id');
+			App.categoryModule.getOptionById(optionId).toggle();
+		});
 
-		$('.subcategorie-checkbox').change(function()
-		{		
-			console.log("category checkbox change");
-			// let categoryId = $(this).attr('data-category-id');
-			// App.categoryModule.getCategoryById(categoryId).toggle();
-		});	
-
-		
 	}
 
 	setMainOption(optionId)
@@ -200,61 +167,6 @@ export class DirectoryMenuComponent
 		App.historyModule.updateCurrState();
 
 	}
-
-	// toggleOption(optionId : number, updateElements : boolean = true, bool : boolean = null)
-	// {
-	// 		let checkbox = $('#option-checkbox-' + optionId);
-
-	// 		let check;
-	// 		if (bool != null) check = bool;
-	// 		else check = !checkbox.is(':checked');
-
-	// 		//console.log("toogleOption bool = " + bool + ", check = " + check);
-
-	// 		checkbox.prop("checked", check);
-
-	// 		if (check) 
-	// 		{
-	// 			checkbox.parent().parent().removeClass('disabled');
-	// 		}
-	// 		else
-	// 		{ 
-	// 			let parent = checkbox.parent().parent();
-	// 			if (!parent.hasClass('disabled')) parent.addClass('disabled');
-	// 		}	
-
-	// 		let option = App.categoryModule.getOptionById(optionId);
-	// 		let categoryParent = option.getParent();
-
-	// 		categoryParent.options.filter()	
-
-	// 		App.filterModule.updateFilter(optionId, check);
-
-	// 		if(updateElements) 
-	// 		{
-	// 			App.elementModule.updateElementToDisplay(check);
-	// 			App.historyModule.updateCurrState();
-	// 		}
-	// }
-
-
-
-	
-
-	// private checkFilterFromCheckbox(object, filterType, updateElementToDisplay)
-	// {
-	// 	if (!$(object).is(':checked')) 
-	// 	{
-	// 		App.filterModule.addFilter($(object).attr('data'), filterType, updateElementToDisplay);
-	// 		$(object).parent().parent().addClass('disabled');
-	// 	}
-	// 	else
-	// 	{ 
-	// 		App.filterModule.removeFilter($(object).attr('data'), filterType, updateElementToDisplay);
-	// 		$(object).parent().parent().removeClass('disabled');
-	// 	}
-	// }
-
 }
 
 

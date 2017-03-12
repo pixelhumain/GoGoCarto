@@ -43,11 +43,12 @@ export class CategoriesModule
 		for(let optionJson of categoryJson.options)
 		{
 			let option = new Option(optionJson);
-			option.categoryOwnerId = categoryJson.id;
+			option.ownerId = categoryJson.id;
 
 			for(let subcategoryJson of optionJson.subcategories)
 			{
 				let subcategory = this.recursivelyCreateCategoryAndOptions(subcategoryJson);
+				subcategory.ownerId = option.id;
 				option.addCategory(subcategory);
 			}
 
