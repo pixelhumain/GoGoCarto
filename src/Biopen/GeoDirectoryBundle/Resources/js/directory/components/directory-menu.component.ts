@@ -85,8 +85,6 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		// ------ MAIN OPTIONS -----------
 		// -------------------------------
-		$('.main-categories .main-icon').tooltip();
-
 		var that = this;
 
 		$('.main-categories .main-icon').click( function(e)
@@ -158,8 +156,10 @@ export class DirectoryMenuComponent
 			else $('#open-hours-filter').hide();
 		}
 
+		$('#active-main-option-background').animate({top: $('#main-option-icon-' + optionId).position().top}, 500, 'easeOutQuart');
+
 		$('.main-option-subcategories-container').hide();
-		$('#main-option-' + optionId).show();
+		$('#main-option-' + optionId).fadeIn(600);
 
 		$('.main-categories .main-icon').removeClass('active');
 		$('#main-option-icon-' + optionId).addClass('active');
