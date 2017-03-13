@@ -75,7 +75,11 @@ export class TreeNode
 			this.setChecked(check);
 			this.setDisabled(!check);
 
-			for (let child of this.children) child.toggle(check, false);
+			// in All mode, we clicks directly on the mainOption, but don't want to all checkbox in MainOptionFilter to disable
+			if (!this.isMainOption()) 
+			{
+				for (let child of this.children) child.toggle(check, false);
+			}
 
 			if(humanAction)
 			{
