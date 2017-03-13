@@ -33,7 +33,7 @@ class CategoryOption
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", cascade={"persist", "remove"})
+    * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category")
     */
     private $subcategories;
 
@@ -41,7 +41,7 @@ class CategoryOption
     /**
      * @var int
      *
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="int") @MongoDB\Index(order="asc")
      */
     private $index;
 
