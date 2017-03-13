@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-12 15:48:24
+* @Last Modified time: 2017-03-13 11:28:04
 */
 
 .subcategory-item
@@ -28,11 +28,14 @@
   .name-wrapper
   {
   	margin-right: 3rem;
+  	height: 3rem;
+    overflow: hidden;
 
   	.arrow-after
 		{
 			display: inline-block;
-	    margin-left: 1.5rem;
+	    margin-left: 1rem;
+    	margin-bottom: -2px;
 	    border: solid 5px;
 	    border-color: #272626 transparent transparent transparent;
 	  }
@@ -62,7 +65,7 @@
 		.checkbox-container
 		{
 	    position: absolute;
-	    top: 3px;
+	    top: 2px;
     	right: 0px;
 
 	    .subcategorie-checkbox
