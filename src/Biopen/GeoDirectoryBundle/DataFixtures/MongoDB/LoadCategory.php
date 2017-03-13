@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-12 17:03:29
+ * @Last Modified time: 2017-03-13 11:21:07
  */
  
 
@@ -23,6 +23,32 @@ class LoadCategory implements FixtureInterface
 	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
 	public function load(ObjectManager $manager)
 	{
+		$openHoursCategory = new Category();
+		$openHoursCategory->setName("Horaires d'ouverture");
+		$openHoursCategory->setIndex(1);
+		$openHoursCategory->setDisplayCategoryName(true);
+		$openHoursCategory->setDepth(-1);
+
+		// Liste des names de catégorie à ajouter
+		$days = array('lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche');
+
+
+		foreach ($days as $key => $day) 
+		{
+		   $new_openHours = new CategoryOption();
+		   $new_openHours->setName($day);
+		   $new_openHours->setIcon('icon-day');
+		   $new_openHours->setColor('#4A7874');
+		   $new_openHours->setNameShort($day);
+		   $new_openHours->setTextHelper('');
+		   $new_openHours->setIndex($key);
+
+		   $openHoursCategory->addOption($new_openHours);
+		}
+
+		$manager->persist($openHoursCategory);
+
+
 		// main
 		$mainCategory = new Category();
 		$mainCategory->setName('Catégories Principales');

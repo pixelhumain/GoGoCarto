@@ -79,7 +79,7 @@ export class TreeNode
 
 			if(humanAction)
 			{
-				this.getOwner().updateState();
+				if (this.getOwner()) this.getOwner().updateState();
 
 				App.elementModule.updateElementToDisplay(check);
 				App.historyModule.updateCurrState();
@@ -111,7 +111,7 @@ export class TreeNode
 			}	
 		}		
 
-		this.getOwner().updateState();	
+		if (this.getOwner())  this.getOwner().updateState();	
 	}
 
 	isExpanded() : boolean { return this.getDom().hasClass('expanded'); }

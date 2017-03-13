@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-06 09:44:40
+ * @Last Modified time: 2017-03-13 11:21:59
  */
  
 
@@ -22,7 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use Biopen\GeoDirectoryBundle\Document\Product;
+use Biopen\GeoDirectoryBundle\Document\Category;
+use Biopen\GeoDirectoryBundle\Document\CategoryOption;
 use Biopen\GeoDirectoryBundle\Document\Element;
 
 use Wantlet\ORM\Point;
@@ -100,15 +101,17 @@ class DirectoryController extends Controller
     private function renderDirectory($config)
     {
         $mainCategory = $this->getMainCategory();
+        $openHours = $this->getOpenHoursCategory();
 
-        dump($mainCategory);
+        $serializer = $this->container->get('jms_serializer');
 
-         $serializer = $this->container->get('jms_serializer');
-
-          $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
+        $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
+        $openHoursCategoryJson = $serializer->serialize($openHours, 'json');
 
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("mainCategory" => $mainCategory, "config" => $config, "mainCategoryJson" => $mainCategoryJson));
+                              array("mainCategory" => $mainCategory, "openHoursCategory" => $openHours,
+                                    "config" => $config, 
+                                    "mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson));
     }
 
     private function getMainCategory()
@@ -120,6 +123,17 @@ class DirectoryController extends Controller
         ->findOneByDepth(0); 
 
         return $mainCategory;
+    }
+
+    private function getOpenHoursCategory()
+    {
+        $em = $this->get('doctrine_mongodb')->getManager();
+
+        // Get OpenHours list, created with depth -1        
+        $openHoursCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+        ->findOneByDepth(-1); 
+
+        return $openHoursCategory;
     }
     
 

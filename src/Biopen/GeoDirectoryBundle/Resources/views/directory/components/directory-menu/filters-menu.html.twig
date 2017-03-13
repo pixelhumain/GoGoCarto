@@ -58,40 +58,14 @@
 				{% endfor %}
 
 				{# OPEN HOURS FILTER #}
-				<div id="open-hours-filter" style="display:none">
+				<div id="open-hours-filter" class="" style="display:none">		
 
-					<li class="subcategory-item tooltipped" data-position="right" data-delay="0" data-tooltip="Afficher/Masquer le détail">
-						Horaires d'ouverture
-						<div class="checkbox-wrapper">
-							<div class="checkbox-container">
-								<input type="checkbox" class=" subcategorie-checkbox filled-in" id="subcategorie-checkbox-day" checked="checked" data-type='day'/>
-								<label for="subcategorie-checkbox-day"></label>
-							</div>
-						 </div>
-					</li>
+				{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+            						with {'category': openHoursCategory, 'recursive': false } %}
 
-					{% set days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
-
-					<div class="options-wrapper">
-
-					{% for day in days %}
-						<li class="subcategorie-option-item row">
-						    <span class="icon icon-day"></span>
-						    <span class="dayName">{{ day|capitalize }}</span> 
-						    {# --- CHECKBOX ---- #}
-								<div class="checkbox-wrapper">
-									<div class="checkbox-container">
-							      <input type="checkbox" class="day-checkbox subcategorie-option-checkbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
-							      <label for="days-checkbox-{{ day }}"></label>
-						    	</div>
-						    </div>
-						</li>
-					{% endfor %}
-
-					</div>
 				</div>
 
-		</ul>
+			</ul>
 		</div>
 
 	</div>

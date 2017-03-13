@@ -10,7 +10,7 @@
 /// <reference types="leaflet" />
 
 declare let window, Routing : any;
-declare let CONFIG, MAIN_CATEGORY;
+declare let CONFIG, MAIN_CATEGORY, OPENHOURS_CATEGORY;
 declare var $;
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
@@ -88,7 +88,7 @@ export class AppModule
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
 	historyModule = new HistoryModule();
-	categoryModule = new CategoriesModule(MAIN_CATEGORY);
+	categoryModule = new CategoriesModule(MAIN_CATEGORY, OPENHOURS_CATEGORY);
 	directoryMenuComponent = new DirectoryMenuComponent();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;

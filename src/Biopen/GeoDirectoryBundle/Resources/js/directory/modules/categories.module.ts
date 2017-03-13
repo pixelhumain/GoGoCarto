@@ -23,17 +23,20 @@ export class CategoriesModule
 {
 	readonly categories : Category[] = [];
 	readonly options : Option[] = [];
-	readonly mainCategory : Category;
 
-	constructor(mainCatgeoryJson)
+	readonly mainCategory : Category;
+	readonly openHoursCategory : Category;
+
+	constructor(mainCatgeoryJson, openHoursCategoryJson)
 	{
 		
 		this.options = [];
 		this.categories = [];
 
 		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
+		this.openHoursCategory = this.recursivelyCreateCategoryAndOptions(openHoursCategoryJson);
 
-		console.log(this.mainCategory);
+		//console.log(this.openHoursCategory);
 	}
 
 	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
