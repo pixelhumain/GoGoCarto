@@ -29,13 +29,12 @@
 
 		{% set isSubcategories = recursive and option.subcategories|length %}
 
-	    <li class="subcategorie-option-item row {{isSubcategories ? 'option-collapsible tooltipped' : ''}}{{ option.showSubcategories ? 'expanded' : '' }}"    		
-	    		id="option-{{ option.id }}"
-	    		{% if isSubcategories %}data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail"{% endif %}
-	    		>
+	    <li class="subcategorie-option-item row {{isSubcategories ? 'option-collapsible' : ''}}{{ option.showSubcategories ? 'expanded' : '' }}"    		
+	    		id="option-{{ option.id }}">
 	    	
 	    		{# --- ICON & NAME--- #}
-	    		<div class="icon-name-wrapper" data-option-id='{{ option.id }}' >
+	    		<div class="icon-name-wrapper {{isSubcategories ? 'tooltipped' : ''}}" data-option-id='{{ option.id }}' 
+	    					{% if isSubcategories %}data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail"{% endif %}>
 
 						{# --- ICON ---- #}
 						{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}	    
