@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-13 12:36:47
+* @Last Modified time: 2017-03-13 13:12:47
 */
 @import 'favorite-filter';
 @import 'subcategorie-item';
@@ -32,6 +32,11 @@
 	    position: relative;
 	    //border-bottom: 1px solid #616161;
 
+	    .main-option-tooltip
+	    {
+	    	display: none;
+	    }
+
 	    &:before
 	    {
 	    	position: absolute;
@@ -48,6 +53,23 @@
 		    color: #bfbfbf;
 		    padding-right: 8px;
 		    border-radius: 0 50% 50% 0;
+
+		    .main-option-tooltip
+		    {
+		    	display: block;
+			    position: absolute;
+			    left: 4rem;
+			    top: .5rem;
+			    /* bottom: 0; */
+			    height: 2.5rem;
+			    line-height: 2.5rem;
+			    z-index: 100;
+			    width: 14rem;
+			    background-color: rgba(64, 64, 64, 0.88);
+			    color: #efefef;
+			    font-size: 1rem;
+			    border-radius: 5px;
+		    }
 	    }
 
 	    &.active

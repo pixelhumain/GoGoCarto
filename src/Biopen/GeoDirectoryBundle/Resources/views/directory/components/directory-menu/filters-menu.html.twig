@@ -5,14 +5,18 @@
 
 		<div class="icon main-icon-background" id="active-main-option-background"></div>
 
-		<div class="icon main-icon active icon-users" id="main-option-icon-all" data-option-id="all" data-position="right" data-delay="0" data-tooltip="Tous les acteurs"></div> 
+		<div class="icon main-icon active icon-users" id="main-option-icon-all" data-option-id="all">
+			<div class="main-option-tooltip">Tous les acteurs</div>
+		</div> 
 
 
 		{% for key, mainOption in mainCategory.options %}
 
 			{#<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}" data-position="right" data-delay="0" data-tooltip="{{ mainOption.name }}"></div> #}
 
-			<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}"></div>
+			<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}">
+				<div class="main-option-tooltip">{{ mainOption.name }}</div>
+			</div>
 
 		{% endfor %}
 
