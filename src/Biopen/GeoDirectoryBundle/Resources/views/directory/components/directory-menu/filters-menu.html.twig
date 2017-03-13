@@ -9,10 +9,8 @@
 			<div class="main-option-tooltip">Tous les acteurs</div>
 		</div> 
 
-
-		{% for key, mainOption in mainCategory.options %}
-
-			{#<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}" data-position="right" data-delay="0" data-tooltip="{{ mainOption.name }}"></div> #}
+		{# MAIN OPTIONS ICONS & TOOLTIP #}
+		{% for key, mainOption in mainCategory.options | sortbyfield('index')%}
 
 			<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}">
 				<div class="main-option-tooltip">{{ mainOption.name }}</div>
@@ -56,7 +54,7 @@
 
 					<div id="main-option-{{ mainOption.id }}" class="main-option-subcategories-container" style="display:none">		
 
-					{% for key, category in mainOption.subcategories %}
+					{% for key, category in mainOption.subcategories | sortbyfield('index')%}
 
 							{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
               						with {'category': category, 'recursive': true } %}

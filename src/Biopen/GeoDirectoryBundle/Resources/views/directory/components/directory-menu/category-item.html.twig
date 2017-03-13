@@ -25,7 +25,7 @@
 	{# ---- CATEGORY LIST OPTIONS ----- #}
 	<div class="options-wrapper">
 
-	{% for key, option in category.options %} 
+	{% for key, option in category.options | sortbyfield('index')%} 
 
 		{% set isSubcategories = recursive and option.subcategories|length %}
 
@@ -41,7 +41,7 @@
 						<span class="icon {{ iconClass }} {{option.name|lower }}"></span>
 
 						{# --- NAME ---- #}
-						<span class="option-name">{{ option.nameShort|capitalize }}</span> 
+						<span class="option-name">{{ option.nameShort }}</span> 
 
 						{# --- ARROW COLAPSIBLE ---- #}
 						{% if isSubcategories %}<div class="arrow-after"></div>{% endif %}
@@ -63,7 +63,7 @@
 	    </li>
 
 	    {% if recursive %}
-		    {% for subkey, subcategory in option.subcategories %}
+		    {% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
 
 						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
 		        						with {'category': subcategory, 'recursive': true, 'showSubcategories' : option.showSubcategories} %}
