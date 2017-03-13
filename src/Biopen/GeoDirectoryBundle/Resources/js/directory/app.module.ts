@@ -51,10 +51,6 @@ $(document).ready(function()
    initializeElementMenu();
 });
 
-export function bonjourMariette()
-{
-	return 'coucou !';
-}
 /*
 * App states names
 */
