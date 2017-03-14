@@ -91,12 +91,8 @@ class DirectoryController extends Controller
         // Get Product List        
         $listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
         ->findAll();
-        // Get About list
-        $listAbouts = $em->getRepository('BiopenCoreBundle:About')
-        ->findAll();
-
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                            array("listProducts" => $listProducts, "config" => $config,'listAbouts' => $listAbouts));
+                            array("listProducts" => $listProducts, "config" => $config));
     }
     
 
@@ -128,9 +124,5 @@ class DirectoryController extends Controller
     {
         return $mode == 'carte' ? 'Map' : 'List';
     }
-
-     
   
-
-    
 }

@@ -25,11 +25,17 @@ class CoreController extends Controller
         // Get Partner List        
         $listPartners = $em->getRepository('BiopenCoreBundle:Partner')
         ->findAll();
-        // Get About list
+
+        return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
+        
+    }
+
+    public function headerAction(){
+        $em = $this->getDoctrine()->getManager();
+        // Get About List        
         $listAbouts = $em->getRepository('BiopenCoreBundle:About')
         ->findAll();
-
-        return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners, 'listAbouts' => $listAbouts));
         
+        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts));
     }
 }

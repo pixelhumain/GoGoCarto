@@ -37,8 +37,6 @@ class ElementFormController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
             ->findAll();
-        $listAbouts = $em->getRepository('BiopenCoreBundle:About')
-        ->findAll();
 
 		if ($form->handleRequest($request)->isValid()) 
 		{
@@ -54,7 +52,6 @@ class ElementFormController extends Controller
 						'editMode' => false,
 						'form' => $form->createView(),
 						'listProducts'=> $listProducts,
-						'listAbouts' => $listAbouts 
 					));
   } 
 

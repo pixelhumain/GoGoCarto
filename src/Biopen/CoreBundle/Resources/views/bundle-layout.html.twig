@@ -1,10 +1,13 @@
-{% extends "::base-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/base-layout.html.twig" %}
 
 {% block body %}
 
 	<div id="page-container">
+	
 
-		{% include "::header.html.twig" %}
+		
+
+      <div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
 		
 		<div id="page-content">
 			
