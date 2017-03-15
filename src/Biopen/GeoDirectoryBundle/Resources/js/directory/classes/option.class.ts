@@ -1,11 +1,11 @@
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { Category } from "../classes/category.class";
-import { TreeNode, TreeNodeType } from "./tree-node.class";
+import { CategoryOptionTreeNode, CategoryOptionTreeNodeType } from "./category-option-tree-node.class";
 
 declare let App : AppModule;
 declare let $ : any;
 
-export class Option extends TreeNode
+export class Option extends CategoryOptionTreeNode
 { 
 	id : number;
 	name : string;
@@ -20,7 +20,7 @@ export class Option extends TreeNode
 
 	constructor($optionJson : any)
 	{
-		super(TreeNodeType.Option, '#option-', '#option-checkbox-', '.category-wrapper');
+		super(CategoryOptionTreeNodeType.Option, '#option-', '#option-checkbox-', '.category-wrapper');
 
 		this.id = $optionJson.id;
 		this.name = $optionJson.name;

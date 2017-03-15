@@ -4,7 +4,7 @@ import { Option } from "./option.class";
 declare let App : AppModule;
 declare let $ : any;
 
-export enum TreeNodeType
+export enum CategoryOptionTreeNodeType
 {
 	Option,
 	Category
@@ -13,13 +13,13 @@ export enum TreeNodeType
 /**
 * Class representating a Node in the Directory Menu Tree
 *
-* A TreeNode can be a Category or an Option
+* A CategoryOptionTreeNode can be a Category or an Option
 */
-export class TreeNode 
+export class CategoryOptionTreeNode 
 {
 	id : number;
 
-	children : TreeNode[] = [];
+	children : CategoryOptionTreeNode[] = [];
 
 	ownerId : number = null;
 	// l'id de la mainOption, ou "all" pour une mainOption
@@ -28,7 +28,7 @@ export class TreeNode
 	isChecked : boolean = true;
 	isDisabled : boolean = false;	
 
-	constructor(private TYPE : TreeNodeType, private DOM_ID : string,private DOM_CHECKBOX_ID : string,private DOM_CHILDREN_CLASS : string) {};
+	constructor(private TYPE : CategoryOptionTreeNodeType, private DOM_ID : string,private DOM_CHECKBOX_ID : string,private DOM_CHILDREN_CLASS : string) {};
 
 	getDom() { return $(this.DOM_ID + this.id); }
 
@@ -36,18 +36,18 @@ export class TreeNode
 
 	getDomChildren() { return this.getDom().next(this.DOM_CHILDREN_CLASS);}
 
-	getOwner() : TreeNode 
+	getOwner() : CategoryOptionTreeNode 
 	{ 
-		if (this.TYPE == TreeNodeType.Option)
+		if (this.TYPE == CategoryOptionTreeNodeType.Option)
 			return App.categoryModule.getCategoryById(this.ownerId); 
 
-		if (this.TYPE == TreeNodeType.Category)
+		if (this.TYPE == CategoryOptionTreeNodeType.Category)
 			return App.categoryModule.getOptionById(this.ownerId); 
 
 		return null;
 	}
 
-	isOption() { return this.TYPE == TreeNodeType.Option }
+	isOption() { return this.TYPE == CategoryOptionTreeNodeType.Option }
 
 	isMainOption() { return false; }
 
@@ -105,7 +105,7 @@ export class TreeNode
 			this.setDisabled(!this.isChecked);
 		else
 		{
-			let disabledChildrenCount = this.children.filter( (child : TreeNode) => child.isDisabled).length;
+			let disabledChildrenCount = this.children.filter( (child : CategoryOptionTreeNode) => child.isDisabled).length;
 
 			//console.log("Option " + this.name + " update state, nbre children disabled = ", disabledChildrenCount);
 
@@ -114,7 +114,7 @@ export class TreeNode
 			else
 				this.setDisabled(false);
 
-			let checkedChildrenCount = this.children.filter( (child : TreeNode) => child.isChecked).length;
+			let checkedChildrenCount = this.children.filter( (child : CategoryOptionTreeNode) => child.isChecked).length;
 
 			if (checkedChildrenCount == this.children.length)
 			{

@@ -14,7 +14,7 @@ import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNu
 import { Option} from "../classes/option.class";
 import { Category } from "../classes/category.class";
 import { Element } from "../classes/element.class";
-import { TreeNode } from "../classes/tree-node.class";
+import { CategoryOptionTreeNode } from "../classes/category-option-tree-node.class";
 
 declare let App : AppModule;
 
@@ -66,7 +66,7 @@ export class FilterModule
 		this.showOnlyFavorite_ = data;
 	};
 
-	updateFilter(option : TreeNode, checked : boolean)
+	updateFilter(option : CategoryOptionTreeNode, checked : boolean)
 	{
 		let mainId = option.mainOwnerId;
 
@@ -126,8 +126,8 @@ export class FilterModule
 
 		let filters = parseStringIntoArrayNumber(filtersString);
 
-		console.log('filters', filters);
-		console.log('addingMode', addingMode);
+		//console.log('filters', filters);
+		//console.log('addingMode', addingMode);
 
 		// if addingMode, we first put all the filter to false
 		if (addingMode)
