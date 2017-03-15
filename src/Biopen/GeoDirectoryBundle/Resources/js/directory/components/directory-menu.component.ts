@@ -16,7 +16,7 @@ declare let App : AppModule;
 
 export class DirectoryMenuComponent
 {	
-	currentActiveMainOptionId = 'all';
+	currentActiveMainOptionId = null;
 
 	constructor()
 	{
@@ -140,6 +140,7 @@ export class DirectoryMenuComponent
 	{
 		if (this.currentActiveMainOptionId == optionId) return;
 
+		let oldId = this.currentActiveMainOptionId;
 		this.currentActiveMainOptionId = optionId;
 
 		if (optionId == 'all')
@@ -164,7 +165,8 @@ export class DirectoryMenuComponent
 		$('.main-categories .main-icon').removeClass('active');
 		$('#main-option-icon-' + optionId).addClass('active');
 
-		App.historyModule.updateCurrState();
+		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
+		if (oldId != null) App.historyModule.updateCurrState();
 
 	}
 }

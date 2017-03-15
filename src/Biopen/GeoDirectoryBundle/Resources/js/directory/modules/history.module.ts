@@ -23,7 +23,7 @@ $(document).ready(function()
    // Gets history state from browser
    window.onpopstate = (event : PopStateEvent) =>
    {
-	  console.log("OnpopState ", event.state);
+	  //console.log("\n\nOnpopState ", event.state.filters);
 	  let historystate : HistoryState = event.state;
 	  // transform jsonViewport into ViewPort object (if we don't do so,
 	  // the ViewPort methods will not be accessible)
@@ -39,6 +39,7 @@ export class HistoryState
 	address : string;
 	viewport : ViewPort;
 	id : number;
+	filters : string;
 
 	parse($historyState : any) : HistoryState
 	{
@@ -47,6 +48,7 @@ export class HistoryState
 		this.address = $historyState.address;
 		this.viewport = new ViewPort().fromString($historyState.viewport);
 		this.id = $historyState.id;
+		this.filters = $historyState.filters;
 		return this;
 	}
 }
@@ -58,21 +60,24 @@ export class HistoryModule
 
 	updateCurrState(options?)
 	{
-		//console.log("Update Curr State", history.state);
-		//if (!history.state) { console.log("curr state null");this.pushNewState();}
+		//console.log("Update Curr State");
+		if (!history.state) { console.log("curr state null");this.pushNewState();}
 		this.updateHistory(false, options);
 	};
 
 	pushNewState(options?)
 	{
-		//console.log("Push New State", history.state);
-		//if (!history.state) return;
-		if (history.state === null) this.updateCurrState(options);
+		//console.log("Push New State");
+
+		if (history.state === null) this.updateHistory(false, options);
 		else this.updateHistory(true, options);
+		
 	};
 
 	private updateHistory($pushState : boolean, $options? : any)
 	{
+		if (App.mode == undefined) return;
+
 		$options = $options || {};
 		let historyState = new HistoryState;
 		historyState.mode = App.mode;
@@ -80,9 +85,10 @@ export class HistoryModule
 		historyState.address = App.geocoder.getLocationSlug();
 		historyState.viewport = App.mapComponent.viewport;
 		historyState.id = App.infoBarComponent.getCurrElementId() || $options.id;
+		historyState.filters = App.filterModule.getFiltersToString();
 
-		//if ($pushState) console.log("NEW STATE", historyState);
-		//else console.log("update State", historyState);
+		// if ($pushState) console.log("NEW Sate", historyState.filters);
+		// else console.log("UPDATE State", historyState.filters);
 
 		let route = this.generateRoute(historyState);
 
@@ -98,14 +104,6 @@ export class HistoryModule
 			//console.log("Replace state", historyState);
 			history.replaceState(historyState, '', route);
 		}
-
-		// if (!backFromHistory)
-		// {
-		// 	if (oldStateName === null || $newState == AppStates.ShowElement || ($newState == AppStates.Normal && oldStateName == AppStates.ShowElement))
-		// 	 	history.replaceState({ name: $newState, options: options }, '', route);
-		// 	else 
-		// 		history.pushState({ name: $newState, options: options }, '', route);
-		// }
 	};
 
 	private generateRoute(historyState : HistoryState)
@@ -163,11 +161,8 @@ export class HistoryModule
 			}		
 		}
 
-		let categories = App.filterModule.getFiltersToString();
-		if (categories)
-		{
-			route += '?cat=' + categories;
-		}
+		if (historyState.filters) route += '?cat=' + historyState.filters;
+		
 		
 		
 		// for (let key in options)
