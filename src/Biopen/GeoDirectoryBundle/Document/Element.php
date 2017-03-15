@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-06 16:38:38
+ * @Last Modified time: 2017-03-15 16:21:40
  */
  
 
@@ -95,7 +95,7 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\Field(type="object_id", nullable=false)
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\CategoryValue")
      */
     private $categories;
 
@@ -504,5 +504,25 @@ class Element
     public function getValidationCode()
     {
         return $this->validationCode;
+    }
+
+    /**
+     * Add category
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category
+     */
+    public function addCategory(\Biopen\GeoDirectoryBundle\Document\CategoryValue $category)
+    {
+        $this->categories[] = $category;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category
+     */
+    public function removeCategory(\Biopen\GeoDirectoryBundle\Document\CategoryValue $category)
+    {
+        $this->categories->removeElement($category);
     }
 }
