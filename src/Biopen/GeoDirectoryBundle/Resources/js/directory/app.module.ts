@@ -97,7 +97,7 @@ export class AppModule
 	
 	// curr state of the app
 	private state_ : AppStates = null;	
-	private mode_ : AppModes;
+	private mode_ : AppModes = null;
 
 	// somes states need a element id, we store it in this property
 	private stateElementId : number = null;
@@ -142,11 +142,14 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
-		// Get filters from URL
-		let params : any = getQueryParams(document.location.search);
-		if (params.cat)
+		//console.log("loadHistorystate filtersd", historystate.filters)
+		if (historystate.filters)
 		{
-			this.filterModule.loadFiltersFromString(params.cat);
+			this.filterModule.loadFiltersFromString(historystate.filters);
+		}
+		else
+		{
+			this.directoryMenuComponent.setMainOption('all');
 		}
 
 		if (historystate === null) return;

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-13 11:21:59
+ * @Last Modified time: 2017-03-15 13:06:22
  */
  
 
@@ -42,11 +42,11 @@ class DirectoryController extends Controller
         $config['mode'] = $this->formatMode($mode);
         $config['state'] = 'Normal';
 
-        return $this->renderDirectory($config);      
+        return $this->renderDirectory($config, $request);      
 
     }  
 
-    public function showElementAction($name, $id, $addressAndViewport)
+    public function showElementAction($name, $id, $addressAndViewport, Request $request)
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
 
@@ -56,10 +56,10 @@ class DirectoryController extends Controller
         $config['state'] = 'ShowElementAlone';
         $config['id'] = $id;
 
-        return $this->renderDirectory($config);  
+        return $this->renderDirectory($config, $request);  
     }   
 
-    public function showDirectionsAction($name, $id, $addressAndViewport)
+    public function showDirectionsAction($name, $id, $addressAndViewport, Request $request)
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
 
@@ -69,10 +69,10 @@ class DirectoryController extends Controller
         $config['state'] = 'ShowDirections';
         $config['id'] = $id;
 
-        return $this->renderDirectory($config);  
+        return $this->renderDirectory($config, $request);  
     }    
 
-    public function constellationAction($mode, $address, $range)
+    public function constellationAction($mode, $address, $range, Request $request)
     {             
         $address = $this->checkAddressInSession($address);
 
@@ -82,10 +82,10 @@ class DirectoryController extends Controller
         $config['state'] = 'Constellation';
         $config['range'] = $range;
 
-        return $this->renderDirectory($config);    
+        return $this->renderDirectory($config, $request);    
     } 
 
-    public function directionsAction($address, $name, $id)
+    public function directionsAction($address, $name, $id, Request $request)
     {             
         $address = $this->checkAddressInSession($address);
 
@@ -95,11 +95,13 @@ class DirectoryController extends Controller
         $config['state'] = 'ShowDirections';
         $config['id'] = $id;
 
-        return $this->renderDirectory($config);      
+        return $this->renderDirectory($config, $request);      
     } 
 
-    private function renderDirectory($config)
+    private function renderDirectory($config, Request $request)
     {
+        $config['filters'] = $request->query->get('cat');
+
         $mainCategory = $this->getMainCategory();
         $openHours = $this->getOpenHoursCategory();
 
