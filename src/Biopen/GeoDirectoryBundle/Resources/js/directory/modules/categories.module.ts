@@ -38,7 +38,7 @@ export class CategoriesModule
 		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
 		this.openHoursCategory = this.recursivelyCreateCategoryAndOptions(openHoursCategoryJson);
 
-		console.log(this.mainCategory);
+		//console.log(this.mainCategory);
 	}
 
 	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
