@@ -24,7 +24,8 @@ export class Category extends TreeNode
 		this.singleOption = $categoryJson.single_option;
 		this.enableDescription = $categoryJson.enable_description;
 		this.displayCategoryName = $categoryJson.display_category_name;
-		this.depth = $categoryJson.depth;		
+		this.depth = $categoryJson.depth;
+		this.mainOwnerId = $categoryJson.mainOwnerId;
 	}
 
 	addOption($option : Option) { this.children.push($option); }

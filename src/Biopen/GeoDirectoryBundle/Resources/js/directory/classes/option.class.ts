@@ -34,7 +34,7 @@ export class Option extends TreeNode
 
 	addCategory($category : Category) { this.children.push($category);  }
 
-	isMainOption() { return (<Category>this.getOwner()).depth == 0; }
+	isMainOption() { return this.getOwner() ? (<Category>this.getOwner()).depth == 0 : false; }
 
 	isCollapsible() : boolean { return this.getDom().hasClass('option-collapsible'); }
 

@@ -1,4 +1,5 @@
 import { AppModule } from "../app.module";
+import { Option } from "./option.class";
 
 declare let App : AppModule;
 declare let $ : any;
@@ -21,6 +22,8 @@ export class TreeNode
 	children : TreeNode[] = [];
 
 	ownerId : number = null;
+	// l'id de la mainOption, ou "all" pour une mainOption
+	mainOwnerId : any = null;
 
 	isChecked : boolean = true;
 	isDisabled : boolean = false;	
@@ -43,6 +46,8 @@ export class TreeNode
 
 		return null;
 	}
+
+	isOption() { return this.TYPE == TreeNodeType.Option }
 
 	isMainOption() { return false; }
 
@@ -74,6 +79,8 @@ export class TreeNode
 
 			this.setChecked(check);
 			this.setDisabled(!check);
+
+			if (this.isOption()) App.filterModule.updateFilter(this, check);
 
 			// in All mode, we clicks directly on the mainOption, but don't want to all checkbox in MainOptionFilter to disable
 			if (!this.isMainOption()) 

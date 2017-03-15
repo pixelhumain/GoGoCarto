@@ -34,14 +34,16 @@ import { initializeElementMenu } from "./components/element-menu.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 import { Element } from "./classes/element.class";
-declare var App;
+declare var App : AppModule;
 
 /**
 * App initialisation when document ready
 */
 $(document).ready(function()
 {	
-   App = new AppModule();   
+   App = new AppModule();      
+
+   App.categoryModule.createCategoriesFromJson(MAIN_CATEGORY, OPENHOURS_CATEGORY);
 
    App.filterModule.initialize();
 
@@ -88,7 +90,7 @@ export class AppModule
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
 	historyModule = new HistoryModule();
-	categoryModule = new CategoriesModule(MAIN_CATEGORY, OPENHOURS_CATEGORY);
+	categoryModule = new CategoriesModule();
 	directoryMenuComponent = new DirectoryMenuComponent();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;

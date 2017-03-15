@@ -21,22 +21,24 @@ declare let $ : any;
 
 export class CategoriesModule
 {
-	readonly categories : Category[] = [];
-	readonly options : Option[] = [];
+	categories : Category[] = [];
+	options : Option[] = [];
 
-	readonly mainCategory : Category;
-	readonly openHoursCategory : Category;
+	mainCategory : Category;
+	openHoursCategory : Category;
 
-	constructor(mainCatgeoryJson, openHoursCategoryJson)
+	constructor() 
 	{
-		
 		this.options = [];
 		this.categories = [];
+	}
 
+	createCategoriesFromJson(mainCatgeoryJson, openHoursCategoryJson)
+	{
 		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
 		this.openHoursCategory = this.recursivelyCreateCategoryAndOptions(openHoursCategoryJson);
 
-		//console.log(this.openHoursCategory);
+		console.log(this.mainCategory);
 	}
 
 	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
@@ -48,10 +50,18 @@ export class CategoriesModule
 			let option = new Option(optionJson);
 			option.ownerId = categoryJson.id;
 
+			if (category.depth == 0) option.mainOwnerId = "all";
+			else if (category.depth == -1) option.mainOwnerId = "openhours";
+			else option.mainOwnerId = category.mainOwnerId;
+
 			for(let subcategoryJson of optionJson.subcategories)
-			{
+			{				
+				if (category.depth <= 0) subcategoryJson.mainOwnerId = option.id;
+				else subcategoryJson.mainOwnerId = option.mainOwnerId;
+
 				let subcategory = this.recursivelyCreateCategoryAndOptions(subcategoryJson);
-				subcategory.ownerId = option.id;
+				subcategory.ownerId = option.id;				
+
 				option.addCategory(subcategory);
 			}
 

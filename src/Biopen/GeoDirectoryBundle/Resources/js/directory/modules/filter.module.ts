@@ -11,6 +11,11 @@
 
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNumber } from "../../commons/commons";
+import { Option} from "../classes/option.class";
+import { Category } from "../classes/category.class";
+import { Element } from "../classes/element.class";
+import { TreeNode } from "../classes/tree-node.class";
+
 declare let App : AppModule;
 
 export class FilterModule
@@ -37,26 +42,20 @@ export class FilterModule
 		this.checkedOptionsIds['all'] = [];
 		this.uncheckedOptionsIds['all'] = [];
 
-		this.checkedOptionsIds['all'][mainCategory.id] = [];
-		this.uncheckedOptionsIds['all'][mainCategory.id] = [];
+		this.checkedOptionsIds['openhours'] = [];
+		this.uncheckedOptionsIds['openhours'] = [];
 
-		for(let mainOption of mainCategory.options)
+		for(let option of App.categoryModule.getMainOptions())
 		{
-			this.checkedOptionsIds['all'][mainCategory.id].push(mainOption.id);			
+			this.checkedOptionsIds[option.id] = [];
+			this.uncheckedOptionsIds[option.id] = [];
+		}
 
-			this.checkedOptionsIds[mainOption.id] = [];
-			this.uncheckedOptionsIds[mainOption.id] = [];
+		//console.log(this.checkedOptionsIds);
 
-			for(let category of mainOption.subcategories)
-			{
-				this.checkedOptionsIds[mainOption.id][category.id] = [];
-				this.uncheckedOptionsIds[mainOption.id][category.id] = [];
-
-				for(let option of category.options)
-				{
-					this.checkedOptionsIds[mainOption.id][category.id].push(option.id);
-				}
-			}
+		for(let option of App.categoryModule.options)
+		{
+			this.checkedOptionsIds[option.mainOwnerId].push(option.id);
 		}
 
 		this.isInitialized = true;
@@ -67,17 +66,12 @@ export class FilterModule
 		this.showOnlyFavorite_ = data;
 	};
 
-	updateFilter(optionId : number, checked : boolean)
+	updateFilter(option : TreeNode, checked : boolean)
 	{
-		let option = App.categoryModule.getOptionById(optionId);
+		let mainId = option.mainOwnerId;
 
-		if(!option) { console.log("OptionId doesn't exist"); return; }		
-
-		let categoryId = option.ownerId;
-		let mainId = App.directoryMenuComponent.currentActiveMainOptionId;
-
-		let checkedArray = this.checkedOptionsIds[mainId][categoryId];
-		let uncheckedArray = this.uncheckedOptionsIds[mainId][categoryId];
+		let checkedArray = this.checkedOptionsIds[mainId];
+		let uncheckedArray = this.uncheckedOptionsIds[mainId];
 
 		if (checked)
 		{
@@ -94,154 +88,16 @@ export class FilterModule
 
 			index = uncheckedArray.indexOf(option.id);
 			if ( index == -1) uncheckedArray.push(option.id);
-
 		}
+
+		//console.log("Adding option filter id = " + option.id, this.uncheckedOptionsIds[mainId]);
 	}
 
-	// addFilter(data, filterType, updateElementToDisplay) 
-	// {	
-	// 	let listToFilter = this.getFilterListFromType(filterType);
-
-	// 	if (listToFilter == null)
-	// 	{
-	// 		console.log("AddFilter not existing filtertype", filterType );
-	// 	}
-	// 	let index = listToFilter.indexOf(data);
-	// 	if ( index < 0) listToFilter.push(data);
-
-	// 	if (updateElementToDisplay) App.elementModule.updateElementToDisplay(false);
-	// };
-
-	// removeFilter (data, filterType, updateElementToDisplay) 
-	// {	
-	// 	let listToFilter = this.getFilterListFromType(filterType);
-
-	// 	let index = listToFilter.indexOf(data);
-	// 	if ( index > -1) 
-	// 	{
-	// 		listToFilter.splice(index, 1);
-	// 		if (updateElementToDisplay) App.elementModule.updateElementToDisplay(true);
-	// 	}
-	// };
-
-	// getFilterListFromType(type)
-	// {
-	// 	let listToFilter = null;
-
-	// 	switch (type)
-	// 	{
-	// 		case 'type': listToFilter = this.typeFilters; break;
-	// 		case 'product': listToFilter = this.productFilters; break;
-	// 		case 'day': listToFilter = this.dayFilters; break;
-	// 	}
-
-	// 	return listToFilter;
-	// };
-
-	checkIfElementPassFilters (element) 
-	{	
-		// FAVORITE FILTER
-		if (this.showOnlyFavorite_ && !element.isFavorite) return false;
-
-		// TYPE FILTER
-		let i;
-		for (i = 0; i < this.typeFilters.length; i++) 
-		{
-			if (element.type == this.typeFilters[i]) return false;
-		}
-
-		// PRODUCTS FILTER
-		let atLeastOneProductPassFilter = false;
-
-		// si epicerie on ne fait irne
-		if (element.type == 'epicerie') 
-		{
-			atLeastOneProductPassFilter = true;
-		}
-		else
-		{
-			let products = element.products;
-			
-			let updateElementIcon = false;
-			for (i = 0; i < products.length; i++) 
-			{
-				// if this element's product is not in the black filter product list
-				if (!this.containsProduct(products[i].nameFormate)) 
-				{
-					atLeastOneProductPassFilter = true;
-
-					// if product was previously disabled, we show it again enabled
-					if (products[i].disabled)
-					{
-						products[i].disabled = false;
-						if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = false;
-						updateElementIcon = true;
-					} 
-				}
-				else
-				{
-					// if product is unselected from directory menu, we show it "disabled"
-					if (!products[i].disabled) 
-					{
-						products[i].disabled = true;
-						if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = true;
-						updateElementIcon = true;
-					}
-				}			
-			}	
-
-			// if one product have been enabled or disabled we update the element icon
-			if (updateElementIcon 
-				&& atLeastOneProductPassFilter 
-				&& element.marker
-				&& App.mode == AppModes.Map) element.marker.updateIcon();
-		}
-
-		if (!atLeastOneProductPassFilter) return false;
-		
-
-		// OPENNING HOURS FILTER
-		if (this.dayFilters.length > 0)
-		{
-			let openHours = element.openHours;
-			let day, atLeastOneDayPassFilter = false;
-			for(let key in openHours)
-			{
-				day = key.split('_')[1];
-				if ( !this.containsOpeningDay(day) )
-				{
-					atLeastOneDayPassFilter = true;
-				}
-			}
-
-			return atLeastOneDayPassFilter;
-		}
+	checkIfElementPassFilters (element : Element) : boolean
+	{
 		return true;
-	};
+	}
 
-	containsProduct (productName) 
-	{		
-		for (let i = 0; i < this.productFilters.length; i++) 
-		{
-			if (this.productFilters[i] == productName)
-			{
-				return true;
-			} 
-		}
-		return false;
-	};
-
-	containsOpeningDay (day) 
-	{		
-		for (let i = 0; i < this.dayFilters.length; i++) 
-		{
-			if (this.dayFilters[i] == day)
-			{
-				return true;
-			} 
-		}
-		return false;
-	};
 
 	loadFiltersFromString(string : string)
 	{
@@ -276,20 +132,26 @@ export class FilterModule
 		// if addingMode, we first put all the filter to false
 		if (addingMode)
 		{
-			// let options = mainOptionSlug == 'all' ? App.categoryModule.getMainOptions() : App.categoryModule.getMainOptionBySlug(mainOptionSlug).options;
-			// for (let option of options)
-			// {				
-			// 	option.toggle(false, false);
-			// }
+			if (mainOptionSlug == 'all')
+				App.categoryModule.mainCategory.toggle(false, false);
+			else
+			{
+				for (let cat of App.categoryModule.getMainOptionBySlug(mainOptionSlug).subcategories)
+					for(let option of cat.options) option.toggle(false, false);
+			}
+
+			App.categoryModule.openHoursCategory.toggle(false, false);
 		}
 
 		for(let filterId of filters)
 		{
 			let option = App.categoryModule.getOptionById(filterId);
-			option.toggle(addingMode, false);
+			if (!option) console.log("Error loadings filters : " + filterId);
+			else option.toggle(addingMode, false);
 		}
 
 		App.elementModule.updateElementToDisplay(true);
+		App.historyModule.updateCurrState();
 
 	}
 
@@ -300,13 +162,30 @@ export class FilterModule
 		let mainOptionId = App.directoryMenuComponent.currentActiveMainOptionId;
 
 		let mainOptionName;
+		let checkArrayToParse, uncheckArrayToParse;
 		if (mainOptionId == 'all')
+		{			
 			mainOptionName = "all";
+			checkArrayToParse = this.checkedOptionsIds['all'];
+			uncheckArrayToParse = this.uncheckedOptionsIds['all'];
+		}
 		else
-			mainOptionName = App.categoryModule.getMainOptionById(App.directoryMenuComponent.currentActiveMainOptionId).nameShort;
+		{
+			let mainOption = App.categoryModule.getMainOptionById(mainOptionId);
+			mainOptionName = mainOption.nameShort;
 
-		let checkedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.checkedOptionsIds[mainOptionId]));
-		let uncheckedIdsParsed = parseArrayNumberIntoString(this.getIdsIn(this.uncheckedOptionsIds[mainOptionId]));
+			checkArrayToParse = this.checkedOptionsIds[mainOptionId];
+			uncheckArrayToParse = this.uncheckedOptionsIds[mainOptionId];
+
+			if (mainOption.showOpenHours) 
+			{
+				checkArrayToParse = checkArrayToParse.concat(this.checkedOptionsIds['openhours']);
+				uncheckArrayToParse = uncheckArrayToParse.concat(this.uncheckedOptionsIds['openhours']);
+			}
+		}
+
+		let checkedIdsParsed = parseArrayNumberIntoString(checkArrayToParse);
+		let uncheckedIdsParsed = parseArrayNumberIntoString(uncheckArrayToParse);
 
 		let addingMode = (checkedIdsParsed.length < uncheckedIdsParsed.length);
 
@@ -319,19 +198,111 @@ export class FilterModule
 		return mainOptionName + '@' + addingSymbol + filtersString;
 	}
 
-	private getIdsIn(categoriesIds) : number[]
-	{
-		let resultIds = [];
-		for(let categoryId in categoriesIds)
-		{
-			for (let optionsId of categoriesIds[categoryId])
-			{
-				resultIds.push(optionsId);
-			}
-		}
-
-		return resultIds;
-	}
 
 
+
+	// checkIfElementPassFiltersOld (element) 
+	// {	
+	// 	// FAVORITE FILTER
+	// 	if (this.showOnlyFavorite_ && !element.isFavorite) return false;
+
+	// 	// TYPE FILTER
+	// 	let i;
+	// 	for (i = 0; i < this.typeFilters.length; i++) 
+	// 	{
+	// 		if (element.type == this.typeFilters[i]) return false;
+	// 	}
+
+	// 	// PRODUCTS FILTER
+	// 	let atLeastOneProductPassFilter = false;
+
+	// 	// si epicerie on ne fait irne
+	// 	if (element.type == 'epicerie') 
+	// 	{
+	// 		atLeastOneProductPassFilter = true;
+	// 	}
+	// 	else
+	// 	{
+	// 		let products = element.products;
+			
+	// 		let updateElementIcon = false;
+	// 		for (i = 0; i < products.length; i++) 
+	// 		{
+	// 			// if this element's product is not in the black filter product list
+	// 			if (!this.containsProduct(products[i].nameFormate)) 
+	// 			{
+	// 				atLeastOneProductPassFilter = true;
+
+	// 				// if product was previously disabled, we show it again enabled
+	// 				if (products[i].disabled)
+	// 				{
+	// 					products[i].disabled = false;
+	// 					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = false;
+	// 					updateElementIcon = true;
+	// 				} 
+	// 			}
+	// 			else
+	// 			{
+	// 				// if product is unselected from directory menu, we show it "disabled"
+	// 				if (!products[i].disabled) 
+	// 				{
+	// 					products[i].disabled = true;
+	// 					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = true;
+	// 					updateElementIcon = true;
+	// 				}
+	// 			}			
+	// 		}	
+
+	// 		// if one product have been enabled or disabled we update the element icon
+	// 		if (updateElementIcon 
+	// 			&& atLeastOneProductPassFilter 
+	// 			&& element.marker
+	// 			&& App.mode == AppModes.Map) element.marker.updateIcon();
+	// 	}
+
+	// 	if (!atLeastOneProductPassFilter) return false;
+		
+
+	// 	// OPENNING HOURS FILTER
+	// 	if (this.dayFilters.length > 0)
+	// 	{
+	// 		let openHours = element.openHours;
+	// 		let day, atLeastOneDayPassFilter = false;
+	// 		for(let key in openHours)
+	// 		{
+	// 			day = key.split('_')[1];
+	// 			if ( !this.containsOpeningDay(day) )
+	// 			{
+	// 				atLeastOneDayPassFilter = true;
+	// 			}
+	// 		}
+
+	// 		return atLeastOneDayPassFilter;
+	// 	}
+	// 	return true;
+	// };
+
+	// containsProduct (productName) 
+	// {		
+	// 	for (let i = 0; i < this.productFilters.length; i++) 
+	// 	{
+	// 		if (this.productFilters[i] == productName)
+	// 		{
+	// 			return true;
+	// 		} 
+	// 	}
+	// 	return false;
+	// };
+
+	// containsOpeningDay (day) 
+	// {		
+	// 	for (let i = 0; i < this.dayFilters.length; i++) 
+	// 	{
+	// 		if (this.dayFilters[i] == day)
+	// 		{
+	// 			return true;
+	// 		} 
+	// 	}
+	// 	return false;
+	// };
 }
