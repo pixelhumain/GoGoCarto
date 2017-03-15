@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-13 11:21:07
+ * @Last Modified time: 2017-03-15 15:52:27
  */
  
 
@@ -16,7 +16,7 @@ namespace Biopen\GeoDirectoryBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
-use Biopen\GeoDirectoryBundle\Document\CategoryOption;
+use Biopen\GeoDirectoryBundle\Document\Option;
 
 class LoadCategory implements FixtureInterface
 {
@@ -35,7 +35,7 @@ class LoadCategory implements FixtureInterface
 
 		foreach ($days as $key => $day) 
 		{
-		   $new_openHours = new CategoryOption();
+		   $new_openHours = new Option();
 		   $new_openHours->setName($day);
 		   $new_openHours->setIcon('icon-day');
 		   $new_openHours->setColor('#4A7874');
@@ -71,7 +71,7 @@ class LoadCategory implements FixtureInterface
 
 		foreach ($mains as $key => $main) 
 		{
-			$new_main = new CategoryOption();
+			$new_main = new Option();
 			$new_main->setName($main[0]);
 
 			$new_main->setIcon('icon-' . $main[1]);
@@ -115,7 +115,7 @@ class LoadCategory implements FixtureInterface
 
 		foreach ($types as $key => $type) 
 		{
-			$new_type = new CategoryOption();
+			$new_type = new Option();
 			$new_type->setName($type[0]);
 
 			$new_type->setIcon('icon-' . $type[1]);
@@ -166,7 +166,7 @@ class LoadCategory implements FixtureInterface
 
 		foreach ($products as $key => $product) 
 		{
-			$new_product = new CategoryOption();
+			$new_product = new Option();
 			$new_product->setName($product[0]);
 
 			$new_product->setIcon('icon-' . $product[1]);
@@ -195,7 +195,7 @@ class LoadCategory implements FixtureInterface
 
 				foreach ($subproducts as $key => $subproduct) 
 				{
-					$new_subproduct = new CategoryOption();
+					$new_subproduct = new Option();
 					$new_subproduct->setName($subproduct[0]);
 
 					$new_subproduct->setIcon('icon-' . $subproduct[1]);

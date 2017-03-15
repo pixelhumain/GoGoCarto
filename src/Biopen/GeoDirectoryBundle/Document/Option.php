@@ -5,11 +5,11 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * CategoryOption
+ * Option
  *
- * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\CategoryOptionRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\OptionRepository")
  */
-class CategoryOption
+class Option
 {
     /**
      * @var int
@@ -37,11 +37,10 @@ class CategoryOption
     */
     private $subcategories;
 
-
     /**
      * @var int
      *
-     * @MongoDB\Field(type="int") @MongoDB\Index(order="asc")
+     * @MongoDB\Field(type="int") 
      */
     private $index;
 

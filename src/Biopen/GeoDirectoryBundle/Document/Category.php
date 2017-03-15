@@ -33,14 +33,14 @@ class Category
     private $nameShort;
 
     /**
-    * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\CategoryOption")
+    * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option")
     */
     private $options; 
 
     /**
      * @var int
      *
-     * @MongoDB\Field(type="int") @MongoDB\Index(order="asc")
+     * @MongoDB\Field(type="int")
      */
     private $index;
 
@@ -135,9 +135,9 @@ class Category
     /**
      * Add option
      *
-     * @param Biopen\GeoDirectoryBundle\Document\CategoryOption $option
+     * @param Biopen\GeoDirectoryBundle\Document\Option $option
      */
-    public function addOption(\Biopen\GeoDirectoryBundle\Document\CategoryOption $option)
+    public function addOption(\Biopen\GeoDirectoryBundle\Document\Option $option)
     {
         $this->options[] = $option;
     }
@@ -145,9 +145,9 @@ class Category
     /**
      * Remove option
      *
-     * @param Biopen\GeoDirectoryBundle\Document\CategoryOption $option
+     * @param Biopen\GeoDirectoryBundle\Document\Option $option
      */
-    public function removeOption(\Biopen\GeoDirectoryBundle\Document\CategoryOption $option)
+    public function removeOption(\Biopen\GeoDirectoryBundle\Document\Option $option)
     {
         $this->options->removeElement($option);
     }

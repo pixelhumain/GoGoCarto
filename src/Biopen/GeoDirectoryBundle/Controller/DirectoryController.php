@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 13:06:22
+ * @Last Modified time: 2017-03-15 15:52:27
  */
  
 
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Biopen\GeoDirectoryBundle\Document\Category;
-use Biopen\GeoDirectoryBundle\Document\CategoryOption;
+use Biopen\GeoDirectoryBundle\Document\Option;
 use Biopen\GeoDirectoryBundle\Document\Element;
 
 use Wantlet\ORM\Point;
