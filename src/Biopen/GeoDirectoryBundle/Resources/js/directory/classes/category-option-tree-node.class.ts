@@ -125,6 +125,16 @@ export class CategoryOptionTreeNode
 		if (this.getOwner())  this.getOwner().updateState();	
 	}
 
+	recursivelyUpdateStates()
+	{
+		for(let child of this.children)
+		{
+			child.recursivelyUpdateStates();
+		}
+
+		this.updateState();
+	}
+
 	isExpanded() : boolean { return this.getDom().hasClass('expanded'); }
 
 	toggleChildrenDetail()

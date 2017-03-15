@@ -150,8 +150,11 @@ export class FilterModule
 			else option.toggle(addingMode, false);
 		}
 
+		if (mainOptionSlug == 'all') App.categoryModule.mainCategory.updateState();
+		else App.categoryModule.getMainOptionBySlug(mainOptionSlug).recursivelyUpdateStates();
+
 		App.elementModule.updateElementToDisplay(true);
-		App.historyModule.updateCurrState();
+		//App.historyModule.updateCurrState();
 
 	}
 
