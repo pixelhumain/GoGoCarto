@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 15:52:27
+ * @Last Modified time: 2017-03-15 16:57:01
  */
  
 
@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
-use Biopen\GeoDirectoryBundle\Classes\CategoryValue;
-use Biopen\GeoDirectoryBundle\Classes\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\CategoryValue;
+use Biopen\GeoDirectoryBundle\Document\OptionValue;
 
 use joshtronic\LoremIpsum;
 
@@ -75,62 +75,94 @@ class RandomCreationController extends Controller
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
-	      $type = $listType[$this->randWithSet($typeSet)];
+	      //$type = $listType[$this->randWithSet($typeSet)];
 
-	      $nbreMainOptions = $this->randWithSet($nbreMainOptionsSet);
+	      //$nbreMainOptions = $this->randWithSet($nbreMainOptionsSet);
+	      $nbreMainOptions = 1;
 
 	      $mainOptions = $mainCategory->getOptions();
 
 	      $mainCategoryValue = new CategoryValue();
+	      $mainCategoryValue->setCategory($mainCategory);
 
 	      for ($j = 0; $j < $nbreMainOptions; $j++) 
 	      {
-	      	$key = rand(0,count($mainOptions)-1);
-	      	
-	      	$optionValue = new OptionValue();
-	      	$optionValue->setOptionId($mainOptions[$key]->getId());
-	      	if ($mainCategory->getEnableDescription())
-	      		$optionValue->setDescription($lipsum->words(rand(0,15)));
-	      	$optionValue->setIndex($j);
+	      	$mainOptionValue = new OptionValue();
 
-	      	$mainCategoryValue->addOptionValue($optionValue);
+	      	// $key = rand(0,count($mainOptions)-1);
+	      	// $mainOption = $mainOptions[$key]; 
+	      	$mainOption = $mainOptions[0];   
+
+	      	$mainOptionValue->setOption($mainOption);	
+	      	$mainOptionValue->setIndex($j); 
+
+	      	$mainCategoryValue->addValue($mainOptionValue);
+
+	      	// for each subcategory
+	      	for($k = 0; $k < count($mainOption->getSubcategories()); $k++)
+	      	{
+	      		 $categoryValue = new CategoryValue();
+
+	      		 $nbreOptions = $this->randWithSet($nbreMainOptionsSet);
+	      		 $subcategory = $mainOption->getSubcategories()[$k];
+
+	      		 $categoryValue->setCategory($subcategory);
+
+	      		for ($l = 0; $l < $nbreOptions; $l++)
+	      		{
+	      			$optionValue = new OptionValue();
+
+	      			$key2 = rand(0,count($subcategory->getOptions())-1);
+	      			$optionValue->setOption($subcategory->getOptions()[$key2]);
+	      			$optionValue->setIndex($l);
+
+	      			if ($subcategory->getEnableDescription())
+	      				$optionValue->setDescription($lipsum->words(rand(0,15)));
+
+	      			$categoryValue->addValue($optionValue);
+	      		} 
+
+	      		$new_element->addCategory($categoryValue);
+	      	}  
+	      	
 	      }
 
 	      $new_element->addCategory($mainCategoryValue);
 
-	      $new_element->setType($type);
+	      //$new_element->setType($type);
 
-	      if ($type == "epicerie" || $type == "marche" || $type == 'boutique')
-	      {
-	        $new_element->setMainProduct($type);
-	      }
+	      // if ($type == "epicerie" || $type == "marche" || $type == 'boutique')
+	      // {
+	      //   $new_element->setMainProduct($type);
+	      // }
 
-	      $currListProducts = $listProducts;
-	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
-	      {
-	        $key = rand(0,count($currListProducts)-1);
-	        $product = $currListProducts[$key];
-	        array_splice($currListProducts, $key, 1);
-	        $elementProduct = new ElementProduct();
-	        $elementProduct->setProduct($product);
-	        $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
-	        $elementProduct->setElement($new_element);
-	        $new_element->addProduct($elementProduct);
-	        $manager->persist($elementProduct);
+	      // $currListProducts = $listProducts;
+	      // for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
+	      // {
+	      //   $key = rand(0,count($currListProducts)-1);
+	      //   $product = $currListProducts[$key];
+	      //   array_splice($currListProducts, $key, 1);
+	      //   $elementProduct = new ElementProduct();
+	      //   $elementProduct->setProduct($product);
+	      //   $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
+	      //   $elementProduct->setElement($new_element);
+	      //   $new_element->addProduct($elementProduct);
+	      //   $manager->persist($elementProduct);
 
-	        if ($j == 0 && !$new_element->getMainProduct()) 
-	        {
-	            $new_element->setMainProduct($product->getNameFormate());
-	        }
-	      }
+	      //   if ($j == 0 && !$new_element->getMainProduct()) 
+	      //   {
+	      //       $new_element->setMainProduct($product->getNameFormate());
+	      //   }
+	      // }
 
 	      $new_element->setContributor('true');
-	      $new_element->setContributorMail('contributor@gmail.com');
-		
-		  //dump($new_element);
-		 // On la persiste
+	      $new_element->setContributorMail('contributor@gmail.com');		
+		   
+		 	// On la persiste
 	      $manager->persist($new_element);
 	    }
+
+	    dump($new_element);
 
 	    // On déclenche l'enregistrement de toutes les catégories
 	    $manager->flush();

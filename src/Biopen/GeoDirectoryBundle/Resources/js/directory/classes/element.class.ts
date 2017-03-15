@@ -25,7 +25,7 @@ export class Element
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
-	readonly products : any[] = [];
+	readonly categories : any[] = [];
 
 	//TODO
 	mainProduct : any;
@@ -58,43 +58,48 @@ export class Element
 		this.id = elementJson.id;
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.lat, elementJson.lng);
-		this.address = elementJson.adresse;
+		this.address = elementJson.address;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
 
-		this.products = [];
-		let product;
-		if (elementJson.type == 'epicerie') 
-		{
-			product = [];
+		this.mainProduct = "producteur";
 
-			product.name = 'Epicerie';
-			product.nameShort = 'Epicerie';
-			product.nameFormate = 'epicerie';
+		// this.products = [];
+		// let product;
+		// if (elementJson.type == 'epicerie') 
+		// {
+		// 	product = [];
 
-			this.products.push(product);
-		}
-		else
-		{
-			for (let i = 0; i < elementJson.products.length; i++) 
-			{
-				product = [];
+		// 	product.name = 'Epicerie';
+		// 	product.nameShort = 'Epicerie';
+		// 	product.nameFormate = 'epicerie';
 
-				product.name = elementJson.products[i].product.name;
-				product.nameShort = elementJson.products[i].product.name_short;
-				product.nameFormate = elementJson.products[i].product.name_formate;
-				product.descriptif = elementJson.products[i].descriptif;
-				product.disabled = false;
+		// 	this.products.push(product);
+		// }
+		// else
+		// {
+		// 	for (let i = 0; i < elementJson.products.length; i++) 
+		// 	{
+		// 		product = [];
 
-				this.products.push(product);
-			}
-		}
+		// 		product.name = elementJson.products[i].product.name;
+		// 		product.nameShort = elementJson.products[i].product.name_short;
+		// 		product.nameFormate = elementJson.products[i].product.name_formate;
+		// 		product.descriptif = elementJson.products[i].descriptif;
+		// 		product.disabled = false;
 
-		this.mainProduct = elementJson.main_product;
+		// 		this.products.push(product);
+		// 	}
+		// }
+
+		// this.mainProduct = elementJson.main_product;
+
+
 		this.mainProductIsDisabled = false;
-		this.type = elementJson.type;	
+		
+		//this.type = elementJson.type;	
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
 	}
@@ -187,51 +192,53 @@ getHtmlRepresentation()
 
 getProductsNameToDisplay()
 {
-	this.updateProductsRepresentation();
+	return "produits de l'élements";
 
-	this.productsToDisplay_.main = [];
-	this.productsToDisplay_.others = [];
-	let productName;
+	// this.updateProductsRepresentation();
 
-	if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
-	{
-		this.productsToDisplay_.main.value = this.mainProduct;				
-		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
-	}		
+	// this.productsToDisplay_.main = [];
+	// this.productsToDisplay_.others = [];
+	// let productName;
 
-	let productIsDisabled;
-	for(let i = 0; i < this.products.length;i++)
-	{
-		productName = this.products[i].nameFormate;
-		productIsDisabled = this.products[i].disabled;
-		if (productName != this.productsToDisplay_.main.value)
-		{
-			// si le main product est disabled, on choppe le premier produit
-			// non disable et on le met en produit principal
-			if (!productIsDisabled && !this.productsToDisplay_.main.value)
-			{
-				this.productsToDisplay_.main.value = productName;				
-				this.productsToDisplay_.main.disabled = productIsDisabled;				
-			}
-			else
-			{
-				this.pushToProductToDisplay(productName, productIsDisabled);
-			}				
-		}			
-	}
+	// if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
+	// {
+	// 	this.productsToDisplay_.main.value = this.mainProduct;				
+	// 	this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
+	// }		
 
-	// si on a tjrs pas de mainProduct (ils sont tous disabled)
-	if (!this.productsToDisplay_.main.value)	
-	{
-		this.productsToDisplay_.main.value = this.mainProduct;				
-		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;
+	// let productIsDisabled;
+	// for(let i = 0; i < this.products.length;i++)
+	// {
+	// 	productName = this.products[i].nameFormate;
+	// 	productIsDisabled = this.products[i].disabled;
+	// 	if (productName != this.productsToDisplay_.main.value)
+	// 	{
+	// 		// si le main product est disabled, on choppe le premier produit
+	// 		// non disable et on le met en produit principal
+	// 		if (!productIsDisabled && !this.productsToDisplay_.main.value)
+	// 		{
+	// 			this.productsToDisplay_.main.value = productName;				
+	// 			this.productsToDisplay_.main.disabled = productIsDisabled;				
+	// 		}
+	// 		else
+	// 		{
+	// 			this.pushToProductToDisplay(productName, productIsDisabled);
+	// 		}				
+	// 	}			
+	// }
 
-		this.productsToDisplay_.others.splice(0,1);
-	}	
+	// // si on a tjrs pas de mainProduct (ils sont tous disabled)
+	// if (!this.productsToDisplay_.main.value)	
+	// {
+	// 	this.productsToDisplay_.main.value = this.mainProduct;				
+	// 	this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;
 
-	this.productsToDisplay_.others.sort(this.compareProductsDisabled);	
+	// 	this.productsToDisplay_.others.splice(0,1);
+	// }	
 
-	return this.productsToDisplay_;
+	// this.productsToDisplay_.others.sort(this.compareProductsDisabled);	
+
+	// return this.productsToDisplay_;
 };
 
 private compareProductsDisabled(a,b) 
