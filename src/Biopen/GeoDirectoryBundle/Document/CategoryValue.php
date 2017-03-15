@@ -3,18 +3,14 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-15 16:00:15
+ * @Last Modified time: 2017-03-15 16:22:12
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-/**
- * CategoryValue
- *
- * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\CategoryValueRepository")
- */
+/** @MongoDB\EmbeddedDocument */
 class CategoryValue
 {
 	/** @MongoDB\Id */
@@ -26,7 +22,7 @@ class CategoryValue
 	private $category;
 
 	/**
-	* @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
+	* @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
 	*/
 	private $values;
 	

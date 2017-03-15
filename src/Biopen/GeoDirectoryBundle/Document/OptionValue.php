@@ -3,18 +3,14 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-15 16:00:37
+ * @Last Modified time: 2017-03-15 16:17:48
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-/**
- * OptionValue
- *
- * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\OptionValueRepository")
- */
+/** @MongoDB\EmbeddedDocument */
 class OptionValue
 {
 	/** @MongoDB\Id */
@@ -23,7 +19,7 @@ class OptionValue
 	/**
 	* @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option")
 	*/
-	private $optionId;
+	private $option;
 
 	/** @MongoDB\Field(type="string") */
 	private $description;
@@ -37,20 +33,20 @@ class OptionValue
      * @param Biopen\GeoDirectoryBundle\Document\Option $optionId
      * @return $this
      */
-    public function setOptionId(\Biopen\GeoDirectoryBundle\Document\Option $optionId)
+    public function setOption(\Biopen\GeoDirectoryBundle\Document\Option $option)
     {
-        $this->optionId = $optionId;
+        $this->option = $option;
         return $this;
     }
 
     /**
      * Get optionId
      *
-     * @return Biopen\GeoDirectoryBundle\Document\Option $optionId
+     * @return Biopen\GeoDirectoryBundle\Document\Option $option
      */
-    public function getOptionId()
+    public function getOption()
     {
-        return $this->optionId;
+        return $this->option;
     }
 
     /**
