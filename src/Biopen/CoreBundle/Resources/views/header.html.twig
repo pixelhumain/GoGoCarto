@@ -31,7 +31,7 @@
                     <ul id='listAbout' class='dropdown-content'>
                     	
                         {% for about in listAbouts %}
-                        <li><a id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
+                        <li class="name"><a class="abt" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
                         <li class="divider"></li>
                     {% endfor %}            
                     </ul>

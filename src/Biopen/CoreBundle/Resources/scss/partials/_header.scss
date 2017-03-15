@@ -55,7 +55,26 @@ header
 				border: none;
 				background-color: transparent;
 	    		letter-spacing: .5px;
-			}			
+
+			}
+			.dropdown-content
+	    		{
+	    			background-color: #272626;
+	    			margin-top:2.3rem;
+	    			margin-right:2rem;
+	    			.name
+	    			{
+	    				.abt
+	    				{
+	    					    color:white;
+	    					    &:hover
+			                    {
+				                    color: #EE6E73;
+							    }
+	    				}
+	    			}
+	    			
+	    		}			
 		}		
 	}
 
