@@ -19,14 +19,14 @@ declare let biopen_twigJs_marker : any;
 
 export class BiopenMarker
 {
-	id_ : number;
+	id_ : string;
 	isAnimating_ : boolean = false;
 	richMarker_ : L.Marker;
 	isHalfHidden_ : boolean = false;
 	inclination_ = "normal";
 	polyline_;
 
-	constructor(id_ : number, position_ : L.LatLng) 
+	constructor(id_ : string, position_ : L.LatLng) 
 	{
 		this.id_ = id_;
 
@@ -269,7 +269,7 @@ export class BiopenMarker
 		this.isHalfHidden_ = false;
 	};
 
-	getId () : number { return this.id_; };
+	getId () : string { return this.id_; };
 
 	getRichMarker () : L.Marker { return this.richMarker_; };
 

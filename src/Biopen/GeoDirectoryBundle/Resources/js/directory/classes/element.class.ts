@@ -17,7 +17,7 @@ declare let biopen_twigJs_elementInfo : any;
 
 export class Element 
 {	
-	readonly id : number;
+	readonly id : string;
 	readonly name : string;
 	readonly position : L.LatLng;
 	readonly address : string;
@@ -32,7 +32,7 @@ export class Element
 	mainProductIsDisabled : boolean;
 	type : any;	
 
-	colorOptionId : number = 42;
+	colorOptionId : number;
 
 	distance : number;
 
@@ -67,6 +67,7 @@ export class Element
 		this.mail = elementJson.mail;
 
 		this.mainProduct = "producteur";
+
 
 		// this.products = [];
 		// let product;

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 16:21:40
+ * @Last Modified time: 2017-03-17 15:30:29
  */
  
 
@@ -95,9 +95,9 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\CategoryValue")
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
-    private $categories;
+    private $optionValues;
 
     /**
      * @var \stdClass
@@ -506,23 +506,34 @@ class Element
         return $this->validationCode;
     }
 
+
     /**
-     * Add category
+     * Add optionValue
      *
-     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category
+     * @param Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue
      */
-    public function addCategory(\Biopen\GeoDirectoryBundle\Document\CategoryValue $category)
+    public function addOptionValue(\Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue)
     {
-        $this->categories[] = $category;
+        $this->optionValues[] = $optionValue;
     }
 
     /**
-     * Remove category
+     * Remove optionValue
      *
-     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category
+     * @param Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue
      */
-    public function removeCategory(\Biopen\GeoDirectoryBundle\Document\CategoryValue $category)
+    public function removeOptionValue(\Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue)
     {
-        $this->categories->removeElement($category);
+        $this->optionValues->removeElement($optionValue);
+    }
+
+    /**
+     * Get optionValues
+     *
+     * @return \Doctrine\Common\Collections\Collection $optionValues
+     */
+    public function getOptionValues()
+    {
+        return $this->optionValues;
     }
 }

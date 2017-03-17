@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-15 16:17:48
+ * @Last Modified time: 2017-03-17 15:33:09
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -17,37 +17,15 @@ class OptionValue
    private $id;
 
 	/**
-	* @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option")
+	* @MongoDB\Field(type="int")
 	*/
-	private $option;
+	private $optionId;
 
 	/** @MongoDB\Field(type="string") */
 	private $description;
 
 	/** @MongoDB\Field(type="int") */
 	private $index;
-
-    /**
-     * Set optionId
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Option $optionId
-     * @return $this
-     */
-    public function setOption(\Biopen\GeoDirectoryBundle\Document\Option $option)
-    {
-        $this->option = $option;
-        return $this;
-    }
-
-    /**
-     * Get optionId
-     *
-     * @return Biopen\GeoDirectoryBundle\Document\Option $option
-     */
-    public function getOption()
-    {
-        return $this->option;
-    }
 
     /**
      * Get id
@@ -101,5 +79,27 @@ class OptionValue
     public function getIndex()
     {
         return $this->index;
+    }
+
+    /**
+     * Set optionId
+     *
+     * @param int $optionId
+     * @return $this
+     */
+    public function setOptionId($optionId)
+    {
+        $this->optionId = $optionId;
+        return $this;
+    }
+
+    /**
+     * Get optionId
+     *
+     * @return int $optionId
+     */
+    public function getOptionId()
+    {
+        return $this->optionId;
     }
 }

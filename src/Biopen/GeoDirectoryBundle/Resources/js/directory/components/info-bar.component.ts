@@ -27,7 +27,7 @@ export class InfoBarComponent
 	onShow = new Event<number>();
 	onHide = new Event<boolean>();
 
-	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
+	getCurrElementId() : string { return this.elementVisible ? this.elementVisible.id : null}
 
 	private isDisplayedAside()
 	{

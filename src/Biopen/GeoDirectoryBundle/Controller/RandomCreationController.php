@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 16:57:01
+ * @Last Modified time: 2017-03-17 15:34:33
  */
  
 
@@ -93,7 +93,7 @@ class RandomCreationController extends Controller
 	      	// $mainOption = $mainOptions[$key]; 
 	      	$mainOption = $mainOptions[0];   
 
-	      	$mainOptionValue->setOption($mainOption);	
+	      	$mainOptionValue->setOptionId($mainOption->getId());	
 	      	$mainOptionValue->setIndex($j); 
 
 	      	$mainCategoryValue->addValue($mainOptionValue);
@@ -101,33 +101,33 @@ class RandomCreationController extends Controller
 	      	// for each subcategory
 	      	for($k = 0; $k < count($mainOption->getSubcategories()); $k++)
 	      	{
-	      		 $categoryValue = new CategoryValue();
+	      		 //$categoryValue = new CategoryValue();
 
 	      		 $nbreOptions = $this->randWithSet($nbreMainOptionsSet);
 	      		 $subcategory = $mainOption->getSubcategories()[$k];
 
-	      		 $categoryValue->setCategory($subcategory);
+	      		 //$categoryValue->setCategory($subcategory);
 
 	      		for ($l = 0; $l < $nbreOptions; $l++)
 	      		{
 	      			$optionValue = new OptionValue();
 
 	      			$key2 = rand(0,count($subcategory->getOptions())-1);
-	      			$optionValue->setOption($subcategory->getOptions()[$key2]);
+	      			$optionValue->setOptionId($subcategory->getOptions()[$key2]->getId());
 	      			$optionValue->setIndex($l);
 
 	      			if ($subcategory->getEnableDescription())
 	      				$optionValue->setDescription($lipsum->words(rand(0,15)));
 
-	      			$categoryValue->addValue($optionValue);
+	      			$new_element->addOptionValue($optionValue);
 	      		} 
 
-	      		$new_element->addCategory($categoryValue);
+	      		//$new_element->addCategory($categoryValue);
 	      	}  
 	      	
 	      }
 
-	      $new_element->addCategory($mainCategoryValue);
+	      //$new_element->addCategory($mainCategoryValue);
 
 	      //$new_element->setType($type);
 
