@@ -56,7 +56,7 @@ export class InfoBarComponent
 		$('#element-info').html(element.getHtmlRepresentation());
 
 		let domMenu = $('#element-info-bar .menu-element');
-		domMenu.removeClass().addClass("menu-element " +element.type);
+		domMenu.attr('option-id', element.colorOptionId);
 
 		updateFavoriteIcon(domMenu, element);
 

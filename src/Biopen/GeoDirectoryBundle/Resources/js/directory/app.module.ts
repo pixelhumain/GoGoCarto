@@ -267,7 +267,8 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		
 		let element;
 
 		let oldStateName = this.state_;

@@ -32,6 +32,8 @@ export class Element
 	mainProductIsDisabled : boolean;
 	type : any;	
 
+	colorOptionId : number = 42;
+
 	distance : number;
 
 	isInitialized_ :boolean = false;

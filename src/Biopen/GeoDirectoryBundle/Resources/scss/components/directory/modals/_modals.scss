@@ -23,7 +23,8 @@
 
   .modal-footer
   {
-    @extend .bgdSoftColorAs;
+    //@extend .bgdSoftColorAs;
+    background-color: $primary-color;
     .modal-action
     {
       color: white !important;

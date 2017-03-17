@@ -8,7 +8,7 @@
     data-element-id="{{ element.id }}">
 
   {# HEADER #}
-  <div class="collapsible-header {{ element.type }}">
+  <div class="collapsible-header bgdSoftColorAs" option-id={{element.colorOptionId}}>
     
     {# Header Title #}
     <div class='collapsible-header-title row {{element.mainProduct|lower}} {{element.type}}'> 
@@ -79,7 +79,7 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element {{ element.type }}">  
+      <div class="menu-element bgdSoftColorAs" option-id={{element.colorOptionId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 

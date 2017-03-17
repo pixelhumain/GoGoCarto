@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 15:52:27
+ * @Last Modified time: 2017-03-15 19:47:40
  */
  
 
@@ -107,12 +107,19 @@ class DirectoryController extends Controller
 
         $serializer = $this->container->get('jms_serializer');
 
+        $em = $this->get('doctrine_mongodb')->getManager();
+      
+        $optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
+        ->findAll(); 
+
         $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
         $openHoursCategoryJson = $serializer->serialize($openHours, 'json');
 
+
+
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategory" => $mainCategory, "openHoursCategory" => $openHours,
-                                    "config" => $config, 
+                                    "config" => $config, "optionList" => $optionsList,
                                     "mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson));
     }
 
