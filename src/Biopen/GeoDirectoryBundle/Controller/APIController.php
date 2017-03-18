@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-18 15:09:50
  */
  
 
@@ -37,8 +37,6 @@ class APIController extends Controller
 
             $elementService = $this->get('biopen.element_service');
             $serializer = $this->container->get('jms_serializer');
-
-            $elementService->setAlreadySendElementsIds($request->get('elementIds'));
 
             $response = $elementService->getElementsAround($originPoint, $request->get('distance'), $request->get('maxResults'));
 

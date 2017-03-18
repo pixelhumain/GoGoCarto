@@ -116,6 +116,9 @@ export class BiopenMarker
 
 		let optionstoDisplay = element.getOptionsToDisplay();
 
+		// If usecolor and useIcon, we don't show others icons
+		showMoreIcon = !optionstoDisplay[0].useColorForMarker || !optionstoDisplay[0].useIconForMarker;
+
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
 			element : element, 

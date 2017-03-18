@@ -46,6 +46,7 @@ $(document).ready(function()
    App.categoryModule.createCategoriesFromJson(MAIN_CATEGORY, OPENHOURS_CATEGORY);
 
    App.filterModule.initialize();
+   App.elementModule.initialize();
 
    App.loadHistoryState();
 
@@ -81,7 +82,7 @@ export class AppModule
 {		
 	geocoderModule_ = new GeocoderModule();
 	filterModule_ = new FilterModule();
-	elementsModule_ = new ElementsModule([]);
+	elementsModule_ = new ElementsModule();
 	displayElementAloneModule_ = new DisplayElementAloneModule();
 	directionsModule_ : DirectionsModule = new DirectionsModule();
 	ajaxModule_ = new AjaxModule();
@@ -119,7 +120,7 @@ export class AppModule
 	constructor()
 	{
 		this.infoBarComponent_.onShow.do( (elementId) => { this.handleInfoBarShow(elementId); });
-  		this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
+  	this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
@@ -665,11 +666,13 @@ export class AppModule
 
 	// Getters shortcuts
 	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
-	elements() { return this.elementsModule_.elements;  };
+	elements() { return this.elementsModule_.currVisibleElements();  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
 	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
 
 	get constellation() { return null; }
+
+	get currMainId() { return this.directoryMenuComponent.currentActiveMainOptionId; }
 
 	get isClicking() { return this.isClicking_; };
 	get isShowingInfoBarComponent() : boolean { return this.isShowingInfoBarComponent_; };

@@ -140,6 +140,8 @@ export class DirectoryMenuComponent
 	{
 		if (this.currentActiveMainOptionId == optionId) return;
 
+		if (this.currentActiveMainOptionId != null) App.elementModule.clearCurrentsElement();
+
 		let oldId = this.currentActiveMainOptionId;
 		this.currentActiveMainOptionId = optionId;
 
@@ -167,6 +169,9 @@ export class DirectoryMenuComponent
 
 		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
 		if (oldId != null) App.historyModule.updateCurrState();
+
+		
+		App.elementModule.updateElementToDisplay(true,true);
 
 	}
 }

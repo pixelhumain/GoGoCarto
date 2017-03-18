@@ -10,6 +10,7 @@
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 import { Option } from "./option.class";
+import { Category } from "./category.class";
 
 declare let App : AppModule;
 declare var $;
@@ -33,6 +34,11 @@ class OptionValue
 	{
 		return App.categoryModule.getOptionById(this.optionId);
 	}
+
+	get categoryOwner() : Category
+	{
+		return <Category> this.option.getOwner();
+	}
 }
 
 export class Element 
@@ -45,7 +51,7 @@ export class Element
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
-	readonly categories : any[] = [];
+	readonly mainOptionOwnerIds : number[] = [];
 
 	optionsValues : OptionValue[] = [];
 
@@ -84,10 +90,15 @@ export class Element
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
 
-
+		let newOption : OptionValue, ownerId : number;
 		for (let optionValueJson of elementJson.option_values)
 		{
-			this.optionsValues.push(new OptionValue(optionValueJson));
+			newOption = new OptionValue(optionValueJson);
+
+			ownerId = newOption.option.mainOwnerId;
+			if (this.mainOptionOwnerIds.indexOf(ownerId) == -1) this.mainOptionOwnerIds.push(ownerId);
+
+			this.optionsValues.push(newOption);
 		}
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
@@ -118,9 +129,24 @@ export class Element
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 	};
 
+	getCurrOptions() : OptionValue[]
+	{
+		return this.optionsValues.filter( (optionValue) => optionValue.option.mainOwnerId == App.currMainId);
+	}
+
+	getCategoriesIds() : number[]
+	{
+		return this.getCurrOptions().map( (optionValue) => optionValue.categoryOwner.id).filter((value, index, self) => self.indexOf(value) === index);
+	}
+
+	getOptionsIdsInCategorieId(categoryId) : number[]
+	{
+		return this.getCurrOptions().filter( (optionValue) => optionValue.option.ownerId == categoryId).map( (optionValue) => optionValue.optionId);
+	}
+
 	get colorOptionId() : number
 	{
-		let currMainId = App.directoryMenuComponent.currentActiveMainOptionId;
+		let currMainId = App.currMainId;
 
 		if (this.colorOptionIds[currMainId]) return this.colorOptionIds[currMainId];
 
@@ -146,10 +172,6 @@ export class Element
 		return colorOption.id;
 	}
 
-	getOptionsInCurrentCategorie()
-	{
-
-	}
 
 
 
@@ -183,9 +205,9 @@ export class Element
 		// }
 	};
 
-	getOptionsToDisplay()
+	getOptionsToDisplay() : Option[]
 	{
-		let currMainId = App.directoryMenuComponent.currentActiveMainOptionId;
+		let currMainId = App.currMainId;
 
 		let filteredOptions = this.optionsValues.filter( (optionValue) => 
 		{
@@ -209,7 +231,7 @@ export class Element
 			return option;
 		});
 
-		console.log("getOptionstoDisplay", sorted);
+		//console.log("getOptionstoDisplay", sorted);
 
 		return sorted;
 	}

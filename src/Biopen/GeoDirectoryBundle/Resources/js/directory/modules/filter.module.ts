@@ -95,7 +95,68 @@ export class FilterModule
 
 	checkIfElementPassFilters (element : Element) : boolean
 	{
-		return true;
+		if (this.getCurrCheckedOptionsIds().length > this.getCurrUncheckedOptionsIds().length)
+		{
+			// More checked Options, we look for element not matching unchecked options
+			console.log("more checked option");
+
+
+			let uncheckedOptions;
+
+			let result = element.getCategoriesIds().some( (categoryId) =>
+			{
+				uncheckedOptions = this.getUncheckedOptionsInCategory(categoryId);
+				// if all element options are in unchecked options
+				let subresult = element.getOptionsIdsInCategorieId(categoryId).every(elem => uncheckedOptions.indexOf(elem) > -1);
+				
+				console.log("category", App.categoryModule.getCategoryById(categoryId).name);
+				console.log("elements options for this categories", element.getOptionsIdsInCategorieId(categoryId).map( (option) => App.categoryModule.getOptionById(option).name));
+				console.log("uncheckedOptions : ", uncheckedOptions.map( (option) => App.categoryModule.getOptionById(option).name));
+				console.log("every options in unchecked?", subresult);
+				console.log("\n");
+
+				return subresult;
+			});
+
+			console.log("some category where every options in uncheck?", result);
+			console.log("so we return ", !result);
+			console.log("\n\n");
+			return !result;
+		}
+		else
+		{
+			// More unchecked Options, we look for element matching checked options
+
+			console.log("more unchecked option");
+
+			let checkedOptions;
+			return element.getCategoriesIds().every( (categoryId) =>
+			{
+				checkedOptions = this.getUncheckedOptionsInCategory(categoryId);
+				// if all element options are in unchecked options
+				return element.getOptionsIdsInCategorieId(categoryId).some(elem => checkedOptions.indexOf(elem) > -1);
+			});
+		}
+	}
+
+	getCurrCheckedOptionsIds()
+	{
+		return this.checkedOptionsIds[App.currMainId];
+	}
+
+	getCurrUncheckedOptionsIds()
+	{
+		return this.uncheckedOptionsIds[App.currMainId];
+	}
+
+	getCheckedOptionsInCategory(categoryId : number)
+	{
+		return this.getCurrCheckedOptionsIds().filter( (optionId) => App.categoryModule.getOptionById(optionId).ownerId == categoryId)
+	}
+
+	getUncheckedOptionsInCategory(categoryId : number)
+	{
+		return this.getCurrUncheckedOptionsIds().filter( (optionId) => App.categoryModule.getOptionById(optionId).ownerId == categoryId)
 	}
 
 
@@ -162,7 +223,7 @@ export class FilterModule
 	{
 		if (!this.isInitialized) return;
 
-		let mainOptionId = App.directoryMenuComponent.currentActiveMainOptionId;
+		let mainOptionId = App.currMainId;
 
 		let mainOptionName;
 		let checkArrayToParse, uncheckArrayToParse;
