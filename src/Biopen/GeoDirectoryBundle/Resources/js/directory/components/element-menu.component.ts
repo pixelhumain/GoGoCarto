@@ -172,7 +172,7 @@ export function createListenersForElementMenu(object)
 
 		if (App.mode == AppModes.Map)
 		{
-			element.marker.updateIcon();
+			element.marker.update();
 			element.marker.animateDrop();
 		}
 		
@@ -185,7 +185,7 @@ export function createListenersForElementMenu(object)
 		
 		updateFavoriteIcon(object, element);
 
-		if (App.mode == AppModes.Map) element.marker.updateIcon();
+		if (App.mode == AppModes.Map) element.marker.update();
 	});	
 }
 

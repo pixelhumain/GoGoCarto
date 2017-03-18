@@ -16,6 +16,7 @@ export class Option extends CategoryOptionTreeNode
 	useIconForMarker: boolean;
 	useColorForMarker : boolean;
 	showOpenHours : boolean;
+	depth : number;
 
 
 	constructor($optionJson : any)
@@ -27,6 +28,7 @@ export class Option extends CategoryOptionTreeNode
 		this.index = $optionJson.index;
 		this.nameShort = $optionJson.name_short;
 		this.color = $optionJson.color;
+		this.icon = $optionJson.icon;
 		this.useIconForMarker = $optionJson.use_icon_for_marker;
 		this.useColorForMarker = $optionJson.use_color_for_marker;
 		this.showOpenHours = $optionJson.show_open_hours;

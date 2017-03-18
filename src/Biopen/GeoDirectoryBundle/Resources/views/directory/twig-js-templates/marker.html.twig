@@ -7,28 +7,28 @@
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
-		<div class="iconInsideMarker {{ productsToDisplay.main.disabled ? 'disabled' : '' }} icon-{{ productsToDisplay.main.value }}">
+		<div class="iconInsideMarker {{ mainOptionToDisplay.isDisabled ? 'disabled' : '' }} {{ mainOptionToDisplay.icon }}">
 		</div>
 	</div>
 
-	{% set nbreOthersProducts = productsToDisplay.others.length %}	
+	{% set nbreOthersOptions = otherOptionsToDisplay.length %}	
 
-	{% if nbreOthersProducts > 0 and showMoreIcon %}
+	{% if nbreOthersOptions > 0 and showMoreIcon %}
 
-		{% set widthMoreProduct = nbreOthersProducts * 39 + 5  %}   	
+		{% set widthMoreOption = nbreOthersOptions * 39 + 5  %}   	
 
     	<div class="icon-plus-circle animate rotate"></div>
 
     	<div class="moreIconContainer animate rotate" 
-    		  style="width:{{ widthMoreProduct }}px">
+    		  style="width:{{ widthMoreOption }}px">
     	
-			{% for otherProduct in productsToDisplay.others %}
+			{% for otherOption in otherOptionsToDisplay %}
 
-				{% set disableProduct = otherProduct.disabled ? 'disabled' : '' %}
+				{% set disableOption = otherOption.disabled ? 'disabled' : '' %}
 
-				<div class="moreIconWrapper {{ disableProduct }}"
+				<div class="moreIconWrapper {{ disableOption }}"
 						style="left:{{ 32 * loop.index0 }}px">
-					<span class="moreIcon iconInsideMarker {{ disableProduct }} icon-{{ otherProduct.value }}">
+					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOption.icon }}">
 					</span>
 			 	</div>
 

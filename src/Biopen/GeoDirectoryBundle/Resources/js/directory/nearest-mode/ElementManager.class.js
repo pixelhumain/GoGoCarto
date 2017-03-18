@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-18 09:21:41
  */
 jQuery(document).ready(function()
 {	
@@ -50,7 +50,7 @@ ElementModule.prototype.focusOnThesesElements = function (idList)
 	for(let i = 0; i < idList.length; i++)
 	{
 		element = this.getElementById(idList[i]);			
-		element.marker.updateIcon();
+		element.marker.update();
 		element.marker.showNormalHidden();				
 		element.show();		
 	}
@@ -64,7 +64,7 @@ ElementModule.prototype.clearFocusOnThesesElements = function (idList)
 	for(let i = 0; i < idList.length; i++)
 	{
 		element = this.getElementById(idList[i]);	
-		//marker.updateIcon();		
+		//marker.update();		
 		element.hide();		
 	}
 

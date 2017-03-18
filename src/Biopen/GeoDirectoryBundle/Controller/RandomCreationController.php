@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-17 15:34:33
+ * @Last Modified time: 2017-03-18 10:02:38
  */
  
 
@@ -96,7 +96,9 @@ class RandomCreationController extends Controller
 	      	$mainOptionValue->setOptionId($mainOption->getId());	
 	      	$mainOptionValue->setIndex($j); 
 
-	      	$mainCategoryValue->addValue($mainOptionValue);
+	      	$new_element->addOptionValue($mainOptionValue);
+
+	      	//$mainCategoryValue->addValue($mainOptionValue);
 
 	      	// for each subcategory
 	      	for($k = 0; $k < count($mainOption->getSubcategories()); $k++)

@@ -38,7 +38,7 @@ export class CategoriesModule
 		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
 		this.openHoursCategory = this.recursivelyCreateCategoryAndOptions(openHoursCategoryJson);
 
-		//console.log(this.mainCategory);
+		console.log(this.mainCategory);
 	}
 
 	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
@@ -49,6 +49,7 @@ export class CategoriesModule
 		{
 			let option = new Option(optionJson);
 			option.ownerId = categoryJson.id;
+			option.depth = category.depth;
 
 			if (category.depth == 0) option.mainOwnerId = "all";
 			else if (category.depth == -1) option.mainOwnerId = "openhours";

@@ -260,7 +260,7 @@ export class FilterModule
 	// 		if (updateElementIcon 
 	// 			&& atLeastOneProductPassFilter 
 	// 			&& element.marker
-	// 			&& App.mode == AppModes.Map) element.marker.updateIcon();
+	// 			&& App.mode == AppModes.Map) element.marker.update();
 	// 	}
 
 	// 	if (!atLeastOneProductPassFilter) return false;

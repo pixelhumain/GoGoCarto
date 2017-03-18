@@ -67,7 +67,7 @@ export class BiopenMarker
 
 		this.isHalfHidden_ = false;			
 
-		this.updateIcon();	
+		this.update();	
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -88,7 +88,7 @@ export class BiopenMarker
 			() => {this.isAnimating_ = false;} );
 	};
 
-	updateIcon () 
+	update() 
 	{		
 		let element = this.getElement();
 
@@ -116,20 +116,23 @@ export class BiopenMarker
 			showMoreIcon = element.isProducteurOrAmap();
 		}
 
+		let optionstoDisplay = element.getOptionsToDisplay();
+
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
 			element : element, 
-			productsToDisplay: element.getProductsNameToDisplay(), 
+			mainOptionToDisplay: optionstoDisplay.shift(), 
+			otherOptionsToDisplay: optionstoDisplay, 
 			showMoreIcon : showMoreIcon,
 			disableMarker : disableMarker
 		});
 
-	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
+  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
-	  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
+  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
 
-	  	if (this.inclination_ == "right") this.inclinateRight();
-	  	if (this.inclination_ == "left") this.inclinateLeft();
+  	if (this.inclination_ == "right") this.inclinateRight();
+  	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
 	addClassToRichMarker_ (classToAdd) 
