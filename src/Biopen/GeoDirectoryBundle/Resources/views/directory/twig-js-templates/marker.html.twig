@@ -24,7 +24,7 @@
     	
 			{% for otherOption in otherOptionsToDisplay %}
 
-				{% set disableOption = otherOption.disabled ? 'disabled' : '' %}
+				{% set disableOption = otherOption.isDisabled ? 'disabled' : '' %}
 
 				<div class="moreIconWrapper {{ disableOption }}"
 						style="left:{{ 32 * loop.index0 }}px">

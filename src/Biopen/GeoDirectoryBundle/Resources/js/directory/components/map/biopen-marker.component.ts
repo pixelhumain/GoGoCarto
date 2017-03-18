@@ -112,8 +112,6 @@ export class BiopenMarker
 			}		
 
 			this.updatePolyline({lineType: lineType});
-
-			showMoreIcon = element.isProducteurOrAmap();
 		}
 
 		let optionstoDisplay = element.getOptionsToDisplay();
@@ -121,8 +119,8 @@ export class BiopenMarker
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
 			element : element, 
-			mainOptionToDisplay: optionstoDisplay.shift(), 
-			otherOptionsToDisplay: optionstoDisplay, 
+			mainOptionToDisplay: optionstoDisplay[0],
+			otherOptionsToDisplay: optionstoDisplay.slice(1), 
 			showMoreIcon : showMoreIcon,
 			disableMarker : disableMarker
 		});

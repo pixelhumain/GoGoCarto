@@ -11,12 +11,12 @@
   <div class="collapsible-header bgdSoftColorAs" option-id={{element.colorOptionId}}>
     
     {# Header Title #}
-    <div class='collapsible-header-title row {{element.mainProduct|lower}} {{element.type}}'> 
+    <div class='collapsible-header-title row'> 
 
       <span class="col s12 name">
 
         {# Icons #}
-        <span class="element-main-icon icon icon-{{element.mainProduct|lower}} hideOnLargeScreen"></span>
+        <span class="element-main-icon icon {{mainOptionToDisplay.icon}} hideOnLargeScreen"></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
@@ -42,21 +42,19 @@
       {# Description #}
       <span class="description col s12">{{ element.description|capitalize }}</span> 
 
-      {# Products litteral 
+      {# Products litteral #}
       <span class="products col s8 hideOnLargeScreen">
 
-         {% if element.isProducteurOrAmap() or productsToDisplay.others.length == 0 %}
-            {{ productsToDisplay.main.value|capitalize }} 
-            {% if productsToDisplay.others.length != 0 %}, {% endif %}
-         {% endif %}
+        {{ mainOptionToDisplay.name|capitalize }} 
+        {% if otherOptionsToDisplay.length != 0 %}, {% endif %}
 
-         {% for product in productsToDisplay.others %} 
-            {% set isDisabled = product.disabled ? 'disabled' : '' %}
-            <span class="product {{isDisabled}}">{{ product.value|capitalize }} </span>
+        {% for option in otherOptionsToDisplay %} 
+            {% set isDisabled = option.isDisabled ? 'disabled' : '' %}
+            <span class="product {{isDisabled}}">{{ option.name|capitalize }} </span>
             {% if not loop.last %}, {% endif %}
         {% endfor %}
 
-      </span>#}
+      </span>
 
       {# Select as Representant (constellation mode) #}
       <span class="col s4 right-align btn-select-as-representant-container" style="display:none">
@@ -149,14 +147,14 @@
       {% if element.type != 'epicerie' %}
         <h3>Les produits</h3>   
         <div class="section sectionDetailProducts"> 
-          {% for product in element.products %} 
-            {% set isDisabled = product.disabled ? 'disabled' : '' %}
-            <div class='row {{ product.nameFormate }} {% if product.nameFormate == element.mainProduct %}strong{% endif %}'>
+          {% for option in optionsToDisplay %} 
+            {% set isDisabled = option.isDisabled ? 'disabled' : '' %}
+            <div class='row {% if loop.first %}strong{% endif %}'>
               <span class="col s6 m4 product {{ isDisabled }}">
-                <span class="icon icon-{{ product.nameFormate }} {{ isDisabled }}"></span>            
-                <span class="option-name">{{ product.nameShort|capitalize }}</span> 
+                <span class="icon {{ option.icon }} {{ isDisabled }}"></span>            
+                <span class="option-name">{{ option.nameShort|capitalize }}</span> 
               </span>
-              <span class="col s6 m8 detail {{ isDisabled }}">{{ product.descriptif|capitalize }}</span>
+              <span class="col s6 m8 detail {{ isDisabled }}">{{ option.description|capitalize }}</span>
             </div>
           {% endfor %}          
 

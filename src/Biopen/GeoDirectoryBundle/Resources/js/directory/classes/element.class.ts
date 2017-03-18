@@ -49,11 +49,6 @@ export class Element
 
 	optionsValues : OptionValue[] = [];
 
-	//TODO
-	mainProduct : any;
-	mainProductIsDisabled : boolean;
-	type : any;	
-
 	// store optionId to color as for each mainOption
 	private colorOptionIds : number[] = [];
 
@@ -89,16 +84,11 @@ export class Element
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
 
-		this.mainProduct = "producteur";
 
 		for (let optionValueJson of elementJson.option_values)
 		{
 			this.optionsValues.push(new OptionValue(optionValueJson));
 		}
-
-		console.log(this.colorOptionId);
-
-		this.mainProductIsDisabled = false;
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
 	}		
@@ -211,7 +201,13 @@ export class Element
 			}
 			else return a.option.isDisabled ? 1 : -1;
 			
-		}).map( (optionValue) => optionValue.option);
+		}).map( (optionValue) => 
+		{
+			let option : any = optionValue.option;
+			// add description attribute
+			option.description = optionValue.description || '';
+			return option;
+		});
 
 		console.log("getOptionstoDisplay", sorted);
 
@@ -234,12 +230,16 @@ export class Element
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
+		let optionstoDisplay = this.getOptionsToDisplay();
+
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{
 			element : this, 
 			showDistance: App.geocoder.getLocation() ? true : false,
 			listingMode: App.mode == AppModes.List, 
-			iconsToDisplay: this.getOptionsToDisplay(), 
+			optionsToDisplay: optionstoDisplay,
+			mainOptionToDisplay: optionstoDisplay[0], 
+			otherOptionsToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames
 		});
 		
@@ -357,11 +357,6 @@ export class Element
 	{		
 		if (!date) return;
 		return date.split('T')[1].split(':00+0100')[0];
-	};
-
-	isProducteurOrAmap() 
-	{		
-		return ($.inArray( this.type, [ "producteur", "amap" ] ) > -1);
 	};
 
 	isCurrentStarChoiceRepresentant() 

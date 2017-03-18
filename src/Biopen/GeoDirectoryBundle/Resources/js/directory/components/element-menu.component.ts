@@ -123,7 +123,7 @@ export function createListenersForElementMenu(object)
 		if (App.state !== AppStates.Constellation && !App.geocoder.getLocation())
 		{
 			let modal = $('#modal-pick-address');
-			modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);			
+			modal.find(".modal-footer").attr('option-id',element.colorOptionId);			
 			
 			modal.openModal({
 	      dismissible: true, 
@@ -141,8 +141,8 @@ export function createListenersForElementMenu(object)
 		
 		let modal = $('#modal-share-element');
 
-		modal.find(".modal-footer").removeClass().addClass("modal-footer " + element.type);
-		modal.find(".input-simple-modal").removeClass().addClass("input-simple-modal " + element.type);
+		modal.find(".modal-footer").attr('option-id',element.colorOptionId);
+		//modal.find(".input-simple-modal").removeClass().addClass("input-simple-modal " + element.colorOptionId);
 
 		let url;
 		if (App.mode == AppModes.Map)
