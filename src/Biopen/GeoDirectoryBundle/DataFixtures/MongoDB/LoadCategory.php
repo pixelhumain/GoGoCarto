@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 15:52:27
+ * @Last Modified time: 2017-03-19 09:49:58
  */
  
 
@@ -105,11 +105,11 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$types = array(
-			array('Producteur'  , 'producteur'     , '#B33536', ''        , false),
-			array('AMAP'        , 'amap'      , '#4B7975',''        , false),
-			array('Marché'      , 'marche'     , '#3F51B5','Laitiers', true),
-			array('Epicerie'    , 'epicerie'      , '#383D5A',''        , true),
-			array('Boutique'    , 'boutique'      , '#813c81',''        , true),
+			array('Circuit courts'  , 'circuit-court'     , '#B33536', ''        , false),
+			//array('AMAP'        , 'amap'      , '#4B7975',''        , false),
+			array('Marché'      , 'marche'     , '#3F51B5','', true),
+			array('Epicerie & Supérette'    , 'epicerie'      , '#383D5A',''        , true),
+			array('Restauration'    , 'restauration'      , '#813c81',''        , true),
 		);
 
 
@@ -133,15 +133,53 @@ class LoadCategory implements FixtureInterface
 			$typeCategory->addOption($new_type);
 		}
 
+		// CIRCUIT court détail
+		$circuitCategory = new Category();
+		$circuitCategory->setName('type');
+		$circuitCategory->setIndex(1);
+		$circuitCategory->setSingleOption(false);
+		$circuitCategory->setEnableDescription(false);
+		$circuitCategory->setDisplayCategoryName(true);
+		$circuitCategory->setDepth(2);
+
+		// Liste des names de catégorie à ajouter
+		$circuitCourtType = array(
+			array('Producteur'             , ''     , '#4A148C', ''        , ''),
+			array('AMAP'              , ''      , '#880E4F',''        , ''),
+			array('Artisan'   , ''     , '#B77B03','', ''),
+			array('Ruche qui dit oui'              , ''      , '#961616',''        , ''),		
+		);
+
+		foreach ($circuitCourtType as $key => $circuit) 
+		{
+			$new_circuit = new Option();
+			$new_circuit->setName($circuit[0]);
+
+			$new_circuit->setIcon('icon-' . $circuit[1]);
+			$new_circuit->setColor($circuit[2]);
+
+			if ($circuit[3] == '') $new_circuit->setNameShort($circuit[0]);
+			else $new_circuit->setNameShort($circuit[3]);
+
+			$new_circuit->setTextHelper($circuit[4]);
+
+			$new_circuit->setUseIconForMarker(true);
+			$new_circuit->setUseColorForMarker(false);
+
+			$new_circuit->setIndex($key);
+
+			$circuitCategory->addOption($new_circuit);
+		}
+
 
 		// PRODUITS
 		$productCategory = new Category();
 		$productCategory->setName('Produits');
-		$productCategory->setIndex(1);
+		$productCategory->setIndex(2);
 		$productCategory->setSingleOption(false);
 		$productCategory->setEnableDescription(true);
 		$productCategory->setDisplayCategoryName(true);
-		$productCategory->setDepth(1);
+		$productCategory->setDepth(2);
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
@@ -157,11 +195,17 @@ class LoadCategory implements FixtureInterface
 			array('Autre'               , 'autre'       , '#444444',''        , ''),
 		);
 
+		// $subproducts = array(
+		// 	array('Oeufs'               , 'oeufs'       , '#E09703',''        , ''),
+		// 	array('Poisson'             , 'poisson'     , '#3F51B5',''        , ''),
+		// 	array('Légumineuses'        , 'legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches'),
+		// 	array('Produits transformés', 'transformes' , '#37474F','Transformés', ''),
+		// );
+
 		$subproducts = array(
-			array('Oeufs'               , 'oeufs'       , '#E09703',''        , ''),
-			array('Poisson'             , 'poisson'     , '#3F51B5',''        , ''),
-			array('Légumineuses'        , 'legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches'),
-			array('Produits transformés', 'transformes' , '#37474F','Transformés', ''),
+			array('Agneau'               , 'viande'       , '#961616'        , ''),
+			array('Boeuf'             , 'viande'     , '#961616'        , ''),
+			array('Volaille'        , 'oeufs', '#E09703',''        , '')
 		);
 
 		foreach ($products as $key => $product) 
@@ -226,7 +270,8 @@ class LoadCategory implements FixtureInterface
 		// COMPILE
 
 		$mainCategory->getOptions()[0]->addSubcategory($typeCategory);
-		$mainCategory->getOptions()[0]->addSubcategory($productCategory);
+		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[0]->addSubcategory($circuitCategory);
+		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[0]->addSubcategory($productCategory);
 
 		$manager->persist($mainCategory);
 		// On déclenche l'enregistrement de toutes les catégories

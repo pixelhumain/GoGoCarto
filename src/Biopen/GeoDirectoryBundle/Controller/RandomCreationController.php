@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-18 10:02:38
+ * @Last Modified time: 2017-03-19 09:40:27
  */
  
 
@@ -42,21 +42,7 @@ class RandomCreationController extends Controller
 	            ->findOneByDepth(0);
 
 
-	    $lipsum = new LoremIpsum();
-
-	   $nbreMainOptionsSet = [
-		  1 => 0.7,
-		  2 => 0.2,
-		  3 => 0.1,
-		];
-
-		$nbreOptionSet = [
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05
-		];
+	    $lipsum = new LoremIpsum();	   
 
 	    for ($i= 0; $i < $nombre; $i++) 
 	    {
@@ -75,101 +61,51 @@ class RandomCreationController extends Controller
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
-	      //$type = $listType[$this->randWithSet($typeSet)];
-
-	      //$nbreMainOptions = $this->randWithSet($nbreMainOptionsSet);
-	      $nbreMainOptions = 1;
-
-	      $mainOptions = $mainCategory->getOptions();
-
-	      $mainCategoryValue = new CategoryValue();
-	      $mainCategoryValue->setCategory($mainCategory);
-
-	      for ($j = 0; $j < $nbreMainOptions; $j++) 
-	      {
-	      	$mainOptionValue = new OptionValue();
-
-	      	// $key = rand(0,count($mainOptions)-1);
-	      	// $mainOption = $mainOptions[$key]; 
-	      	$mainOption = $mainOptions[0];   
-
-	      	$mainOptionValue->setOptionId($mainOption->getId());	
-	      	$mainOptionValue->setIndex($j); 
-
-	      	$new_element->addOptionValue($mainOptionValue);
-
-	      	//$mainCategoryValue->addValue($mainOptionValue);
-
-	      	// for each subcategory
-	      	for($k = 0; $k < count($mainOption->getSubcategories()); $k++)
-	      	{
-	      		 //$categoryValue = new CategoryValue();
-
-	      		 $nbreOptions = $this->randWithSet($nbreMainOptionsSet);
-	      		 $subcategory = $mainOption->getSubcategories()[$k];
-
-	      		 //$categoryValue->setCategory($subcategory);
-
-	      		for ($l = 0; $l < $nbreOptions; $l++)
-	      		{
-	      			$optionValue = new OptionValue();
-
-	      			$key2 = rand(0,count($subcategory->getOptions())-1);
-	      			$optionValue->setOptionId($subcategory->getOptions()[$key2]->getId());
-	      			$optionValue->setIndex($l);
-
-	      			if ($subcategory->getEnableDescription())
-	      				$optionValue->setDescription($lipsum->words(rand(0,15)));
-
-	      			$new_element->addOptionValue($optionValue);
-	      		} 
-
-	      		//$new_element->addCategory($categoryValue);
-	      	}  
-	      	
-	      }
-
-	      //$new_element->addCategory($mainCategoryValue);
-
-	      //$new_element->setType($type);
-
-	      // if ($type == "epicerie" || $type == "marche" || $type == 'boutique')
-	      // {
-	      //   $new_element->setMainProduct($type);
-	      // }
-
-	      // $currListProducts = $listProducts;
-	      // for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
-	      // {
-	      //   $key = rand(0,count($currListProducts)-1);
-	      //   $product = $currListProducts[$key];
-	      //   array_splice($currListProducts, $key, 1);
-	      //   $elementProduct = new ElementProduct();
-	      //   $elementProduct->setProduct($product);
-	      //   $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
-	      //   $elementProduct->setElement($new_element);
-	      //   $new_element->addProduct($elementProduct);
-	      //   $manager->persist($elementProduct);
-
-	      //   if ($j == 0 && !$new_element->getMainProduct()) 
-	      //   {
-	      //       $new_element->setMainProduct($product->getNameFormate());
-	      //   }
-	      // }
+	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element);
 
 	      $new_element->setContributor('true');
 	      $new_element->setContributorMail('contributor@gmail.com');		
 		   
-		 	// On la persiste
 	      $manager->persist($new_element);
 	    }
 
 	    dump($new_element);
 
-	    // On déclenche l'enregistrement de toutes les catégories
 	    $manager->flush();
 
 	    return new Response('Elements générés');
+  }
+
+  private function recursivelyCreateOptionsforCategory($category, $element)
+  {
+  	$nbreOptionsSet = [
+	  1 => 0.7,
+	  2 => 0.2,
+	  3 => 0.1,
+	];
+
+  	$nbreOptions = 2;//$this->randWithSet($nbreOptionsSet) * max(1, $category->getDepth());
+
+   $options = $category->getOptions();
+
+   for ($j = 0; $j < $nbreOptions; $j++) 
+   {
+   	$optionValue = new OptionValue();
+
+   	$key = rand(0,count($options)-1);
+   	$option = $options[$key]; 
+
+   	$optionValue->setOptionId($option->getId());	
+   	$optionValue->setIndex($j); 
+
+   	$element->addOptionValue($optionValue);
+
+   	// for each subcategory
+   	for($k = 0; $k < count($option->getSubcategories()); $k++)
+   	{
+   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element);
+   	}     	
+   }
   }
 
     private function randWithSet(array $set, $length=10000)
