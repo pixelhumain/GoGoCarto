@@ -553,8 +553,8 @@ export class AppModule
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
 		if (!elementsJson || elementsJson.length === 0) return;
-		this.elementModule.addJsonElements(elementsJson, true);
-		this.elementModule.updateElementToDisplay(); 
+		let newelements = this.elementModule.addJsonElements(elementsJson, true);
+		if (newelements > 0) this.elementModule.updateElementToDisplay(); 
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)

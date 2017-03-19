@@ -80,6 +80,11 @@ export class CategoriesModule
 		return this.mainCategory.options;
 	}
 
+	getCurrMainOption() : Option
+	{
+		return App.currMainId == 'all' ? null : this.getMainOptionById(App.currMainId);
+	}
+
 	getMainOptionBySlug($slug) : Option
 	{
 		return this.getMainOptions().filter( (option : Option) => option.nameShort == $slug).shift();

@@ -11,35 +11,14 @@ import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 import { Option } from "./option.class";
 import { Category } from "./category.class";
+import { OptionValue } from "./option-value.class";
 
 declare let App : AppModule;
 declare var $;
 declare let Twig : any;
 declare let biopen_twigJs_elementInfo : any;
 
-class OptionValue
-{
-	optionId : number;
-	index : number;
-	description : string;
 
-	constructor( $optionValueJson )
-	{
-		this.optionId = $optionValueJson.option_id;
-		this.index = $optionValueJson.index;
-		this.description = $optionValueJson.description;
-	}
-
-	get option() : Option
-	{
-		return App.categoryModule.getOptionById(this.optionId);
-	}
-
-	get categoryOwner() : Category
-	{
-		return <Category> this.option.getOwner();
-	}
-}
 
 export class Element 
 {	
@@ -54,6 +33,7 @@ export class Element
 	readonly mainOptionOwnerIds : number[] = [];
 
 	optionsValues : OptionValue[] = [];
+	optionValuesByCatgeory : OptionValue[][] = [];
 
 	// store optionId to color as for each mainOption
 	private colorOptionIds : number[] = [];
@@ -95,14 +75,23 @@ export class Element
 		{
 			newOption = new OptionValue(optionValueJson);
 
-			ownerId = newOption.option.mainOwnerId;
-			if (this.mainOptionOwnerIds.indexOf(ownerId) == -1) this.mainOptionOwnerIds.push(ownerId);
+			//ownerId = newOption.option.mainOwnerId;
+			if (newOption.option.isMainOption()) this.mainOptionOwnerIds.push(newOption.optionId);
+			//if (this.mainOptionOwnerIds.indexOf(ownerId) == -1) 
 
 			this.optionsValues.push(newOption);
+
+			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
+			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
 
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
-	}		
+	}	
+
+	getOptionValueByCategory($categoryId)
+	{
+		return this.optionValuesByCatgeory[$categoryId] || [];
+	}	
 
 	initialize() 
 	{		
@@ -164,16 +153,18 @@ export class Element
 
 		//console.log("   -> SortededOptions", sortOptions);
 
-		let colorOption = sortOptions.shift().option;
-		//console.log("   -> COLOR AS", colorOption.name);
+		if (sortOptions.length > 0)
+		{
+			let colorOption = sortOptions.shift().option;
+			//console.log("   -> COLOR AS", colorOption.name);
 
-		this.colorOptionIds[currMainId] = colorOption.id;
-		
-		return colorOption.id;
+			this.colorOptionIds[currMainId] = colorOption.id;
+			
+			return colorOption.id;
+		}
+
+		return currMainId;		
 	}
-
-
-
 
 	updateProductsRepresentation() 
 	{		

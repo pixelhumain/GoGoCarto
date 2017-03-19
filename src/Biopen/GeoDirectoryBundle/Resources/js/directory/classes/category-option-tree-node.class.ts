@@ -47,6 +47,10 @@ export class CategoryOptionTreeNode
 		return null;
 	}
 
+	protected disabledChildren() : CategoryOptionTreeNode[] { return this.children.filter( child => child.isDisabled); }
+
+	protected checkedChildren() : CategoryOptionTreeNode[] { return this.children.filter( child => child.isChecked); }
+
 	isOption() { return this.TYPE == CategoryOptionTreeNodeType.Option }
 
 	isMainOption() { return false; }
@@ -93,6 +97,7 @@ export class CategoryOptionTreeNode
 				if (this.getOwner()) this.getOwner().updateState();
 
 				App.elementModule.updateElementToDisplay(check);
+				App.elementModule.updateCurrentsElementsMarker();
 				App.historyModule.updateCurrState();
 			}
 	}
@@ -117,9 +122,9 @@ export class CategoryOptionTreeNode
 			let checkedChildrenCount = this.children.filter( (child : CategoryOptionTreeNode) => child.isChecked).length;
 
 			if (checkedChildrenCount == this.children.length)
-			{
 				this.setChecked(true);
-			}	
+			else
+				this.setChecked(false)
 		}		
 
 		if (this.getOwner())  this.getOwner().updateState();	

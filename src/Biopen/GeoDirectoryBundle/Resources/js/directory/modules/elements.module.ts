@@ -77,11 +77,13 @@ export class ElementsModule
 			if (!checkIfAlreadyExist || !this.getElementById(elementJson.id))
 			{
 				element = new Element(elementJson);
+
 				for (let mainId of element.mainOptionOwnerIds)
 				{
 					this.everyElements_[mainId].push(element);
-				}
-				
+				}				
+				this.everyElements_['all'].push(element);
+
 				newElementsCount++;
 			}
 			else
@@ -91,6 +93,7 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		//console.log("ElementModule really added " + newElementsCount);
+		return newElementsCount;
 	};
 
 	showElement(element : Element)
@@ -138,6 +141,16 @@ export class ElementsModule
 		this.clearCurrVisibleElements();
 	}
 
+	updateCurrentsElementsMarker()
+	{
+		//console.log("clearCurrElements");
+		let l = this.currVisibleElements().length;
+		while(l--)
+		{
+			this.currVisibleElements()[l].marker.update();
+		}
+	}
+
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
@@ -150,7 +163,7 @@ export class ElementsModule
 					&& App.mode != AppModes.List) 
 				return;
 		
-		//console.log("Update elements 0", this);
+		//console.log("UPDATE ELEMENTS ", elements.length);
 
 		let i : number, element : Element;
 		let bounds;

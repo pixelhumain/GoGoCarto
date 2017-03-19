@@ -95,48 +95,49 @@ export class FilterModule
 
 	checkIfElementPassFilters (element : Element) : boolean
 	{
-		if (this.getCurrCheckedOptionsIds().length > this.getCurrUncheckedOptionsIds().length)
+		let mainOption = App.categoryModule.getCurrMainOption();
+
+		return this.recursivelyCheckedInOption(mainOption, element);
+	}
+
+	private recursivelyCheckedInOption(option : Option, element : Element) : boolean
+	{
+		let ecart = "";
+		for(let i = 0; i < option.depth; i++) ecart+= "--";
+
+			let log = false;
+
+		if (log) console.log(ecart + "Check for option ", option.name);
+
+		let result;
+		if (option.subcategories.length == 0 || option.isDisabled)
 		{
-			// More checked Options, we look for element not matching unchecked options
-			console.log("more checked option");
-
-
-			let uncheckedOptions;
-
-			let result = element.getCategoriesIds().some( (categoryId) =>
-			{
-				uncheckedOptions = this.getUncheckedOptionsInCategory(categoryId);
-				// if all element options are in unchecked options
-				let subresult = element.getOptionsIdsInCategorieId(categoryId).every(elem => uncheckedOptions.indexOf(elem) > -1);
-				
-				console.log("category", App.categoryModule.getCategoryById(categoryId).name);
-				console.log("elements options for this categories", element.getOptionsIdsInCategorieId(categoryId).map( (option) => App.categoryModule.getOptionById(option).name));
-				console.log("uncheckedOptions : ", uncheckedOptions.map( (option) => App.categoryModule.getOptionById(option).name));
-				console.log("every options in unchecked?", subresult);
-				console.log("\n");
-
-				return subresult;
-			});
-
-			console.log("some category where every options in uncheck?", result);
-			console.log("so we return ", !result);
-			console.log("\n\n");
-			return !result;
+			if (log) console.log(ecart + "No subcategories ");
+			result = option.isChecked;
 		}
 		else
 		{
-			// More unchecked Options, we look for element matching checked options
-
-			console.log("more unchecked option");
-
-			let checkedOptions;
-			return element.getCategoriesIds().every( (categoryId) =>
+			result = option.subcategories.every( (category) =>
 			{
-				checkedOptions = this.getUncheckedOptionsInCategory(categoryId);
-				// if all element options are in unchecked options
-				return element.getOptionsIdsInCategorieId(categoryId).some(elem => checkedOptions.indexOf(elem) > -1);
+				if (log) console.log("--" + ecart + "Category", category.name);
+
+				let checkedOptions = category.checkedOptions;
+				let elementOptions = element.getOptionValueByCategory(category.id);
+
+				let isSomeOptionInCategoryCheckedOptions = elementOptions.some(optionValue => checkedOptions.indexOf(optionValue.option) > -1); 
+
+				if (log) console.log("--" + ecart + "isSomeOptionInCategoryCheckedOptions", isSomeOptionInCategoryCheckedOptions);
+				if (isSomeOptionInCategoryCheckedOptions)
+					return true;
+				else
+				{				
+					if (log) console.log("--" + ecart + "So we checked in suboptions", category.name);
+					return elementOptions.some( (optionValue) => this.recursivelyCheckedInOption(optionValue.option, element));
+				}
 			});
 		}
+		if (log) console.log(ecart + "Return ", result);
+		return result;
 	}
 
 	getCurrCheckedOptionsIds()
