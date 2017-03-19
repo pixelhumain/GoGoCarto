@@ -21,7 +21,7 @@ export class Option extends CategoryOptionTreeNode
 
 	constructor($optionJson : any)
 	{
-		super(CategoryOptionTreeNodeType.Option, '#option-', '#option-checkbox-', '.category-wrapper');
+		super(CategoryOptionTreeNodeType.Option, '#option-', '#option-checkbox-', '.subcategories-wrapper');
 
 		this.id = $optionJson.id;
 		this.name = $optionJson.name;

@@ -1,4 +1,4 @@
-<div class="category-wrapper depth-{{category.depth}}" {% if showSubcategories is defined and not showSubcategories%} style="display:none"{% endif %}>
+<div class="category-wrapper depth-{{category.depth}}" >
 
 	{# ---- CATEGORY TITLE IF REQUIRED ----- #}
 	{% if category.displayCategoryName %}
@@ -63,12 +63,14 @@
 	    </li>
 
 	    {% if recursive %}
+	    	<div class="subcategories-wrapper" {% if option.showSubcategories is defined and not option.showSubcategories%} style="display:none"{% endif %}>
 		    {% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
 
 						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
-		        						with {'category': subcategory, 'recursive': true, 'showSubcategories' : option.showSubcategories} %}
+		        						with {'category': subcategory, 'recursive': true } %}
 
 				{% endfor %} 
+				</div>
 			{% endif %}
 
 	 {% endfor %}
