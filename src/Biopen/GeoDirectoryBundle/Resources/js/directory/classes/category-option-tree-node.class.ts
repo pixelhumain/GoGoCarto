@@ -84,8 +84,6 @@ export class CategoryOptionTreeNode
 			this.setChecked(check);
 			this.setDisabled(!check);
 
-			if (this.isOption()) App.filterModule.updateFilter(this, check);
-
 			// in All mode, we clicks directly on the mainOption, but don't want to all checkbox in MainOptionFilter to disable
 			if (!this.isMainOption()) 
 			{

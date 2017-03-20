@@ -45,7 +45,6 @@ $(document).ready(function()
 
    App.categoryModule.createCategoriesFromJson(MAIN_CATEGORY, OPENHOURS_CATEGORY);
 
-   App.filterModule.initialize();
    App.elementModule.initialize();
 
    App.loadHistoryState();

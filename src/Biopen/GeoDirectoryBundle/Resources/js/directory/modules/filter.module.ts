@@ -20,78 +20,14 @@ declare let App : AppModule;
 
 export class FilterModule
 {
-	productFilters = [];
-	typeFilters = [];	
-	dayFilters = [];	
 	showOnlyFavorite_ = false;
 
-	checkedOptionsIds = [];
-	uncheckedOptionsIds = [];
-
-	isInitialized : boolean = false;
-
-	constructor() 
-	{		
-		
-	}
-
-	initialize()
-	{
-		let mainCategory = App.categoryModule.mainCategory;
-
-		this.checkedOptionsIds['all'] = [];
-		this.uncheckedOptionsIds['all'] = [];
-
-		this.checkedOptionsIds['openhours'] = [];
-		this.uncheckedOptionsIds['openhours'] = [];
-
-		for(let option of App.categoryModule.getMainOptions())
-		{
-			this.checkedOptionsIds[option.id] = [];
-			this.uncheckedOptionsIds[option.id] = [];
-		}
-
-		//console.log(this.checkedOptionsIds);
-
-		for(let option of App.categoryModule.options)
-		{
-			this.checkedOptionsIds[option.mainOwnerId].push(option.id);
-		}
-
-		this.isInitialized = true;
-	}
+	constructor() {	}
 
 	showOnlyFavorite(data)
 	{
 		this.showOnlyFavorite_ = data;
 	};
-
-	updateFilter(option : CategoryOptionTreeNode, checked : boolean)
-	{
-		let mainId = option.mainOwnerId;
-
-		let checkedArray = this.checkedOptionsIds[mainId];
-		let uncheckedArray = this.uncheckedOptionsIds[mainId];
-
-		if (checked)
-		{
-			let index = checkedArray.indexOf(option.id);
-			if ( index == -1) checkedArray.push(option.id);
-
-			index = uncheckedArray.indexOf(option.id);
-			if ( index > -1) uncheckedArray.splice(index, 1);
-		}
-		else
-		{
-			let index = checkedArray.indexOf(option.id);
-			if ( index > -1) checkedArray.splice(index, 1);
-
-			index = uncheckedArray.indexOf(option.id);
-			if ( index == -1) uncheckedArray.push(option.id);
-		}
-
-		//console.log("Adding option filter id = " + option.id, this.uncheckedOptionsIds[mainId]);
-	}
 
 	checkIfElementPassFilters (element : Element) : boolean
 	{
@@ -162,27 +98,6 @@ export class FilterModule
 		return result;
 	}
 
-	getCurrCheckedOptionsIds()
-	{
-		return this.checkedOptionsIds[App.currMainId];
-	}
-
-	getCurrUncheckedOptionsIds()
-	{
-		return this.uncheckedOptionsIds[App.currMainId];
-	}
-
-	getCheckedOptionsInCategory(categoryId : number)
-	{
-		return this.getCurrCheckedOptionsIds().filter( (optionId) => App.categoryModule.getOptionById(optionId).ownerId == categoryId)
-	}
-
-	getUncheckedOptionsInCategory(categoryId : number)
-	{
-		return this.getCurrUncheckedOptionsIds().filter( (optionId) => App.categoryModule.getOptionById(optionId).ownerId == categoryId)
-	}
-
-
 	loadFiltersFromString(string : string)
 	{
 		let splited = string.split('@');
@@ -244,8 +159,6 @@ export class FilterModule
 
 	getFiltersToString() : string
 	{
-		if (!this.isInitialized) return;
-
 		let mainOptionId = App.currMainId;
 
 		let mainOptionName;
