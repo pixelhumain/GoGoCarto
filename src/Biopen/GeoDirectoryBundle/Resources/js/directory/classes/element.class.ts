@@ -88,7 +88,7 @@ export class Element
 		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
 	}	
 
-	getOptionValueByCategory($categoryId)
+	getOptionValueByCategoryId($categoryId)
 	{
 		return this.optionValuesByCatgeory[$categoryId] || [];
 	}	

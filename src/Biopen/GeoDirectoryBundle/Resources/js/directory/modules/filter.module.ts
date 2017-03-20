@@ -95,9 +95,31 @@ export class FilterModule
 
 	checkIfElementPassFilters (element : Element) : boolean
 	{
-		let mainOption = App.categoryModule.getCurrMainOption();
+		if (App.currMainId == 'all')
+		{
+			let elementOptions = element.getOptionValueByCategoryId( App.categoryModule.mainCategory.id);
+			let checkedOptions = App.categoryModule.mainCategory.checkedOptions;
 
-		return this.recursivelyCheckedInOption(mainOption, element);
+			//console.log("\nelementsOptions", elementOptions.map( (value) => value.option.name));
+			//console.log("checkedOptions", checkedOptions.map( (value) => value.name));
+
+			let result = elementOptions.some(optionValue => checkedOptions.indexOf(optionValue.option) > -1);
+			//console.log("return", result);
+			return result ;
+		}
+		else
+		{
+			let mainOption = App.categoryModule.getCurrMainOption();			
+			let isPassingFilters = this.recursivelyCheckedInOption(mainOption, element);
+
+			// if (isPassingFilters && mainOption.showOpenHours && element.openhours.length > 0)
+			// {
+			// 	// TODO check for openhours
+			// 	// element.openhours.some in openhoursarray
+			// }
+
+			return isPassingFilters;
+		}		
 	}
 
 	private recursivelyCheckedInOption(option : Option, element : Element) : boolean
@@ -105,7 +127,7 @@ export class FilterModule
 		let ecart = "";
 		for(let i = 0; i < option.depth; i++) ecart+= "--";
 
-			let log = false;
+		let log = false;
 
 		if (log) console.log(ecart + "Check for option ", option.name);
 
@@ -122,7 +144,7 @@ export class FilterModule
 				if (log) console.log("--" + ecart + "Category", category.name);
 
 				let checkedOptions = category.checkedOptions;
-				let elementOptions = element.getOptionValueByCategory(category.id);
+				let elementOptions = element.getOptionValueByCategoryId(category.id);
 
 				let isSomeOptionInCategoryCheckedOptions = elementOptions.some(optionValue => checkedOptions.indexOf(optionValue.option) > -1); 
 
@@ -228,24 +250,27 @@ export class FilterModule
 
 		let mainOptionName;
 		let checkArrayToParse, uncheckArrayToParse;
+		
 		if (mainOptionId == 'all')
 		{			
 			mainOptionName = "all";
-			checkArrayToParse = this.checkedOptionsIds['all'];
-			uncheckArrayToParse = this.uncheckedOptionsIds['all'];
+			checkArrayToParse = App.categoryModule.mainCategory.checkedOptions.map( (option) => option.id);
+			uncheckArrayToParse = App.categoryModule.mainCategory.disabledOptions.map( (option) => option.id);
 		}
 		else
 		{
 			let mainOption = App.categoryModule.getMainOptionById(mainOptionId);
 			mainOptionName = mainOption.nameShort;
 
-			checkArrayToParse = this.checkedOptionsIds[mainOptionId];
-			uncheckArrayToParse = this.uncheckedOptionsIds[mainOptionId];
+			let allOptions = mainOption.allChildrenOptions;
+
+			checkArrayToParse = allOptions.filter( (option) => option.isChecked ).map( (option) => option.id);
+			uncheckArrayToParse = allOptions.filter( (option) => option.isDisabled ).map( (option) => option.id);
 
 			if (mainOption.showOpenHours) 
 			{
-				checkArrayToParse = checkArrayToParse.concat(this.checkedOptionsIds['openhours']);
-				uncheckArrayToParse = uncheckArrayToParse.concat(this.uncheckedOptionsIds['openhours']);
+				checkArrayToParse = checkArrayToParse.concat(App.categoryModule.openHoursCategory.checkedOptions.map( (option) => option.id));
+				uncheckArrayToParse = uncheckArrayToParse.concat(App.categoryModule.openHoursCategory.disabledOptions.map( (option) => option.id));
 			}
 		}
 
@@ -262,112 +287,4 @@ export class FilterModule
 
 		return mainOptionName + '@' + addingSymbol + filtersString;
 	}
-
-
-
-
-	// checkIfElementPassFiltersOld (element) 
-	// {	
-	// 	// FAVORITE FILTER
-	// 	if (this.showOnlyFavorite_ && !element.isFavorite) return false;
-
-	// 	// TYPE FILTER
-	// 	let i;
-	// 	for (i = 0; i < this.typeFilters.length; i++) 
-	// 	{
-	// 		if (element.type == this.typeFilters[i]) return false;
-	// 	}
-
-	// 	// PRODUCTS FILTER
-	// 	let atLeastOneProductPassFilter = false;
-
-	// 	// si epicerie on ne fait irne
-	// 	if (element.type == 'epicerie') 
-	// 	{
-	// 		atLeastOneProductPassFilter = true;
-	// 	}
-	// 	else
-	// 	{
-	// 		let products = element.products;
-			
-	// 		let updateElementIcon = false;
-	// 		for (i = 0; i < products.length; i++) 
-	// 		{
-	// 			// if this element's product is not in the black filter product list
-	// 			if (!this.containsProduct(products[i].nameFormate)) 
-	// 			{
-	// 				atLeastOneProductPassFilter = true;
-
-	// 				// if product was previously disabled, we show it again enabled
-	// 				if (products[i].disabled)
-	// 				{
-	// 					products[i].disabled = false;
-	// 					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = false;
-	// 					updateElementIcon = true;
-	// 				} 
-	// 			}
-	// 			else
-	// 			{
-	// 				// if product is unselected from directory menu, we show it "disabled"
-	// 				if (!products[i].disabled) 
-	// 				{
-	// 					products[i].disabled = true;
-	// 					if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = true;
-	// 					updateElementIcon = true;
-	// 				}
-	// 			}			
-	// 		}	
-
-	// 		// if one product have been enabled or disabled we update the element icon
-	// 		if (updateElementIcon 
-	// 			&& atLeastOneProductPassFilter 
-	// 			&& element.marker
-	// 			&& App.mode == AppModes.Map) element.marker.update();
-	// 	}
-
-	// 	if (!atLeastOneProductPassFilter) return false;
-		
-
-	// 	// OPENNING HOURS FILTER
-	// 	if (this.dayFilters.length > 0)
-	// 	{
-	// 		let openHours = element.openHours;
-	// 		let day, atLeastOneDayPassFilter = false;
-	// 		for(let key in openHours)
-	// 		{
-	// 			day = key.split('_')[1];
-	// 			if ( !this.containsOpeningDay(day) )
-	// 			{
-	// 				atLeastOneDayPassFilter = true;
-	// 			}
-	// 		}
-
-	// 		return atLeastOneDayPassFilter;
-	// 	}
-	// 	return true;
-	// };
-
-	// containsProduct (productName) 
-	// {		
-	// 	for (let i = 0; i < this.productFilters.length; i++) 
-	// 	{
-	// 		if (this.productFilters[i] == productName)
-	// 		{
-	// 			return true;
-	// 		} 
-	// 	}
-	// 	return false;
-	// };
-
-	// containsOpeningDay (day) 
-	// {		
-	// 	for (let i = 0; i < this.dayFilters.length; i++) 
-	// 	{
-	// 		if (this.dayFilters[i] == day)
-	// 		{
-	// 			return true;
-	// 		} 
-	// 	}
-	// 	return false;
-	// };
 }

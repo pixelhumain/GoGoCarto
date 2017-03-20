@@ -41,4 +41,23 @@ export class Option extends CategoryOptionTreeNode
 	isCollapsible() : boolean { return this.getDom().hasClass('option-collapsible'); }
 
 	get subcategories() : Category[] { return <Category[]> this.children; }
+
+	get allChildrenOptions() : Option[]
+	{
+		return this.recursivelyGetChildrenOption(this);
+	}
+
+	private recursivelyGetChildrenOption(parentOption : Option) : Option[]
+	{
+		let resultOptions : Option[] = [];
+		for(let cat of parentOption.subcategories)
+		{
+			resultOptions = resultOptions.concat(cat.options);
+			for(let option of cat.options)
+			{
+				resultOptions = resultOptions.concat(this.recursivelyGetChildrenOption(option));
+			}
+		}
+		return resultOptions;
+	}
 }

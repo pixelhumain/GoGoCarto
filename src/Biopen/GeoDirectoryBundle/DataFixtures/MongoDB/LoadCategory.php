@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-19 09:49:58
+ * @Last Modified time: 2017-03-20 09:27:49
  */
  
 
@@ -204,8 +204,8 @@ class LoadCategory implements FixtureInterface
 
 		$subproducts = array(
 			array('Agneau'               , 'viande'       , '#961616'        , ''),
-			array('Boeuf'             , 'viande'     , '#961616'        , ''),
-			array('Volaille'        , 'oeufs', '#E09703',''        , '')
+			array('Boeuf'             , 'viande'    	 	, '#961616'        , ''),
+			array('Volaille'        , 'oeufs'				, '#E09703'				,'' )
 		);
 
 		foreach ($products as $key => $product) 
@@ -248,7 +248,7 @@ class LoadCategory implements FixtureInterface
 					if ($subproduct[3] == '') $new_subproduct->setNameShort($subproduct[0]);
 					else $new_subproduct->setNameShort($subproduct[3]);
 
-					$new_subproduct->setTextHelper($subproduct[4]);
+					$new_subproduct->setTextHelper('');
 
 					$new_subproduct->setUseIconForMarker(true);
 					$new_subproduct->setUseColorForMarker(false);
