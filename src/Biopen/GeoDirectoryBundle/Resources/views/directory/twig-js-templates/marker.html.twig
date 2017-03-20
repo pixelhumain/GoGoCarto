@@ -7,7 +7,7 @@
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
-		<div class="iconInsideMarker {{ mainOptionToDisplay.isDisabled ? 'disabled' : '' }} {{ mainOptionToDisplay.icon }}">
+		<div class="iconInsideMarker colorAs {{ mainOptionToDisplay.isDisabled ? 'disabled' : '' }} {{ mainOptionToDisplay.icon }}" option-id={{ mainOptionToDisplay.id }}>
 		</div>
 	</div>
 
@@ -26,9 +26,9 @@
 
 				{% set disableOption = otherOption.isDisabled ? 'disabled' : '' %}
 
-				<div class="moreIconWrapper {{ disableOption }}"
+				<div class="moreIconWrapper {{ disableOption }} {{ otherOption.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOption.ownerColorId }}
 						style="left:{{ 32 * loop.index0 }}px">
-					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOption.icon }}">
+					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOption.icon }} colorAs" option-id={{ otherOption.id }}>
 					</span>
 			 	</div>
 

@@ -114,11 +114,11 @@ export class BiopenMarker
 			this.updatePolyline({lineType: lineType});
 		}
 
-		let optionstoDisplay = element.getIconsToDisplay();
+		let optionstoDisplay = element.iconsToDisplay;
 
 		// If usecolor and useIcon, we don't show others icons
-		if (optionstoDisplay[0])
-			showMoreIcon = !optionstoDisplay[0].useColorForMarker || !optionstoDisplay[0].useIconForMarker;
+		// if (optionstoDisplay[0])
+		// 	showMoreIcon = !optionstoDisplay[0].useColorForMarker || !optionstoDisplay[0].useIconForMarker;
 
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{

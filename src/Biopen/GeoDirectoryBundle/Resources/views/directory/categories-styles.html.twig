@@ -1,5 +1,11 @@
 {% if optionList is defined %}
 <style>
+	
+	.bgdSoftColorAs { background-color: #484848 }
+  .borderSoftColorAs { border-color: #484848 }
+  .bgdColorAs { background-color: #484848 }
+  .colorAs { color:#484848 }
+
   {% for option in optionList %} 
      {% if option.useColorForMarker or option.useIconForMarker %}
 	    .bgdSoftColorAs[option-id="{{ option.id }}"] { background-color: {{ option.color }} }

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-20 15:52:00
+ * @Last Modified time: 2017-03-20 16:22:59
  */
  
 
@@ -107,8 +107,8 @@ class LoadCategory implements FixtureInterface
 		$types = array(
 			array('Circuit courts'  		, ''     			, '#B33536', ''        , false),
 			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
-			array('Epicerie & Supérette'    , 'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restauration'      , '#813c81',''        , true)
+			array('Epicerie & Supérette'    ,'icon-epicerie'      , '#383D5A',''        , true),
+			array('Restauration'    		, 'icon-restaurant'      , '#813c81',''        , true)
 		);
 
 
@@ -143,10 +143,10 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Producteur'             , ''     , '', ''        , ''),
-			array('AMAP'             		 , ''      , '',''        , ''),
-			array('Artisan'   				, ''     , '','', ''),
-			array('Ruche qui dit oui'     , ''      , '',''        , ''),		
+			array('Producteur'             , 'icon-angle-right'    , '', ''        , ''),
+			array('AMAP'             		 , 'icon-angle-right'     , '',''        , ''),
+			array('Artisan'   				, 'icon-angle-right'    , '','', ''),
+			array('Ruche qui dit oui'     , 'icon-angle-right'      , '',''        , ''),		
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -241,7 +241,7 @@ class LoadCategory implements FixtureInterface
 					$new_subproduct = new Option();
 					$new_subproduct->setName($subproduct[0]);
 
-					$new_subproduct->setIcon('icon-' . $subproduct[1]);
+					$new_subproduct->setIcon($subproduct[1]);
 					$new_subproduct->setColor($subproduct[2]);
 
 					if ($subproduct[3] == '') $new_subproduct->setNameShort($subproduct[0]);

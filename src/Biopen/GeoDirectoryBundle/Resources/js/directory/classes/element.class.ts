@@ -36,6 +36,7 @@ export class Element
 	optionValuesByCatgeory : OptionValue[][] = [];
 
 	colorOptionId : number;
+	iconsToDisplay : Option[] = [];
 	optionTree : OptionValue;
 
 	distance : number;
@@ -100,6 +101,7 @@ export class Element
 		{
 			this.createOptionsTree();
 			this.updateColorOptionId();
+			this.updateIconsToDisplay();
 
 			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
 			this.isInitialized_ = true;
@@ -125,6 +127,7 @@ export class Element
 	update()
 	{
 		this.updateColorOptionId();
+		this.updateIconsToDisplay();
 		this.marker.update();
 	}
 
@@ -175,7 +178,7 @@ export class Element
 
 		if (categoryValue.children.length > 0)
 		{
-			categoryValue.children = categoryValue.children.sort( (a,b) => a.index - b.index);
+			categoryValue.children.sort( (a,b) => a.index - b.index);
 			optionValue.addCategoryValue(categoryValue);
 		} 
 	}
@@ -217,7 +220,37 @@ export class Element
 
 	updateIconsToDisplay()
 	{
+		
+		if (App.currMainId == 'all')
+			this.iconsToDisplay = this.recursivelyCreateIconsToDisplay(this.optionTree, false);
+		else
+			this.iconsToDisplay = this.recursivelyCreateIconsToDisplay(this.getCurrMainOptionValue());
 
+		this.iconsToDisplay.sort( (a,b) => a.isDisabled ? 1 : -1);
+	}
+
+	private recursivelyCreateIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : Option[]
+	{
+		if (!parentOptionValue) return null;
+
+		let resultOptions : Option[] = [];
+
+		for(let categoryValue of parentOptionValue.children)
+		{
+			for(let optionValue of categoryValue.children)
+			{
+				if (optionValue.option.useIconForMarker)
+				{
+					resultOptions.push(optionValue.option);
+				}
+				else if (recursive)
+				{
+					let result = this.recursivelyCreateIconsToDisplay(optionValue);
+					if (result != null) resultOptions = resultOptions.concat(result);
+				}
+			}
+		}
+		return resultOptions;
 	}
 
 	updateProductsRepresentation() 
@@ -250,37 +283,6 @@ export class Element
 		// }
 	};
 
-	getIconsToDisplay() : Option[]
-	{
-		let currMainId = App.currMainId;
-
-		let filteredOptions = this.optionsValues.filter( (optionValue) => 
-		{
-			let option = optionValue.option;
-			return option.mainOwnerId == currMainId && option.useIconForMarker;
-		});
-
-		let sorted = filteredOptions.sort( (a ,b) => 
-		{
-			if (a.option.isDisabled == b.option.isDisabled)
-			{
-				return a.option.depth - b.option.depth || a.index - b.index;				
-			}
-			else return a.option.isDisabled ? 1 : -1;
-			
-		}).map( (optionValue) => 
-		{
-			let option : any = optionValue.option;
-			// add description attribute
-			option.description = optionValue.description || '';
-			return option;
-		});
-
-		//console.log("getOptionstoDisplay", sorted);
-
-		return sorted;
-	}
-
 	updateDistance()
 	{
 		this.distance = null;
@@ -297,7 +299,7 @@ export class Element
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
-		let optionstoDisplay = this.getIconsToDisplay();
+		let optionstoDisplay = this.iconsToDisplay;
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{

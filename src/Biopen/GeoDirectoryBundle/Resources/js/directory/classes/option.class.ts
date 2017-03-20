@@ -17,6 +17,7 @@ export class Option extends CategoryOptionTreeNode
 	useColorForMarker : boolean;
 	showOpenHours : boolean;
 	depth : number;
+	ownerColorId_ : number;
 
 
 	constructor($optionJson : any)
@@ -32,6 +33,28 @@ export class Option extends CategoryOptionTreeNode
 		this.useIconForMarker = $optionJson.use_icon_for_marker;
 		this.useColorForMarker = $optionJson.use_color_for_marker;
 		this.showOpenHours = $optionJson.show_open_hours;
+	}
+
+	get ownerColorId()
+	{
+		if (this.ownerColorId_) return this.ownerColorId_;
+
+		if (!this.useColorForMarker)
+		{
+			let option : any = this;
+			let colorId : number = null;
+			while(colorId == null && option)
+			{
+				option = option.getOwner();
+				if (option) 
+				{
+					option = option.getOwner();
+					colorId = option.useColorForMarker ? option.id : null;
+				}
+			}
+			this.ownerColorId_ = colorId;
+		}
+		else this.ownerColorId_ = this.id;
 	}
 
 	addCategory($category : Category) { this.children.push($category);  }
