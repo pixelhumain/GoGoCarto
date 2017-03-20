@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-20 09:27:49
+ * @Last Modified time: 2017-03-20 15:52:00
  */
  
 
@@ -30,7 +30,7 @@ class LoadCategory implements FixtureInterface
 		$openHoursCategory->setDepth(-1);
 
 		// Liste des names de catégorie à ajouter
-		$days = array('lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche');
+		$days = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche');
 
 
 		foreach ($days as $key => $day) 
@@ -105,11 +105,10 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$types = array(
-			array('Circuit courts'  , 'circuit-court'     , '#B33536', ''        , false),
-			//array('AMAP'        , 'amap'      , '#4B7975',''        , false),
-			array('Marché'      , 'marche'     , '#3F51B5','', true),
-			array('Epicerie & Supérette'    , 'epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    , 'restauration'      , '#813c81',''        , true),
+			array('Circuit courts'  		, ''     			, '#B33536', ''        , false),
+			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
+			array('Epicerie & Supérette'    , 'icon-epicerie'      , '#383D5A',''        , true),
+			array('Restauration'    		, 'icon-restauration'      , '#813c81',''        , true)
 		);
 
 
@@ -118,7 +117,7 @@ class LoadCategory implements FixtureInterface
 			$new_type = new Option();
 			$new_type->setName($type[0]);
 
-			$new_type->setIcon('icon-' . $type[1]);
+			$new_type->setIcon($type[1]);
 			$new_type->setColor($type[2]);
 
 			$new_type->setNameShort($type[0]);
@@ -144,10 +143,10 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Producteur'             , ''     , '#4A148C', ''        , ''),
-			array('AMAP'              , ''      , '#880E4F',''        , ''),
-			array('Artisan'   , ''     , '#B77B03','', ''),
-			array('Ruche qui dit oui'              , ''      , '#961616',''        , ''),		
+			array('Producteur'             , ''     , '', ''        , ''),
+			array('AMAP'             		 , ''      , '',''        , ''),
+			array('Artisan'   				, ''     , '','', ''),
+			array('Ruche qui dit oui'     , ''      , '',''        , ''),		
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -155,7 +154,7 @@ class LoadCategory implements FixtureInterface
 			$new_circuit = new Option();
 			$new_circuit->setName($circuit[0]);
 
-			$new_circuit->setIcon('icon-' . $circuit[1]);
+			$new_circuit->setIcon($circuit[1]);
 			$new_circuit->setColor($circuit[2]);
 
 			if ($circuit[3] == '') $new_circuit->setNameShort($circuit[0]);
@@ -163,7 +162,7 @@ class LoadCategory implements FixtureInterface
 
 			$new_circuit->setTextHelper($circuit[4]);
 
-			$new_circuit->setUseIconForMarker(true);
+			$new_circuit->setUseIconForMarker(false);
 			$new_circuit->setUseColorForMarker(false);
 
 			$new_circuit->setIndex($key);
@@ -183,16 +182,16 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
-			array('Légumes'             , 'legumes'     , '#4A148C', ''        , ''),
-			array('Fruits'              , 'fruits'      , '#880E4F',''        , ''),
-			array('Produits laitiers'   , 'laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
-			array('Viande'              , 'viande'      , '#961616',''        , ''),			
-			array('Miel'                , 'miel'        , '#E09703',''        , ''),
-			array('Pain, farine'        , 'pain'        , '#B37800','Pain/Farine'        , ''),
-			array('Huiles'              , 'huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
-			array('Boissons'            , 'boissons'    , '#258BB9',''        , ''),
-			array('Plantes'             , 'plantes'     , '#4CAF50',''        , ''),
-			array('Autre'               , 'autre'       , '#444444',''        , ''),
+			array('Légumes'             , 'icon-legumes'     , '#4A148C', ''        , ''),
+			array('Fruits'              , 'icon-fruits'      , '#880E4F',''        , ''),
+			array('Produits laitiers'   , 'icon-laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
+			array('Viande'              , 'icon-viande'      , '#961616',''        , ''),			
+			array('Miel'                , 'icon-miel'        , '#E09703',''        , ''),
+			array('Pain, farine'        , 'icon-pain'        , '#B37800','Pain/Farine'        , ''),
+			array('Huiles'              , 'icon-huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
+			array('Boissons'            , 'icon-boissons'    , '#258BB9',''        , ''),
+			array('Plantes'             , 'icon-plantes'     , '#4CAF50',''        , ''),
+			array('Autre'               , 'icon-autre'       , '#444444',''        , ''),
 		);
 
 		// $subproducts = array(
@@ -203,9 +202,9 @@ class LoadCategory implements FixtureInterface
 		// );
 
 		$subproducts = array(
-			array('Agneau'               , 'viande'       , '#961616'        , ''),
-			array('Boeuf'             , 'viande'    	 	, '#961616'        , ''),
-			array('Volaille'        , 'oeufs'				, '#E09703'				,'' )
+			array('Agneau'               , 'icon-viande'       , '#961616'        , ''),
+			array('Boeuf'             	, 'icon-viande'    	 	, '#961616'        , ''),
+			array('Volaille'        	, 'icon-oeufs'				, '#E09703'				,'' )
 		);
 
 		foreach ($products as $key => $product) 
@@ -213,7 +212,7 @@ class LoadCategory implements FixtureInterface
 			$new_product = new Option();
 			$new_product->setName($product[0]);
 
-			$new_product->setIcon('icon-' . $product[1]);
+			$new_product->setIcon($product[1]);
 			$new_product->setColor($product[2]);
 
 			if ($product[3] == '') $new_product->setNameShort($product[0]);

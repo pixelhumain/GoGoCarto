@@ -11,6 +11,8 @@ export class OptionValue
 	description : string;
 	option_ : Option = null;
 
+	children : CategoryValue[] = [];
+
 	constructor( $optionValueJson )
 	{
 		this.optionId = $optionValueJson.option_id;
@@ -27,5 +29,26 @@ export class OptionValue
 	get categoryOwner() : Category
 	{
 		return <Category> this.option.getOwner();
+	}
+
+	addCategoryValue(categoryValue : CategoryValue)
+	{
+		this.children.push(categoryValue);
+	}
+}
+
+export class CategoryValue
+{
+	category : Category;
+	children : OptionValue[] = [];
+
+	constructor(category : Category)
+	{
+		this.category = category;
+	}
+
+	addOptionValue(optionValue : OptionValue)
+	{
+		this.children.push(optionValue);
 	}
 }

@@ -141,13 +141,13 @@ export class ElementsModule
 		this.clearCurrVisibleElements();
 	}
 
-	updateCurrentsElementsMarker()
+	updateCurrentsElements()
 	{
 		//console.log("clearCurrElements");
 		let l = this.currVisibleElements().length;
 		while(l--)
 		{
-			this.currVisibleElements()[l].marker.update();
+			this.currVisibleElements()[l].update();
 		}
 	}
 

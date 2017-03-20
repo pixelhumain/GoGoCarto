@@ -95,7 +95,7 @@ export class CategoryOptionTreeNode
 				if (this.getOwner()) this.getOwner().updateState();
 
 				App.elementModule.updateElementToDisplay(check);
-				App.elementModule.updateCurrentsElementsMarker();
+				App.elementModule.updateCurrentsElements();
 				App.historyModule.updateCurrState();
 			}
 	}

@@ -11,7 +11,7 @@ import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 import { Option } from "./option.class";
 import { Category } from "./category.class";
-import { OptionValue } from "./option-value.class";
+import { OptionValue, CategoryValue } from "./option-value.class";
 
 declare let App : AppModule;
 declare var $;
@@ -35,8 +35,8 @@ export class Element
 	optionsValues : OptionValue[] = [];
 	optionValuesByCatgeory : OptionValue[][] = [];
 
-	// store optionId to color as for each mainOption
-	private colorOptionIds : number[] = [];
+	colorOptionId : number;
+	optionTree : OptionValue;
 
 	distance : number;
 
@@ -85,7 +85,8 @@ export class Element
 			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
 
-		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
+		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;	
+
 	}	
 
 	getOptionValueByCategoryId($categoryId)
@@ -97,6 +98,9 @@ export class Element
 	{		
 		if (!this.isInitialized_) 
 		{
+			this.createOptionsTree();
+			this.updateColorOptionId();
+
 			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
 			this.isInitialized_ = true;
 		}		
@@ -118,52 +122,102 @@ export class Element
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 	};
 
-	getCurrOptions() : OptionValue[]
+	update()
+	{
+		this.updateColorOptionId();
+		this.marker.update();
+	}
+
+	getCurrOptionsValues() : OptionValue[]
 	{
 		return this.optionsValues.filter( (optionValue) => optionValue.option.mainOwnerId == App.currMainId);
 	}
 
+	getCurrMainOptionValue() : OptionValue
+	{
+		return this.optionsValues.filter( (optionValue) => optionValue.option.id == App.currMainId).shift();
+	}
+
 	getCategoriesIds() : number[]
 	{
-		return this.getCurrOptions().map( (optionValue) => optionValue.categoryOwner.id).filter((value, index, self) => self.indexOf(value) === index);
+		return this.getCurrOptionsValues().map( (optionValue) => optionValue.categoryOwner.id).filter((value, index, self) => self.indexOf(value) === index);
 	}
 
 	getOptionsIdsInCategorieId(categoryId) : number[]
 	{
-		return this.getCurrOptions().filter( (optionValue) => optionValue.option.ownerId == categoryId).map( (optionValue) => optionValue.optionId);
+		return this.getCurrOptionsValues().filter( (optionValue) => optionValue.option.ownerId == categoryId).map( (optionValue) => optionValue.optionId);
 	}
 
-	get colorOptionId() : number
+	createOptionsTree()
 	{
-		let currMainId = App.currMainId;
+		this.optionTree = new OptionValue({});
+		let mainCategory = App.categoryModule.mainCategory;
 
-		if (this.colorOptionIds[currMainId]) return this.colorOptionIds[currMainId];
+		this.recusivelyCreateOptionTree(mainCategory, this.optionTree);
+	}
 
-		// console.log("GET MAIN COLOR, main Id = ", currMainId);
-		// console.log("   -> OptionsValues", this.optionsValues);
+	private recusivelyCreateOptionTree(category : Category, optionValue : OptionValue)
+	{
+		let categoryValue = new CategoryValue(category);
 
-		let filteredOptions = this.optionsValues.filter( (optionValue) => 
+		for(let option of category.options)
 		{
-			let option = optionValue.option;
-			return option.mainOwnerId == currMainId && option.useColorForMarker;
-		});
-		//console.log("   -> FilteredOptions", filteredOptions);
-
-		let sortOptions = filteredOptions.sort( (a ,b) => a.option.depth - b.option.depth);
-
-		//console.log("   -> SortededOptions", sortOptions);
-
-		if (sortOptions.length > 0)
-		{
-			let colorOption = sortOptions.shift().option;
-			//console.log("   -> COLOR AS", colorOption.name);
-
-			this.colorOptionIds[currMainId] = colorOption.id;
-			
-			return colorOption.id;
+			let childOptionValue = this.fillOptionId(option.id);
+			if (childOptionValue)
+			{
+				categoryValue.addOptionValue(childOptionValue);
+				for(let subcategory of option.subcategories)
+				{
+					this.recusivelyCreateOptionTree(subcategory, childOptionValue);
+				}
+			}			
 		}
 
-		return currMainId;		
+		if (categoryValue.children.length > 0)
+		{
+			categoryValue.children = categoryValue.children.sort( (a,b) => a.index - b.index);
+			optionValue.addCategoryValue(categoryValue);
+		} 
+	}
+
+	fillOptionId($optionId : number) : OptionValue
+	{
+		let index = this.optionsValues.map((value) => value.optionId).indexOf($optionId);
+		if (index == -1) return null;
+		return this.optionsValues[index];
+	}
+
+	updateColorOptionId() 
+	{
+		if (App.currMainId == 'all')
+			this.colorOptionId = this.recursivelySearchForColorOptionId(this.optionTree, false);
+		else
+			this.colorOptionId = this.recursivelySearchForColorOptionId(this.getCurrMainOptionValue());
+	}
+
+	private recursivelySearchForColorOptionId(parentOptionValue : OptionValue, recursive : boolean = true) : number
+	{
+		if (!parentOptionValue) return null;
+
+		for(let categoryValue of parentOptionValue.children)
+		{
+			for(let optionValue of categoryValue.children)
+			{
+				if (optionValue.option.isChecked && optionValue.option.useColorForMarker)
+					return optionValue.optionId;
+				else if (recursive)
+				{
+					let result = this.recursivelySearchForColorOptionId(optionValue);
+					if (result != null) return result;
+				}
+			}
+		}
+		return null;
+	}
+
+	updateIconsToDisplay()
+	{
+
 	}
 
 	updateProductsRepresentation() 
@@ -196,7 +250,7 @@ export class Element
 		// }
 	};
 
-	getOptionsToDisplay() : Option[]
+	getIconsToDisplay() : Option[]
 	{
 		let currMainId = App.currMainId;
 
@@ -243,7 +297,7 @@ export class Element
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
-		let optionstoDisplay = this.getOptionsToDisplay();
+		let optionstoDisplay = this.getIconsToDisplay();
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{
@@ -255,10 +309,44 @@ export class Element
 			otherOptionsToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames
 		});
+
+		//console.log("Element options", this.getOptionsList().map( (option) => option.name));
+		//console.log("Element options", this.getOptionsList());
 		
 		this.htmlRepresentation_ = html;				
 		return html;
 	};
+
+	getOptionsList() : Option[]
+	{
+		let currMainId = App.currMainId;
+
+		let optionListTree = [];
+
+		this.optionsValues.filter( (optionValue) => optionValue.option.isMainOption());
+
+
+
+		let sorted = this.optionsValues.sort( (a ,b) => 
+		{
+			if (a.option.isDisabled == b.option.isDisabled)
+			{
+				return a.option.depth - b.option.depth || a.index - b.index;				
+			}
+			else return a.option.isDisabled ? 1 : -1;
+			
+		}).map( (optionValue) => 
+		{
+			let option : any = optionValue.option;
+			// add description attribute
+			option.description = optionValue.description || '';
+			return option;
+		});
+
+		//console.log("getOptionstoDisplay", sorted);
+
+		return sorted;
+	}
 
 	// getProductsNameToDisplay()
 	// {

@@ -37,8 +37,10 @@
 	    					{% if isSubcategories %}data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail"{% endif %}>
 
 						{# --- ICON ---- #}
-						{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}	    
-						<span class="icon {{ iconClass }} {{option.name|lower }}"></span>
+						{% set iconClass = option.useColorForMarker ? 'icon-marker' : option.icon %}	
+						{% if iconClass %}    
+						<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+						{% endif %}
 
 						{# --- NAME ---- #}
 						<span class="option-name">{{ option.nameShort }}</span> 
