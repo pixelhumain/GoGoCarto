@@ -34,7 +34,12 @@
 	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> 
 
 	      {% if displayFirstCategoryInline %}
-	      	<span class="inline-option">({% for suboptionValue in optionValue.children[0].children %} {{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}{% endfor %})</span>
+	      	<span class="inline-option">(
+	      		{% for suboptionValue in optionValue.children[0].children %} 
+	      			<span class={{ suboptionValue.option.isDisabled ? 'disabled' : ''}}>{{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}</span> 
+	      			
+	      	{% endfor %})
+	      </span>
 	      {% endif %}
 
 	    </span>

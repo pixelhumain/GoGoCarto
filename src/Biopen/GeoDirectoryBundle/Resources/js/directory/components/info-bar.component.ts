@@ -37,8 +37,6 @@ export class InfoBarComponent
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
-		
-
 		let element = App.elementModule.getElementById(elementId);
 
 		//console.log("showElement", element);

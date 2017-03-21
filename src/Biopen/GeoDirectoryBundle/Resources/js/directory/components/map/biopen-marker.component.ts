@@ -123,8 +123,8 @@ export class BiopenMarker
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
 			element : element, 
-			mainOptionToDisplay: optionstoDisplay[0],
-			otherOptionsToDisplay: optionstoDisplay.slice(1), 
+			mainOptionValueToDisplay: optionstoDisplay[0],
+			otherOptionsValuesToDisplay: optionstoDisplay.slice(1), 
 			showMoreIcon : showMoreIcon,
 			disableMarker : disableMarker
 		});

@@ -29,16 +29,16 @@
 
 				{# FAVORITE #}
 				<li class="subcategorie-option-item row" id="filter-favorite" data-position="right" data-delay="300" data-tooltip="Afficher uniquement les favoris">
-						    <span class="icon icon-star-full"></span>
-						    <span class="option-name">Favoris</span> 
+			    <span class="icon icon-star-full"></span>
+			    <span class="option-name">Favoris</span> 
 
-						    {# --- CHECKBOX ---- #}
-								<div class="checkbox-wrapper">
-									<div class="checkbox-container">
-							      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="favorite-checkbox" data-type='favorite' data="favorite" />
-							      <label for="favorite-checkbox" ></label>
-						    	</div>
-						    </div>
+			    {# --- CHECKBOX ---- #}
+					<div class="checkbox-wrapper">
+						<div class="checkbox-container">
+				      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="favorite-checkbox" data-type='favorite' data="favorite" />
+				      <label for="favorite-checkbox" ></label>
+			    	</div>
+			    </div>
 				</li>
 
 				{# ALL CATEGORIES MENU #}
@@ -56,7 +56,7 @@
 
 					{% for key, category in mainOption.subcategories | sortbyfield('index')%}
 
-							{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
               						with {'category': category, 'recursive': true } %}
 
 					{% endfor %} 
@@ -68,7 +68,7 @@
 				{# OPEN HOURS FILTER #}
 				<div id="open-hours-filter" class="" style="display:none">		
 
-				{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+					{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
             						with {'category': openHoursCategory, 'recursive': false } %}
 
 				</div>

@@ -34,7 +34,7 @@ export class Element
 	optionValuesByCatgeory : OptionValue[][] = [];
 
 	colorOptionId : number;
-	private iconsToDisplay : Option[] = [];
+	private iconsToDisplay : OptionValue[] = [];
 	optionTree : OptionValue;
 
 	distance : number;
@@ -80,6 +80,7 @@ export class Element
 
 			this.optionsValues.push(newOption);
 
+			// put options value in specific easy accessible array for better performance
 			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
 			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
@@ -98,7 +99,6 @@ export class Element
 		if (!this.isInitialized_) 
 		{
 			this.createOptionsTree();
-			this.updateColorOptionId();
 			this.updateIconsToDisplay();
 
 			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
@@ -124,7 +124,6 @@ export class Element
 
 	update()
 	{
-		this.updateColorOptionId();
 		this.updateIconsToDisplay();
 		this.marker.update();
 	}
@@ -188,38 +187,10 @@ export class Element
 		return this.optionsValues[index];
 	}
 
-	updateColorOptionId() 
-	{
-		if (App.currMainId == 'all')
-			this.colorOptionId = this.recursivelySearchForColorOptionId(this.optionTree, false);
-		else
-			this.colorOptionId = this.recursivelySearchForColorOptionId(this.getCurrMainOptionValue());
-	}
-
-	private recursivelySearchForColorOptionId(parentOptionValue : OptionValue, recursive : boolean = true) : number
-	{
-		if (!parentOptionValue) return null;
-
-		for(let categoryValue of parentOptionValue.children)
-		{
-			for(let optionValue of categoryValue.children)
-			{
-				if (optionValue.option.isChecked && optionValue.option.useColorForMarker)
-					return optionValue.optionId;
-				else if (recursive)
-				{
-					let result = this.recursivelySearchForColorOptionId(optionValue);
-					if (result != null) return result;
-				}
-			}
-		}
-		return null;
-	}
-
-	getIconsToDisplay() : Option[]
+	getIconsToDisplay() : OptionValue[]
 	{
 		let result = this.iconsToDisplay;
-		return result.sort( (a,b) => a.isDisabled ? 1 : -1);
+		return result.sort( (a,b) => a.isFilledByFilters ? -1 : 1);
 	}
 
 	updateIconsToDisplay() 
@@ -228,39 +199,72 @@ export class Element
 			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.optionTree, false);
 		else
 			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getCurrMainOptionValue());
+
+		this.colorOptionId = this.getIconsToDisplay().length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
+		this.checkForDisabledOptionValues();
+		//console.log("Icons to display", this.iconsToDisplay);
 	}
 
-	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true, justTakefirstMatch : boolean = true) : Option[]
+	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : OptionValue[]
 	{
 		if (!parentOptionValue) return null;
 
-		let resultOptions : Option[] = [];
-		let firstMatch : boolean = false;
+		let resultOptions : OptionValue[] = [];		
 
 		for(let categoryValue of parentOptionValue.children)
 		{
 			for(let optionValue of categoryValue.children)
 			{
-				firstMatch = false;
-				if (optionValue.option.useIconForMarker)
-				{
-					resultOptions.push(optionValue.option);
-					firstMatch = true;
-				}
+				let result = null;
 				
-				if ((!firstMatch || !justTakefirstMatch) && recursive)
+				if (recursive)
 				{
-					let result = this.recursivelySearchIconsToDisplay(optionValue);
+					result = this.recursivelySearchIconsToDisplay(optionValue);
 					if (result != null) resultOptions = resultOptions.concat(result);
 				}
+
+				if (result.length == 0 && optionValue.option.useIconForMarker)
+				{
+					resultOptions.push(optionValue);
+				}
+
+				optionValue
 			}
 		}
 		return resultOptions;
 	}
 
-	getCatgeoriesRepresentation() : Option[]
+	checkForDisabledOptionValues()
 	{
-		return this.recursivelySearchIconsToDisplay(this.optionTree, true, false);
+		this.recursivelyCheckForDisabledOptionValues(this.optionTree);
+	}
+
+	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue)
+	{
+		let isEveryCategoryContainsOneOptionNotdisabled = true;
+
+		for(let categoryValue of optionValue.children)
+		{
+			let isSomeOptionNotdisabled = false;
+			for (let suboptionValue of categoryValue.children)
+			{
+				if (suboptionValue.children.length == 0)
+				{
+					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;
+					if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
+				}
+				else
+				{
+					this.recursivelyCheckForDisabledOptionValues(suboptionValue);
+				}
+			}
+			if (!isSomeOptionNotdisabled) isEveryCategoryContainsOneOptionNotdisabled = false;
+		}
+		if (optionValue.option)
+		{
+			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
+			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
+		}
 	}
 
 	updateProductsRepresentation() 
@@ -309,9 +313,9 @@ export class Element
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
-		let optionstoDisplay = this.getCatgeoriesRepresentation();
+		let optionstoDisplay = this.getIconsToDisplay();
 
-		console.log(this.optionTree.children[0]);
+		//console.log(this.optionTree.children[0]);
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{
@@ -319,8 +323,8 @@ export class Element
 			showDistance: App.geocoder.getLocation() ? true : false,
 			listingMode: App.mode == AppModes.List, 
 			optionsToDisplay: optionstoDisplay,
-			mainOptionToDisplay: optionstoDisplay[0], 
-			otherOptionsToDisplay: optionstoDisplay.slice(1),  
+			mainOptionValueToDisplay: optionstoDisplay[0], 
+			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
 			mainCategoryValue : this.optionTree.children[0],
 		});

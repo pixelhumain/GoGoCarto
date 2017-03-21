@@ -9,6 +9,7 @@ export class OptionValue
 	index : number;
 	description : string;
 	option_ : Option = null;
+	isFilledByFilters : boolean;
 
 	children : CategoryValue[] = [];
 
@@ -23,6 +24,18 @@ export class OptionValue
 	{
 		if (this.option_) return this.option_;
 		return this.option_ = App.categoryModule.getOptionById(this.optionId);
+	}
+
+	setRecursivelyFilledByFilters(bool : boolean)
+	{
+		this.isFilledByFilters = bool;
+		for(let categoryValue of this.children)
+		{
+			for (let suboptionValue of categoryValue.children)
+			{
+				suboptionValue.setRecursivelyFilledByFilters(bool);
+			}
+		}
 	}
 
 	get categoryOwner() : Category

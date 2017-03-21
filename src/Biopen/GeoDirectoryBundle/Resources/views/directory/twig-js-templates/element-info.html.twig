@@ -8,7 +8,7 @@
     data-element-id="{{ element.id }}">
 
   {# HEADER #}
-  <div class="collapsible-header bgdSoftColorAs" option-id={{element.colorOptionId}}>
+  <div class="collapsible-header bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>
     
     {# Header Title #}
     <div class='collapsible-header-title row'> 
@@ -16,7 +16,7 @@
       <span class="col s12 name">
 
         {# Icons #}
-        <span class="element-main-icon icon {{mainOptionToDisplay.icon}} hideOnLargeScreen"></span>
+        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
@@ -27,7 +27,7 @@
         <span class="icon icon-close" id="btn-close-bandeau-detail"></span>
         {% if showDistance and element.distance != null %}
           <span class="right-align distance">~ {{ element.distance }} km</span>
-        {% endif %}  
+        {% endif %}
 
         {# Name #}
         {{ element.name|capitalize }}
@@ -44,13 +44,12 @@
 
       {# Products litteral #}
       <span class="products col s8 hideOnLargeScreen">
-        {{ mainOptionToDisplay.name|capitalize }} 
-        {% if otherOptionsToDisplay.length != 0 %}, {% endif %}
+        {{ mainOptionValueToDisplay.option.name|capitalize }} 
+        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}
 
-        {% for option in otherOptionsToDisplay %} 
-            {% set isDisabled = option.isDisabled ? 'disabled' : '' %}
-            <span class="product {{isDisabled}}">{{ option.name|capitalize }} </span>
-            {% if not loop.last %}, {% endif %}
+        {% for optionValue in otherOptionsValuesToDisplay %} 
+            {% set isDisabled = optionValue.isFilledByFilters ? '' : 'disabled' %}
+            <span class="product {{isDisabled}}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}
 
       </span>
@@ -76,7 +75,7 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element bgdSoftColorAs" option-id={{element.colorOptionId}}>  
+      <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 

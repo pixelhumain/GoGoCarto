@@ -48,12 +48,6 @@ export class FilterModule
 			let mainOption = App.categoryModule.getCurrMainOption();			
 			let isPassingFilters = this.recursivelyCheckedInOption(mainOption, element);
 
-			// if (isPassingFilters && mainOption.showOpenHours && element.openhours.length > 0)
-			// {
-			// 	// TODO check for openhours
-			// 	// element.openhours.some in openhoursarray
-			// }
-
 			return isPassingFilters;
 		}		
 	}

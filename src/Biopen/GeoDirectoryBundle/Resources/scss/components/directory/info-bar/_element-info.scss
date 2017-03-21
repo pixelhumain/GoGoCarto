@@ -136,7 +136,11 @@
 				&.main-option { font-weight : bold }
 			}
 
-			.inline-option { font-style: italic;}
+			.inline-option 
+			{ 
+				font-style: italic;
+				span.disabled { color: #9C9C9C; }
+			}
 
 			.option-description 
 			{ 
