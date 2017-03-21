@@ -141,25 +141,15 @@
 
       </div>
       <div class="divider"></div>
+      
+      {# Categories  #}
+      <h3>Les catégories</h3> 
+      <div class="section row categories">
+        
+        {% include '@directory/directory/twig-js-templates/element-info-category-value.html.twig' with { 'categoryValue' : mainCategoryValue, 'subcategoriesCount' : 1 } %}  
 
-      {# Products #}
-      {% if element.type != 'epicerie' %}
-        <h3>Les produits</h3>   
-        <div class="section sectionDetailProducts"> 
-          {% for option in optionsToDisplay %} 
-            {% set isDisabled = option.isDisabled ? 'disabled' : '' %}
-            <div class='row {% if loop.first %}strong{% endif %}'>
-              <span class="col s6 m4 product {{ isDisabled }}">
-                <span class="icon {{ option.icon }} {{ isDisabled }}"></span>            
-                <span class="option-name">{{ option.nameShort|capitalize }}</span> 
-              </span>
-              <span class="col s6 m8 detail {{ isDisabled }}">{{ option.description }}</span>
-            </div>
-          {% endfor %}          
-
-        </div>       
-        <div class="divider"></div>
-      {% endif %}
+      </div>
+      <div class="divider"></div>
 
       {# Open Hours #}
       <h3>Horaires d'ouverture</h3>   

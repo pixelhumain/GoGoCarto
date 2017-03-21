@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-19 09:40:27
+ * @Last Modified time: 2017-03-21 14:33:55
  */
  
 
@@ -61,7 +61,7 @@ class RandomCreationController extends Controller
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
-	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element);
+	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
 	      $new_element->setContributor('true');
 	      $new_element->setContributorMail('contributor@gmail.com');		
@@ -76,7 +76,7 @@ class RandomCreationController extends Controller
 	    return new Response('Elements générés');
   }
 
-  private function recursivelyCreateOptionsforCategory($category, $element)
+  private function recursivelyCreateOptionsforCategory($category, $element, $lipsum)
   {
   	$nbreOptionsSet = [
 	  1 => 0.7,
@@ -98,12 +98,17 @@ class RandomCreationController extends Controller
    	$optionValue->setOptionId($option->getId());	
    	$optionValue->setIndex($j); 
 
+   	if ($category->getEnableDescription())
+   	{
+   		$optionValue->setDescription($lipsum->words(rand(3,10)));
+   	}
+
    	$element->addOptionValue($optionValue);
 
    	// for each subcategory
    	for($k = 0; $k < count($option->getSubcategories()); $k++)
    	{
-   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element);
+   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element, $lipsum);
    	}     	
    }
   }

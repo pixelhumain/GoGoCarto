@@ -1,0 +1,64 @@
+{% twig_js name="biopen_twigJs_category_value" %}
+
+{% set displayThisCategoryValue = categoryValue.children.length > 1 %}
+
+{% if displayThisCategoryValue %}
+	<div class="category-wrapper">
+	{% if subcategoriesCount > 1 %}
+		<div class="category-name">{{ categoryValue.category.name }}</div>
+		{% endif %}
+{% endif %}
+
+{% for optionValue in categoryValue.children %}
+
+	{% if displayThisCategoryValue %}
+
+		<!-- if subcategory.last children, prendre first categorie qui est pas avec description, puis enelevr cette categorie de la liste
+		des catégories-->
+
+		{% set displayFirstCategoryInline = not categoryValue.category.enableDescription 
+																		and optionValue.children.length > 0 
+																		and optionValue.children[0].isLastCategoryDepth 
+																		and not optionValue.children[0].category.enableDescription %}
+
+		{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}
+		{% set colWidth = categoryValue.category.enableDescription ? 's6 m4' : 's12' %}
+	  <div class='row {% if loop.first %}strong{% endif %}'>
+	    <span class="option-value col {{ colWidth }} {{ isDisabled }}">
+
+	    	{% set iconClass = optionValue.option.icon ? optionValue.option.icon : 'icon-angle-right' %}	
+				{% if iconClass %}    
+					<span class="icon {{ iconClass }} {{ isDisabled }} colorAs" option-id={{ optionValue.option.id }} ></span>
+				{% endif %}
+				
+	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> 
+
+	      {% if displayFirstCategoryInline %}
+	      	<span class="inline-option">({% for suboptionValue in optionValue.children[0].children %} {{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}{% endfor %})</span>
+	      {% endif %}
+
+	    </span>
+	    {% if categoryValue.category.enableDescription %}
+	    	<span class="col s6 m8 option-description {{ isDisabled }}">{{ optionValue.description|capitalize }}</span>
+	    {% endif %}
+	  </div>
+
+	{% endif %}
+
+	{% set subcategoriesCount = optionValue.children.length %}
+	{% if displayFirstCategoryInline %}{% set subcategoriesCount = subcategoriesCount - 1 %}{% endif %}
+
+	{% for subcategory in optionValue.children %}
+
+		{% if not (loop.first and displayFirstCategoryInline) %}
+			{% include '@directory/directory/twig-js-templates/element-info-category-value.html.twig' with { 'categoryValue' : subcategory, 'subcategoriesCount' : subcategoriesCount } %} 
+		{% endif %}
+
+	{% endfor %} 
+
+{% endfor %} 
+
+{% if displayThisCategoryValue %}
+	<!-- div end for category-wrapper -->
+	</div>
+{% endif %}

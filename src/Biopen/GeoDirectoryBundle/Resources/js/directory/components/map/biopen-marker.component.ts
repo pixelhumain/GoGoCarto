@@ -114,7 +114,7 @@ export class BiopenMarker
 			this.updatePolyline({lineType: lineType});
 		}
 
-		let optionstoDisplay = element.iconsToDisplay;
+		let optionstoDisplay = element.getIconsToDisplay();
 
 		// If usecolor and useIcon, we don't show others icons
 		// if (optionstoDisplay[0])

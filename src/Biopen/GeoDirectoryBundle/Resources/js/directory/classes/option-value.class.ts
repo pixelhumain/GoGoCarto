@@ -1,6 +1,5 @@
-import { Category } from "./category.class";
 import { AppModule } from "../app.module";
-import { Option } from "./option.class";
+import { Category, Option, CategoryValue} from "./classes";
 
 declare let App : AppModule;
 
@@ -17,7 +16,7 @@ export class OptionValue
 	{
 		this.optionId = $optionValueJson.option_id;
 		this.index = $optionValueJson.index;
-		this.description = $optionValueJson.description;
+		this.description = $optionValueJson.description || '';
 	}
 
 	get option() : Option
@@ -37,18 +36,3 @@ export class OptionValue
 	}
 }
 
-export class CategoryValue
-{
-	category : Category;
-	children : OptionValue[] = [];
-
-	constructor(category : Category)
-	{
-		this.category = category;
-	}
-
-	addOptionValue(optionValue : OptionValue)
-	{
-		this.children.push(optionValue);
-	}
-}

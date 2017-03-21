@@ -5,14 +5,12 @@
 	h3
 	{
 		font-size: 1rem;
-	    font-weight: 600;
-	    padding-left: 0.75rem;
-	    margin-bottom: 0;
-	    padding-top: 1rem;
-    	margin-top: 0;
-	}	
-
-	.strong { text-decoration: underline }	
+    font-weight: 600;
+    padding-left: 0.75rem;
+    margin-bottom: 0;
+    padding-top: 1rem;
+  	margin-top: 0;
+	}		
 
 	.btn
 	{
@@ -39,10 +37,10 @@
 			font-weight: bold;
 
 			.distance 
-		    { 
-		        float: right; 
-		        margin: 0 1rem;
-		    }   
+	    { 
+	        float: right; 
+	        margin: 0 1rem;
+	    }   
 
 			/* @extend .colorAs; */
 		}
@@ -102,27 +100,74 @@
 		/* .categorie { text-decoration: underline; } */
 		.description{ text-align: justify; }
 
-		.sectionDetailProducts
+		.section.categories
 		{
-			.detail 
+			h3 { margin-bottom: 1rem; }
+		}
+
+		.category-wrapper 
+		{
+			.strong { text-decoration: underline }	
+
+			// a category inside an other, so we add margin
+			.category-wrapper 
+			{
+				margin-left: 1.2rem;
+    		padding-left: .5rem;
+	    	border-left: 1px dotted #c3c3c3;
+	    	margin-bottom: .5rem;
+
+	    	// underline juste first option in option Tree
+	    	.strong { text-decoration: none !important }	
+			}
+
+			.category-name 
+			{ 
+				text-transform: uppercase;
+		    padding-left: .8rem;
+		    font-weight: 600;
+		    font-size: .85rem;
+		    padding-bottom: .5rem;
+			}
+
+			.option-name 
+			{
+				text-decoration:inherit ;
+				&.main-option { font-weight : bold }
+			}
+
+			.inline-option { font-style: italic;}
+
+			.option-description 
 			{ 
 				padding: .5rem; 
 				text-decoration:inherit; 
+				font-style: italic;
+		    font-size: .9rem;
+		    color: #5d5d5d;
+
 				&.disabled { color: #9C9C9C; }				
 			}
-			.option-name {text-decoration:inherit }
-			.product 
+			
+			.option-value
 			{ 
 				line-height: 2.5rem; 
 				text-decoration:inherit;
 				padding-left: .6rem;
-    			padding-right: 0;
+  			padding-right: 0;
 
-    			.icon.disabled { color:#BFBFBF; }
+  			.icon 
+  			{ 
+  				font-size: 20px; 
+  				&.icon-marker { font-size : 19px } 
+  				&.disabled { color:#BFBFBF !important; }
+  			}  			
 
-    			&.disabled { color: #9C9C9C; }
+  			&.disabled { color: #9C9C9C !important; }
 			}
-		}	
+
+
+		}		
 	}
 }
 
@@ -131,8 +176,7 @@
 	#element-info-bar .element-item
 	{
 		.collapsible-header
-	    {
-	        
+	    {	        
 	        //background-color: $secondary-color;//$submenu-color;
 	        color: white;
 	        cursor: default;

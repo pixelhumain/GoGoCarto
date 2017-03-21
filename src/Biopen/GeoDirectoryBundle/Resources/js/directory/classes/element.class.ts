@@ -9,9 +9,7 @@
  */
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
-import { Option } from "./option.class";
-import { Category } from "./category.class";
-import { OptionValue, CategoryValue } from "./option-value.class";
+import { OptionValue, CategoryValue, Option, Category } from "./classes";
 
 declare let App : AppModule;
 declare var $;
@@ -36,7 +34,7 @@ export class Element
 	optionValuesByCatgeory : OptionValue[][] = [];
 
 	colorOptionId : number;
-	iconsToDisplay : Option[] = [];
+	private iconsToDisplay : Option[] = [];
 	optionTree : OptionValue;
 
 	distance : number;
@@ -218,39 +216,51 @@ export class Element
 		return null;
 	}
 
-	updateIconsToDisplay()
+	getIconsToDisplay() : Option[]
 	{
-		
-		if (App.currMainId == 'all')
-			this.iconsToDisplay = this.recursivelyCreateIconsToDisplay(this.optionTree, false);
-		else
-			this.iconsToDisplay = this.recursivelyCreateIconsToDisplay(this.getCurrMainOptionValue());
-
-		this.iconsToDisplay.sort( (a,b) => a.isDisabled ? 1 : -1);
+		let result = this.iconsToDisplay;
+		return result.sort( (a,b) => a.isDisabled ? 1 : -1);
 	}
 
-	private recursivelyCreateIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : Option[]
+	updateIconsToDisplay() 
+	{		
+		if (App.currMainId == 'all')
+			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.optionTree, false);
+		else
+			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getCurrMainOptionValue());
+	}
+
+	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true, justTakefirstMatch : boolean = true) : Option[]
 	{
 		if (!parentOptionValue) return null;
 
 		let resultOptions : Option[] = [];
+		let firstMatch : boolean = false;
 
 		for(let categoryValue of parentOptionValue.children)
 		{
 			for(let optionValue of categoryValue.children)
 			{
+				firstMatch = false;
 				if (optionValue.option.useIconForMarker)
 				{
 					resultOptions.push(optionValue.option);
+					firstMatch = true;
 				}
-				else if (recursive)
+				
+				if ((!firstMatch || !justTakefirstMatch) && recursive)
 				{
-					let result = this.recursivelyCreateIconsToDisplay(optionValue);
+					let result = this.recursivelySearchIconsToDisplay(optionValue);
 					if (result != null) resultOptions = resultOptions.concat(result);
 				}
 			}
 		}
 		return resultOptions;
+	}
+
+	getCatgeoriesRepresentation() : Option[]
+	{
+		return this.recursivelySearchIconsToDisplay(this.optionTree, true, false);
 	}
 
 	updateProductsRepresentation() 
@@ -299,7 +309,9 @@ export class Element
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
-		let optionstoDisplay = this.iconsToDisplay;
+		let optionstoDisplay = this.getCatgeoriesRepresentation();
+
+		console.log(this.optionTree.children[0]);
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{
@@ -309,7 +321,8 @@ export class Element
 			optionsToDisplay: optionstoDisplay,
 			mainOptionToDisplay: optionstoDisplay[0], 
 			otherOptionsToDisplay: optionstoDisplay.slice(1),  
-			starNames : starNames
+			starNames : starNames,
+			mainCategoryValue : this.optionTree.children[0],
 		});
 
 		//console.log("Element options", this.getOptionsList().map( (option) => option.name));
