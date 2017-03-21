@@ -50,13 +50,13 @@
 			line-height: 1.5rem; 
 			margin-bottom: .5rem;
 
-			.products 
+			.inline-option-values  
 			{ 
 			    font-weight: bold;
 			    color: #525252;
 			    font-style: italic;
 
-			    .product.disabled { color: #9C9C9C; font-weight: normal; }
+			    .option-value.disabled { color: #9C9C9C; font-weight: normal; }
 			}
 			.description
 			{

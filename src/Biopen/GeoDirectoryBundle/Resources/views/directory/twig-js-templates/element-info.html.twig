@@ -43,13 +43,13 @@
       <span class="description col s12">{{ element.description|capitalize }}</span> 
 
       {# Products litteral #}
-      <span class="products col s8 hideOnLargeScreen">
+      <span class="inline-option-values col s8 hideOnLargeScreen">
         {{ mainOptionValueToDisplay.option.name|capitalize }} 
         {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}
 
         {% for optionValue in otherOptionsValuesToDisplay %} 
             {% set isDisabled = optionValue.isFilledByFilters ? '' : 'disabled' %}
-            <span class="product {{isDisabled}}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
+            <span class="option-value {{ isDisabled }}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}
 
       </span>

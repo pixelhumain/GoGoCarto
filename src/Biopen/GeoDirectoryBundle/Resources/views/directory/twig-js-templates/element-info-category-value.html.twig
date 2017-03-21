@@ -21,14 +21,14 @@
 																		and optionValue.children[0].isLastCategoryDepth 
 																		and not optionValue.children[0].category.enableDescription %}
 
-		{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}
+		{#{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}#}
 		{% set colWidth = categoryValue.category.enableDescription ? 's6 m4' : 's12' %}
 	  <div class='row {% if loop.first %}strong{% endif %}'>
-	    <span class="option-value col {{ colWidth }} {{ isDisabled }}">
+	    <span class="option-value col {{ colWidth }}">
 
 	    	{% set iconClass = optionValue.option.icon ? optionValue.option.icon : 'icon-angle-right' %}	
 				{% if iconClass %}    
-					<span class="icon {{ iconClass }} {{ isDisabled }} colorAs" option-id={{ optionValue.option.id }} ></span>
+					<span class="icon {{ iconClass }} colorAs" option-id={{ optionValue.option.id }} ></span>
 				{% endif %}
 				
 	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> 
@@ -36,7 +36,7 @@
 	      {% if displayFirstCategoryInline %}
 	      	<span class="inline-option">(
 	      		{% for suboptionValue in optionValue.children[0].children %} 
-	      			<span class={{ suboptionValue.option.isDisabled ? 'disabled' : ''}}>{{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}</span> 
+	      			<span>{{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}</span> 
 	      			
 	      	{% endfor %})
 	      </span>
@@ -44,7 +44,7 @@
 
 	    </span>
 	    {% if categoryValue.category.enableDescription %}
-	    	<span class="col s6 m8 option-description {{ isDisabled }}">{{ optionValue.description|capitalize }}</span>
+	    	<span class="col s6 m8 option-description">{{ optionValue.description|capitalize }}</span>
 	    {% endif %}
 	  </div>
 
