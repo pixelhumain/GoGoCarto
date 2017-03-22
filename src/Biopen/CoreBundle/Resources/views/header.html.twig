@@ -26,16 +26,17 @@
 				<a href="{{ path('biopen_partners') }}">Partenaires</a>  
 			</div>	
                        
-            <div class="col menu-item">
-                <a id='btn-about' class='dropdown-button' data-activates='listAbout'>A propos</a>                        
-                    <ul id='listAbout' class='dropdown-content'>
-                    	
-                        {% for about in listAbouts %}
-                        <li class="name"><a class="abt" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
-                        <li class="divider"></li>
-                    {% endfor %}            
-                    </ul>
-            </div>
+      <div class="col menu-item dropdown-button" data-activates='listAbout'>
+        <a id='btn-about'>A propos</a> 
+        <div class="arrow-after"></div>                
+      </div>
+      <ul id='listAbout' class='dropdown-content'>        	
+        
+        {% for about in listAbouts %}
+        	<li class="divider"></li>
+          <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
+      	{% endfor %}            
+      </ul>
 		
 	    </div>
 	</div>

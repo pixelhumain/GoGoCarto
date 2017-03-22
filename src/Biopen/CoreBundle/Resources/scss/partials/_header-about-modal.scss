@@ -1,0 +1,27 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-22 16:36:09
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-22 16:55:00
+*/
+.modal.about-modals
+{
+	background-color: #444 !important; 
+
+	.modal-content.about-modals
+	{		
+		color: white;
+
+		.modal-about-footer
+		{
+			text-align: right;
+
+			button
+			{
+				background-color: #de5a5f;
+				color: white;
+				&:hover{ background-color: #ec787d }
+			}
+		}
+	}	
+}

@@ -1,0 +1,75 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-22 17:36:44
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-22 18:12:41
+*/
+@import '../../../GeoDirectoryBundle/Resources/scss/modules/color';
+@import '../../../GeoDirectoryBundle/Resources/scss/modules/normalize';
+@import '../../../GeoDirectoryBundle/Resources/scss/modules/prefixer';
+@import '../../../GeoDirectoryBundle/Resources/scss/modules/variables';
+@import '../../../GeoDirectoryBundle/Resources/scss/vendors/materialize';
+@import '../../../GeoDirectoryBundle/Resources/scss/components/commons/scroll-bar';
+
+body
+{
+  background-color: $secondary-color;
+  height: auto;
+  min-height: 100%;
+}
+
+h1
+{
+  
+  font-size: 2.5rem;
+  text-align: center;
+  margin-top: .5rem;
+}
+
+#page-content
+{
+	position:relative;
+  margin-top: 0;
+	margin-left: auto;
+  margin-right: auto; 
+  min-height: 121px;
+	width:100%;	
+  background-color : #fafafa;
+  padding: 2rem; 
+
+  @media screen and (min-width: 600px)
+	{
+	   margin-top: 20px;
+	   max-width: 900px;
+	   width:80%;  
+	}
+}
+.partners-container
+{
+
+}
+.partner-item
+{
+	
+	.image-container
+	{
+		padding-top: 1.5rem;
+
+		img { width: 100%; }
+	}
+
+	.partner-text
+	{
+		h3 
+		{     
+			font-weight: bold;
+		  font-size: 1rem;
+		  margin: 0.5rem 0 1.3rem 0;
+		  color: #3d3d3d;
+		  text-transform: uppercase;
+		}
+		padding: 1rem;
+		font-size: .9rem;
+		color:  #3d3d3d;
+	}
+}

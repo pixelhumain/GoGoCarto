@@ -2,16 +2,18 @@
 
 {% for about in listAbouts %}
 
-<div id="popup-{{about.id}}"  class="modal" style="background-color: {{about.backgroundColor}}">
-    <div class="modal-content">
-        <h3 id="modal-title">{{ about.name }}</h3>
-	    <p>{{ about.content }}</p>  
+<div id="popup-{{about.id}}"  class="modal about-modals custom-scroll-bar-light" style="background-color: {{about.backgroundColor}}">
+    <div class="modal-content about-modals">
+        <h3 id="modal-title">{{ about.name | raw }}</h3>
+	    	<p>{{ about.content | raw }}</p>  
 		
+		<div class="modal-about-footer">
 		<button type="button"
 				onclick="$('#popup-{{about.id}}').closeModal()"  
 				class="btn waves-effect waves-light">
-			Compris!
+			OK!
 		</button>
+		</div>
 
     </div>
 </div>
