@@ -207,7 +207,7 @@ export class Element
 
 	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : OptionValue[]
 	{
-		if (!parentOptionValue) return null;
+		if (!parentOptionValue) return [];
 
 		let resultOptions : OptionValue[] = [];		
 
@@ -215,12 +215,12 @@ export class Element
 		{
 			for(let optionValue of categoryValue.children)
 			{
-				let result = null;
+				let result = [];
 				
 				if (recursive)
 				{
-					result = this.recursivelySearchIconsToDisplay(optionValue);
-					if (result != null) resultOptions = resultOptions.concat(result);
+					result = this.recursivelySearchIconsToDisplay(optionValue) || [];
+					resultOptions = resultOptions.concat(result);
 				}
 
 				if (result.length == 0 && optionValue.option.useIconForMarker)
