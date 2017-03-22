@@ -44,8 +44,9 @@
 
       {# Products litteral #}
       <span class="inline-option-values col s8 hideOnLargeScreen">
-        {{ mainOptionValueToDisplay.option.name|capitalize }} 
-        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}
+         {% set isDisabled = mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' %}
+        <span class="option-value {{ isDisabled }}">{{ mainOptionValueToDisplay.option.name|capitalize }} 
+        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}</span>
 
         {% for optionValue in otherOptionsValuesToDisplay %} 
             {% set isDisabled = optionValue.isFilledByFilters ? '' : 'disabled' %}
@@ -75,7 +76,7 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.ownerColorId}}>  
+      <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 

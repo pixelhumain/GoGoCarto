@@ -143,7 +143,7 @@ export class ElementsModule
 
 	updateCurrentsElements()
 	{
-		//console.log("clearCurrElements");
+		//console.log("UpdateCurrElements");
 		let l = this.currVisibleElements().length;
 		while(l--)
 		{

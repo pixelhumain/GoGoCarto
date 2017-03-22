@@ -35,7 +35,7 @@ export class Element
 
 	colorOptionId : number;
 	private iconsToDisplay : OptionValue[] = [];
-	optionTree : OptionValue;
+	private optionTree : OptionValue;
 
 	distance : number;
 
@@ -108,7 +108,7 @@ export class Element
 
 	show() 
 	{		
-		if (!this.isInitialized_) this.initialize();	
+		this.update();
 		//this.biopenMarker_.update();
 		this.biopenMarker_.show();
 		this.isVisible_ = true;		
@@ -124,8 +124,12 @@ export class Element
 
 	update()
 	{
-		this.updateIconsToDisplay();
-		this.marker.update();
+		if (!this.isInitialized_) this.initialize();	
+		else
+		{
+			this.updateIconsToDisplay();
+			if (this.marker) this.marker.update();
+		}		
 	}
 
 	getCurrOptionsValues() : OptionValue[]
@@ -154,6 +158,13 @@ export class Element
 		let mainCategory = App.categoryModule.mainCategory;
 
 		this.recusivelyCreateOptionTree(mainCategory, this.optionTree);
+	}
+
+	getOptionTree()
+	{
+		if (this.optionTree) return this.optionTree;
+		this.createOptionsTree();
+		return this.optionTree;
 	}
 
 	private recusivelyCreateOptionTree(category : Category, optionValue : OptionValue)
@@ -195,14 +206,16 @@ export class Element
 
 	updateIconsToDisplay() 
 	{		
+		this.checkForDisabledOptionValues();
+
 		if (App.currMainId == 'all')
-			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.optionTree, false);
+			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getOptionTree(), false);
 		else
 			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getCurrMainOptionValue());
 
 		this.colorOptionId = this.getIconsToDisplay().length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
-		this.checkForDisabledOptionValues();
-		//console.log("Icons to display", this.iconsToDisplay);
+		
+		//console.log("Icons to display sorted", this.getIconsToDisplay());
 	}
 
 	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : OptionValue[]
@@ -236,7 +249,7 @@ export class Element
 
 	checkForDisabledOptionValues()
 	{
-		this.recursivelyCheckForDisabledOptionValues(this.optionTree);
+		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree());
 	}
 
 	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue)
@@ -250,18 +263,21 @@ export class Element
 			{
 				if (suboptionValue.children.length == 0)
 				{
-					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;
-					if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
+					//console.log("bottom option " + suboptionValue.option.name,suboptionValue.option.isChecked );
+					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;					
 				}
 				else
 				{
 					this.recursivelyCheckForDisabledOptionValues(suboptionValue);
 				}
+				if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
 			}
 			if (!isSomeOptionNotdisabled) isEveryCategoryContainsOneOptionNotdisabled = false;
 		}
+
 		if (optionValue.option)
 		{
+			//console.log("OptionValue " + optionValue.option.name + "isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
 			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
 			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
 		}
@@ -310,12 +326,13 @@ export class Element
 
 	getHtmlRepresentation() 
 	{	
+		this.update();	
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 
 		let optionstoDisplay = this.getIconsToDisplay();
 
-		//console.log(this.optionTree.children[0]);
+		//console.log("GetHtmlRepresentation " + this.distance + " km", this.getOptionTree().children[0]);
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
 		{
@@ -326,114 +343,13 @@ export class Element
 			mainOptionValueToDisplay: optionstoDisplay[0], 
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
-			mainCategoryValue : this.optionTree.children[0],
+			mainCategoryValue : this.getOptionTree().children[0],
 		});
 
-		//console.log("Element options", this.getOptionsList().map( (option) => option.name));
-		//console.log("Element options", this.getOptionsList());
 		
 		this.htmlRepresentation_ = html;				
 		return html;
 	};
-
-	getOptionsList() : Option[]
-	{
-		let currMainId = App.currMainId;
-
-		let optionListTree = [];
-
-		this.optionsValues.filter( (optionValue) => optionValue.option.isMainOption());
-
-
-
-		let sorted = this.optionsValues.sort( (a ,b) => 
-		{
-			if (a.option.isDisabled == b.option.isDisabled)
-			{
-				return a.option.depth - b.option.depth || a.index - b.index;				
-			}
-			else return a.option.isDisabled ? 1 : -1;
-			
-		}).map( (optionValue) => 
-		{
-			let option : any = optionValue.option;
-			// add description attribute
-			option.description = optionValue.description || '';
-			return option;
-		});
-
-		//console.log("getOptionstoDisplay", sorted);
-
-		return sorted;
-	}
-
-	// getProductsNameToDisplay()
-	// {
-
-	// 	this.updateProductsRepresentation();
-
-
-
-	// 	this.productsToDisplay_.main = [];
-	// 	this.productsToDisplay_.others = [];
-	// 	let productName;
-
-	// 	if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
-	// 	{
-	// 		this.productsToDisplay_.main.value = this.mainProduct;				
-	// 		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
-	// 	}		
-
-	// 	let productIsDisabled;
-	// 	for(let i = 0; i < this.products.length;i++)
-	// 	{
-	// 		productName = this.products[i].nameFormate;
-	// 		productIsDisabled = this.products[i].disabled;
-	// 		if (productName != this.productsToDisplay_.main.value)
-	// 		{
-	// 			// si le main product est disabled, on choppe le premier produit
-	// 			// non disable et on le met en produit principal
-	// 			if (!productIsDisabled && !this.productsToDisplay_.main.value)
-	// 			{
-	// 				this.productsToDisplay_.main.value = productName;				
-	// 				this.productsToDisplay_.main.disabled = productIsDisabled;				
-	// 			}
-	// 			else
-	// 			{
-	// 				this.pushToProductToDisplay(productName, productIsDisabled);
-	// 			}				
-	// 		}			
-	// 	}
-
-	// 	// si on a tjrs pas de mainProduct (ils sont tous disabled)
-	// 	if (!this.productsToDisplay_.main.value)	
-	// 	{
-	// 		this.productsToDisplay_.main.value = this.mainProduct;				
-	// 		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;
-
-	// 		this.productsToDisplay_.others.splice(0,1);
-	// 	}	
-
-	// 	this.productsToDisplay_.others.sort(this.compareProductsDisabled);	
-
-	// 	return this.productsToDisplay_;
-	// };
-
-	// private compareProductsDisabled(a,b) 
-	// {  
-	//   if (a.disabled == b.disabled) return 0;
-	//   return a.disabled ? 1 : -1;
-	// }
-
-
-
-	// pushToProductToDisplay(productName, disabled)
-	// {
-	// 	let new_product : any = {};
-	// 	new_product.value = productName;
-	// 	new_product.disabled = disabled;
-	// 	this.productsToDisplay_.others.push(new_product);
-	// };
 
 	// getFormatedOpenHourss() 
 	// {		

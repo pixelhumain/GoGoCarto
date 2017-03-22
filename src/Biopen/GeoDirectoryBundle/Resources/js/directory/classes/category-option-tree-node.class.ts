@@ -1,4 +1,4 @@
-import { AppModule } from "../app.module";
+import { AppModule, AppModes } from "../app.module";
 import { Option } from "./option.class";
 
 declare let App : AppModule;
@@ -94,8 +94,8 @@ export class CategoryOptionTreeNode
 			{
 				if (this.getOwner()) this.getOwner().updateState();
 
+				if (App.mode == AppModes.Map) App.elementModule.updateCurrentsElements();
 				App.elementModule.updateElementToDisplay(check);
-				App.elementModule.updateCurrentsElements();
 				App.historyModule.updateCurrState();
 			}
 	}
