@@ -6,22 +6,24 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\CoreBundle\Document\Partner;
 
-
+use joshtronic\LoremIpsum;
 
 class LoadPartner implements FixtureInterface
 {
   
   public function load(ObjectManager $manager)
   {  
-    $names = array('SUPAERO','COLIBRIS','EMMAUS','PARTENAIRE1','PARTENAIRE2');
-    for($i=0; $i<5; $i++)
+    $lipsum = new LoremIpsum();  
+
+    $names = array('colibris','Le marché citoyen','supaéro','Alternatiba');
+    foreach ($names as $key => $name) 
     {
       $new_partner = new Partner();
-      $name = $names[$i];
+
       $new_partner->setName($name); 
-      $new_partner->setContent('Bonjour je suis un partenaire');
-      $new_partner->setLogoUrl("www.". $name . "-logo.com");
-      $new_partner->setWebsiteUrl("www.". $name . ".com");
+      $new_partner->setContent($lipsum->words(rand(30,100)));
+      $new_partner->setLogoUrl("http://lorempixel.com/300/300/abstract/" . $key);
+      $new_partner->setWebsiteUrl("www.partenaire.com");
       $manager->persist($new_partner);
     }  
      
