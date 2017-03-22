@@ -30,6 +30,7 @@ export class SearchBarComponent
 			if(e.keyCode == 13) // touche entrée
 			{ 			 
 				this.handleSearchAction();
+				console.log(this.domId);
 			}
 		});
 

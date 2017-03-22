@@ -174,9 +174,5 @@ class DirectoryController extends Controller
     {
         return $mode == 'carte' ? 'Map' : 'List';
     }
-
-     
   
-
-    
 }

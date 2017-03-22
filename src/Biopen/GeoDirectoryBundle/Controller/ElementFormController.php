@@ -51,7 +51,7 @@ class ElementFormController extends Controller
 					array(
 						'editMode' => false,
 						'form' => $form->createView(),
-						'listProducts'=> $listProducts 
+						'listProducts'=> $listProducts,
 					));
   } 
 
