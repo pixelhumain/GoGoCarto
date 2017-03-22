@@ -24,21 +24,13 @@ export class Request
 	elementIds : number[];
 	maxResults : number;  
 
-	constructor(lat : number, lng : number, distance :number, maxResults : number, allIds : number[])
+	constructor(lat : number, lng : number, distance :number, maxResults : number)
 	{
 		this.originLat = lat;
 		this.originLng = lng;
 		this.distance = distance;
-		this.elementIds = allIds;
 		this.maxResults = maxResults;
 	};
-
-	update()
-	{
-		if (!this) return;
-		this.elementIds = App.elementModule.getAllElementsIds();
-		return this;
-	}
 }
 
 export class AjaxModule
@@ -68,9 +60,9 @@ export class AjaxModule
 		// there is a limit in ajax data, we can not send more thant a thousand ids
 		// so for the moment is quite useless to send theses id. See if we manage to
 		// change server config to send more thant 1000 ids;
-		let $allIds = App.elementModule.getAllElementsIds();
+		//let $allIds = App.elementModule.getAllElementsIds();
 
-		this.getElements(new Request($location.lat, $location.lng, $distance, $maxResults, $allIds));
+		this.getElements(new Request($location.lat, $location.lng, $distance, $maxResults));
 	}
 
 	private getElements($request : Request)
@@ -96,7 +88,6 @@ export class AjaxModule
 				originLat : $request.originLat,
 				originLng : $request.originLng,
 				distance  : $request.distance,
-				elementIds : $request.elementIds,
 				maxResults : $request.maxResults,
 			},
 			beforeSend: () =>
@@ -121,8 +112,7 @@ export class AjaxModule
 					//console.log("   moreElementsToReceive");
 					if (!this.requestWaitingToBeExecuted) 
 					{        			
-						let req = this.currRequest.update();
-						this.getElements(req);
+						this.getElements(this.currRequest);
 					}
 				}	        
 			},

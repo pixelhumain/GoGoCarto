@@ -2,62 +2,116 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-02 09:13:55
+* @Last Modified time: 2017-03-13 11:28:04
 */
+
 .subcategory-item
 {
-	//text-align: center;
 	position: relative;
   line-height: 3rem;
   padding-top: .5rem;
-  padding-left: .8rem;
+  padding-left: 1rem;
   font-weight: bold;
   font-size: .95rem;
-  //background-color: $submenu-color;
-  //color: white;
   text-transform: uppercase;
 
   border-top: 2px dashed #eeeeee;
   margin-top: 1rem;  
 
-	.checkbox-wrapper
-	{
-		float: right;
-    position: absolute;
-    top: .7rem;
-    right: -2px;
-
-    .subcategorie-checkbox
-		{
-			+ label:after
-			{
-				top: 10px !important;
-		    width: 17px;
-		    height: 17px;
-		    color : #717171;
-		    background-color: #717171;
-		    border: 2px solid ;		    
-			}
-			
-			+ label:before
-			{
-				top: 10px;
-		    left: 1px;
-		    width: 6px;
-		    height: 11px;
-			}
-
-			&:not(:checked) + label:after 
-			{
-				background-color: transparent;
-			}
-		}
-	}
+  &:not(.expanded) { margin-bottom: -.7rem; }
 
   &.first
   {
   	margin-top: .6rem;
   }
+
+  .name-wrapper
+  {
+  	margin-right: 3rem;
+  	height: 3rem;
+    overflow: hidden;
+
+  	.arrow-after
+		{
+			display: inline-block;
+	    margin-left: 1rem;
+    	margin-bottom: -2px;
+	    border: solid 5px;
+	    border-color: #272626 transparent transparent transparent;
+	  }
+
+	  &:hover
+	  {
+	  	cursor: pointer;
+	  	color: $primary-color;
+	  	.arrow-after { border-color: $primary-color transparent transparent transparent; }
+	  }
+  }
+
+  .checkbox-wrapper
+	{
+		width: 3rem;
+		position: absolute;
+    right: 0;
+    top: .5rem;
+    bottom: 0;
+
+    &:hover
+    {
+    	cursor: pointer;
+    	//.checkbox-container .subcategorie-checkbox + label:after { color: $primary-color; background-color:$primary-color; }
+    }
+
+		.checkbox-container
+		{
+	    position: absolute;
+	    top: 2px;
+    	right: 0px;
+
+	    .subcategorie-checkbox
+			{
+				+ label:after
+				{
+					top: 9px !important;
+			    width: 17px;
+			    height: 17px;
+			    color : #717171;
+			    background-color: #717171;
+			    border: 2px solid ;	
+			    @include transition(all .3s);	    
+				}
+				
+				+ label:before
+				{
+					top: 9px;
+			    left: 1px;
+			    width: 6px;
+			    height: 11px;
+				}
+
+				&:not(:checked) + label:after 
+				{
+					background-color: transparent;
+				}
+			}
+		}
+	}
+
+	&.disabled 
+  {
+  	.icon { color: $option-disabled-color; }
+
+  	color: #828282;
+
+  	.subcategorie-checkbox + label:after
+  	{
+  		color: #9a9a9a !important;
+  	}
+
+  	.arrow-after { border-color: #828282 transparent transparent transparent ;}
+  }
+
+  
 
 }
 

@@ -1,34 +1,34 @@
 {% twig_js name="biopen_twigJs_marker" %}
 
-<div class="marker-name {{ element.type }}" style="display:none">{{ element.name | capitalize }}</div>
+<div class="marker-name bgdColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}} style="display:none">{{ element.name | capitalize }}</div>
 
-<div class="marker-wrapper {{ element.type }}" id="marker-{{ element.id }}">
+<div class="marker-wrapper colorAs" option-id="{{mainOptionValueToDisplay.option.ownerColorId}}" id="marker-{{ element.id }}">
 
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
-		<div class="iconInsideMarker {{ productsToDisplay.main.disabled ? 'disabled' : '' }} icon-{{ productsToDisplay.main.value }}">
+		<div class="iconInsideMarker colorAs {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{ mainOptionValueToDisplay.option.icon }}" option-id={{ mainOptionValueToDisplay.optionId }}>
 		</div>
 	</div>
 
-	{% set nbreOthersProducts = productsToDisplay.others.length %}	
+	{% set nbreOthersOptions = otherOptionsValuesToDisplay.length %}	
 
-	{% if nbreOthersProducts > 0 and showMoreIcon %}
+	{% if nbreOthersOptions > 0 and showMoreIcon %}
 
-		{% set widthMoreProduct = nbreOthersProducts * 39 + 5  %}   	
+		{% set widthMoreOption = nbreOthersOptions * 39 + 5  %}   	
 
     	<div class="icon-plus-circle animate rotate"></div>
 
     	<div class="moreIconContainer animate rotate" 
-    		  style="width:{{ widthMoreProduct }}px">
+    		  style="width:{{ widthMoreOption }}px">
     	
-			{% for otherProduct in productsToDisplay.others %}
+			{% for otherOptionValue in otherOptionsValuesToDisplay %}
 
-				{% set disableProduct = otherProduct.disabled ? 'disabled' : '' %}
+				{% set disableOption = otherOptionValue.isFilledByFilters ? '' : 'disabled' %}
 
-				<div class="moreIconWrapper {{ disableProduct }}"
+				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.option.ownerColorId }}
 						style="left:{{ 32 * loop.index0 }}px">
-					<span class="moreIcon iconInsideMarker {{ disableProduct }} icon-{{ otherProduct.value }}">
+					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs" option-id={{ otherOptionValue.optionId }}>
 					</span>
 			 	</div>
 

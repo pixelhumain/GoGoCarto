@@ -74,7 +74,7 @@ export class GeocoderModule
 		else
 		{
 			// fake geocoder when no internet connexion
-			let fake = true;
+			let fake = false;
 
 			if (!fake)
 			{

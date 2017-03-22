@@ -27,7 +27,7 @@ export class InfoBarComponent
 	onShow = new Event<number>();
 	onHide = new Event<boolean>();
 
-	getCurrElementId() : number { return this.elementVisible ? this.elementVisible.id : null}
+	getCurrElementId() : string { return this.elementVisible ? this.elementVisible.id : null}
 
 	private isDisplayedAside()
 	{
@@ -37,8 +37,6 @@ export class InfoBarComponent
 	// App.infoBarComponent.showElement;
 	showElement(elementId) 
 	{
-		
-
 		let element = App.elementModule.getElementById(elementId);
 
 		//console.log("showElement", element);
@@ -56,7 +54,7 @@ export class InfoBarComponent
 		$('#element-info').html(element.getHtmlRepresentation());
 
 		let domMenu = $('#element-info-bar .menu-element');
-		domMenu.removeClass().addClass("menu-element " +element.type);
+		domMenu.attr('option-id', element.colorOptionId);
 
 		updateFavoriteIcon(domMenu, element);
 

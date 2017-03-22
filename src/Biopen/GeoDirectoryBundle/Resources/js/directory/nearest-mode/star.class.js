@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-18 09:21:41
  */
 function Star(name, elementList) 
 {
@@ -99,11 +99,11 @@ Star.prototype.setIndex = function (newIndex)
 	this.index_ = newIndex;
 
   // on met à day le marqueur des deux elements interchangés
-  App.getMarkerModule().getMarkerById(oldElementId).updateIcon();
+  App.getMarkerModule().getMarkerById(oldElementId).update();
 
   var newMarkerRepresentStar = App.getMarkerModule().getMarkerById(this.getElementId());
 
-  newMarkerRepresentStar.updateIcon();
+  newMarkerRepresentStar.update();
   newMarkerRepresentStar.animateDrop();
 
   // on met à day les info elements des deux elements interchangés

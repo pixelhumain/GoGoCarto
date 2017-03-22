@@ -21,7 +21,7 @@ export class DisplayElementAloneModule
 
 	getElement() : Element { return this.elementShownAlone_; }
 
-	begin(elementId : number, panToElementLocation : boolean = true) 
+	begin(elementId : string, panToElementLocation : boolean = true) 
 	{	
 		console.log("DisplayElementAloneModule begin", panToElementLocation);
 

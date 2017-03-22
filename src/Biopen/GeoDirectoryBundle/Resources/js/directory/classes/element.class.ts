@@ -9,15 +9,18 @@
  */
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
+import { OptionValue, CategoryValue, Option, Category } from "./classes";
 
 declare let App : AppModule;
 declare var $;
 declare let Twig : any;
 declare let biopen_twigJs_elementInfo : any;
 
+
+
 export class Element 
 {	
-	readonly id : number;
+	readonly id : string;
 	readonly name : string;
 	readonly position : L.LatLng;
 	readonly address : string;
@@ -25,12 +28,14 @@ export class Element
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
-	readonly products : any[] = [];
+	readonly mainOptionOwnerIds : number[] = [];
 
-	//TODO
-	mainProduct : any;
-	mainProductIsDisabled : boolean;
-	type : any;	
+	optionsValues : OptionValue[] = [];
+	optionValuesByCatgeory : OptionValue[][] = [];
+
+	colorOptionId : number;
+	private iconsToDisplay : OptionValue[] = [];
+	private optionTree : OptionValue;
 
 	distance : number;
 
@@ -58,256 +63,347 @@ export class Element
 		this.id = elementJson.id;
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.lat, elementJson.lng);
-		this.address = elementJson.adresse;
+		this.address = elementJson.address;
 		this.description = elementJson.description;
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
 
-		this.products = [];
-		let product;
-		if (elementJson.type == 'epicerie') 
+		let newOption : OptionValue, ownerId : number;
+		for (let optionValueJson of elementJson.option_values)
 		{
-			product = [];
+			newOption = new OptionValue(optionValueJson);
 
-			product.name = 'Epicerie';
-			product.nameShort = 'Epicerie';
-			product.nameFormate = 'epicerie';
+			//ownerId = newOption.option.mainOwnerId;
+			if (newOption.option.isMainOption()) this.mainOptionOwnerIds.push(newOption.optionId);
+			//if (this.mainOptionOwnerIds.indexOf(ownerId) == -1) 
 
-			this.products.push(product);
-		}
-		else
-		{
-			for (let i = 0; i < elementJson.products.length; i++) 
-			{
-				product = [];
+			this.optionsValues.push(newOption);
 
-				product.name = elementJson.products[i].product.name;
-				product.nameShort = elementJson.products[i].product.name_short;
-				product.nameFormate = elementJson.products[i].product.name_formate;
-				product.descriptif = elementJson.products[i].descriptif;
-				product.disabled = false;
-
-				this.products.push(product);
-			}
+			// put options value in specific easy accessible array for better performance
+			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
+			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
 
-		this.mainProduct = elementJson.main_product;
-		this.mainProductIsDisabled = false;
-		this.type = elementJson.type;	
+		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;	
 
-		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;
-	}
-
-initialize() 
-{		
-	if (!this.isInitialized_) 
-	{
-		this.biopenMarker_ = new BiopenMarker(this.id, this.position);
-		this.isInitialized_ = true;
-	}		
-}
-
-show() 
-{		
-	if (!this.isInitialized_) this.initialize();	
-	//this.biopenMarker_.updateIcon();
-	this.biopenMarker_.show();
-	this.isVisible_ = true;		
-};
-
-hide() 
-{		
-	if (this.biopenMarker_) this.biopenMarker_.hide();
-	this.isVisible_ = false;
-	// unbound events (click etc...)?
-	//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
-};
-
-
-
-updateProductsRepresentation() 
-{		
-	if (App.state !== AppStates.Constellation) return;
-
-	// let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
-	// if (this.isProducteurOrAmap())
-	// {
-	// 	for(let i = 0; i < this.products.length;i++)
-	// 	{
-	// 		productName = this.products[i].nameFormate;			
-
-	// 		if ($.inArray(productName, starNames) == -1)
-	// 		{
-	// 			this.products[i].disabled = true;				
-	// 			if (productName == this.mainProduct) this.mainProductIsDisabled = true;				
-	// 		}	
-	// 		else
-	// 		{
-	// 			this.products[i].disabled = false;				
-	// 			if (productName == this.mainProduct) this.mainProductIsDisabled = false;		
-	// 		}		
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (starNames.length === 0) this.mainProductIsDisabled = true;	
-	// 	else this.mainProductIsDisabled = false;	
-	// }
-};
-
-updateDistance()
-{
-	this.distance = null;
-	if (App.geocoder.getLocation()) 
-		this.distance = App.mapComponent.distanceFromLocationTo(this.position);
-	else if (App.mapComponent.getCenter())
-		this.distance = App.mapComponent.getCenter().distanceTo(this.position);
-	// distance vol d'oiseau, on arrondi et on l'augmente un peu
-	this.distance = this.distance ? Math.round(1.2*this.distance) : null;
-}
-
-getHtmlRepresentation() 
-{	
-	//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
-	let starNames : any[] = [];
-
-	let html = Twig.render(biopen_twigJs_elementInfo, 
-	{
-		element : this, 
-		showDistance: App.geocoder.getLocation() ? true : false,
-		listingMode: App.mode == AppModes.List, 
-		productsToDisplay: this.getProductsNameToDisplay(), 
-		starNames : starNames
-	});
-	
-	this.htmlRepresentation_ = html;				
-	return html;
-};
-
-getProductsNameToDisplay()
-{
-	this.updateProductsRepresentation();
-
-	this.productsToDisplay_.main = [];
-	this.productsToDisplay_.others = [];
-	let productName;
-
-	if (!this.mainProductIsDisabled || !this.isProducteurOrAmap())
-	{
-		this.productsToDisplay_.main.value = this.mainProduct;				
-		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;		
-	}		
-
-	let productIsDisabled;
-	for(let i = 0; i < this.products.length;i++)
-	{
-		productName = this.products[i].nameFormate;
-		productIsDisabled = this.products[i].disabled;
-		if (productName != this.productsToDisplay_.main.value)
-		{
-			// si le main product est disabled, on choppe le premier produit
-			// non disable et on le met en produit principal
-			if (!productIsDisabled && !this.productsToDisplay_.main.value)
-			{
-				this.productsToDisplay_.main.value = productName;				
-				this.productsToDisplay_.main.disabled = productIsDisabled;				
-			}
-			else
-			{
-				this.pushToProductToDisplay(productName, productIsDisabled);
-			}				
-		}			
-	}
-
-	// si on a tjrs pas de mainProduct (ils sont tous disabled)
-	if (!this.productsToDisplay_.main.value)	
-	{
-		this.productsToDisplay_.main.value = this.mainProduct;				
-		this.productsToDisplay_.main.disabled = this.mainProductIsDisabled;
-
-		this.productsToDisplay_.others.splice(0,1);
 	}	
 
-	this.productsToDisplay_.others.sort(this.compareProductsDisabled);	
+	getOptionValueByCategoryId($categoryId)
+	{
+		return this.optionValuesByCatgeory[$categoryId] || [];
+	}	
 
-	return this.productsToDisplay_;
-};
-
-private compareProductsDisabled(a,b) 
-{  
-  if (a.disabled == b.disabled) return 0;
-  return a.disabled ? 1 : -1;
-}
-
-
-
-pushToProductToDisplay(productName, disabled)
-{
-	let new_product : any = {};
-	new_product.value = productName;
-	new_product.disabled = disabled;
-	this.productsToDisplay_.others.push(new_product);
-};
-
-// getFormatedOpenHourss() 
-// {		
-// 	if (this.formatedOpenHours_ === null )
-// 	{		
-// 		this.formatedOpenHours_ = {};
-// 		let new_key;
-// 		for(let key in this.openHours)
-// 		{
-// 			new_key = key.split('_')[1];
-// 			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
-// 		}
-// 	}
-// 	return this.formatedOpenHours_;
-// };
-
-formateDailyTimeSlot(dailySlot) 
-{		
-	if (dailySlot === null)
+	initialize() 
 	{		
-		return 'fermé';
+		if (!this.isInitialized_) 
+		{
+			this.createOptionsTree();
+			this.updateIconsToDisplay();
+
+			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
+			this.isInitialized_ = true;
+		}		
 	}
-	let result = '';
-	if (dailySlot.slot1start)
+
+	show() 
+	{		
+		this.update();
+		//this.biopenMarker_.update();
+		this.biopenMarker_.show();
+		this.isVisible_ = true;		
+	};
+
+	hide() 
+	{		
+		if (this.biopenMarker_) this.biopenMarker_.hide();
+		this.isVisible_ = false;
+		// unbound events (click etc...)?
+		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
+	};
+
+	update()
 	{
-		result+= this.formateDate(dailySlot.slot1start);
-		result+= ' - ';
-		result+= this.formateDate(dailySlot.slot1end);
+		if (!this.isInitialized_) this.initialize();	
+		else
+		{
+			this.updateIconsToDisplay();
+			if (this.marker) this.marker.update();
+		}		
 	}
-	if (dailySlot.slot2start)
+
+	getCurrOptionsValues() : OptionValue[]
 	{
-		result+= ' et ';
-		result+= this.formateDate(dailySlot.slot2start);
-		result+= ' - ';
-		result+= this.formateDate(dailySlot.slot2end);
+		return this.optionsValues.filter( (optionValue) => optionValue.option.mainOwnerId == App.currMainId);
 	}
-	return result;
-};
 
-formateDate(date) 
-{		
-	if (!date) return;
-	return date.split('T')[1].split(':00+0100')[0];
-};
-
-isProducteurOrAmap() 
-{		
-	return ($.inArray( this.type, [ "producteur", "amap" ] ) > -1);
-};
-
-isCurrentStarChoiceRepresentant() 
-{		
-	if ( this.starChoiceForRepresentation !== '')
+	getCurrMainOptionValue() : OptionValue
 	{
-		let elementStarId = App.constellation.getStarFromName(this.starChoiceForRepresentation).getElementId();
-		return (this.id == elementStarId);
+		return this.optionsValues.filter( (optionValue) => optionValue.option.id == App.currMainId).shift();
 	}
-	return false;	
-};
+
+	getCategoriesIds() : number[]
+	{
+		return this.getCurrOptionsValues().map( (optionValue) => optionValue.categoryOwner.id).filter((value, index, self) => self.indexOf(value) === index);
+	}
+
+	getOptionsIdsInCategorieId(categoryId) : number[]
+	{
+		return this.getCurrOptionsValues().filter( (optionValue) => optionValue.option.ownerId == categoryId).map( (optionValue) => optionValue.optionId);
+	}
+
+	createOptionsTree()
+	{
+		this.optionTree = new OptionValue({});
+		let mainCategory = App.categoryModule.mainCategory;
+
+		this.recusivelyCreateOptionTree(mainCategory, this.optionTree);
+	}
+
+	getOptionTree()
+	{
+		if (this.optionTree) return this.optionTree;
+		this.createOptionsTree();
+		return this.optionTree;
+	}
+
+	private recusivelyCreateOptionTree(category : Category, optionValue : OptionValue)
+	{
+		let categoryValue = new CategoryValue(category);
+
+		for(let option of category.options)
+		{
+			let childOptionValue = this.fillOptionId(option.id);
+			if (childOptionValue)
+			{
+				categoryValue.addOptionValue(childOptionValue);
+				for(let subcategory of option.subcategories)
+				{
+					this.recusivelyCreateOptionTree(subcategory, childOptionValue);
+				}
+			}			
+		}
+
+		if (categoryValue.children.length > 0)
+		{
+			categoryValue.children.sort( (a,b) => a.index - b.index);
+			optionValue.addCategoryValue(categoryValue);
+		} 
+	}
+
+	fillOptionId($optionId : number) : OptionValue
+	{
+		let index = this.optionsValues.map((value) => value.optionId).indexOf($optionId);
+		if (index == -1) return null;
+		return this.optionsValues[index];
+	}
+
+	getIconsToDisplay() : OptionValue[]
+	{
+		let result = this.iconsToDisplay;
+		return result.sort( (a,b) => a.isFilledByFilters ? -1 : 1);
+	}
+
+	updateIconsToDisplay() 
+	{		
+		this.checkForDisabledOptionValues();
+
+		if (App.currMainId == 'all')
+			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getOptionTree(), false);
+		else
+			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getCurrMainOptionValue());
+
+		this.colorOptionId = this.getIconsToDisplay().length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
+		
+		//console.log("Icons to display sorted", this.getIconsToDisplay());
+	}
+
+	private recursivelySearchIconsToDisplay(parentOptionValue : OptionValue, recursive : boolean = true) : OptionValue[]
+	{
+		if (!parentOptionValue) return [];
+
+		let resultOptions : OptionValue[] = [];		
+
+		for(let categoryValue of parentOptionValue.children)
+		{
+			for(let optionValue of categoryValue.children)
+			{
+				let result = [];
+				
+				if (recursive)
+				{
+					result = this.recursivelySearchIconsToDisplay(optionValue) || [];
+					resultOptions = resultOptions.concat(result);
+				}
+
+				if (result.length == 0 && optionValue.option.useIconForMarker)
+				{
+					resultOptions.push(optionValue);
+				}
+
+				optionValue
+			}
+		}
+		return resultOptions;
+	}
+
+	checkForDisabledOptionValues()
+	{
+		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree());
+	}
+
+	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue)
+	{
+		let isEveryCategoryContainsOneOptionNotdisabled = true;
+
+		for(let categoryValue of optionValue.children)
+		{
+			let isSomeOptionNotdisabled = false;
+			for (let suboptionValue of categoryValue.children)
+			{
+				if (suboptionValue.children.length == 0)
+				{
+					//console.log("bottom option " + suboptionValue.option.name,suboptionValue.option.isChecked );
+					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;					
+				}
+				else
+				{
+					this.recursivelyCheckForDisabledOptionValues(suboptionValue);
+				}
+				if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
+			}
+			if (!isSomeOptionNotdisabled) isEveryCategoryContainsOneOptionNotdisabled = false;
+		}
+
+		if (optionValue.option)
+		{
+			//console.log("OptionValue " + optionValue.option.name + "isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
+			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
+			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
+		}
+	}
+
+	updateProductsRepresentation() 
+	{		
+		// if (App.state !== AppStates.Constellation) return;
+
+		// let starNames = App.constellation.getStarNamesRepresentedByElementId(this.id);
+		// if (this.isProducteurOrAmap())
+		// {
+		// 	for(let i = 0; i < this.products.length;i++)
+		// 	{
+		// 		productName = this.products[i].nameFormate;			
+
+		// 		if ($.inArray(productName, starNames) == -1)
+		// 		{
+		// 			this.products[i].disabled = true;				
+		// 			if (productName == this.mainProduct) this.mainProductIsDisabled = true;				
+		// 		}	
+		// 		else
+		// 		{
+		// 			this.products[i].disabled = false;				
+		// 			if (productName == this.mainProduct) this.mainProductIsDisabled = false;		
+		// 		}		
+		// 	}
+		// }
+		// else
+		// {
+		// 	if (starNames.length === 0) this.mainProductIsDisabled = true;	
+		// 	else this.mainProductIsDisabled = false;	
+		// }
+	};
+
+	updateDistance()
+	{
+		this.distance = null;
+		if (App.geocoder.getLocation()) 
+			this.distance = App.mapComponent.distanceFromLocationTo(this.position);
+		else if (App.mapComponent.getCenter())
+			this.distance = App.mapComponent.getCenter().distanceTo(this.position);
+		// distance vol d'oiseau, on arrondi et on l'augmente un peu
+		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
+	}
+
+	getHtmlRepresentation() 
+	{	
+		this.update();	
+		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
+		let starNames : any[] = [];
+
+		let optionstoDisplay = this.getIconsToDisplay();
+
+		//console.log("GetHtmlRepresentation " + this.distance + " km", this.getOptionTree().children[0]);
+
+		let html = Twig.render(biopen_twigJs_elementInfo, 
+		{
+			element : this, 
+			showDistance: App.geocoder.getLocation() ? true : false,
+			listingMode: App.mode == AppModes.List, 
+			optionsToDisplay: optionstoDisplay,
+			mainOptionValueToDisplay: optionstoDisplay[0], 
+			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
+			starNames : starNames,
+			mainCategoryValue : this.getOptionTree().children[0],
+		});
+
+		
+		this.htmlRepresentation_ = html;				
+		return html;
+	};
+
+	// getFormatedOpenHourss() 
+	// {		
+	// 	if (this.formatedOpenHours_ === null )
+	// 	{		
+	// 		this.formatedOpenHours_ = {};
+	// 		let new_key;
+	// 		for(let key in this.openHours)
+	// 		{
+	// 			new_key = key.split('_')[1];
+	// 			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
+	// 		}
+	// 	}
+	// 	return this.formatedOpenHours_;
+	// };
+
+	formateDailyTimeSlot(dailySlot) 
+	{		
+		if (dailySlot === null)
+		{		
+			return 'fermé';
+		}
+		let result = '';
+		if (dailySlot.slot1start)
+		{
+			result+= this.formateDate(dailySlot.slot1start);
+			result+= ' - ';
+			result+= this.formateDate(dailySlot.slot1end);
+		}
+		if (dailySlot.slot2start)
+		{
+			result+= ' et ';
+			result+= this.formateDate(dailySlot.slot2start);
+			result+= ' - ';
+			result+= this.formateDate(dailySlot.slot2end);
+		}
+		return result;
+	};
+
+	formateDate(date) 
+	{		
+		if (!date) return;
+		return date.split('T')[1].split(':00+0100')[0];
+	};
+
+	isCurrentStarChoiceRepresentant() 
+	{		
+		if ( this.starChoiceForRepresentation !== '')
+		{
+			let elementStarId = App.constellation.getStarFromName(this.starChoiceForRepresentation).getElementId();
+			return (this.id == elementStarId);
+		}
+		return false;	
+	};
 
 
 
@@ -317,25 +413,25 @@ isCurrentStarChoiceRepresentant()
 
 
 
-// --------------------------------------------
-//            SETTERS GETTERS
-// ---------------------------------------------
-get marker()  : BiopenMarker
-{		
-	// initialize = initialize || false;
-	// if (initialize) this.initialize();
-	return this.biopenMarker_;
-};
+	// --------------------------------------------
+	//            SETTERS GETTERS
+	// ---------------------------------------------
+	get marker()  : BiopenMarker
+	{		
+		// initialize = initialize || false;
+		// if (initialize) this.initialize();
+		return this.biopenMarker_;
+	};
 
-get isVisible() 
-{		
-	return this.isVisible_;
-};
+	get isVisible() 
+	{		
+		return this.isVisible_;
+	};
 
-get isInitialized() 
-{		
-	return this.isInitialized_;
-};
+	get isInitialized() 
+	{		
+		return this.isInitialized_;
+	};
 
 }
 

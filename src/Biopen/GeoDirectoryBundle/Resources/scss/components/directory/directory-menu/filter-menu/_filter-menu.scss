@@ -2,11 +2,12 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-02 10:13:32
+* @Last Modified time: 2017-03-13 13:12:47
 */
 @import 'favorite-filter';
 @import 'subcategorie-item';
 @import 'subcategorie-option-item';
+@import 'subcategory-depth-2';
 
 #directory-menu 
 {
@@ -15,7 +16,7 @@
 	.main-categories
 	{
 		width: 3.5rem;
-
+		padding-top: .6rem;
     height: 100%;
     background-color: #272626;
 
@@ -28,9 +29,22 @@
 	    padding-right: 8px;
 	    text-align: center;
 	    color: #505050;
+	    position: relative;
 	    //border-bottom: 1px solid #616161;
 
-	    &:hover
+	    .main-option-tooltip
+	    {
+	    	display: none;
+	    }
+
+	    &:before
+	    {
+	    	position: absolute;
+		    top: 1rem;
+		    left: .8rem;
+	    }
+
+	    &:not(.active):hover
 	    {
 	    	// color:white;
 	    	cursor: pointer;
@@ -39,18 +53,40 @@
 		    color: #bfbfbf;
 		    padding-right: 8px;
 		    border-radius: 0 50% 50% 0;
+
+		    .main-option-tooltip
+		    {
+		    	display: block;
+			    position: absolute;
+			    left: 4rem;
+			    top: .5rem;
+			    /* bottom: 0; */
+			    height: 2.5rem;
+			    line-height: 2.5rem;
+			    z-index: 100;
+			    width: 14rem;
+			    background-color: rgba(64, 64, 64, 0.88);
+			    color: #efefef;
+			    font-size: 1rem;
+			    border-radius: 5px;
+		    }
 	    }
 
 	    &.active
 	    {
 	    	// background-color: #dedede;
     		// color: black;
-
-    		background-color: #676565;
-		    color: white;
-		    padding-right: 8px;
-		    border-radius: 0 50% 50% 0;
+    		color: white;
+    		padding-right: 8px;    		
 	    }
+    }
+
+    .main-icon-background
+    {
+  	  position: absolute;
+  	  top : .6rem;
+  	  background-color: #676565;	    
+	    border-radius: 0 50% 50% 0;
     }
 	}
 
@@ -93,7 +129,7 @@
 				margin: 0;
 				border: 0;
 				box-shadow: none;		
-
+				padding-bottom: .8rem;
 				overflow-y: auto;
 				overflow-x: hidden;
 				@extend .custom-scroll-bar-light;

@@ -19,14 +19,14 @@ declare let biopen_twigJs_marker : any;
 
 export class BiopenMarker
 {
-	id_ : number;
+	id_ : string;
 	isAnimating_ : boolean = false;
 	richMarker_ : L.Marker;
 	isHalfHidden_ : boolean = false;
 	inclination_ = "normal";
 	polyline_;
 
-	constructor(id_ : number, position_ : L.LatLng) 
+	constructor(id_ : string, position_ : L.LatLng) 
 	{
 		this.id_ = id_;
 
@@ -67,7 +67,7 @@ export class BiopenMarker
 
 		this.isHalfHidden_ = false;			
 
-		this.updateIcon();	
+		this.update();	
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -88,7 +88,7 @@ export class BiopenMarker
 			() => {this.isAnimating_ = false;} );
 	};
 
-	updateIcon () 
+	update() 
 	{		
 		let element = this.getElement();
 
@@ -112,24 +112,29 @@ export class BiopenMarker
 			}		
 
 			this.updatePolyline({lineType: lineType});
-
-			showMoreIcon = element.isProducteurOrAmap();
 		}
+
+		let optionstoDisplay = element.getIconsToDisplay();
+
+		// If usecolor and useIcon, we don't show others icons
+		// if (optionstoDisplay[0])
+		// 	showMoreIcon = !optionstoDisplay[0].useColorForMarker || !optionstoDisplay[0].useIconForMarker;
 
 		let htmlMarker = Twig.render(biopen_twigJs_marker, 
 		{
 			element : element, 
-			productsToDisplay: element.getProductsNameToDisplay(), 
+			mainOptionValueToDisplay: optionstoDisplay[0],
+			otherOptionsValuesToDisplay: optionstoDisplay.slice(1), 
 			showMoreIcon : showMoreIcon,
 			disableMarker : disableMarker
 		});
 
-	  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
+  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
-	  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
+  	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
 
-	  	if (this.inclination_ == "right") this.inclinateRight();
-	  	if (this.inclination_ == "left") this.inclinateLeft();
+  	if (this.inclination_ == "right") this.inclinateRight();
+  	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
 	addClassToRichMarker_ (classToAdd) 
@@ -269,7 +274,7 @@ export class BiopenMarker
 		this.isHalfHidden_ = false;
 	};
 
-	getId () : number { return this.id_; };
+	getId () : string { return this.id_; };
 
 	getRichMarker () : L.Marker { return this.richMarker_; };
 

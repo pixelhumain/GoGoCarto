@@ -10,7 +10,7 @@
 /// <reference types="leaflet" />
 
 declare let window, Routing : any;
-declare let CONFIG;
+declare let CONFIG, MAIN_CATEGORY, OPENHOURS_CATEGORY;
 declare var $;
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
@@ -18,31 +18,37 @@ import { FilterModule } from "./modules/filter.module";
 import { ElementsModule, ElementsChanged } from "./modules/elements.module";
 import { DisplayElementAloneModule } from "./modules/display-element-alone.module";
 import { AjaxModule } from "./modules/ajax.module";
+import { CategoriesModule } from './modules/categories.module';
 import { DirectionsModule } from "./modules/directions.module";
 import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
 import { SearchBarComponent } from "../commons/search-bar.component";
+import { DirectoryMenuComponent } from "./components/directory-menu.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
 import { HistoryModule, HistoryState } from './modules/history.module';
 
-import { initializeDirectoryMenu } from "./components/directory-menu.component";
+
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 import { Element } from "./classes/element.class";
-declare var App;
+declare var App : AppModule;
 
 /**
 * App initialisation when document ready
 */
 $(document).ready(function()
 {	
-   App = new AppModule();
+   App = new AppModule();      
+
+   App.categoryModule.createCategoriesFromJson(MAIN_CATEGORY, OPENHOURS_CATEGORY);
+
+   App.elementModule.initialize();
+
    App.loadHistoryState();
 
-   initializeDirectoryMenu();
    initializeAppInteractions();
    initializeElementMenu();
 });
@@ -75,7 +81,7 @@ export class AppModule
 {		
 	geocoderModule_ = new GeocoderModule();
 	filterModule_ = new FilterModule();
-	elementsModule_ = new ElementsModule([]);
+	elementsModule_ = new ElementsModule();
 	displayElementAloneModule_ = new DisplayElementAloneModule();
 	directionsModule_ : DirectionsModule = new DirectionsModule();
 	ajaxModule_ = new AjaxModule();
@@ -84,12 +90,14 @@ export class AppModule
 	searchBarComponent = new SearchBarComponent('search-bar');
 	elementListComponent = new ElementListComponent();
 	historyModule = new HistoryModule();
+	categoryModule = new CategoriesModule();
+	directoryMenuComponent = new DirectoryMenuComponent();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
 	// curr state of the app
 	private state_ : AppStates = null;	
-	private mode_ : AppModes;
+	private mode_ : AppModes = null;
 
 	// somes states need a element id, we store it in this property
 	private stateElementId : number = null;
@@ -111,7 +119,7 @@ export class AppModule
 	constructor()
 	{
 		this.infoBarComponent_.onShow.do( (elementId) => { this.handleInfoBarShow(elementId); });
-  		this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
+  	this.infoBarComponent_.onHide.do( ()=> { this.handleInfoBarHide(); });
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
@@ -134,6 +142,16 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
+		//console.log("loadHistorystate filtersd", historystate.filters)
+		if (historystate.filters)
+		{
+			this.filterModule.loadFiltersFromString(historystate.filters);
+		}
+		else
+		{
+			this.directoryMenuComponent.setMainOption('all');
+		}
+
 		if (historystate === null) return;
 
 		// if no backfromhistory that means historystate is actually the CONFIG
@@ -235,7 +253,7 @@ export class AppModule
 
 			if ($updateTitleAndState)
 			{
-				this.updateDocumentTitle_();			
+				this.updateDocumentTitle();			
 
 				// after clearing, we set the current state again
 				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
@@ -249,7 +267,8 @@ export class AppModule
 	*/
 	setState($newState : AppStates, options : any = {}, $backFromHistory : boolean = false) 
 	{ 	
-		console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		//console.log("AppModule set State : " + AppStates[$newState]  +  ', options = ',options);
+		
 		let element;
 
 		let oldStateName = this.state_;
@@ -301,7 +320,7 @@ export class AppModule
 						(elementJson) => {
 							this.elementModule.addJsonElements([elementJson], true);
 							this.DEAModule.begin(elementJson.id, options.panToLocation);
-							this.updateDocumentTitle_(options);
+							this.updateDocumentTitle(options);
 							this.historyModule.pushNewState(options);
 							// we get element around so if the user end the DPAMdoule
 							// the elements will already be available to display
@@ -345,7 +364,7 @@ export class AppModule
 					{
 						this.elementModule.addJsonElements([elementJson], true);
 						element = this.elementById(elementJson.id);
-						this.updateDocumentTitle_(options);
+						this.updateDocumentTitle(options);
             
 						origin = this.geocoder.getLocation();
 						// we geolocalized origin in loadHistory function
@@ -398,7 +417,7 @@ export class AppModule
 				|| $newState == AppStates.ShowDirections) )
 			this.historyModule.pushNewState(options);
 
-		this.updateDocumentTitle_(options);
+		this.updateDocumentTitle(options);
 	};
 
 	handleGeocodeResult(results)
@@ -513,12 +532,12 @@ export class AppModule
 					case AppStates.Normal:	
 					case AppStates.ShowElement:	
 						this.handleGeocodeResult(results);
-						this.updateDocumentTitle_();
+						this.updateDocumentTitle();
 						break;
 					case AppStates.ShowElementAlone:
 						this.infoBarComponent.hide();
 						this.handleGeocodeResult(results);
-						this.updateDocumentTitle_();
+						this.updateDocumentTitle();
 						break;
 					
 					case AppStates.ShowDirections:	
@@ -533,8 +552,8 @@ export class AppModule
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
 		if (!elementsJson || elementsJson.length === 0) return;
-		this.elementModule.addJsonElements(elementsJson, true);
-		this.elementModule.updateElementToDisplay(); 
+		let newelements = this.elementModule.addJsonElements(elementsJson, true);
+		if (newelements > 0) this.elementModule.updateElementToDisplay(); 
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
@@ -592,15 +611,17 @@ export class AppModule
 		setTimeout(function() { that.isShowingInfoBarComponent_ = false; }, 1300); 
 	}
 
-	private updateDocumentTitle_(options : any = {})
+	updateDocumentTitle(options : any = {})
 	{
-		//console.log("updateDocumentTitle", options);
+		//console.log("updateDocumentTitle", this.infoBarComponent.getCurrElementId());
 
 		let title : string;
 		let elementName : string;
-		if (options && options.id) 
+
+		if ( (options && options.id) || this.infoBarComponent.getCurrElementId()) 
 		{
-			let element = this.elementById(options.id);
+			
+			let element = this.elementById(this.infoBarComponent.getCurrElementId());
 			elementName = capitalize(element ? element.name : '');
 		}
 
@@ -645,11 +666,13 @@ export class AppModule
 
 	// Getters shortcuts
 	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
-	elements() { return this.elementsModule_.elements;  };
+	elements() { return this.elementsModule_.currVisibleElements();  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
 	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
 
 	get constellation() { return null; }
+
+	get currMainId() { return this.directoryMenuComponent.currentActiveMainOptionId; }
 
 	get isClicking() { return this.isClicking_; };
 	get isShowingInfoBarComponent() : boolean { return this.isShowingInfoBarComponent_; };

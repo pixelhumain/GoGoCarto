@@ -112,7 +112,7 @@ export class DirectionsModule
 		//$('.leaflet-routing-container').hide();
 		//$('.leaflet-routing-container').prependTo('.directory-menu-content');
 		$('#directory-menu-main-container').removeClass();
-		$('.directory-menu-header').removeClass().addClass('directory-menu-header');
+		$('.directory-menu-header');
 		$('#search-bar').removeClass();		
 	}
 
@@ -126,8 +126,8 @@ export class DirectionsModule
 		console.log("show itinerary");
 
 		$('#directory-menu-main-container').removeClass().addClass("directions");	
-		$('.directory-menu-header').removeClass().addClass('directory-menu-header ' + element.type);
-		$('#search-bar').removeClass().addClass(element.type);	
+		$('.directory-menu-header').attr('option-id',element.colorOptionId);
+		//$('#search-bar').removeClass().addClass(element.colorOptionId);	
 
 		$('.leaflet-routing-container').prependTo('.directory-menu-content');
 			

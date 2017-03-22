@@ -1,0 +1,42 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-12 11:20:02
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-12 17:06:55
+*/
+.category-wrapper.depth-2
+{   
+	margin-left: 1.5rem;
+  border-left: 1px dotted #c3c3c3; 
+
+  .subcategory-item
+  {
+  	font-size: 13px;
+  	line-height: 2.5rem;
+  	margin-top: 0;
+  	padding-top: .5rem;
+
+		.subcategorie-checkbox
+		{
+			+ label:after { width: 15px; height: 15px; }
+			
+			+ label:before { width: 5px; height: 9px; top: 9px; left: 2px; }
+		}
+  }
+
+  .subcategorie-option-item 
+  {
+  	font-size: 14px;
+    line-height: 2.5rem;
+    height: 2.5rem;
+
+    .icon { font-size: 1.3rem; padding-top: 1px; }
+
+  	.subcategorie-option-checkbox 
+		{
+		  + label:before { width: 10px; height: 10px; left: 3px; }
+
+			&:checked + label:before { width: 6px; height: 10px; left: 2px; }
+		}
+  }  
+}

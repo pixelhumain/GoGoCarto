@@ -18,8 +18,6 @@
     bottom: 55px;
     left: -30px;
     color: #dadada;
-
-    @extend .bgdColorAs;
 }
 
 .marker-wrapper
@@ -33,8 +31,6 @@
     font-size: 40px;
     line-height: 40px;
     opacity: .99; // pour créer un nouveau contexte d'empilement (z-index)
-
-    @extend .colorAs;
 
     &.disabled { color: grey !important}    
 
@@ -123,7 +119,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 
 .iconInsideMarker
 {
-	&.disabled {  color: grey; }
+	&.disabled {  color: grey !important; }
     &:before { line-height: inherit; }
 }
 
@@ -197,7 +193,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 		border-radius: 50%;
         z-index: 10;
 
-        &.disabled { color: grey };
+        &.disabled { color: grey !important };
     	// TODO rajouter prefix border radius        
 	}	
 }

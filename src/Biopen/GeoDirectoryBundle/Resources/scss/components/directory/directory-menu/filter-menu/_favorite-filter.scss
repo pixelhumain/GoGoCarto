@@ -2,10 +2,13 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 09:08:21
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-02 09:08:26
+* @Last Modified time: 2017-03-09 16:50:29
 */
 #filter-favorite
 {
+	margin-bottom: -.6rem;
+	color: $favorite-color;
+
 	.icon-star-full
 	{
 		color: white;
@@ -26,9 +29,7 @@
 	.favorite-checkbox
 	{
 		@extend .subcategorie-option-checkbox;
-	} 
-
-	color: $favorite-color;
+	} 	
 
 	.favorite-checkbox:not(:checked) + label:before
 	{

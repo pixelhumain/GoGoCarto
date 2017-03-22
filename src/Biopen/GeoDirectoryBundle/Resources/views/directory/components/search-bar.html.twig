@@ -3,13 +3,13 @@
 	<a class="icon-search" id="search-bar-icon"></a>
 
     <input class="validate" 
-    	   placeholder="Recherchez un lieu, un acteur, une catégorie" 
+    	   placeholder="Lieu, Acteur, Catégorie..." 
     	   type="text" 
     	   id="search-bar" 
     	   name="adresse" 
     	   onClick="this.setSelectionRange(0, this.value.length)" 
     	   {% if config.address is defined %}
-    	   value="{{ config.address | replace('-', ' ') | capitalize }}" 
+    	   value="{{ config.address | replace({'-': ' '}) | capitalize }}" 
     	   {% endif %}
     />
     

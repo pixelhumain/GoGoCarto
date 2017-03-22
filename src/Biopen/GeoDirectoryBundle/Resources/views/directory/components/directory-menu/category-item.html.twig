@@ -1,0 +1,84 @@
+<div class="category-wrapper depth-{{category.depth}}" >
+
+	{# ---- CATEGORY TITLE IF REQUIRED ----- #}
+	{% if category.displayCategoryName %}
+	<li class="subcategory-item expanded" id="category-{{category.id}}">
+
+		{# --- ICON & NAME--- #}
+		<div class="name-wrapper tooltipped" data-category-id='{{ category.id }}' data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail" >		
+			<span class="name">
+				{{ category.name|capitalize }}		
+			</span>
+			<div class="arrow-after"></div>	
+		</div>
+
+		{# --- CHECKBOX ---- #}
+		<div class="checkbox-wrapper" data-category-id='{{ category.id }}'>
+			<div class="checkbox-container">
+		      <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-{{ category.id }}" checked="checked" data-category-id='{{ category.id }}'/>
+		      <label for="subcategorie-checkbox-{{ category.id }}"></label>
+			</div>
+		</div>
+	</li>
+	{% endif %}
+
+	{# ---- CATEGORY LIST OPTIONS ----- #}
+	<div class="options-wrapper">
+
+	{% for key, option in category.options | sortbyfield('index') %} 
+
+		{% set isSubcategories = recursive and option.subcategories|length %}
+
+	    <li class="subcategorie-option-item row {{isSubcategories ? 'option-collapsible' : ''}}{{ option.showSubcategories ? 'expanded' : '' }}"    		
+	    		id="option-{{ option.id }}">
+	    	
+	    		{# --- ICON & NAME--- #}
+	    		<div class="icon-name-wrapper {{isSubcategories ? 'tooltipped' : ''}}" data-option-id='{{ option.id }}' 
+	    					{% if isSubcategories %}data-position="right" data-delay="400" data-tooltip="Afficher/Masquer le détail"{% endif %}>
+
+						{# --- ICON ---- #}
+						{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
+						{% if iconClass %}    
+							<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+						{% endif %}
+
+
+
+						{# --- NAME ---- #}
+						<span class="option-name">{{ option.nameShort }}</span> 
+
+						{# --- ARROW COLAPSIBLE ---- #}
+						{% if isSubcategories %}<div class="arrow-after"></div>{% endif %}
+						
+					</div>
+
+					{# --- SHOW ONLY---- #}
+					<!-- <span class="icon btn-show-only icon-material-eye"></span>  -->
+
+					{# --- CHECKBOX ---- #}
+					<div class="checkbox-wrapper" data-option-id='{{ option.id }}' >
+						<div class="checkbox-container">
+						  <input type="checkbox" class="subcategorie-option-checkbox {{ isSubcategories ? 'tooltipped' : ''}}" 
+						  id="option-checkbox-{{ option.id }}" checked="checked"  {% if isSubcategories %} data-position="right" data-delay="400" data-tooltip="Cocher/Décocher tout"{% endif %}/>
+						  <label for="option-checkbox-{{ option.id }}"></label>
+						</div>
+					</div>
+
+	    </li>
+
+	    {% if recursive %}
+	    	<div class="subcategories-wrapper" {% if option.showSubcategories is defined and not option.showSubcategories%} style="display:none"{% endif %}>
+		    {% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
+
+						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+		        						with {'category': subcategory, 'recursive': true } %}
+
+				{% endfor %} 
+				</div>
+			{% endif %}
+
+	 {% endfor %}
+
+	 </div>
+
+ </div>

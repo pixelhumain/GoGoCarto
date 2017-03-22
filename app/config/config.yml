@@ -82,7 +82,7 @@ doctrine_mongodb:
         default:
             server: "%mongodb_server%"
             options: {}
-    default_database: test_database
+    default_database: cartoV3
     document_managers:
         default:
             auto_mapping: true

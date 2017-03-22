@@ -28,23 +28,33 @@ export class ElementsModule
 {
 	onElementsChanged = new Event<ElementsChanged>();
 
-	allElements_ : Element[] = [];
+	everyElements_ : Element[][] = [];
 	
 	// current visible elements
-	currElements_ : Element[] = [];
+	visibleElements_ : Element[][] = [];
 
-	allElementsIds_ : number[] = [];
 	favoriteIds_ : number[] = [];
 	isShowingHalfHidden : boolean = false;
 
-	constructor(elementsListJson)
+	constructor()
 	{
 		let cookies = Cookies.readCookie('FavoriteIds');
 		if (cookies !== null)
 		{
 			this.favoriteIds_ = JSON.parse(cookies);		
 		}   
-		else this.favoriteIds_ = [];	
+		else this.favoriteIds_ = [];		
+	}
+
+	initialize()
+	{
+		this.everyElements_['all'] = [];
+		this.visibleElements_['all'] = [];
+		for(let option of App.categoryModule.getMainOptions())
+		{
+			this.everyElements_[option.id] = [];
+			this.visibleElements_[option.id] = [];
+		}	
 	}
 
 	checkCookies()
@@ -57,17 +67,23 @@ export class ElementsModule
 
 	addJsonElements (elementList, checkIfAlreadyExist = true)
 	{
-		let element, elementJson;
+		let element : Element, elementJson;
 		let newElementsCount = 0;
 		//console.log("ElementModule adds " + elementList.length);
 		for (let i = 0; i < elementList.length; i++)
 		{
 			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
 
-			if (!checkIfAlreadyExist || this.allElementsIds_.indexOf(elementJson.id) < 0)
+			if (!checkIfAlreadyExist || !this.getElementById(elementJson.id))
 			{
-				this.allElements_.push(new Element(elementJson));
-				this.allElementsIds_.push(elementJson.id);
+				element = new Element(elementJson);
+
+				for (let mainId of element.mainOptionOwnerIds)
+				{
+					this.everyElements_[mainId].push(element);
+				}				
+				this.everyElements_['all'].push(element);
+
 				newElementsCount++;
 			}
 			else
@@ -77,12 +93,13 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		//console.log("ElementModule really added " + newElementsCount);
+		return newElementsCount;
 	};
 
 	showElement(element : Element)
 	{
 		element.show();
-		this.currElements_.push(element);
+		this.currVisibleElements().push(element);
 	}
 
 	addFavorite (favoriteId : number, modifyCookies = true)
@@ -115,28 +132,38 @@ export class ElementsModule
 	clearCurrentsElement()
 	{
 		//console.log("clearCurrElements");
-		let l = this.currElements_.length;
+		let l = this.currVisibleElements().length;
 		while(l--)
 		{
-			this.currElements_[l].hide();
-			this.currElements_[l].isDisplayed = false;
+			this.currVisibleElements()[l].hide();
+			this.currVisibleElements()[l].isDisplayed = false;
 		}
-		this.currElements_ = [];
+		this.clearCurrVisibleElements();
+	}
+
+	updateCurrentsElements()
+	{
+		//console.log("UpdateCurrElements");
+		let l = this.currVisibleElements().length;
+		while(l--)
+		{
+			this.currVisibleElements()[l].update();
+		}
 	}
 
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
 		let elements : Element[] = null;
-		if (checkInAllElements || this.currElements_.length === 0) elements = this.allElements_;
-		else elements = this.currElements_;
+		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
+		else elements = this.currVisibleElements();
 
 		// in these state,there is no need to update elements to display
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
 					&& App.mode != AppModes.List) 
 				return;
 		
-		//console.log("Update elements 0", this);
+		//console.log("UPDATE ELEMENTS ", elements.length);
 
 		let i : number, element : Element;
 		let bounds;
@@ -153,7 +180,7 @@ export class ElementsModule
 		
 		let start = new Date().getTime();
 
-		while(i-- /*&& this.currElements_.length < App.getMaxElements()*/)
+		while(i-- /*&& this.visibleElements_.length < App.getMaxElements()*/)
 		{
 			element = elements[i];
 
@@ -165,7 +192,7 @@ export class ElementsModule
 				if (!element.isDisplayed)
 				{
 					element.isDisplayed = true;
-					this.currElements_.push(element);
+					this.currVisibleElements().push(element);
 					newElements.push(element);
 					elementsChanged = true;
 				}
@@ -177,18 +204,18 @@ export class ElementsModule
 					element.isDisplayed = false;
 					elementsToRemove.push(element);
 					elementsChanged = true;
-					let index = this.currElements_.indexOf(element);
-					if (index > -1) this.currElements_.splice(index, 1);
+					let index = this.currVisibleElements().indexOf(element);
+					if (index > -1) this.currVisibleElements().splice(index, 1);
 				}
 			}
 		}
 
-		// if (this.currElements_.length >= App.getMaxElements())
+		// if (this.visibleElements_.length >= App.getMaxElements())
 		// {
 		// 	/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
 		// 	this.clearMarkers();		
 		// 	return;*/
-		// 	//console.log("Toomany markers. Nbre markers : " + this.currElements_.length + " // MaxMarkers = " + App.getMaxElements());
+		// 	//console.log("Toomany markers. Nbre markers : " + this.visibleElements_.length + " // MaxMarkers = " + App.getMaxElements());
 		// }
 		// else
 		// {
@@ -203,7 +230,7 @@ export class ElementsModule
 		if (elementsChanged || forceRepaint)
 		{		
 			this.onElementsChanged.emit({
-				elementsToDisplay: this.currElements_, 
+				elementsToDisplay: this.currVisibleElements(), 
 				newElements : newElements, 
 				elementsToRemove : elementsToRemove
 			});		
@@ -212,35 +239,40 @@ export class ElementsModule
 		
 	};
 
-	get elements() 
+	currVisibleElements() 
 	{
-		return this.currElements_;
+		return this.visibleElements_[App.currMainId];
 	};
 
-	get allElementsIds () 
+	currEveryElements() 
 	{
-		return this.allElementsIds_;
+		return this.everyElements_[App.currMainId];
 	};
 
-	getAllElementsIds()
+	private clearCurrVisibleElements() 
 	{
-		return this.allElementsIds_.slice();
+		return this.visibleElements_[App.currMainId] = [];
 	};
+
+	allElements()
+	{
+		return this.everyElements_['all'];
+	}
 
 	clearMarkers()
 	{
 		console.log("clearMarkers");
 		this.hideAllMarkers();
-		this.currElements_ = [];
+		this.clearCurrVisibleElements();
 	};
 
 	getMarkers () 
 	{
 		let markers = [];
-		let l = this.currElements_.length;
+		let l = this.visibleElements_.length;
 		while(l--)
 		{
-			markers.push(this.currElements_[l].marker);
+			markers.push(this.currVisibleElements()[l].marker);
 		}
 		return markers;
 	};
@@ -248,19 +280,19 @@ export class ElementsModule
 	hidePartiallyAllMarkers () 
 	{
 		this.isShowingHalfHidden = true;
-		let l = this.allElements_.length;
+		let l = this.currVisibleElements().length;		
 		while(l--)
 		{
-			if (this.allElements_[l].marker) this.allElements_[l].marker.showHalfHidden();
+			if (this.currVisibleElements()[l].marker) this.currVisibleElements()[l].marker.showHalfHidden();
 		}		
 	};
 
 	hideAllMarkers () 
 	{
-		let l = this.currElements_.length;
+		let l = this.currVisibleElements().length;
 		while(l--)
 		{
-			this.currElements_[l].hide();
+			this.currVisibleElements()[l].hide();
 		}
 	};
 
@@ -269,18 +301,18 @@ export class ElementsModule
 		this.isShowingHalfHidden = false;
 		$('.marker-cluster').removeClass('halfHidden');
 		
-		let l = this.allElements_.length;
+		let l = this.currVisibleElements().length;
 		while(l--)
 		{
-			if (this.allElements_[l].marker) this.allElements_[l].marker.showNormalHidden();
+			if (this.currVisibleElements()[l].marker) this.currVisibleElements()[l].marker.showNormalHidden();
 		}
 	};
 
-	getElementById (elementId) 
+	getElementById (elementId) : Element
 	{
-		//return this.allElements_[elementId];
-		for (let i = 0; i < this.allElements_.length; i++) {
-			if (this.allElements_[i].id == elementId) return this.allElements_[i];
+		//return this.everyElements_[elementId];
+		for (let i = 0; i < this.allElements().length; i++) {
+			if (this.allElements()[i].id == elementId) return this.allElements()[i];
 		}
 		return null;
 	};

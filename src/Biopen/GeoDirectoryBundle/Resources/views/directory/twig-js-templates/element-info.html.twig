@@ -8,15 +8,15 @@
     data-element-id="{{ element.id }}">
 
   {# HEADER #}
-  <div class="collapsible-header {{ element.type }}">
+  <div class="collapsible-header bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>
     
     {# Header Title #}
-    <div class='collapsible-header-title row {{element.mainProduct|lower}} {{element.type}}'> 
+    <div class='collapsible-header-title row'> 
 
       <span class="col s12 name">
 
         {# Icons #}
-        <span class="element-main-icon icon icon-{{element.mainProduct|lower}} hideOnLargeScreen"></span>
+        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
@@ -27,7 +27,7 @@
         <span class="icon icon-close" id="btn-close-bandeau-detail"></span>
         {% if showDistance and element.distance != null %}
           <span class="right-align distance">~ {{ element.distance }} km</span>
-        {% endif %}  
+        {% endif %}
 
         {# Name #}
         {{ element.name|capitalize }}
@@ -43,17 +43,14 @@
       <span class="description col s12">{{ element.description|capitalize }}</span> 
 
       {# Products litteral #}
-      <span class="products col s8 hideOnLargeScreen">
+      <span class="inline-option-values col s8 hideOnLargeScreen">
+         {% set isDisabled = mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' %}
+        <span class="option-value {{ isDisabled }}">{{ mainOptionValueToDisplay.option.name|capitalize }} 
+        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}</span>
 
-         {% if element.isProducteurOrAmap() or productsToDisplay.others.length == 0 %}
-            {{ productsToDisplay.main.value|capitalize }} 
-            {% if productsToDisplay.others.length != 0 %}, {% endif %}
-         {% endif %}
-
-         {% for product in productsToDisplay.others %} 
-            {% set isDisabled = product.disabled ? 'disabled' : '' %}
-            <span class="product {{isDisabled}}">{{ product.value|capitalize }} </span>
-            {% if not loop.last %}, {% endif %}
+        {% for optionValue in otherOptionsValuesToDisplay %} 
+            {% set isDisabled = optionValue.isFilledByFilters ? '' : 'disabled' %}
+            <span class="option-value {{ isDisabled }}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}
 
       </span>
@@ -79,7 +76,7 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element {{ element.type }}">  
+      <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 
@@ -144,25 +141,15 @@
 
       </div>
       <div class="divider"></div>
+      
+      {# Categories  #}
+      <h3>Les catégories</h3> 
+      <div class="section row categories">
+        
+        {% include '@directory/directory/twig-js-templates/element-info-category-value.html.twig' with { 'categoryValue' : mainCategoryValue, 'subcategoriesCount' : 1 } %}  
 
-      {# Products #}
-      {% if element.type != 'epicerie' %}
-        <h3>Les produits</h3>   
-        <div class="section sectionDetailProducts"> 
-          {% for product in element.products %} 
-            {% set isDisabled = product.disabled ? 'disabled' : '' %}
-            <div class='row {{ product.nameFormate }} {% if product.nameFormate == element.mainProduct %}strong{% endif %}'>
-              <span class="col s6 m4 product {{ isDisabled }}">
-                <span class="icon icon-{{ product.nameFormate }} {{ isDisabled }}"></span>            
-                <span class="option-name">{{ product.nameShort|capitalize }}</span> 
-              </span>
-              <span class="col s6 m8 detail {{ isDisabled }}">{{ product.descriptif|capitalize }}</span>
-            </div>
-          {% endfor %}          
-
-        </div>       
-        <div class="divider"></div>
-      {% endif %}
+      </div>
+      <div class="divider"></div>
 
       {# Open Hours #}
       <h3>Horaires d'ouverture</h3>   

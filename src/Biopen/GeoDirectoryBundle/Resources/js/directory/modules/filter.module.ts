@@ -10,164 +10,188 @@
 
 
 import { AppModule, AppStates, AppModes } from "../app.module";
+import { slugify, capitalize, parseArrayNumberIntoString, parseStringIntoArrayNumber } from "../../commons/commons";
+import { Option} from "../classes/option.class";
+import { Category } from "../classes/category.class";
+import { Element } from "../classes/element.class";
+import { CategoryOptionTreeNode } from "../classes/category-option-tree-node.class";
+
 declare let App : AppModule;
 
 export class FilterModule
 {
-	productFilters = [];
-	typeFilters = [];	
-	dayFilters = [];	
 	showOnlyFavorite_ = false;
 
-	constructor() {}
+	constructor() {	}
 
 	showOnlyFavorite(data)
 	{
 		this.showOnlyFavorite_ = data;
 	};
 
-	addFilter(data, filterType, updateElementToDisplay) 
-	{	
-		let listToFilter = this.getFilterListFromType(filterType);
-
-		if (listToFilter == null)
-		{
-			console.log("AddFilter not existing filtertype", filterType );
-		}
-		let index = listToFilter.indexOf(data);
-		if ( index < 0) listToFilter.push(data);
-
-		if (updateElementToDisplay) App.elementModule.updateElementToDisplay(false);
-	};
-
-	removeFilter (data, filterType, updateElementToDisplay) 
-	{	
-		let listToFilter = this.getFilterListFromType(filterType);
-
-		let index = listToFilter.indexOf(data);
-		if ( index > -1) 
-		{
-			listToFilter.splice(index, 1);
-			if (updateElementToDisplay) App.elementModule.updateElementToDisplay(true);
-		}
-	};
-
-	getFilterListFromType(type)
+	checkIfElementPassFilters (element : Element) : boolean
 	{
-		let listToFilter = null;
-
-		switch (type)
+		if (App.currMainId == 'all')
 		{
-			case 'type': listToFilter = this.typeFilters; break;
-			case 'product': listToFilter = this.productFilters; break;
-			case 'day': listToFilter = this.dayFilters; break;
-		}
+			let elementOptions = element.getOptionValueByCategoryId( App.categoryModule.mainCategory.id);
+			let checkedOptions = App.categoryModule.mainCategory.checkedOptions;
 
-		return listToFilter;
-	};
+			//console.log("\nelementsOptions", elementOptions.map( (value) => value.option.name));
+			//console.log("checkedOptions", checkedOptions.map( (value) => value.name));
 
-	checkIfElementPassFilters (element) 
-	{	
-		// FAVORITE FILTER
-		if (this.showOnlyFavorite_ && !element.isFavorite) return false;
-
-		// TYPE FILTER
-		let i;
-		for (i = 0; i < this.typeFilters.length; i++) 
-		{
-			if (element.type == this.typeFilters[i]) return false;
-		}
-
-		// PRODUCTS FILTER
-		let atLeastOneProductPassFilter = false;
-
-		// si epicerie on ne fait irne
-		if (element.type == 'epicerie') 
-		{
-			atLeastOneProductPassFilter = true;
+			let result = elementOptions.some(optionValue => checkedOptions.indexOf(optionValue.option) > -1);
+			//console.log("return", result);
+			return result ;
 		}
 		else
 		{
-			let products = element.products;
-			
-			let updateElementIcon = false;
-			for (i = 0; i < products.length; i++) 
+			let mainOption = App.categoryModule.getCurrMainOption();			
+			let isPassingFilters = this.recursivelyCheckedInOption(mainOption, element);
+
+			return isPassingFilters;
+		}		
+	}
+
+	private recursivelyCheckedInOption(option : Option, element : Element) : boolean
+	{
+		let ecart = "";
+		for(let i = 0; i < option.depth; i++) ecart+= "--";
+
+		let log = false;
+
+		if (log) console.log(ecart + "Check for option ", option.name);
+
+		let result;
+		if (option.subcategories.length == 0 || option.isDisabled)
+		{
+			if (log) console.log(ecart + "No subcategories ");
+			result = option.isChecked;
+		}
+		else
+		{
+			result = option.subcategories.every( (category) =>
 			{
-				// if this element's product is not in the black filter product list
-				if (!this.containsProduct(products[i].nameFormate)) 
-				{
-					atLeastOneProductPassFilter = true;
+				if (log) console.log("--" + ecart + "Category", category.name);
 
-					// if product was previously disabled, we show it again enabled
-					if (products[i].disabled)
-					{
-						products[i].disabled = false;
-						if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = false;
-						updateElementIcon = true;
-					} 
-				}
+				let checkedOptions = category.checkedOptions;
+				let elementOptions = element.getOptionValueByCategoryId(category.id);
+
+				let isSomeOptionInCategoryCheckedOptions = elementOptions.some(optionValue => checkedOptions.indexOf(optionValue.option) > -1); 
+
+				if (log) console.log("--" + ecart + "isSomeOptionInCategoryCheckedOptions", isSomeOptionInCategoryCheckedOptions);
+				if (isSomeOptionInCategoryCheckedOptions)
+					return true;
 				else
-				{
-					// if product is unselected from directory menu, we show it "disabled"
-					if (!products[i].disabled) 
-					{
-						products[i].disabled = true;
-						if (products[i].nameFormate == element.mainProduct) element.mainProductIsDisabled = true;
-						updateElementIcon = true;
-					}
-				}			
-			}	
+				{				
+					if (log) console.log("--" + ecart + "So we checked in suboptions", category.name);
+					return elementOptions.some( (optionValue) => this.recursivelyCheckedInOption(optionValue.option, element));
+				}
+			});
+		}
+		if (log) console.log(ecart + "Return ", result);
+		return result;
+	}
 
-			// if one product have been enabled or disabled we update the element icon
-			if (updateElementIcon 
-				&& atLeastOneProductPassFilter 
-				&& element.marker
-				&& App.mode == AppModes.Map) element.marker.updateIcon();
+	loadFiltersFromString(string : string)
+	{
+		let splited = string.split('@');
+		let mainOptionSlug = splited[0];
+
+		let mainOptionId = mainOptionSlug == 'all' ? 'all' : App.categoryModule.getMainOptionBySlug(mainOptionSlug).id;
+		App.directoryMenuComponent.setMainOption(mainOptionId);		
+
+		let filtersString : string;
+		let addingMode : boolean;
+
+		if ( splited.length == 2)
+		{
+			filtersString = splited[1];
+
+			if (filtersString[0] == '!') addingMode = false;
+			else addingMode = true;
+
+			filtersString = filtersString.substring(1);
+		}
+		else if ( splited.length > 2)
+		{
+			console.error("Error spliting in loadFilterFromString");
 		}
 
-		if (!atLeastOneProductPassFilter) return false;
-		
+		let filters = parseStringIntoArrayNumber(filtersString);
 
-		// OPENNING HOURS FILTER
-		if (this.dayFilters.length > 0)
+		//console.log('filters', filters);
+		//console.log('addingMode', addingMode);
+
+		// if addingMode, we first put all the filter to false
+		if (addingMode)
 		{
-			let openHours = element.openHours;
-			let day, atLeastOneDayPassFilter = false;
-			for(let key in openHours)
+			if (mainOptionSlug == 'all')
+				App.categoryModule.mainCategory.toggle(false, false);
+			else
 			{
-				day = key.split('_')[1];
-				if ( !this.containsOpeningDay(day) )
-				{
-					atLeastOneDayPassFilter = true;
-				}
+				for (let cat of App.categoryModule.getMainOptionBySlug(mainOptionSlug).subcategories)
+					for(let option of cat.options) option.toggle(false, false);
 			}
 
-			return atLeastOneDayPassFilter;
+			App.categoryModule.openHoursCategory.toggle(false, false);
 		}
-		return true;
-	};
 
-	containsProduct (productName) 
-	{		
-		for (let i = 0; i < this.productFilters.length; i++) 
+		for(let filterId of filters)
 		{
-			if (this.productFilters[i] == productName)
-			{
-				return true;
-			} 
+			let option = App.categoryModule.getOptionById(filterId);
+			if (!option) console.log("Error loadings filters : " + filterId);
+			else option.toggle(addingMode, false);
 		}
-		return false;
-	};
 
-	containsOpeningDay (day) 
-	{		
-		for (let i = 0; i < this.dayFilters.length; i++) 
-		{
-			if (this.dayFilters[i] == day)
-			{
-				return true;
-			} 
+		if (mainOptionSlug == 'all') App.categoryModule.mainCategory.updateState();
+		else App.categoryModule.getMainOptionBySlug(mainOptionSlug).recursivelyUpdateStates();
+
+		App.elementModule.updateElementToDisplay(true);
+		//App.historyModule.updateCurrState();
+
+	}
+
+	getFiltersToString() : string
+	{
+		let mainOptionId = App.currMainId;
+
+		let mainOptionName;
+		let checkArrayToParse, uncheckArrayToParse;
+		
+		if (mainOptionId == 'all')
+		{			
+			mainOptionName = "all";
+			checkArrayToParse = App.categoryModule.mainCategory.checkedOptions.map( (option) => option.id);
+			uncheckArrayToParse = App.categoryModule.mainCategory.disabledOptions.map( (option) => option.id);
 		}
-		return false;
-	};
+		else
+		{
+			let mainOption = App.categoryModule.getMainOptionById(mainOptionId);
+			mainOptionName = mainOption.nameShort;
+
+			let allOptions = mainOption.allChildrenOptions;
+
+			checkArrayToParse = allOptions.filter( (option) => option.isChecked ).map( (option) => option.id);
+			uncheckArrayToParse = allOptions.filter( (option) => option.isDisabled ).map( (option) => option.id);
+
+			if (mainOption.showOpenHours) 
+			{
+				checkArrayToParse = checkArrayToParse.concat(App.categoryModule.openHoursCategory.checkedOptions.map( (option) => option.id));
+				uncheckArrayToParse = uncheckArrayToParse.concat(App.categoryModule.openHoursCategory.disabledOptions.map( (option) => option.id));
+			}
+		}
+
+		let checkedIdsParsed = parseArrayNumberIntoString(checkArrayToParse);
+		let uncheckedIdsParsed = parseArrayNumberIntoString(uncheckArrayToParse);
+
+		let addingMode = (checkedIdsParsed.length < uncheckedIdsParsed.length);
+
+		let addingSymbol = addingMode ? '+' : '!';
+
+		let filtersString = addingMode ? checkedIdsParsed : uncheckedIdsParsed;
+
+		if (!addingMode && filtersString == "" ) return mainOptionName;
+
+		return mainOptionName + '@' + addingSymbol + filtersString;
+	}
 }

@@ -34,38 +34,40 @@ biopen_twigJs_marker.prototype.getParent_ = function(context) {
 biopen_twigJs_marker.prototype.render_ = function(sb, context, blocks) {
     blocks = typeof(blocks) == "undefined" ? {} : blocks;
     // line 2
-    sb.append("\n<div class=\"marker-name ");
+    sb.append("\n<div class=\"marker-name bgdColorAs\" option-id=");
     // line 3
-    sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "type"), "html", null, true));
-    sb.append("\" style=\"display:none\">");
+    sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "colorOptionId"), "html", null, true));
+    sb.append(" style=\"display:none\">");
     sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("element" in context ? context["element"] : null), "name")), "html", null, true));
-    sb.append("<\/div>\n\n<div class=\"marker-wrapper ");
+    sb.append("<\/div>\n\n<div class=\"marker-wrapper colorAs\" option-id=\"");
     // line 5
-    sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "type"), "html", null, true));
+    sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "colorOptionId"), "html", null, true));
     sb.append("\" id=\"marker-");
     sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "id"), "html", null, true));
-    sb.append("\">\n\n\t<div class=\"rotate animate icon-marker\"><\/div>\n\t\n\t<div class=\"iconInsideMarker-wrapper rotate\">\n\t\t<div class=\"iconInsideMarker ");
+    sb.append("\">\n\n\t<div class=\"rotate animate icon-marker\"><\/div>\n\t\n\t<div class=\"iconInsideMarker-wrapper rotate\">\n\t\t<div class=\"iconInsideMarker colorAs ");
     // line 10
-    sb.append(((twig.attr(twig.attr(("productsToDisplay" in context ? context["productsToDisplay"] : null), "main"), "disabled")) ? ("disabled") : ("")));
-    sb.append(" icon-");
-    sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("productsToDisplay" in context ? context["productsToDisplay"] : null), "main"), "value"), "html", null, true));
-    sb.append("\">\n\t\t<\/div>\n\t<\/div>\n\n\t");
+    sb.append(((twig.attr(("mainOptionToDisplay" in context ? context["mainOptionToDisplay"] : null), "isDisabled")) ? ("disabled") : ("")));
+    sb.append(" ");
+    sb.append(twig.filter.escape(this.env_, twig.attr(("mainOptionToDisplay" in context ? context["mainOptionToDisplay"] : null), "icon"), "html", null, true));
+    sb.append("\" option-id=");
+    sb.append(twig.filter.escape(this.env_, twig.attr(("mainOptionToDisplay" in context ? context["mainOptionToDisplay"] : null), "id"), "html", null, true));
+    sb.append(">\n\t\t<\/div>\n\t<\/div>\n\n\t");
     // line 14
-    context["nbreOthersProducts"] = twig.attr(twig.attr(("productsToDisplay" in context ? context["productsToDisplay"] : null), "others"), "length");
+    context["nbreOthersOptions"] = twig.attr(("otherOptionsToDisplay" in context ? context["otherOptionsToDisplay"] : null), "length");
     sb.append("\t\n\n\t");
     // line 16
-    if (((((("nbreOthersProducts" in context ? context["nbreOthersProducts"] : null)) > (0))) && (("showMoreIcon" in context ? context["showMoreIcon"] : null)))) {
+    if (((((("nbreOthersOptions" in context ? context["nbreOthersOptions"] : null)) > (0))) && (("showMoreIcon" in context ? context["showMoreIcon"] : null)))) {
         // line 17
         sb.append("\n\t\t");
         // line 18
-        context["widthMoreProduct"] = (Number(((("nbreOthersProducts" in context ? context["nbreOthersProducts"] : null)) * (39))) + Number(5));
+        context["widthMoreOption"] = (Number(((("nbreOthersOptions" in context ? context["nbreOthersOptions"] : null)) * (39))) + Number(5));
         sb.append("   \t\n\n    \t<div class=\"icon-plus-circle animate rotate\"><\/div>\n\n    \t<div class=\"moreIconContainer animate rotate\" \n    \t\t  style=\"width:");
         // line 23
-        sb.append(twig.filter.escape(this.env_, ("widthMoreProduct" in context ? context["widthMoreProduct"] : null), "html", null, true));
+        sb.append(twig.filter.escape(this.env_, ("widthMoreOption" in context ? context["widthMoreOption"] : null), "html", null, true));
         sb.append("px\">\n    \t\n\t\t\t");
         // line 25
         context['_parent'] = context;
-        var seq = twig.attr(("productsToDisplay" in context ? context["productsToDisplay"] : null), "others");
+        var seq = ("otherOptionsToDisplay" in context ? context["otherOptionsToDisplay"] : null);
         var loop = {
             'index0': 0,
             'index': 1,
@@ -80,24 +82,30 @@ biopen_twigJs_marker.prototype.render_ = function(sb, context, blocks) {
         }
         twig.forEach(seq, function(v, k) {
             context["_key"] = k;
-            context["otherProduct"] = v;
+            context["otherOption"] = v;
             // line 26
             sb.append("\n\t\t\t\t");
             // line 27
-            context["disableProduct"] = ((twig.attr(("otherProduct" in context ? context["otherProduct"] : null), "disabled")) ? ("disabled") : (""));
+            context["disableOption"] = ((twig.attr(("otherOption" in context ? context["otherOption"] : null), "isDisabled")) ? ("disabled") : (""));
             // line 28
             sb.append("\n\t\t\t\t<div class=\"moreIconWrapper ");
             // line 29
-            sb.append(twig.filter.escape(this.env_, ("disableProduct" in context ? context["disableProduct"] : null), "html", null, true));
-            sb.append("\"\n\t\t\t\t\t\tstyle=\"left:");
+            sb.append(twig.filter.escape(this.env_, ("disableOption" in context ? context["disableOption"] : null), "html", null, true));
+            sb.append(" ");
+            sb.append(((twig.attr(("otherOption" in context ? context["otherOption"] : null), "ownerColorId")) ? ("colorAs") : ("")));
+            sb.append("\" option-id=");
+            sb.append(twig.filter.escape(this.env_, twig.attr(("otherOption" in context ? context["otherOption"] : null), "ownerColorId"), "html", null, true));
+            sb.append("\n\t\t\t\t\t\tstyle=\"left:");
             // line 30
             sb.append(twig.filter.escape(this.env_, ((32) * (twig.attr(loop, "index0"))), "html", null, true));
             sb.append("px\">\n\t\t\t\t\t<span class=\"moreIcon iconInsideMarker ");
             // line 31
-            sb.append(twig.filter.escape(this.env_, ("disableProduct" in context ? context["disableProduct"] : null), "html", null, true));
-            sb.append(" icon-");
-            sb.append(twig.filter.escape(this.env_, twig.attr(("otherProduct" in context ? context["otherProduct"] : null), "value"), "html", null, true));
-            sb.append("\">\n\t\t\t\t\t<\/span>\n\t\t\t \t<\/div>\n\n\t\t\t ");
+            sb.append(twig.filter.escape(this.env_, ("disableOption" in context ? context["disableOption"] : null), "html", null, true));
+            sb.append(" ");
+            sb.append(twig.filter.escape(this.env_, twig.attr(("otherOption" in context ? context["otherOption"] : null), "icon"), "html", null, true));
+            sb.append(" colorAs\" option-id=");
+            sb.append(twig.filter.escape(this.env_, twig.attr(("otherOption" in context ? context["otherOption"] : null), "id"), "html", null, true));
+            sb.append(">\n\t\t\t\t\t<\/span>\n\t\t\t \t<\/div>\n\n\t\t\t ");
             ++loop['index0'];
             ++loop['index'];
             loop['first'] = false;
@@ -138,35 +146,35 @@ biopen_twigJs_marker.prototype.isTraitable = function() {
 };
 /* {% twig_js name="biopen_twigJs_marker" %}*/
 /* */
-/* <div class="marker-name {{ element.type }}" style="display:none">{{ element.name | capitalize }}</div>*/
+/* <div class="marker-name bgdColorAs" option-id={{element.colorOptionId}} style="display:none">{{ element.name | capitalize }}</div>*/
 /* */
-/* <div class="marker-wrapper {{ element.type }}" id="marker-{{ element.id }}">*/
+/* <div class="marker-wrapper colorAs" option-id="{{element.colorOptionId}}" id="marker-{{ element.id }}">*/
 /* */
 /* 	<div class="rotate animate icon-marker"></div>*/
 /* 	*/
 /* 	<div class="iconInsideMarker-wrapper rotate">*/
-/* 		<div class="iconInsideMarker {{ productsToDisplay.main.disabled ? 'disabled' : '' }} icon-{{ productsToDisplay.main.value }}">*/
+/* 		<div class="iconInsideMarker colorAs {{ mainOptionToDisplay.isDisabled ? 'disabled' : '' }} {{ mainOptionToDisplay.icon }}" option-id={{ mainOptionToDisplay.id }}>*/
 /* 		</div>*/
 /* 	</div>*/
 /* */
-/* 	{% set nbreOthersProducts = productsToDisplay.others.length %}	*/
+/* 	{% set nbreOthersOptions = otherOptionsToDisplay.length %}	*/
 /* */
-/* 	{% if nbreOthersProducts > 0 and showMoreIcon %}*/
+/* 	{% if nbreOthersOptions > 0 and showMoreIcon %}*/
 /* */
-/* 		{% set widthMoreProduct = nbreOthersProducts * 39 + 5  %}   	*/
+/* 		{% set widthMoreOption = nbreOthersOptions * 39 + 5  %}   	*/
 /* */
 /*     	<div class="icon-plus-circle animate rotate"></div>*/
 /* */
 /*     	<div class="moreIconContainer animate rotate" */
-/*     		  style="width:{{ widthMoreProduct }}px">*/
+/*     		  style="width:{{ widthMoreOption }}px">*/
 /*     	*/
-/* 			{% for otherProduct in productsToDisplay.others %}*/
+/* 			{% for otherOption in otherOptionsToDisplay %}*/
 /* */
-/* 				{% set disableProduct = otherProduct.disabled ? 'disabled' : '' %}*/
+/* 				{% set disableOption = otherOption.isDisabled ? 'disabled' : '' %}*/
 /* */
-/* 				<div class="moreIconWrapper {{ disableProduct }}"*/
+/* 				<div class="moreIconWrapper {{ disableOption }} {{ otherOption.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOption.ownerColorId }}*/
 /* 						style="left:{{ 32 * loop.index0 }}px">*/
-/* 					<span class="moreIcon iconInsideMarker {{ disableProduct }} icon-{{ otherProduct.value }}">*/
+/* 					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOption.icon }} colorAs" option-id={{ otherOption.id }}>*/
 /* 					</span>*/
 /* 			 	</div>*/
 /* */

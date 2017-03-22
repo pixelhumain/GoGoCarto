@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-27 14:55:27
+ * @Last Modified time: 2017-03-21 14:33:55
  */
  
 
@@ -17,13 +17,11 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Document\Element;
-use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Document\ElementProduct;
-use Biopen\GeoDirectoryBundle\Document\Product;
 
-use Wantlet\ORM\Point;
-use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
+use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Document\CategoryValue;
+use Biopen\GeoDirectoryBundle\Document\OptionValue;
+
 use joshtronic\LoremIpsum;
 
 class RandomCreationController extends Controller
@@ -37,55 +35,14 @@ class RandomCreationController extends Controller
 	    $NElat = 49.22;
 	    $NElng = 5.89;
 
-	 //    // $SOlat = 42.81519924863995;
-	 //    // $SOlng = -1.0489655173828396;
-	 //    // $NElat = 44.9916584842516;
-	 //    // $NElng = 2.9116057716796604;
-
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $listProducts = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Product')
-	            ->findAll();
+	    $mainCategory = $this->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Category')
+	            ->findOneByDepth(0);
 
 
-	    $lipsum = new LoremIpsum();
-
-	    $listType = ['producteur', 'amap', 'marche', 'epicerie', 'boutique'];
-
-	    $typeSet = [
-		  0 => 0.5,
-		  1 => 0.1,
-		  2 => 0.15,
-		  3 => 0.15,
-		  4 => 0.1,
-		];
-
-		$productsSet = [
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05
-		];
-
-		/*$productSet = [
-		  0 => 0.1,
-		  1 => 0.5,
-		  2 => 0.3,
-		  3 => 0.1,
-		  4 => 0.05,
-		  5 => 0.05,
-		  6 => 0.05,
-		  7 => 0.05,
-		  8 => 0.05,
-		  9 => 0.05,
-		  10 => 0.05,
-		  11 => 0.05,
-		  12 => 0.05,
-
-		];*/
-
+	    $lipsum = new LoremIpsum();	   
 
 	    for ($i= 0; $i < $nombre; $i++) 
 	    {
@@ -98,52 +55,62 @@ class RandomCreationController extends Controller
 
 	      $new_element->setLng($lng);
 	      $new_element->setLat($lat);
-	      $new_element->setAdresse($lipsum->words(rand(6,10)));       
+	      $new_element->setAddress($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 
-	      $type = $listType[$this->randWithSet($typeSet)];
-
-	      $new_element->setType($type);
-
-	      if ($type == "epicerie" || $type == "marche" || $type == 'boutique')
-	      {
-	        $new_element->setMainProduct($type);
-	      }
-
-	      $currListProducts = $listProducts;
-	      for ($j = 0; $j < $this->randWithSet($productsSet); $j++) 
-	      {
-	        $key = rand(0,count($currListProducts)-1);
-	        $product = $currListProducts[$key];
-	        array_splice($currListProducts, $key, 1);
-	        $elementProduct = new ElementProduct();
-	        $elementProduct->setProduct($product);
-	        $elementProduct->setDescriptif($lipsum->words(rand(0,15)));
-	        $elementProduct->setElement($new_element);
-	        $new_element->addProduct($elementProduct);
-	        $manager->persist($elementProduct);
-
-	        if ($j == 0 && !$new_element->getMainProduct()) 
-	        {
-	            $new_element->setMainProduct($product->getNameFormate());
-	        }
-	      }
+	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
 	      $new_element->setContributor('true');
-	      $new_element->setContributorMail('contributor@gmail.com');
-		
-		  //dump($new_element);
-		 // On la persiste
+	      $new_element->setContributorMail('contributor@gmail.com');		
+		   
 	      $manager->persist($new_element);
 	    }
 
-	    // On déclenche l'enregistrement de toutes les catégories
+	    dump($new_element);
+
 	    $manager->flush();
 
 	    return new Response('Elements générés');
+  }
+
+  private function recursivelyCreateOptionsforCategory($category, $element, $lipsum)
+  {
+  	$nbreOptionsSet = [
+	  1 => 0.7,
+	  2 => 0.2,
+	  3 => 0.1,
+	];
+
+  	$nbreOptions = 2;//$this->randWithSet($nbreOptionsSet) * max(1, $category->getDepth());
+
+   $options = $category->getOptions();
+
+   for ($j = 0; $j < $nbreOptions; $j++) 
+   {
+   	$optionValue = new OptionValue();
+
+   	$key = rand(0,count($options)-1);
+   	$option = $options[$key]; 
+
+   	$optionValue->setOptionId($option->getId());	
+   	$optionValue->setIndex($j); 
+
+   	if ($category->getEnableDescription())
+   	{
+   		$optionValue->setDescription($lipsum->words(rand(3,10)));
+   	}
+
+   	$element->addOptionValue($optionValue);
+
+   	// for each subcategory
+   	for($k = 0; $k < count($option->getSubcategories()); $k++)
+   	{
+   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element, $lipsum);
+   	}     	
+   }
   }
 
     private function randWithSet(array $set, $length=10000)

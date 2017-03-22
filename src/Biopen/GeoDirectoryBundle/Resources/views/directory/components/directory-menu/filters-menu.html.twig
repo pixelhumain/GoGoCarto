@@ -1,100 +1,81 @@
 <div class="filter-menu">	
 
+	{# MAIN CATEGORIE SIDE BAR #}
 	<div class="main-categories">
 
-		<div class="icon icon-plantes" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-bike active" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-bed" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-home" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-paw" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-education" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
-		<div class="icon icon-coffee" data-position="right" data-delay="0" data-tooltip="Agriculture"></div> 
+		<div class="icon main-icon-background" id="active-main-option-background"></div>
+
+		<div class="icon main-icon active icon-users" id="main-option-icon-all" data-option-id="all">
+			<div class="main-option-tooltip">Tous les acteurs</div>
+		</div> 
+
+		{# MAIN OPTIONS ICONS & TOOLTIP #}
+		{% for key, mainOption in mainCategory.options | sortbyfield('index')%}
+
+			<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}">
+				<div class="main-option-tooltip">{{ mainOption.name }}</div>
+			</div>
+
+		{% endfor %}
 
 	</div>
 
 	<div class="sub-categories">
 
-		<div class="sub-categorie-main-title">Agriculture</div>
+		<div class="sub-categorie-main-title" id="menu-subcategories-title">Tous les acteurs</div>
 
-		<div class="sub-categories-content">
-		<ul>
+			<div class="sub-categories-content">
+			<ul>
 
-			<li class="subcategorie-option-item row" id="filter-favorite">
-					    <span class="icon icon-star-full"></span>
-					    <span class="option-name">Favoris</span> 
-					    <span class="checkbox-wrapper">
-					      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="product-checkbox-favorite" data-type='favorite' data="favorite" />
-					      <label for="product-checkbox-favorite" data-position="right" data-delay="0" data-tooltip="Afficher uniquement les favoris"></label>
-					    </span>
-			</li>
+				{# FAVORITE #}
+				<li class="subcategorie-option-item row" id="filter-favorite" data-position="right" data-delay="300" data-tooltip="Afficher uniquement les favoris">
+			    <span class="icon icon-star-full"></span>
+			    <span class="option-name">Favoris</span> 
 
-			<li class="subcategory-item first">
-				Catégories
-				<span class="checkbox-wrapper">
-			      <input type="checkbox" class="subcategorie-checkbox filled-in" id="subcategorie-checkbox-type" checked="checked" data-type='type'/>
-			      <label for="subcategorie-checkbox-type"></label>
-				</span>
-			</li>
-
-			{% set types = {'producteur':'Producteur','amap':'AMAP','marche':'Marché','boutique':'Boutique','epicerie':'Epicerie'} %}
-
-			{% for type_formate, type in types %}
-				<li class="subcategorie-option-item row">
-				    <span class="icon icon-marker {{ type_formate }}"></span>
-				    <span class="option-name">{{ type|capitalize }}</span> 
-				    <span class="icon btn-show-only icon-material-eye"></span>
-				    <span class="checkbox-wrapper">
-				      <input type="checkbox" class="type-checkbox subcategorie-option-checkbox" id="type-checkbox-{{ type_formate }}" checked="checked" data-type='type' data="{{ type_formate }}"/>
-				      <label for="type-checkbox-{{ type_formate }}"></label>
-				    </span>
+			    {# --- CHECKBOX ---- #}
+					<div class="checkbox-wrapper">
+						<div class="checkbox-container">
+				      <input type="checkbox" class="subcategorie-option-checkbox favorite-checkbox" id="favorite-checkbox" data-type='favorite' data="favorite" />
+				      <label for="favorite-checkbox" ></label>
+			    	</div>
+			    </div>
 				</li>
-			{% endfor %}
 
-			<li class="subcategory-item">
-				Produits
-				<span class="checkbox-wrapper">
-			      <input type="checkbox" class=" subcategorie-checkbox filled-in" id="subcategorie-checkbox-products" checked="checked" data-type='product'/>
-			      <label for="subcategorie-checkbox-products"></label>
-				</span>
-			</li>
+				{# ALL CATEGORIES MENU #}
+				<div id="main-option-all" class="main-option-subcategories-container" style="display:none">		
 
-			{% for key, product in listProducts %} 
-			   
-			    <li class="subcategorie-option-item  row"  >
-				    <span class="icon icon-{{ product.nameFormate }}"></span>
-				    <span class="option-name">{{ product.nameShort|capitalize }}</span> 
-				    <span class="checkbox-wrapper">
-				      <input type="checkbox" class=" product-checkbox subcategorie-option-checkbox" id="product-checkbox-{{ product.nameFormate }}" checked="checked" data-type='product' data="{{ product.nameFormate }}"/>
-				      <label for="product-checkbox-{{ product.nameFormate }}"></label>
-				    </span>
-			    </li>
+				{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+            						with {'category': mainCategory, 'recursive': false } %}
 
-			{% endfor %} 
+				</div>
 
-			<li class="subcategory-item">
-				Horaires d'ouverture
-				<span class="checkbox-wrapper">
-			      <input type="checkbox" class=" subcategorie-checkbox filled-in" id="subcategorie-checkbox-day" checked="checked" data-type='day'/>
-			      <label for="subcategorie-checkbox-day"></label>
-				</span>
-			</li>
+				{# MAIN OPTIONS MENU #}
+				{% for key, mainOption in mainCategory.options %}
 
-			{% set days = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'] %}
+					<div id="main-option-{{ mainOption.id }}" class="main-option-subcategories-container" style="display:none">		
 
-			{% for day in days %}
-				<li class="subcategorie-option-item row">
-				    <span class="icon icon-day"></span>
-				    <span class="dayName">{{ day|capitalize }}</span> 
-				    <span class="checkbox-wrapper">
-				      <input type="checkbox" class="day-checkbox subcategorie-option-checkbox" id="days-checkbox-{{ day }}" checked="checked" data-type='day' data="{{ day }}"/>
-				      <label for="days-checkbox-{{ day }}"></label>
-				    </span>
-				</li>
-			{% endfor %}
+					{% for key, category in mainOption.subcategories | sortbyfield('index')%}
 
-		</ul>
+						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+              						with {'category': category, 'recursive': true } %}
+
+					{% endfor %} 
+
+					</div>
+
+				{% endfor %}
+
+				{# OPEN HOURS FILTER #}
+				<div id="open-hours-filter" class="" style="display:none">		
+
+					{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+            						with {'category': openHoursCategory, 'recursive': false } %}
+
+				</div>
+
+			</ul>
 		</div>
 
 	</div>
-
 </div>
+			

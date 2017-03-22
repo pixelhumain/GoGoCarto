@@ -59,8 +59,8 @@
               newTooltip.children('span').text(origin.attr('data-tooltip'));
 
               // Tooltip positioning
-              var originWidth = origin.outerWidth();
-              var originHeight = origin.outerHeight();
+              var originWidth = origin.outerWidth(true);
+              var originHeight = origin.outerHeight(true);
               var tooltipPosition =  origin.attr('data-position');
               var tooltipHeight = newTooltip.outerHeight();
               var tooltipWidth = newTooltip.outerWidth();

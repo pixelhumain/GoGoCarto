@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-04 20:55:26
+ * @Last Modified time: 2017-03-17 15:30:29
  */
  
 
@@ -55,12 +55,19 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $adresse;
+    private $address;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
+     */
+    private $postalCode;
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string", nullable=false)
      */
     private $description;
 
@@ -83,21 +90,28 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $webSite;    
+    private $webSite;
+    
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
+     */
+    private $optionValues;
+
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\Field(type="object_id", nullable=true)
+     */
+    private $openHours;
 
     /**
      * @var string
      *
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="string", nullable=true)
      */
-    private $mainProduct;
-
-   /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $type;
+    private $openHoursMoreInfos;
 
     /**
      * @var string
@@ -127,48 +141,35 @@ class Element
      */
     private $valide = false;
 
+
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementProduct", cascade={"persist", "remove"})
-    */
-    private $products; 
-
-    private $distance;
-
-    private $wastedDistance;
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->validationCode = md5(uniqid(rand(), true));
+        $this->contributor = '';
+    }
 
     public function reinitContributor()
     {
         $this->validationCode = md5(uniqid(rand(), true));
         $this->contributorMail = '';
         $this->contributor = '';
-
-        // constructor
-        $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributor = '';
     }
 
-    public function resetProducts()
-    {
-        $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->products->clear();
-    }
+    // public function resetProducts()
+    // {
+    //     $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
+    //     $this->products->clear();
+    // } 
 
-    private function calculateWastedDistance()
-    {
-        if ( count($this->getProducts()) == 0 || in_array($this->getType(), array("epicerie","marche","boutique") )) return $this->getDistance();
-        //$waste = 1.0 / pow(count($this->getProducts()),2);
-        $waste = -1.0*count($this->getProducts())/10.0 + 1.0;
-        return $this->getDistance() * $waste;
-    }
-    public function __construct()
-    {
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Get id
      *
-     * @return int_id $id
+     * @return custom_id $id
      */
     public function getId()
     {
@@ -242,25 +243,47 @@ class Element
     }
 
     /**
-     * Set adresse
+     * Set address
      *
-     * @param string $adresse
+     * @param string $address
      * @return $this
      */
-    public function setAdresse($adresse)
+    public function setAddress($address)
     {
-        $this->adresse = $adresse;
+        $this->address = $address;
         return $this;
     }
 
     /**
-     * Get adresse
+     * Get address
      *
-     * @return string $adresse
+     * @return string $address
      */
-    public function getAdresse()
+    public function getAddress()
     {
-        return $this->adresse;
+        return $this->address;
+    }
+
+    /**
+     * Set postalCode
+     *
+     * @param string $postalCode
+     * @return $this
+     */
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
+        return $this;
+    }
+
+    /**
+     * Get postalCode
+     *
+     * @return string $postalCode
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
     }
 
     /**
@@ -352,47 +375,69 @@ class Element
     }
 
     /**
-     * Set mainProduct
+     * Set categories
      *
-     * @param string $mainProduct
+     * @param object_id $categories
      * @return $this
      */
-    public function setMainProduct($mainProduct)
+    public function setCategories($categories)
     {
-        $this->mainProduct = $mainProduct;
+        $this->categories = $categories;
         return $this;
     }
 
     /**
-     * Get mainProduct
+     * Get categories
      *
-     * @return string $mainProduct
+     * @return object_id $categories
      */
-    public function getMainProduct()
+    public function getCategories()
     {
-        return $this->mainProduct;
+        return $this->categories;
     }
 
     /**
-     * Set type
+     * Set openHours
      *
-     * @param string $type
+     * @param object_id $openHours
      * @return $this
      */
-    public function setType($type)
+    public function setOpenHours($openHours)
     {
-        $this->type = $type;
+        $this->openHours = $openHours;
         return $this;
     }
 
     /**
-     * Get type
+     * Get openHours
      *
-     * @return string $type
+     * @return object_id $openHours
      */
-    public function getType()
+    public function getOpenHours()
     {
-        return $this->type;
+        return $this->openHours;
+    }
+
+    /**
+     * Set openHoursMoreInfos
+     *
+     * @param string $openHoursMoreInfos
+     * @return $this
+     */
+    public function setOpenHoursMoreInfos($openHoursMoreInfos)
+    {
+        $this->openHoursMoreInfos = $openHoursMoreInfos;
+        return $this;
+    }
+
+    /**
+     * Get openHoursMoreInfos
+     *
+     * @return string $openHoursMoreInfos
+     */
+    public function getOpenHoursMoreInfos()
+    {
+        return $this->openHoursMoreInfos;
     }
 
     /**
@@ -461,33 +506,34 @@ class Element
         return $this->validationCode;
     }
 
+
     /**
-     * Add product
+     * Add optionValue
      *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementProduct $product
+     * @param Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue
      */
-    public function addProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
+    public function addOptionValue(\Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue)
     {
-        $this->products[] = $product;
+        $this->optionValues[] = $optionValue;
     }
 
     /**
-     * Remove product
+     * Remove optionValue
      *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementProduct $product
+     * @param Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue
      */
-    public function removeProduct(\Biopen\GeoDirectoryBundle\Document\ElementProduct $product)
+    public function removeOptionValue(\Biopen\GeoDirectoryBundle\Document\OptionValue $optionValue)
     {
-        $this->products->removeElement($product);
+        $this->optionValues->removeElement($optionValue);
     }
 
     /**
-     * Get products
+     * Get optionValues
      *
-     * @return \Doctrine\Common\Collections\Collection $products
+     * @return \Doctrine\Common\Collections\Collection $optionValues
      */
-    public function getProducts()
+    public function getOptionValues()
     {
-        return $this->products;
+        return $this->optionValues;
     }
 }
