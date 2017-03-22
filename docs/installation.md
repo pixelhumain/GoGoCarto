@@ -61,6 +61,8 @@ Generate Database
 Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
 ```
 doctrine:mongodb:schema:create
+doctrine:mongodb:generate:hydrators
+doctrine:mongodb:generate:proxies
 doctrine:mongodb:fixtures:load
 ```
 
