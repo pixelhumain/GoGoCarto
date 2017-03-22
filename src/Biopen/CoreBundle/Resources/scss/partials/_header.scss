@@ -47,8 +47,21 @@ header
 			&:hover
 			{
 				color: #EE6E73;
-				//border-bottom: 2px solid rgba(0, 0, 0, 0.46);
+				.arrow-after
+				{
+					border-color: #EE6E73 transparent transparent transparent;
+				}
+				cursor: pointer;
 			}
+
+			.arrow-after
+			{
+				display: inline-block;
+		    margin-left: 5px;
+		    margin-bottom: -3px;
+		    border: solid 5px;
+		    border-color: white transparent transparent transparent;
+		  }
 
 			a 
 			{ 
@@ -59,28 +72,27 @@ header
 				border-radius: 0; 
 				border: none;
 				background-color: transparent;
-	    		letter-spacing: .5px;
+	    	letter-spacing: .5px;
 
-			}
-			.dropdown-content
-	    		{
-	    			background-color: #272626;
-	    			margin-top:2.3rem;
-	    			margin-right:2rem;
-	    			.name
-	    			{
-	    				.abt
-	    				{
-	    					    color:white;
-	    					    &:hover
-			                    {
-				                    color: #EE6E73;
-							    }
-	    				}
-	    			}
-	    			
-	    		}			
-		}		
+			}			
+		}
+
+		.dropdown-content
+		{
+			background-color: #3d3d3d;
+			margin-top:2.3rem;
+			margin-right:2rem;
+
+	    @media screen and (max-width: 500px) { margin-top: 2.5rem; }
+	    @media only screen and (min-width : 601px) { margin-top: 3.4rem; }
+			
+			.about-title-item 
+			{
+		    color:#d2d2d2;
+		    font-size: .9rem;
+		    &:hover { color: white; background-color: #3d3d3d }
+			}  			
+		}					
 	}
 
 	#menu-home
