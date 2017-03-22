@@ -1,44 +1,41 @@
 <?php
 
-namespace Biopen\CoreBundle\Entity;
+namespace Biopen\CoreBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * Wrapper
+ * About
  *
- * @ORM\Table(name="wrapper")
- * @ORM\Entity(repositoryClass="Biopen\CoreBundle\Repository\WrapperRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\CoreBundle\Repository\AboutRepository")
  */
-class Wrapper
+class About
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="INCREMENT") 
      */
     private $id;
 
-    /**
+     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="text", nullable=true)
+     * @MongoDB\Field(type="string")
      */
-    private $title;
+    private $name;
 
-    /**
+     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $content;
 
-    /**
+     /**
      * @var string
      *
-     * @ORM\Column(name="backgroundColor", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $backgroundColor;
 
@@ -54,27 +51,27 @@ class Wrapper
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
-     * @return Wrapper
+     * @return About
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
@@ -82,7 +79,7 @@ class Wrapper
      *
      * @param string $content
      *
-     * @return Wrapper
+     * @return About
      */
     public function setContent($content)
     {
@@ -106,7 +103,7 @@ class Wrapper
      *
      * @param string $backgroundColor
      *
-     * @return Wrapper
+     * @return About
      */
     public function setBackgroundColor($backgroundColor)
     {

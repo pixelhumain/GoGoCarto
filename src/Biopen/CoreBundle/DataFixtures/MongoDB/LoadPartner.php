@@ -4,7 +4,7 @@ namespace Biopen\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Biopen\CoreBundle\Entity\Partner;
+use Biopen\CoreBundle\Document\Partner;
 
 
 

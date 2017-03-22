@@ -7,14 +7,13 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-22 15:46:13
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Repository;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
-// use Doctrine\ORM\EntityRepository;
 /**
  * ElementRepository
  *

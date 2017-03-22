@@ -1,51 +1,48 @@
 <?php
 
-namespace Biopen\CoreBundle\Entity;
+namespace Biopen\CoreBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * Partner
  *
- * @ORM\Table(name="partner")
- * @ORM\Entity(repositoryClass="Biopen\CoreBundle\Repository\PartnerRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\CoreBundle\Repository\PartnerRepository")
  */
 class Partner
 {
-    /**
+     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="INCREMENT") 
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @MongoDB\Field(type="string")
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="logoUrl", type="string", length=255, unique=true)
+     * @MongoDB\Field(type="string")
      */
     private $logoUrl;
 
-    /**
+   /**
      * @var string
      *
-     * @ORM\Column(name="websiteUrl", type="string", length=255, unique=true)
+     * @MongoDB\Field(type="string")
      */
     private $websiteUrl;
 

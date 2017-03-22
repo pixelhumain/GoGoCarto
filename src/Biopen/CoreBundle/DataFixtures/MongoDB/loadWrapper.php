@@ -4,7 +4,7 @@ namespace Biopen\CoreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Biopen\CoreBundle\Entity\Wrapper;
+use Biopen\CoreBundle\Document\Wrapper;
 
 
 

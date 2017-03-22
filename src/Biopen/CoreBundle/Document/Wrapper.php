@@ -1,44 +1,41 @@
 <?php
 
-namespace Biopen\CoreBundle\Entity;
+namespace Biopen\CoreBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * About
+ * Wrapper
  *
- * @ORM\Table(name="about")
- * @ORM\Entity(repositoryClass="Biopen\CoreBundle\Repository\AboutRepository")
+ * @MongoDB\Document(repositoryClass="Biopen\CoreBundle\Repository\WrapperRepository")
  */
-class About
+class Wrapper
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="INCREMENT") 
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @MongoDB\Field(type="string")
      */
-    private $name;
+    private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="backgroundColor", type="string", length=255, nullable=true)
+     * @MongoDB\Field(type="string")
      */
     private $backgroundColor;
 
@@ -54,27 +51,27 @@ class About
     }
 
     /**
-     * Set name
+     * Set title
      *
-     * @param string $name
+     * @param string $title
      *
-     * @return About
+     * @return Wrapper
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get title
      *
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
     }
 
     /**
@@ -82,7 +79,7 @@ class About
      *
      * @param string $content
      *
-     * @return About
+     * @return Wrapper
      */
     public function setContent($content)
     {
@@ -106,7 +103,7 @@ class About
      *
      * @param string $backgroundColor
      *
-     * @return About
+     * @return Wrapper
      */
     public function setBackgroundColor($backgroundColor)
     {
