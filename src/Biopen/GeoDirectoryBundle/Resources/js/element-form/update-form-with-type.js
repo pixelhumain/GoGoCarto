@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-23 14:50:19
  */
 var first_updateFormWithType_done = false;
 function updateFormWithType( init )
@@ -38,7 +38,7 @@ function updateFormWithType( init )
 		switch($('#element-type').val()) {
 	    case "1": //producteur
 	    	$('#title-products').text("Produits disponibles");    	
-	    	$('#titre-open-hourss').text("OpenHourss de vente (optionnel)");
+	    	$('#titre-open-hourss').text("Horaires de vente (optionnel)");
 	    	$('#is-part-of-element + label').text("Vous êtes ou travaillez chez ce producteur");
 	    	$('#input-address').attr('placeholder',"Adresse du point de vente directe");
 	    	
@@ -46,12 +46,12 @@ function updateFormWithType( init )
 	    	$('#div-main-product').show();
 	    	break;
 	    case "4": // boutique
-	    	$('#titre-open-hourss').text("OpenHourss d'ouverture (optionnel)");
+	    	$('#titre-open-hourss').text("Horaires d'ouverture (optionnel)");
 	        $('#title-products').text("Produits locaux et raisonnés présents dans la boutique");
 	        $('#is-part-of-element + label').text("Vous travaillez dans cette boutique");
 	        break;
 	    case "3": // amap
-	    	$('#titre-open-hourss').text("OpenHourss de distribution (optionnel)");
+	    	$('#titre-open-hourss').text("Horaires de distribution (optionnel)");
 	        $('#title-products').text("Produits présents dans cette AMAP");
 	        $('#is-part-of-element + label').text("Vous faites partie de l'AMAP");
 	        $('#label-agree').text("Vous vous engagez à fournir des informations exactes");
@@ -61,7 +61,7 @@ function updateFormWithType( init )
 	        $('#div-main-product').show();
 	        break;
 	    case "5": // epicerie
-	    	$('#titre-open-hourss').text("OpenHourss d'ouverture (optionnel)");       
+	    	$('#titre-open-hourss').text("Horaires d'ouverture (optionnel)");       
 	        $('#section_products').css('display','none'); 
 	        $('.checkbox-products:last-child').prop('checked', true);  
 	        $('#divider-products').hide();     
