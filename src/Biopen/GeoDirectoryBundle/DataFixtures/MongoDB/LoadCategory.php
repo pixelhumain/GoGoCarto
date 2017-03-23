@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-20 16:22:59
+ * @Last Modified time: 2017-03-23 14:11:00
  */
  
 
@@ -60,12 +60,13 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$mains = array(
-			array('Agriculture & Alimentation'  , 'plantes'     , '#B33536', 'Agriculture'        , true),
+			array('Agriculture & Alimentation'  , 'leaf-1'     , '#579c46', 'Agriculture'        , true),
+			array('Habitat'    , 'home'      , '#8e5440',''        , false),			
 			array('Education & Formation'    , 'education'      , '#383D5A','Education'        , false),
-			array('Mobilité'        , 'bike'      				, '#4B7975',''        , false),
-			array('Voyages'      , 'bed'     		, '#3F51B5','', false),			
-			array('Habitat'    , 'home'      , '#813c81',''        , false),
-			array('Sortie & Culture'    , 'coffee'      , '#813c81',''        , false),
+			array('Mobilité'        , 'bike'      				, '#b33738',''        , false),
+			array('Sortie & Culture'    , 'coffee'      , '#5262b7',''        , false),			
+			array('Voyages'      , 'bed'     		, '#985389','', false),			
+			
 		);
 
 
@@ -108,7 +109,7 @@ class LoadCategory implements FixtureInterface
 			array('Circuit courts'  		, ''     			, '#B33536', ''        , false),
 			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
 			array('Epicerie & Supérette'    ,'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , '#813c81',''        , true)
+			array('Restauration'    		, 'icon-restaurant'      , '#4a7874',''        , true)
 		);
 
 
