@@ -1,7 +1,7 @@
 services:
     biopen.form.element:
         class: Biopen\GeoDirectoryBundle\Form\ElementType
-        arguments: ['@doctrine.odm.mongoDB.document_manager']
+        arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
         tags:
             - { name: form.type }
     biopen.element_service:

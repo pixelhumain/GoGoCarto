@@ -27,7 +27,7 @@
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
 	<i class="material-icons prefix">room</i>	
-  	{{ form_widget(form.adresse, {'id': 'input-address',
+  	{{ form_widget(form.address, {'id': 'input-address',
   								  'attr': {'class': 'validate required',
   								           'placeholder':'Adresse Complète' 
   								  		   }}) }}
@@ -38,8 +38,8 @@
   		avec un nouveau formulaire !</div>
 
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.latlng.latitude, {'id': 'input-latitude'}) }}	
-	{{ form_widget(form.latlng.longitude, {'id': 'input-longitude'}) }}				
+	{{ form_widget(form.lat, {'id': 'input-latitude'}) }}	
+	{{ form_widget(form.lng, {'id': 'input-longitude'}) }}				
 
 	<!-- Map -->
 	<div id="address-preview-map" class="col s12"></div>	

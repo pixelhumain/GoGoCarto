@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-23 14:35:41
  */
  
 
@@ -16,14 +16,13 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\Option;
+use Biopen\GeoDirectoryBundle\Document\Catgeory;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
 
@@ -32,10 +31,11 @@ class ElementFormController extends Controller
     public function addAction(Request $request)
     {
 		$element = new Element();
+		$em = $this->get('doctrine_mongodb')->getManager();
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
 
-		$em = $this->getDoctrine()->getManager();
-		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
+		
+		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Category')
             ->findAll();
 
 		if ($form->handleRequest($request)->isValid()) 
@@ -58,7 +58,7 @@ class ElementFormController extends Controller
 
 	public function editAction($id, Request $request)
 	{
-		$em = $this->getDoctrine()->getManager();
+		$em = $this->get('doctrine_mongodb')->getManager();
 
 		// On récupère l'annonce $id
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
@@ -69,7 +69,7 @@ class ElementFormController extends Controller
 
 		$element->reinitContributor();
 
-		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')->findAll();
+		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findAll();
 
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
 

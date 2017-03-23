@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-01-24 18:40:25
+ * @Last Modified time: 2017-03-23 14:38:56
  */
  
 
@@ -25,27 +25,26 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
 
-use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
-use Biopen\GeoDirectoryBundle\Form\PointType;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManager;
+use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
+
+
+use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 
 class ElementType extends AbstractType
 {
 
-  protected $em;
-
-  function __construct(EntityManager $em)
+  public function __construct(DocumentManager $documentManager)
   {
-      $this->em = $em;
+     $this->em = $documentManager;
   }
 
   /**
@@ -56,23 +55,25 @@ class ElementType extends AbstractType
   {
       $builder
           ->add('name', TextType::class, array('required' => false))
-          ->add('adresse', TextType::class, array('required' => false))
+          ->add('address', TextType::class, array('required' => false))
           ->add('description', TextType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
-          ->add('latlng', PointType::class) 
-          ->add('listeProducts', EntityType::class, array(
-                  'class' => 'Biopen\GeoDirectoryBundle\Entity\Product',
-                  'choice_label' => 'name',
-                  'choice_name' => 'nameFormate',
-                  'query_builder' => function (EntityRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
-                  'expanded' =>'true',
-                  'multiple' =>'true',
-                  'mapped'=> false
-          ))  
+          ->add('lat', HiddenType::class)
+          ->add('lng', HiddenType::class)
+          // ->add('listeProducts', DocumentType::class, array(
+          //         'class' => 'Biopen\GeoDirectoryBundle\Document\Category',
+          //         'choice_label' => 'name',
+          //         'choice_name' => 'nameFormate',
+          //         // 'query_builder' => function (DocumentRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
+          //         'expanded' =>'true',
+          //         'multiple' =>'true',
+          //         'mapped'=> false
+          // ))  
           ->add('openHours', OpenHoursType::class, array('required' => false))
           ->add('type', ChoiceType::class, array(
+                          'mapped'=> false,
                           'choices'  => array(
                                 '' => null,
                                 'Producteur en vente directe' => "producteur",
@@ -100,7 +101,7 @@ class ElementType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\GeoDirectoryBundle\Entity\Element'
+          'data_class' => 'Biopen\GeoDirectoryBundle\Document\Element'
       ));
   }
 
