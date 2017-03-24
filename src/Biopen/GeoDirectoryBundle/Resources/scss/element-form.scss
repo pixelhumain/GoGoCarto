@@ -67,7 +67,14 @@ body
 // ---------------------------------------
 //          MISE EN PAGE GENERALE
 // --------------------------------------- 
-h2, h1
+h1
+{
+  font-size: 2rem;
+  margin: 0.5rem 0 1.3rem 0;
+  text-align: center;
+}
+
+h2
 {
   font-weight: bold !important;
   font-size: .95rem !important;
@@ -77,6 +84,8 @@ h2, h1
   text-transform: uppercase;
   text-align: center;
 }
+
+
 
 h2.error, h1.error
 {

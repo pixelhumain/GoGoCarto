@@ -1,16 +1,16 @@
 {{ form_start(form, {'id': 'formElement'}) }}   
 
-<section class="row" id="section_element" {% if editMode %}style="display:none"{% endif %} >
+{#<section class="row" id="section_element" {% if editMode %}style="display:none"{% endif %} >
 	<!-- Select element type-->
 	<div class="input-field col s12">
     	{{ form_widget(form.type, {'id': "element-type"}) }}
     <label id="type-element-label">Type de element</label>
   	</div>
 </section>
-<div class="divider" {% if editMode %}style="display:none"{% endif %} ></div>
+<div class="divider" {% if editMode %}style="display:none"{% endif %} ></div>#}
 
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
-<div id="element-form-content" {% if not editMode %}style="height:0px;display:none"{% endif %}>
+<div id="element-form-content" {#{% if not editMode %}style="height:0px;display:none"{% endif %}#}>
 
 	{% include "@directory/element-form/form-partials/generals-info.html.twig" %}
 

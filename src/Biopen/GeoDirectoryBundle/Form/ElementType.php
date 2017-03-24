@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-23 14:38:56
+ * @Last Modified time: 2017-03-23 15:07:23
  */
  
 
@@ -56,10 +56,11 @@ class ElementType extends AbstractType
       $builder
           ->add('name', TextType::class, array('required' => false))
           ->add('address', TextType::class, array('required' => false))
-          ->add('description', TextType::class, array('required' => false))
+          ->add('description', TextareaType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
+          ->add('postalCode', HiddenType::class)
           ->add('lat', HiddenType::class)
           ->add('lng', HiddenType::class)
           // ->add('listeProducts', DocumentType::class, array(
@@ -72,23 +73,24 @@ class ElementType extends AbstractType
           //         'mapped'=> false
           // ))  
           ->add('openHours', OpenHoursType::class, array('required' => false))
-          ->add('type', ChoiceType::class, array(
-                          'mapped'=> false,
-                          'choices'  => array(
-                                '' => null,
-                                'Producteur en vente directe' => "producteur",
-                                'Marché' => "marche",
-                                'AMAP' => "amap",
-                                'Boutique de producteurs' => "boutique",
-                                'Epicerie' => "epicerie"
-                                ),
-                          'choices_as_values' => true,
-                          ))
+          ->add('openHoursMoreInfos', TextType::class, array('required' => false))          
+          // ->add('type', ChoiceType::class, array(
+          //                 'mapped'=> false,
+          //                 'choices'  => array(
+          //                       '' => null,
+          //                       'Producteur en vente directe' => "producteur",
+          //                       'Marché' => "marche",
+          //                       'AMAP' => "amap",
+          //                       'Boutique de producteurs' => "boutique",
+          //                       'Epicerie' => "epicerie"
+          //                       ),
+          //                 'choices_as_values' => true,
+          //                 ))
           // ->add('contributor', CheckboxType::class, array(
           //           'label'    => 'Vous êtes ou travaillez chez le element en question',
           //           'required' => false))
           ->add('engagement', CheckboxType::class, array(
-                'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que ce element propose des products bio (avec ou sans label)',
+                'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte notre charte',
                 'mapped' => false,
                 'required' => false))
           ->add('contributorMail', EmailType::class, array('required' => false));        

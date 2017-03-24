@@ -4,6 +4,8 @@
 	<div class="row ">
 	
 	{% set dayKey = 0 %}
+	{% set frenchDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+
 	{# pour chaque day de la semaine on crée un ligne pour entrée une plage horaire
 	   une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
 	{% for day in form.openHours %}
@@ -17,9 +19,9 @@
 		<div id="{{ dayKey }}-open-hours-first-line" class="valign-wrapper">	
 	  		
 	  		{% if (day.vars.name == "Monday") %} 
-	  			<div class="col s3">{{ day.vars.name }}</div>
+	  			<div class="col s3">{{ frenchDays[dayKey] }}</div>
 	  		{% else %}
-	  			<div class="col s2 open-hours-day">{{ day.vars.name }}</div>
+	  			<div class="col s2 open-hours-day">{{ frenchDays[dayKey] }}</div>
 	  			
 	  			{# Redo time slot button #}
 	  			<div class="col s1 center-align">
@@ -97,6 +99,14 @@
 		{% set dayKey = dayKey + 1 %}
 		
 	{% endfor %}
+
+	<div class="input-field col s12">
+		<i class="material-icons prefix">description</i>
+	  	{{ form_widget(form.openHoursMoreInfos, {'id': 'input-open-hours-more-infos',
+  								          'attr': {'class': 'validate',
+  											   	'placeholder':"D'autres précisions si nécessaire",
+  											   	'length':'80'   }}) }}
+	</div>
 
 </div>
 </section>

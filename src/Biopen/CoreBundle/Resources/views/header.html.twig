@@ -33,7 +33,7 @@
       <ul id='listAbout' class='dropdown-content'>        	
         
         {% for about in listAbouts %}
-        	<li class="divider"></li>
+        	<li class="item-divider"></li>
           <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
       	{% endfor %}            
       </ul>

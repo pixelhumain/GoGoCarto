@@ -37,7 +37,7 @@ export class BiopenMarker
 			else position_ = element.position;
 		} 
 
-		this.richMarker_ = L.marker(position_);	
+		this.richMarker_ = L.marker(position_, { 'riseOnHover' : true});	
 			
 		this.richMarker_.on('click', (ev) =>
 		{
