@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-12 17:06:38
+* @Last Modified time: 2017-03-24 13:59:18
 */
 .subcategorie-option-item
 {
@@ -15,6 +15,20 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 
+	&:not(.expanded) 
+  { 
+  	.icon-name-wrapper 
+		{
+    	.arrow-after
+    	{
+    		margin-bottom: -3px;
+	    	border-color: #545454 transparent transparent transparent; 
+    	}    	
+
+	    &:hover .arrow-after { margin-bottom: -5px; border-color: #de5a5f transparent transparent transparent; }
+	  }
+  }
+
 	.icon-name-wrapper 
 	{
     margin-right: 3rem;
@@ -24,29 +38,19 @@
     	.arrow-after 
 			{ 
 				border: solid 6px;
-	    	margin-bottom: -5px;
-	    	border-color: #de5a5f transparent transparent transparent; 
+	    	margin-bottom: 1px;
+	    	border-color:  transparent transparent #de5a5f transparent; 
 	    }
     }
 	}
-
-	.arrow-before
-	{
-		content: '';
-    position: absolute;
-    top: 1.2rem;
-    margin-left: -.9rem;
-    border: solid 5px;
-    border-color: transparent transparent transparent #757575;
-  }
 
   .arrow-after
 	{
 		display: inline-block;
     margin-left: 1rem;
     border: solid 5px;
-   	margin-bottom: -3px;
-    border-color: #545454 transparent transparent transparent ;
+   	margin-bottom: 1px;
+    border-color:  transparent transparent #545454 transparent ;
   }
 
 
