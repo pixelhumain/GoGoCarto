@@ -18,7 +18,6 @@
     </select>
   	
   </span>
-	
 
 
 	{% for key, option in category.options | sortbyfield('index') %} 
@@ -27,7 +26,13 @@
 
 		<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
-			<span class="option-field-name ">{{ option.name }}</span>
+			<span class="option-field-name">
+						{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
+						{% if iconClass %}    
+							<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+						{% endif %}
+						{{ option.name }}
+			</span>
 
 			{% if category.enableDescription %}
 			<div class="input-field option-field-description">	

@@ -10,8 +10,11 @@
 {% block stylesheets %}
 
  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ 	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
  	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
  	<link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
+
+ 	{% include '@directory/directory/categories-styles.html.twig' %}
 
 {% endblock %}
 

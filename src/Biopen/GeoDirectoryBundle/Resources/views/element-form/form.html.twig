@@ -12,9 +12,12 @@
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
 <div id="element-form-content" {#{% if not editMode %}style="height:0px;display:none"{% endif %}#}>
 
-	<section class="row" id="section-categories-options">
-		{% include '@directory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %}  
+	<section id="section-categories-options">
+		<div class="categories-info">Choississez la ou les catégories par ordre d'importance</div>
+		{% include '@directory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
+		
 	</section>
+	<div class="divider"></div>
 
 	{% include "@directory/element-form/form-partials/generals-info.html.twig" %}	
 

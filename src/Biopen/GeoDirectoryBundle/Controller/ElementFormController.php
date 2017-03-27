@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-27 11:10:48
+ * @Last Modified time: 2017-03-27 14:39:50
  */
  
 
@@ -38,6 +38,9 @@ class ElementFormController extends Controller
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
 		->findOneByDepth(0);
 
+		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
+        ->findAll(); 
+
 		if ($form->handleRequest($request)->isValid()) 
 		{
 			$this->handleFormSubmission($form, $element, $em, $request);
@@ -52,6 +55,7 @@ class ElementFormController extends Controller
 						'editMode' => false,
 						'form' => $form->createView(),
 						'mainCategory'=> $mainCategory,
+						"optionList" => $optionsList,
 					));
   	} 
 
