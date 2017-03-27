@@ -9,7 +9,7 @@
 	
 	
 	<span class="category-field-select input-field">
-    <select multiple id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
+    <select id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
    	  <option value=""  {% if not editMode %}disabled selected{% endif %}>Choissisez : {{ category.name | capitalize }}</option>
    	   

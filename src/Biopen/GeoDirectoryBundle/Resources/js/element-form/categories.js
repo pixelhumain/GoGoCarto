@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 16:26:49
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-27 17:42:26
+* @Last Modified time: 2017-03-27 17:56:05
 */
 var index = 1;
 jQuery(document).ready(function()
@@ -11,6 +11,7 @@ jQuery(document).ready(function()
 
 	$(".category-select").change(function() 
 	{ 
+		//console.log("Select option", $(this).val());
 		var optionField = $('#option-field-' + $(this).val());
 		optionField.stop(true,false).slideDown({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
 		optionField.attr('data-index', index);
