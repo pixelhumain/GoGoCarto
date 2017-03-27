@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 11:57:15
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-27 17:47:31
+* @Last Modified time: 2017-03-27 18:00:37
 */
 .categories-info
 {
@@ -56,6 +56,7 @@
 		{ 
 			color: white;
     	z-index: 10;
+    	right: 15px;
     	top: 10px !important;
     }
 
@@ -65,7 +66,10 @@
 			&:hover { background-color: $primary-color-light }
 		  &.secondary-color { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
 
+		  padding-left: 1rem;
 		  @include border-radius(3px);
+	    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
+	    @include transition(background-color .2s);
 
 			input.select-dropdown
 			{
@@ -75,20 +79,9 @@
 		    text-transform: uppercase;
 		    font-size: .8rem;
 		    font-weight: bold;
-		    //color: grey;
-
-	      border: none;
-		    
-		    padding: left;
-		    padding-left: 1rem;
-		    background-color: inherit;
-
+	      border: none;		    
+		    background-color: transparent;
 		    color: white;
-		    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
-
-		    @include transition(background-color .2s);
-
-		    
 	  	}
 		}
 	}		
