@@ -116,6 +116,25 @@ h2.no-margin-bottom
   left: 0 !important;
 }
 
+#input-address ~ .prefix.error
+{
+  &:before
+  {
+    content: "Impossible de localiser cette adresse";
+  }
+}
+
+.input-field .prefix 
+{ 
+  color: #585858 ;
+
+  &.valid { color: $secondary-color }
+  &.invalid { color: $error-color }
+
+}
+
+#input-description { padding-bottom: 0 !important;}
+
 section
 {
   padding: 1rem;
