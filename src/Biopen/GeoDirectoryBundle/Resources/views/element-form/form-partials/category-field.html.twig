@@ -8,13 +8,15 @@
 <div class="category-field {{ displayInline ? 'inline' : ''}}">
 	
 	
-	<span class="category-field-select input-field">
+	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
     <select id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
-   	  <option value=""  {% if not editMode %}disabled selected{% endif %}>Choissisez : {{ category.name | capitalize }}</option>
+   	  <option disabled selected>Choissisez {{ category.pickingOptionText }}</option>
    	   
       {% for key, option in category.options | sortbyfield('index') %} 
-      	<option value="{{option.id}}" {% if editMode and option.id == element.options %}selected{% endif %}>{{ option.name }}</option>
+      	<option value="{{option.id}}" {% if editMode and option.id == element.options %}selected{% endif %}>
+      		{{ option.name }} {% if option.textHelper %} ({{ option.textHelper }}) {% endif %}
+      	</option>
       {% endfor %}
     </select>
   	

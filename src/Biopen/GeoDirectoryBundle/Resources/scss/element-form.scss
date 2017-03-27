@@ -221,7 +221,9 @@ section
 #address-preview-map
 {
   height:13rem;
-  margin-top:1rem;
+  margin-top: 1.5rem;
+  border-radius: 5px;
+  z-index: 500;
   //border: 2px solid #D0CCCC;
 }
 

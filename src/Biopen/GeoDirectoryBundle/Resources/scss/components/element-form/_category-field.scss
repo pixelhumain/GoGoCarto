@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 11:57:15
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-27 18:00:37
+* @Last Modified time: 2017-03-27 19:55:31
 */
 .categories-info
 {
@@ -13,6 +13,17 @@
 {
 	@include flexbox();
 	@include flex-flow(column wrap);	
+
+	&.error
+	{
+		.select-wrapper { background-color: $error-color !important; }
+
+		&:before
+		{
+			width: 100%;
+			content: "Veuillez sélectionner au moins une option";
+		}
+	}
 	
 
 	&.inline 
@@ -25,7 +36,7 @@
 		{
 		  @include order(0);
 		  .select-wrapper input.select-dropdown { margin-bottom: 1rem; }
-		  padding-right: 2rem;
+		  width: 100%;
 		}
 	}
 
@@ -57,7 +68,7 @@
 			color: white;
     	z-index: 10;
     	right: 15px;
-    	top: 10px !important;
+    	top: 7px;
     }
 
 		.select-wrapper 
@@ -73,8 +84,8 @@
 
 			input.select-dropdown
 			{
-				height: 2.2rem;
-		    line-height: 2.2rem;
+				height: 2rem;
+		    line-height: 2rem;
 		    margin-bottom: .8rem;
 		    text-transform: uppercase;
 		    font-size: .8rem;

@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-27 19:29:18
  */
 
 // TODO: enlever ça, juste pour le développement
@@ -13,10 +13,7 @@ productionMode = false;
 
 function checkAndSend() 
 {	
-	checkElementType();
-	//checkContactAmap();
-	checkMainProduct();
-	checkProducts();
+	checkCategories();
 	checkAgreeConditions();
 	checkOpenHours();
 	checkAddressGeolocalisation();
@@ -81,68 +78,20 @@ function checkAndSend()
 	
 }
 
-function checkElementType()
-{
-	// CHECK type element
-	if (!$('#element-type').val() || $('#element-type').val() == '0') 
-	{
-		$('#type-element-label').addClass('error'); 
-		$('#type-element-label').text('Veuillez choisir un type de element');	
-	}
-	else 
-	{
-		$('#type-element-label').removeClass('error');
-	}
-}
 
-function checkContactAmap()
-{
-	// CHECK contact AMAP
-	if ($('#amap-section').is(':visible'))
+function checkCategories()
+{	
+	$('.category-field:visible').each(function() 
 	{
-		if (!$('#input-tel-amap').val() && !$('#inputMailAMAP').val())
+		if ($(this).children('.option-field:visible').length === 0)
 		{
-			$('#title-amap').addClass('error'); 
+			$(this).addClass('error');
 		}
 		else
 		{
-			$('#title-amap').removeClass('error'); 
+			$(this).removeClass('error');
 		}
-	}
-}
-
-function checkMainProduct()
-{
-	if ($('#div-main-product').is(':visible'))
-	{
-		if (!$('#main-product-selection').val()) 
-		{
-			$('#label-main-product-selection').addClass('error'); 
-			$('#div-main-product').addClass('error'); 
-			$('#label-main-product-selection').text('Veuillez choisir un produit principal');		
-		}
-		else 
-		{
-			$('#label-main-product-selection').removeClass('error');
-			$('#div-main-product').removeClass('error');
-			$('#label-main-product-selection').text('Produit principal');
-		}
-	}
-}
-
-function checkProducts()
-{
-	// CHECK au moins un product coch?
-	if ($(".checkbox-products:checked" ).size() == parseInt('0'))
-	{
-		$('#title-products').addClass('error'); 
-		$('#title-products').text('Veuillez choisir au moins un produit'); 		
-	}
-	else 
-	{
-		$('#title-products').removeClass('error');
-		$('#title-products').text('Produits du element'); 		
-	}
+	});
 }
 
 function checkAgreeConditions()
