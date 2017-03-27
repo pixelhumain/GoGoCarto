@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-27 11:15:26
+ * @Last Modified time: 2017-03-27 17:11:27
  */
 jQuery(document).ready(function()
 {	
@@ -32,7 +32,7 @@ jQuery(document).ready(function()
 		updateFormWithType(false);
 	}	
 	
-	$('select').material_select();
+	
 
  //  $('#select-test').select2({
 	//   minimumResultsForSearch: Infinity,
@@ -45,6 +45,7 @@ jQuery(document).ready(function()
 	// AJOUT LISTENERS
 	// ---------------
 	$('#element-type').change( updateFormWithType );
+	
 	$("#main-product-selection").change(function() { updateFormWithMainProduct($(this).val()); });
 
 	// entrée d'une adresse on geocode

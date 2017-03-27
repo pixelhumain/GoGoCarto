@@ -7,10 +7,11 @@
 
 <div class="category-field {{ displayInline ? 'inline' : ''}}">
 	
+	
 	<span class="category-field-select input-field">
-    <select id="category-field-{{category.id}}" class="keep-title-option" name="category-field-{{category.id}}">
+    <select multiple id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
-   	  <option value=""  {% if not editMode %}disabled selected{% endif %}>{{ category.name | capitalize }}</option>
+   	  <option value=""  {% if not editMode %}disabled selected{% endif %}>Choissisez : {{ category.name | capitalize }}</option>
    	   
       {% for key, option in category.options | sortbyfield('index') %} 
       	<option value="{{option.id}}" {% if editMode and option.id == element.options %}selected{% endif %}>{{ option.name }}</option>
@@ -19,10 +20,9 @@
   	
   </span>
 
-
 	{% for key, option in category.options | sortbyfield('index') %} 
 
-	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}">
+	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" style="display:none">
 
 		<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
@@ -40,7 +40,7 @@
 			</div> 
 			{% endif %}
 
-			<span class="option-field-delete"><i class="material-icons" data-id={{option.id}}>clear</i></span>
+			<span class="option-field-delete" data-id={{option.id}}><i class="material-icons" data-id={{option.id}}>clear</i></span>
 
 		</div>		
 
@@ -55,5 +55,7 @@
 	</div>
 
 	{% endfor %}
+
+
 
 </div>

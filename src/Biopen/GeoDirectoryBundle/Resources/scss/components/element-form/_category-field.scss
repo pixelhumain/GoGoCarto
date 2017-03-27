@@ -2,11 +2,11 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 11:57:15
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-27 14:57:29
+* @Last Modified time: 2017-03-27 17:47:31
 */
 .categories-info
 {
-	margin-bottom: .5rem;
+	margin-bottom: 1rem;
 	font-style: italic;
 }
 .category-field
@@ -21,21 +21,28 @@
 
 		@include align(center);	
 
-		.category-field-select { margin-right : 1rem; }
+		.category-field-select 
+		{
+		  @include order(0);
+		  .select-wrapper input.select-dropdown { margin-bottom: 1rem; }
+		  padding-right: 2rem;
+		}
 	}
 
 	.category-field
 	{
+		margin: 0;
 		margin-left: .5rem;
     padding-left: 1.2rem;
   	border-left: 1px dotted #c3c3c3;
-  	margin-bottom: .5rem;
-  	margin-top: 1rem;
+
+  	&:first-child { margin-top: 1rem; }
 	}
 
 	.category-field-select
 	{
 		@include flex(initial);	
+		@include order(1000000);
 		margin: 0;	
 
     .select-dropdown li.disabled 
@@ -45,13 +52,44 @@
 		    font-weight: bold;
 		}
 
-		.caret { top: 10px !important;}
+		.caret 
+		{ 
+			color: white;
+    	z-index: 10;
+    	top: 10px !important;
+    }
 
-		.select-wrapper input.select-dropdown
+		.select-wrapper 
 		{
-			height: 2.2rem;
-	    line-height: 2.2rem;
-	    margin-bottom: 1.5rem;
+			background-color: $primary-color;
+			&:hover { background-color: $primary-color-light }
+		  &.secondary-color { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
+
+		  @include border-radius(3px);
+
+			input.select-dropdown
+			{
+				height: 2.2rem;
+		    line-height: 2.2rem;
+		    margin-bottom: .8rem;
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+		    //color: grey;
+
+	      border: none;
+		    
+		    padding: left;
+		    padding-left: 1rem;
+		    background-color: inherit;
+
+		    color: white;
+		    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
+
+		    @include transition(background-color .2s);
+
+		    
+	  	}
 		}
 	}		
 
@@ -66,7 +104,6 @@
 			background-color: grey;
 			@include border-radius(5px);
 			margin-right: .5rem;
-			margin-bottom: 0;
 			.option-field-name { color: white; }
 
 			.option-field-value
@@ -107,7 +144,7 @@
 		.option-field-name
 		{
 			font-weight: 600;
-    	color: #5f5f5f;
+    	color: #444444;
 		}
 
 		.option-field-delete
