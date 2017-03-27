@@ -2,8 +2,11 @@
 
 @import 'vendors/materialize';
 @import 'vendors/timepicki';
-@import "components/commons/auto-complete";
 @import 'vendors/leaflet';
+
+@import "components/commons/auto-complete";
+
+@import "components/element-form/category-field";
 
 body
 {

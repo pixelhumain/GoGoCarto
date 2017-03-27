@@ -328,7 +328,8 @@
             $curr_select.find('option').eq(i).prop('selected', true);
             // Trigger onchange() event
             $curr_select.trigger('change');
-            $curr_select.siblings('input.select-dropdown').val($(this).text());
+            if (!$curr_select.hasClass('keep-title-option'))
+              $curr_select.siblings('input.select-dropdown').val($(this).text());
             if (typeof callback !== 'undefined') callback();
           }
         });

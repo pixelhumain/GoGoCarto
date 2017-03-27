@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-24 12:00:01
+ * @Last Modified time: 2017-03-27 11:15:26
  */
 jQuery(document).ready(function()
 {	
@@ -33,6 +33,11 @@ jQuery(document).ready(function()
 	}	
 	
 	$('select').material_select();
+
+ //  $('#select-test').select2({
+	//   minimumResultsForSearch: Infinity,
+	//   tags: true,
+	// });
 
 	$('.tooltipped').tooltip();
 

@@ -1,0 +1,54 @@
+{% set displayInline = not category.enableDescription %}
+{% if displayInline %}
+	{% for option in category.options %} 
+		{% if option.subcategories|length != 0 %} {% set displayInline = false %} {% endif %} 
+	{% endfor %}
+{% endif %}
+
+<div class="category-field {{ displayInline ? 'inline' : ''}}">
+	
+	<span class="category-field-select input-field">
+    <select id="category-field-{{category.id}}" class="keep-title-option" name="category-field-{{category.id}}">
+   	  
+   	  <option value=""  {% if not editMode %}disabled selected{% endif %}>{{ category.name | capitalize }}</option>
+   	   
+      {% for key, option in category.options | sortbyfield('index') %} 
+      	<option value="{{option.id}}" {% if editMode and option.id == element.options %}selected{% endif %}>{{ option.name }}</option>
+      {% endfor %}
+    </select>
+  	
+  </span>
+	
+
+
+	{% for key, option in category.options | sortbyfield('index') %} 
+
+	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}">
+
+		<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
+
+			<span class="option-field-name ">{{ option.name }}</span>
+
+			{% if category.enableDescription %}
+			<div class="input-field option-field-description">	
+			  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" type="text" length="80" value=''>
+			</div> 
+			{% endif %}
+
+			<span class="option-field-delete"><i class="material-icons" data-id={{option.id}}>clear</i></span>
+
+		</div>		
+
+  	<div class="subcategories-wrapper ">
+	    {% for subkey, subcategory in option.subcategories | sortbyfield('index') %}
+
+					{% include '@directory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
+
+			{% endfor %} 
+		</div>
+
+	</div>
+
+	{% endfor %}
+
+</div>

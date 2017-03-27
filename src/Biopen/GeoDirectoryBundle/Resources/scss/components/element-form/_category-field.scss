@@ -1,0 +1,95 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-27 11:57:15
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-27 13:55:05
+*/
+.category-field
+{
+	@include flexbox();
+	@include flex-flow(column wrap);	
+	
+
+	&.inline 
+	{
+		@include flex-flow(row wrap);
+
+		@include align(center);	
+
+		.category-field-select { margin-right : 1rem; }
+	}
+
+	.category-field
+	{
+		margin-left: 1.2rem;
+		padding-left: .5rem;
+  	border-left: 1px dotted #c3c3c3;
+  	margin-bottom: .5rem;
+	}
+
+	.category-field-select
+	{
+		@include flex(initial);	
+		margin: 0;	
+
+    .select-dropdown li.disabled 
+    {
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+		}
+
+		.input.select-dropdown
+		{
+			margin: 0;
+		}
+	}		
+
+	.option-field
+	{
+		@include flex(initial);
+
+		&.inline 
+		{ 
+			display: inline-block;
+			background-color: grey;
+			@include border-radius(5px);
+			margin-right: .5rem;
+
+			.option-field-value
+			{
+				padding: 3px 6px;
+			}
+		}
+
+		.option-field-value.with-description
+		{
+			@include flexbox();
+			@include flex-flow(row);
+			@include justify-content(stretch);
+			@include align(center);
+
+			.option-field-name { width : 10rem; @include flex(initial); }
+			.option-field-description 
+			{ 
+				@include flex(1); 
+				margin: 0; 
+				input { margin: 0 } 
+			}
+			.option-field-delete { width : 50px; @include flex(initial); }
+		}
+
+		.option-field-delete
+		{
+			display: inline-block;
+			i 
+			{ 
+				float : right ;
+				font-size: 1.2rem;
+   			margin-bottom: -4px;
+			}
+		}		
+	}
+
+	
+}

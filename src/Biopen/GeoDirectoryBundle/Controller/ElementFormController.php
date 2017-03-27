@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-23 14:35:41
+ * @Last Modified time: 2017-03-27 11:10:48
  */
  
 
@@ -28,15 +28,15 @@ use joshtronic\LoremIpsum;
 
 class ElementFormController extends Controller
 {
-    public function addAction(Request $request)
-    {
+	public function addAction(Request $request)
+	{
 		$element = new Element();
 		$em = $this->get('doctrine_mongodb')->getManager();
-		$form = $this->get('form.factory')->create(ElementType::class, $element);
+		$form = $this->get('form.factory')->create(ElementType::class, $element);		
 
-		
-		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-            ->findAll();
+		// Get Product List        
+		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+		->findOneByDepth(0);
 
 		if ($form->handleRequest($request)->isValid()) 
 		{
@@ -51,9 +51,9 @@ class ElementFormController extends Controller
 					array(
 						'editMode' => false,
 						'form' => $form->createView(),
-						'listProducts'=> $listProducts,
+						'mainCategory'=> $mainCategory,
 					));
-  } 
+  	} 
 
 
 	public function editAction($id, Request $request)
@@ -109,11 +109,11 @@ class ElementFormController extends Controller
 	}
 
 	private function handleFormSubmission($form, $element, $em, $request)
-  {
-  	$element->resetProducts();
-  	//dump($request->request);
-  	//dump($form->getData());
-  	foreach ($form->get('listeProducts')->getData() as $product) 
+  	{
+	  	$element->resetProducts();
+	  	//dump($request->request);
+	  	//dump($form->getData());
+	  	foreach ($form->get('listeProducts')->getData() as $product) 
 		{
 			$elementProduct = new ElementProduct();
 			$elementProduct->setProduct($product);
@@ -121,9 +121,6 @@ class ElementFormController extends Controller
 			$element->addProduct($elementProduct);
 		}
 
-		$mainProduct = $request->request->get('main-product-selection');
-		//dump($mainProduct);
-		$element->setMainProduct($mainProduct);
 
 		// ajout HTTP:// aux url si pas inscrit
 		$webSiteUrl = $element->getWebSite();
@@ -133,10 +130,6 @@ class ElementFormController extends Controller
 		}
 		$element->setWebSite($webSiteUrl);
 			
-		if (!$element->getMainProduct()) // si pas un producteur ou amap
-		{
-			$element->setMainProduct($element->getType());		
-		}
 		
 		$em->persist($element);
 		$em->flush();

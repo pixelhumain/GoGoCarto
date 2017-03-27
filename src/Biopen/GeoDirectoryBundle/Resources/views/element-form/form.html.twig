@@ -12,9 +12,11 @@
 <!-- DIV ENGLOBANTE DES VRAIES INFOS FORMULAIRES -->
 <div id="element-form-content" {#{% if not editMode %}style="height:0px;display:none"{% endif %}#}>
 
-	{% include "@directory/element-form/form-partials/generals-info.html.twig" %}
+	<section class="row" id="section-categories-options">
+		{% include '@directory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %}  
+	</section>
 
-	{#{% include "@directory/element-form/form-partials/products.html.twig" %}#}
+	{% include "@directory/element-form/form-partials/generals-info.html.twig" %}	
 
 	{% include "@directory/element-form/form-partials/open-hours.html.twig" %}
 
