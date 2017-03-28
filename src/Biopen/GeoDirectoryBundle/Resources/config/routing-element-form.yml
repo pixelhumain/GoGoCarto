@@ -5,14 +5,10 @@ biopen_element_add:
 biopen_element_edit:
     path:     /edit/{id}
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementForm:edit }
-    requirements:
-        id: \d+
 
 biopen_element_delete:
     path:     /delete/{id}
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementForm:delete }
-    requirements:
-        id: \d+
 
 biopen_element_generate:
     path:     /generate/{nombre}
