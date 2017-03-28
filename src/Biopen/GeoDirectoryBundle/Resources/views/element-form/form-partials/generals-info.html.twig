@@ -1,13 +1,14 @@
 <!-- SECTION INFO FOURNISSEUR -->
 <section class="row">
 
-	{% if not editMode %}
+	{#{% if not editMode %}
 		<h2 class="no-margin-bottom">Informations</h2>
 	{% else %}
 		<h2 class="no-margin-bottom">Modification des données</h2>
-	{% endif %}
-  	<!-- Input name element -->
-  	<div class="input-field col s12">
+	{% endif %}#}
+	<h2>Informations</h2>
+  <!-- Input name element -->
+  <div class="input-field col s12">
   		<i class="material-icons prefix">account_circle</i>	
   		{{ form_widget(form.name, {'id': 'input-name', 
   							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}

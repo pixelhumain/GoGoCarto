@@ -14,7 +14,7 @@
    	  <option disabled selected>Choissisez {{ category.pickingOptionText }}</option>
    	   
       {% for key, option in category.options | sortbyfield('index') %} 
-      	<option value="{{option.id}}" {% if editMode and option.id == element.options %}selected{% endif %}>
+      	<option value="{{option.id}}">
       		{{ option.name }} {% if option.textHelper %} ({{ option.textHelper }}) {% endif %}
       	</option>
       {% endfor %}
@@ -24,37 +24,51 @@
 
 	{% for key, option in category.options | sortbyfield('index') %} 
 
-	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" style="display:none" data-id="{{option.id}}">
+		{% set displayOption = false %}
+		{% set curr_description = '' %} 
+		{% set curr_index = 0 %} 
+		{% if editMode %}
+			{% for optionValue in element.optionValues %}
+				{% if optionValue.optionId == option.id %} 
+					{% set displayOption = true %} 
+					{% set curr_description = optionValue.description %} 
+					{% set curr_index = optionValue.index %} 
+				{% endif %}
+			{% endfor %}
+		{% endif %}
 
-		<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
+		<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
+					data-id="{{option.id}}" data-index={{curr_index}}>
 
-			<span class="option-field-name">
-						{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
-						{% if iconClass %}    
-							<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
-						{% endif %}
-						{{ option.name }}
-			</span>
+			<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
-			{% if category.enableDescription %}
-			<div class="input-field option-field-description">	
-			  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" class="option-field-description-input" data-id="{{option.id}}" type="text" length="80" value=''>
-			</div> 
-			{% endif %}
+				<span class="option-field-name">
+							{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
+							{% if iconClass %}    
+								<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+							{% endif %}
+							{{ option.name }}
+				</span>
 
-			<span class="option-field-delete" data-id={{option.id}}><i class="material-icons" data-id={{option.id}}>clear</i></span>
+				{% if category.enableDescription %}
+				<div class="input-field option-field-description">	
+				  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" class="option-field-description-input" data-id="{{option.id}}" type="text" length="80" value="{{curr_description}}">
+				</div> 
+				{% endif %}
 
-		</div>		
+				<span class="option-field-delete" data-id={{option.id}}><i class="material-icons" data-id={{option.id}}>clear</i></span>
 
-  	<div class="subcategories-wrapper ">
-	    {% for subkey, subcategory in option.subcategories | sortbyfield('index') %}
+			</div>		
 
-					{% include '@directory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
+	  	<div class="subcategories-wrapper ">
+		    {% for subkey, subcategory in option.subcategories | sortbyfield('index') %}
 
-			{% endfor %} 
+						{% include '@directory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
+
+				{% endfor %} 
+			</div>
+
 		</div>
-
-	</div>
 
 	{% endfor %}
 

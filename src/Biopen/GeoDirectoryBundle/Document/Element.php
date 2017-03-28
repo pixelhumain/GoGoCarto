@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-17 15:30:29
+ * @Last Modified time: 2017-03-28 10:45:33
  */
  
 
@@ -159,11 +159,10 @@ class Element
         $this->contributor = '';
     }
 
-    // public function resetProducts()
-    // {
-    //     $this->productsCopy = new \Doctrine\Common\Collections\ArrayCollection();
-    //     $this->products->clear();
-    // } 
+    public function resetOptionsValues()
+    {
+        $this->optionValues->clear();
+    } 
 
 
     /**

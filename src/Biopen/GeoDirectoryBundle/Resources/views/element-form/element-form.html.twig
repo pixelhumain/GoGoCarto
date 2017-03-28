@@ -28,7 +28,7 @@
 	    </div>
 	{% endfor %}
   
-  {% if not editMode %}<h1 id="element-form-title">Ajout d'un acteur</h1> {% endif %}
+  <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajout d'un acteur"}}</h1> 
 
   {% include "@directory/element-form/form.html.twig" with {'editMode': editMode } %}
 
