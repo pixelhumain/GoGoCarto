@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 10:45:33
+ * @Last Modified time: 2017-03-28 13:50:34
  */
  
 
@@ -147,7 +147,6 @@ class Element
      */
     public function __construct()
     {
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->validationCode = md5(uniqid(rand(), true));
         $this->contributor = '';
     }
@@ -161,7 +160,7 @@ class Element
 
     public function resetOptionsValues()
     {
-        $this->optionValues->clear();
+        $this->optionValues = [];
     } 
 
 
