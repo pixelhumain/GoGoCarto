@@ -5,18 +5,16 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 08:51:04
+ * @Last Modified time: 2017-03-28 14:15:32
  */
 
-// TODO: enlever ça, juste pour le développement
-productionMode = false;
 
 function checkAndSend() 
 {	
 	checkCategories();
 	checkAgreeConditions();
 	checkOpenHours();
-	checkAddressGeolocalisation();
+	checkAddressGeolocalisation();	
 	checkCaptcha();	
 	checkRequiredFields();
 	
@@ -150,7 +148,7 @@ function checkAddressGeolocalisation()
 
 function checkCaptcha()
 {
-	if (grecaptcha.getResponse().length === 0 || productionMode)
+	if (grecaptcha.getResponse().length === 0)
 	{
 		$('#captcha-error-message').addClass('error').show();
 		grecaptcha.reset();
