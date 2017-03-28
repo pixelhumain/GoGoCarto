@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-27 19:29:18
+ * @Last Modified time: 2017-03-28 08:51:04
  */
 
 // TODO: enlever ça, juste pour le développement
@@ -57,22 +57,8 @@ function checkAndSend()
 	// Si tout est OK
 	if (errorCount === 0) 
 	{
-		// si on a renseign? plusieurs days d'ouverture pour un march?
-		// on ouvre la pop up de confirmation
-		if (( $('#element-type').val() == "2") && ( $('.open-day').length > 1))
-		{
-			$('#modal-multiple-market-days').openModal({
-		      dismissible: false, 
-		      opacity: 0.5, 
-		      in_duration: 300, 
-		      out_duration: 200, 
-		      ready: function() {  }, 
-		      complete: function() { 
-		      	if(window.location.hash.substring(1) == "continuer") 
-		      	$('form').submit(); } // Callback for Modal close
-    		});
-		}		
-		else $('form').submit();
+		encodeOptionValuesIntoHiddenInput();
+		$('form').submit();
 	}
 	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top - 80}, 'slow');
 	

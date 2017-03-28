@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 16:26:49
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-27 20:22:40
+* @Last Modified time: 2017-03-28 09:01:42
 */
 var index = 1;
 jQuery(document).ready(function()
@@ -57,3 +57,21 @@ jQuery(document).ready(function()
 			select.val("Ajoutez " + categorySelect.attr('data-picking-text'));
 	}
 });
+
+function encodeOptionValuesIntoHiddenInput()
+{
+	var optionValues = [];
+
+	$('.option-field:visible').each(function() 
+	{
+		var option = {};
+		option.id = $(this).attr('data-id');
+		option.index = $(this).attr('data-index');
+		option.description = $(this).find('.option-field-description-input[data-id=' + option.id + ']').val() || "";
+		optionValues.push(option);
+	});
+
+	console.log("encodeOptionValues", optionValues);
+
+	$('input#options-values').val(JSON.stringify(optionValues));
+}

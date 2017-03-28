@@ -24,7 +24,7 @@
 
 	{% for key, option in category.options | sortbyfield('index') %} 
 
-	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" style="display:none">
+	<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" style="display:none" data-id="{{option.id}}">
 
 		<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
@@ -38,7 +38,7 @@
 
 			{% if category.enableDescription %}
 			<div class="input-field option-field-description">	
-			  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" type="text" length="80" value=''>
+			  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" class="option-field-description-input" data-id="{{option.id}}" type="text" length="80" value=''>
 			</div> 
 			{% endif %}
 

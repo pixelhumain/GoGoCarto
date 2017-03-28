@@ -15,7 +15,7 @@
 	<section id="section-categories-options">
 		<div class="categories-info">Choississez la ou les catégories par ordre d'importance</div>
 		{% include '@directory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
-		
+		<input id="options-values" name="options-values" type="hidden"/>
 	</section>
 	<div class="divider"></div>
 
@@ -41,20 +41,6 @@
 {{ form_end(form) }}
 
 {% block modals %}
-	<!-- Pop up plusieurs days de marchés -->
-	<div id="modal-multiple-market-days" class="modal">
-		<div class="modal-content">
-		  <h5>Plusieurs days de marchés</h5>
-		  <p>Vous avez renseigné plusieurs days d'ouverture pour ce marché, êtes vous certain que
-		  	l'on retrouve les même products à ces différentes date?</p>
-		  	<p>Si ce n'est pas le cas, il est préférable de faire des ajouts distincts, un pour chaque day
-		  		de marché</p>
-		</div>
-		<div class="modal-footer">
-			<a href="#continuer" class=" modal-action modal-close waves-effect waves-teal btn-flat">Continuer</a>
-		 	<a href="#modifier" class=" modal-action modal-close waves-effect waves-teal btn-flat">Modifier</a>
-		</div>
-	</div>
 
 	<!-- Pop up alert message-->
 	<div id="popup" class="modal">

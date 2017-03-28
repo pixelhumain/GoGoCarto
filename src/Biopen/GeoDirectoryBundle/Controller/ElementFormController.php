@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-27 14:39:50
+ * @Last Modified time: 2017-03-28 09:23:24
  */
  
 
@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
 use Biopen\GeoDirectoryBundle\Document\Option;
+use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\GeoDirectoryBundle\Document\Catgeory;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -44,9 +45,9 @@ class ElementFormController extends Controller
 		if ($form->handleRequest($request)->isValid()) 
 		{
 			$this->handleFormSubmission($form, $element, $em, $request);
-			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! Le element a bien été ajouté</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
+			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
+			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! L\'acteur a bien été ajouté</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
 			return $this->redirectToRoute('biopen_element_add');			
 		}		
 
@@ -92,7 +93,7 @@ class ElementFormController extends Controller
 
 			$this->handleFormSubmission($form, $element, $em, $request);
 
-			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
+			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
 
 			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
 			//return $this->redirectToRoute('biopen_element_add');
@@ -114,17 +115,24 @@ class ElementFormController extends Controller
 
 	private function handleFormSubmission($form, $element, $em, $request)
   	{
-	  	$element->resetProducts();
+	  	//$element->resetProducts();
 	  	//dump($request->request);
 	  	//dump($form->getData());
-	  	foreach ($form->get('listeProducts')->getData() as $product) 
-		{
-			$elementProduct = new ElementProduct();
-			$elementProduct->setProduct($product);
-			$elementProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
-			$element->addProduct($elementProduct);
-		}
 
+	  	$optionValuesString = $request->request->get('options-values');
+	  	dump($optionValuesString);
+
+	  	$optionValues = json_decode($optionValuesString, true);
+	  	dump($optionValues);
+
+	  	foreach($optionValues as $optionValue)
+	  	{
+	  		$new_optionValue = new OptionValue();
+	  		$new_optionValue->setOptionId($optionValue['id']);
+	  		$new_optionValue->setIndex($optionValue['index']);
+	  		$new_optionValue->setDescription($optionValue['description']);
+	  		$element->addOptionValue($new_optionValue);
+	  	}
 
 		// ajout HTTP:// aux url si pas inscrit
 		$webSiteUrl = $element->getWebSite();
@@ -133,6 +141,8 @@ class ElementFormController extends Controller
 		    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
 		}
 		$element->setWebSite($webSiteUrl);
+
+		dump($element);
 			
 		
 		$em->persist($element);
