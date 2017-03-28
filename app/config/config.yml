@@ -45,6 +45,9 @@ twig:
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": directory
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
+    form_themes:
+        - 'SonataFormatterBundle:Form:formatter.html.twig'
+
 
 # Doctrine Configuration
 doctrine:
@@ -96,18 +99,18 @@ doctrine_mongodb:
                     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
                     alias: GedmoTranslator # (optional) it will default to the name set for the mapping
                     is_bundle: false
-                gedmo_loggable:
-                    type: annotation
-                    prefix: Gedmo\Loggable\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
-                    alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
-                    is_bundle: false
-                gedmo_tree:
-                    type: annotation
-                    prefix: Gedmo\Tree\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
-                    alias: GedmoTree # (optional) it will default to the name set for the mapping
-                    is_bundle: false
+                # gedmo_loggable:
+                #     type: annotation
+                #     prefix: Gedmo\Loggable\Document
+                #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
+                #     alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                #     is_bundle: false
+                # gedmo_tree:
+                #     type: annotation
+                #     prefix: Gedmo\Tree\Document
+                #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
+                #     alias: GedmoTree # (optional) it will default to the name set for the mapping
+                #     is_bundle: false
 
 stof_doctrine_extensions:
     default_locale: fr
@@ -193,3 +196,41 @@ sonata_doctrine_mongo_db_admin:
                 bigint:     SonataAdminBundle:CRUD:base_show_field.html.twig
                 integer:    SonataAdminBundle:CRUD:base_show_field.html.twig
                 decimal:    SonataAdminBundle:CRUD:base_show_field.html.twig
+
+sonata_formatter:
+    formatters:
+        markdown:
+            service: sonata.formatter.text.markdown
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig #keep this commented unless you are using media bundle.
+
+
+        text:
+            service: sonata.formatter.text.text
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        rawhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        richhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        twig:
+            service: sonata.formatter.text.twigengine
+            extensions: [] # Twig formatter cannot have extensions

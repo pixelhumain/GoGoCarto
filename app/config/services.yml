@@ -16,3 +16,13 @@ services:
         arguments: [~, Biopen\CoreBundle\Document\About, 'PixSortableBehaviorBundle:SortableAdmin']
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Onglets "A propos" }
+    admin.partner:
+        class: Biopen\CoreBundle\Admin\PartnerAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Partenaires }
+    admin.wrapper:
+        class: Biopen\CoreBundle\Admin\WrapperAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Bandeaux de la page d'accueil }
