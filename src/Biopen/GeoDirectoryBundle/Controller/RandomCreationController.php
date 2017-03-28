@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-21 14:33:55
+ * @Last Modified time: 2017-03-28 09:18:03
  */
  
 
@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
-use Biopen\GeoDirectoryBundle\Document\CategoryValue;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 
 use joshtronic\LoremIpsum;
