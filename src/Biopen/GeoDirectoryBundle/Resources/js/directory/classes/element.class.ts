@@ -213,7 +213,13 @@ export class Element
 		else
 			this.iconsToDisplay = this.recursivelySearchIconsToDisplay(this.getCurrMainOptionValue());
 
-		this.colorOptionId = this.getIconsToDisplay().length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
+		// in case of no OptionValue in this mainOption, we display the mainOption Icon
+		if (this.iconsToDisplay.length == 0)
+		{
+			this.iconsToDisplay.push(this.getCurrMainOptionValue());
+		}
+
+		this.colorOptionId = this.iconsToDisplay.length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
 		
 		//console.log("Icons to display sorted", this.getIconsToDisplay());
 	}
