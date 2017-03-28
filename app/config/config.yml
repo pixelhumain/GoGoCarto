@@ -15,7 +15,7 @@ fos_js_routing:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -72,10 +72,7 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        dql:
-            numeric_functions:
-                DISTANCE: Wantlet\ORM\Distance
-                POINT_STR: Wantlet\ORM\PointStr
+        
 # Mongodb Configuration
 doctrine_mongodb:
     connections:
@@ -86,6 +83,44 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
+            mappings:
+                gedmo_translatable:
+                    type: annotation
+                    prefix: Gedmo\Translatable\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Document"
+                    alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                    is_bundle: false
+                gedmo_translator:
+                    type: annotation
+                    prefix: Gedmo\Translator\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
+                    alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                    is_bundle: false
+                gedmo_loggable:
+                    type: annotation
+                    prefix: Gedmo\Loggable\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
+                    alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                    is_bundle: false
+                gedmo_tree:
+                    type: annotation
+                    prefix: Gedmo\Tree\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
+                    alias: GedmoTree # (optional) it will default to the name set for the mapping
+                    is_bundle: false
+
+stof_doctrine_extensions:
+    default_locale: fr
+    mongodb:
+        default:
+            sortable: true
+
+pix_sortable_behavior:
+    db_driver: mongodb # default value : orm
+    position_field:
+        default: position #default value : position
+        entities:
+            Biopen/CoreBundle/Document/About: position
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -115,3 +150,46 @@ bazinga_geocoder:
             api_key:              AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk
         openstreetmap:
             locale:               fr
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+
+sonata_doctrine_mongo_db_admin:
+    templates:
+        form:
+            - SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig
+        filter:
+            - SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig
+        types:
+            list:
+                array:      SonataAdminBundle:CRUD:list_array.html.twig
+                boolean:    SonataAdminBundle:CRUD:list_boolean.html.twig
+                date:       SonataAdminBundle:CRUD:list_date.html.twig
+                time:       SonataAdminBundle:CRUD:list_time.html.twig
+                datetime:   SonataAdminBundle:CRUD:list_datetime.html.twig
+                text:       SonataAdminBundle:CRUD:base_list_field.html.twig
+                trans:      SonataAdminBundle:CRUD:list_trans.html.twig
+                string:     SonataAdminBundle:CRUD:base_list_field.html.twig
+                smallint:   SonataAdminBundle:CRUD:base_list_field.html.twig
+                bigint:     SonataAdminBundle:CRUD:base_list_field.html.twig
+                integer:    SonataAdminBundle:CRUD:base_list_field.html.twig
+                decimal:    SonataAdminBundle:CRUD:base_list_field.html.twig
+                identifier: SonataAdminBundle:CRUD:base_list_field.html.twig
+
+            show:
+                array:      SonataAdminBundle:CRUD:show_array.html.twig
+                boolean:    SonataAdminBundle:CRUD:show_boolean.html.twig
+                date:       SonataAdminBundle:CRUD:show_date.html.twig
+                time:       SonataAdminBundle:CRUD:show_time.html.twig
+                datetime:   SonataAdminBundle:CRUD:show_datetime.html.twig
+                text:       SonataAdminBundle:CRUD:base_show_field.html.twig
+                trans:      SonataAdminBundle:CRUD:show_trans.html.twig
+                string:     SonataAdminBundle:CRUD:base_show_field.html.twig
+                smallint:   SonataAdminBundle:CRUD:base_show_field.html.twig
+                bigint:     SonataAdminBundle:CRUD:base_show_field.html.twig
+                integer:    SonataAdminBundle:CRUD:base_show_field.html.twig
+                decimal:    SonataAdminBundle:CRUD:base_show_field.html.twig

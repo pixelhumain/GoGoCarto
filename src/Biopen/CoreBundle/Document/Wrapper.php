@@ -122,4 +122,3 @@ class Wrapper
         return $this->backgroundColor;
     }
 }
-
