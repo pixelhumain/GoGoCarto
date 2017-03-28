@@ -100,7 +100,7 @@ export function createListenersForElementMenu(object)
 	object.find('.tooltipped').tooltip();
 
 	object.find('.item-edit').click(function() {
-		Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
+		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 
 	});
 
 	object.find('.item-delete').click(function() 
