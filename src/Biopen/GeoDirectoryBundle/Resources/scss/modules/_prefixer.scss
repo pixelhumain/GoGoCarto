@@ -241,6 +241,11 @@
       -webkit-order: $val;
       order: $val;
     }
+    @mixin flex-flow($val) {
+        -ms-flex-flow: $val;
+        -webkit-flex-flow: $val;
+        flex-flow: $val;
+    }
     @mixin align($align) {
       -webkit-flex-align: $align;
       -ms-flex-align: $align;

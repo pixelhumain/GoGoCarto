@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-12
+ * @Last Modified time: 2017-03-24 12:11:07
  */
 var map;
 var geocoder;
@@ -50,18 +50,21 @@ function initMap()
 
 function createMarker(position)
 {
-	marker = new L.Marker(position, { draggable: true } ).addTo(map);
+	if (marker) marker.remove();
 
+	marker = new L.Marker(position, { draggable: true } ).addTo(map);
 	marker.on('dragend', function() 
 	{
-	   $('#input-latitude').attr('value',marker.getLatLng().lat);
+	  $('#input-latitude').attr('value',marker.getLatLng().lat);
 		$('#input-longitude').attr('value',marker.getLatLng().lng);	
-   });
+  });
+
+  marker.bindPopup("Déplacez moi pour préciser la position").openPopup();
 }
 
 function fitBounds(rawbounds)
 {
-	console.log("fitbounds", rawbounds);
+	//console.log("fitbounds", rawbounds);
 
 	var corner1 = L.latLng(rawbounds[0], rawbounds[1]);
 	var corner2 = L.latLng(rawbounds[2], rawbounds[3]);

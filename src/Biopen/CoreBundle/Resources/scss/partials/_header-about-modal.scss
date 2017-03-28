@@ -2,8 +2,19 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-22 16:36:09
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-22 16:55:00
+* @Last Modified time: 2017-03-24 12:17:00
 */
+
+#listAbout
+{
+	.item-divider
+	{
+		height: 1px;
+    overflow: hidden;
+    background-color: #717171;
+	}
+}
+
 .modal.about-modals
 {
 	background-color: #444 !important; 

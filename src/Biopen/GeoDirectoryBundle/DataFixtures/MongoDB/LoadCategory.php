@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-23 14:11:00
+ * @Last Modified time: 2017-03-27 19:52:59
  */
  
 
@@ -52,6 +52,7 @@ class LoadCategory implements FixtureInterface
 		// main
 		$mainCategory = new Category();
 		$mainCategory->setName('Catégories Principales');
+		$mainCategory->setPickingOptionText('Une catégorie principale');
 		$mainCategory->setIndex(1);
 		$mainCategory->setSingleOption(false);
 		$mainCategory->setEnableDescription(false);
@@ -98,6 +99,7 @@ class LoadCategory implements FixtureInterface
 		// TYPE
 		$typeCategory = new Category();
 		$typeCategory->setName('Catégorie');
+		$typeCategory->setPickingOptionText('Une sous catégorie');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);
@@ -106,7 +108,7 @@ class LoadCategory implements FixtureInterface
 
 		// Liste des names de catégorie à ajouter
 		$types = array(
-			array('Circuit courts'  		, ''     			, '#B33536', ''        , false),
+			array('Circuit courts'  		, ''     			, '#B33536', 'producteur, amap, artisan, ruche...'        , false),
 			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
 			array('Epicerie & Supérette'    ,'icon-epicerie'      , '#383D5A',''        , true),
 			array('Restauration'    		, 'icon-restaurant'      , '#4a7874',''        , true)
@@ -120,10 +122,9 @@ class LoadCategory implements FixtureInterface
 
 			$new_type->setIcon($type[1]);
 			$new_type->setColor($type[2]);
+			$new_type->setTextHelper($type[3]);
 
 			$new_type->setNameShort($type[0]);
-
-			$new_type->setTextHelper('');
 
 			$new_type->setUseIconForMarker($type[4]);
 			$new_type->setUseColorForMarker(true);
@@ -136,6 +137,7 @@ class LoadCategory implements FixtureInterface
 		// CIRCUIT court détail
 		$circuitCategory = new Category();
 		$circuitCategory->setName('type');
+		$circuitCategory->setPickingOptionText('Un type de circuit court');
 		$circuitCategory->setIndex(1);
 		$circuitCategory->setSingleOption(false);
 		$circuitCategory->setEnableDescription(false);
@@ -175,6 +177,7 @@ class LoadCategory implements FixtureInterface
 		// PRODUITS
 		$productCategory = new Category();
 		$productCategory->setName('Produits');
+		$productCategory->setPickingOptionText('Un produit');
 		$productCategory->setIndex(2);
 		$productCategory->setSingleOption(false);
 		$productCategory->setEnableDescription(true);
@@ -231,6 +234,7 @@ class LoadCategory implements FixtureInterface
 				// SOUS PRODUITS
 				$subproductCategory = new Category();
 				$subproductCategory->setName('Sous Produits');
+				$subproductCategory->setPickingOptionText('Un sous produit');
 				$subproductCategory->setIndex(1);
 				$subproductCategory->setSingleOption(false);
 				$subproductCategory->setEnableDescription(true);

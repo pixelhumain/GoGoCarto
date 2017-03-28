@@ -1,0 +1,172 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-27 11:57:15
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-27 19:55:31
+*/
+.categories-info
+{
+	margin-bottom: 1rem;
+	font-style: italic;
+}
+.category-field
+{
+	@include flexbox();
+	@include flex-flow(column wrap);	
+
+	&.error
+	{
+		.select-wrapper { background-color: $error-color !important; }
+
+		&:before
+		{
+			width: 100%;
+			content: "Veuillez sélectionner au moins une option";
+		}
+	}
+	
+
+	&.inline 
+	{
+		@include flex-flow(row wrap);
+
+		@include align(center);	
+
+		.category-field-select 
+		{
+		  @include order(0);
+		  .select-wrapper input.select-dropdown { margin-bottom: 1rem; }
+		  width: 100%;
+		}
+	}
+
+	.category-field
+	{
+		margin: 0;
+		margin-left: .5rem;
+    padding-left: 1.2rem;
+  	border-left: 1px dotted #c3c3c3;
+
+  	&:first-child { margin-top: 1rem; }
+	}
+
+	.category-field-select
+	{
+		@include flex(initial);	
+		@include order(1000000);
+		margin: 0;	
+
+    .select-dropdown li.disabled 
+    {
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+		}
+
+		.caret 
+		{ 
+			color: white;
+    	z-index: 10;
+    	right: 15px;
+    	top: 7px;
+    }
+
+		.select-wrapper 
+		{
+			background-color: $primary-color;
+			&:hover { background-color: $primary-color-light }
+		  &.secondary-color { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
+
+		  padding-left: 1rem;
+		  @include border-radius(3px);
+	    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
+	    @include transition(background-color .2s);
+
+			input.select-dropdown
+			{
+				height: 2rem;
+		    line-height: 2rem;
+		    margin-bottom: .8rem;
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+	      border: none;		    
+		    background-color: transparent;
+		    color: white;
+	  	}
+		}
+	}		
+
+	.option-field
+	{
+		@include flex(initial);
+		margin-bottom: 1rem;
+
+		&.inline 
+		{ 
+			display: inline-block;
+			background-color: grey;
+			@include border-radius(5px);
+			margin-right: .5rem;
+			.option-field-name { color: white; }
+
+			.option-field-value
+			{
+				padding: 3px 6px;
+
+				.icon { display:none; margin-right: .4rem }
+
+				.option-field-delete i { margin-left: 0; color: white;}				
+			}
+		}
+
+		.icon
+		{
+			font-size: 19px;
+	    margin-top: -1px;
+	    float: left;
+	    margin-right: .8rem;
+		}
+
+		.option-field-value.with-description
+		{
+			@include flexbox();
+			@include flex-flow(row);
+			@include justify-content(stretch);
+			@include align(center);
+
+			.option-field-name { width : 10rem; @include flex(initial); }
+			.option-field-description 
+			{ 
+				@include flex(1); 
+				margin: 0; 
+				input { margin: 0 } 
+			}
+			.option-field-delete { width : 50px; @include flex(initial); }
+		}
+
+		.option-field-name
+		{
+			font-weight: 600;
+    	color: #444444;
+		}
+
+		.option-field-delete
+		{
+			display: inline-block;
+
+			i 
+			{ 
+				float : right ;
+				font-size: 1.2rem;
+   			margin-bottom: -4px;
+   			margin-left: 1rem;
+
+   			color: #5f5f5f;			
+				&:hover { cursor: pointer; color: $primary-color;}
+			}
+		}		
+	}
+
+	
+}

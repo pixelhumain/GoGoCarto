@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-27 17:11:27
  */
 jQuery(document).ready(function()
 {	
@@ -32,7 +32,12 @@ jQuery(document).ready(function()
 		updateFormWithType(false);
 	}	
 	
-	$('select').material_select();
+	
+
+ //  $('#select-test').select2({
+	//   minimumResultsForSearch: Infinity,
+	//   tags: true,
+	// });
 
 	$('.tooltipped').tooltip();
 
@@ -40,6 +45,7 @@ jQuery(document).ready(function()
 	// AJOUT LISTENERS
 	// ---------------
 	$('#element-type').change( updateFormWithType );
+	
 	$("#main-product-selection").change(function() { updateFormWithMainProduct($(this).val()); });
 
 	// entrée d'une adresse on geocode
@@ -70,7 +76,7 @@ jQuery(document).ready(function()
 	// HORAIRES
 	// gestion d'une seconde plage horaire pour les petits ?crans
 	$('.add-time-slot-button').click(function() { addTimeSlot($(this).attr('id').split("_")[0]); });
-    $('.clear-time-slot-button').click(function() { clearTimeSlot($(this).attr('id').split("_")[0]); });
+  $('.clear-time-slot-button').click(function() { clearTimeSlot($(this).attr('id').split("_")[0]); });
 	// copie des openHours du day pr?c?dent
 	$('.redo-time-slot-button').click(function() { redoTimeSlot($(this).attr('id').split("_")[0]); });
 

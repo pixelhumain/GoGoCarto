@@ -2,7 +2,7 @@
 
 {% block title %}
 	{% if editMode %} Edition
-	{% else %}  Ajout d'un Element
+	{% else %}  Ajout d'un Acteur
 	{% endif %}
 {% endblock %}
 
@@ -10,8 +10,11 @@
 {% block stylesheets %}
 
  	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ 	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
  	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
  	<link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
+
+ 	{% include '@directory/directory/categories-styles.html.twig' %}
 
 {% endblock %}
 
@@ -25,7 +28,7 @@
 	    </div>
 	{% endfor %}
   
-  {% if not editMode %}<h1 id="element-form-title">Ajouter un element</h1> {% endif %}
+  <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajout d'un acteur"}}</h1> 
 
   {% include "@directory/element-form/form.html.twig" with {'editMode': editMode } %}
 

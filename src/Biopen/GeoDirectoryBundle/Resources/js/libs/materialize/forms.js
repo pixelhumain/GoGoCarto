@@ -77,7 +77,9 @@
       if (object.val().length === 0 && object[0].validity.badInput === false) {
         if (object.hasClass('validate')) {
           object.removeClass('valid');
+          object.siblings('label, i').removeClass('valid');
           object.removeClass('invalid');
+          object.siblings('label, i').removeClass('invalid');
         }
       }
       else {
@@ -85,11 +87,15 @@
           // Check for character counter attributes
           if ((object.is(':valid') && hasLength && (len <= lenAttr)) || (object.is(':valid') && !hasLength)) {
             object.removeClass('invalid');
+            object.siblings('label, i').removeClass('invalid');
             object.addClass('valid');
+            object.siblings('label, i').addClass('valid');
           }
           else {
             object.removeClass('valid');
+            object.siblings('label, i').removeClass('valid');
             object.addClass('invalid');
+            object.siblings('label, i').addClass('invalid');
           }
         }
       }
@@ -328,7 +334,8 @@
             $curr_select.find('option').eq(i).prop('selected', true);
             // Trigger onchange() event
             $curr_select.trigger('change');
-            $curr_select.siblings('input.select-dropdown').val($(this).text());
+            if (!$curr_select.hasClass('keep-title-option'))
+              $curr_select.siblings('input.select-dropdown').val($(this).text());
             if (typeof callback !== 'undefined') callback();
           }
         });

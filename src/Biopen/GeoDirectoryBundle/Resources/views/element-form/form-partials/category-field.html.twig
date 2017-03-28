@@ -1,0 +1,77 @@
+{% set displayInline = not category.enableDescription %}
+{% if displayInline %}
+	{% for option in category.options %} 
+		{% if option.subcategories|length != 0 %} {% set displayInline = false %} {% endif %} 
+	{% endfor %}
+{% endif %}
+
+<div class="category-field {{ displayInline ? 'inline' : ''}}">
+	
+	
+	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
+    <select id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
+   	  
+   	  <option disabled selected>Choissisez {{ category.pickingOptionText }}</option>
+   	   
+      {% for key, option in category.options | sortbyfield('index') %} 
+      	<option value="{{option.id}}">
+      		{{ option.name }} {% if option.textHelper %} ({{ option.textHelper }}) {% endif %}
+      	</option>
+      {% endfor %}
+    </select>
+  	
+  </span>
+
+	{% for key, option in category.options | sortbyfield('index') %} 
+
+		{% set displayOption = false %}
+		{% set curr_description = '' %} 
+		{% set curr_index = 0 %} 
+		{% if editMode %}
+			{% for optionValue in element.optionValues %}
+				{% if optionValue.optionId == option.id %} 
+					{% set displayOption = true %} 
+					{% set curr_description = optionValue.description %} 
+					{% set curr_index = optionValue.index %} 
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
+					data-id="{{option.id}}" data-index={{curr_index}}>
+
+			<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
+
+				<span class="option-field-name">
+							{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
+							{% if iconClass %}    
+								<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+							{% endif %}
+							{{ option.name }}
+				</span>
+
+				{% if category.enableDescription %}
+				<div class="input-field option-field-description">	
+				  	<input placeholder="Précisez si nécessaire" id="option-fields-description-{{ option.id }}" class="option-field-description-input" data-id="{{option.id}}" type="text" length="80" value="{{curr_description}}">
+				</div> 
+				{% endif %}
+
+				<span class="option-field-delete" data-id={{option.id}}><i class="material-icons" data-id={{option.id}}>clear</i></span>
+
+			</div>		
+
+	  	<div class="subcategories-wrapper ">
+		    {% for subkey, subcategory in option.subcategories | sortbyfield('index') %}
+
+						{% include '@directory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
+
+				{% endfor %} 
+			</div>
+
+		</div>
+
+	{% endfor %}
+
+
+
+</div>

@@ -1,6 +1,6 @@
 {% twig_js name="biopen_twigJs_category_value" %}
 
-{% set displayThisCategoryValue = categoryValue.children.length > 1 %}
+{% set displayThisCategoryValue = categoryValue.children.length > 0 %}
 
 {% if displayThisCategoryValue %}
 	<div class="category-wrapper">
@@ -10,11 +10,6 @@
 {% endif %}
 
 {% for optionValue in categoryValue.children %}
-
-	{% if displayThisCategoryValue %}
-
-		<!-- if subcategory.last children, prendre first categorie qui est pas avec description, puis enelevr cette categorie de la liste
-		des catégories-->
 
 		{% set displayFirstCategoryInline = not categoryValue.category.enableDescription 
 																		and optionValue.children.length > 0 
@@ -47,8 +42,6 @@
 	    	<span class="col s6 m8 option-description">{{ optionValue.description|capitalize }}</span>
 	    {% endif %}
 	  </div>
-
-	{% endif %}
 
 	{% set subcategoriesCount = optionValue.children.length %}
 	{% if displayFirstCategoryInline %}{% set subcategoriesCount = subcategoriesCount - 1 %}{% endif %}

@@ -97,7 +97,7 @@ export function showFullTextMenu(object)
 
 export function createListenersForElementMenu(object)
 {
-	object.find('.tooltipped').tooltip();	
+	object.find('.tooltipped').tooltip();
 
 	object.find('.item-edit').click(function() {
 		window.location.href = Routing.generate('biopen_element_edit', { id : getCurrentElementIdShown() }); 

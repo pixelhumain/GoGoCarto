@@ -17,7 +17,7 @@
 	</div>
 
 
-	<div class="row ">			
+ 	{#<div class="row ">			
 		{% for product in form.listeProducts %}
 		    <div class="col s6 m4">	
 		        {{ form_widget(product, {'attr': {'class': 'checkbox-products'}}) }}
@@ -26,8 +26,8 @@
 		{% endfor %}
 
 		{# on compl?te avec des div vide le tableau de product #}
-		<div class="col s{{ (form.listeProducts|length % 2)*6 }} m{{(3-(form.listeProducts|length % 3))*(form.listeProducts|length % 3)*4}}"></div>	
-	</div>
+		{#<div class="col s{{ (form.listeProducts|length % 2)*6 }} m{{(3-(form.listeProducts|length % 3))*(form.listeProducts|length % 3)*4}}"></div>	
+	</div> #}
 
 	<!-- Espace pour préciser les type de products -->
 	<div id="precisions">

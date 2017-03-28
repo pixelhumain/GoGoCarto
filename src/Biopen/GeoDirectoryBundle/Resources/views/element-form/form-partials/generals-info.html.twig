@@ -1,13 +1,14 @@
 <!-- SECTION INFO FOURNISSEUR -->
 <section class="row">
 
-	{% if not editMode %}
+	{#{% if not editMode %}
 		<h2 class="no-margin-bottom">Informations</h2>
 	{% else %}
 		<h2 class="no-margin-bottom">Modification des données</h2>
-	{% endif %}
-  	<!-- Input name element -->
-  	<div class="input-field col s12">
+	{% endif %}#}
+	<h2>Informations</h2>
+  <!-- Input name element -->
+  <div class="input-field col s12">
   		<i class="material-icons prefix">account_circle</i>	
   		{{ form_widget(form.name, {'id': 'input-name', 
   							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
@@ -19,27 +20,25 @@
 	<div class="input-field col s12">
 		<i class="material-icons prefix">description</i>
 	  	{{ form_widget(form.description, {'id': 'input-description',
-  								          'attr': {'class': 'validate',
-  											   'placeholder':"Description de l'acteur, pas des produits !",
-  											   'length':'80'   }}) }}
+  								          'attr': {'class': 'validate materialize-textarea',
+  											   'placeholder':"Description générale",
+  											   'length':'150'   }}) }}
 	</div>
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
 	<i class="material-icons prefix">room</i>	
-  	{{ form_widget(form.adresse, {'id': 'input-address',
+  	{{ form_widget(form.address, {'id': 'input-address',
   								  'attr': {'class': 'validate required',
-  								           'placeholder':'Adresse Complète' 
+  								           'placeholder':'Adresse complète' 
   								  		   }}) }}
 	
 	</div>	
 
-	<div id="other-selling-point">D'autres points de ventes (marchés, AMAP...) ? Ajouter les à notre base de donnée 
-  		avec un nouveau formulaire !</div>
-
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.latlng.latitude, {'id': 'input-latitude'}) }}	
-	{{ form_widget(form.latlng.longitude, {'id': 'input-longitude'}) }}				
+	{{ form_widget(form.lat, {'id': 'input-latitude'}) }}	
+	{{ form_widget(form.lng, {'id': 'input-longitude'}) }}	
+	{{ form_widget(form.postalCode, {'id': 'input-postal-code'}) }}						
 
 	<!-- Map -->
 	<div id="address-preview-map" class="col s12"></div>	

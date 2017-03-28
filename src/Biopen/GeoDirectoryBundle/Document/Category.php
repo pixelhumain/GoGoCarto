@@ -72,6 +72,13 @@ class Category
      */
     private $depth;
 
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $pickingOptionText;
+
 
     public function __construct()
     {
@@ -270,5 +277,27 @@ class Category
     public function getDepth()
     {
         return $this->depth;
+    }
+
+    /**
+     * Set pickingOptionText
+     *
+     * @param string $pickingOptionText
+     * @return $this
+     */
+    public function setPickingOptionText($pickingOptionText)
+    {
+        $this->pickingOptionText = $pickingOptionText;
+        return $this;
+    }
+
+    /**
+     * Get pickingOptionText
+     *
+     * @return string $pickingOptionText
+     */
+    public function getPickingOptionText()
+    {
+        return $this->pickingOptionText;
     }
 }

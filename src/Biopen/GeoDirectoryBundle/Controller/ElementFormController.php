@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-03-28 13:48:17
  */
  
 
@@ -16,127 +16,114 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Biopen\GeoDirectoryBundle\Entity\Element;
+use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Entity\ElementProduct;
-use Biopen\GeoDirectoryBundle\Entity\Product;
+use Biopen\GeoDirectoryBundle\Document\Option;
+use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\Catgeory;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Wantlet\ORM\Point;
-use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
 
 class ElementFormController extends Controller
 {
-    public function addAction(Request $request)
-    {
-		$element = new Element();
-		$form = $this->get('form.factory')->create(ElementType::class, $element);
+	public function addAction(Request $request)
+	{
+		$em = $this->get('doctrine_mongodb')->getManager();
 
-		$em = $this->getDoctrine()->getManager();
-		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')
-            ->findAll();
-
-		if ($form->handleRequest($request)->isValid()) 
-		{
-			$this->handleFormSubmission($form, $element, $em, $request);
-			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
-
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! Le element a bien été ajouté</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
-			return $this->redirectToRoute('biopen_element_add');			
-		}		
-
-		return $this->render('@directory/element-form/element-form.html.twig', 
-					array(
-						'editMode' => false,
-						'form' => $form->createView(),
-						'listProducts'=> $listProducts,
-					));
-  } 
-
+		return $this->renderForm(new Element(), false, $request, $em);	
+  	} 
 
 	public function editAction($id, Request $request)
 	{
-		$em = $this->getDoctrine()->getManager();
+		$em = $this->get('doctrine_mongodb')->getManager();
 
-		// On récupère l'annonce $id
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
-
-		if (null === $element) {
-		  throw new NotFoundHttpException("Ce element n'existe pas.");
-		}
 
 		$element->reinitContributor();
 
-		$listProducts = $em->getRepository('BiopenGeoDirectoryBundle:Product')->findAll();
+		return $this->renderForm($element, true, $request, $em);		
+	}
+
+	private function renderForm($element, $editMode, $request, $em)
+	{
+		if (null === $element) {
+		  throw new NotFoundHttpException("Cet élément n'existe pas.");
+		}
+
+		dump($element);		
+
+		// Get categories      
+		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+		->findOneByDepth(0);
+
+		// options list for dynamic styles generation
+		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
+        ->findAll(); 
 
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
-
-		// conversion des produits non géré par symphony
-		$elementProducts = [];
-		foreach ($element->getProducts() as $elementProduct) 
-		{			
-			$elementProducts[] = $elementProduct->getProduct();			
-		}
-		$form->get('listeProducts')->setData($elementProducts);
 
 		// Submission du formulaire
 		if ($form->handleRequest($request)->isValid()) 
 		{
-		   $em = $this->getDoctrine()->getManager();
-
 			$this->handleFormSubmission($form, $element, $em, $request);
 
-			$url_new_element = $this->generateUrl('biopen_directory', array('id'=>$element->getId()));
+			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
 
-			$request->getSession()->getFlashBag()->add('notice', 'Merci de votre contribution ! </br>Les modifications ont bien été prises en compte</br><a href="'.$url_new_element.'">Voir le résultat</a>' );	
-			//return $this->redirectToRoute('biopen_element_add');
+			$noticeText = 'Merci de votre contribution !</br>' . $editMode ? 'Les modifications ont bien été prises en compte' : 'L\'acteur a bien été ajouté';
+			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
+
+			$request->getSession()->getFlashBag()->add('notice', $noticeText);
 		}
 
-		return $this->render('@directory/element-form/element-form.html.twig', array(
-			'editMode' => true,
-			'form' => $form->createView(), 
-			'element' => $element,
-			'listProducts'=> $listProducts
-		));
+		return $this->render('@directory/element-form/element-form.html.twig', 
+					array(
+						'editMode' => $editMode,
+						'form' => $form->createView(),
+						'mainCategory'=> $mainCategory,
+						"optionList" => $optionsList,
+						"element" => $element
+					));
 	}
 
 	public function deleteAction($id, Request $request)
 	{
 		// TODO implémenter suppression
-		$this->addAction($id, $request);
+		//$this->addAction($id, $request);
 	}
 
 	private function handleFormSubmission($form, $element, $em, $request)
-  {
-  	$element->resetProducts();
-  	//dump($request->request);
-  	//dump($form->getData());
-  	foreach ($form->get('listeProducts')->getData() as $product) 
-		{
-			$elementProduct = new ElementProduct();
-			$elementProduct->setProduct($product);
-			$elementProduct->setDescriptif($request->request->get('precision_' . $product->getId()));
-			$element->addProduct($elementProduct);
-		}
+  	{
+	  	$optionValuesString = $request->request->get('options-values');
+	  	dump($optionValuesString);
 
-		$mainProduct = $request->request->get('main-product-selection');
-		//dump($mainProduct);
-		$element->setMainProduct($mainProduct);
+	  	$optionValues = json_decode($optionValuesString, true);
+	  	dump($optionValues);
+
+	  	$element->resetOptionsValues();
+
+	  	foreach($optionValues as $optionValue)
+	  	{
+	  		$new_optionValue = new OptionValue();
+	  		$new_optionValue->setOptionId($optionValue['id']);
+	  		$new_optionValue->setIndex($optionValue['index']);
+	  		$new_optionValue->setDescription($optionValue['description']);
+	  		$element->addOptionValue($new_optionValue);
+	  	}
 
 		// ajout HTTP:// aux url si pas inscrit
 		$webSiteUrl = $element->getWebSite();
-		$parsed = parse_url($webSiteUrl);
-		if (empty($parsed['scheme'])) {
-		    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
-		}
-		$element->setWebSite($webSiteUrl);
-			
-		if (!$element->getMainProduct()) // si pas un producteur ou amap
+		if ($webSiteUrl && $webSiteUrl != '')
 		{
-			$element->setMainProduct($element->getType());		
-		}
+			$parsed = parse_url($webSiteUrl);
+			if (empty($parsed['scheme'])) {
+			    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
+			}
+			$element->setWebSite($webSiteUrl);
+		}		
+
+		dump($element);			
 		
 		$em->persist($element);
 		$em->flush();
