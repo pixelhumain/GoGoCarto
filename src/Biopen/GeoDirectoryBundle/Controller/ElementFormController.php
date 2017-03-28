@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 10:45:40
+ * @Last Modified time: 2017-03-28 13:48:17
  */
  
 
@@ -114,11 +114,14 @@ class ElementFormController extends Controller
 
 		// ajout HTTP:// aux url si pas inscrit
 		$webSiteUrl = $element->getWebSite();
-		$parsed = parse_url($webSiteUrl);
-		if (empty($parsed['scheme'])) {
-		    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
-		}
-		$element->setWebSite($webSiteUrl);
+		if ($webSiteUrl && $webSiteUrl != '')
+		{
+			$parsed = parse_url($webSiteUrl);
+			if (empty($parsed['scheme'])) {
+			    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
+			}
+			$element->setWebSite($webSiteUrl);
+		}		
 
 		dump($element);			
 		
