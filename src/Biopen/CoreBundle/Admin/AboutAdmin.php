@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-28 18:03:49
+ * @Last Modified time: 2017-03-29 08:43:24
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -24,10 +24,8 @@ class AboutAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('name', 'text');
-        //$formMapper->add('content', 'textarea');
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
-			    'format' => 'markdown',
-			    'ckeditor_context' => 'default', // optional
+			    'format' => 'richhtml',
 			));
         $formMapper->add('backgroundColor', 'text');
     }

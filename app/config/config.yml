@@ -47,6 +47,10 @@ twig:
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:colorpicker.html.twig'
+            - 'XmonColorPickerTypeBundle:Form:fields.html.twig'
 
 
 # Doctrine Configuration
@@ -234,3 +238,8 @@ sonata_formatter:
         twig:
             service: sonata.formatter.text.twigengine
             extensions: [] # Twig formatter cannot have extensions
+
+sonata_admin:
+    templates:
+        # default global templates
+        layout:  SonataAdminBundle::layout.html.twig

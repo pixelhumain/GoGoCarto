@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-28 17:59:05
+ * @Last Modified time: 2017-03-29 09:07:11
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -24,8 +24,10 @@ class WrapperAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('title', 'text');
-        $formMapper->add('content', 'textarea');
-        $formMapper->add('backgroundColor', 'text');
+        $formMapper->add('content', 'sonata_simple_formatter_type', array(
+                'format' => 'richhtml',
+            ));
+        $formMapper->add('backgroundColor', 'xmon_color_picker');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
