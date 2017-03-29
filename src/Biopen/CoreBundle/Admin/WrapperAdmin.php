@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-29 09:47:47
+ * @Last Modified time: 2017-03-29 10:01:02
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -43,9 +43,8 @@ class WrapperAdmin extends AbstractAdmin
                 'label' => 'Contenu du bandeau',
                 'required' => false,
             ));
-        $formMapper->add('rawContent', 'sonata_simple_formatter_type', array(
-                'format' => 'rawhtml',
-                'label' => 'Contenu en raw html',
+        $formMapper->add('rawContent', 'textarea', array(
+                'label' => 'Contenu en raw html (optionel)',
                 'required' => false,
             ));
         $formMapper->add('textColor', 'xmon_color_picker');
