@@ -37,6 +37,21 @@ class Wrapper
      *
      * @MongoDB\Field(type="string")
      */
+    private $rawContent;
+    
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $textColor;
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string")
+     */
     private $backgroundColor;
 
     /**
@@ -149,5 +164,49 @@ class Wrapper
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set textColor
+     *
+     * @param string $textColor
+     * @return $this
+     */
+    public function setTextColor($textColor)
+    {
+        $this->textColor = $textColor;
+        return $this;
+    }
+
+    /**
+     * Get textColor
+     *
+     * @return string $textColor
+     */
+    public function getTextColor()
+    {
+        return $this->textColor;
+    }
+
+    /**
+     * Set rawContent
+     *
+     * @param string $rawContent
+     * @return $this
+     */
+    public function setRawContent($rawContent)
+    {
+        $this->rawContent = $rawContent;
+        return $this;
+    }
+
+    /**
+     * Get rawContent
+     *
+     * @return string $rawContent
+     */
+    public function getRawContent()
+    {
+        return $this->rawContent;
     }
 }
