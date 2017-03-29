@@ -1,30 +1,5 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
-# security:
-
-    
-
-#     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-elements
-#     providers:
-#         in_memory:
-#             memory: ~
-
-#     firewalls:
-#         # disables authentication for assets and the profiler, adapt it according to your needs
-#         dev:
-#             pattern: ^/(_(profiler|wdt)|css|images|js)/
-#             security: false
-
-#         main:
-#             anonymous: ~
-#             # activate different ways to authenticate
-
-#             # http_basic: ~
-#             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-#             # form_login: ~
-#             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
 
 security:
     encoders:
@@ -56,7 +31,7 @@ security:
             form_login:
                 provider:       fos_userbundle
                 login_path:     /admin/login
-                use_forward:    false
+                use_forward:    true
                 check_path:     /admin/login_check
                 failure_path:   null
             logout:
@@ -64,12 +39,6 @@ security:
                 target:         /admin/login
             anonymous:          true
 
-        # -> end custom configuration
-
-        # default login area for standard users
-
-        # This firewall is used to handle the public login area
-        # This part is handled by the FOS User Bundle
         main:
             pattern:             .*
             context:             user
@@ -81,8 +50,24 @@ security:
                 failure_path:   null
             logout:             true
             anonymous:          true    
+            switch_user: true
+    
+    role_hierarchy:
+        ROLE_SONATA_FOO_READER:
+            - ROLE_ADMIN_ABOUT_LIST
+            - ROLE_ADMIN_ABOUT_VIEW
+        # those are the roles I will use (less verbose)
+        ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
+        ROLE_ADMIN:             [ROLE_USER, ROLE_ADMIN_ABOUT_ALL]
+        ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-security:
+        # you could alternatively use for an admin who has all rights
+        ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
+
+    # set access_strategy to unanimous, else you may have unexpected behaviors
+    access_decision_manager:
+        strategy: unanimous
+
     access_control:
         # URL of FOSUserBundle which need to be available to anonymous users
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
