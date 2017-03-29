@@ -52,8 +52,7 @@ twig:
             - 'SonataCoreBundle:Form:colorpicker.html.twig'
             - 'XmonColorPickerTypeBundle:Form:fields.html.twig'
             - 'SonataFormatterBundle:Form:formatter.html.twig'
-
-
+            
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -69,6 +68,7 @@ doctrine:
         types:
             point:
                 class:  Wantlet\ORM\PointType
+            json: Sonata\Doctrine\Types\JsonType        
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -80,6 +80,14 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql: 
+            numeric_functions: 
+                DISTANCE: Wantlet\ORM\Distance 
+                POINT_STR: Wantlet\ORM\PointStr
+        mappings:
+            ApplicationSonataUserBundle: ~
+            SonataUserBundle: ~
+            FOSUserBundle: ~ 
         
 # Mongodb Configuration
 doctrine_mongodb:
@@ -91,7 +99,7 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
-            mappings:
+            mappings:                   
                 gedmo_translatable:
                     type: annotation
                     prefix: Gedmo\Translatable\Document
@@ -241,6 +249,45 @@ sonata_formatter:
             extensions: [] # Twig formatter cannot have extensions
 
 sonata_admin:
+    title:                'Cartopen Administration'
+    title_logo:           'assets/img/favicon.png'
     templates:
         # default global templates
         layout:  SonataAdminBundle::layout.html.twig
+
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+    class:                  # Entity Classes
+        user:               Application\Sonata\UserBundle\Entity\User
+        group:              Application\Sonata\UserBundle\Entity\Group
+
+    admin:                  # Admin Classes
+        user:
+            class:          Sonata\UserBundle\Admin\Entity\UserAdmin
+            controller:     SonataAdminBundle:CRUD
+            translation:    SonataUserBundle
+
+        group:
+            class:          Sonata\UserBundle\Admin\Entity\GroupAdmin
+            controller:     SonataAdminBundle:CRUD
+            translation:    SonataUserBundle
+
+sonata_block:
+    blocks:
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
