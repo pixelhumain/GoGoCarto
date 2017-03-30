@@ -33,3 +33,16 @@ services:
         class: "%my_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid}]
+
+    biopen.authentication_handler:
+        class: Application\Sonata\UserBundle\Security\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session
+
+    biopen.registration.form.type:
+        class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType
+        arguments: ["%fos_user.model.user.class%"]
+        tags:
+            - { name: form.type, alias: biopen_user_registration }

@@ -1,7 +1,6 @@
-{% extends "SonataUserBundle::layout.html.twig" %}
+{% extends "@UserBundle/layout.html.twig" %}
 
 {% block fos_user_content %}
-Cocou c'est moi
     <div class="row">
         <div class="col-sm-6">
             {% block sonata_user_login %}
@@ -20,8 +19,6 @@ Cocou c'est moi
                             </div>
                         {% endif %}
                     {% endblock %}
-
-                    {{ render(url('hwi_oauth_connect')) }}
 
                     {% block sonata_user_login_form %}
                         <form action="{{ path("fos_user_security_check") }}" method="post" role="form" class="form-horizontal">
@@ -68,7 +65,8 @@ Cocou c'est moi
         </div>
         <div class="col-sm-6">
             {% block sonata_user_registration %}
-                {% render controller("SonataUserBundle:RegistrationFOSUser1:register") %}
+            <a href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
+            {#}    {% render controller("SonataUserBundle:RegistrationFOSUser1:register") %} #}
             {% endblock %}
         </div>
     </div>

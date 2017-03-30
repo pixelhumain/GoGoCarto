@@ -45,6 +45,7 @@ twig:
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": directory
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
+        "%kernel.root_dir%/../src/Application/Sonata/UserBundle/Resources/views": UserBundle
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
     form:
@@ -284,7 +285,9 @@ fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
-
+    registration:
+        form:
+            type: biopen_user_registration
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group

@@ -37,14 +37,48 @@
           <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
       	{% endfor %}            
       </ul>
+
+      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <button 
+				onclick="logout()"
+				class="waves-effect waves-teal btn-flat btn-login">
+				Se déconnecter
+			</button>
+      {% else %}
+      	<button 
+					onclick="$('#popup-login').openModal()"  
+					class="waves-effect waves-teal btn btn-login">
+					Connexion
+				</button>
+      {% endif %}
+      
 		
 	    </div>
 	</div>
 </nav> 
 </header>
 
+<script>
+
+function logout()
+{
+  console.log("logout");
+  $.ajax({
+      method : 'post',
+      url         : "{{ path('fos_user_security_logout') }}",
+      success     : function(data, status, object) {
+          console.log("success login",data);
+      },
+      error: function(data, status, object){
+          console.log(data.message);
+      }
+  });
+}
+</script>
+
 {% endblock %}
 
 {% block modals %} 
     {% include '@BiopenCoreBundle/modals/headerModals.html.twig' %}
+    {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
 {% endblock %}

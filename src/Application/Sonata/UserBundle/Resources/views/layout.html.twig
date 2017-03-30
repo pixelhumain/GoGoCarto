@@ -1,18 +1,28 @@
-{# On étend notre layout #}
+
 {% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
+{# On affiche les messages flash que définissent les contrôleurs du bundle 
+{% for key, message in app.session.flashbag.all() %}
+  <div class="alert alert-{{ key }}">
+    {{ message|trans({}, 'FOSUserBundle') }}
+  </div>
+{% endfor %}#}
 
-{# Dans notre layout, il faut définir le block body #}
-{% block body %}
+{% block stylesheets %}
 
-  {# On affiche les messages flash que définissent les contrôleurs du bundle #}
-  {% for key, message in app.session.flashbag.all() %}
-    <div class="alert alert-{{ key }}">
-      {{ message|trans({}, 'FOSUserBundle') }}
-    </div>
-  {% endfor %}
+  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/partner.css') }}">   
 
-  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
-  {% block fos_user_content %}
-  {% endblock fos_user_content %}
+{% endblock %}
+
+{% block body_content %}
+
+	{% block fos_user_content %}
+	{% endblock fos_user_content %}
+
+{% endblock body_content %}
+
+{% block javascripts %}
+
+  <script src="{{ asset('js/libs.js') }}"></script> 
 
 {% endblock %}

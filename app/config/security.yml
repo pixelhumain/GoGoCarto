@@ -42,12 +42,15 @@ security:
         main:
             pattern:             .*
             context:             user
-            # form_login:
-            #     provider:       fos_userbundle
-            #     login_path:     /login
-            #     use_forward:    false
-            #     check_path:     /login_check
-            #     failure_path:   null
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /login
+                use_forward:    true
+                use_referer:    true
+                check_path:     /login_check
+                failure_path:   /login                
+                success_handler: biopen.authentication_handler
+                failure_handler: biopen.authentication_handler
             logout:             true
             anonymous: ~
             oauth:

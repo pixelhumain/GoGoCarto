@@ -77,6 +77,18 @@ header
 			}			
 		}
 
+		.btn-login
+		{
+			 margin-right: 1rem;
+	    height: 2rem;
+	    line-height: 2rem;
+	    padding: 0 1.5rem;
+	    font-size: .85rem;
+	    background-color: #de5a5f;
+			color: white;
+			&:hover{ background-color: #ec787d }
+		}
+
 		.dropdown-content
 		{
 			background-color: #3d3d3d;
