@@ -11,6 +11,7 @@
 
 namespace Application\Sonata\UserBundle\Entity;
 
+//use FOS\UserBundle\Model\User as BaseUser;
 use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 /**
@@ -29,7 +30,6 @@ class User extends BaseUser
      * @var int $id
      */
     protected $id;
-
     /**
      * Get id
      *

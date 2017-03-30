@@ -42,15 +42,38 @@ security:
         main:
             pattern:             .*
             context:             user
-            form_login:
-                provider:       fos_userbundle
-                login_path:     /login
-                use_forward:    false
-                check_path:     /login_check
-                failure_path:   null
+            # form_login:
+            #     provider:       fos_userbundle
+            #     login_path:     /login
+            #     use_forward:    false
+            #     check_path:     /login_check
+            #     failure_path:   null
             logout:             true
-            anonymous:          true    
-            switch_user: true
+            anonymous: ~
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    gplus:             "/login/check-google"
+                login_path:        /login
+                failure_path:      /login
+
+                oauth_user_provider:
+                    #this is my custom user provider, created from FOSUBUserProvider - will manage the
+                    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+                    service: my_user_provider
+            # oauth:
+            #     resource_owners:
+            #         # facebook:           "/login/check-facebook"
+            #         google:             "/login/check-google"
+            #         # my_custom_provider: "/login/check-custom"
+            #         # my_github:          "/login/check-github"
+            #     login_path:        /login
+            #     use_forward:       false
+            #     failure_path:      null
+
+            #     oauth_user_provider:
+            #         service: my_user_provider
+            # switch_user: true
     
     role_hierarchy:
         ROLE_SONATA_FOO_READER:
