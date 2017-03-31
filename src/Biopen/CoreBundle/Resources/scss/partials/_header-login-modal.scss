@@ -1,0 +1,114 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-31 08:51:24
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-03-31 10:38:13
+*/
+#popup-login
+{
+	text-align: center;
+	background-color: #444 !important; 
+	color: white;
+
+	a
+	{
+		color: white;
+	  text-decoration: underline;
+	}
+
+	.register
+	{
+		font-weight: bold;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+	}
+
+	h2
+	{
+		font-size: 3.5rem;
+	  margin-bottom: 2rem;
+	}
+
+	.oauth-section
+	{
+	  padding-top: 1.5rem !important;    
+	  padding-right: 2rem !important;
+	  
+
+		.oauth-btn
+		{
+			height: 3rem;
+	    line-height: 3rem;
+	    color: white;
+	    text-align: left;
+	    width: 100%;
+	    font-weight: 600;
+	    padding-left: 1.5rem;
+	    margin-bottom: 1rem;
+	    text-decoration: none !important;
+	    
+
+	    &.facebook { background-color: #4f6790; }
+	    &.gplus { background-color: #cf5d46; }
+	    &.twitter { background-color: #64a5d6; }
+
+	    + i {
+	    	font-size: 20px;
+	    	line-height: 3.5rem;
+	    }
+		}
+	}
+
+	.form-section
+	{
+		padding-left: 2rem !important;
+		border-left: 1px solid #909090;
+		text-align: left;
+
+		form { margin-bottom: 1rem; }
+
+		.input-field label { left: 0 !important; color: #ccc8c8; } 
+		label#remember-me-checkbox { left: 0 !important; color: white; }
+
+		.input-field input[type=text], .input-field input[type=password] { margin-bottom : 0 !important; border-color: white !important;}
+
+		
+		
+		[type="checkbox"] + label#remember-me-checkbox:before
+			{
+				top: 3px;
+		    width: 16px;
+		    height: 16px;
+		    border: 2px solid #bfbfbf;
+			}
+		[type="checkbox"]:checked + label#remember-me-checkbox:before
+		{
+			  top: -1px;
+		    width: 10px;
+		    height: 18px;
+		    border-right: 2px solid #dedede;
+		    border-bottom: 2px solid #dedede;
+		    border-top: 2px solid transparent;
+   		  border-left: 2px solid transparent;
+		}
+
+		button
+		{
+			background-color: #de5a5f;
+			color: white;
+			&:hover{ background-color: #ec787d }
+			font-size: .9rem;
+	    padding: 0 1.8rem;
+	    margin-right: 1rem;
+		}
+
+		a.forgotten-password
+		{
+			display: inline-block;
+	    font-size: .85rem;
+	    line-height: 3rem;
+	    color: #bfbfbf !important;
+		}
+	}
+
+}

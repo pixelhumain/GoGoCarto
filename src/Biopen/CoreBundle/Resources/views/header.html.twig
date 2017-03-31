@@ -38,19 +38,16 @@
       	{% endfor %}            
       </ul>
 
-      {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <button 
-				onclick="logout()"
-				class="waves-effect waves-teal btn-flat btn-login">
+       <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
+				onclick="logout()" id="btn-logout"
+				class="waves-effect btn-flat btn-login">
 				Se déconnecter
 			</button>
-      {% else %}
-      	<button 
-					onclick="$('#popup-login').openModal()"  
-					class="waves-effect waves-teal btn btn-login">
+      	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
+					onclick="$('#popup-login').openModal()" id="btn-login"
+					class="btn btn-login">
 					Connexion
 				</button>
-      {% endif %}
       
 		
 	    </div>
@@ -67,12 +64,49 @@ function logout()
       method : 'post',
       url         : "{{ path('fos_user_security_logout') }}",
       success     : function(data, status, object) {
-          console.log("success login",data);
+          console.log("success logout");
+          displayLoginButton(true);
       },
       error: function(data, status, object){
           console.log(data.message);
       }
   });
+}
+
+function submitAjaxLogin()
+{
+  console.log("submit");
+  $.ajax({
+      method : 'post',
+      url         : '{{ path("fos_user_security_check") }}',
+      data        : $('#login-form').serialize(),
+      dataType    : "json",
+      success     : function(data, status, object) {
+          console.log("success login",data);
+          if (data.success)
+          {
+            $('#popup-login').closeModal();
+          }
+          displayLoginButton(false);
+      },
+      error: function(data, status, object){
+          console.log(data.message);
+      }
+  });
+}
+
+function displayLoginButton(bool)
+{
+	if (bool)
+	{
+		$('#btn-logout').hide();
+		$('#btn-login').show();
+	}
+	else
+	{		
+		$('#btn-logout').show();
+		$('#btn-login').hide();
+	}
 }
 </script>
 

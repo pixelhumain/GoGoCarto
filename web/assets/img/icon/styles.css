@@ -347,3 +347,21 @@
 .icon-leaf-1:before {
   content: "\e008";
 }
+.icon-material-design-icons:before {
+  content: "\e009";
+}
+.icon-material-design-icons-1:before {
+  content: "\e00a";
+}
+.icon-material-design-icons-2:before {
+  content: "\e00b";
+}
+.icon-facebook:before {
+  content: "\e00c";
+}
+.icon-gplus:before {
+  content: "\e00d";
+}
+.icon-twitter:before {
+  content: "\e00e";
+}
