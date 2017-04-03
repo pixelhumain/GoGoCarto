@@ -1,4 +1,4 @@
-{% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block title %}{% endblock %}
 
@@ -6,9 +6,7 @@
 {% block stylesheets %}
   
   <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
-
-   {% include '@directory/directory/categories-styles.html.twig' %}
+  {% include '@directory/directory/categories-styles.html.twig' %}
 
 {% endblock %}
 
@@ -103,7 +101,6 @@
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
-  <script src="{{ asset('js/home.js') }}"></script>
   <script>
 
     //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";

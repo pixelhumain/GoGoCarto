@@ -14,7 +14,7 @@ function geocodeAddress( address ) {
 			map.setView(results[0].getCoordinates(), 15);
 			createMarker(results[0].getCoordinates());
 
-			//console.log("Geocode result :", results[0].postal_code);
+			console.log("Geocode result :", results[0].postal_code);
 
 			$('#input-latitude').val(marker.getLatLng().lat);
 			$('#input-longitude').val(marker.getLatLng().lng);

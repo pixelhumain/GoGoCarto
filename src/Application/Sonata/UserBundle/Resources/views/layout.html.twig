@@ -1,28 +1,9 @@
-
-{% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
-{# On affiche les messages flash que définissent les contrôleurs du bundle 
-{% for key, message in app.session.flashbag.all() %}
-  <div class="alert alert-{{ key }}">
-    {{ message|trans({}, 'FOSUserBundle') }}
-  </div>
-{% endfor %}#}
-
-{% block stylesheets %}
-
-  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/css/partner.css') }}">   
-
-{% endblock %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block body_content %}
-
+<section>
 	{% block fos_user_content %}
 	{% endblock fos_user_content %}
+</section>
 
 {% endblock body_content %}
-
-{% block javascripts %}
-
-  <script src="{{ asset('js/libs.js') }}"></script> 
-
-{% endblock %}

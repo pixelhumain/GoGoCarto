@@ -3,7 +3,7 @@
 {% block fos_user_content %}
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h2 class="panel-title">{{ 'title_user_registration'|trans({}, 'SonataUserBundle') }}</h2>
+            <h1 class="panel-title">{{ 'title_user_registration'|trans({}, 'SonataUserBundle') }}</h1>
         </div>
         <div class="panel-body">
             <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
@@ -16,4 +16,5 @@
             </form>
         </div>
     </div>
+
 {% endblock fos_user_content %}

@@ -173,7 +173,6 @@ export class DirectoryMenuComponent
 		
 		App.elementModule.updateElementToDisplay(true,true);
 		App.elementModule.updateCurrentsElements();
-
 	}
 }
 

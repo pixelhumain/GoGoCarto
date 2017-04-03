@@ -76,21 +76,25 @@ function logout()
 function submitAjaxLogin()
 {
   console.log("submit");
+  $('.error-message').hide();
   $.ajax({
       method : 'post',
       url         : '{{ path("fos_user_security_check") }}',
       data        : $('#login-form').serialize(),
       dataType    : "json",
       success     : function(data, status, object) {
-          console.log("success login",data);
           if (data.success)
           {
             $('#popup-login').closeModal();
-          }
-          displayLoginButton(false);
+            displayLoginButton(false);            
+          }  
+          else
+          {
+            $('.error-message').text("Les identifiants de connexion ne sont pas corrects").show();
+          }        
       },
       error: function(data, status, object){
-          console.log(data.message);
+          $('.error-message').text("Une erreur s'est produite lors de la tentative de connexion").show();
       }
   });
 }

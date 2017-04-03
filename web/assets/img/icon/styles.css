@@ -80,9 +80,6 @@
 .icon-expand:before {
   content: "\75";
 }
-.icon-chevron-right:before {
-  content: "\76";
-}
 .icon-angle-right:before {
   content: "\77";
 }
@@ -272,7 +269,7 @@
 .icon-building:before {
   content: "\3a";
 }
-.icon-earth:before {
+.icon-internet:before {
   content: "\3b";
 }
 .icon-education:before {
@@ -347,15 +344,6 @@
 .icon-leaf-1:before {
   content: "\e008";
 }
-.icon-material-design-icons:before {
-  content: "\e009";
-}
-.icon-material-design-icons-1:before {
-  content: "\e00a";
-}
-.icon-material-design-icons-2:before {
-  content: "\e00b";
-}
 .icon-facebook:before {
   content: "\e00c";
 }
@@ -364,4 +352,28 @@
 }
 .icon-twitter:before {
   content: "\e00e";
+}
+.icon-description:before {
+  content: "\e00f";
+}
+.icon-account-circle:before {
+  content: "\e010";
+}
+.icon-mail:before {
+  content: "\e012";
+}
+.icon-phone:before {
+  content: "\e013";
+}
+.icon-add-circle-filled:before {
+  content: "\e014";
+}
+.icon-add-circle:before {
+  content: "\e015";
+}
+.icon-clear:before {
+  content: "\e016";
+}
+.icon-redo:before {
+  content: "\e017";
 }

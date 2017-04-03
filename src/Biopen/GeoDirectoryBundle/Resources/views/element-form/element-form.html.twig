@@ -1,4 +1,4 @@
-{% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block title %}
 	{% if editMode %} Edition
@@ -7,26 +7,16 @@
 {% endblock %}
 
 {# Stylessheets #}
-{% block stylesheets %}
+{% block page_stylesheets %}
 
- 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
- 	<link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
  	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
- 	<link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
-
  	{% include '@directory/directory/categories-styles.html.twig' %}
 
 {% endblock %}
 
 
 {# BODY CONTENT #}
-{% block body_content %}
-
-	{% for flash_message in app.session.flashbag.get('notice') %}
-	    <div class="flash-notice">
-	        {{ flash_message | raw }}
-	    </div>
-	{% endfor %}
+{% block body_content %}	
   
   <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajout d'un acteur"}}</h1> 
 

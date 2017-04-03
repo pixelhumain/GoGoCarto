@@ -2,13 +2,14 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-31 10:38:13
+* @Last Modified time: 2017-04-03 15:14:46
 */
 #popup-login
 {
 	text-align: center;
 	background-color: #444 !important; 
 	color: white;
+	top: 20% !important;
 
 	a
 	{
@@ -21,12 +22,6 @@
 		font-weight: bold;
     margin-top: 3rem;
     margin-bottom: 1rem;
-	}
-
-	h2
-	{
-		font-size: 3.5rem;
-	  margin-bottom: 2rem;
 	}
 
 	.oauth-section
@@ -52,9 +47,11 @@
 	    &.gplus { background-color: #cf5d46; }
 	    &.twitter { background-color: #64a5d6; }
 
-	    + i {
+	    i.icon {
 	    	font-size: 20px;
+	    	color: white !important;
 	    	line-height: 3.5rem;
+	    	padding: 0;
 	    }
 		}
 	}
@@ -66,6 +63,18 @@
 		text-align: left;
 
 		form { margin-bottom: 1rem; }
+
+		.error-message
+		{
+			padding: .7rem;
+	    margin-bottom: 2rem;
+	    margin-top: .5rem;
+	    text-align: center;
+	    border-radius: 2px;
+	    background-color: #ffffff;
+	    color: #bb2828;
+	    font-weight: bold;
+		}
 
 		.input-field label { left: 0 !important; color: #ccc8c8; } 
 		label#remember-me-checkbox { left: 0 !important; color: white; }

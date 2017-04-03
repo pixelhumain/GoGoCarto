@@ -2,7 +2,7 @@
 <div id="popup-login" class="modal">
   <div class="modal-content">
 
-    <h2>Connexion</h2>
+    <h1>Connexion</h1>
 
     <div class="row">
 
@@ -18,13 +18,15 @@
 
         <form id="login-form" role="form" >
 
+          <div class="error-message" style="display:none"></div>
+
           <div class="input-field">
-            <input type="text" class="validate" id="username" name="_username" required="required"/>
+            <input type="text" class="validate" id="username" name="_username" required="required" onkeypress="if(event.keyCode === 13) submitAjaxLogin()"/>
             <label for="username">{{ 'security.login.username'|trans({}, 'SonataUserBundle') }}</label>
           </div>
 
           <div class="input-field">
-            <input type="password" class="validate" id="password" name="_password" required="required"/>
+            <input type="password" class="validate" id="password" name="_password" required="required" onkeypress="if(event.keyCode === 13) submitAjaxLogin()"/>
             <label for="password" >{{ 'security.login.password'|trans({}, 'SonataUserBundle') }}</label>
           </div>
 
@@ -44,3 +46,7 @@
   </div>
    
 </div>
+
+<script>
+// scripts are in header.html.twig 
+</script>

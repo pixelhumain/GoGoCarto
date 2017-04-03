@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 13:48:17
+ * @Last Modified time: 2017-04-03 15:45:45
  */
  
 
@@ -52,7 +52,7 @@ class ElementFormController extends Controller
 		  throw new NotFoundHttpException("Cet élément n'existe pas.");
 		}
 
-		dump($element);		
+		//dump($element);		
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
@@ -96,10 +96,10 @@ class ElementFormController extends Controller
 	private function handleFormSubmission($form, $element, $em, $request)
   	{
 	  	$optionValuesString = $request->request->get('options-values');
-	  	dump($optionValuesString);
+	  	//dump($optionValuesString);
 
 	  	$optionValues = json_decode($optionValuesString, true);
-	  	dump($optionValues);
+	  	//dump($optionValues);
 
 	  	$element->resetOptionsValues();
 
@@ -123,7 +123,7 @@ class ElementFormController extends Controller
 			$element->setWebSite($webSiteUrl);
 		}		
 
-		dump($element);			
+		//dump($element);			
 		
 		$em->persist($element);
 		$em->flush();

@@ -46,6 +46,7 @@ security:
                 provider:       fos_userbundle
                 login_path:     /login
                 use_forward:    true
+                default_target_path:          biopen_homepage
                 use_referer:    true
                 check_path:     /login_check
                 failure_path:   /login                

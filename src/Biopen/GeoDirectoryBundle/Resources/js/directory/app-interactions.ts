@@ -134,7 +134,7 @@ export function updateComponentsSize()
 	$('#page-content').css('height','auto');
 
 	let content_height = $(window).height() - $('header').height();
-	content_height -= $('#bandeau_tabs:visible').outerHeight(true);
+	content_height -= $('.flash-messages-container').outerHeight(true);
 	$("#directory-container").css('height',content_height);
 	$("#directory-content-list").css('height',content_height);
 

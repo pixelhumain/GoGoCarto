@@ -29,9 +29,9 @@
 	  				   class="redo-time-slot-button btn-flat tooltipped" 
 	  				   data-position="bottom" 
 	  				   data-delay="250" 
-	  				   data-tooltip="Recopier les openHours précédentes" 
+	  				   data-tooltip="Recopier les horaires précédentes" 
 	  				   style="padding:0;">
-	  				   	<i class="material-icons">redo</i>
+	  				   	<i class="material-icons icon-redo"></i>
 	  				</a>
 	  			</div>	 
 	  		{% endif %}
@@ -58,11 +58,11 @@
 			<div class="col s1 center-align">
 				<a id="{{ dayKey }}_ajout" 
 				   class="add-time-slot-button btn-flat tooltipped" 
-				   data-position="bottom" 
-				   data-delay="250" 
+				   data-position="right" 
+				   data-delay="0" 
 				   data-tooltip="Ajouter plage horaire" 
 				   style="padding:0;">
-				   	<i class="material-icons">add_circle</i>
+				   	<i class="material-icons icon-add-circle openhours-icons"></i>
 				</a>
 			</div>
 		</div>	
@@ -90,7 +90,7 @@
 				<a id="{{ dayKey }}_clear" c
 				   class="clear-time-slot-button btn-flat" 
 				   style="padding:0;">
-				   	<i class="material-icons">clear</i>
+				   	<i class="material-icons icon-clear openhours-icons"></i>
 				</a>
 			</div>
 		</div>			
@@ -101,7 +101,7 @@
 	{% endfor %}
 
 	<div class="input-field col s12">
-		<i class="material-icons prefix">description</i>
+		<i class="material-icons prefix icon-description"></i>
 	  	{{ form_widget(form.openHoursMoreInfos, {'id': 'input-open-hours-more-infos',
   								          'attr': {'class': 'validate',
   											   	'placeholder':"D'autres précisions si nécessaire",

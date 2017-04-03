@@ -1,0 +1,27 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-03-22 17:36:44
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-04-03 15:04:33
+*/
+
+.partner-item
+{	
+	.image-container
+	{
+		padding-top: 1.5rem;
+
+		img { width: 100%; }
+	}
+
+	.partner-text
+	{
+		h2
+		{     
+			text-align: left;
+		}
+		padding: 1rem;
+		font-size: .9rem;
+		color:  #3d3d3d;
+	}
+}

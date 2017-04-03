@@ -9,7 +9,7 @@
 	<h2>Informations</h2>
   <!-- Input name element -->
   <div class="input-field col s12">
-  		<i class="material-icons prefix">account_circle</i>	
+  		<i class="material-icons icon-account-circle prefix"></i>	
   		{{ form_widget(form.name, {'id': 'input-name', 
   							      'attr': {'class': 'validate required','placeholder':'Nom'}}) }}
 	</div>
@@ -18,7 +18,7 @@
 	
 	<!-- input description element -->
 	<div class="input-field col s12">
-		<i class="material-icons prefix">description</i>
+		<i class="material-icons icon-description prefix"></i>
 	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'validate materialize-textarea',
   											   'placeholder':"Description générale",
@@ -27,7 +27,7 @@
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
-	<i class="material-icons prefix">room</i>	
+	<i class="material-icons icon-marker-symbol prefix"></i>	
   	{{ form_widget(form.address, {'id': 'input-address',
   								  'attr': {'class': 'validate required',
   								           'placeholder':'Adresse complète' 
@@ -51,7 +51,7 @@
 
 	<!-- input telephone element -->
 	<div class="input-field col s12">
-		<i class="material-icons prefix">phone</i>
+		<i class="material-icons icon-phone prefix"></i>
 	  	{{ form_widget(form.tel, {'id': 'input-tel',
   							      'attr': {'class': 'validate',
   											   'placeholder':'Téléphone ',
@@ -60,7 +60,7 @@
 
 	<!-- input element email -->
 	<div class="input-field col s12">
-		<i class="material-icons prefix">mail</i>	
+		<i class="material-icons icon-mail prefix"></i>	
 		{{ form_widget(form.mail, {'id': 'input-mail',
   								      		   'attr': {'class': 'validate',
   											   			'placeholder':'Mail' }}) }}
@@ -68,7 +68,7 @@
 
 	<!-- input webSite element -->
 	<div class="input-field col s12">
-		<i class="material-icons prefix">public</i>
+		<i class="material-icons icon-internet prefix"></i>
 	  	{{ form_widget(form.webSite, {'id': 'input-website',
   							      'attr': { 'class': 'validate',
   							      			'type':'url',

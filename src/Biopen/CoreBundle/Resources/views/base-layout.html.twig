@@ -14,9 +14,9 @@
    <!--[if IE]>
      <link rel="stylesheet" href="http://localhost/PagesVertes/web/assets/css/ie_polyfill.css"> 
    <![endif]-->   
-  
   {% block stylesheets %}
   {% endblock %}
+  
   <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400|Yellowtail" rel="stylesheet">  -->
   <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
@@ -33,7 +33,12 @@
   {% block body %}
   {% endblock %}
 
-  {% block javascripts %}        
+  {% block javascripts %}
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+    <script src="{{ asset('js/libs.js') }}"></script>        
   {% endblock %}
 
 </body>

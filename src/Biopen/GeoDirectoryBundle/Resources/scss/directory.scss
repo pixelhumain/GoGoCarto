@@ -1,6 +1,6 @@
-@import 'base';
+@import '../../../CoreBundle/Resources/scss/partials/base';
+@import '../../../CoreBundle/Resources/scss/partials/header';
 
-@import 'vendors/materialize';
 @import 'vendors/leaflet';
 @import "vendors/marker-clusterer";
 
@@ -28,7 +28,6 @@
 @import "components/commons/shadow-bottom";
 //@import "components/commons/search-bar";
 @import "components/commons/auto-complete";
-@import "components/commons/scroll-bar";
 
 #directory-menu
 {

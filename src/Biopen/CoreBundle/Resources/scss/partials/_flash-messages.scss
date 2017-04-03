@@ -1,0 +1,27 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-04-03 13:24:36
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-04-03 15:38:37
+*/
+//   FLASHBAG
+.flash-message
+{
+    text-align: center;
+    font-weight: 500;
+    font-style: italic;
+    /* font-size: 1.2rem; */
+    background-color: #444444;
+    color: white;
+    padding: 1rem;
+
+    a 
+    {
+        color: white;
+        text-decoration: underline;
+        &:hover { color: $primary-color; }
+    }
+
+    &.fos_user_error { background-color: #9e171d; }
+    &.sonata_user_error { background-color: #9e171d; }
+}
