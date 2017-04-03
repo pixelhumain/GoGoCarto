@@ -195,11 +195,11 @@ export class MapComponent
 
 	contains(position : L.LatLngExpression) : boolean
 	{
-		if (this.isMapLoaded)
+		if (this.isMapLoaded && position)
 		{
 			 return this.map_.getBounds().contains(position);
 		}
-		console.log("Contains map not loaded");
+		console.log("MapComponent->contains : map not loaded or element position undefined");
 		return false;		
 	}
 
