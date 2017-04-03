@@ -31,6 +31,8 @@ export function initializeAppInteractions()
 
 	$('#btn-bandeau-helper-close').click(hideBandeauHelper);
 
+	$('.flash-message .btn-close').click( function() { $(this).parent().slideUp('fast', function() { updateComponentsSize(); }); });
+
 	$('#btn-close-directions').click( () => 
 	{
 		App.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });

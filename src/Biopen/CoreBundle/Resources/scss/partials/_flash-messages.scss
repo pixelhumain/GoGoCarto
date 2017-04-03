@@ -2,9 +2,16 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-03 13:24:36
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-03 15:38:37
+* @Last Modified time: 2017-04-03 16:49:59
 */
 //   FLASHBAG
+.flash-messages-container
+{
+    background-color: $secondary-color;
+    display: inline-block;
+    width: 100%;
+}
+
 .flash-message
 {
     text-align: center;
@@ -14,6 +21,7 @@
     background-color: #444444;
     color: white;
     padding: 1rem;
+    margin-bottom: 1rem;
 
     a 
     {
@@ -24,4 +32,9 @@
 
     &.fos_user_error { background-color: #9e171d; }
     &.sonata_user_error { background-color: #9e171d; }
+
+    .btn-close
+    {
+        display: none;
+    }
 }
