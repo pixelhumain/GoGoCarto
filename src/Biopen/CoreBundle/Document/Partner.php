@@ -118,9 +118,16 @@ class Partner
      *
      * @return Partner
      */
-    public function setWebsiteUrl($websiteUrl)
+    public function setWebsiteUrl($webSiteUrl)
     {
-        $this->websiteUrl = $websiteUrl;
+        if ($webSiteUrl && $webSiteUrl != '')
+        {
+            $parsed = parse_url($webSiteUrl);
+            if (empty($parsed['scheme'])) {
+                $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
+            }
+            $this->websiteUrl = $webSiteUrl;
+        }   
 
         return $this;
     }
