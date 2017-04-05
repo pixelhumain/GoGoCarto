@@ -59,7 +59,9 @@ i.material-icons {
 
 #element-form-title
 {
-   margin-bottom: -10px !important;
+   
+   margin-bottom: 5px !important;
+  @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
 }
 
 #input-website
