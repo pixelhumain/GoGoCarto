@@ -243,14 +243,6 @@ i.material-icons {
   @include transition(color 0.5s);
 }
 
-@media only screen and (max-width: 500px)
-{
-  .modal 
-  {
-      width: 90% !important;
-  }
-}
-
 
 
 

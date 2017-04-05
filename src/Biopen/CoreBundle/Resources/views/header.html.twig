@@ -10,7 +10,7 @@
 		</div>
 		<div id="menu-actions">
 			<div class="col menu-item">
-			  <a href="{{ path('biopen_directory_normal', { mode : 'carte'} ) }}">Annuaire</a>  
+			  <a href="{{ path('biopen_directory_normal', { mode : 'carte'} ) }}"><span class="icon-menu icon-map"></span><span class="text">Annuaire</span></a>  
 				<!-- <a id="btn-menu-directory" >Annuaire</a>  -->
 			</div>
 
@@ -19,15 +19,15 @@
 			</div>	 -->		
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_element_add') }}">Signaler un acteur</a>  
+				<a href="{{ path('biopen_element_add') }}"><span class="icon-menu icon-user-plus"></span><span class="text">Signaler un acteur</span></a>  
 			</div>
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_partners') }}">Partenaires</a>  
+				<a href="{{ path('biopen_partners') }}"><span class="icon-menu icon-users"></span><span class="text">Partenaires</span></a>  
 			</div>	
                        
       <div class="col menu-item dropdown-button" data-activates='listAbout'>
-        <a id='btn-about'>A propos</a> 
+        <a id='btn-about'><span class="icon-menu icon-info"></span><span class="text">A propos</span></a> 
         <div class="arrow-after"></div>                
       </div>
       <ul id='listAbout' class='dropdown-content'>        	
@@ -41,12 +41,14 @@
        <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
 				onclick="logout()" id="btn-logout"
 				class="waves-effect btn-flat btn-login">
-				Se déconnecter
+        <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>
+				
 			</button>
       	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
 					onclick="$('#popup-login').openModal()" id="btn-login"
 					class="btn btn-login">
-					Connexion
+          <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>
+					
 				</button>
       
 		

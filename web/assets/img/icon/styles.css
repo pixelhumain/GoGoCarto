@@ -377,3 +377,39 @@
 .icon-material-design-icons-1:before {
   content: "\e009";
 }
+.icon-plus-1:before {
+  content: "\76";
+}
+.icon-person:before {
+  content: "\e00a";
+}
+.icon-directory:before {
+  content: "\e00b";
+}
+.icon-add-element:before {
+  content: "\e011";
+}
+.icon-settings:before {
+  content: "\e014";
+}
+.icon-info:before {
+  content: "\e018";
+}
+.icon-lock:before {
+  content: "\e019";
+}
+.icon-map:before {
+  content: "\e01a";
+}
+.icon-leanpub:before {
+  content: "\e01b";
+}
+.icon-user-plus:before {
+  content: "\e01c";
+}
+.icon-unlock:before {
+  content: "\e01d";
+}
+.icon-yahoo:before {
+  content: "\e01e";
+}
