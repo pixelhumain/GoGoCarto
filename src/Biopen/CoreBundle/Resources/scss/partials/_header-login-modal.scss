@@ -2,14 +2,12 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-03 17:30:33
+* @Last Modified time: 2017-04-05 16:04:55
 */
 #popup-login
 {
 	text-align: center;
-	background-color: #444 !important; 
-	color: white;
-	top: 20% !important;
+	//top: 20% !important;
 
 	a
 	{
@@ -22,7 +20,11 @@
 		font-weight: bold;
     margin-top: 3rem;
     margin-bottom: 1rem;
+
+    
 	}
+
+	    
 
 	.oauth-section
 	{
@@ -116,5 +118,22 @@
 	    color: #bfbfbf !important;
 		}
 	}
+
+	@media only screen and (max-width: 600px)
+  {
+  	.oauth-section { padding: 0 !important;}
+  	.oauth-section.oauth-btn { padding-left: 1rem; font-size: .9rem;}
+
+  	.form-section
+		{
+			padding: 0 !important;
+    	border-left: none;
+    }
+
+    .register
+	  {
+	  	margin-top: 2rem;
+	  }
+  } 
 
 }

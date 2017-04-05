@@ -365,9 +365,6 @@
 .icon-phone:before {
   content: "\e013";
 }
-.icon-add-circle-filled:before {
-  content: "\e014";
-}
 .icon-add-circle:before {
   content: "\e015";
 }
@@ -376,4 +373,7 @@
 }
 .icon-redo:before {
   content: "\e017";
+}
+.icon-material-design-icons-1:before {
+  content: "\e009";
 }
