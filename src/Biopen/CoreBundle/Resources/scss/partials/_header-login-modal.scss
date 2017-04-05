@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-03 15:14:46
+* @Last Modified time: 2017-04-03 17:30:33
 */
 #popup-login
 {
@@ -66,13 +66,10 @@
 
 		.error-message
 		{
-			padding: .7rem;
-	    margin-bottom: 2rem;
-	    margin-top: .5rem;
 	    text-align: center;
 	    border-radius: 2px;
-	    background-color: #ffffff;
-	    color: #bb2828;
+	    font-style: italic;
+	    color: #fff;
 	    font-weight: bold;
 		}
 

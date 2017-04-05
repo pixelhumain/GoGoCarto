@@ -39,7 +39,7 @@ section
 
   @media screen and (min-width: 600px)
   {
-    padding: 2.5rem 3.5rem 2rem 2.5rem;
+    padding: 2rem 3.5rem 2rem 2.5rem;
   }
 }
 
@@ -55,22 +55,21 @@ section
 // --------------------------------------- 
 h1
 {
-  // font-size: 2rem;
-  // margin: 0.5rem 0 1.3rem 0;
-  // text-align: center;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   text-align: center;
   margin-top: .5rem;
+  font-family: Kalam;
 }
 
 h2
 {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0.5rem 0 1.3rem 0;
   color: #3d3d3d;
   text-transform: uppercase;
   text-align: center;
+  font-family: Kalam;
 }
 
 

@@ -2,8 +2,16 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-03 13:36:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-03 13:36:12
+* @Last Modified time: 2017-04-04 09:46:51
 */
 label ~ ul {  color: #b51717; }
 h2 { text-align: center; }
 .form-actions { text-align: center; margin-top: 1rem; }
+ 
+#page-content.register
+{
+ 	margin-top: 40px !important;
+  max-width: 500px !important;
+  box-shadow: 6px 6px 9px 0px rgba(0, 0, 0, 0.35);
+  .panel { margin-top: -2rem; }
+}   

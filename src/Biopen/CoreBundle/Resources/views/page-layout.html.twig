@@ -15,7 +15,7 @@
 
     <div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
 		
-		<div id="page-content">
+		<div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
 
 			{# FLASH MESSAGES #}
 			<div class="flash-messages-container">

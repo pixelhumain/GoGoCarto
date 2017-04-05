@@ -6,6 +6,11 @@
 @import "components/commons/auto-complete";
 @import "components/element-form/category-field";
 
+#page-content.element-form
+{
+  max-width: 700px !important;
+} 
+
 i.material-icons {
     top: 4px;
     &.openhours-icons { line-height: 3.5rem; }
@@ -51,15 +56,10 @@ i.material-icons {
   padding-bottom: 1rem;
 }
 
-#titre-open-hourss
-{
-  margin-bottom: 0.9rem !important;
-}
 
 #element-form-title
 {
-  margin-bottom: 0px !important;
-  padding-top: 1.5rem;
+   margin-bottom: -10px !important;
 }
 
 #input-website
