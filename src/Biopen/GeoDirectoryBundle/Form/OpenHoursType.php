@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-04-06 17:06:46
  */
  
 
@@ -17,11 +17,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
-use Doctrine\ORM\EntityRepository;
 
 use Biopen\GeoDirectoryBundle\Form\DailyTimeSlotType;
 
@@ -49,7 +46,7 @@ class OpenHoursType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\GeoDirectoryBundle\Classes\OpenHours'
+          'data_class' => 'Biopen\GeoDirectoryBundle\Document\OpenHours'
       ));
   }
 

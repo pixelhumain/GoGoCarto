@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-03 15:45:45
+ * @Last Modified time: 2017-04-06 14:46:59
  */
  
 
@@ -52,7 +52,7 @@ class ElementFormController extends Controller
 		  throw new NotFoundHttpException("Cet élément n'existe pas.");
 		}
 
-		//dump($element);		
+		
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
@@ -63,6 +63,8 @@ class ElementFormController extends Controller
         ->findAll(); 
 
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
+
+		dump($element);	
 
 		// Submission du formulaire
 		if ($form->handleRequest($request)->isValid()) 
@@ -76,6 +78,8 @@ class ElementFormController extends Controller
 
 			$request->getSession()->getFlashBag()->add('notice', $noticeText);
 		}
+
+		dump($element);	
 
 		return $this->render('@directory/element-form/element-form.html.twig', 
 					array(

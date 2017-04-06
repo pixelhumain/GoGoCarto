@@ -7,22 +7,30 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-04-06 17:04:29
  */
  
 
-namespace Biopen\GeoDirectoryBundle\Classes;
+namespace Biopen\GeoDirectoryBundle\Document;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+/** @MongoDB\EmbeddedDocument */
 class OpenHours
 {
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Monday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Tuesday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Wednesday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Thursday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Friday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Saturday;
+	/** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
 	protected $Sunday;
 
 	public function getMonday()

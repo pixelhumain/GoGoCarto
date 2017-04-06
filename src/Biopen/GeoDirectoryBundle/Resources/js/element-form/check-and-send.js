@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 14:15:32
+ * @Last Modified time: 2017-04-06 17:05:21
  */
 
 
@@ -15,7 +15,7 @@ function checkAndSend()
 	checkAgreeConditions();
 	checkOpenHours();
 	checkAddressGeolocalisation();	
-	checkCaptcha();	
+	//checkCaptcha();	
 	checkRequiredFields();
 	
 

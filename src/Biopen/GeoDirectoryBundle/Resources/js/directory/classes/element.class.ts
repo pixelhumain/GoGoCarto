@@ -28,6 +28,8 @@ export class Element
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
+	readonly openHours : any;
+	readonly openHoursMoreInfos : any;
 	readonly mainOptionOwnerIds : number[] = [];
 
 	optionsValues : OptionValue[] = [];
@@ -36,6 +38,8 @@ export class Element
 	colorOptionId : number;
 	private iconsToDisplay : OptionValue[] = [];
 	private optionTree : OptionValue;
+
+	formatedOpenHours_ = null;
 
 	distance : number;
 
@@ -68,6 +72,8 @@ export class Element
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
+		this.openHours = elementJson.open_hours;
+		this.openHoursMoreInfos =  elementJson.open_hours_more_infos;
 
 		let newOption : OptionValue, ownerId : number;
 		for (let optionValueJson of elementJson.option_values)
@@ -357,20 +363,22 @@ export class Element
 		return html;
 	};
 
-	// getFormatedOpenHourss() 
-	// {		
-	// 	if (this.formatedOpenHours_ === null )
-	// 	{		
-	// 		this.formatedOpenHours_ = {};
-	// 		let new_key;
-	// 		for(let key in this.openHours)
-	// 		{
-	// 			new_key = key.split('_')[1];
-	// 			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
-	// 		}
-	// 	}
-	// 	return this.formatedOpenHours_;
-	// };
+	getFormatedOpenHours() 
+	{		
+		if (this.formatedOpenHours_ === null )
+		{		
+			this.formatedOpenHours_ = {};
+			let new_key, newDailySlot;
+			for(let key in this.openHours)
+			{
+				new_key = key.split('_')[1];
+				newDailySlot = this.formateDailyTimeSlot(this.openHours[key]);
+				if (newDailySlot)
+					this.formatedOpenHours_[new_key] = newDailySlot;
+			}
+		}
+		return this.formatedOpenHours_;
+	};
 
 	formateDailyTimeSlot(dailySlot) 
 	{		
