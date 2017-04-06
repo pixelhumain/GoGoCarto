@@ -50,11 +50,16 @@ a.leaflet-control-zoom-out {
         line-height: 1rem;
         padding-top: 3px;
         margin-right: 10px;
+
+        
     }
+
+    &:after{ content:"Liste"}
 
     @media #{$medium-and-up} 
     {
         left: 30px;
+        &:after { content: "Afficher sous forme de liste"}
     }
 }
 

@@ -413,3 +413,27 @@
 .icon-yahoo:before {
   content: "\e01e";
 }
+.icon-minus-one:before {
+  content: "\e020";
+}
+.icon-plus-one:before {
+  content: "\e021";
+}
+.icon-camping:before {
+  content: "\e022";
+}
+.icon-partner:before {
+  content: "\e023";
+}
+.icon-partner-1:before {
+  content: "\e024";
+}
+.icon-partner-2:before {
+  content: "\e025";
+}
+.icon-partner-3:before {
+  content: "\e026";
+}
+.icon-partner-4:before {
+  content: "\e027";
+}

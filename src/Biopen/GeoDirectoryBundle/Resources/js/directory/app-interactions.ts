@@ -44,29 +44,11 @@ export function initializeAppInteractions()
 	   if (res) {clearTimeout(res); }
 	   res = setTimeout(updateComponentsSize,200);
 	};	
-
-	// Automatically scrool on top of page when we are close to top
-	// let lastEndScrollTop = 0, st = 0;
-	// let timeout = null;	
-	// $(window).scroll(function(event)
-	// {
-	//    clearTimeout(timeout);
-	//    st = $(this).scrollTop();
-	//    timeout = setTimeout(function()
-	//    {
-	//        //end of scrolling
-	//        if (st < 250 && lastEndScrollTop > 250)
-	// 	   {		    	
-	// 	    	$('html, body').animate({scrollTop: 0}, 400);		    	
-	// 	   }
-	// 	   lastEndScrollTop = st;
-	//    },100);	 	   
-	// });	
 	
 	//Menu CARTE	
 	$('#menu-button').click(showDirectoryMenu);
 	$('#overlay').click(hideDirectoryMenu);
-	$('#menu-title > .icon-close').click(hideDirectoryMenu);
+	$('#directory-menu .btn-close-menu').click(hideDirectoryMenu);
 
 	$('#directory-content-map .show-as-list-button').click((e : Event) => {		
 		App.setTimeoutClicking();
@@ -100,7 +82,8 @@ export function showDirectoryMenu()
 	App.infoBarComponent.hide();  
 	$('#overlay').css('z-index','10');
 	$('#overlay').animate({'opacity': '.6'},700);
-	$('#directory-menu').show( "slide", {direction: 'left', easing: 'swing'} , 350 );
+	$('#directory-menu').show( "slide", {direction: 'left', easing: 'swing'} , 350, () => { App.directoryMenuComponent.updateMainOptionBackground() } );
+	
 	//$('#directory-menu').css('width','0px').show().animate({'width': '240px'},700);
 }
 

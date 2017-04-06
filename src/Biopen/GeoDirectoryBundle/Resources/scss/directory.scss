@@ -39,12 +39,7 @@
     top: 0;
     left: 0;
     height: 100%;  
-    @include transition(height .5s);   
-
-    @media screen and (min-width: 400px)
-    {
-        width: 200px;
-    }
+    @include transition(height .5s);
 }
 
 #page-content { height: 100% ; background-color: #dfdfdf }

@@ -4,7 +4,7 @@
 header 
 {	
 	color: white ;
-	//@extend .z-depth-2;		
+	//@extend .z-depth-2;	
 
 	#menu
 	{
@@ -12,6 +12,13 @@ header
 	  font-size: .85rem ;
 		background-color: #272626;
 		padding: 0 .5rem;
+
+		@media only screen and (min-width : 601px)
+		{
+			font-size:1rem;
+			margin-bottom: 0px ;
+			padding: 0;	
+		}
 
 		#menu-home
 		{
@@ -26,7 +33,41 @@ header
 	    line-height: 3rem;
 	    margin-right: 0;
 
-	    @media screen and (max-width: 600px) { line-height: 3rem; }
+	    color: #EE6E73;
+			.small-logo { display: inline-block; }
+			.large-logo { display: none; }
+
+	    .small-logo .icon-menu
+	    {
+	    	font-size: 1.8rem;
+		    padding-top: 3px;
+		    color: #ffffff;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: $secondary-color;
+		    height: 3rem;
+		    border-radius: 0 18px 18px 0;
+		    margin: 0;
+		    padding: 0 1.3rem 0 1rem;
+		    padding-top: 3px;
+	    }
+
+	    @media screen and (min-width: 500px)
+			{
+				color: white;
+				.small-logo { display: none; }
+				.large-logo { display: inline-block; }				
+			}
+
+			@media screen and (min-width: 601px)
+			{
+				margin-left: .7rem;
+		    font-size: 1.6rem;
+		    line-height: 3.2rem;
+		  }
+
+	    @media screen and (max-width: 600px) { line-height: 3rem; height: 3rem; padding: 0;}
 		}
 
 		#menu-actions
@@ -170,38 +211,6 @@ header
 		}					
 	}
 
-	#menu-home
-	{
-		color: #EE6E73;
-		.small-logo { display: inline-block; }
-		.large-logo { display: none; }
-
-		@media screen and (min-width: 500px)
-		{
-			color: white;
-			.small-logo { display: none; }
-			.large-logo { display: inline-block; }
-		}
-	}	
 	
-
-	@media only screen and (min-width : 601px)
-	{
-		#menu 
-		{ 
-			font-size:1rem;
-			margin-bottom: 0px ;
-			padding: 0;	
-
-			#menu-home
-			{
-				margin-left: .7rem;
-		    font-size: 1.6rem;
-		    line-height: 3.2rem;
-			}		
-		}
-
-
-	}
 }
 
