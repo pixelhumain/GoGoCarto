@@ -161,7 +161,7 @@ export class AppModule
 
 		if (historystate.viewport)
 		{			
-			// if map not loaded we just set de mapComponent viewport without changing the
+			// if map not loaded we just set the mapComponent viewport without changing the
 			// actual viewport of the map, because it will be done in
 			// map initialisation
 			this.mapComponent.setViewPort(historystate.viewport, this.mapComponent.isMapLoaded);
@@ -178,7 +178,8 @@ export class AppModule
 		this.setMode(historystate.mode, $backFromHistory, false);
 
 		// if address is provided we geolocalize
-		if (historystate.address || !historystate.viewport)
+		// if no viewport and state normal we geocode on default location
+		if (historystate.address || (!historystate.viewport && historystate.state === AppStates.Normal)) 
 		{
 			this.geocoderModule_.geocodeAddress(
 				historystate.address, 
@@ -207,7 +208,7 @@ export class AppModule
 				historystate.state,
 				{
 					id: historystate.id, 
-					panToLocation: !(historystate.viewport)
+					panToLocation: (historystate.viewport === null)
 				},
 				$backFromHistory);
 			$('#directory-spinner-loader').hide();			

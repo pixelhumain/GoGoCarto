@@ -64,7 +64,7 @@ export class Element
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.lat, elementJson.lng);
 		this.address = elementJson.address;
-		this.description = elementJson.description;
+		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;

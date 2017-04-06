@@ -154,14 +154,15 @@ export class ElementsModule
 	// check elements in bounds and who are not filtered
 	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
 	{	
-		let elements : Element[] = null;
-		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
-		else elements = this.currVisibleElements();
-
 		// in these state,there is no need to update elements to display
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
 					&& App.mode != AppModes.List) 
 				return;
+
+		let elements : Element[] = null;
+		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
+		else elements = this.currVisibleElements();
+		
 		
 		//console.log("UPDATE ELEMENTS ", elements.length);
 

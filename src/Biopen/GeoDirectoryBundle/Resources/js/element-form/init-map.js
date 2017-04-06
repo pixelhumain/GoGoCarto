@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-24 12:11:07
+ * @Last Modified time: 2017-04-06 14:45:59
  */
 var map;
 var geocoder;
@@ -18,9 +18,9 @@ function initMap()
 	//initAutoCompletionForElement(document.getElementById('input-address'));
 
 	var mapCenter;
-	if (editMode && $('#input-latitude').attr('value'))
+	if (editMode && $('#input-latitude').val())
 	{
-		markerPosition = new L.LatLng($('#input-latitude').attr('value'), $('#input-longitude').attr('value'));
+		markerPosition = new L.LatLng($('#input-latitude').val(), $('#input-longitude').val());
 		mapCenter = markerPosition;
 		mapZoom = 16;
 	}
