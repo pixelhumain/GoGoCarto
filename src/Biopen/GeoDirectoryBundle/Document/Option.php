@@ -56,6 +56,13 @@ class Option
      *
      * @MongoDB\Field(type="string")
      */
+    private $softColor;
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string")
+     */
     private $icon;
 
     /**
@@ -225,6 +232,28 @@ class Option
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return $this
+     */
+    public function setSoftColor($color)
+    {
+        $this->softColor = $color;
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string $color
+     */
+    public function getSoftColor()
+    {
+        return $this->softColor;
     }
 
     /**
