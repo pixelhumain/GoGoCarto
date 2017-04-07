@@ -368,19 +368,36 @@ export class Element
 		if (this.formatedOpenHours_ === null )
 		{		
 			this.formatedOpenHours_ = {};
-			let new_key, newDailySlot;
+			let new_key, new_key_translated, newDailySlot;
 			for(let key in this.openHours)
 			{
 				new_key = key.split('_')[1];
+				new_key_translated = this.translateDayKey(new_key);
 				newDailySlot = this.formateDailyTimeSlot(this.openHours[key]);
 				if (newDailySlot)
-					this.formatedOpenHours_[new_key] = newDailySlot;
+					this.formatedOpenHours_[new_key_translated] = newDailySlot;
 			}
 		}
 		return this.formatedOpenHours_;
 	};
 
-	formateDailyTimeSlot(dailySlot) 
+	private translateDayKey(dayKey)
+	{
+		switch(dayKey)
+		{
+			case 'monday': return 'lundi';
+			case 'tuesday': return 'mardi';
+			case 'wednesday': return 'mercredi';
+			case 'thursday': return 'jeudi';
+			case 'friday': return 'vendredi';
+			case 'saturday': return 'samedi';
+			case 'sunday': return 'dimanche';
+		}
+
+		return '';
+	}
+
+	private formateDailyTimeSlot(dailySlot) 
 	{		
 		if (dailySlot === null)
 		{		
