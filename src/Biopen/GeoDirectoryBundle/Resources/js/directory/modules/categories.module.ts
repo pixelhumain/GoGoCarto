@@ -27,6 +27,8 @@ export class CategoriesModule
 	mainCategory : Category;
 	openHoursCategory : Category;
 
+	openHoursFiltersDays : string[] = [];
+
 	constructor() 
 	{
 		this.options = [];
@@ -38,7 +40,8 @@ export class CategoriesModule
 		this.mainCategory = this.recursivelyCreateCategoryAndOptions(mainCatgeoryJson);
 		this.openHoursCategory = this.recursivelyCreateCategoryAndOptions(openHoursCategoryJson);
 
-		console.log(this.mainCategory);
+		this.updateOpenHoursFilter();
+		//console.log(this.mainCategory);
 	}
 
 	private recursivelyCreateCategoryAndOptions(categoryJson : any) : Category
@@ -73,6 +76,17 @@ export class CategoriesModule
 		this.categories.push(category);
 
 		return category;
+	}
+
+	updateOpenHoursFilter()
+	{
+		this.openHoursFiltersDays = [];
+		let option : any;
+		for(option of this.openHoursCategory.children)
+		{
+			if (option.isChecked) this.openHoursFiltersDays.push( option.name.toLowerCase());
+		}
+		//console.log("updateOpenHoursfilters", this.openHoursFiltersDays);
 	}
 
 	getMainOptions() : Option[]

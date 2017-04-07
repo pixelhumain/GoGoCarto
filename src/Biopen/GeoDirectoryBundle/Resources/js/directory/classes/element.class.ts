@@ -29,6 +29,7 @@ export class Element
 	readonly webSite : string;
 	readonly mail : string;
 	readonly openHours : any;
+	readonly openHoursDays : string[] = [];
 	readonly openHoursMoreInfos : any;
 	readonly mainOptionOwnerIds : number[] = [];
 
@@ -74,6 +75,9 @@ export class Element
 		this.mail = elementJson.mail;
 		this.openHours = elementJson.open_hours;
 		this.openHoursMoreInfos =  elementJson.open_hours_more_infos;
+
+		// initialize formated open hours
+		this.getFormatedOpenHours();
 
 		let newOption : OptionValue, ownerId : number;
 		for (let optionValueJson of elementJson.option_values)
@@ -372,10 +376,14 @@ export class Element
 			for(let key in this.openHours)
 			{
 				new_key = key.split('_')[1];
-				new_key_translated = this.translateDayKey(new_key);
+				new_key_translated = this.translateDayKey(new_key);				
 				newDailySlot = this.formateDailyTimeSlot(this.openHours[key]);
+				
 				if (newDailySlot)
+				{
 					this.formatedOpenHours_[new_key_translated] = newDailySlot;
+					this.openHoursDays.push(new_key_translated);
+				}
 			}
 		}
 		return this.formatedOpenHours_;

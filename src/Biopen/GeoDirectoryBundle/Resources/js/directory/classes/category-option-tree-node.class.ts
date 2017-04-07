@@ -76,7 +76,7 @@ export class CategoryOptionTreeNode
 	}
 
 	toggle(value : boolean = null, humanAction : boolean = true)
-	{
+	{		
 			let check;
 			if (value != null) check = value;
 			else check = !this.isChecked;
@@ -89,6 +89,8 @@ export class CategoryOptionTreeNode
 			{
 				for (let child of this.children) child.toggle(check, false);
 			}
+
+			if (this.mainOwnerId == 'openhours') App.categoryModule.updateOpenHoursFilter();
 
 			if(humanAction)
 			{
