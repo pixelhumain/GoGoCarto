@@ -32,6 +32,7 @@
   								  'attr': {'class': 'validate required',
   								           'placeholder':'Adresse complète' 
   								  		   }}) }}
+  	<div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>
 	
 	</div>	
 
@@ -41,8 +42,12 @@
 	{{ form_widget(form.postalCode, {'id': 'input-postal-code'}) }}						
 
 	<!-- Map -->
-	<div id="address-preview-map" class="col s12"></div>	
+	<div class="map-container col s12" style="position:relative">
+		<div id="address-preview-map"></div>	
 
+		{% include '@directory/directory/components/spinner-loader.html.twig'  
+              with {'id': 'geocode-spinner-loader' }%}
+   </div>
 </section>
 <div class="divider"></div>
 

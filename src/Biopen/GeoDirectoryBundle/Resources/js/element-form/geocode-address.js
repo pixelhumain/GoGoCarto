@@ -4,6 +4,8 @@ function geocodeAddress( address ) {
 
 	if (geocoding_processing) return null;
 
+	$('#geocode-spinner-loader').show();
+
 	geocoding_processing = true;
 
 	geocoder.geocode( address, function(results, status) 
@@ -34,7 +36,7 @@ function geocodeAddress( address ) {
 
 			console.log("errur geocoding");
 		}	
-		
+		$('#geocode-spinner-loader').hide();
 		geocoding_processing = false;
 	});
 

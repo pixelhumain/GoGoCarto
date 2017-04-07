@@ -26,6 +26,9 @@ i.material-icons {
   left: 0 !important;
 }
 
+
+#input-address {  width: calc(100% - 13rem); }
+
 #input-address ~ .prefix.error
 {
   &:before
@@ -138,6 +141,29 @@ i.material-icons {
   border-radius: 5px;
   z-index: 500;
   //border: 2px solid #D0CCCC;
+}
+
+#geocode-spinner-loader
+{
+  display:none;
+  position: absolute;
+  bottom: 50%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.btn-geolocalize
+{
+  margin-top: 1rem;
+  float: right;
+  font-size: .9rem;
+  height: 2rem !important;
+  line-height: 2rem !important;
+  padding: 0 1.3rem !important;
 }
 
 // .gmnoprint a, .gmnoprint span, .gm-style-cc {
