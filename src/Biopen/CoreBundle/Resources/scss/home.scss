@@ -29,6 +29,40 @@ body
 	position: relative;
 	background-color: rgba(20, 20, 20, 0.8);
 	@media #{$medium-and-up} { background-color: initial; }
+
+	#bottom-more-info
+	{
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		line-height: 3rem;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    background-color: #676565;
+    border-bottom: 1px solid #4a4a4a;
+
+    .text { margin-left: 2rem;  margin-right: 1rem;}
+
+    .icon-expand
+    {
+    	display: inline-block;
+    	&:before { top: 15px; position: absolute;}
+    }
+
+		.arrow-down 
+		{
+		  width: 0;
+	    height: 0;
+	    border-left: 15px solid transparent;
+	    border-right: 15px solid transparent;
+	    border-top: 10px solid #ececec;
+	    position: absolute;
+	    left: 0;
+	    right: 0;
+	    margin: auto;
+		}
+	}
 }
 
 @media (max-height : 420px)
@@ -104,7 +138,7 @@ section#home-main-container
 	{
 		background-color: rgba(20, 20, 20, 0.8); 
 		border-radius: 15px;
-  	margin: 3rem auto 0;
+  	margin: 0 auto;
   	padding: 2rem 2rem 1rem 2rem; 
 	}
 
@@ -186,14 +220,12 @@ section#home-main-container
 		@media #{$medium-and-up}
 		{
 			margin-top: 1.5rem;	
-			margin-bottom: 1rem;
 		}	
 	}
 
 	#search-bar
 	{
 		text-align: center;
-		text-transform: capitalize;
 		padding: 0 .5rem 0 .5rem;
 		border: 3px solid #BDBDBD;
 		box-shadow: none !important;
@@ -201,7 +233,12 @@ section#home-main-container
 		width: 100%;	    
     border: none;
     background-color: #ececec;
-    color:black;	  
+    color:black;
+    height: 2.5rem;	  
+    @media #{$medium-and-up}
+		{
+			height: 3rem;
+		}	
 
     &.invalid
     {
@@ -238,6 +275,7 @@ section#home-main-container
 
 	#search-bar-icon 
 	{
+    @media #{$small-only} { display: none}
     position: absolute;
     left: 1.2rem;
 
@@ -260,18 +298,105 @@ section#home-main-container
     	display: inline-block;
 	}	
 
-	.choice-mode-container
+	.main-options-container
 	{
-		.choice-mode-button 
-		{ 
-			background-color: #c33b40; 
-			&:hover { background-color: lighten(#c33b40,5%);  }
+		display:none;
+		margin-bottom: .5rem;
+
+		label.main-option-radio-label 
+		{
+	    color: white;
+	    margin-right: 1.5rem;
+	    margin-bottom: 1rem;
+
+	    &:before
+	    {
+	    	border: 2px solid #8c8c8c;
+	    	top: 2px;
+		    width: 14px;
+		    height: 14px;
+	    }
+
+	    &:after
+	    {
+	    	border: 2px solid $primary-color;
+    		background-color: $primary-color;
+    		top: 2px;
+		    width: 14px;
+		    height: 14px;
+	    }
 		}
+	}
+
+	@media #{$medium-and-up}
+	{
+		.main-options-container { display:block; }
+		.category-field-select { display: none; }
+	}
+
+	.category-field-select
+	{
+		@include flex(initial);	
+		@include order(1000000);
+		margin: 0;	
+
+    .select-dropdown li.disabled 
+    {
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+		}
+
+		.caret 
+		{ 
+			color: white;
+    	z-index: 10;
+    	right: 15px;
+    	top: 7px;
+    }
+
+		.select-wrapper 
+		{
+			background-color: #676565;
+	    max-width: 400px;
+	    margin-bottom: 1rem;
+	    margin: 0 auto;
+	    margin-bottom: 1rem;
+	    margin-top: -.5rem;
+			&:hover { background-color: lighten(#676565,5%) }
+		  &.secondary-color { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
+
+		  padding-left: 1rem;
+		  @include border-radius(3px);
+	    @include transition(background-color .2s);
+
+			input.select-dropdown
+			{
+				height: 2rem;
+		    line-height: 2rem;
+		    margin-bottom: .8rem;
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: bold;
+	      border: none;		    
+		    background-color: transparent;
+		    color: white;
+		    text-align: center;
+	  	}
+		}
+	}		
+	
+
+	.primary-button 
+	{ 
+		background-color: #d85358; 
+		&:hover { background-color: lighten(#d85358,5%);  }
+		margin-bottom: 1.5rem;
 	}
 
 	.divider { margin-bottom : 1.5rem; }
 
-	.participate-button 
+	.secondary-button 
 	{ 
 		background-color: $secondary-color; 
 		&:hover { background-color: $secondary-color-light;  }

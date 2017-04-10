@@ -22,33 +22,49 @@
 
 		<div class="input-field" id="search-bar-container" >
 			<a class="icon-search" id="search-bar-icon"></a> 
-			<input class="validate" placeholder="Entrez une adresse" type="text" id="search-bar" name="adresse"/>
+			<input class="validate" placeholder="Entrez un lieu, un acteur, une catégorie..." type="text" id="search-bar" name="adresse"/>
 		</div>
 
-		<div class="row">
-			<div class="col s6 choice-mode-container right-align">
-				<button id="btn-directory" class="choice-mode-button btn waves-effect waves-light">Navigation libre</button>
-                
-				<p>Parcourez la carte en filtrant les résultats si besoin. Tous les elements sont affichés</p>
-			</div>
-		    <div class="col s6 choice-mode-container left-align">
-		        <a href="{{ path('biopen_partners') }}">
-			    <button id="" class="choice-mode-button btn waves-effect waves-light">Partenaires</button>
-			    </a>
-			    <p>Consultez la liste de tous nos partenaires !</p>
-		    			
-       </div>
+		<div class="main-options-container">
+			<input class="main-option-radio-btn" data-name="all" name="mainOption" type="radio" id="option-all" checked/>
+	    <label class="main-option-radio-label" for="option-all">Toutes</label>
 
+			{% for option in mainOptions | sortbyfield('index') %}
+				<input class="main-option-radio-btn" data-name="{{option.nameShort}}" name="mainOption" type="radio" id="option-{{option.id}}" />
+	      <label class="main-option-radio-label" for="option-{{option.id}}">{{ option.name }}</label>
+			{% endfor %}
 		</div>
+
+		<span class="category-field-select input-field">
+	    <select  class="category-select" id="category-select">	   	  
+	   	  <option disabled selected value="all">Choisissez une catégorie (par défaut : toutes)</option>
+	   	   
+	     {% for option in mainOptions | sortbyfield('index') %}
+	      	<option value="{{option.nameShort}}">{{ option.name }}</option>
+	      {% endfor %}
+	    </select>
+  	
+  	</span>
+
+		<button id="btn-directory" class="primary-button  btn waves-effect waves-light">Rechercher dans l'annuaire</button>
 
 		<div class="divider"></div>
 
-		<a href="{{ path('biopen_element_add') }}">
-			<button class="participate-button btn waves-effect waves-light">Participer</button>
-		</a>
-		<p>Aidez-nous à agrandir notre base de donnée en ajoutant un element !</p>
+		<div class="row">
+			<p>Aidez-nous à agrandir notre base de donnée collaborative en ajoutant un acteur !</p>
+			<a href="{{ path('biopen_element_add') }}">
+				<button class="secondary-button  btn waves-effect waves-light">Participer</button>
+			</a>
+		</div>		
 	
 	</section>
+
+	<div id="bottom-more-info">
+		<!-- <div class="arrow-down"></div> -->
+		<span class="icon icon-expand"></span>
+		<span class="text">En savoir plus</span>
+		<span class="icon icon-expand"></span>
+	</div>
 </div>
 
 
@@ -71,7 +87,9 @@
 {% endblock %}
 
 {% block javascripts %}
-
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+  	<script src="{{ asset('js/libs.js') }}"></script>  
     <script src="{{ asset('js/home.js') }}"></script>
 
     {#<script async defer

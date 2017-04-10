@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-07 09:29:48
+ * @Last Modified time: 2017-04-10 10:06:54
  */
  
 
@@ -65,7 +65,7 @@ class LoadCategory implements FixtureInterface
 			array('Habitat'    						, 'home'      	, '#8e5440'		, '#8e5440'	,''        , false),			
 			array('Education & Formation'    , 'education'     , '#383D5A'	   , 'rgba(56, 61, 90, 0.93)'	,'Education'        , false),
 			array('Mobilité'        			, 'bike'      		, '#b33738'		, 'rgba(179, 55, 56, 0.89)'	,''        , false),
-			array('Sortie & Culture'   		 , 'coffee'      	, '#5262b7'		, 'rgba(82, 98, 183, 0.93)'	,''        , false),			
+			array('Sortie & Culture'   		 , 'coffee'      	, '#5262b7'		, 'rgba(82, 98, 183, 0.93)'	,'Sortie'        , false),			
 			array('Voyages'      				, 'bed'     		, '#985389'		, '#985389'	,'', false),			
 			
 		);

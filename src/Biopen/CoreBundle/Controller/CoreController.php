@@ -14,9 +14,14 @@ class CoreController extends Controller
         // Get Wrapper List        
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
         ->findAll();
+        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+        ->findOneByDepth(0);
+
+        $mainOptions = $mainCategory->getOptions();
+
         $this->get('session')->clear();
         
-        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers));
+        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions));
     }
 
     public function headerAction(){

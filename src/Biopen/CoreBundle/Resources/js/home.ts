@@ -13,25 +13,44 @@ declare var $ : any, Routing;
 
 $(document).ready(function()
 {
-	// $('#btn-constellation').click(function()
-	// { 
-	// 	var address = checkForAdress();
-	// 	if (address) redirectToDirectory('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
-	// });
+	$('select').material_select();
 
-	//$('#btn-directory').click(function(){ redirectToDirectory('biopen_directory','Labrit'); });
 	$('#btn-directory').click(function()
 	{ 
-		var address = checkForAdress();
-		if (address) window.location.href = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
+		redirectTodirectory();
 	});
 
-	$('#search-bar').on("search", function(event, address)
+	$('#search-bar').on("keyup", function(e)
 	{
-		// do nothing
-		/*redirectToDirectory('biopen_directory', address);*/
+		if(e.keyCode == 13) // touche entrée
+		{ 
+			redirectTodirectory();
+		}
 	});
 });
+
+function redirectTodirectory()
+{
+	var address = checkForAdress();
+
+	let mainOption : string;
+	// in small screen a select is displayed
+	if ($('.category-field-select').is(':visible'))
+	{
+		let select = document.getElementById('category-select');
+		mainOption = (<any>select).value;
+	}
+	else
+	// in large screen radio button are displayed
+	{
+		mainOption = $('.main-option-radio-btn:checked').attr('data-name');			
+	}		
+
+	let route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
+	route += '?cat=' + mainOption;
+	//console.log(route);
+	if (address) window.location.href = route;
+}
 
 function checkForAdress()
 {
