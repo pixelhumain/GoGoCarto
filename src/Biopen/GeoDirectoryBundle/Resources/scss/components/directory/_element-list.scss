@@ -8,9 +8,20 @@
 
 	.show-as-map-button
 	{
-		float: right;
+		float: left;
 		text-decoration: underline;
-		&:hover { cursor: pointer; color:black; }
+		&:hover { cursor: pointer; color:$primary-color; }
+
+		.btn-back { color: inherit !important;     height: 2rem;}
+
+		@media #{$medium2-and-up} 
+		{
+			&:before
+			{
+				content : "Retour à la carte";
+			}
+		}
+		
 	}
 
 	.element-list-title-bar
@@ -19,12 +30,13 @@
 		position: relative;
 		width: 100%;
 		line-height: 3rem;
-	   text-align: left;
-    	padding: 0 2rem;
-    	@media #{$medium2-and-up} { padding-left: 3rem; padding-right: calc(3rem + 14px); }
-		@media #{$large-only} {padding-left: 10rem; padding-right: calc(10rem + 14px); }	
-	   color: #F5F3F3;
-	   background-color: #404040;	    
+	  text-align: right;
+    padding: 0 2rem;
+    padding-left: 1rem;
+    @media #{$medium2-and-up} { padding-left: 3rem; padding-right: calc(3rem + 20px); }
+		@media #{$large-only} {padding-left: 10rem; padding-right: calc(10rem + 20px); }	
+	  color: #F5F3F3;
+	  background-color: #404040;	    
 	}	
 
 	ul.collapsible
@@ -33,6 +45,7 @@
 		padding-bottom: 100px;
 
 		height: calc(100% - 3rem);
+		width: 100%;
 		overflow-y: auto;
 		margin :0;	
 
