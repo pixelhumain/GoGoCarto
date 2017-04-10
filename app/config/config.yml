@@ -322,3 +322,9 @@ hwi_oauth:
             options:
                 display: popup #dialog is optimized for popup window
                 auth_type: rerequest # Re-asking for Declined Permissions
+        yahoo:
+            type:                yahoo
+            client_id:           dj0yJmk9VlJSaEY2MTZIODVCJmQ9WVdrOWJGRlhUMjVJTlRnbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD03Nw--
+            client_secret:       babaa2b0eb6dc3d580f08f8ad298115409abae0c
+            options:
+                display: popup #dialog is optimized for popup window
