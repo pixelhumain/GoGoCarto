@@ -33,6 +33,9 @@ facebook_login:
 gplus_login:
     path: /login/check-google
 
+yahoo_login:
+    path: /login/check-yahoo
+
 # custom_login:
 #     path: /login/check-custom
 
