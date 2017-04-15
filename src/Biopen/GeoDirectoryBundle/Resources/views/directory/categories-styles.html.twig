@@ -8,8 +8,8 @@
 
   {% for option in optionList %} 
      {% if option.useColorForMarker or option.useIconForMarker %}
-	    .bgdSoftColorAs[option-id="{{ option.id }}"] { background-color: {{ option.color }} }
-	    .borderSoftColorAs[option-id="{{ option.id }}"] { border-color: {{ option.color }} }
+	    .bgdSoftColorAs[option-id="{{ option.id }}"] { background-color: {{ option.softColor }} }
+	    .borderSoftColorAs[option-id="{{ option.id }}"] { border-color: {{ option.softColor }} }
 	    .bgdColorAs[option-id="{{ option.id }}"] { background-color: {{ option.color }} }
 	    .colorAs[option-id="{{ option.id }}"] { color: {{ option.color }} }
     {% endif %}

@@ -1,15 +1,12 @@
-{% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block title %}{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
-
-  <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+  
   <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
-
-   {% include '@directory/directory/categories-styles.html.twig' %}
+  {% include '@directory/directory/categories-styles.html.twig' %}
 
 {% endblock %}
 
@@ -38,7 +35,7 @@
       <div id="directory-loading" style="display:none">
         Chargement...
       </div>   
-      <div class="show-as-list-button"><i class="icon-list"></i>Afficher sous forme de liste</div>  
+      <div class="show-as-list-button"><i class="icon-list"></i></div>  
       {# button for openning menu in small screens #}
       <div id="menu-button"><i class='icon-menu'></i></div> 
     </div>       
@@ -48,7 +45,7 @@
         Résultats
         <span class="element-list-title-number-results"></span>
         <span class="element-list-title-text"></span>        
-        <span class="show-as-map-button">Retour à la carte</span>
+        <span class="show-as-map-button"> <span class="icon btn-back icon-material-design-icons-1"></span></span>
         <div class='shadow-bottom'></div>
       </div>
       <ul class="collapsible popout custom-scroll-bar" data-collapsible="accordion">
@@ -104,7 +101,6 @@
   <script src="{{ asset('js/libs.js') }}"></script>  
   <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
   <script src="{{ asset('js/directory.js') }}"></script>
-  <script src="{{ asset('js/home.js') }}"></script>
   <script>
 
     //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";

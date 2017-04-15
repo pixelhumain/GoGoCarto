@@ -28,6 +28,9 @@ export class Element
 	readonly tel : string;
 	readonly webSite : string;
 	readonly mail : string;
+	readonly openHours : any;
+	readonly openHoursDays : string[] = [];
+	readonly openHoursMoreInfos : any;
 	readonly mainOptionOwnerIds : number[] = [];
 
 	optionsValues : OptionValue[] = [];
@@ -36,6 +39,8 @@ export class Element
 	colorOptionId : number;
 	private iconsToDisplay : OptionValue[] = [];
 	private optionTree : OptionValue;
+
+	formatedOpenHours_ = null;
 
 	distance : number;
 
@@ -64,10 +69,15 @@ export class Element
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.lat, elementJson.lng);
 		this.address = elementJson.address;
-		this.description = elementJson.description;
+		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.web_site;
 		this.mail = elementJson.mail;
+		this.openHours = elementJson.open_hours;
+		this.openHoursMoreInfos =  elementJson.open_hours_more_infos;
+
+		// initialize formated open hours
+		this.getFormatedOpenHours();
 
 		let newOption : OptionValue, ownerId : number;
 		for (let optionValueJson of elementJson.option_values)
@@ -357,22 +367,45 @@ export class Element
 		return html;
 	};
 
-	// getFormatedOpenHourss() 
-	// {		
-	// 	if (this.formatedOpenHours_ === null )
-	// 	{		
-	// 		this.formatedOpenHours_ = {};
-	// 		let new_key;
-	// 		for(let key in this.openHours)
-	// 		{
-	// 			new_key = key.split('_')[1];
-	// 			this.formatedOpenHours_[new_key] = this.formateDailyTimeSlot(this.openHours[key]);
-	// 		}
-	// 	}
-	// 	return this.formatedOpenHours_;
-	// };
+	getFormatedOpenHours() 
+	{		
+		if (this.formatedOpenHours_ === null )
+		{		
+			this.formatedOpenHours_ = {};
+			let new_key, new_key_translated, newDailySlot;
+			for(let key in this.openHours)
+			{
+				new_key = key.split('_')[1];
+				new_key_translated = this.translateDayKey(new_key);				
+				newDailySlot = this.formateDailyTimeSlot(this.openHours[key]);
+				
+				if (newDailySlot)
+				{
+					this.formatedOpenHours_[new_key_translated] = newDailySlot;
+					this.openHoursDays.push(new_key_translated);
+				}
+			}
+		}
+		return this.formatedOpenHours_;
+	};
 
-	formateDailyTimeSlot(dailySlot) 
+	private translateDayKey(dayKey)
+	{
+		switch(dayKey)
+		{
+			case 'monday': return 'lundi';
+			case 'tuesday': return 'mardi';
+			case 'wednesday': return 'mercredi';
+			case 'thursday': return 'jeudi';
+			case 'friday': return 'vendredi';
+			case 'saturday': return 'samedi';
+			case 'sunday': return 'dimanche';
+		}
+
+		return '';
+	}
+
+	private formateDailyTimeSlot(dailySlot) 
 	{		
 		if (dailySlot === null)
 		{		

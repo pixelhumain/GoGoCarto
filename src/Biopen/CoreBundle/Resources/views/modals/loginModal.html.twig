@@ -1,0 +1,54 @@
+<!-- Pop up message alerte-->
+<div id="popup-login" class="modal page-modal vertical-align">
+  <div class="modal-content page-modal-content">
+
+    <span class="icon btn-back icon-material-design-icons-1" onclick="$('#popup-login').closeModal()"></span>
+    <h1>Connexion</h1>
+
+    <div class="row">
+
+      {# OAuth LOGIN #}
+      <div class="col s12 m6 oauth-section section">
+        
+        <a class="oauth-btn waves-effect waves-light gplus" href="{{ hwi_oauth_login_url('gplus') }}"><i class="icon icon-gplus left"></i>Se connecter avec Google</a>
+        <a class="oauth-btn waves-effect waves-light facebook" href="{{ hwi_oauth_login_url('facebook') }}"><i class="icon icon-facebook left"></i>Se connecter avec Facebook</a>      
+        {#<a class="oauth-btn waves-effect waves-light yahoo" href="{{ hwi_oauth_login_url('yahoo') }}"><i class="icon icon-yahoo left"></i>Se connecter avec Yahoo</a>#}
+      </div>
+
+      {# FORM LOGIN #}
+      <div class="col s12 m6 form-section section">
+
+        <form id="login-form" role="form">
+
+          <div class="error-message" style="display:none"></div>
+
+          <div class="input-field">
+            <input type="text" class="validate" id="username" name="_username" required="required" onkeypress="if(event.keyCode === 13) submitAjaxLogin()"/>
+            <label for="username">{{ 'security.login.username'|trans({}, 'SonataUserBundle') }}</label>
+          </div>
+
+          <div class="input-field">
+            <input type="password" class="validate" id="password" name="_password" required="required" onkeypress="if(event.keyCode === 13) submitAjaxLogin()"/>
+            <label for="password" >{{ 'security.login.password'|trans({}, 'SonataUserBundle') }}</label>
+          </div>
+
+          <p>
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+            <label id="remember-me-checkbox" for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+          </p>
+
+          </form>
+
+        <button id="submit-login" class="btn btn-primary" onclick="submitAjaxLogin()">Connexion</button>
+        <a class="forgotten-password" href="{{ path('fos_user_resetting_request') }}">{{ 'forgotten_password'|trans({}, 'SonataUserBundle') }}</a>
+      </div>
+    </div>
+
+    <div class="register">Besoin d'un compte ? <a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></div>
+  </div>
+   
+</div>
+
+<script>
+// scripts are in header.html.twig 
+</script>

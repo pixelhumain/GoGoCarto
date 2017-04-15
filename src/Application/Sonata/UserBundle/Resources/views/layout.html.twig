@@ -1,0 +1,13 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% block body_content %}
+<section>
+	{% block fos_user_content %}
+	{% endblock fos_user_content %}
+</section>
+
+{% endblock body_content %}
+
+{% block page_javascripts %}
+	<script src="{{ asset('js/libs.js') }}"></script>
+{% endblock page_javascripts %}

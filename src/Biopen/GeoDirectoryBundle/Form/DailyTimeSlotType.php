@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-04-06 17:06:35
  */
  
 
@@ -20,7 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-use Doctrine\ORM\EntityRepository;
 
 
 class DailyTimeSlotType extends AbstractType
@@ -51,7 +50,7 @@ class DailyTimeSlotType extends AbstractType
   public function configureOptions(OptionsResolver $resolver)
   {
       $resolver->setDefaults(array(
-          'data_class' => 'Biopen\GeoDirectoryBundle\Classes\DailyTimeSlot'
+          'data_class' => 'Biopen\GeoDirectoryBundle\Document\DailyTimeSlot'
       ));
   }
 

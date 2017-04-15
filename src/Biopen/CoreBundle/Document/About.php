@@ -39,6 +39,12 @@ class About
      */
     private $backgroundColor;
 
+    /**
+     * @Gedmo\Mapping\Annotation\SortablePosition
+     * @MongoDB\Field(type="int")
+     */
+    private $position;
+
 
     /**
      * Get id
@@ -121,5 +127,26 @@ class About
     {
         return $this->backgroundColor;
     }
-}
 
+    /**
+     * Set position
+     *
+     * @param int $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int $position
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+}

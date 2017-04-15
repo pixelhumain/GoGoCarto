@@ -4,6 +4,8 @@ function geocodeAddress( address ) {
 
 	if (geocoding_processing) return null;
 
+	$('#geocode-spinner-loader').show();
+
 	geocoding_processing = true;
 
 	geocoder.geocode( address, function(results, status) 
@@ -14,7 +16,7 @@ function geocodeAddress( address ) {
 			map.setView(results[0].getCoordinates(), 15);
 			createMarker(results[0].getCoordinates());
 
-			//console.log("Geocode result :", results[0].postal_code);
+			console.log("Geocode result :", results[0].postal_code);
 
 			$('#input-latitude').val(marker.getLatLng().lat);
 			$('#input-longitude').val(marker.getLatLng().lng);
@@ -34,7 +36,7 @@ function geocodeAddress( address ) {
 
 			console.log("errur geocoding");
 		}	
-		
+		$('#geocode-spinner-loader').hide();
 		geocoding_processing = false;
 	});
 

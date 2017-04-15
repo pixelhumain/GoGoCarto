@@ -66,12 +66,13 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		$('#filter-favorite').click(function(e : Event)
 		{
+			
 			let favoriteCheckbox = $('#favorite-checkbox');
 
 			let checkValue = !favoriteCheckbox.is(':checked');
 
 			App.filterModule.showOnlyFavorite(checkValue);
-			App.elementModule.updateElementToDisplay(checkValue);
+			App.elementModule.updateElementToDisplay(!checkValue);
 
 			favoriteCheckbox.prop('checked',checkValue);
 
@@ -159,6 +160,21 @@ export class DirectoryMenuComponent
 			else $('#open-hours-filter').hide();
 		}
 
+		this.updateMainOptionBackground();
+
+		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
+		if (oldId != null) App.historyModule.updateCurrState();
+		
+		App.elementModule.updateElementToDisplay(true,true);
+		App.elementModule.updateCurrentsElements();
+	}
+
+	updateMainOptionBackground()
+	{
+		let optionId = this.currentActiveMainOptionId;
+
+		if(!$('#directory-menu').is(':visible')) { console.log("directory not visible");return; }
+
 		$('#active-main-option-background').animate({top: $('#main-option-icon-' + optionId).position().top}, 500, 'easeOutQuart');
 
 		$('.main-option-subcategories-container').hide();
@@ -166,14 +182,6 @@ export class DirectoryMenuComponent
 
 		$('.main-categories .main-icon').removeClass('active');
 		$('#main-option-icon-' + optionId).addClass('active');
-
-		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
-		if (oldId != null) App.historyModule.updateCurrState();
-
-		
-		App.elementModule.updateElementToDisplay(true,true);
-		App.elementModule.updateCurrentsElements();
-
 	}
 }
 

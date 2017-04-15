@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-27 17:11:27
+ * @Last Modified time: 2017-04-07 18:09:07
  */
 jQuery(document).ready(function()
 {	
@@ -57,6 +57,8 @@ jQuery(document).ready(function()
 			handleInputAdressChange();
 		}
 	});
+	$('.btn-geolocalize').click(function () { handleInputAdressChange(); });
+	
 	$('#search-bar').on("place_changed",handleInputAdressChange);
 
 	// quand on check un product l'input de pr?cision apparait ou disparait

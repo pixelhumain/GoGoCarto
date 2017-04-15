@@ -156,7 +156,7 @@
       <div class="section row sectionOpenHourss">  
         {% set count = 0 %} 
 
-        {% for key, horaire in element.getFormatedOpenHourss() %} 
+        {% for key, horaire in element.getFormatedOpenHours() %} 
           {% if horaire != null %}
 
             <div class='row'>
@@ -166,7 +166,12 @@
             {% set count = count + 1 %} 
 
           {% endif %}
-        {% endfor %}  
+        {% endfor %}          
+
+        {% if element.openHoursMoreInfos %}
+          <div class='col' {% if count != 0 %}style="margin-top:1rem;"{% endif %}>{{  element.openHoursMoreInfos | capitalize }}</div> 
+          {% set count = count + 1 %} 
+        {% endif %}
 
         {% if count == 0 %}<div class='col'> Non renseignées </div>{% endif %} 
       

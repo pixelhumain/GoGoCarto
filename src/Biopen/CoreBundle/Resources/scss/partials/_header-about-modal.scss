@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-22 16:36:09
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-24 12:17:00
+* @Last Modified time: 2017-04-05 15:30:30
 */
 
 #listAbout
@@ -15,24 +15,11 @@
 	}
 }
 
-.modal.about-modals
+.modal.about-modal
 {
-	background-color: #444 !important; 
-
-	.modal-content.about-modals
-	{		
-		color: white;
-
-		.modal-about-footer
-		{
-			text-align: right;
-
-			button
-			{
-				background-color: #de5a5f;
-				color: white;
-				&:hover{ background-color: #ec787d }
-			}
-		}
-	}	
+	.modal-content {
+		text-align: justify;
+  	padding: 2rem 2.5rem;
+  }
+	h1 { text-align: left; }
 }

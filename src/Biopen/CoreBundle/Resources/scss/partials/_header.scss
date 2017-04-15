@@ -1,7 +1,10 @@
+@import 'header-about-modal';
+@import 'header-login-modal';
+
 header 
 {	
 	color: white ;
-	//@extend .z-depth-2;		
+	//@extend .z-depth-2;	
 
 	#menu
 	{
@@ -9,6 +12,13 @@ header
 	  font-size: .85rem ;
 		background-color: #272626;
 		padding: 0 .5rem;
+
+		@media only screen and (min-width : 601px)
+		{
+			font-size:1rem;
+			margin-bottom: 0px ;
+			padding: 0;	
+		}
 
 		#menu-home
 		{
@@ -20,10 +30,44 @@ header
 
 	    // font-family: 'Yellowtail', cursive;
 	    font-size: 1.4rem;
-	    line-height: 2.3rem;
+	    line-height: 3rem;
 	    margin-right: 0;
 
-	    @media screen and (max-width: 500px) { line-height: 2.5rem; }
+	    color: #EE6E73;
+			.small-logo { display: inline-block; }
+			.large-logo { display: none; }
+
+	    .small-logo .icon-menu
+	    {
+	    	font-size: 1.8rem;
+		    padding-top: 3px;
+		    color: #ffffff;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background-color: $secondary-color;
+		    height: 3rem;
+		    border-radius: 0 18px 18px 0;
+		    margin: 0;
+		    padding: 0 1.3rem 0 1rem;
+		    padding-top: 3px;
+	    }
+
+	    @media screen and (min-width: 500px)
+			{
+				color: white;
+				.small-logo { display: none; }
+				.large-logo { display: inline-block; }				
+			}
+
+			@media screen and (min-width: 601px)
+			{
+				margin-left: .7rem;
+		    font-size: 1.6rem;
+		    line-height: 3.2rem;
+		  }
+
+	    @media screen and (max-width: 600px) { line-height: 3rem; height: 3rem; padding: 0;}
 		}
 
 		#menu-actions
@@ -44,6 +88,23 @@ header
 			font-size: inherit ;
 			//@include transition(all 0.4s);
 
+			@media only screen and (min-width : 601px)
+			{
+				margin-right: .5rem;
+				line-height: 2.8rem;
+				width: auto;	
+			}
+
+			@media only screen and (min-width : 801px)
+			{
+				line-height: 3.4rem;
+			}
+
+			@media only screen and (min-width : 1000px)
+			{
+				margin-right: 2rem;
+			}
+
 			&:hover
 			{
 				color: #EE6E73;
@@ -57,10 +118,19 @@ header
 			.arrow-after
 			{
 				display: inline-block;
-		    margin-left: 5px;
-		    margin-bottom: -3px;
+		    
 		    border: solid 5px;
-		    border-color: white transparent transparent transparent;
+		    border-color: #eaeaea transparent transparent transparent;
+
+    		margin-right: 10px;
+
+    		@media only screen and (min-width : 801px) 
+	    	{ 
+	    	 	margin-left: 5px;
+		    	margin-bottom: -3px;
+		    	margin-right: 0px;
+		    	border-color: white transparent transparent transparent;
+	    	}
 		  }
 
 			a 
@@ -74,7 +144,53 @@ header
 				background-color: transparent;
 	    	letter-spacing: .5px;
 
+	    	.text {display:none}
+
+	    	.icon-menu
+	    	{
+	    		font-size: 1.2rem;
+	    		margin-left: .5rem;
+	    		padding-top: 6px;
+   			  display: inline-block;
+   			  color: #eaeaea
+	    	}
+
+	    	 @media only screen and (min-width : 801px) 
+	    	 { 
+	    	 	.icon-menu {display:none}
+	    	 	.text {display:inline}
+	    	 }
+
+
 			}			
+		}
+
+		.btn-login
+		{
+			
+			margin-right: 1rem;
+	    height: 2rem;
+	    line-height: 2.5rem;
+	    padding: 0 10px;
+	    font-size: .85rem;
+	    margin-top: -9px;
+	    background-color: #de5a5f;
+			color: white;
+			&:hover{ background-color: #ec787d }
+
+			.text { display: none; }
+			.icon-menu { font-size: 1.1rem }
+
+
+			@media only screen and (min-width : 801px) 
+			{ 
+				.icon-menu { display: none; } 
+				.text { display: inline; } 
+				padding: 0 1.5rem;
+				margin-top: 0px;
+				line-height: 2rem;
+
+			}
 		}
 
 		.dropdown-content
@@ -95,45 +211,6 @@ header
 		}					
 	}
 
-	#menu-home
-	{
-		color: #EE6E73;
-		.small-logo { display: inline-block; }
-		.large-logo { display: none; }
-
-		@media screen and (min-width: 500px)
-		{
-			color: white;
-			.small-logo { display: none; }
-			.large-logo { display: inline-block; }
-		}
-	}	
 	
-
-	@media only screen and (min-width : 601px)
-	{
-		#menu 
-		{ 
-			font-size:1rem;
-			margin-bottom: 0px ;
-			padding: 0;	
-
-			#menu-home
-			{
-				margin-left: .7rem;
-		    font-size: 1.6rem;
-		    line-height: 3.2rem;
-			}		
-
-			.menu-item 
-			{
-				margin-right: 2rem;
-				line-height: 3.4rem;
-				width: auto;	
-			}
-		}
-
-
-	}
 }
 

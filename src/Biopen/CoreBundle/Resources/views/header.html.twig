@@ -5,12 +5,12 @@
 	<div id="menu" class="row ">
 
 		<div class="col menu-item" id="menu-home">			
-			<a href="{{ path('biopen_homepage') }}" class="small-logo">P</a> 
+			<a href="{{ path('biopen_homepage') }}" class="small-logo"><span class="icon-menu icon-home"></span></a> 
 			<a href="{{ path('biopen_homepage') }}" class="large-logo">Près de chez nous</a> 
 		</div>
 		<div id="menu-actions">
 			<div class="col menu-item">
-			  <a href="{{ path('biopen_directory_normal', { mode : 'carte'} ) }}">Annuaire</a>  
+			  <a href="{{ path('biopen_directory_normal', { mode : 'carte'} ) }}"><span class="icon-menu icon-map"></span><span class="text">Annuaire</span></a>  
 				<!-- <a id="btn-menu-directory" >Annuaire</a>  -->
 			</div>
 
@@ -19,32 +19,106 @@
 			</div>	 -->		
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_element_add') }}">Signaler un acteur</a>  
+				<a href="{{ path('biopen_element_add') }}"><span class="icon-menu icon-user-plus"></span><span class="text">Signaler un acteur</span></a>  
 			</div>
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_partners') }}">Partenaires</a>  
+				<a href="{{ path('biopen_partners') }}"><span class="icon-menu icon-partner-3"></span><span class="text">Partenaires</span></a>  
 			</div>	
                        
       <div class="col menu-item dropdown-button" data-activates='listAbout'>
-        <a id='btn-about'>A propos</a> 
+        <a id='btn-about'><span class="icon-menu icon-info"></span><span class="text">A propos</span></a> 
         <div class="arrow-after"></div>                
       </div>
       <ul id='listAbout' class='dropdown-content'>        	
         
-        {% for about in listAbouts %}
+        {% for about in listAbouts | sortbyfield('position') %}
         	<li class="item-divider"></li>
           <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
       	{% endfor %}            
       </ul>
+
+       <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
+				onclick="logout()" id="btn-logout"
+				class="waves-effect btn-flat btn-login">
+        <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>
+				
+			</button>
+      	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
+					onclick="$('#popup-login').openModal()" id="btn-login"
+					class="btn btn-login">
+          <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>
+					
+				</button>
+      
 		
 	    </div>
 	</div>
 </nav> 
 </header>
 
+<script>
+
+function logout()
+{
+  console.log("logout");
+  $.ajax({
+      method : 'post',
+      url         : "{{ path('fos_user_security_logout') }}",
+      success     : function(data, status, object) {
+          console.log("success logout");
+          displayLoginButton(true);
+      },
+      error: function(data, status, object){
+          console.log(data.message);
+      }
+  });
+}
+
+function submitAjaxLogin()
+{
+  console.log("submit");
+  $('.error-message').hide();
+  $.ajax({
+      method : 'post',
+      url         : '{{ path("fos_user_security_check") }}',
+      data        : $('#login-form').serialize(),
+      dataType    : "json",
+      success     : function(data, status, object) {
+          if (data.success)
+          {
+            $('#popup-login').closeModal();
+            displayLoginButton(false);            
+          }  
+          else
+          {
+            $('.error-message').text("Les identifiants de connexion ne sont pas corrects").show();
+          }        
+      },
+      error: function(data, status, object){
+          $('.error-message').text("Une erreur s'est produite lors de la tentative de connexion").show();
+      }
+  });
+}
+
+function displayLoginButton(bool)
+{
+	if (bool)
+	{
+		$('#btn-logout').hide();
+		$('#btn-login').show();
+	}
+	else
+	{		
+		$('#btn-logout').show();
+		$('#btn-login').hide();
+	}
+}
+</script>
+
 {% endblock %}
 
 {% block modals %} 
     {% include '@BiopenCoreBundle/modals/headerModals.html.twig' %}
+    {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
 {% endblock %}

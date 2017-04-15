@@ -1,21 +1,14 @@
-{% extends "@BiopenCoreBundle/bundle-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block title %}Partenaires{% endblock %}
-
-{# Stylessheets #}
-{% block stylesheets %}
-
-  <link rel="stylesheet" href="{{ asset('assets/css/base_directory.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/css/partner.css') }}">   
-
-{% endblock %}
 
 {# BODY CONTENT #}
 {% block body_content %}
 
+<section>
+
 <h1>Nos amis et partenaires</h1>    
 
-<div class="partners-container">
 {% for partner in listPartners %}
 
   <div class="partner-item row">
@@ -23,20 +16,18 @@
       <img src={{ partner.logoUrl }} alt="logo" class=""/>
     </div>
     <div class="partner-text col s8 m9">
-      <h3>{{ partner.name|capitalize }}</h3>
+      <h2>{{ partner.name|capitalize }}</h2>
       <p>{{ partner.content |raw }} </p>
-      <a href={{ partner.websiteUrl }}>{{ partner.websiteUrl }}</a>
+      <a href="{{ partner.websiteUrl }}" target="_blank">{{ partner.websiteUrl }}</a>
     </div>
   </div>
 
 {% endfor %}
 
-</div>
-
-{% block javascripts %}
-
-  <script src="{{ asset('js/libs.js') }}"></script> 
-
-{% endblock %}
+</section>
    
+{% endblock %}
+
+{% block page_javascripts %}
+    <script src="{{ asset('js/libs.js') }}"></script>
 {% endblock %}

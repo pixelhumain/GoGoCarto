@@ -1,16 +1,16 @@
 #search-bar-icon
 {
 	position: absolute;
-    left: 1.2rem;
-    line-height: 3rem;
-    font-size: 1.2rem;
-    color: #BDBDBD;
+  left: 1.2rem;
+  line-height: 3rem;
+  font-size: 1.2rem;
+  color: #BDBDBD;
 
-    &:hover
-    {
-    	color: $secondary-color;
-    	cursor: pointer;
-    }
+  &:hover
+  {
+  	color: $secondary-color;
+  	cursor: pointer;
+  }
 } 
 
 #search-bar

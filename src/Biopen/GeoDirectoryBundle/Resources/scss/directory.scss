@@ -1,6 +1,6 @@
-@import 'base';
+@import '../../../CoreBundle/Resources/scss/partials/base';
+@import '../../../CoreBundle/Resources/scss/partials/header';
 
-@import 'vendors/materialize';
 @import 'vendors/leaflet';
 @import "vendors/marker-clusterer";
 
@@ -17,6 +17,7 @@
 @import "components/directory/map/map-controls";
 
 @import "components/directory/element-list";
+@import "components/directory/flash-messages";
 
 @import "components/directory/info-bar/info-bar";
 @import "components/directory/info-bar/element-menu";
@@ -28,7 +29,6 @@
 @import "components/commons/shadow-bottom";
 //@import "components/commons/search-bar";
 @import "components/commons/auto-complete";
-@import "components/commons/scroll-bar";
 
 #directory-menu
 {
@@ -39,12 +39,7 @@
     top: 0;
     left: 0;
     height: 100%;  
-    @include transition(height .5s);   
-
-    @media screen and (min-width: 400px)
-    {
-        width: 200px;
-    }
+    @include transition(height .5s);
 }
 
 #page-content { height: 100% ; background-color: #dfdfdf }
@@ -72,3 +67,13 @@
         margin-left: 22rem;
     }
 } 
+
+h1
+{
+  font-size: 2.5rem;
+  text-align: center;
+  margin-top: .5rem;
+  font-family: Kalam;
+
+   @media screen and (min-width: 600px) { font-size: 3.5rem; }
+}

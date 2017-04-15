@@ -46,6 +46,12 @@ class Partner
      */
     private $websiteUrl;
 
+    /**
+     * @Gedmo\Mapping\Annotation\SortablePosition
+     * @MongoDB\Field(type="int")
+     */
+    private $position;
+
 
     /**
      * Get id
@@ -112,9 +118,16 @@ class Partner
      *
      * @return Partner
      */
-    public function setWebsiteUrl($websiteUrl)
+    public function setWebsiteUrl($webSiteUrl)
     {
-        $this->websiteUrl = $websiteUrl;
+        if ($webSiteUrl && $webSiteUrl != '')
+        {
+            $parsed = parse_url($webSiteUrl);
+            if (empty($parsed['scheme'])) {
+                $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
+            }
+            $this->websiteUrl = $webSiteUrl;
+        }   
 
         return $this;
     }
@@ -151,5 +164,27 @@ class Partner
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set position
+     *
+     * @param int $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int $position
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

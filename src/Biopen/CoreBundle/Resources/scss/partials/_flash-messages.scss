@@ -1,0 +1,41 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-04-03 13:24:36
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-04-07 10:01:13
+*/
+//   FLASHBAG
+.flash-messages-container
+{
+    background-color: $secondary-color;
+    display: inline-block;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.flash-message
+{
+    text-align: center;
+    font-weight: 500;
+    font-style: italic;
+    /* font-size: 1.2rem; */
+    background-color: #444444;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    a 
+    {
+        color: white;
+        text-decoration: underline;
+        &:hover { color: $primary-color; }
+    }
+
+    &.fos_user_error { background-color: #9e171d; }
+    &.sonata_user_error { background-color: #9e171d; }
+
+    .btn-close
+    {
+        display: none;
+    }
+}

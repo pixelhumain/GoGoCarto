@@ -2,6 +2,7 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
+    my_user_provider.class: Application\Sonata\UserBundle\Security\FOSUBUserProvider
 
 services:
 #    service_name:
@@ -11,3 +12,37 @@ services:
         class: Snilius\Twig\SortByFieldExtension
         tags:
             - { name: twig.extension }
+    admin.about:
+        class: Biopen\CoreBundle\Admin\AboutAdmin
+        arguments: [~, Biopen\CoreBundle\Document\About, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Onglets "A propos" }
+    admin.partner:
+        class: Biopen\CoreBundle\Admin\PartnerAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Partenaires }
+    admin.wrapper:
+        class: Biopen\CoreBundle\Admin\WrapperAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Bandeaux de la page d'accueil }
+    
+
+    my_user_provider:
+        class: "%my_user_provider.class%"
+        #this is the place where the properties are passed to the UserProvider - see config.yml
+        arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid, yahoo: twitterUid}]
+
+    biopen.authentication_handler:
+        class: Application\Sonata\UserBundle\Security\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session
+
+    biopen.registration.form.type:
+        class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType
+        arguments: ["%fos_user.model.user.class%"]
+        tags:
+            - { name: form.type, alias: biopen_user_registration }

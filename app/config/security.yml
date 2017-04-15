@@ -1,24 +1,115 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
-security:
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-elements
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    acl:
+        connection: default
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        SONATA:
+            - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are using acl then this line must be commented
+
     providers:
-        in_memory:
-            memory: ~
+        fos_userbundle:
+            id: fos_user.user_manager
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
+        # Disabling the security for the web debug toolbar, the profiler and Assetic.
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # -> custom firewall for the admin area of the URL
+        admin:
+            pattern:            /admin(.*)
+            context:            user
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /admin/login
+                use_forward:    true
+                check_path:     /admin/login_check
+                failure_path:   null
+            logout:
+                path:           /admin/logout
+                target:         /admin/login
+            anonymous:          true
+
         main:
+            pattern:             .*
+            context:             user
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /login
+                use_forward:    true
+                default_target_path:          biopen_homepage
+                use_referer:    true
+                check_path:     /login_check
+                failure_path:   /login                
+                success_handler: biopen.authentication_handler
+                failure_handler: biopen.authentication_handler
+            logout:             true
             anonymous: ~
-            # activate different ways to authenticate
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    gplus:             "/login/check-google"
+                    yahoo:             "/login/check-yahoo"
+                login_path:        /login
+                failure_path:      /login
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+                oauth_user_provider:
+                    #this is my custom user provider, created from FOSUBUserProvider - will manage the
+                    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+                    service: my_user_provider
+            # oauth:
+            #     resource_owners:
+            #         # facebook:           "/login/check-facebook"
+            #         google:             "/login/check-google"
+            #         # my_custom_provider: "/login/check-custom"
+            #         # my_github:          "/login/check-github"
+            #     login_path:        /login
+            #     use_forward:       false
+            #     failure_path:      null
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            #     oauth_user_provider:
+            #         service: my_user_provider
+            # switch_user: true
+    
+    role_hierarchy:
+        ROLE_SONATA_FOO_READER:
+            - ROLE_ADMIN_ABOUT_LIST
+            - ROLE_ADMIN_ABOUT_VIEW
+        # those are the roles I will use (less verbose)
+        ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
+        ROLE_ADMIN:             [ROLE_USER, ROLE_ADMIN_ABOUT_ALL]
+        ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+        # you could alternatively use for an admin who has all rights
+        ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
+
+    # set access_strategy to unanimous, else you may have unexpected behaviors
+    access_decision_manager:
+        strategy: unanimous
+
+    access_control:
+        # URL of FOSUserBundle which need to be available to anonymous users
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Admin login page needs to be accessed without credential
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Secured part of the site
+        # This config requires being logged for the whole site and having the admin role for the admin part.
+        # Change these rules to adapt them to your needs
+        - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

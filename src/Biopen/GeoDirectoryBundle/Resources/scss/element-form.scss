@@ -1,109 +1,19 @@
-@import 'base';
+@import '../../../CoreBundle/Resources/scss/partials/base';
 
-@import 'vendors/materialize';
 @import 'vendors/timepicki';
 @import 'vendors/leaflet';
 
 @import "components/commons/auto-complete";
-
 @import "components/element-form/category-field";
 
-body
+#page-content.element-form
 {
-  height: auto !important;
-}
-//   FLASHBAG
-.flash-notice
-{
-    text-align: center;
-    //margin-bottom: 2rem;
-    font-weight: 500;
-    font-style: italic;
-    background-color: #4a7874;
-    color: white;
-    padding: 1rem;
+  max-width: 700px !important;
+} 
 
-    a 
-    {
-        color: white;
-        text-decoration: underline;
-        &:hover { color: $primary-color; }
-    }
-}
-
-body
-{
-  background-color: $secondary-color;
-  height: auto;
-  min-height: 100%;
-}
-
-#page-content
-{
-	position:relative;
-  margin-top: 0;
-	margin-left: auto;
-  margin-right: auto; 
-  min-height: 121px;
-	width:100%;	
-  background-color : #fafafa;
-  padding: 0; 
-  @include transition(all 1s);
-}
-
-#element-form-content
-{
-  overflow: hidden;
-  @include transition(all 3s);
-}
-
-@media screen and (min-width: 600px)
-{
-   #page-content
-   {
-     margin-top: 20px;
-     max-width: 650px;
-     width:80%;      
-  } 
-}
-
-// ---------------------------------------
-//          MISE EN PAGE GENERALE
-// --------------------------------------- 
-h1
-{
-  font-size: 2rem;
-  margin: 0.5rem 0 1.3rem 0;
-  text-align: center;
-}
-
-h2
-{
-  font-weight: bold !important;
-  font-size: .95rem !important;
-  line-height: 110% !important;
-  margin: 0.5rem 0 1.3rem 0;
-  color: #3d3d3d;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-
-
-h2.error, h1.error
-{
-  font-weight: normal;
-}
-
-h2.no-margin-bottom
-{
-  margin-bottom: 0;
-}
-
-.divider {
-    height: 1rem;
-    overflow: hidden;
-    background-color: #4a7874;
+i.material-icons {
+    top: 4px;
+    &.openhours-icons { line-height: 3.5rem; }
 }
 
 .input-field.error .prefix.active
@@ -115,6 +25,9 @@ h2.no-margin-bottom
 {
   left: 0 !important;
 }
+
+
+#input-address {  width: calc(100% - 13rem); }
 
 #input-address ~ .prefix.error
 {
@@ -130,15 +43,10 @@ h2.no-margin-bottom
 
   &.valid { color: $secondary-color }
   &.invalid { color: $error-color }
-
 }
 
 #input-description { padding-bottom: 0 !important;}
 
-section
-{
-  padding: 1rem;
-}
 
 #section-validate-and-send
 {
@@ -151,23 +59,12 @@ section
   padding-bottom: 1rem;
 }
 
-@media screen and (min-width: 600px)
-{
-  section
-  {
-    padding: 1.5rem 2.5rem;
-  }
-}
-
-#titre-open-hourss
-{
-  margin-bottom: 0.9rem !important;
-}
 
 #element-form-title
 {
-  margin-bottom: 0px !important;
-  padding-top: 1.5rem;
+   
+   margin-bottom: 5px !important;
+  @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
 }
 
 #input-website
@@ -246,6 +143,29 @@ section
   //border: 2px solid #D0CCCC;
 }
 
+#geocode-spinner-loader
+{
+  display:none;
+  position: absolute;
+  bottom: 50%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.btn-geolocalize
+{
+  margin-top: 1rem;
+  float: right;
+  font-size: .9rem;
+  height: 2rem !important;
+  line-height: 2rem !important;
+  padding: 0 1.3rem !important;
+}
+
 // .gmnoprint a, .gmnoprint span, .gm-style-cc {
 //     display:none;
 // }
@@ -276,6 +196,9 @@ section
 #section_vos_infos  [type="checkbox"] + label
 {
     padding-left: 42px;
+    &:before {
+      left: 4px;
+    }
 }
 
 #precisions
@@ -317,6 +240,7 @@ section
 .open-hours-container
 {
   padding-bottom:0.8rem;  
+  padding-left: .5rem;
 }
 
 .open-hours-container.impair
@@ -343,14 +267,6 @@ section
 {
   color: $secondary-color;
   @include transition(color 0.5s);
-}
-
-@media only screen and (max-width: 500px)
-{
-  .modal 
-  {
-      width: 90% !important;
-  }
 }
 
 

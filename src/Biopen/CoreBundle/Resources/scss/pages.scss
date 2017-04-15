@@ -1,0 +1,97 @@
+@import 'partials/base';
+
+@import 'partials/header';
+@import 'partials/flash-messages';
+
+@import 'pages/partner';
+@import 'pages/register';
+@import 'pages/error';
+
+body
+{
+  background-color: $secondary-color;
+  height: auto;
+  min-height: 100%;
+}
+
+
+#page-content
+{
+	position:relative;
+  margin-top: 0;
+	margin-left: auto;
+  margin-right: auto; 
+	width:100%;	
+  background-color : #fafafa;
+  padding: 0rem; 
+
+  @media screen and (min-width: 600px)
+	{
+	   margin-top: 40px;
+	   max-width: 900px;
+	   width:80%;  
+	}
+}
+
+section
+{
+  padding: 1rem;
+
+  @media screen and (min-width: 600px)
+  {
+    padding: 2rem 3.5rem 2rem 2.5rem;
+  }
+}
+
+.divider 
+{
+    
+    overflow: hidden;
+    border-bottom: 2px dashed $secondary-color;
+    overflow: hidden;
+    background-color: transparent;
+    margin-bottom: 1rem;
+
+    @media screen and (min-width: 600px)
+    {
+      height: 1rem;
+      border-bottom: none;
+      background-color: $secondary-color;
+      margin: 0
+    }
+}
+
+// ---------------------------------------
+//          MISE EN PAGE GENERALE
+// --------------------------------------- 
+h1
+{
+  font-size: 2.5rem;
+  text-align: center;
+  margin-top: .5rem;
+  font-family: Kalam;
+
+   @media screen and (min-width: 600px) { font-size: 3.5rem; }
+}
+
+h2
+{
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1.3rem 0;
+  color: #3d3d3d;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: Kalam;
+}
+
+
+h2.error, h1.error
+{
+  font-weight: normal;
+}
+
+h2.no-margin-bottom
+{
+  margin-bottom: 0;
+}

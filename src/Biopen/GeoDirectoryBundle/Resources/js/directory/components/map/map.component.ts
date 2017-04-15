@@ -28,6 +28,8 @@ export class ViewPort
 
 	fromString(string : string)
 	{
+		if (!string) return null;
+
 		let decode = string.split('@').pop().split(',');
 		if (decode.length != 3) {
 			console.log("ViewPort fromString erreur", string);
@@ -91,7 +93,7 @@ export class MapComponent
 		});
 
 		this.markerClustererGroup = L.markerClusterGroup({
-		    spiderfyOnMaxZoom: false,
+		    spiderfyOnMaxZoom: true,
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
 		    spiderfyOnHover: false,
@@ -195,11 +197,11 @@ export class MapComponent
 
 	contains(position : L.LatLngExpression) : boolean
 	{
-		if (this.isMapLoaded)
+		if (this.isMapLoaded && position)
 		{
 			 return this.map_.getBounds().contains(position);
 		}
-		console.log("Contains map not loaded");
+		console.log("MapComponent->contains : map not loaded or element position undefined");
 		return false;		
 	}
 
@@ -216,7 +218,8 @@ export class MapComponent
 		if (this.map_ && $viewport && $panMapToViewport)
 		{
 			//console.log("setViewPort", $viewport);
-			this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom);
+			let timeout = App.state == AppStates.ShowElementAlone ? 500 : 0;
+			setTimeout( () => { this.map_.setView(L.latLng($viewport.lat, $viewport.lng), $viewport.zoom) }, timeout);
 		}
 		this.viewport = $viewport;
 	}

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 13:50:34
+ * @Last Modified time: 2017-04-06 17:00:47
  */
  
 
@@ -102,7 +102,7 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\Field(type="object_id", nullable=true)
+     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
     private $openHours;
 

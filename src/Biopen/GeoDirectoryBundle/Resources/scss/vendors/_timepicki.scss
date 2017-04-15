@@ -53,6 +53,17 @@ Author: senthil
 	display: inline-block;
 }
 
+.reset_time
+{
+  float: right;
+  width: 100%;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  font-size: .9rem;
+
+  &:hover { cursor: pointer; }
+}
+
 .timepicker_wrap {
 	padding: 10px;
 	width: 182px;

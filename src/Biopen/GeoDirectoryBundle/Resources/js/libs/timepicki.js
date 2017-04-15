@@ -24,7 +24,7 @@
 			step_size_minutes: '1',
 			overflow_minutes: false,
 			disable_keyboard_mobile: false,
-			reset: false
+			reset: true
 		};
 
 		var settings = $.extend({}, defaults, options);
@@ -68,7 +68,7 @@
 			}
 			if(settings.reset){
 				new_ele.append(
-					"<div><a href='#' class='reset_time'>Reset</a></div>");
+					"<div class='reset_time'>Réinitialiser</div>");
 			}
 			ele_par.append(new_ele);
 			var ele_next = $(this).next(".timepicker_wrap");
@@ -76,9 +76,10 @@
 			var inputs = ele_par.find('input');
 			
 			$('.reset_time').on("click", function(event) {
-				ele.val("");
+				$(this).parent().siblings('input').val("");
 				close_timepicki();
-			});		
+			});	
+
 			$(".timepicki-input").keydown( function(keyevent){
 					var len = $(this).val().length;
 

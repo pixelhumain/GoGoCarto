@@ -1,0 +1,50 @@
+{% extends "@BiopenCoreBundle/base-layout.html.twig" %}
+
+{% block stylesheets %}
+
+	{% block page_stylesheets %}
+  {% endblock %}
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}"> 
+  
+
+{% endblock %}
+
+{% block body %}
+
+	<div id="page-container">		
+
+    <div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
+		
+		<div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
+
+			{# FLASH MESSAGES #}
+			<div class="flash-messages-container">
+				{% for type, messages in app.session.flashBag.all %}
+		      {% for message in messages %}
+		          <div class="flash-message {{ type }}">
+		              {{ message|trans({}, 'SonataUserBundle')|raw }}
+		              <span class="btn-close icon-clear"></span>
+		          </div>
+		      {% endfor %}
+	   		{% endfor %}
+   		</div>
+			
+			{% block body_content %}
+			{% endblock %}
+			
+		</div>
+	</div>	
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>    
+
+    {% block page_javascripts %}
+    {% endblock %}
+
+    
+{% endblock %}
+

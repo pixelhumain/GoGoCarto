@@ -1,0 +1,44 @@
+{% extends "@UserBundle/layout.html.twig" %}
+
+{% set pageName = 'register' %}
+
+{% block fos_user_content %}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h1 class="panel-title">{{ 'title_user_registration'|trans({}, 'SonataUserBundle') }}</h1>
+        </div>
+        <div class="panel-body">
+            <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+
+                {{ form_widget(form) }}
+                <!-- Input adresse element -->
+                {#<div class="input-field">
+                     {{ form_widget(form.username, {'id': 'input-username', 'attr': {'class': 'validate required' } }) }}
+                    <label for="input-username">Nom d'utilisateur</label>                
+                </div> 
+
+                 <div class="input-field">
+                     {{ form_widget(form.email, {'id': 'input-email', 'attr': {'class': 'validate required' } }) }}
+                    <label for="input-email">Email</label>                
+                </div>  
+
+                 <div class="input-field">
+                     {{ form_widget(form.plainPassword.first, {'id': 'input-passworde', 'attr': {'class': 'validate required' } }) }}
+                    <label for="input-password">Mot de passe</label>                
+                </div>  
+
+                 <div class="input-field">
+                     {{ form_widget(form.plainPassword.second, {'id': 'input-confirme', 'attr': {'class': 'validate required' } }) }}
+                    <label for="input-confirm">Confirmez le mot de passe</label>                
+                </div>   
+
+                {{ form_rest(form) }}#}
+
+                <div class="form-actions">
+                    <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-success pull-right" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock fos_user_content %}

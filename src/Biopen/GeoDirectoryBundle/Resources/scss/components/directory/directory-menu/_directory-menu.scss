@@ -7,7 +7,7 @@
 {
 	@include box-shadow(4px 0 2px rgba(0, 0, 0, 0.2), -1px 0 2px rgba(0, 0, 0, 0.2));
 
-	z-index: 20;
+	z-index: 200;
 	overflow-y:hidden; 
 
 	@media #{$medium-and-up} 
@@ -30,15 +30,32 @@
     .directory-menu-header
     {      
       position: absolute;
-      width: 103%;
+      width: 100%;
       background-color: $primary-color;
       //yellow #da952a
       // green #4e9c51
       // red #d24c51
       // grey #676565
-      border-radius: 0 0 5px 5px;
+
+      .btn-close-menu 
+      { 
+        color:white;
+        position: absolute;
+        z-index: 20;
+        top: 7px;
+        left: 8px;
+      }
+      
 
       @include transition(all .5s);
+
+      @media #{$medium-and-up} 
+      {
+        width: 103%;
+        border-radius: 0 0 5px 5px;
+
+        .btn-close-menu { display:none }
+      }
     }
 
     .shadow-bottom { top: 3.5rem; }
@@ -91,6 +108,8 @@
   {
   	line-height: 2rem;
   }
+
+  @media #{$small-only} { left: 3.5rem; }
 } 
 
 #search-bar-container
@@ -100,6 +119,10 @@
 	text-align: center;
 	margin: 0;
 	padding-bottom: 0;
+  padding-left: 3rem;
+
+  @media #{$medium-and-up} { padding-left: .7rem; }
+      
 }
 
 #search-distance-component
@@ -133,6 +156,7 @@
   padding-right: 1.5rem;
   font-weight: 500;
   text-align: center;
+  display:none;
 
   .shadow-bottom
   {
@@ -152,7 +176,7 @@
     &:hover { cursor: pointer }
   }
 
-    @media #{$medium-and-up} 
+  @media #{$medium-and-up} 
   {
     display:none;
   } 
