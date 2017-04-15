@@ -1,6 +1,8 @@
 #directory-content-list
 {
 	display:none;
+	position: absolute;
+	z-index: 100;
 	overflow: auto;
 	background-color: $secondary-color;
 	border-left: none;
