@@ -89,10 +89,18 @@ export function updateFavoriteIcon(object, element : Element)
 	}
 }
 
-export function showFullTextMenu(object)
+export function showFullTextMenu(object, bool : boolean)
 {
-	object.addClass("full-text");
-	object.find('.tooltipped').tooltip('remove');	
+	if (bool)
+	{
+		object.addClass("full-text");
+		object.find('.tooltipped').tooltip('remove');	
+	}
+	else
+	{
+		object.removeClass("full-text");
+		object.find('.tooltipped').tooltip();	
+	}
 }
 
 export function createListenersForElementMenu(object)

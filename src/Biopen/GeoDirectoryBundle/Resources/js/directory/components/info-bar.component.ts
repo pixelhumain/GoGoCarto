@@ -39,7 +39,7 @@ export class InfoBarComponent
 	{
 		let element = App.elementModule.getElementById(elementId);
 
-		//console.log("showElement", element);
+		//console.log("showElement", this.isDisplayedAside());
 		
 		// if element already visible
 		if (this.elementVisible)
@@ -60,10 +60,8 @@ export class InfoBarComponent
 
 		// on large screen info bar is displayed aside and so we have enough space
 		// to show menu actions details in full text
-		if (this.isDisplayedAside())
-		{
-			showFullTextMenu(domMenu);
-		}
+		showFullTextMenu(domMenu, this.isDisplayedAside());
+
 
 		$('#btn-close-bandeau-detail').click(() =>
 		{  		
