@@ -20,17 +20,19 @@ declare let App : AppModule;
 
 export class FilterModule
 {
-	showOnlyFavorite_ = false;
+	showOnlyFavorite_ : boolean = false;
 
 	constructor() {	}
 
-	showOnlyFavorite(data)
+	showOnlyFavorite(bool : boolean)
 	{
-		this.showOnlyFavorite_ = data;
+		this.showOnlyFavorite_ = bool;
 	};
 
 	checkIfElementPassFilters (element : Element) : boolean
 	{
+		if (this.showOnlyFavorite_) return element.isFavorite;
+
 		if (App.currMainId == 'all')
 		{
 			let elementOptions = element.getOptionValueByCategoryId( App.categoryModule.mainCategory.id);

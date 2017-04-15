@@ -66,12 +66,13 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		$('#filter-favorite').click(function(e : Event)
 		{
+			
 			let favoriteCheckbox = $('#favorite-checkbox');
 
 			let checkValue = !favoriteCheckbox.is(':checked');
 
 			App.filterModule.showOnlyFavorite(checkValue);
-			App.elementModule.updateElementToDisplay(checkValue);
+			App.elementModule.updateElementToDisplay(!checkValue);
 
 			favoriteCheckbox.prop('checked',checkValue);
 
