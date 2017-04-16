@@ -8,7 +8,7 @@
     data-element-id="{{ element.id }}">
 
   {# HEADER #}
-  <div class="collapsible-header bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>
+  <div class="collapsible-header bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>
     
     {# Header Title #}
     <div class='collapsible-header-title row'> 
@@ -16,7 +16,7 @@
       <span class="col s12 name">
 
         {# Icons #}
-        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
+        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs {{pendingClass}} hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
@@ -76,7 +76,7 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
-      <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
+      <div class="menu-element bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 

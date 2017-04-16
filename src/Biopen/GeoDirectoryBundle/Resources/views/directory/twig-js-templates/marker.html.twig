@@ -1,19 +1,20 @@
 {% twig_js name="biopen_twigJs_marker" %}
 
-<div class="marker-name bgdColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}} style="display:none">{{ element.name | capitalize }}</div>
+<div class="marker-name bgdColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}} style="display:none">{{ element.name | capitalize }}</div>
 
-<div class="marker-wrapper colorAs" option-id="{{mainOptionValueToDisplay.option.ownerColorId}}" id="marker-{{ element.id }}">
+<div class="marker-wrapper colorAs {{pendingClass}}" option-id="{{mainOptionValueToDisplay.option.ownerColorId}}" id="marker-{{ element.id }}">
 
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
-		<div class="iconInsideMarker colorAs {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{ mainOptionValueToDisplay.option.icon }}" option-id={{ mainOptionValueToDisplay.optionId }}>
+		{% set mainIcon = element.isPending() ? 'icon-thumbs-up' :  mainOptionValueToDisplay.option.icon %}
+		<div class="iconInsideMarker colorAs {{pendingClass}} {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{mainIcon}}" option-id={{ mainOptionValueToDisplay.optionId }}>
 		</div>
 	</div>
 
 	{% set nbreOthersOptions = otherOptionsValuesToDisplay.length %}	
 
-	{% if nbreOthersOptions > 0 and showMoreIcon %}
+	{% if nbreOthersOptions > 0 and showMoreIcon and not element.isPending() %}
 
 		{% set widthMoreOption = nbreOthersOptions * 39 + 5  %}   	
 
@@ -26,9 +27,9 @@
 
 				{% set disableOption = otherOptionValue.isFilledByFilters ? '' : 'disabled' %}
 
-				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.option.ownerColorId }}
+				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }} {{pendingClass}}" option-id={{ otherOptionValue.option.ownerColorId }}
 						style="left:{{ 32 * loop.index0 }}px">
-					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs" option-id={{ otherOptionValue.optionId }}>
+					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs {{pendingClass}}" option-id={{ otherOptionValue.optionId }}>
 					</span>
 			 	</div>
 

@@ -4,7 +4,7 @@
 	.bgdSoftColorAs { background-color: #484848 }
   .borderSoftColorAs { border-color: #484848 }
   .bgdColorAs { background-color: #484848 }
-  .colorAs { color:#484848 }
+  .colorAs { color:#484848 }  
 
   {% for option in optionList %} 
      {% if option.useColorForMarker or option.useIconForMarker %}
@@ -14,5 +14,10 @@
 	    .colorAs[option-id="{{ option.id }}"] { color: {{ option.color }} }
     {% endif %}
   {% endfor %} 
+
+  .bgdSoftColorAs.pending { background-color: #484848 }
+  .borderSoftColorAs.pending { border-color: #484848 }
+  .bgdColorAs.pending { background-color: #484848 }
+  .colorAs.pending { color:#484848 }
 </style>
 {% endif %}

@@ -56,6 +56,9 @@ export class InfoBarComponent
 		let domMenu = $('#element-info-bar .menu-element');
 		domMenu.attr('option-id', element.colorOptionId);
 
+		if (element.isPending()) domMenu.addClass("pending");
+		else domMenu.removeClass("pending");
+
 		updateFavoriteIcon(domMenu, element);
 
 		// on large screen info bar is displayed aside and so we have enough space

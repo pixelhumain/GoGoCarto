@@ -350,7 +350,7 @@ export class Element
 		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 	}
 
-	isPending() { return this.status == ElementStatus.Pending; }
+	isPending() { return this.status === ElementStatus.Pending; }
 
 	getHtmlRepresentation() 
 	{	
@@ -372,6 +372,7 @@ export class Element
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
 			mainCategoryValue : this.getOptionTree().children[0],
+			pendingClass : this.isPending() ? 'pending' : ''
 		});
 
 		
