@@ -53,7 +53,7 @@
             <span class="option-value {{ isDisabled }}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}
 
-      </span>
+      </span>      
 
       {# Select as Representant (constellation mode) #}
       <span class="col s4 right-align btn-select-as-representant-container" style="display:none">
@@ -68,6 +68,14 @@
       <a><span class="col s4 right-align lessInfos hideOnLargeScreen" style="display:none">Moins d'infos</span></a>
 
     </div>
+
+    {% if element.isPending() %}
+        <div class="collapsible-header-pending-section">
+          <span class="icon-attention"></span>
+          <span class="text">Attention cet acteur est en cours de validation</span>
+          <span class="btn btn-vote waves-effect waves-light">Voter</span>
+        </div>
+    {% endif %}
 
   </div>
 

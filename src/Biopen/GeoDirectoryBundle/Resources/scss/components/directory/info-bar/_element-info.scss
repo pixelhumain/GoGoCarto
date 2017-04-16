@@ -22,18 +22,20 @@
 	
 	.collapsible-header
 	{
-		padding: .5rem;
-		@media #{$medium-and-up} { padding: .5rem 1rem; }
+		padding: .5rem 0 0 0; 
+		//@media #{$medium-and-up} { padding: .5rem 0 0 0; }
 		i { margin-right: 0; padding-left: 0.3rem; }
 
 		.collapsible-header-title 
 		{ 		
 			position: relative;
+			padding: 0;
+			@media #{$medium-and-up} { padding: 0 1rem; }
 			margin-bottom: 0rem; 
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 2rem;
-    		margin: .5rem 0;
+    	margin: .5rem 0;
 			font-weight: bold;
 
 			.distance 
@@ -48,6 +50,8 @@
 		.collapsible-header-more 
 		{ 
 			line-height: 1.5rem; 
+			padding: 0;
+			@media #{$medium-and-up} { padding: 0 1rem; }
 			margin-bottom: .5rem;
 
 			.inline-option-values  
@@ -62,6 +66,37 @@
 			{
 			    margin-bottom: .7rem;
 			    text-align: justify;
+			}
+		}
+
+		.collapsible-header-pending-section
+		{
+			background-color: #4a8680;
+			padding: 0 1rem 0 .8rem;
+			@media #{$medium-and-up} { padding: 0 1rem 0 1.6rem; }
+			border-top: 1px solid #565656;
+			border-bottom: 1px solid #797979;
+			position: relative;
+
+			.icon-attention
+			{
+				color: white;
+				font-size: 20px;
+				padding-top: 3px;
+    		position: absolute;
+			}
+
+			.text { padding-left : 2.2rem; color: white;}
+
+			.btn-vote 
+			{ 
+				position: absolute; 
+				right: 1rem;
+				bottom: 7px;
+    		margin: 0;
+		    background-color: #dedede;
+		    color: #272626;
+		    font-size: .85rem;
 			}
 		}
 	}

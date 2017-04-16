@@ -6,7 +6,7 @@
 	text-align: center;
 	width: 100%;
 
-	@media #{$medium-and-up} { height: auto; }
+	@media #{$large-only} { height: auto; }
 
 	.menu-element-item-text { display: none; }
 
