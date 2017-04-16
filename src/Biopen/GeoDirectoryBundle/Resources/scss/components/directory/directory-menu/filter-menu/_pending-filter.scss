@@ -1,0 +1,49 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-04-16 16:21:51
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-04-16 16:41:23
+*/
+
+$pending-color: #565656;
+
+#filter-pending
+{
+	margin-bottom: -.6rem;
+	color: $pending-color;
+
+	.icon { color:inherit !important }
+
+	// .icon-star-full
+	// {
+	// 	color: white;
+	// 	font-size: 18px;
+	// 	&:before
+	// 	{
+	// 		padding: 2px;
+	// 		padding-bottom: 3px;
+	// 		border: none;
+	// 	}
+	// }
+
+	&:hover
+	{
+		background-color: white;
+	}
+
+	.pending-checkbox
+	{
+		@extend .subcategorie-option-checkbox;
+	} 	
+
+	.pending-checkbox:not(:checked) + label:before
+	{
+		background-color: transparent;
+		border-color:$pending-color;
+	}
+
+	.pending-checkbox + label:before
+	{
+		color:$pending-color;
+	}  
+}
