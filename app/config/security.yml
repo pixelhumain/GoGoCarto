@@ -80,17 +80,17 @@ security:
             #         service: my_user_provider
             # switch_user: true
     
-    role_hierarchy:
-        ROLE_SONATA_FOO_READER:
-            - ROLE_ADMIN_ABOUT_LIST
-            - ROLE_ADMIN_ABOUT_VIEW
-        # those are the roles I will use (less verbose)
-        ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
-        ROLE_ADMIN:             [ROLE_USER, ROLE_ADMIN_ABOUT_ALL]
-        ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+    # role_hierarchy:
+    #     ROLE_SONATA_FOO_READER:
+    #         - ROLE_ADMIN_ABOUT_LIST
+    #         - ROLE_ADMIN_ABOUT_VIEW
+    #     # those are the roles I will use (less verbose)
+    #     ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
+    #     ROLE_ADMIN:             [ROLE_USER, ROLE_ADMIN_ABOUT_ALL]
+    #     ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-        # you could alternatively use for an admin who has all rights
-        ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
+    #     # you could alternatively use for an admin who has all rights
+    #     ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
 
     # set access_strategy to unanimous, else you may have unexpected behaviors
     access_decision_manager:
