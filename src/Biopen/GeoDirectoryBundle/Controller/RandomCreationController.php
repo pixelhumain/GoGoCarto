@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 09:18:03
+ * @Last Modified time: 2017-04-16 16:03:13
  */
  
 
@@ -46,6 +46,7 @@ class RandomCreationController extends Controller
 	    for ($i= 0; $i < $nombre; $i++) 
 	    {
 	      $new_element = new Element();
+	      $new_element->setStatus(1);
 
 	      $new_element->setName($lipsum->words(rand(2,8)));
 
@@ -54,6 +55,7 @@ class RandomCreationController extends Controller
 
 	      $new_element->setLng($lng);
 	      $new_element->setLat($lat);
+	      $new_element->setPostalCode('40420');
 	      $new_element->setAddress($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
 	      $new_element->setTel('O678459586');
@@ -62,8 +64,8 @@ class RandomCreationController extends Controller
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
-	      $new_element->setContributor('true');
 	      $new_element->setContributorMail('contributor@gmail.com');		
+	      $new_element->setContributorIsRegisteredUser(false);	
 		   
 	      $manager->persist($new_element);
 	    }

@@ -39,4 +39,9 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+    public function isAdmin()
+    {
+       return in_array("ROLE_ADMIN", $this->getRoles());
+    }
 }

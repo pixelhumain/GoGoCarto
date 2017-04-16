@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-16 14:17:33
+ * @Last Modified time: 2017-04-16 15:59:44
  */
  
 
@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
 use Biopen\GeoDirectoryBundle\Document\Option;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
@@ -112,6 +113,8 @@ class ElementFormController extends Controller
 			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
 			$request->getSession()->getFlashBag()->add('notice', $noticeText);
+
+
 		}
 
 		dump($element);	
@@ -168,6 +171,20 @@ class ElementFormController extends Controller
 		$securityContext = $this->container->get('security.context');		
 		$element->setContributorIsRegisteredUser($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
 
+		if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+		{
+			$user = $securityContext->getToken()->getUser();
+
+			if ($user->isAdmin())
+				$element->setStatus(ElementStatus::AdminValidate);
+			else
+				$element->setStatus(ElementStatus::Pending);
+		}
+		else
+		{
+			$element->setStatus(ElementStatus::Pending);
+		}		
+		
 		//dump($element);			
 		
 		$em->persist($element);

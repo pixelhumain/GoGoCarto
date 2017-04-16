@@ -17,10 +17,19 @@ declare let Twig : any;
 declare let biopen_twigJs_elementInfo : any;
 
 
+export enum ElementStatus 
+{
+	Deleted = -2,
+  ModerationNeeded = -1,
+  Pending = 0,
+  AdminValidate = 1,
+  CollaborativeValidate = 1
+}
 
 export class Element 
 {	
 	readonly id : string;
+	readonly status : ElementStatus;
 	readonly name : string;
 	readonly position : L.LatLng;
 	readonly address : string;
@@ -66,6 +75,7 @@ export class Element
 	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
+		this.status = elementJson.status;
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.lat, elementJson.lng);
 		this.address = elementJson.address;
@@ -339,6 +349,8 @@ export class Element
 		// distance vol d'oiseau, on arrondi et on l'augmente un peu
 		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 	}
+
+	isPending() { return this.status == ElementStatus.Pending; }
 
 	getHtmlRepresentation() 
 	{	
