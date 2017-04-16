@@ -68,6 +68,7 @@ function logout()
       success     : function(data, status, object) {
           console.log("success logout");
           displayLoginButton(true);
+          handleLogin(false);
       },
       error: function(data, status, object){
           console.log(data.message);
@@ -88,6 +89,7 @@ function submitAjaxLogin()
           if (data.success)
           {
             $('#popup-login').closeModal();
+            handleLogin(true);
             displayLoginButton(false);            
           }  
           else
@@ -99,6 +101,13 @@ function submitAjaxLogin()
           $('.error-message').text("Une erreur s'est produite lors de la tentative de connexion").show();
       }
   });
+}
+
+function handleLogin(bool)
+{
+  console.log("handle login", bool);
+  if (bool) $('#btn-login').trigger('login');
+  else $('#btn-login').trigger('logout');
 }
 
 function displayLoginButton(bool)

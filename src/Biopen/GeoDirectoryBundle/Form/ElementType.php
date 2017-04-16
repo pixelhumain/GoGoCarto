@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-23 15:07:23
+ * @Last Modified time: 2017-04-16 14:05:47
  */
  
 
@@ -63,37 +63,17 @@ class ElementType extends AbstractType
           ->add('postalCode', HiddenType::class)
           ->add('lat', HiddenType::class)
           ->add('lng', HiddenType::class)
-          // ->add('listeProducts', DocumentType::class, array(
-          //         'class' => 'Biopen\GeoDirectoryBundle\Document\Category',
-          //         'choice_label' => 'name',
-          //         'choice_name' => 'nameFormate',
-          //         // 'query_builder' => function (DocumentRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
-          //         'expanded' =>'true',
-          //         'multiple' =>'true',
-          //         'mapped'=> false
-          // ))  
           ->add('openHours', OpenHoursType::class, array('required' => false))
-          ->add('openHoursMoreInfos', TextType::class, array('required' => false))          
-          // ->add('type', ChoiceType::class, array(
-          //                 'mapped'=> false,
-          //                 'choices'  => array(
-          //                       '' => null,
-          //                       'Producteur en vente directe' => "producteur",
-          //                       'Marché' => "marche",
-          //                       'AMAP' => "amap",
-          //                       'Boutique de producteurs' => "boutique",
-          //                       'Epicerie' => "epicerie"
-          //                       ),
-          //                 'choices_as_values' => true,
-          //                 ))
+          ->add('openHoursMoreInfos', TextType::class, array('required' => false))        
           // ->add('contributor', CheckboxType::class, array(
           //           'label'    => 'Vous êtes ou travaillez chez le element en question',
           //           'required' => false))
           ->add('engagement', CheckboxType::class, array(
                 'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte notre charte',
                 'mapped' => false,
+                'data' => false,
                 'required' => false))
-          ->add('contributorMail', EmailType::class, array('required' => false));        
+          ->add('contributorMail', HiddenType::class, array('required' => false));        
   }
 
   

@@ -7,13 +7,22 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 17:00:47
+ * @Last Modified time: 2017-04-16 14:15:18
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+abstract class ElementStatus
+{
+    const Deleted = -2;
+    const ModerationNeeded = -1;
+    const Pending = 0;
+    const AdminValidate = 1;
+    const CollaborativeValidate = 1;    
+}
 
 /**
  * Element
@@ -29,6 +38,17 @@ class Element
      */
     private $id;
 
+    /** @MongoDB\Field(type="int")
+     */
+    private $status;
+
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Vote")
+     */
+    private $votes;
+
     /**
      * @var string
      *
@@ -36,17 +56,11 @@ class Element
      */
     private $name;
 
-    /**
-     * 
-     *
-     * @MongoDB\Field(type="float")
+    /** @MongoDB\Field(type="float")
      */
     private $lat;
 
-    /**
-     * 
-     *
-     * @MongoDB\Field(type="float")
+    /** @MongoDB\Field(type="float")
      */
     private $lng;
 
@@ -113,13 +127,6 @@ class Element
      */
     private $openHoursMoreInfos;
 
-    /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $contributor;
-
    /**
      * @var string
      *
@@ -127,19 +134,10 @@ class Element
      */
     private $contributorMail;
 
-   /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $validationCode;
-
     /**
-     * @var bool
-     *
-     * MongoDB\Field(type="boolean")
+     * @MongoDB\Field(type="bool")
      */
-    private $valide = false;
+    private $contributorIsRegisteredUser;
 
 
     /**
@@ -147,21 +145,13 @@ class Element
      */
     public function __construct()
     {
-        $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributor = '';
-    }
-
-    public function reinitContributor()
-    {
-        $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributorMail = '';
-        $this->contributor = '';
+        
     }
 
     public function resetOptionsValues()
     {
         $this->optionValues = [];
-    } 
+    }
 
 
     /**
@@ -533,5 +523,79 @@ class Element
     public function getOptionValues()
     {
         return $this->optionValues;
+    }
+
+    /**
+     * Set status
+     *
+     * @param int $status
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int $status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Add vote
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
+     */
+    public function addVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    {
+        $this->votes[] = $vote;
+    }
+
+    /**
+     * Remove vote
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
+     */
+    public function removeVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    {
+        $this->votes->removeElement($vote);
+    }
+
+    /**
+     * Get votes
+     *
+     * @return \Doctrine\Common\Collections\Collection $votes
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * Set contributorIsRegisteredUser
+     *
+     * @param bool $contributorIsRegisteredUser
+     * @return $this
+     */
+    public function setContributorIsRegisteredUser($contributorIsRegisteredUser)
+    {
+        $this->contributorIsRegisteredUser = $contributorIsRegisteredUser;
+        return $this;
+    }
+
+    /**
+     * Get contributorIsRegisteredUser
+     *
+     * @return bool $contributorIsRegisteredUser
+     */
+    public function getContributorIsRegisteredUser()
+    {
+        return $this->contributorIsRegisteredUser;
     }
 }

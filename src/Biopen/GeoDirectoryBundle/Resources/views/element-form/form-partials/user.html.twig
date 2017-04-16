@@ -1,6 +1,6 @@
 <!-- SECTION INFOS UTILISATEUR -->
 <section class="row" id="section_vos_infos">
-	<h2 id="informations-title">Vos informations</h2>
+	<h2 id="informations-title">Validation</h2>
 	
 	<!-- etes vous le producteur -->
 	{#<div class="col s12">
@@ -12,17 +12,30 @@
 	<!-- S'engager à bla bla bla -->
 	<div class="col s12">			
 		{{ form_widget(form.engagement, {'id' : 'agree' }) }}
-		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte la charte</label>
+		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte la charte de "Près de chez nous"</label>
 	</div>
+
+	{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : user_email}) }}	
 
 	<!-- E mail pour validation -->
-	<div class="input-field col s12">
+	{#{% set mail = is_granted('IS_AUTHENTICATED_REMEMBERED') ? app.user.email : '' %} 
+	
+	
+
+	<div class="input-field col s12" {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}>
 		<i class="material-icons icon-mail prefix"></i>	
-		{{ form_widget(form.contributorMail, {'id': 'inputMail',
+		{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : mail,
   								      		   'attr': {'class': 'validate required',
-  											   			'placeholder':'Votre adresse mail personelle' }}) }}
+  											   		 'placeholder':'Votre adresse mail personelle' }}) }}
 	</div>
 
+	{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		<div class="logged-info col s12">Vous êtes loggué en tant que {{ app.user }}. <a href="#">Changer d'utilisateur</a></div>
+	{% else %}
+		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+		<div id="captcha" class="col s12"></div>
+	{% endif %}
+	#}
 	
 
 </section>

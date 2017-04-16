@@ -1,0 +1,78 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% set pageName = 'contributor-login' %}
+
+{% block title %}
+	Identification
+{% endblock %}
+
+{# Stylessheets #}
+{% block page_stylesheets %}
+
+ 	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body_content %}	
+ 
+  <h1>Identification</h1> 
+
+  <div style="text-align:center">
+	  <button 
+						onclick="$('#popup-login').openModal()"
+						class="btn btn-login">
+	         CONNECTEZ VOUS (avec google, facebook, ou créez un compte près de chez vous)
+						
+		</button>
+	</div>
+	<div class="or-label">ou</div>
+	
+
+ <!--  <div class="input-field col s12">
+		<i class="material-icons icon-mail prefix"></i>	
+		<input id="inputMail" placeholder="" type="email" />
+	</div> -->
+	 {{ form_start(loginForm) }}
+	<div class="input-field col s12">
+		<i class="material-icons icon-mail prefix"></i>	
+		{{ form_widget(loginForm.email, {'id': 'inputMail', 
+  								      		   'attr': {'class': 'validate required',
+  											   		 'placeholder':'Entrez simplement une adresse mail' }}) }}
+	</div>
+
+	<div class="explanations">
+	Un mail vous sera envoyé pour vous permettre d'annuler votre contribution.</br></br>
+	Il n'est pas nécessaire d'être logué pour participer, mais nous accorderons dans ce cas moins de confiance à votre contribution
+	</div>
+
+		{{ form_rest(loginForm) }}
+
+{# Fermeture de la balise <form> du formulaire HTML #}
+{{ form_end(loginForm) }}
+
+
+	<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+	<div id="captcha" class="col s12"></div>
+
+	<center>
+		<button onclick="checkLoginAndSend()" class="btn waves-effect waves-light">Continuer</button>
+	</center>
+
+
+
+{% endblock %}
+
+{% block page_javascripts %}
+		<script src="{{ asset('js/libs.js') }}"></script>
+    <script src="{{ asset('js/element-form.js') }}"></script>
+
+	 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+        async defer>
+    </script>
+
+    <script>
+    
+		</script>
+{% endblock %}
