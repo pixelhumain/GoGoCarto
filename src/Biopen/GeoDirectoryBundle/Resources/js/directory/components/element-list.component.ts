@@ -16,6 +16,8 @@ import { createListenersForElementMenu, updateFavoriteIcon } from "./element-men
 import { Element } from "../classes/element.class";
 import { Event, IEvent } from "../utils/event";
 
+import { createListenersForVoting } from "../components/vote.component";
+
 declare var $;
 
 export class ElementListComponent
@@ -105,7 +107,7 @@ export class ElementListComponent
 			{
 				// if location isn't available we diplay elements visible from the
 				// current map view 
-				App.ajaxModule.getElementsAroundLocation(
+					App.ajaxModule.getElementsAroundLocation(
 					App.mapComponent.getCenter(), 
 					App.mapComponent.mapRadiusInKm()
 				);
@@ -126,6 +128,8 @@ export class ElementListComponent
 			createListenersForElementMenu(domMenu);	
 			updateFavoriteIcon(domMenu, element)		
 		}
+
+		createListenersForVoting();
 
 		if ($animate)
 		{

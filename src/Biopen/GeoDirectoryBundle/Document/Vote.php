@@ -4,6 +4,15 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+abstract class VoteValue
+{
+    const DontRespectChart = -2;
+    const DontExist = -1;
+    const ExistButWrongInformations = 0;
+    const Exist = 1;
+    const ExistAndGoodInformations = 2;    
+}
+
 /** @MongoDB\EmbeddedDocument */
 class Vote
 {

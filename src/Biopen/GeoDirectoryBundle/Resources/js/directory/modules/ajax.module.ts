@@ -163,4 +163,27 @@ export class AjaxModule
 		});
 	};
 
+	vote(elementId :number, voteValue : number, comment : string, callbackSuccess?, callbackFailure?)
+	{
+		let route = Routing.generate('biopen_vote_for_element');
+
+		$.ajax({
+			url: route,
+			method: "post",
+			data: { elementId: elementId, voteValue: voteValue, comment: comment },
+			success: response => 
+			{	        
+				if (response.status)
+				{					
+					if (callbackSuccess) callbackSuccess(response.data); 						
+				}	
+				else if (callbackFailure) callbackFailure(response.data); 				       
+			},
+			error: response =>
+			{
+				if (callbackFailure) callbackFailure(response.data); 		
+			}
+		});
+	}
+
 }

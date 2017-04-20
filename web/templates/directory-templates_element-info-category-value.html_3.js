@@ -36,20 +36,24 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
     // line 2
     sb.append("\n");
     // line 3
-    context["displayThisCategoryValue"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "children"), "length")) > (1));
+    context["displayThisCategoryValue"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "children"), "length")) > (0));
     // line 4
     sb.append("\n");
     // line 5
     if (("displayThisCategoryValue" in context ? context["displayThisCategoryValue"] : null)) {
         // line 6
-        sb.append("\t<div class=\"category-wrapper\">\n\t<div class=\"category-name\">");
+        sb.append("\t<div class=\"category-wrapper\">\n\t");
         // line 7
-        sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "name"), "html", null, true));
-        sb.append("<\/div>\n");
+        if (((("subcategoriesCount" in context ? context["subcategoriesCount"] : null)) > (1))) {
+            // line 8
+            sb.append("\t\t<div class=\"category-name\">");
+            sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "name"), "html", null, true));
+            sb.append("<\/div>\n\t\t");
+        }
     }
-    // line 9
+    // line 11
     sb.append("\n");
-    // line 10
+    // line 12
     context['_parent'] = context;
     var seq = twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "children");
     var loop = {
@@ -67,82 +71,106 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
     twig.forEach(seq, function(v, k) {
         context["_key"] = k;
         context["optionValue"] = v;
-        // line 11
-        sb.append("\n\t");
-        // line 12
-        if (("displayThisCategoryValue" in context ? context["displayThisCategoryValue"] : null)) {
-            // line 13
-            sb.append("\n\t\t<!-- if subcategory.last children, prendre first categorie qui est pas avec description, puis enelevr cette categorie de la liste\n\t\tdes cat\u00e9gories-->\n\n\t\t");
-            // line 17
-            context["displayFirstCategoryInline"] = (((((((!twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription"))) && (((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), "length")) > (0))))) && (twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "isLastCategoryDepth")))) && ((!twig.attr(twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "category"), "enableDescription"))));
-            // line 21
-            sb.append("\n\t\t");
-            // line 22
-            context["isDisabled"] = ((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "isDisabled")) ? ("disabled") : (""));
-            // line 23
-            sb.append("\t\t");
-            context["colWidth"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) ? ("s6 m4") : ("s12"));
-            // line 24
-            sb.append("\t  <div class='row ");
-            if (twig.attr(loop, "first")) {
-                sb.append("strong");
-            }
-            sb.append("'>\n\t    <span class=\"option-value col ");
-            // line 25
-            sb.append(twig.filter.escape(this.env_, ("colWidth" in context ? context["colWidth"] : null), "html", null, true));
-            sb.append(" ");
-            sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
-            sb.append("\">\n\n\t    \t");
-            // line 27
-            context["iconClass"] = ((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "useColorForMarker")) ? ("icon-marker") : (twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")));
-            sb.append("\t\n\t\t\t\t");
-            // line 28
-            if (("iconClass" in context ? context["iconClass"] : null)) {
-                sb.append("    \n\t\t\t\t\t<span class=\"icon ");
-                // line 29
-                sb.append(twig.filter.escape(this.env_, ("iconClass" in context ? context["iconClass"] : null), "html", null, true));
-                sb.append(" ");
-                sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
-                sb.append("  colorAs\" option-id=");
-                sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id"), "html", null, true));
-                sb.append(" ><\/span>\n\t\t\t\t");
-            }
-            // line 31
-            sb.append("\n\t      <span class=\"option-name\">");
-            // line 32
-            sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "nameShort")), "html", null, true));
-            sb.append("<\/span> \n\n\t      ");
-            // line 34
-            if (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null)) {
-                // line 35
-                sb.append("\t      \t<span class=\"inline-option\">( ");
-                var seq1 = twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "children");
-                twig.forEach(seq1, function(v1, k1) {
-                    context["_key"] = k1;
-                    context["suboptionValue"] = v1;
-                    sb.append(" ");
-                    sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("suboptionValue" in context ? context["suboptionValue"] : null), "option"), "name"), "html", null, true));
-                    sb.append(" ");
-                }, this);
-                sb.append(" )<\/span>\n\t      ");
-            }
-            // line 37
-            sb.append("\n\t    <\/span>\n\t    ");
-            // line 39
-            if (twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) {
-                // line 40
-                sb.append("\t    \t<span class=\"col s6 m8 option-description ");
-                sb.append(twig.filter.escape(this.env_, ("isDisabled" in context ? context["isDisabled"] : null), "html", null, true));
-                sb.append("\">");
-                sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("optionValue" in context ? context["optionValue"] : null), "description")), "html", null, true));
-                sb.append("<\/span>\n\t    ");
-            }
-            // line 42
-            sb.append("\t  <\/div>\n\n\t");
+        // line 13
+        sb.append("\n\t\t");
+        // line 14
+        context["displayFirstCategoryInline"] = (((((((!twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription"))) && (((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), "length")) > (0))))) && (twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "isLastCategoryDepth")))) && ((!twig.attr(twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "category"), "enableDescription"))));
+        // line 18
+        sb.append("\n\t\t");
+        // line 20
+        sb.append("\t\t");
+        context["colWidth"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) ? ("s6 m4") : ("s12"));
+        // line 21
+        sb.append("\t  <div class='row ");
+        if (twig.attr(loop, "first")) {
+            sb.append("strong");
         }
-        // line 45
-        sb.append("\n\t");
+        sb.append("'>\n\t    <span class=\"option-value col ");
+        // line 22
+        sb.append(twig.filter.escape(this.env_, ("colWidth" in context ? context["colWidth"] : null), "html", null, true));
+        sb.append("\">\n\n\t    \t");
+        // line 24
+        context["iconClass"] = ((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")) ? (twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")) : ("icon-angle-right"));
+        sb.append("\t\n\t\t\t\t");
+        // line 25
+        if (("iconClass" in context ? context["iconClass"] : null)) {
+            sb.append("    \n\t\t\t\t\t<span class=\"icon ");
+            // line 26
+            sb.append(twig.filter.escape(this.env_, ("iconClass" in context ? context["iconClass"] : null), "html", null, true));
+            sb.append(" colorAs\" option-id=");
+            sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id"), "html", null, true));
+            sb.append(" ><\/span>\n\t\t\t\t");
+        }
+        // line 28
+        sb.append("\t\t\t\t\n\t      <span class=\"option-name\" option-id=");
+        // line 29
+        sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id"), "html", null, true));
+        sb.append(" >");
+        sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "nameShort")), "html", null, true));
+        sb.append("<\/span> \n\n\t      ");
+        // line 31
+        if (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null)) {
+            // line 32
+            sb.append("\t      \t<span class=\"inline-option\">(\n\t      \t\t");
+            // line 33
+            var seq1 = twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "children");
+            var loop1 = {
+                'parent': loop,
+                'index0': 0,
+                'index': 1,
+                'first': true
+            };
+            if (twig.countable(seq1)) {
+                var length = twig.count(seq1);
+                loop1['revindex0'] = length - 1;
+                loop1['revindex'] = length;
+                loop1['length'] = length;
+                loop1['last'] = 1 === length;
+            }
+            twig.forEach(seq1, function(v1, k1) {
+                context["_key"] = k1;
+                context["suboptionValue"] = v1;
+                sb.append(" \n\t      \t\t\t<span>");
+                // line 34
+                sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("suboptionValue" in context ? context["suboptionValue"] : null), "option"), "name"), "html", null, true));
+                sb.append(" ");
+                if ((!twig.attr(loop1, "last"))) {
+                    sb.append(", ");
+                }
+                sb.append("<\/span> \n\t      \t\t\t\n\t      \t");
+                ++loop1['index0'];
+                ++loop1['index'];
+                loop1['first'] = false;
+                if (loop1['length']) {
+                    --loop1['revindex0'];
+                    --loop1['revindex'];
+                    loop1['last'] = 0 === loop1['revindex0'];
+                }
+            }, this);
+            // line 36
+            sb.append(")\n\t      <\/span>\n\t      ");
+        }
+        // line 39
+        sb.append("\n\t    <\/span>\n\t    ");
+        // line 41
+        if (twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) {
+            // line 42
+            sb.append("\t    \t<span class=\"col s6 m8 option-description\">");
+            sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("optionValue" in context ? context["optionValue"] : null), "description")), "html", null, true));
+            sb.append("<\/span>\n\t    ");
+        }
+        // line 44
+        sb.append("\t  <\/div>\n\n\t");
         // line 46
+        context["subcategoriesCount"] = twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), "length");
+        // line 47
+        sb.append("\t");
+        if (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null)) {
+            context["subcategoriesCount"] = ((("subcategoriesCount" in context ? context["subcategoriesCount"] : null)) - (1));
+        }
+        // line 48
+        sb.append("\n\t");
+        // line 49
         var seq1 = twig.attr(("optionValue" in context ? context["optionValue"] : null), "children");
         var loop1 = {
             'parent': loop,
@@ -160,16 +188,16 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
         twig.forEach(seq1, function(v1, k1) {
             context["_key"] = k1;
             context["subcategory"] = v1;
-            // line 47
+            // line 50
             sb.append("\n\t\t");
-            // line 48
+            // line 51
             if ((!((twig.attr(loop1, "first")) && (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null))))) {
-                // line 49
+                // line 52
                 sb.append("\t\t\t");
-                (new biopen_twigJs_category_value(this.env_)).render_(sb, twig.extend({}, context, {"categoryValue": ("subcategory" in context ? context["subcategory"] : null)}));
+                (new biopen_twigJs_category_value(this.env_)).render_(sb, twig.extend({}, context, {"categoryValue": ("subcategory" in context ? context["subcategory"] : null), "subcategoriesCount": ("subcategoriesCount" in context ? context["subcategoriesCount"] : null)}));
                 sb.append(" \n\t\t");
             }
-            // line 51
+            // line 54
             sb.append("\n\t");
             ++loop1['index0'];
             ++loop1['index'];
@@ -180,7 +208,7 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
                 loop1['last'] = 0 === loop1['revindex0'];
             }
         }, this);
-        // line 52
+        // line 55
         sb.append(" \n\n");
         ++loop['index0'];
         ++loop['index'];
@@ -191,11 +219,11 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
             loop['last'] = 0 === loop['revindex0'];
         }
     }, this);
-    // line 54
+    // line 57
     sb.append(" \n\n");
-    // line 56
+    // line 59
     if (("displayThisCategoryValue" in context ? context["displayThisCategoryValue"] : null)) {
-        // line 57
+        // line 60
         sb.append("\t<!-- div end for category-wrapper -->\n\t<\/div>\n");
     }
 };
@@ -217,53 +245,56 @@ biopen_twigJs_category_value.prototype.isTraitable = function() {
 };
 /* {% twig_js name="biopen_twigJs_category_value" %}*/
 /* */
-/* {% set displayThisCategoryValue = categoryValue.children.length > 1 %}*/
+/* {% set displayThisCategoryValue = categoryValue.children.length > 0 %}*/
 /* */
 /* {% if displayThisCategoryValue %}*/
 /* 	<div class="category-wrapper">*/
-/* 	<div class="category-name">{{ categoryValue.category.name }}</div>*/
+/* 	{% if subcategoriesCount > 1 %}*/
+/* 		<div class="category-name">{{ categoryValue.category.name }}</div>*/
+/* 		{% endif %}*/
 /* {% endif %}*/
 /* */
 /* {% for optionValue in categoryValue.children %}*/
-/* */
-/* 	{% if displayThisCategoryValue %}*/
-/* */
-/* 		<!-- if subcategory.last children, prendre first categorie qui est pas avec description, puis enelevr cette categorie de la liste*/
-/* 		des catégories-->*/
 /* */
 /* 		{% set displayFirstCategoryInline = not categoryValue.category.enableDescription */
 /* 																		and optionValue.children.length > 0 */
 /* 																		and optionValue.children[0].isLastCategoryDepth */
 /* 																		and not optionValue.children[0].category.enableDescription %}*/
 /* */
-/* 		{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}*/
+/* 		{#{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}#}*/
 /* 		{% set colWidth = categoryValue.category.enableDescription ? 's6 m4' : 's12' %}*/
 /* 	  <div class='row {% if loop.first %}strong{% endif %}'>*/
-/* 	    <span class="option-value col {{ colWidth }} {{ isDisabled }}">*/
+/* 	    <span class="option-value col {{ colWidth }}">*/
 /* */
-/* 	    	{% set iconClass = optionValue.option.useColorForMarker ? 'icon-marker' : optionValue.option.icon %}	*/
+/* 	    	{% set iconClass = optionValue.option.icon ? optionValue.option.icon : 'icon-angle-right' %}	*/
 /* 				{% if iconClass %}    */
-/* 					<span class="icon {{ iconClass }} {{ isDisabled }}  colorAs" option-id={{ optionValue.option.id }} ></span>*/
+/* 					<span class="icon {{ iconClass }} colorAs" option-id={{ optionValue.option.id }} ></span>*/
 /* 				{% endif %}*/
-/* */
-/* 	      <span class="option-name">{{ optionValue.option.nameShort|capitalize }}</span> */
+/* 				*/
+/* 	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> */
 /* */
 /* 	      {% if displayFirstCategoryInline %}*/
-/* 	      	<span class="inline-option">( {% for suboptionValue in optionValue.children[0].children %} {{ suboptionValue.option.name }} {% endfor %} )</span>*/
+/* 	      	<span class="inline-option">(*/
+/* 	      		{% for suboptionValue in optionValue.children[0].children %} */
+/* 	      			<span>{{ suboptionValue.option.name }} {% if not loop.last %}, {% endif %}</span> */
+/* 	      			*/
+/* 	      	{% endfor %})*/
+/* 	      </span>*/
 /* 	      {% endif %}*/
 /* */
 /* 	    </span>*/
 /* 	    {% if categoryValue.category.enableDescription %}*/
-/* 	    	<span class="col s6 m8 option-description {{ isDisabled }}">{{ optionValue.description|capitalize }}</span>*/
+/* 	    	<span class="col s6 m8 option-description">{{ optionValue.description|capitalize }}</span>*/
 /* 	    {% endif %}*/
 /* 	  </div>*/
 /* */
-/* 	{% endif %}*/
+/* 	{% set subcategoriesCount = optionValue.children.length %}*/
+/* 	{% if displayFirstCategoryInline %}{% set subcategoriesCount = subcategoriesCount - 1 %}{% endif %}*/
 /* */
 /* 	{% for subcategory in optionValue.children %}*/
 /* */
 /* 		{% if not (loop.first and displayFirstCategoryInline) %}*/
-/* 			{% include '@directory/directory/twig-js-templates/element-info-category-value.html.twig' with { 'categoryValue' : subcategory } %} */
+/* 			{% include '@directory/directory/twig-js-templates/element-info-category-value.html.twig' with { 'categoryValue' : subcategory, 'subcategoriesCount' : subcategoriesCount } %} */
 /* 		{% endif %}*/
 /* */
 /* 	{% endfor %} */

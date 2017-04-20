@@ -136,7 +136,7 @@ export class Element
 
 	hide() 
 	{		
-		if (this.biopenMarker_) this.biopenMarker_.hide();
+		if (this.biopenMarker_ && App.mode == AppModes.Map) this.biopenMarker_.hide();
 		this.isVisible_ = false;
 		// unbound events (click etc...)?
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();

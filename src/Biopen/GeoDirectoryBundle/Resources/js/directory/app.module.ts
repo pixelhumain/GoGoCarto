@@ -31,6 +31,7 @@ import { HistoryModule, HistoryState } from './modules/history.module';
 
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
+import { initializeVoting } from "./components/vote.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 import { Element } from "./classes/element.class";
@@ -51,6 +52,7 @@ $(document).ready(function()
 
    initializeAppInteractions();
    initializeElementMenu();
+   initializeVoting();
 });
 
 /*

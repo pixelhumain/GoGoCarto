@@ -69,11 +69,14 @@
 
     </div>
 
-    {% if element.isPending() %}
-        <div class="collapsible-header-pending-section">
-          <span class="icon-attention"></span>
-          <span class="text">Attention cet acteur est en cours de validation</span>
-          <span class="btn btn-vote waves-effect waves-light">Voter</span>
+    {% if element.isPending() and not listingMode %}
+        <div class="vote-section">
+          <span class="basic-message">
+            <span class="icon-attention"></span>
+            <span class="text">Attention cet acteur est en cours de validation</span>
+            <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
+          </span>
+          <div class="result-message" style="display:none"></div>
         </div>
     {% endif %}
 
@@ -84,6 +87,17 @@
   
     {# Menu in constellation mode #}
     {% if listingMode %}
+       {% if element.isPending() %}
+      <div class="vote-section">
+          <span class="basic-message">
+            <span class="icon-attention"></span>
+            <span class="text">Attention cet acteur est en cours de validation</span>
+            <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
+          </span>
+          <div class="result-message" style="display:none"></div>
+      </div>
+      {% endif %}
+
       <div class="menu-element bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">

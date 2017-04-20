@@ -1,0 +1,63 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-04-20 15:39:46
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-04-20 18:18:38
+*/
+
+
+.element-item .vote-section
+{
+	background-color: $primary-color;//#4a8680;
+	padding: 0 1rem 0 .8rem;
+	@media #{$medium-and-up} { padding: 0 1rem 0 1.6rem; }
+	// border-top: 1px solid #565656;
+	// border-bottom: 1px solid #797979;
+	position: relative;
+	line-height: 3rem;
+
+	.icon-attention
+	{
+		color: white;
+		font-size: 20px;
+		padding-top: 3px;
+		position: absolute;
+	}
+
+	.text { padding-left : 2.2rem; color: white;}
+
+	.result-message
+	{
+		text-align: center;
+	  font-weight: bold;
+	  color: white;
+	}
+
+	.btn-vote 
+	{ 
+		position: absolute; 
+		right: 1rem;
+		bottom: 7px;
+		margin: 0;
+    background-color: #dedede;
+    color: #272626;
+    font-size: .85rem;
+	}
+}
+
+#modal-vote
+{
+	#select-error
+	{
+		display:none;
+		color: $error-color;
+	}
+
+	.vote-option-radio-label
+	{
+		margin-top: .5rem;
+		display: block !important;
+		height: auto !important;
+	}
+}
+	
