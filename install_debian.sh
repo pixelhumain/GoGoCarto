@@ -84,6 +84,10 @@ cd CartoV3/
 chmod 777 /var/log/mongodb/mongod.log
 chmod 777 /var/lib/mongodb
 chmod 777 /var/log/mongodb
+chmod 777 /var/www/html/CartoV3/var
+
+sudo setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX var/cache var/logs
+
 
 apt-get clean
 
