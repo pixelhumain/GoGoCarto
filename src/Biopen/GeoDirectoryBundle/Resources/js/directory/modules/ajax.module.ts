@@ -46,6 +46,8 @@ export class AjaxModule
 
 	loaderTimer = null;
 
+	allElementsReceived = false;
+
 	constructor() { }  
 
 	getElementsAroundLocation($location, $distance, $maxResults = 0)
@@ -67,6 +69,8 @@ export class AjaxModule
 
 	private getElements($request : Request)
 	{
+		if (this.allElementsReceived) { console.log("All elements already received"); return; }
+
 		if (this.isRetrievingElements)
 		{		
 			this.requestWaitingToBeExecuted = true;
@@ -96,25 +100,34 @@ export class AjaxModule
 				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 2000); 
 			},
 			success: response =>
-			{	        
-			  //console.log("Ajax response", response.data[0]);
+			{	
 
-			  if (response.data !== null)
+			  // let elements = [];
+			  // for(let key in response[0])
+			  // {
+			  // 	elements.push(response[0][key]);
+			  // }
+
+			  //console.log("Ajax response", response);
+
+			  if (response !== null)
 				{
-					let end = new Date().getTime();
-					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					let end = new Date().getTime();					
+					console.log("receive " + response.length + " elements in " + (end-start) + " ms");				
 
-					this.onNewElements.emit(response.data);				
+					this.onNewElements.emit(response);				
 				}
+
+				if (response.length > 2) this.allElementsReceived = true;
 			  
-				if (response.exceedMaxResult)
-				{
-					//console.log("   moreElementsToReceive");
-					if (!this.requestWaitingToBeExecuted) 
-					{        			
-						this.getElements(this.currRequest);
-					}
-				}	        
+				// if (response.exceedMaxResult)
+				// {
+				// 	//console.log("   moreElementsToReceive");
+				// 	if (!this.requestWaitingToBeExecuted) 
+				// 	{        			
+				// 		this.getElements(this.currRequest);
+				// 	}
+				// }	        
 			},
 			complete: () =>
 			{
@@ -146,15 +159,15 @@ export class AjaxModule
 			data: { elementId: elementId },
 			success: response => 
 			{	        
-				if (response.data)
+				if (response)
 				{
 					let end = new Date().getTime();
-					//window.console.log("receive elementById in " + (end-start) + " ms", response.data);			
+					//window.console.log("receive elementById in " + (end-start) + " ms", response);			
 
-					if (callbackSuccess) callbackSuccess(response.data); 
-					//this.onNewElement.emit(response.data);							
+					if (callbackSuccess) callbackSuccess(response); 
+					//this.onNewElement.emit(response);							
 				}	
-				else if (callbackFailure) callbackFailure(response.data); 				       
+				else if (callbackFailure) callbackFailure(response); 				       
 			},
 			error: response =>
 			{

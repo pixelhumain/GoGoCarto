@@ -5,6 +5,7 @@ import { initAutoCompletionForElement } from "../../../commons/search-bar.compon
 import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
+/// <reference types="leaflet" />
 
 declare let App : AppModule;
 declare var $, L : any;
@@ -106,7 +107,7 @@ export class MapComponent
 		    }
 		});
 
-		this.map_.addLayer(this.markerClustererGroup);
+		//this.addMarkerClusterGroup();
 
 		L.control.zoom({
 		   position:'topright'
@@ -141,6 +142,8 @@ export class MapComponent
 		//console.log("map init done");
 		this.onMapReady.emit();
 	};
+
+	addMarkerClusterGroup() { this.map_.addLayer(this.markerClustererGroup); }
 
 	resize()
 	{

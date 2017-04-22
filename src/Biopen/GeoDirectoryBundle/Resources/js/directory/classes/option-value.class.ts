@@ -15,7 +15,7 @@ export class OptionValue
 
 	constructor( $optionValueJson )
 	{
-		this.optionId = $optionValueJson.option_id;
+		this.optionId = $optionValueJson.optionId;
 		this.index = $optionValueJson.index;
 		this.description = $optionValueJson.description || '';
 	}

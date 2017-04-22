@@ -165,8 +165,8 @@ export class DirectoryMenuComponent
 		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
 		if (oldId != null) App.historyModule.updateCurrState();
 		
-		App.elementModule.updateElementToDisplay(true,true);
-		App.elementModule.updateCurrentsElements();
+		App.elementModule.updateElementToDisplay(true,true, true);
+		//App.elementModule.updateCurrentsElements(true);
 	}
 
 	updateMainOptionBackground()

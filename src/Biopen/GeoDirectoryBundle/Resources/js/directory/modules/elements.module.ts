@@ -70,6 +70,7 @@ export class ElementsModule
 		let element : Element, elementJson;
 		let newElementsCount = 0;
 		//console.log("ElementModule adds " + elementList.length);
+		let start = new Date().getTime();
 		for (let i = 0; i < elementList.length; i++)
 		{
 			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
@@ -92,6 +93,8 @@ export class ElementsModule
 			}		
 		}
 		this.checkCookies();
+		let end = new Date().getTime();
+		console.log("AddJsonElements inin " + (end-start) + " ms");	
 		//console.log("ElementModule really added " + newElementsCount);
 		return newElementsCount;
 	};
@@ -141,18 +144,26 @@ export class ElementsModule
 		this.clearCurrVisibleElements();
 	}
 
-	updateCurrentsElements()
+	updateCurrentsElements(somethingChanged : boolean = false)
 	{
 		//console.log("UpdateCurrElements");
+		let start = new Date().getTime();
 		let l = this.currVisibleElements().length;
+		let element : Element;
 		while(l--)
 		{
-			this.currVisibleElements()[l].update();
+			element = this.currVisibleElements()[l];
+			if ($('#marker-'+element.id).is(':visible')) 
+				element.update();
+			else if (somethingChanged) element.needToBeUpdatedWhenShown = true;
 		}
+		let end = new Date().getTime();
+		let time = end - start;
+		window.console.log("updateCurrentsElements " + time + " ms");
 	}
 
 	// check elements in bounds and who are not filtered
-	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
+	updateElementToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
 	{	
 		// in these state,there is no need to update elements to display
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
@@ -226,7 +237,9 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		//window.console.log("    analyse elements en " + time + " ms");	
+		window.console.log("UpdateElementsToDisplay en " + time + " ms");	
+
+		this.updateCurrentsElements(filterHasChanged);
 
 		if (elementsChanged || forceRepaint)
 		{		

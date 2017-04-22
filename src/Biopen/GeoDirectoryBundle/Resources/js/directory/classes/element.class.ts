@@ -63,6 +63,8 @@ export class Element
 
 	isFavorite : boolean= false;
 
+	needToBeUpdatedWhenShown : boolean = false;
+
 	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
@@ -71,16 +73,16 @@ export class Element
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
-		this.webSite = elementJson.web_site;
+		this.webSite = elementJson.webSite;
 		this.mail = elementJson.mail;
-		this.openHours = elementJson.open_hours;
-		this.openHoursMoreInfos =  elementJson.open_hours_more_infos;
+		this.openHours = elementJson.openHours;
+		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;
 
 		// initialize formated open hours
 		this.getFormatedOpenHours();
 
 		let newOption : OptionValue, ownerId : number;
-		for (let optionValueJson of elementJson.option_values)
+		for (let optionValueJson of elementJson.optionValues)
 		{
 			newOption = new OptionValue(optionValueJson);
 
@@ -106,19 +108,17 @@ export class Element
 
 	initialize() 
 	{		
-		if (!this.isInitialized_) 
-		{
-			this.createOptionsTree();
-			this.updateIconsToDisplay();
+		this.createOptionsTree();
+		this.updateIconsToDisplay();
 
-			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
-			this.isInitialized_ = true;
-		}		
+		this.biopenMarker_ = new BiopenMarker(this.id, this.position);
+		this.isInitialized_ = true;	
 	}
 
 	show() 
 	{		
-		this.update();
+		if (!this.isInitialized_) this.initialize();	
+		//this.update();
 		//this.biopenMarker_.update();
 		this.biopenMarker_.show();
 		this.isVisible_ = true;		
@@ -126,7 +126,7 @@ export class Element
 
 	hide() 
 	{		
-		if (this.biopenMarker_) this.biopenMarker_.hide();
+		//if (this.biopenMarker_) this.biopenMarker_.hide();
 		this.isVisible_ = false;
 		// unbound events (click etc...)?
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
@@ -135,10 +135,11 @@ export class Element
 	update()
 	{
 		if (!this.isInitialized_) this.initialize();	
-		else
+		else if (this.needToBeUpdatedWhenShown)
 		{
 			this.updateIconsToDisplay();
 			if (this.marker) this.marker.update();
+			this.needToBeUpdatedWhenShown = false;
 		}		
 	}
 

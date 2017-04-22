@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-28 09:18:03
+ * @Last Modified time: 2017-04-22 15:58:05
  */
  
 
@@ -41,7 +41,8 @@ class RandomCreationController extends Controller
 	            ->findOneByDepth(0);
 
 
-	    $lipsum = new LoremIpsum();	   
+	    $lipsum = new LoremIpsum();	
+	    //$serializer = $this->container->get('jms_serializer');   
 
 	    for ($i= 0; $i < $nombre; $i++) 
 	    {
@@ -63,14 +64,14 @@ class RandomCreationController extends Controller
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
 	      $new_element->setContributor('true');
-	      $new_element->setContributorMail('contributor@gmail.com');		
+	      $new_element->setContributorMail('contributor@gmail.com');
 		   
-	      $manager->persist($new_element);
+	      $manager->persist($new_element);      
 	    }
 
 	    dump($new_element);
 
-	    $manager->flush();
+	    $manager->flush();	    
 
 	    return new Response('Elements générés');
   }

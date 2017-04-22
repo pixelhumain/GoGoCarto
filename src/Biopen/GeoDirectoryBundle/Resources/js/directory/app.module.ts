@@ -553,13 +553,14 @@ export class AppModule
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
 		if (!elementsJson || elementsJson.length === 0) return;
-		let newelements = this.elementModule.addJsonElements(elementsJson, true);
-		if (newelements > 0) this.elementModule.updateElementToDisplay(); 
+		let newelements = this.elementModule.addJsonElements(elementsJson, false);
+		if (newelements > 0) this.elementModule.updateElementToDisplay(true,true,true); 
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		//console.log("handleElementsChanged new : ", result);
+		console.log("handleElementsChanged new : " + result.newElements.length, result);
+		let start = new Date().getTime();
 
 		if (this.mode_ == AppModes.List)
 		{
@@ -576,6 +577,16 @@ export class AppModule
 				if (!element.isShownAlone) element.hide();
 			}
 		}
+
+		// on add markerClusterGroup after first elements received
+		if (result.newElements.length > 0) 
+		{
+			this.mapComponent.addMarkerClusterGroup();
+			//this.elementModule.updateCurrentsElements();
+		}
+
+		let end = new Date().getTime();
+		console.log("ElementsChanged in " + (end-start) + " ms");	
 	}; 
 
 	handleInfoBarHide()

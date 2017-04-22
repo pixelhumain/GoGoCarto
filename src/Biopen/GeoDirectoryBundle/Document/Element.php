@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 17:00:47
+ * @Last Modified time: 2017-04-22 15:51:47
  */
  
 
@@ -19,6 +19,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * Element
  *
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
+ * @MongoDB\HasLifecycleCallbacks 
  */
 class Element
 {
@@ -34,98 +35,98 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $name;
+    public $name;
 
     /**
      * 
      *
      * @MongoDB\Field(type="float")
      */
-    private $lat;
+    public $lat;
 
     /**
      * 
      *
      * @MongoDB\Field(type="float")
      */
-    private $lng;
+    public $lng;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $address;
+    public $address;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $postalCode;
+    public $postalCode;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=false)
      */
-    private $description;
+    public $description;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $tel;
+    public $tel;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $mail;
+    public $mail;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $webSite;
+    public $webSite;
     
     /**
      * @var \stdClass
      *
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
-    private $optionValues;
+    public $optionValues;
 
     /**
      * @var \stdClass
      *
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
-    private $openHours;
+    public $openHours;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=true)
      */
-    private $openHoursMoreInfos;
+    public $openHoursMoreInfos;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $contributor;
+    public $contributor;
 
    /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $contributorMail;
+    public $contributorMail;
 
    /**
      * @var string
@@ -140,6 +141,13 @@ class Element
      * MongoDB\Field(type="boolean")
      */
     private $valide = false;
+
+    /** 
+     * @var string 
+     * 
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $json; 
 
 
     /**
@@ -162,6 +170,29 @@ class Element
     {
         $this->optionValues = [];
     } 
+
+    /** @MongoDB\PrePersist */
+    public function doOtherStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    {
+        $responseJson =  json_encode($this);  
+        $this->json = $responseJson;
+        //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
+    }
+
+     /** @PrePersist */
+    // public function doStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    // {
+    //     $this->createdAt = date('Y-m-d H:i:s');
+    // }
+
+    /** @MongoDB\PostPersist */
+    // public function doStuffOnPostPersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    // {
+    //     $responseJson =  json_encode($this);  
+    //    //   $new_element->setJson($responseJson);   
+    //     //$this->json = 'changed from postPersist callback! ID = ' . $this->id;
+    //     $this->json = $responseJson;
+    // }
 
 
     /**
@@ -534,4 +565,30 @@ class Element
     {
         return $this->optionValues;
     }
+
+    /** 
+     * Set json 
+     * 
+     * @param string $json 
+     * @return $this 
+     */ 
+    public function setJson($json) 
+    { 
+        $this->json = $json; 
+        return $this; 
+    } 
+ 
+    /** 
+     * Remove category 
+     * Get json 
+     * 
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category 
+     * @return string $json 
+     */ 
+    public function getJson() 
+    { 
+        return $this->json;
+        //return preg_replace('/"([^"]+)"\s*:\s*/', '$1:', $this->json); 
+        //return decode_json($this->json); 
+    } 
 }
