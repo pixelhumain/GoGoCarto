@@ -146,7 +146,7 @@ parameters:
 php bin/console assets:install --symlink web ;
 
 gulp build ;
-gulp production ;
+#gulp production ;
 
 php bin/console doctrine:mongodb:schema:create ;
 php bin/console doctrine:mongodb:generate:hydrators ;
@@ -156,8 +156,7 @@ php bin/console doctrine:mongodb:fixtures:load ;
 php bin/console doctrine:schema:update --force
 php bin/console doctrine:fixtures:load
 
-php bin/console cache:clear --env=prod ;
-php bin/console assetic:dump --env=prod ;
+php bin/console cache:clear  ;
 
 # services au démarrage
 systemctl enable mongod
