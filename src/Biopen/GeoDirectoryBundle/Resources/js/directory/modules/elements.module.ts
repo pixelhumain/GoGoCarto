@@ -65,11 +65,11 @@ export class ElementsModule
 	  	}
 	};
 
-	addJsonElements (elementList, checkIfAlreadyExist = true)
+	addJsonElements (elementList, checkIfAlreadyExist = true) : Element[]
 	{
 		let element : Element, elementJson;
-		let newElementsCount = 0;
-		//console.log("ElementModule adds " + elementList.length);
+		let newElements : Element[] = [];
+		//console.log("ElementModule addJsonElements " + elementList.length);
 		let start = new Date().getTime();
 		for (let i = 0; i < elementList.length; i++)
 		{
@@ -78,6 +78,7 @@ export class ElementsModule
 			if (!checkIfAlreadyExist || !this.getElementById(elementJson.id))
 			{
 				element = new Element(elementJson);
+				element.initialize();
 
 				for (let mainId of element.mainOptionOwnerIds)
 				{
@@ -85,7 +86,7 @@ export class ElementsModule
 				}				
 				this.everyElements_['all'].push(element);
 
-				newElementsCount++;
+				newElements.push(element);
 			}
 			else
 			{
@@ -94,9 +95,9 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
-		console.log("AddJsonElements inin " + (end-start) + " ms");	
+		console.log("AddJsonElements in " + (end-start) + " ms");	
 		//console.log("ElementModule really added " + newElementsCount);
-		return newElementsCount;
+		return newElements;
 	};
 
 	showElement(element : Element)
@@ -146,16 +147,17 @@ export class ElementsModule
 
 	updateCurrentsElements(somethingChanged : boolean = false)
 	{
-		//console.log("UpdateCurrElements");
+		console.log("UpdateCurrElements somethingChanged", somethingChanged);
 		let start = new Date().getTime();
 		let l = this.currVisibleElements().length;
 		let element : Element;
 		while(l--)
 		{
 			element = this.currVisibleElements()[l];
-			if ($('#marker-'+element.id).is(':visible')) 
-				element.update();
-			else if (somethingChanged) element.needToBeUpdatedWhenShown = true;
+			if (somethingChanged) element.needToBeUpdatedWhenShown = true;
+
+			// if domMarker not visible that's mean that marker is in a cluster
+			if (element.marker.domMarker().is(':visible')) element.update();
 		}
 		let end = new Date().getTime();
 		let time = end - start;
@@ -237,9 +239,7 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		window.console.log("UpdateElementsToDisplay en " + time + " ms");	
-
-		this.updateCurrentsElements(filterHasChanged);
+		window.console.log("UpdateElementsToDisplay en " + time + " ms");		
 
 		if (elementsChanged || forceRepaint)
 		{		
@@ -249,6 +249,8 @@ export class ElementsModule
 				elementsToRemove : elementsToRemove
 			});		
 		}
+
+		this.updateCurrentsElements(filterHasChanged);
 
 		
 	};

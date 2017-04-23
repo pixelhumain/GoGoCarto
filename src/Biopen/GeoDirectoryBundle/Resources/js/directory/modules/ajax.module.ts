@@ -71,8 +71,11 @@ export class AjaxModule
 	{
 		if (this.allElementsReceived) { console.log("All elements already received"); return; }
 
+		console.log("Ajax get elements request ");
+
 		if (this.isRetrievingElements)
 		{		
+			console.log("isRetrieving");
 			this.requestWaitingToBeExecuted = true;
 			this.waitingRequest = $request;
 			return;
@@ -83,7 +86,7 @@ export class AjaxModule
 		let start = new Date().getTime();
 		let route = Routing.generate('biopen_api_elements_around_location');
 
-		//console.log("Ajax get elements request  elementsId = ", $request.elementIds.length);
+		
 		
 		$.ajax({
 			url: route,

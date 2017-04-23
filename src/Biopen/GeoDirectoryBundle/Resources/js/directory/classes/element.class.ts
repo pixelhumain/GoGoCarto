@@ -63,7 +63,7 @@ export class Element
 
 	isFavorite : boolean= false;
 
-	needToBeUpdatedWhenShown : boolean = false;
+	needToBeUpdatedWhenShown : boolean = true;
 
 	constructor(elementJson : any)
 	{
@@ -134,6 +134,7 @@ export class Element
 
 	update()
 	{
+		console.log("marker update needTiBeUpdated", this.needToBeUpdatedWhenShown);
 		if (!this.isInitialized_) this.initialize();	
 		else if (this.needToBeUpdatedWhenShown)
 		{

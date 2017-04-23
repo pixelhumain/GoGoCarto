@@ -68,7 +68,6 @@ export class MapComponent
 	markerClustererGroup;
 	isInitialized : boolean = false;
 	isMapLoaded : boolean = false;
-	clusterer_ = null;
 	oldZoom = -1;
 	viewport : ViewPort = null;
 
@@ -76,7 +75,6 @@ export class MapComponent
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
 	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
-	getClusterer() { return this.clusterer_; };
 	getZoom() { return this.map_.getZoom(); }
 	getOldZoom() { return this.oldZoom; }
 
@@ -100,6 +98,7 @@ export class MapComponent
 		    spiderfyOnHover: false,
 		    spiderfyMaxCount: 8,
 		    spiderfyDistanceMultiplier: 1.1,
+		    chunkedLoading: true,
 		    maxClusterRadius: (zoom) =>
 		    {
 		    	if (zoom > 9) return 55;
@@ -107,7 +106,7 @@ export class MapComponent
 		    }
 		});
 
-		//this.addMarkerClusterGroup();
+		this.addMarkerClusterGroup();
 
 		L.control.zoom({
 		   position:'topright'
@@ -161,9 +160,20 @@ export class MapComponent
 		this.markerClustererGroup.addLayer(marker);
 	}
 
+	addMarkers(markers : L.Marker[])
+	{
+		console.log("MapComponent AddMarkers", markers.length);
+		if (this.markerClustererGroup) this.markerClustererGroup.addLayers(markers);
+	}
+
 	removeMarker(marker : L.Marker)
 	{
 		this.markerClustererGroup.removeLayer(marker);
+	}
+
+	removeMarkers(markers : L.Marker[])
+	{
+		if (this.markerClustererGroup) this.markerClustererGroup.removeLayers(markers);
 	}
 
 	// fit map view to bounds

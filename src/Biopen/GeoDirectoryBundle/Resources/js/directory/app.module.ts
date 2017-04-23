@@ -552,9 +552,17 @@ export class AppModule
 
 	handleNewElementsReceivedFromServer(elementsJson)
 	{
+		
 		if (!elementsJson || elementsJson.length === 0) return;
-		let newelements = this.elementModule.addJsonElements(elementsJson, false);
-		if (newelements > 0) this.elementModule.updateElementToDisplay(true,true,true); 
+		//console.log("handleNewMarkersFromServer", elementsJson.length);
+		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, false);
+		//console.log("new Elements length", newElements.length);
+		
+		// on add markerClusterGroup after first elements received
+		if (newElements.length > 0) 
+		{
+			this.elementModule.updateElementToDisplay(true,true);	
+		}
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
@@ -576,14 +584,14 @@ export class AppModule
 			{
 				if (!element.isShownAlone) element.hide();
 			}
-		}
+		}	
 
-		// on add markerClusterGroup after first elements received
-		if (result.newElements.length > 0) 
-		{
-			this.mapComponent.addMarkerClusterGroup();
-			//this.elementModule.updateCurrentsElements();
-		}
+		let newMarkers = result.newElements.map( (e) => e.marker.getRichMarker());
+		let markersToRemove = result.elementsToRemove.filter((e) => !e.isShownAlone).map( (e) => e.marker.getRichMarker());
+		//console.log("New markers", markers)
+		this.mapComponent.addMarkers(newMarkers);
+		this.mapComponent.removeMarkers(markersToRemove);
+		
 
 		let end = new Date().getTime();
 		console.log("ElementsChanged in " + (end-start) + " ms");	
@@ -680,7 +688,6 @@ export class AppModule
 	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
 	elements() { return this.elementsModule_.currVisibleElements();  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
-	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
 
 	get constellation() { return null; }
 

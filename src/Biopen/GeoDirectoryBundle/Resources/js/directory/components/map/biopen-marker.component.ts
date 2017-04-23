@@ -77,7 +77,7 @@ export class BiopenMarker
 		return App.infoBarComponent.getCurrElementId() == this.id_;
 	}
 
-	private domMarker()
+	domMarker()
 	{
 		return $('#marker-'+ this.id_);
 	}
@@ -300,14 +300,14 @@ export class BiopenMarker
 
 	show () 
 	{	
-		App.mapComponent.addMarker(this.richMarker_);
+		//App.mapComponent.addMarker(this.richMarker_);
 		//this.richMarker_.addTo(App.map());
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{			
-		App.mapComponent.removeMarker(this.richMarker_);
+		//App.mapComponent.removeMarker(this.richMarker_);
 		//this.richMarker_.remove();
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
