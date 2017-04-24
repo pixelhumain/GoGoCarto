@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-22 15:46:13
+ * @Last Modified time: 2017-04-24 15:05:52
  */
  
 
@@ -22,61 +22,13 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ElementRepository extends DocumentRepository
 {
-	public function findFromPoint($distance, $point, $maxResult = 0)
-	{	 
-    // $qb = $this->createQueryBuilder('element');
+  public function findAround($lat, $lng, $distance)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    // $qb = $this->createQueryBuilder()
-    //   ->select('element as Element, DISTANCE(element.latlng, POINT_STR(:point))*100 AS distance')
-    //   ->setParameter('point',$point)
-    //   ->from($this->_entityName, 'element')
-    //   ->where('element.valide = 0')
-    //   ->andwhere('DISTANCE(element.latlng, POINT_STR(:point))*100 < :distance')
-    //   ->setParameter('distance', $distance)
-    //   ->orderBy('distance')  
-    //   ->leftjoin('element.products', 'elementProduct')
-    //   ->addSelect('elementProduct')
-    //   ->leftjoin('elementProduct.product', 'product')
-    //   ->addSelect('product');
-    // ;
-
-    $repository = $this->get('doctrine_mongodb')
-    ->getManager()
-    ->getRepository('BiopenGeoDirectoryBundle:element');
-    // $qb = $this->createQueryBuilder('element');
-    $repository->findAll();
-
-    // Puis on ne retourne que $limit résultats
-    if ($maxResult != 0) $qb->setMaxResults(intval($maxResult));
-
-    // Enfin, on retourne le résultat
-    return $qb
-      ->getQuery()
-      ->getResult()
-      ;
-  	}
-
-  public function findAllElements()
-  {  
-   $qb = $this->createQueryBuilder('element');
-
-    $qb = $this->_em->createQueryBuilder()
-      ->select('element as Element')
-      ->from($this->_entityName, 'element')
-      ->where('element.valide = 0')
-      ->leftjoin('element.products', 'elementProduct')
-      ->addSelect('elementProduct')
-      ->leftjoin('elementProduct.product', 'product')
-      ->addSelect('product');
-    ;
-
-    // Puis on ne retourne que $limit résultats
-    //$qb->setMaxResults(10);
-
-    // Enfin, on retourne le résultat
-    return $qb
-      ->getQuery()
-      ->getResult()
-      ;
-    }
+    // convert kilometre in degrees
+    $radius = $distance / 110;
+    return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
+              ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+  }
 }

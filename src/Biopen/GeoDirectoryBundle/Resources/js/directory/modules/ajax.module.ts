@@ -71,7 +71,7 @@ export class AjaxModule
 	{
 		if (this.allElementsReceived) { console.log("All elements already received"); return; }
 
-		console.log("Ajax get elements request ");
+		//console.log("Ajax get elements request ");
 
 		if (this.isRetrievingElements)
 		{		
@@ -84,9 +84,7 @@ export class AjaxModule
 		this.currRequest = $request;
 
 		let start = new Date().getTime();
-		let route = Routing.generate('biopen_api_elements_around_location');
-
-		
+		let route = Routing.generate('biopen_api_elements_around_location');		
 		
 		$.ajax({
 			url: route,
@@ -121,7 +119,7 @@ export class AjaxModule
 					this.onNewElements.emit(response);				
 				}
 
-				if (response.length > 2) this.allElementsReceived = true;
+				//if (response.length > 2) this.allElementsReceived = true;
 			  
 				// if (response.exceedMaxResult)
 				// {

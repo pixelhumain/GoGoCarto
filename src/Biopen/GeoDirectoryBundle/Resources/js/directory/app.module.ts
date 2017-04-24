@@ -551,12 +551,11 @@ export class AppModule
 	
 
 	handleNewElementsReceivedFromServer(elementsJson)
-	{
-		
+	{		
 		if (!elementsJson || elementsJson.length === 0) return;
 		//console.log("handleNewMarkersFromServer", elementsJson.length);
-		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, false);
-		//console.log("new Elements length", newElements.length);
+		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, true);
+		console.log("new Elements length", newElements.length);
 		
 		// on add markerClusterGroup after first elements received
 		if (newElements.length > 0) 

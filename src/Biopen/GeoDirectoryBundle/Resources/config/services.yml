@@ -7,3 +7,7 @@ services:
     biopen.element_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementService
        arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
+
+    biopen.random_creation_service:
+       class: Biopen\GeoDirectoryBundle\Services\RandomCreationService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager" ]

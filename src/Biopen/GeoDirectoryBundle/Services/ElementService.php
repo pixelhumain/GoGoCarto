@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-05 18:21:04
+ * @Last Modified time: 2017-04-24 14:34:55
  */
  
 
@@ -19,52 +19,13 @@ class ElementService
 {	
 	protected $em;
 
-	protected $alreadySendElementIds;
-
 	/**
      * Constructor
      */
     public function __construct(DocumentManager $documentManager)
     {
     	 $this->em = $documentManager;
-    	 $this->alreadySendElementIds = [];
     }
-
-    public function getElementById($elementId)
-    {
-        $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->find($elementId);
-    }
-
-    public function getElementsAround($geocodePoint, $distance, $maxResult = 0)
-    {
-        // La liste des element autour de l'adresse demandée
-        $elementListFromDataBase = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')
-        ->findAll();
-        
-        $elementList = [];
-        $i = 0;
-        $length = count($elementListFromDataBase);
-        $nbreNewElements = 0;
-        $exceedMaxResult = false;
-
-        if ($length > $maxResult && $maxResult > 0)
-        {
-            $exceedMaxResult = true;
-        }       
-
-        $offset = $maxResult > 0 ? min($length, $maxResult) : $length;
-
-        $response['data'] = array_slice($elementListFromDataBase, 0, $offset);
-        $response['exceedMaxResult'] = $exceedMaxResult;
-
-        return $response;     
-    }
-
-    public function setAlreadySendElementsIds($array)
-    {
-    	if ($array !== null) $this->alreadySendElementIds = $array;
-    }
-
 
     public function buildConstellation($elementList, $geocodeResponse)
     {

@@ -69,8 +69,8 @@ export class ElementsModule
 	{
 		let element : Element, elementJson;
 		let newElements : Element[] = [];
-		//console.log("ElementModule addJsonElements " + elementList.length);
 		let start = new Date().getTime();
+
 		for (let i = 0; i < elementList.length; i++)
 		{
 			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
@@ -243,7 +243,7 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		window.console.log("UpdateElementsToDisplay en " + time + " ms");		
+		//window.console.log("UpdateElementsToDisplay en " + time + " ms");		
 
 		if (elementsChanged || forceRepaint)
 		{		

@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 11:22:42
+ * @Last Modified time: 2017-04-24 14:59:48
  */
  
 
@@ -35,56 +35,26 @@ class APIController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $originPoint = new Point($request->get('originLat'), $request->get('originLng'));
-
-            $elementService = $this->get('biopen.element_service');
-            $serializer = $this->container->get('jms_serializer');
-
-            //$response = $elementService->getElementsAround($originPoint, $request->get('distance'), $request->get('maxResults'));
-
-            //$responseJson = $serializer->serialize($response, 'json'); 
-
-            // $m = new MongoClient(); // connect
-
-            // dump($m);
-            // $db = $m->cartoV3;
-            // $collection = $db->Element;
-            // $cursor = $collection->find();
-           // iterate cursor to display title of documents
-            
-           // foreach ($cursor as $document) {
-           //    dump($document);
-           // }
-
-            //$responseJson = '[' . json_encode(iterator_to_array($cursor)) . ']';
-            //dump($responseJson);
-
-            //$responseJson = '[' . $serializer->serialize(iterator_to_array($cursor), 'json'). ']';
-
-
             $em = $this->get('doctrine_mongodb')->getManager(); 
-            $response = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element') 
-                ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+
+            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+            $elementsFromDB = $elementRepo->findAround(
+                (float) $request->get('originLat'), 
+                (float) $request->get('originLng'), 
+                (float) $request->get('distance')
+            );
     
-            dump($response);
-            // // Manual JSON encode         
+            //dump($response);     
     
             $responseJson = '['; 
  
-            foreach ($response as $key => $value) { 
+            foreach ($elementsFromDB as $key => $value) { 
                $responseJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
             } 
  
-            $responseJson = rtrim($responseJson,","); 
+            $responseJson = rtrim($responseJson,",") . ']';; 
 
-            $responseJson =  $responseJson . ']'; 
-
-            //$resultJson['data'] = $responseJson;
-
-            dump($responseJson);
-
-            $result = new Response($responseJson); 
-            //$response = new Response('bonjour');       
+            $result = new Response($responseJson);   
             $result->headers->set('Content-Type', 'application/json');
             return $result;
         }
