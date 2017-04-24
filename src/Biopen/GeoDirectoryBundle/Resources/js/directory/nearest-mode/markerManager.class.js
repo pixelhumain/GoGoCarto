@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-04-24 11:29:55
  */
 function MarkerModule() 
 {
@@ -148,7 +148,7 @@ MarkerModule.prototype.getMarkers = function ()
 	let array = [];
 	for(let i = 0; i < this.markers_.length; i++)
 	{
-		array.push(this.markers_[i].getRichMarker());
+		array.push(this.markers_[i].getLeafletMarker());
 	}
 	return array;
 };

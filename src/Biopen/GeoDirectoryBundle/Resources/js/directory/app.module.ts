@@ -250,7 +250,7 @@ export class AppModule
 			if (oldMode != null && !$backFromHistory && $mode == AppModes.List) this.historyModule.pushNewState();
 
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true, true);
+			this.elementModule.updateElementsToDisplay(true, true);
 
 			if ($updateTitleAndState)
 			{
@@ -384,8 +384,7 @@ export class AppModule
 							}, 500);
 						}
 						else
-							calculateRoute(origin, element);		
-											
+							calculateRoute(origin, element);											
 					},
 					(error) => { /*TODO*/ alert("No element with this id"); }
 					);										
@@ -435,7 +434,7 @@ export class AppModule
 		else
 		{
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true,true);
+			this.elementModule.updateElementsToDisplay(true,true);
 			this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);	
 		}
 	}
@@ -498,7 +497,8 @@ export class AppModule
 			
 		// }, delay);	
 
-		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
+		this.elementModule.updateElementsToDisplay(updateInAllElementList, forceRepaint);
+		this.elementModule.updateElementsIcons(false);
 		this.ajaxModule.getElementsAroundLocation(
 			this.mapComponent.getCenter(), 
 			this.mapComponent.mapRadiusInKm() * 2
@@ -561,13 +561,15 @@ export class AppModule
 		// on add markerClusterGroup after first elements received
 		if (newElements.length > 0) 
 		{
-			this.elementModule.updateElementToDisplay(true,true);	
+			this.elementModule.updateElementsToDisplay(true,true);	
 		}
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		console.log("handleElementsChanged new : " + result.newElements.length, result);
+		// console.log("handleElementsChanged toDisplay : ",result.elementsToDisplay.length);
+		// console.log("handleElementsChanged new : ",result.newElements.length);
+		// console.log("handleElementsChanged remove : ",result.elementsToRemove.length);
 		let start = new Date().getTime();
 
 		if (this.mode_ == AppModes.List)
@@ -576,25 +578,15 @@ export class AppModule
 		}
 		else if (this.state != AppStates.ShowElementAlone)
 		{
-			for(let element of result.newElements)
-			{				
-				element.show();
-			}
-			for(let element of result.elementsToRemove)
-			{
-				if (!element.isShownAlone) element.hide();
-			}
-		}	
+			let newMarkers = result.newElements.map( (e) => e.marker.getLeafletMarker());
+			let markersToRemove = result.elementsToRemove.filter((e) => !e.isShownAlone).map( (e) => e.marker.getLeafletMarker());
 
-		let newMarkers = result.newElements.map( (e) => e.marker.getRichMarker());
-		let markersToRemove = result.elementsToRemove.filter((e) => !e.isShownAlone).map( (e) => e.marker.getRichMarker());
-		//console.log("New markers", markers)
-		this.mapComponent.addMarkers(newMarkers);
-		this.mapComponent.removeMarkers(markersToRemove);
-		
+			this.mapComponent.addMarkers(newMarkers);
+			this.mapComponent.removeMarkers(markersToRemove);
+		}			
 
 		let end = new Date().getTime();
-		console.log("ElementsChanged in " + (end-start) + " ms");	
+		//console.log("ElementsChanged in " + (end-start) + " ms");	
 	}; 
 
 	handleInfoBarHide()

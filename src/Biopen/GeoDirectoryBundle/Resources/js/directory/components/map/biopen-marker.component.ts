@@ -69,7 +69,7 @@ export class BiopenMarker
 
 
 		//this.update();	
-		this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\" class='icon-marker'></span>"}));
+		this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\"></span>"}));
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -278,7 +278,7 @@ export class BiopenMarker
 
 	getId () : string { return this.id_; };
 
-	getRichMarker () : L.Marker { return this.richMarker_; };
+	getLeafletMarker () : L.Marker { return this.richMarker_; };
 
 	isHalfHidden() : boolean { return this.isHalfHidden_; }
 

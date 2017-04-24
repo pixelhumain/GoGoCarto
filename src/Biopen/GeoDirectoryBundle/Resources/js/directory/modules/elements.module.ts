@@ -103,6 +103,7 @@ export class ElementsModule
 	showElement(element : Element)
 	{
 		element.show();
+		//if (!element.isDisplayed) App.mapComponent.addMarker(element.marker.getLeafletMarker());
 		this.currVisibleElements().push(element);
 	}
 
@@ -145,9 +146,9 @@ export class ElementsModule
 		this.clearCurrVisibleElements();
 	}
 
-	updateCurrentsElements(somethingChanged : boolean = false)
+	updateElementsIcons(somethingChanged : boolean = false)
 	{
-		console.log("UpdateCurrElements somethingChanged", somethingChanged);
+		//console.log("UpdateCurrElements somethingChanged", somethingChanged);
 		let start = new Date().getTime();
 		let l = this.currVisibleElements().length;
 		let element : Element;
@@ -161,21 +162,24 @@ export class ElementsModule
 		}
 		let end = new Date().getTime();
 		let time = end - start;
-		window.console.log("updateCurrentsElements " + time + " ms");
+		//window.console.log("updateElementsIcons " + time + " ms");
 	}
 
 	// check elements in bounds and who are not filtered
-	updateElementToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
+	updateElementsToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
 	{	
 		// in these state,there is no need to update elements to display
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
-					&& App.mode != AppModes.List) 
+					&& App.mode == AppModes.Map) 
 				return;
+
+		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
 		let elements : Element[] = null;
 		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
 		else elements = this.currVisibleElements();
-		
+
+		//elements = this.currEveryElements();		
 		
 		//console.log("UPDATE ELEMENTS ", elements.length);
 
@@ -190,7 +194,7 @@ export class ElementsModule
 
 		i = elements.length;
 
-		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//console.log("updateElementsToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		
 		let start = new Date().getTime();
 
@@ -199,7 +203,7 @@ export class ElementsModule
 			element = elements[i];
 
 			// in List mode we don't need to check bounds;
-			let elementInBounds = (App.mode == AppModes.List) || App.mapComponent.contains(element.position);
+			let elementInBounds = (App.mode == AppModes.List) || App.mapComponent.extendedContains(element.position);
 
 			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{
@@ -250,8 +254,7 @@ export class ElementsModule
 			});		
 		}
 
-		this.updateCurrentsElements(filterHasChanged);
-
+		this.updateElementsIcons(filterHasChanged);	
 		
 	};
 

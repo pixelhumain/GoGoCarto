@@ -153,7 +153,7 @@ export class FilterModule
 		if (mainOptionSlug == 'all') App.categoryModule.mainCategory.updateState();
 		else App.categoryModule.getMainOptionBySlug(mainOptionSlug).recursivelyUpdateStates();
 
-		App.elementModule.updateElementToDisplay(true);
+		App.elementModule.updateElementsToDisplay(true);
 		//App.historyModule.updateCurrState();
 
 	}

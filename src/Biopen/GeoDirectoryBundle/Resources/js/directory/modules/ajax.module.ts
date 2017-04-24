@@ -165,7 +165,7 @@ export class AjaxModule
 				if (response)
 				{
 					let end = new Date().getTime();
-					//window.console.log("receive elementById in " + (end-start) + " ms", response);			
+					window.console.log("receive elementById in " + (end-start) + " ms", response);			
 
 					if (callbackSuccess) callbackSuccess(response); 
 					//this.onNewElement.emit(response);							

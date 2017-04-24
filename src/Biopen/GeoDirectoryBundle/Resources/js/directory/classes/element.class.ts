@@ -126,7 +126,7 @@ export class Element
 
 	hide() 
 	{		
-		//if (this.biopenMarker_) this.biopenMarker_.hide();
+		if (this.biopenMarker_) this.biopenMarker_.hide();
 		this.isVisible_ = false;
 		// unbound events (click etc...)?
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
@@ -134,9 +134,8 @@ export class Element
 
 	update()
 	{
-		console.log("marker update needTiBeUpdated", this.needToBeUpdatedWhenShown);
-		if (!this.isInitialized_) this.initialize();	
-		else if (this.needToBeUpdatedWhenShown)
+		//console.log("marker update needToBeUpdated", this.needToBeUpdatedWhenShown);
+		if (this.needToBeUpdatedWhenShown)
 		{
 			this.updateIconsToDisplay();
 			if (this.marker) this.marker.update();

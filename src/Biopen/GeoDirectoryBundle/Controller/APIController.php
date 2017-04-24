@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-22 15:49:36
+ * @Last Modified time: 2017-04-24 11:22:42
  */
  
 
@@ -98,15 +98,17 @@ class APIController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
+            $elementId = $request->get('elementId');
+
             $em = $this->get('doctrine_mongodb')->getManager();
-            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-            ->find($request->get('elementId'));
-
-            $response['data'] = $element;
             
-            $serializer = $this->container->get('jms_serializer');
-            $responseJson = $serializer->serialize($response, 'json');  
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
+            ->findOneBy(array('id' => $elementId));
 
+            $elementJson = $element->getJson();
+
+            $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
+            
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
             return $response;

@@ -71,6 +71,8 @@ export class MapComponent
 	oldZoom = -1;
 	viewport : ViewPort = null;
 
+	extendedBounds : L.LatLngBounds;
+
 
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
@@ -102,7 +104,7 @@ export class MapComponent
 		    maxClusterRadius: (zoom) =>
 		    {
 		    	if (zoom > 9) return 55;
-		    	else return 100;
+		    	else return 60;
 		    }
 		});
 
@@ -119,6 +121,7 @@ export class MapComponent
 		{ 
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
+			this.updateExtendedBounds();
 			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
@@ -162,7 +165,6 @@ export class MapComponent
 
 	addMarkers(markers : L.Marker[])
 	{
-		console.log("MapComponent AddMarkers", markers.length);
 		if (this.markerClustererGroup) this.markerClustererGroup.addLayers(markers);
 	}
 
@@ -210,11 +212,21 @@ export class MapComponent
 
 	contains(position : L.LatLngExpression) : boolean
 	{
-		if (this.isMapLoaded && position)
+		if (position)
 		{
 			 return this.map_.getBounds().contains(position);
 		}
 		console.log("MapComponent->contains : map not loaded or element position undefined");
+		return false;		
+	}
+
+	extendedContains(position : L.LatLngExpression) : boolean
+	{
+		if (this.isMapLoaded && position)
+		{
+			 return this.extendedBounds.contains(position);
+		}
+		//console.log("MapComponent->contains : map not loaded or element position undefined");
 		return false;		
 	}
 
@@ -224,6 +236,17 @@ export class MapComponent
 		this.viewport.lat =  this.map_.getCenter().lat;
 		this.viewport.lng =  this.map_.getCenter().lng;
 		this.viewport.zoom = this.getZoom();
+	}
+
+	updateExtendedBounds()
+	{
+		let northEast = this.map_.getBounds().getNorthEast();
+		let southWest = this.map_.getBounds().getSouthWest();
+		let diffLat = (northEast.lat - southWest.lat) / 2;
+		let diffLng = (northEast.lng - southWest.lng) / 2;
+		let extendedNorthEast : L.LatLng = new L.latLng(northEast.lat + diffLat, northEast.lng + diffLng);
+		let extendedSouthWest : L.LatLng = new L.latLng(southWest.lat - diffLat, southWest.lng - diffLng);
+		this.extendedBounds = new L.latLngBounds(extendedSouthWest, extendedNorthEast);
 	}
 
 	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)

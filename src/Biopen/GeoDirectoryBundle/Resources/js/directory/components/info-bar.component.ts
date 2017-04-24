@@ -80,7 +80,7 @@ export class InfoBarComponent
 			{
 				App.mapComponent.panToLocation(element.position);
 				setTimeout( () => { this.elementVisible.marker.showBigSize(); }, 1000);
-				//App.elementModule.updateElementToDisplay()
+				//App.elementModule.updateElementsToDisplay()
 			}			
 		}, 1000);
 
