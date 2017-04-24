@@ -1,3 +1,5 @@
+#alias ssh_colibris="ssh -p 22102 -o useroaming=no -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 admin@carto-dev.colibris-outilslibres.org"
+
 #!/bin/bash
 WEB_DIR=/var/www/html
 WEB_USR=www-data
