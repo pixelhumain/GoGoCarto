@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-29 08:43:24
+ * @Last Modified time: 2017-04-25 10:03:53
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -27,7 +27,6 @@ class AboutAdmin extends AbstractAdmin
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
 			    'format' => 'richhtml',
 			));
-        $formMapper->add('backgroundColor', 'text');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

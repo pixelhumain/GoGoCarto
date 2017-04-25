@@ -27,11 +27,16 @@ $(document).ready(function()
 			redirectTodirectory();
 		}
 	});
+
+	$('#bottom-more-info').click( () =>
+	{
+		$('html, body').animate({scrollTop: $('.bottom-section:first').offset().top}, 700);
+	})
 });
 
 function redirectTodirectory()
 {
-	var address = checkForAdress();
+	var address = $('#search-bar').val();
 
 	let mainOption : string;
 	// in small screen a select is displayed
@@ -48,20 +53,20 @@ function redirectTodirectory()
 
 	let route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
 	route += '?cat=' + mainOption;
-	//console.log(route);
-	if (address) window.location.href = route;
+
+	window.location.href = route;
 }
 
-function checkForAdress()
-{
-	var address = $('#search-bar').val();
-	if (!address)
-	{
-		setTimeout(function() { $('#search-bar').addClass('invalid'); }, 500);
-		$('#search-bar-container').effect("shake", { direction: "right", times: 3, distance: 15});
-	}
-	return address;
-}
+// function checkForAdress()
+// {
+// 	var address = $('#search-bar').val();
+// 	if (!address)
+// 	{
+// 		setTimeout(function() { $('#search-bar').addClass('invalid'); }, 500);
+// 		$('#search-bar-container').effect("shake", { direction: "right", times: 3, distance: 15});
+// 	}
+// 	return address;
+// }
 
 // function initMap() 
 // {	

@@ -39,8 +39,14 @@ body
 		line-height: 3rem;
     font-size: 1.1rem;
     letter-spacing: 1px;
-    background-color: #676565;
-    border-bottom: 1px solid #4a4a4a;
+    background-color: #525252;
+    //border-bottom: 1px solid #4a4a4a;
+
+    &:hover
+    {
+    	cursor: pointer;
+    	background-color: #676565;
+    }
 
     .text { margin-left: 2rem;  margin-right: 1rem;}
 

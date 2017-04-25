@@ -17,6 +17,10 @@
 /web/bundles/
 /web/assets/css/*
 /web/js/*
+!web/js/directory.js
+!web/js/element-form.js
+!web/js/home.js
+!web/js/libs.js
 /node_modules/
 /npm-debug.log
 /TODO
