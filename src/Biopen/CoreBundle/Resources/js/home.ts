@@ -27,6 +27,11 @@ $(document).ready(function()
 			redirectTodirectory();
 		}
 	});
+
+	$('#bottom-more-info').click( () =>
+	{
+		$('html, body').animate({scrollTop: $('.bottom-section:first').offset().top}, 700);
+	})
 });
 
 function redirectTodirectory()
@@ -48,7 +53,7 @@ function redirectTodirectory()
 
 	let route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
 	route += '?cat=' + mainOption;
-	
+
 	window.location.href = route;
 }
 
