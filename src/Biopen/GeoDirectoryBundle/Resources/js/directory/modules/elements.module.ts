@@ -29,6 +29,7 @@ export class ElementsModule
 	onElementsChanged = new Event<ElementsChanged>();
 
 	everyElements_ : Element[][] = [];
+	everyElementsId_ : string[] = [];
 	
 	// current visible elements
 	visibleElements_ : Element[][] = [];
@@ -71,27 +72,29 @@ export class ElementsModule
 		let newElements : Element[] = [];
 		let start = new Date().getTime();
 
-		for (let i = 0; i < elementList.length; i++)
+		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
+        id: e.id,
+        index: index
+    }});
+		
+		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
+
+		let i = newIds.length;
+
+		while(i--)
 		{
-			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
+			elementJson = elementList[newIds[i].index];
 
-			if (!checkIfAlreadyExist || !this.getElementById(elementJson.id))
+			element = new Element(elementJson);
+			element.initialize();
+
+			for (let mainId of element.mainOptionOwnerIds)
 			{
-				element = new Element(elementJson);
-				element.initialize();
-
-				for (let mainId of element.mainOptionOwnerIds)
-				{
-					this.everyElements_[mainId].push(element);
-				}				
-				this.everyElements_['all'].push(element);
-
-				newElements.push(element);
-			}
-			else
-			{
-				//console.log("addJsonElements, cet element existe deja");
-			}		
+				this.everyElements_[mainId].push(element);
+			}				
+			this.everyElements_['all'].push(element);
+			this.everyElementsId_.push(element.id);
+			newElements.push(element);
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
@@ -99,6 +102,40 @@ export class ElementsModule
 		//console.log("ElementModule really added " + newElementsCount);
 		return newElements;
 	};
+
+	private array_intersect(arrays) 
+	{
+	  var i, all, shortest, nShortest, n, len, ret = [], obj={}, nOthers;
+	  nOthers = arrays.length-1;
+	  nShortest = arrays[0].length;
+	  shortest = 0;
+	  for (i=0; i<=nOthers; i++){
+	    n = arrays[i].length;
+	    if (n<nShortest) {
+	      shortest = i;
+	      nShortest = n;
+	    }
+	  }
+
+	  for (i=0; i<=nOthers; i++) {
+	    n = (i===shortest)?0:(i||shortest); //Read the shortest array first. Read the first array instead of the shortest
+	    len = arrays[n].length;
+	    for (var j=0; j<len; j++) {
+	        var elem = arrays[n][j];
+	        if(obj[elem] === i-1) {
+	          if(i === nOthers) {
+	            ret.push(elem);
+	            obj[elem]=0;
+	          } else {
+	            obj[elem]=i;
+	          }
+	        }else if (i===0) {
+	          obj[elem]=0;
+	        }
+	    }
+	  }
+	  return ret;
+	}
 
 	showElement(element : Element)
 	{
