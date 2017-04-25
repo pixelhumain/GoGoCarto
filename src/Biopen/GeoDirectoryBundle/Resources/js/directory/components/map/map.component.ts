@@ -240,13 +240,7 @@ export class MapComponent
 
 	updateExtendedBounds()
 	{
-		let northEast = this.map_.getBounds().getNorthEast();
-		let southWest = this.map_.getBounds().getSouthWest();
-		let diffLat = (northEast.lat - southWest.lat) / 2;
-		let diffLng = (northEast.lng - southWest.lng) / 2;
-		let extendedNorthEast : L.LatLng = new L.latLng(northEast.lat + diffLat, northEast.lng + diffLng);
-		let extendedSouthWest : L.LatLng = new L.latLng(southWest.lat - diffLat, southWest.lng - diffLng);
-		this.extendedBounds = new L.latLngBounds(extendedSouthWest, extendedNorthEast);
+		this.extendedBounds = this.map_.getBounds().pad(1.7);
 	}
 
 	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)
