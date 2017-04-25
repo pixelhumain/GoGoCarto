@@ -9,7 +9,7 @@ export class OptionValue
 	index : number;
 	description : string;
 	option_ : Option = null;
-	isFilledByFilters : boolean;
+	isFilledByFilters : boolean = true;
 
 	children : CategoryValue[] = [];
 

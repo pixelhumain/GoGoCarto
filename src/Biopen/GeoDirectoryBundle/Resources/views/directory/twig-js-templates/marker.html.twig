@@ -24,7 +24,7 @@
     	
 			{% for otherOptionValue in otherOptionsValuesToDisplay %}
 
-				{% set disableOption = otherOptionValue.isFilledByFilters ? '' : 'disabled' %}
+				{% set disableOption = otherOptionValue.isFilledByFilters == false ? 'disabled' : '' %}
 
 				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.option.ownerColorId }}
 						style="left:{{ 32 * loop.index0 }}px">

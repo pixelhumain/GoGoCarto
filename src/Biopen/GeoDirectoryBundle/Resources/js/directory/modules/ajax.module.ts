@@ -80,6 +80,7 @@ export class AjaxModule
 			this.waitingRequest = $request;
 			return;
 		}
+		this.isRetrievingElements = true;
 
 		this.currRequest = $request;
 
@@ -96,8 +97,7 @@ export class AjaxModule
 				maxResults : $request.maxResults,
 			},
 			beforeSend: () =>
-			{ 
-				this.isRetrievingElements = true;
+			{ 				
 				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 2000); 
 			},
 			success: response =>

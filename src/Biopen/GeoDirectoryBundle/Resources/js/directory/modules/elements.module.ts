@@ -143,6 +143,9 @@ export class ElementsModule
 			this.currVisibleElements()[l].hide();
 			this.currVisibleElements()[l].isDisplayed = false;
 		}
+		let markers = this.currVisibleElements().map( (e) => e.marker.getLeafletMarker());
+		App.mapComponent.removeMarkers(markers);
+
 		this.clearCurrVisibleElements();
 	}
 
@@ -270,7 +273,7 @@ export class ElementsModule
 
 	private clearCurrVisibleElements() 
 	{
-		return this.visibleElements_[App.currMainId] = [];
+		this.visibleElements_[App.currMainId] = [];
 	};
 
 	allElements()

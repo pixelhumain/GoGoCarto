@@ -230,7 +230,7 @@ export class Element
 			this.iconsToDisplay.push(this.getCurrMainOptionValue());
 		}
 
-		this.colorOptionId = this.iconsToDisplay.length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
+		this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].option.ownerColorId : null;
 		
 		//console.log("Icons to display sorted", this.getIconsToDisplay());
 	}
@@ -258,7 +258,6 @@ export class Element
 					resultOptions.push(optionValue);
 				}
 
-				optionValue
 			}
 		}
 		return resultOptions;
