@@ -266,19 +266,20 @@ export class Element
 
 	checkForDisabledOptionValues()
 	{
-		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree());
+		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree(), App.currMainId == 'all');
 	}
 
-	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue)
+	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue, noRecursive : boolean = true)
 	{
 		let isEveryCategoryContainsOneOptionNotdisabled = true;
+		//console.log("checkForDisabledOptionValue", optionValue);
 
 		for(let categoryValue of optionValue.children)
 		{
 			let isSomeOptionNotdisabled = false;
 			for (let suboptionValue of categoryValue.children)
 			{
-				if (suboptionValue.children.length == 0)
+				if (suboptionValue.children.length == 0 || noRecursive)
 				{
 					//console.log("bottom option " + suboptionValue.option.name,suboptionValue.option.isChecked );
 					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;					
@@ -294,7 +295,7 @@ export class Element
 
 		if (optionValue.option)
 		{
-			//console.log("OptionValue " + optionValue.option.name + "isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
+			//console.log("OptionValue " + optionValue.option.name + " : isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
 			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
 			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
 		}
