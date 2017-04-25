@@ -32,13 +32,6 @@ class About
      */
     private $content;
 
-     /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $backgroundColor;
-
     /**
      * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int")
@@ -102,30 +95,6 @@ class About
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * Set backgroundColor
-     *
-     * @param string $backgroundColor
-     *
-     * @return About
-     */
-    public function setBackgroundColor($backgroundColor)
-    {
-        $this->backgroundColor = $backgroundColor;
-
-        return $this;
-    }
-
-    /**
-     * Get backgroundColor
-     *
-     * @return string
-     */
-    public function getBackgroundColor()
-    {
-        return $this->backgroundColor;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 {% for about in listAbouts %}
 
-<div id="popup-{{about.id}}"  class="modal page-modal about-modal custom-scroll-bar-light" style="background-color: {{about.backgroundColor}}">
+<div id="popup-{{about.id}}"  class="modal page-modal about-modal custom-scroll-bar-light">
     <div class="modal-content page-modal-content">
         <span class="icon btn-back icon-material-design-icons-1" onclick="$('#popup-{{about.id}}').closeModal()"></span>
         <h1>{{ about.name | raw }}</h1>

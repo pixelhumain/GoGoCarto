@@ -18,20 +18,17 @@ class LoadAbout implements FixtureInterface
 
       $new_about = new About();
       $new_about->setName('Crédits'); 
-      $new_about->setContent($lipsum->paragraph());
-      $new_about->setBackgroundColor('white');      
+      $new_about->setContent($lipsum->paragraph());  
       $manager->persist($new_about);
        
       $new_about = new About();
       $new_about->setName('Mentions légales'); 
-      $new_about->setContent($lipsum->paragraphs(3, 'p'));
-      $new_about->setBackgroundColor('white');      
+      $new_about->setContent($lipsum->paragraphs(3, 'p'));    
       $manager->persist($new_about);
 
       $new_about = new About();
       $new_about->setName('Contact'); 
-      $new_about->setContent($lipsum->sentences(4, ['p']));
-      $new_about->setBackgroundColor('white');      
+      $new_about->setContent($lipsum->sentences(4, ['p']));  
       $manager->persist($new_about);
      
 
