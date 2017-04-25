@@ -18,18 +18,15 @@ declare let Routing;
 
 export class Request
 {
-	originLat : number;
-	originLng : number; 
-	distance  : number; 
-	elementIds : number[];
-	maxResults : number;  
-
-	constructor(lat : number, lng : number, distance :number, maxResults : number)
+	constructor(public route : string, public data : any)
 	{
-		this.originLat = lat;
-		this.originLng = lng;
-		this.distance = distance;
-		this.maxResults = maxResults;
+	};
+}
+
+export class DataAroundRequest
+{
+	constructor(public originLat : number, public originLng : number, public distance :number, public maxResults : number)
+	{
 	};
 }
 
@@ -55,27 +52,48 @@ export class AjaxModule
 		// if invalid location we abort
 		if (!$location || !$location.lat) 
 		{
-			console.log("Ajax invalid request return", $location);
+			console.log("Ajax invalid request", $location);
 			return;
 		}
-		
-		// there is a limit in ajax data, we can not send more thant a thousand ids
-		// so for the moment is quite useless to send theses id. See if we manage to
-		// change server config to send more thant 1000 ids;
-		//let $allIds = App.elementModule.getAllElementsIds();
 
-		this.getElements(new Request($location.lat, $location.lng, $distance, $maxResults));
+		let dataRequest = new DataAroundRequest($location.lat, $location.lng, $distance, $maxResults);
+		let route = Routing.generate('biopen_api_elements_around_location');	
+		
+		this.sendAjaxElementRequest(new Request(route, dataRequest));
 	}
 
-	private getElements($request : Request)
+	getElementsInBounds($bounds : L.LatLngBounds[])
+	{
+		// if invalid location we abort
+		if (!$bounds || $bounds.length == 0) 
+		{
+			console.log("Ajax invalid request", $bounds);
+			return;
+		}
+		//console.log($bounds1, $bounds2);
+
+		let stringifiedBounds = "";
+
+		for (let bound of $bounds) 
+		{
+			stringifiedBounds += bound.toBBoxString() + ";";
+		}
+
+		let dataRequest : any = { bounds : stringifiedBounds };
+		let route = Routing.generate('biopen_api_elements_in_bounds');
+		
+		this.sendAjaxElementRequest(new Request(route, dataRequest));
+	}
+
+	private sendAjaxElementRequest($request : Request)
 	{
 		if (this.allElementsReceived) { console.log("All elements already received"); return; }
 
-		//console.log("Ajax get elements request ");
+		//console.log("Ajax send elements request ", $request);
 
 		if (this.isRetrievingElements)
 		{		
-			console.log("isRetrieving");
+			console.log("Ajax isRetrieving");
 			this.requestWaitingToBeExecuted = true;
 			this.waitingRequest = $request;
 			return;
@@ -84,51 +102,31 @@ export class AjaxModule
 
 		this.currRequest = $request;
 
-		let start = new Date().getTime();
-		let route = Routing.generate('biopen_api_elements_around_location');		
+		let start = new Date().getTime();			
 		
 		$.ajax({
-			url: route,
+			url: $request.route,
 			method: "post",
-			data: {
-				originLat : $request.originLat,
-				originLng : $request.originLng,
-				distance  : $request.distance,
-				maxResults : $request.maxResults,
-			},
+			data: $request.data,
 			beforeSend: () =>
 			{ 				
-				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 2000); 
+				this.loaderTimer = setTimeout(function() { $('#directory-loading').show(); }, 1500); 
 			},
 			success: response =>
 			{	
+				//console.log(response);
 
-			  // let elements = [];
-			  // for(let key in response[0])
-			  // {
-			  // 	elements.push(response[0][key]);
-			  // }
-
-			  //console.log("Ajax response", response);
-
-			  if (response !== null)
+				if (response.data !== null)
 				{
 					let end = new Date().getTime();					
-					console.log("receive " + response.length + " elements in " + (end-start) + " ms");				
+					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
 
-					this.onNewElements.emit(response);				
+					this.onNewElements.emit(response.data);				
 				}
-
-				//if (response.length > 2) this.allElementsReceived = true;
 			  
-				// if (response.exceedMaxResult)
-				// {
-				// 	//console.log("   moreElementsToReceive");
-				// 	if (!this.requestWaitingToBeExecuted) 
-				// 	{        			
-				// 		this.getElements(this.currRequest);
-				// 	}
-				// }	        
+			  if (response.allElementsSends) this.allElementsReceived = true;
+
+				//if (response.exceedMaxResult && !this.requestWaitingToBeExecuted) this.sendAjaxElementRequest(this.currRequest);     
 			},
 			complete: () =>
 			{
@@ -137,7 +135,7 @@ export class AjaxModule
 			  if (this.requestWaitingToBeExecuted)
 			  {
 			  	 //console.log("    requestWaitingToBeExecuted stored", this.waitingRequest);
-			  	 this.getElements(this.waitingRequest);
+			  	 this.sendAjaxElementRequest(this.waitingRequest);
 			  	 this.requestWaitingToBeExecuted = false;
 			  }
 			  else

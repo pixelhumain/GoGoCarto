@@ -79,6 +79,9 @@ export class ElementsModule
 		
 		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
 
+		if (newIds.length != elementList.length)
+			console.log("ERREUR  DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
+
 		let i = newIds.length;
 
 		while(i--)
@@ -98,44 +101,9 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
-		console.log("AddJsonElements in " + (end-start) + " ms");	
-		//console.log("ElementModule really added " + newElementsCount);
+		//console.log("AddJsonElements in " + (end-start) + " ms");	
 		return newElements;
 	};
-
-	private array_intersect(arrays) 
-	{
-	  var i, all, shortest, nShortest, n, len, ret = [], obj={}, nOthers;
-	  nOthers = arrays.length-1;
-	  nShortest = arrays[0].length;
-	  shortest = 0;
-	  for (i=0; i<=nOthers; i++){
-	    n = arrays[i].length;
-	    if (n<nShortest) {
-	      shortest = i;
-	      nShortest = n;
-	    }
-	  }
-
-	  for (i=0; i<=nOthers; i++) {
-	    n = (i===shortest)?0:(i||shortest); //Read the shortest array first. Read the first array instead of the shortest
-	    len = arrays[n].length;
-	    for (var j=0; j<len; j++) {
-	        var elem = arrays[n][j];
-	        if(obj[elem] === i-1) {
-	          if(i === nOthers) {
-	            ret.push(elem);
-	            obj[elem]=0;
-	          } else {
-	            obj[elem]=i;
-	          }
-	        }else if (i===0) {
-	          obj[elem]=0;
-	        }
-	    }
-	  }
-	  return ret;
-	}
 
 	showElement(element : Element)
 	{

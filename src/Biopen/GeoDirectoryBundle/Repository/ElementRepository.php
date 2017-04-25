@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 15:05:52
+ * @Last Modified time: 2017-04-25 20:24:03
  */
  
 
@@ -30,5 +30,25 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
               ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+  }
+
+  public function findWhithinBoxes($bounds)
+  {
+    $results = [];
+
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    foreach ($bounds as $key => $bound) 
+    {
+      if (count($bound) == 4)
+      {
+        $array = $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
+                    ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+
+        $results = array_merge($results, $array);  
+      }
+    }
+
+    return $results;
   }
 }

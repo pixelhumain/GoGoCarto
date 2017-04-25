@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 14:59:48
+ * @Last Modified time: 2017-04-25 20:24:16
  */
  
 
@@ -42,17 +42,9 @@ class APIController extends Controller
                 (float) $request->get('originLat'), 
                 (float) $request->get('originLng'), 
                 (float) $request->get('distance')
-            );
+            ); 
     
-            //dump($response);     
-    
-            $responseJson = '['; 
- 
-            foreach ($elementsFromDB as $key => $value) { 
-               $responseJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
-            } 
- 
-            $responseJson = rtrim($responseJson,",") . ']';; 
+            $responseJson = $this->encoreArrayToJson($elementsFromDB);  
 
             $result = new Response($responseJson);   
             $result->headers->set('Content-Type', 'application/json');
@@ -62,6 +54,49 @@ class APIController extends Controller
         {
             return new JsonResponse("Not valid ajax request");
         }
+    }
+
+    public function getElementsInBoundsAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->get('doctrine_mongodb')->getManager();
+
+            $boxes = [];
+            $bounds = explode( ';' , $request->get('bounds'));
+            foreach ($bounds as $key => $bound) 
+            {
+              $boxes[] = explode( ',' , $bound);
+            }
+
+            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes); 
+    
+            $responseJson = $this->encoreArrayToJson($elementsFromDB);            
+
+            $result = new Response($responseJson);   
+            $result->headers->set('Content-Type', 'application/json');
+            return $result;
+        }
+        else 
+        {
+            return new JsonResponse("Not valid ajax request");
+        }
+    }
+
+    private function encoreArrayToJson($array)
+    {
+        $elementsJson = '['; 
+ 
+        foreach ($array as $key => $value) { 
+           $elementsJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
+        } 
+
+        $elementsJson = rtrim($elementsJson,",") . ']';
+
+        $responseJson = '{ "data":'. $elementsJson . '}';
+
+        return $responseJson;
     }
 
     public function getElementByIdAction(Request $request)

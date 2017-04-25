@@ -13,3 +13,11 @@ biopen_api_elements_around_location:
         _method: POST
     options:
         expose: true
+
+biopen_api_elements_in_bounds:
+    path:     /elementsInBounds
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsInBounds }
+    requirements:
+        _method: POST
+    options:
+        expose: true

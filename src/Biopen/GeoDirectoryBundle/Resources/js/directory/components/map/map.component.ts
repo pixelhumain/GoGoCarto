@@ -60,7 +60,7 @@ export class MapComponent
 	onMapReady = new Event<any>();
 	onMapLoaded = new Event<any>();
 	onClick = new Event<any>();
-	onIdle = new Event<any>();
+	onIdle = new Event<boolean>();
 
 	//Leaflet map
 	map_ : L.Map = null;
@@ -72,6 +72,8 @@ export class MapComponent
 	viewport : ViewPort = null;
 
 	extendedBounds : L.LatLngBounds;
+	filledBound : L.LatLngBounds;
+	freeBounds : L.LatLngBounds[];
 
 
 	getMap(){ return this.map_; }; 
@@ -122,7 +124,7 @@ export class MapComponent
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
 			this.updateExtendedBounds();
-			this.onIdle.emit(); 
+			this.onIdle.emit(this.calculateFreeBounds()); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
 
@@ -240,7 +242,125 @@ export class MapComponent
 
 	updateExtendedBounds()
 	{
-		this.extendedBounds = this.map_.getBounds().pad(1.7);
+		this.extendedBounds = this.map_.getBounds().pad(0.5);
+	}
+
+	calculateFreeBounds()
+	{
+		this.freeBounds = [];
+
+		let freeBound1, freeBound2, freeBound3, freeBound4;
+
+		if (this.filledBound)
+		{
+			if (!this.filledBound.contains(this.extendedBounds))
+			{
+				if (this.extendedBounds.contains(this.filledBound))
+				{
+					// extended contains filledbounds		
+
+					freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getNorthEast() );
+					freeBound2 = L.latLngBounds( freeBound1.getNorthEast()				 , this.extendedBounds.getSouthEast() );
+					freeBound3 = L.latLngBounds( this.filledBound.getSouthEast()	 , this.extendedBounds.getSouthWest() );
+					freeBound4 = L.latLngBounds( freeBound1.getSouthWest()				 , this.filledBound.getSouthWest() );
+
+					this.filledBound = this.extendedBounds;
+
+					this.freeBounds.push(freeBound1,freeBound2, freeBound3, freeBound4);					
+				}
+				else
+				{
+					// extended cross over filled
+
+					if (this.extendedBounds.getWest() > this.filledBound.getWest() && this.extendedBounds.getEast() < this.filledBound.getEast())
+					{
+						if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						{
+							// extended centered south from filledBounds
+							freeBound1 = L.latLngBounds( this.extendedBounds.getSouthWest(), this.filledBound.getSouthEast() );
+							
+						}
+						else
+						{
+							// extended centered south from filledBounds
+							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getNorthEast() );
+						}
+					}
+					else if (this.extendedBounds.getWest() < this.filledBound.getWest())
+					{
+						if (this.extendedBounds.getSouth() > this.filledBound.getSouth() && this.extendedBounds.getNorth() < this.filledBound.getNorth())
+						{
+							// extended centered east from filledBounds
+							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getSouthWest() );
+						}
+						else if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						{
+							// extendedbounds southWest from filledBounds
+							freeBound1 = L.latLngBounds( this.filledBound.getSouthEast(), this.extendedBounds.getSouthWest() );
+							freeBound2 = L.latLngBounds( this.filledBound.getNorthWest(), freeBound1.getNorthWest() );
+						}
+						else
+						{
+							// extendedbounds northWest from filledBounds
+							freeBound1 = L.latLngBounds( this.filledBound.getNorthEast(), this.extendedBounds.getNorthWest() );
+							freeBound2 = L.latLngBounds( this.filledBound.getSouthWest(), freeBound1.getSouthWest() );
+						}
+					}
+					else
+					{
+						if (this.extendedBounds.getSouth() > this.filledBound.getSouth() && this.extendedBounds.getNorth() < this.filledBound.getNorth())
+						{
+							// extended centered west from filledBounds
+							freeBound1 = L.latLngBounds( this.filledBound.getNorthEast(), this.extendedBounds.getSouthEast() ); 
+						}
+						else if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						{
+							// extendedbounds southeast from filledBounds
+							freeBound1 = L.latLngBounds( this.filledBound.getSouthWest(), this.extendedBounds.getSouthEast() );
+							freeBound2 = L.latLngBounds( this.filledBound.getNorthEast(), freeBound1.getNorthEast() );
+						}
+						else
+						{	
+							// extendedbounds northEast from filledBounds
+							freeBound1 = L.latLngBounds( this.filledBound.getNorthWest(), this.extendedBounds.getNorthEast() );
+							freeBound2 = L.latLngBounds( this.filledBound.getSouthEast(), freeBound1.getSouthEast() );
+						}
+					}
+
+					//L.rectangle(freeBound1, {color: "red", weight: 3}).addTo(this.map_); 
+					//L.rectangle(freeBound2, {color: "blue", weight: 3}).addTo(this.map_); 
+
+					this.freeBounds.push(freeBound1);
+					if (freeBound2) this.freeBounds.push(freeBound2);				
+				}					
+			}
+			else
+			{
+				// extended bounds included in filledbounds
+				return false;
+			}
+		}
+		else
+		{
+			// first initialization
+			this.freeBounds.push(this.extendedBounds);
+			this.filledBound = this.extendedBounds;
+		}
+
+		this.filledBound = L.latLngBounds( 
+			L.latLng(
+				Math.max(this.filledBound.getNorth(), this.extendedBounds.getNorth()),
+				Math.max(this.filledBound.getEast(), this.extendedBounds.getEast())
+			),
+			L.latLng(
+				Math.min(this.filledBound.getSouth(), this.extendedBounds.getSouth()),
+				Math.min(this.filledBound.getWest(), this.extendedBounds.getWest()) 
+			)						
+		);
+
+		//L.rectangle(this.filledBound, {color: "grey", weight: 3}).addTo(this.map_); 
+
+		return true;
 	}
 
 	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)

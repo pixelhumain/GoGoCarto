@@ -225,7 +225,7 @@ export class AppModule
 		{			
 			if ($mode == AppModes.Map)
 			{
-				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+				this.mapComponent_.onIdle.do( (needToSendAjaxRequest) => { this.handleMapIdle(needToSendAjaxRequest);  });
 				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
 
 				$('#directory-content-map').show();
@@ -235,7 +235,7 @@ export class AppModule
 			}
 			else
 			{
-				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
+				this.mapComponent_.onIdle.off( (needToSendAjaxRequest) => { this.handleMapIdle(needToSendAjaxRequest);  });
 				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });		
 
 				$('#directory-content-map').hide();
@@ -325,10 +325,7 @@ export class AppModule
 							this.historyModule.pushNewState(options);
 							// we get element around so if the user end the DPAMdoule
 							// the elements will already be available to display
-							this.ajaxModule.getElementsAroundLocation(
-								this.mapComponent.getCenter(), 
-								this.mapComponent.mapRadiusInKm() * 2
-							);	 
+							//this.ajaxModule.getElementsInBounds([this.mapComponent.getBounds()]);	 
 						},
 						(error) => { /*TODO*/ alert("No element with this id"); }
 					);						
@@ -455,7 +452,7 @@ export class AppModule
 		}
 	}
 
-	handleMapIdle()
+	handleMapIdle($needToSendAjaxRequest : boolean = true)
 	{
 		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
@@ -490,19 +487,10 @@ export class AppModule
 			forceRepaint = true;
 		}
 
-		// sometimes idle event is fired but map is not yet initialized (somes millisecond
-		// after it will be)
-		// let delay = this.mapComponent.isMapLoaded ? 0 : 100;
-		// setTimeout(() => {
-			
-		// }, delay);	
-
 		this.elementModule.updateElementsToDisplay(updateInAllElementList, forceRepaint);
 		this.elementModule.updateElementsIcons(false);
-		this.ajaxModule.getElementsAroundLocation(
-			this.mapComponent.getCenter(), 
-			this.mapComponent.mapRadiusInKm() * 2
-		);	 
+
+		if ($needToSendAjaxRequest) this.ajaxModule.getElementsInBounds(this.mapComponent.freeBounds);		 
 
 		this.historyModule.updateCurrState();
 	};
@@ -555,7 +543,7 @@ export class AppModule
 		if (!elementsJson || elementsJson.length === 0) return;
 		//console.log("handleNewMarkersFromServer", elementsJson.length);
 		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, true);
-		console.log("new Elements length", newElements.length);
+		//console.log("new Elements length", newElements.length);
 		
 		// on add markerClusterGroup after first elements received
 		if (newElements.length > 0) 
