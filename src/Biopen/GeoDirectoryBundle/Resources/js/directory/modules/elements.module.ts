@@ -262,8 +262,7 @@ export class ElementsModule
 			});		
 		}
 
-		this.updateElementsIcons(filterHasChanged);	
-		
+		this.updateElementsIcons(filterHasChanged);		
 	};
 
 	currVisibleElements() 
