@@ -47,7 +47,10 @@ export class ElementListComponent
 
 	update($elementsResult : ElementsChanged) 
 	{
-		this.clear();
+		if ($elementsResult.elementsToDisplay.length == 0) this.stepsCount = 1;
+
+		this.clear();		
+
 		this.draw($elementsResult.elementsToDisplay, false);
 		
 		let address = App.geocoder.lastAddressRequest;
@@ -72,6 +75,13 @@ export class ElementListComponent
 		return $('#directory-content-list li').length;
 	}
 
+	reInitializeElementToDisplayLength()
+	{
+		this.clear();
+		$('#directory-content-list ul').animate({scrollTop: '0'}, 0);
+		this.stepsCount = 1;
+	}
+
 	private draw($elementList : Element[], $animate = false) 
 	{
 		//console.log('ElementList draw', $elementList.length);
@@ -91,25 +101,9 @@ export class ElementListComponent
 		// if the list is not full, we send ajax request
 		if ( elementsToDisplay.length < maxElementsToDisplay)
 		{
-			let location = App.geocoder.getLocation();
-
-			if (location)
-			{
-				let distance = this.lastDistanceRequest * 5;
-				this.lastDistanceRequest = distance;
-				//console.log("list isn't full -> Ajax request");
-				//let maxResults = 20;
-				App.ajaxModule.getElementsAroundLocation(location, distance);
-			}
-			else
-			{
-				// if location isn't available we diplay elements visible from the
-				// current map view 
-				App.ajaxModule.getElementsAroundLocation(
-					App.mapComponent.getCenter(), 
-					App.mapComponent.mapRadiusInKm()
-				);
-			}			
+			// expand bounds
+			App.boundsModule.extendBounds(0.5);
+			App.checkForNewElementsToRetrieve();		
 		}	
 		else
 		{
@@ -129,7 +123,7 @@ export class ElementListComponent
 
 		if ($animate)
 		{
-			$('#directory-content-list ul').animate({scrollTop: '0'}, 500)
+			$('#directory-content-list ul').animate({scrollTop: '0'}, 500);
 		}		
 
 		$('#directory-content-list ul').collapsible({
