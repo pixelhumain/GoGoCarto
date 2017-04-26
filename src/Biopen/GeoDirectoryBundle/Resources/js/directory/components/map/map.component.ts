@@ -73,7 +73,7 @@ export class MapComponent
 
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
-	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
+	getBounds() : L.LatLngBounds { return this.isMapLoaded ? this.map_.getBounds() : null; }
 	getZoom() { return this.map_.getZoom(); }
 	getOldZoom() { return this.oldZoom; }
 

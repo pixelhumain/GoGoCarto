@@ -235,11 +235,19 @@ export class AppModule
 				$('#directory-content-list').hide();				
 
 				this.mapComponent.init();
+
+				if (this.mapComponent_.isMapLoaded) this.boundsModule.extendBounds(0, this.mapComponent.getBounds());
 			}
 			else
 			{
 				$('#directory-content-map').hide();
 				$('#directory-content-list').show();
+
+				if (App.geocoder.getLocation()) 
+					{
+						this.boundsModule.createBoundsFromLocation(App.geocoder.getLocation());
+						this.checkForNewElementsToRetrieve();
+					}
 			}
 
 			// if previous mode wasn't null 
@@ -249,8 +257,9 @@ export class AppModule
 			// update history if we need to
 			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
 
+
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementsToDisplay(true, true, true);
+			this.elementModule.updateElementsToDisplay(true, true);
 
 			if ($updateTitleAndState)
 			{
