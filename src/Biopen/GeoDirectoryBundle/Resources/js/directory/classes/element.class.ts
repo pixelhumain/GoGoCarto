@@ -135,7 +135,7 @@ export class Element
 	update()
 	{
 		//console.log("marker update needToBeUpdated", this.needToBeUpdatedWhenShown);
-		if (this.needToBeUpdatedWhenShown)
+		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List)
 		{
 			this.updateIconsToDisplay();
 			if (this.marker) this.marker.update();
