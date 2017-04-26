@@ -25,7 +25,7 @@ export class Request
 
 export class DataAroundRequest
 {
-	constructor(public originLat : number, public originLng : number, public distance :number, public maxResults : number)
+	constructor(public originLat : number, public originLng : number, public distance :number, public maxResults : number, public mainOptionId : number)
 	{
 	};
 }
@@ -56,7 +56,7 @@ export class AjaxModule
 			return;
 		}
 
-		let dataRequest = new DataAroundRequest($location.lat, $location.lng, $distance, $maxResults);
+		let dataRequest = new DataAroundRequest($location.lat, $location.lng, $distance, $maxResults, App.currMainId);
 		let route = Routing.generate('biopen_api_elements_around_location');	
 		
 		this.sendAjaxElementRequest(new Request(route, dataRequest));
@@ -65,12 +65,12 @@ export class AjaxModule
 	getElementsInBounds($bounds : L.LatLngBounds[])
 	{
 		// if invalid location we abort
-		if (!$bounds || $bounds.length == 0) 
+		if (!$bounds || $bounds.length == 0 || !$bounds[0]) 
 		{
 			console.log("Ajax invalid request", $bounds);
 			return;
 		}
-		//console.log($bounds1, $bounds2);
+		//console.log($bounds);
 
 		let stringifiedBounds = "";
 
@@ -79,7 +79,7 @@ export class AjaxModule
 			stringifiedBounds += bound.toBBoxString() + ";";
 		}
 
-		let dataRequest : any = { bounds : stringifiedBounds };
+		let dataRequest : any = { bounds : stringifiedBounds, mainOptionId : App.currMainId };
 		let route = Routing.generate('biopen_api_elements_in_bounds');
 		
 		this.sendAjaxElementRequest(new Request(route, dataRequest));

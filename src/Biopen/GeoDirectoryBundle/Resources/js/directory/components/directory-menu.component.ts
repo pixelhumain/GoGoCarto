@@ -165,6 +165,8 @@ export class DirectoryMenuComponent
 		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
 		if (oldId != null) App.historyModule.updateCurrState();
 		
+		App.mapComponent.updateFilledBoundsAccordingToNewMainOptionId();
+		App.checkForNewElementsToRetrieve();
 		App.elementModule.updateElementsToDisplay(true,true,true);
 	}
 

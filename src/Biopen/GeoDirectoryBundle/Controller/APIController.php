@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-25 20:24:16
+ * @Last Modified time: 2017-04-26 10:57:01
  */
  
 
@@ -41,7 +41,8 @@ class APIController extends Controller
             $elementsFromDB = $elementRepo->findAround(
                 (float) $request->get('originLat'), 
                 (float) $request->get('originLng'), 
-                (float) $request->get('distance')
+                (float) $request->get('distance'),
+                $request->get('mainOptionId')
             ); 
     
             $responseJson = $this->encoreArrayToJson($elementsFromDB);  
@@ -70,7 +71,7 @@ class APIController extends Controller
             }
 
             $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes); 
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
     
             $responseJson = $this->encoreArrayToJson($elementsFromDB);            
 

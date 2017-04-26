@@ -225,7 +225,7 @@ export class AppModule
 		{			
 			if ($mode == AppModes.Map)
 			{
-				this.mapComponent_.onIdle.do( (needToSendAjaxRequest) => { this.handleMapIdle(needToSendAjaxRequest);  });
+				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
 
 				$('#directory-content-map').show();
@@ -235,7 +235,7 @@ export class AppModule
 			}
 			else
 			{
-				this.mapComponent_.onIdle.off( (needToSendAjaxRequest) => { this.handleMapIdle(needToSendAjaxRequest);  });
+				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
 				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });		
 
 				$('#directory-content-map').hide();
@@ -452,7 +452,7 @@ export class AppModule
 		}
 	}
 
-	handleMapIdle($needToSendAjaxRequest : boolean = true)
+	handleMapIdle()
 	{
 		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
@@ -488,12 +488,18 @@ export class AppModule
 		}
 
 		this.elementModule.updateElementsToDisplay(updateInAllElementList, forceRepaint);
-		this.elementModule.updateElementsIcons(false);
+		//this.elementModule.updateElementsIcons(false);
 
-		if ($needToSendAjaxRequest) this.ajaxModule.getElementsInBounds(this.mapComponent.freeBounds);		 
+		this.checkForNewElementsToRetrieve();
 
 		this.historyModule.updateCurrState();
 	};
+
+	checkForNewElementsToRetrieve()
+	{
+		let freeBounds = this.mapComponent.calculateFreeBounds();
+		if (freeBounds && freeBounds.length > 0) this.ajaxModule.getElementsInBounds(freeBounds); 
+	}
 
 	handleMapClick()
 	{

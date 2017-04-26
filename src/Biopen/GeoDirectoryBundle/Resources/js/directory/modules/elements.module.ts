@@ -79,8 +79,8 @@ export class ElementsModule
 		
 		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
 
-		if (newIds.length != elementList.length)
-			console.log("ERREUR  DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
+		// if (newIds.length != elementList.length)
+		// 	console.log("DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
 
 		let i = newIds.length;
 

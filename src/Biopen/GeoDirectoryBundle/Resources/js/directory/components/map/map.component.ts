@@ -60,7 +60,7 @@ export class MapComponent
 	onMapReady = new Event<any>();
 	onMapLoaded = new Event<any>();
 	onClick = new Event<any>();
-	onIdle = new Event<boolean>();
+	onIdle = new Event<any>();
 
 	//Leaflet map
 	map_ : L.Map = null;
@@ -71,10 +71,12 @@ export class MapComponent
 	oldZoom = -1;
 	viewport : ViewPort = null;
 
+	// we extend visible viexport to load elements on this area, so the user see them directly when panning or zoom out
 	extendedBounds : L.LatLngBounds;
-	filledBound : L.LatLngBounds;
-	freeBounds : L.LatLngBounds[];
 
+	// the bounds where elements has already been retrieved
+	// we save one filledBound per mainOptionId
+	filledBound : L.LatLngBounds[] = [];
 
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
@@ -106,11 +108,16 @@ export class MapComponent
 		    maxClusterRadius: (zoom) =>
 		    {
 		    	if (zoom > 9) return 55;
-		    	else return 60;
+		    	else return 70;
 		    }
 		});
 
 		this.addMarkerClusterGroup();
+
+		for(let mainOptionId of App.categoryModule.getMainOptionsIdsWithAll())
+		{
+			this.filledBound[mainOptionId] = null;
+		}
 
 		L.control.zoom({
 		   position:'topright'
@@ -124,7 +131,7 @@ export class MapComponent
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
 			this.updateExtendedBounds();
-			this.onIdle.emit(this.calculateFreeBounds()); 
+			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
 
@@ -133,14 +140,14 @@ export class MapComponent
 		// if we began with List Mode, when we initialize map
 		// there is already an address geocoded or a viewport defined
 		if (App && App.geocoder.getBounds())
-	   {
-	   	this.fitBounds(App.geocoder.getBounds(), false);
-	   }
-	   else if (this.viewport)
-	   {
-	   	// setTimeout waiting for the map to be resized
-	   	setTimeout( () => { this.setViewPort(this.viewport); },200);
-	   }
+		{
+			this.fitBounds(App.geocoder.getBounds(), false);
+		}
+		else if (this.viewport)
+		{
+			// setTimeout waiting for the map to be resized
+			setTimeout( () => { this.setViewPort(this.viewport); },200);
+		}
 
 		this.isInitialized = true;
 		//console.log("map init done");
@@ -242,125 +249,159 @@ export class MapComponent
 
 	updateExtendedBounds()
 	{
-		this.extendedBounds = this.map_.getBounds().pad(0.5);
+		this.extendedBounds = this.map_.getBounds().pad(0.2);
 	}
+
+	updateFilledBoundsAccordingToNewMainOptionId()
+	{
+		if (App.currMainId == 'all')
+		{
+			// let othersfilledBoundsNotEmpty = App.categoryModule.getMainOptionsIds().map( (id) => this.filledBound[id]).filter( (bound) => bound != null);
+
+			// // getting the smallest
+			// let west =  Math.max.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getWest()));
+			// let south = Math.max.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getSouth()));
+			// let east =  Math.min.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getEast()));
+			// let north = Math.min.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getNorth()));
+
+
+		}
+		else if (this.filledBound['all'])
+		{
+			if (!this.currFilledBound || this.filledBound['all'].contains(this.filledBound[App.currMainId]))
+			{
+				this.filledBound[App.currMainId] = this.filledBound['all']
+			}
+		}
+	}
+
+	// implements this function to wait from ajax response to update new filledBounds, instead of
+	// updating it before ajax send (possibly wrong if ajax fail)
+	// updateFilledBoundsWithBoundsReceived(bound : L.LatLngBoundsExpression, mainOptionId : number)
+	// {
+	// 	this.filledBound[mainOptionId] = new L.latLngBounds(bound);
+	// }
+
+	get currFilledBound() { return this.filledBound[App.currMainId]; }
 
 	calculateFreeBounds()
 	{
-		this.freeBounds = [];
+		let freeBounds = [];
+
+		let currFilledBound = this.currFilledBound;
 
 		let freeBound1, freeBound2, freeBound3, freeBound4;
 
-		if (this.filledBound)
+		if (currFilledBound)
 		{
-			if (!this.filledBound.contains(this.extendedBounds))
+			if (!currFilledBound.contains(this.extendedBounds))
 			{
-				if (this.extendedBounds.contains(this.filledBound))
+				if (this.extendedBounds.contains(currFilledBound))
 				{
 					// extended contains filledbounds		
 
-					freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getNorthEast() );
+					freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), currFilledBound.getNorthEast() );
 					freeBound2 = L.latLngBounds( freeBound1.getNorthEast()				 , this.extendedBounds.getSouthEast() );
-					freeBound3 = L.latLngBounds( this.filledBound.getSouthEast()	 , this.extendedBounds.getSouthWest() );
-					freeBound4 = L.latLngBounds( freeBound1.getSouthWest()				 , this.filledBound.getSouthWest() );
+					freeBound3 = L.latLngBounds( currFilledBound.getSouthEast()	 , this.extendedBounds.getSouthWest() );
+					freeBound4 = L.latLngBounds( freeBound1.getSouthWest()				 , currFilledBound.getSouthWest() );
 
-					this.filledBound = this.extendedBounds;
+					currFilledBound = this.extendedBounds;
 
-					this.freeBounds.push(freeBound1,freeBound2, freeBound3, freeBound4);					
+					freeBounds.push(freeBound1,freeBound2, freeBound3, freeBound4);					
 				}
 				else
 				{
 					// extended cross over filled
 
-					if (this.extendedBounds.getWest() > this.filledBound.getWest() && this.extendedBounds.getEast() < this.filledBound.getEast())
+					if (this.extendedBounds.getWest() > currFilledBound.getWest() && this.extendedBounds.getEast() < currFilledBound.getEast())
 					{
-						if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						if (this.extendedBounds.getSouth() < currFilledBound.getSouth())
 						{
 							// extended centered south from filledBounds
-							freeBound1 = L.latLngBounds( this.extendedBounds.getSouthWest(), this.filledBound.getSouthEast() );
+							freeBound1 = L.latLngBounds( this.extendedBounds.getSouthWest(), currFilledBound.getSouthEast() );
 							
 						}
 						else
 						{
 							// extended centered south from filledBounds
-							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getNorthEast() );
+							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), currFilledBound.getNorthEast() );
 						}
 					}
-					else if (this.extendedBounds.getWest() < this.filledBound.getWest())
+					else if (this.extendedBounds.getWest() < currFilledBound.getWest())
 					{
-						if (this.extendedBounds.getSouth() > this.filledBound.getSouth() && this.extendedBounds.getNorth() < this.filledBound.getNorth())
+						if (this.extendedBounds.getSouth() > currFilledBound.getSouth() && this.extendedBounds.getNorth() < currFilledBound.getNorth())
 						{
 							// extended centered east from filledBounds
-							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), this.filledBound.getSouthWest() );
+							freeBound1 = L.latLngBounds( this.extendedBounds.getNorthWest(), currFilledBound.getSouthWest() );
 						}
-						else if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						else if (this.extendedBounds.getSouth() < currFilledBound.getSouth())
 						{
 							// extendedbounds southWest from filledBounds
-							freeBound1 = L.latLngBounds( this.filledBound.getSouthEast(), this.extendedBounds.getSouthWest() );
-							freeBound2 = L.latLngBounds( this.filledBound.getNorthWest(), freeBound1.getNorthWest() );
+							freeBound1 = L.latLngBounds( currFilledBound.getSouthEast(), this.extendedBounds.getSouthWest() );
+							freeBound2 = L.latLngBounds( currFilledBound.getNorthWest(), freeBound1.getNorthWest() );
 						}
 						else
 						{
 							// extendedbounds northWest from filledBounds
-							freeBound1 = L.latLngBounds( this.filledBound.getNorthEast(), this.extendedBounds.getNorthWest() );
-							freeBound2 = L.latLngBounds( this.filledBound.getSouthWest(), freeBound1.getSouthWest() );
+							freeBound1 = L.latLngBounds( currFilledBound.getNorthEast(), this.extendedBounds.getNorthWest() );
+							freeBound2 = L.latLngBounds( currFilledBound.getSouthWest(), freeBound1.getSouthWest() );
 						}
 					}
 					else
 					{
-						if (this.extendedBounds.getSouth() > this.filledBound.getSouth() && this.extendedBounds.getNorth() < this.filledBound.getNorth())
+						if (this.extendedBounds.getSouth() > currFilledBound.getSouth() && this.extendedBounds.getNorth() < currFilledBound.getNorth())
 						{
 							// extended centered west from filledBounds
-							freeBound1 = L.latLngBounds( this.filledBound.getNorthEast(), this.extendedBounds.getSouthEast() ); 
+							freeBound1 = L.latLngBounds( currFilledBound.getNorthEast(), this.extendedBounds.getSouthEast() ); 
 						}
-						else if (this.extendedBounds.getSouth() < this.filledBound.getSouth())
+						else if (this.extendedBounds.getSouth() < currFilledBound.getSouth())
 						{
 							// extendedbounds southeast from filledBounds
-							freeBound1 = L.latLngBounds( this.filledBound.getSouthWest(), this.extendedBounds.getSouthEast() );
-							freeBound2 = L.latLngBounds( this.filledBound.getNorthEast(), freeBound1.getNorthEast() );
+							freeBound1 = L.latLngBounds( currFilledBound.getSouthWest(), this.extendedBounds.getSouthEast() );
+							freeBound2 = L.latLngBounds( currFilledBound.getNorthEast(), freeBound1.getNorthEast() );
 						}
 						else
 						{	
 							// extendedbounds northEast from filledBounds
-							freeBound1 = L.latLngBounds( this.filledBound.getNorthWest(), this.extendedBounds.getNorthEast() );
-							freeBound2 = L.latLngBounds( this.filledBound.getSouthEast(), freeBound1.getSouthEast() );
+							freeBound1 = L.latLngBounds( currFilledBound.getNorthWest(), this.extendedBounds.getNorthEast() );
+							freeBound2 = L.latLngBounds( currFilledBound.getSouthEast(), freeBound1.getSouthEast() );
 						}
 					}
 
 					//L.rectangle(freeBound1, {color: "red", weight: 3}).addTo(this.map_); 
 					//L.rectangle(freeBound2, {color: "blue", weight: 3}).addTo(this.map_); 
 
-					this.freeBounds.push(freeBound1);
-					if (freeBound2) this.freeBounds.push(freeBound2);				
+					freeBounds.push(freeBound1);
+					if (freeBound2) freeBounds.push(freeBound2);		
+
+					currFilledBound = L.latLngBounds( 
+						L.latLng(
+							Math.max(currFilledBound.getNorth(), this.extendedBounds.getNorth()),
+							Math.max(currFilledBound.getEast(), this.extendedBounds.getEast())
+						),
+						L.latLng(
+							Math.min(currFilledBound.getSouth(), this.extendedBounds.getSouth()),
+							Math.min(currFilledBound.getWest(), this.extendedBounds.getWest()) 
+						)						
+					);		
 				}					
 			}
 			else
 			{
 				// extended bounds included in filledbounds
-				return false;
+				return null;
 			}
 		}
 		else
 		{
 			// first initialization
-			this.freeBounds.push(this.extendedBounds);
-			this.filledBound = this.extendedBounds;
-		}
+			freeBounds.push(this.extendedBounds);
+			currFilledBound = this.extendedBounds;
+		}		
 
-		this.filledBound = L.latLngBounds( 
-			L.latLng(
-				Math.max(this.filledBound.getNorth(), this.extendedBounds.getNorth()),
-				Math.max(this.filledBound.getEast(), this.extendedBounds.getEast())
-			),
-			L.latLng(
-				Math.min(this.filledBound.getSouth(), this.extendedBounds.getSouth()),
-				Math.min(this.filledBound.getWest(), this.extendedBounds.getWest()) 
-			)						
-		);
+		this.filledBound[App.currMainId] = currFilledBound;
 
-		//L.rectangle(this.filledBound, {color: "grey", weight: 3}).addTo(this.map_); 
-
-		return true;
+		return freeBounds;
 	}
 
 	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)

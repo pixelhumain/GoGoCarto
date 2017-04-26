@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-25 20:24:03
+ * @Last Modified time: 2017-04-26 12:46:08
  */
  
 
@@ -32,17 +32,24 @@ class ElementRepository extends DocumentRepository
               ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
-  public function findWhithinBoxes($bounds)
+  public function findWhithinBoxes($bounds, $optionId)
   {
     $results = [];
 
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
+    dump("quering optionId " . $optionId);
+
     foreach ($bounds as $key => $bound) 
     {
       if (count($bound) == 4)
       {
-        $array = $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
+        if ($optionId && $optionId != "all")
+        {
+          //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
+          $qb->field('optionValues.optionId')->in(array((float) $optionId));
+        }
+        $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
                     ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
 
         $results = array_merge($results, $array);  
@@ -52,3 +59,5 @@ class ElementRepository extends DocumentRepository
     return $results;
   }
 }
+
+
