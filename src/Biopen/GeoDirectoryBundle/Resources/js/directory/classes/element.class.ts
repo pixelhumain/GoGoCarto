@@ -138,8 +138,13 @@ export class Element
 		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List || $force)
 		{
 			this.updateIconsToDisplay();
-			for(let optionValue of this.getCurrOptionsValues()) this.updateOwnerColor(optionValue);
-			this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].colorOptionId : null;		
+
+			let optionValuesToUpdate = this.getCurrOptionsValues().filter( (optionValue) => optionValue.isFilledByFilters);
+			optionValuesToUpdate.push(this.getCurrMainOptionValue());
+			for(let optionValue of optionValuesToUpdate) this.updateOwnerColor(optionValue);
+
+			this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].colorOptionId : null;	
+
 			if (this.marker) this.marker.update();
 			this.needToBeUpdatedWhenShown = false;
 		}		
