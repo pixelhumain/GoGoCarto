@@ -7,97 +7,20 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-27 18:25:59
+ * @Last Modified time: 2017-04-27 21:34:31
  */
  
 
-namespace Biopen\GeoDirectoryBundle\DataFixtures\ORM;
+namespace Biopen\GeoDirectoryBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
-class LoadCategory implements FixtureInterface
+function loadSortieCulture($mainOption)
 {
-	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
-	public function load(ObjectManager $manager)
-	{
-		$openHoursCategory = new Category();
-		$openHoursCategory->setName("Horaires d'ouverture");
-		$openHoursCategory->setIndex(1);
-		$openHoursCategory->setDisplayCategoryName(true);
-		$openHoursCategory->setDepth(-1);
-
-		// Liste des names de catégorie à ajouter
-		$days = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche');
-
-
-		foreach ($days as $key => $day) 
-		{
-		   $new_openHours = new Option();
-		   $new_openHours->setName($day);
-		   $new_openHours->setIcon('icon-day');
-		   $new_openHours->setColor('#4A7874');
-		   $new_openHours->setNameShort($day);
-		   $new_openHours->setTextHelper('');
-		   $new_openHours->setIndex($key);
-
-		   $openHoursCategory->addOption($new_openHours);
-		}
-
-		$manager->persist($openHoursCategory);
-
-
-		// main
-		$mainCategory = new Category();
-		$mainCategory->setName('Catégories Principales');
-		$mainCategory->setPickingOptionText('Une catégorie principale');
-		$mainCategory->setIndex(1);
-		$mainCategory->setSingleOption(false);
-		$mainCategory->setEnableDescription(false);
-		$mainCategory->setDisplayCategoryName(true);
-		$mainCategory->setDepth(0);
-
-		// Liste des names de catégorie à ajouter
-		$mains = array(
-			array('Agriculture & Alimentation'  , 'leaf-1'     , '#579c46'		, 'rgba(78, 136, 65, 0.92)'	, 'Agriculture'        , true),
-			array('Habitat'    						, 'home'      	, '#8e5440'		, '#8e5440'	,''        , false),			
-			array('Education & Formation'    , 'education'     , '#383D5A'	   , 'rgba(56, 61, 90, 0.93)'	,'Education'        , false),
-			array('Mobilité'        			, 'bike'      		, '#b33738'		, 'rgba(179, 55, 56, 0.89)'	,''        , false),
-			array('Sortie & Culture'   		 , 'coffee'      	, '#5262b7'		, 'rgba(82, 98, 183, 0.93)'	,'Sortie'        , false),			
-			array('Voyages'      				, 'bed'     		, '#985389'		, '#985389'	,'', false),			
-			
-		);
-
-
-		foreach ($mains as $key => $main) 
-		{
-			$new_main = new Option();
-			$new_main->setName($main[0]);
-
-			$new_main->setIcon('icon-' . $main[1]);
-			$new_main->setColor($main[2]);
-			$new_main->setSoftColor($main[3]);
-
-			if ($main[4] == '') $new_main->setNameShort($main[0]);
-			else $new_main->setNameShort($main[4]);
-
-			$new_main->setTextHelper('');
-
-			$new_main->setUseIconForMarker(true);
-			$new_main->setUseColorForMarker(true);
-
-			$new_main->setIndex($key);
-
-			$new_main->setShowOpenHours($main[5]);
-
-			$mainCategory->addOption($new_main);
-		}
-		
-
-
-		// AGRICULTURE
+	// AGRICULTURE
 		$typeCategory = new Category();
 		$typeCategory->setName('Type');
 		$typeCategory->setPickingOptionText('Une un type');
@@ -108,16 +31,13 @@ class LoadCategory implements FixtureInterface
 		$typeCategory->setDepth(1);
 
 		// Liste des noms de catégorie à ajouter
-		$types = array(
-			
-			
+		$types = array(			
 			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
 			array('Epicerie & Supérette'   ,'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , '#4a7874',''        , true),
-			array('Ruche qui dit oui'     , 'icon-boutique'     	, '#fecf00',''				, true),
+			array('Restauration'    		, 'icon-restaurant'      , '#258bb9',''        , true),
+			array('Ruche qui dit oui'     , 'icon-boutique'     	, '#8e5440',''				, true),
 			array('Circuit courts'  		, ''     			, '', 'producteur, amap, artisan, ruche...'        , false)
 		);
-
 
 		foreach ($types as $key => $type) 
 		{
@@ -133,7 +53,6 @@ class LoadCategory implements FixtureInterface
 
 			$new_type->setUseIconForMarker($type[4]);
 			$new_type->setUseColorForMarker($type[4]);
-			$new_type->setDisplayOption($type[4]);
 
 			$new_type->setIndex($key);
 
@@ -158,7 +77,7 @@ class LoadCategory implements FixtureInterface
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
 			array('Producteur/Artisan'     , ''    , '#B33536', ''        , ''),
-			array('AMAP'             		 , ''    , '#4a7874',''        , '')
+			array('AMAP'             		 , ''    , '#d23f71',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -201,6 +120,10 @@ class LoadCategory implements FixtureInterface
 			array('Produits laitiers'   , 'icon-laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
 			array('Viande'              , 'icon-viande'      , '#961616',''        , ''),			
 			array('Miel'                , 'icon-miel'        , '#E09703',''        , ''),
+			array('Oeufs'               , 'icon-oeufs'       , '#E09703',''        , ''),
+			array('Poisson'             , 'icon-poisson'     , '#3F51B5',''        , ''),
+			array('Légumineuses'        , 'icon-legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches...'),
+			array('Produits transformés', 'icon-transformes' , '#37474F','Transformés', 'Confitures, pestos...'),
 			array('Pain, farine'        , 'icon-pain'        , '#B37800','Pain/Farine'        , ''),
 			array('Huiles'              , 'icon-huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
 			array('Boissons'            , 'icon-boissons'    , '#258BB9',''        , ''),
@@ -209,16 +132,13 @@ class LoadCategory implements FixtureInterface
 		);
 
 		// $subproducts = array(
-		// 	array('Oeufs'               , 'oeufs'       , '#E09703',''        , ''),
-		// 	array('Poisson'             , 'poisson'     , '#3F51B5',''        , ''),
-		// 	array('Légumineuses'        , 'legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches'),
-		// 	array('Produits transformés', 'transformes' , '#37474F','Transformés', ''),
+		// 	
 		// );
 
 		$subproducts = array(
-			array('Agneau'               , 'icon-viande'       , '#961616'        , ''),
-			array('Boeuf'             	, 'icon-viande'    	 	, '#961616'        , ''),
-			array('Volaille'        	, 'icon-oeufs'				, '#E09703'				,'' )
+			array('Agneau'               , 'icon-angle-right'       , ''        , ''),
+			array('Boeuf'             	, 'icon-angle-right'   	 	, ''        , ''),
+			array('Volaille'        	, 'icon-angle-right'				, ''				,'' )
 		);
 
 		foreach ($products as $key => $product) 
@@ -258,6 +178,7 @@ class LoadCategory implements FixtureInterface
 
 					$new_subproduct->setIcon($subproduct[1]);
 					$new_subproduct->setColor($subproduct[2]);
+					$new_subproduct->setSoftColor($subproduct[2]);
 
 					if ($subproduct[3] == '') $new_subproduct->setNameShort($subproduct[0]);
 					else $new_subproduct->setNameShort($subproduct[3]);
@@ -279,14 +200,7 @@ class LoadCategory implements FixtureInterface
 		}
 
 		// COMPILE
-
-		$mainCategory->getOptions()[0]->addSubcategory($typeCategory);
-		//$mainCategory->getOptions()[0]->addSubcategory($productCategory);
-		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[4]->addSubcategory($circuitCategory);
-		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[4]->addSubcategory($productCategory);
-
-		$manager->persist($mainCategory);
-		// On déclenche l'enregistrement de toutes les catégories
-		$manager->flush();
-	}
+		$typeCategory->getOptions()[4]->addSubcategory($circuitCategory);
+		$typeCategory->getOptions()[4]->addSubcategory($productCategory);
+		$mainOption->addSubcategory($typeCategory);
 }
