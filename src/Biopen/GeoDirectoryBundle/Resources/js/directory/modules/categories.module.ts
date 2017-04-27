@@ -130,4 +130,9 @@ export class CategoriesModule
 	{
 		return this.options.filter( (option : Option) => option.id == $id).shift();
 	};
+
+	getCurrOptions() : Option[]
+	{
+		return this.options.filter( (option : Option) => option.mainOwnerId == App.currMainId);
+	}
 }

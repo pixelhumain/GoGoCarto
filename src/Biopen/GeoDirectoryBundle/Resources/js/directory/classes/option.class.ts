@@ -40,21 +40,53 @@ export class Option extends CategoryOptionTreeNode
 
 	get ownerColorId() : number
 	{
-		if (this.myOwnerColorId !== null) return this.myOwnerColorId;
+		if (this.myOwnerColorId == null) return this.updateOwnerColor();
+		return this.myOwnerColorId;
+	}
 
+	updateOwnerColor()
+	{
+		//console.log("updateOwnerColor", this.name);
 		if (!this.useColorForMarker)
 		{
-			let option : any = this;
+			let option : Option = this;
+			let category : Category;
 			let colorId : number = null;
-			while(colorId == null && option)
+
+			category = <Category> option.getOwner();
+			//console.log("option" + this.name + " no usecolor, looking for siblings", category.getOwner().children.map( (op : Category) => op.name));
+			
+			
+			let siblingsCategories = <Category[]> category.getOwner().children.filter( (cat : Category) => cat != category);
+			let siblingsOptions : Option[] = [];
+			for(category of siblingsCategories)
 			{
-				option = option.getOwner();
-				if (option) 
+				siblingsOptions = siblingsOptions.concat(<Option[]> category.children);
+			}
+			//console.log("siblingsOptions", siblingsOptions.map( (op) => op.name));
+			let optionsForColoring = siblingsOptions.filter( (option : Option) => !option.isDisabled && option.useColorForMarker).sort( (a,b) => b.index - a.index);
+			//console.log("othersOptions", optionsForColoring.map( (op) => op.name));
+			if (optionsForColoring.length > 0)
+			{
+				option = <Option> optionsForColoring.shift();
+				//console.log("-> sibling found : ", option.name);
+				colorId = option.id;
+			}
+			else
+			{
+				//console.log("no siblings, looking for parent");
+				while(colorId == null && option)
 				{
-					option = option.getOwner();
-					colorId = option.useColorForMarker ? option.id : null;
+					category = <Category> option.getOwner();
+					if (category)
+					{
+						option = <Option> category.getOwner();					
+						//console.log("->parent option" + option.name + " usecolorForMarker", option.useColorForMarker);
+						colorId = option.useColorForMarker ? option.id : null;
+					}					
 				}
 			}
+			
 			this.myOwnerColorId = colorId;
 		}
 		else 
