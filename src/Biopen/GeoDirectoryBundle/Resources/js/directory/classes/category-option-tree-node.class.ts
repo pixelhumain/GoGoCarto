@@ -95,8 +95,6 @@ export class CategoryOptionTreeNode
 			if(humanAction)
 			{
 				if (this.getOwner()) this.getOwner().updateState();
-
-				let optionsToUpdate = App.categoryModule.getCurrOptions().filter( (option) => !option.useColorForMarker);
 				
 				//if (App.mode == AppModes.Map) App.elementModule.updateElementsIcons(true);
 				App.elementModule.updateElementsToDisplay(check, false, true);
