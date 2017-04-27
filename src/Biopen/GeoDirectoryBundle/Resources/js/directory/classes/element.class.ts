@@ -132,10 +132,10 @@ export class Element
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 	};
 
-	update()
+	update($force : boolean = false)
 	{
 		//console.log("marker update needToBeUpdated", this.needToBeUpdatedWhenShown);
-		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List)
+		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List || $force)
 		{
 			this.updateIconsToDisplay();
 			if (this.marker) this.marker.update();
@@ -271,7 +271,7 @@ export class Element
 	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue, noRecursive : boolean = true)
 	{
 		let isEveryCategoryContainsOneOptionNotdisabled = true;
-		//console.log("checkForDisabledOptionValue", optionValue);
+		//console.log("checkForDisabledOptionValue Norecursive : " + noRecursive, optionValue);
 
 		for(let categoryValue of optionValue.children)
 		{
@@ -285,18 +285,19 @@ export class Element
 				}
 				else
 				{
-					this.recursivelyCheckForDisabledOptionValues(suboptionValue);
+					this.recursivelyCheckForDisabledOptionValues(suboptionValue, noRecursive);
 				}
 				if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
 			}
 			if (!isSomeOptionNotdisabled) isEveryCategoryContainsOneOptionNotdisabled = false;
+			//console.log("CategoryValue " + categoryValue.category.name + "isSomeOptionNotdisabled", isSomeOptionNotdisabled);
 		}
 
 		if (optionValue.option)
 		{
 			//console.log("OptionValue " + optionValue.option.name + " : isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
 			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
-			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
+			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(optionValue.isFilledByFilters);
 		}
 	}
 
