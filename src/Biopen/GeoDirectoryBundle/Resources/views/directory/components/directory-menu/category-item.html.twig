@@ -30,7 +30,7 @@
 		{% set isSubcategories = recursive and option.subcategories|length %}
 
 	    <li class="subcategorie-option-item row {{isSubcategories ? 'option-collapsible' : ''}}{{ option.showSubcategories ? 'expanded' : '' }}"    		
-	    		id="option-{{ option.id }}">
+	    		id="option-{{ option.id }}" {{option.displayOption ? '' : 'style="display:none"'}}>
 	    	
 	    		{# --- ICON & NAME--- #}
 	    		<div class="icon-name-wrapper {{isSubcategories ? 'tooltipped' : ''}}" data-option-id='{{ option.id }}' 

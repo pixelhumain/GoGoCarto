@@ -17,6 +17,7 @@ export class Option extends CategoryOptionTreeNode
 	useColorForMarker : boolean;
 	showOpenHours : boolean;
 	depth : number;
+	displayOption : number;
 	
 	private myOwnerColorId : number = null;
 
@@ -34,6 +35,7 @@ export class Option extends CategoryOptionTreeNode
 		this.useIconForMarker = $optionJson.use_icon_for_marker;
 		this.useColorForMarker = $optionJson.use_color_for_marker;
 		this.showOpenHours = $optionJson.show_open_hours;
+		this.displayOption = $optionJson.display_option;
 	}
 
 	get ownerColorId() : number

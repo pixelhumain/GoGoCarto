@@ -91,6 +91,13 @@ class Option
      *
      * @MongoDB\Field(type="boolean")
      */
+    private $displayOption = true;
+
+    /**
+     * @var bool
+     *
+     * @MongoDB\Field(type="boolean")
+     */
     private $showSubcategories = false;
 
      /**
@@ -386,5 +393,27 @@ class Option
     public function getShowSubcategories()
     {
         return $this->showSubcategories;
+    }
+
+    /**
+     * Set displayOption
+     *
+     * @param boolean $displayOption
+     * @return $this
+     */
+    public function setDisplayOption($displayOption)
+    {
+        $this->displayOption = $displayOption;
+        return $this;
+    }
+
+    /**
+     * Get displayOption
+     *
+     * @return boolean $displayOption
+     */
+    public function getDisplayOption()
+    {
+        return $this->displayOption;
     }
 }
