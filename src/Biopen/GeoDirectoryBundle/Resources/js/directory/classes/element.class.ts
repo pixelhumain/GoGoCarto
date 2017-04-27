@@ -138,9 +138,59 @@ export class Element
 		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List || $force)
 		{
 			this.updateIconsToDisplay();
+			for(let optionValue of this.getCurrOptionsValues()) this.updateOwnerColor(optionValue);
+			this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].colorOptionId : null;		
 			if (this.marker) this.marker.update();
 			this.needToBeUpdatedWhenShown = false;
 		}		
+	}
+
+	updateOwnerColor($optionValue : OptionValue)
+	{
+		//console.log("updateOwnerColor", $optionValue.option.name);
+		if ($optionValue.option.useColorForMarker)
+		{
+			$optionValue.colorOptionId = $optionValue.optionId;
+		}		
+		else 
+		{
+			let option : Option;
+			let category : Category;
+			let colorId : number = null;
+
+			let siblingsOptionsForColoring : OptionValue[] = this.getCurrOptionsValues().filter( 
+				(optionValue) => 
+					optionValue.isFilledByFilters 
+					&& optionValue.option.useColorForMarker
+					&& optionValue.option.ownerId !== $optionValue.option.ownerId 
+					&& optionValue.categoryOwner.ownerId == $optionValue.categoryOwner.ownerId
+			);
+
+			//console.log("siblingsOptionsForColoring", siblingsOptionsForColoring.map( (op) => op.option.name));
+			if (siblingsOptionsForColoring.length > 0)
+			{
+				option = <Option> siblingsOptionsForColoring.shift().option;
+				//console.log("-> sibling found : ", option.name);
+				colorId = option.id;
+			}
+			else
+			{
+				option = $optionValue.option;
+				//console.log("no siblings, looking for parent");
+				while(colorId == null && option)
+				{
+					category = <Category> option.getOwner();
+					if (category)
+					{
+						option = <Option> category.getOwner();					
+						//console.log("->parent option" + option.name + " usecolorForMarker", option.useColorForMarker);
+						colorId = option.useColorForMarker ? option.id : null;
+					}					
+				}
+			}
+			
+			$optionValue.colorOptionId = colorId;
+		}
 	}
 
 	getCurrOptionsValues() : OptionValue[]
@@ -229,8 +279,6 @@ export class Element
 		{
 			this.iconsToDisplay.push(this.getCurrMainOptionValue());
 		}
-
-		this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].option.ownerColorId : null;
 		
 		//console.log("Icons to display sorted", this.getIconsToDisplay());
 	}

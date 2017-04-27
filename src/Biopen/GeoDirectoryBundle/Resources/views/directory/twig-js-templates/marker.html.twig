@@ -1,8 +1,8 @@
 {% twig_js name="biopen_twigJs_marker" %}
 
-<div class="marker-name bgdColorAs" option-id={{mainOptionValueToDisplay.option.ownerColorId}} style="display:none">{{ element.name | capitalize }}</div>
+<div class="marker-name bgdColorAs" option-id={{mainOptionValueToDisplay.colorOptionId}} style="display:none">{{ element.name | capitalize }}</div>
 
-<div class="marker-wrapper colorAs" option-id="{{mainOptionValueToDisplay.option.ownerColorId}}" id="marker-{{ element.id }}">
+<div class="marker-wrapper colorAs" option-id="{{mainOptionValueToDisplay.colorOptionId}}" id="marker-{{ element.id }}">
 
 	<div class="rotate animate icon-marker"></div>
 	
@@ -26,7 +26,7 @@
 
 				{% set disableOption = otherOptionValue.isFilledByFilters == false ? 'disabled' : '' %}
 
-				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.option.ownerColorId }}
+				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.colorOptionId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.colorOptionId }}
 						style="left:{{ 32 * loop.index0 }}px">
 					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs" option-id={{ otherOptionValue.optionId }}>
 					</span>

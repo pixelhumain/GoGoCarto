@@ -12,6 +12,7 @@ export class OptionValue
 	isFilledByFilters : boolean = true;
 
 	children : CategoryValue[] = [];
+	colorOptionId : number = null;
 
 	constructor( $optionValueJson )
 	{
