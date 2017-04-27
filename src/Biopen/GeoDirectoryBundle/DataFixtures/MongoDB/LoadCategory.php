@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-10 10:06:54
+ * @Last Modified time: 2017-04-27 18:25:59
  */
  
 
@@ -97,22 +97,25 @@ class LoadCategory implements FixtureInterface
 		
 
 
-		// TYPE
+		// AGRICULTURE
 		$typeCategory = new Category();
-		$typeCategory->setName('Catégorie');
-		$typeCategory->setPickingOptionText('Une sous catégorie');
+		$typeCategory->setName('Type');
+		$typeCategory->setPickingOptionText('Une un type');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
 
-		// Liste des names de catégorie à ajouter
+		// Liste des noms de catégorie à ajouter
 		$types = array(
-			array('Circuit courts'  		, ''     			, '#B33536', 'producteur, amap, artisan, ruche...'        , false),
+			
+			
 			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
-			array('Epicerie & Supérette'    ,'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , '#4a7874',''        , true)
+			array('Epicerie & Supérette'   ,'icon-epicerie'      , '#383D5A',''        , true),
+			array('Restauration'    		, 'icon-restaurant'      , '#4a7874',''        , true),
+			array('Ruche qui dit oui'     , 'icon-boutique'     	, '#fecf00',''				, true),
+			array('Circuit courts'  		, ''     			, '', 'producteur, amap, artisan, ruche...'        , false)
 		);
 
 
@@ -129,10 +132,16 @@ class LoadCategory implements FixtureInterface
 			$new_type->setNameShort($type[0]);
 
 			$new_type->setUseIconForMarker($type[4]);
-			$new_type->setUseColorForMarker(true);
+			$new_type->setUseColorForMarker($type[4]);
+			$new_type->setDisplayOption($type[4]);
 
 			$new_type->setIndex($key);
 
+			if ($key == 4) 
+			{
+				$new_type->setShowSubcategories(true);
+				$new_type->setDisplayOption(false);
+			}
 			$typeCategory->addOption($new_type);
 		}
 
@@ -143,15 +152,13 @@ class LoadCategory implements FixtureInterface
 		$circuitCategory->setIndex(1);
 		$circuitCategory->setSingleOption(false);
 		$circuitCategory->setEnableDescription(false);
-		$circuitCategory->setDisplayCategoryName(true);
-		$circuitCategory->setDepth(2);
+		$circuitCategory->setDisplayCategoryName(false);
+		$circuitCategory->setDepth(1);
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Producteur'             , 'icon-angle-right'    , '', ''        , ''),
-			array('AMAP'             		 , 'icon-angle-right'     , '',''        , ''),
-			array('Artisan'   				, 'icon-angle-right'    , '','', ''),
-			array('Ruche qui dit oui'     , 'icon-angle-right'      , '',''        , ''),		
+			array('Producteur/Artisan'     , ''    , '#B33536', ''        , ''),
+			array('AMAP'             		 , ''    , '#4a7874',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -161,6 +168,7 @@ class LoadCategory implements FixtureInterface
 
 			$new_circuit->setIcon($circuit[1]);
 			$new_circuit->setColor($circuit[2]);
+			$new_circuit->setSoftColor($circuit[2]);
 
 			if ($circuit[3] == '') $new_circuit->setNameShort($circuit[0]);
 			else $new_circuit->setNameShort($circuit[3]);
@@ -168,7 +176,7 @@ class LoadCategory implements FixtureInterface
 			$new_circuit->setTextHelper($circuit[4]);
 
 			$new_circuit->setUseIconForMarker(false);
-			$new_circuit->setUseColorForMarker(false);
+			$new_circuit->setUseColorForMarker(true);
 
 			$new_circuit->setIndex($key);
 
@@ -184,7 +192,7 @@ class LoadCategory implements FixtureInterface
 		$productCategory->setSingleOption(false);
 		$productCategory->setEnableDescription(true);
 		$productCategory->setDisplayCategoryName(true);
-		$productCategory->setDepth(2);
+		$productCategory->setDepth(1);
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
@@ -236,8 +244,8 @@ class LoadCategory implements FixtureInterface
 				// SOUS PRODUITS
 				$subproductCategory = new Category();
 				$subproductCategory->setName('Sous Produits');
-				$subproductCategory->setPickingOptionText('Un sous produit');
-				$subproductCategory->setIndex(1);
+				$subproductCategory->setPickingOptionText('le type de viande');
+				$subproductCategory->setIndex(2);
 				$subproductCategory->setSingleOption(false);
 				$subproductCategory->setEnableDescription(true);
 				$subproductCategory->setDisplayCategoryName(false);
@@ -256,7 +264,7 @@ class LoadCategory implements FixtureInterface
 
 					$new_subproduct->setTextHelper('');
 
-					$new_subproduct->setUseIconForMarker(true);
+					$new_subproduct->setUseIconForMarker(false);
 					$new_subproduct->setUseColorForMarker(false);
 
 					$new_subproduct->setIndex($key);
@@ -270,14 +278,12 @@ class LoadCategory implements FixtureInterface
 			$productCategory->addOption($new_product);
 		}
 
-
-
-
 		// COMPILE
 
 		$mainCategory->getOptions()[0]->addSubcategory($typeCategory);
-		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[0]->addSubcategory($circuitCategory);
-		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[0]->addSubcategory($productCategory);
+		//$mainCategory->getOptions()[0]->addSubcategory($productCategory);
+		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[4]->addSubcategory($circuitCategory);
+		$mainCategory->getOptions()[0]->getSubcategories()[0]->getOptions()[4]->addSubcategory($productCategory);
 
 		$manager->persist($mainCategory);
 		// On déclenche l'enregistrement de toutes les catégories
