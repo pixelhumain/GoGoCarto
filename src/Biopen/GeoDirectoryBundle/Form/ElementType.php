@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-23 15:07:23
+ * @Last Modified time: 2017-04-27 13:07:39
  */
  
 
@@ -33,6 +33,7 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 
 use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
+use Biopen\GeoDirectoryBundle\Form\CoordinatesType;
 
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
@@ -61,8 +62,9 @@ class ElementType extends AbstractType
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
           ->add('postalCode', HiddenType::class)
-          ->add('lat', HiddenType::class)
-          ->add('lng', HiddenType::class)
+          // ->add('coordinates.lat', HiddenType::class)
+          // ->add('coordinates.lng', HiddenType::class)
+          ->add('coordinates', CoordinatesType::class)
           // ->add('listeProducts', DocumentType::class, array(
           //         'class' => 'Biopen\GeoDirectoryBundle\Document\Category',
           //         'choice_label' => 'name',
