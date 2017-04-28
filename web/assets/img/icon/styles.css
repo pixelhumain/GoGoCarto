@@ -92,9 +92,6 @@
 .icon-fruits2:before {
   content: "\70";
 }
-.icon-multiple:before {
-  content: "\6a";
-}
 .icon-plus:before {
   content: "\73";
 }
@@ -197,17 +194,8 @@
 .icon-exclamation-circle:before {
   content: "\35";
 }
-.icon-eye:before {
-  content: "\36";
-}
-.icon-eye-slash:before {
-  content: "\37";
-}
 .icon-external-link:before {
   content: "\38";
-}
-.icon-external-link-square:before {
-  content: "\39";
 }
 .icon-paper-plane:before {
   content: "\21";
@@ -263,9 +251,6 @@
 .icon-restaurant:before {
   content: "\2e";
 }
-.icon-truck:before {
-  content: "\2f";
-}
 .icon-building:before {
   content: "\3a";
 }
@@ -313,15 +298,6 @@
 }
 .icon-users:before {
   content: "\7e";
-}
-.icon-leaf:before {
-  content: "\5c";
-}
-.icon-scissors:before {
-  content: "\e000";
-}
-.icon-women:before {
-  content: "\e001";
 }
 .icon-003-flower:before {
   content: "\e002";
@@ -422,18 +398,78 @@
 .icon-camping:before {
   content: "\e022";
 }
-.icon-partner:before {
-  content: "\e023";
-}
-.icon-partner-1:before {
-  content: "\e024";
-}
-.icon-partner-2:before {
-  content: "\e025";
-}
 .icon-partner-3:before {
   content: "\e026";
 }
-.icon-partner-4:before {
+.icon-001-scissors-1:before {
+  content: "\e000";
+}
+.icon-002-women:before {
+  content: "\e001";
+}
+.icon-echange-1:before {
+  content: "\e028";
+}
+.icon-conf:before {
+  content: "\e02d";
+}
+.icon-atelier-1:before {
+  content: "\e02f";
+}
+.icon-formation-2:before {
+  content: "\e034";
+}
+.icon-skate:before {
+  content: "\36";
+}
+.icon-moto-4:before {
+  content: "\39";
+}
+.icon-moto-3:before {
+  content: "\5c";
+}
+.icon-brouette:before {
+  content: "\e023";
+}
+.icon-bike-1:before {
+  content: "\e025";
+}
+.icon-moto-2:before {
+  content: "\e02b";
+}
+.icon-moto-1:before {
+  content: "\e02c";
+}
+.icon-mobilite:before {
+  content: "\e02e";
+}
+.icon-moto:before {
+  content: "\e030";
+}
+.icon-coffee-2:before {
+  content: "\e032";
+}
+.icon-mobilite-4:before {
+  content: "\e033";
+}
+.icon-mobilite-7:before {
+  content: "\e03a";
+}
+.icon-mobilite-1:before {
+  content: "\6a";
+}
+.icon-mobilite-2:before {
+  content: "\37";
+}
+.icon-mobilite-5:before {
+  content: "\2f";
+}
+.icon-mobilite-3:before {
+  content: "\e01f";
+}
+.icon-017-transport-1:before {
+  content: "\e024";
+}
+.icon-mobilite-6:before {
   content: "\e027";
 }
