@@ -152,6 +152,7 @@ export class Element
 
 	updateOwnerColor($optionValue : OptionValue)
 	{
+		if (!$optionValue) return;
 		//console.log("updateOwnerColor", $optionValue.option.name);
 		if ($optionValue.option.useColorForMarker)
 		{
