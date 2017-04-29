@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-28 11:13:42
+ * @Last Modified time: 2017-04-29 08:53:11
  */
  
 
@@ -18,12 +18,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
-function loadEducation($mainOption)
+function loadEducation($mainOption, $c, $s)
 {
 	// AGRICULTURE
 		$typeCategory = new Category();
-		$typeCategory->setName('Structure');
-		$typeCategory->setPickingOptionText('Une une structure');
+		$typeCategory->setName('Structures');
+		$typeCategory->setPickingOptionText('Une structure');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);
@@ -32,8 +32,8 @@ function loadEducation($mainOption)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Ecole'      				, 'icon-education'     		, '#3F51B5',''				, true),
-			array('Association'   			,''      						, '#383D5A',''        , false)
+			array('Ecole'      				, 'icon-school'     		, 'brown',''				, true),
+			array('Association'   			,''      						, 'darkblue',''        , false)
 		);
 
 		foreach ($types as $key => $type) 
@@ -42,8 +42,8 @@ function loadEducation($mainOption)
 			$new_type->setName($type[0]);
 
 			$new_type->setIcon($type[1]);
-			$new_type->setColor($type[2]);
-			$new_type->setSoftColor($type[2]);
+			$new_type->setColor($c[$type[2]]);
+			$new_type->setSoftColor($s[$type[2]]);
 			$new_type->setTextHelper($type[3]);
 
 			$new_type->setNameShort($type[0]);
@@ -71,10 +71,10 @@ function loadEducation($mainOption)
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Maternelle'     , 'angle-right'    , '#B33536', ''        , ''),
-			array('Elementaire'   , 'angle-right'    , '#d23f71',''        , ''),
-			array('Collège'     , 'angle-right'    , '#B33536', ''        , ''),
-			array('Lycée'        , 'angle-right'    , '#d23f71',''        , '')
+			array('Maternelle'     , 'icon-angle-right'    , '', ''        , ''),
+			array('Elementaire'   , 'icon-angle-right'    , '',''        , ''),
+			array('Collège'     , 'icon-angle-right'    , '', ''        , ''),
+			array('Lycée'        , 'icon-angle-right'    , '',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -110,10 +110,10 @@ function loadEducation($mainOption)
 
 		// Liste des names de catégorie à ajouter
 		$services = array(
-			array('Animation'             , 'icon-echange-1'      , '#383d5a', ''        , ''),
-			array('Formation'              , 'icon-formation-2'      , '#383d5a',''        , ''),
-			array('Conférence'  				 , 'icon-conf'     		, '#383d5a',''         , ''),
-			array('Ateliers'              , 'icon-atelier-1'      , '#383d5a',''        , '')
+			array('Animation'             , 'icon-echange-1'      , 'darkblue', ''        , ''),
+			array('Formation'             , 'icon-formation-2'   , 'darkblue',''        , ''),
+			array('Conférence'  				, 'icon-conf'     		, 'darkblue',''         , ''),
+			array('Ateliers'              , 'icon-atelier-1'      , 'darkblue',''        , '')
 		);
 
 		foreach ($services as $key => $service) 
@@ -122,7 +122,8 @@ function loadEducation($mainOption)
 			$new_service->setName($service[0]);
 
 			$new_service->setIcon($service[1]);
-			$new_service->setColor($service[2]);
+			$new_service->setColor($c[$service[2]]);
+			$new_service->setSoftColor($s[$service[2]]);
 
 			if ($service[3] == '') $new_service->setNameShort($service[0]);
 			else $new_service->setNameShort($service[3]);

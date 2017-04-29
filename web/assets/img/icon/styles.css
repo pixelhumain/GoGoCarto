@@ -98,9 +98,6 @@
 .icon-plus-circle:before {
   content: "\7a";
 }
-.icon-boutique:before {
-  content: "\42";
-}
 .icon-marker:before {
   content: "\41";
 }
@@ -155,20 +152,8 @@
 .icon-thumbs-down-2:before {
   content: "\53";
 }
-.icon-material-eye:before {
-  content: "\54";
-}
-.icon-material-no-eye:before {
-  content: "\55";
-}
 .icon-attention:before {
   content: "\56";
-}
-.icon-no-marker-symbol:before {
-  content: "\57";
-}
-.icon-marker-symbol:before {
-  content: "\58";
 }
 .icon-exclamation-1:before {
   content: "\59";
@@ -239,20 +224,8 @@
 .icon-car:before {
   content: "\44";
 }
-.icon-coffee-1:before {
-  content: "\2b";
-}
-.icon-glass:before {
-  content: "\2c";
-}
 .icon-flower:before {
   content: "\2d";
-}
-.icon-restaurant:before {
-  content: "\2e";
-}
-.icon-building:before {
-  content: "\3a";
 }
 .icon-internet:before {
   content: "\3b";
@@ -263,59 +236,17 @@
 .icon-people:before {
   content: "\3d";
 }
-.icon-bed:before {
-  content: "\3e";
-}
-.icon-cocktail:before {
-  content: "\3f";
-}
 .icon-coffee:before {
   content: "\40";
-}
-.icon-education-1:before {
-  content: "\5b";
-}
-.icon-flask:before {
-  content: "\5d";
-}
-.icon-headphones:before {
-  content: "\5e";
 }
 .icon-home:before {
   content: "\5f";
 }
-.icon-music:before {
-  content: "\60";
-}
-.icon-paint-brush:before {
-  content: "\7b";
-}
-.icon-paw:before {
-  content: "\7c";
-}
-.icon-university:before {
-  content: "\7d";
-}
 .icon-users:before {
   content: "\7e";
 }
-.icon-003-flower:before {
-  content: "\e002";
-}
-.icon-clothe-1:before {
-  content: "\e003";
-}
 .icon-clothe:before {
   content: "\e004";
-}
-.icon-hairdryer:before {
-  content: "\e005";
-}
-.icon-scissors-1:before {
-  content: "\e006";
-}
-.icon-hairdryer-1:before {
-  content: "\e007";
 }
 .icon-leaf-1:before {
   content: "\e008";
@@ -377,9 +308,6 @@
 .icon-map:before {
   content: "\e01a";
 }
-.icon-leanpub:before {
-  content: "\e01b";
-}
 .icon-user-plus:before {
   content: "\e01c";
 }
@@ -404,9 +332,6 @@
 .icon-001-scissors-1:before {
   content: "\e000";
 }
-.icon-002-women:before {
-  content: "\e001";
-}
 .icon-echange-1:before {
   content: "\e028";
 }
@@ -422,54 +347,129 @@
 .icon-skate:before {
   content: "\36";
 }
-.icon-moto-4:before {
-  content: "\39";
-}
-.icon-moto-3:before {
-  content: "\5c";
-}
-.icon-brouette:before {
-  content: "\e023";
-}
-.icon-bike-1:before {
-  content: "\e025";
-}
-.icon-moto-2:before {
-  content: "\e02b";
-}
-.icon-moto-1:before {
-  content: "\e02c";
-}
-.icon-mobilite:before {
-  content: "\e02e";
-}
 .icon-moto:before {
   content: "\e030";
-}
-.icon-coffee-2:before {
-  content: "\e032";
-}
-.icon-mobilite-4:before {
-  content: "\e033";
-}
-.icon-mobilite-7:before {
-  content: "\e03a";
-}
-.icon-mobilite-1:before {
-  content: "\6a";
 }
 .icon-mobilite-2:before {
   content: "\37";
 }
-.icon-mobilite-5:before {
+.icon-material-design-icons:before {
+  content: "\6a";
+}
+.icon-material-design-icons-2:before {
+  content: "\42";
+}
+.icon-material-design-icons-3:before {
+  content: "\54";
+}
+.icon-material-design-icons-4:before {
+  content: "\55";
+}
+.icon-cafe:before {
   content: "\2f";
 }
-.icon-mobilite-3:before {
-  content: "\e01f";
+.icon-materiaux:before {
+  content: "\2c";
 }
-.icon-017-transport-1:before {
-  content: "\e024";
+.icon-seeds:before {
+  content: "\7d";
 }
-.icon-mobilite-6:before {
-  content: "\e027";
+.icon-plants-1:before {
+  content: "\e02a";
+}
+.icon-charpentier:before {
+  content: "\e02c";
+}
+.icon-renouvelable-1:before {
+  content: "\e035";
+}
+.icon-electricite:before {
+  content: "\e037";
+}
+.icon-school:before {
+  content: "\e038";
+}
+.icon-architecte:before {
+  content: "\e039";
+}
+.icon-maconnerie:before {
+  content: "\e03a";
+}
+.icon-ressourcerie:before {
+  content: "\e03b";
+}
+.icon-co2-1:before {
+  content: "\e03d";
+}
+.icon-jaridnier:before {
+  content: "\e03e";
+}
+.icon-design:before {
+  content: "\e040";
+}
+.icon-temperature-1:before {
+  content: "\e041";
+}
+.icon-paper:before {
+  content: "\e04d";
+}
+.icon-park:before {
+  content: "\e04e";
+}
+.icon-photo:before {
+  content: "\e04f";
+}
+.icon-musique:before {
+  content: "\e050";
+}
+.icon-theatre:before {
+  content: "\e051";
+}
+.icon-cinema:before {
+  content: "\e052";
+}
+.icon-restaurant:before {
+  content: "\57";
+}
+.icon-ferme-1:before {
+  content: "\2b";
+}
+.icon-chalet:before {
+  content: "\2e";
+}
+.icon-hotel-1:before {
+  content: "\3f";
+}
+.icon-gite:before {
+  content: "\5b";
+}
+.icon-voyage-1:before {
+  content: "\5c";
+}
+.icon-beaute:before {
+  content: "\3a";
+}
+.icon-pharmacie-1:before {
+  content: "\5e";
+}
+.icon-pharmacie-2:before {
+  content: "\60";
+}
+.icon-cosmetique:before {
+  content: "\7b";
+}
+.icon-decoration-2:before {
+  content: "\e02b";
+}
+.icon-accessoire-2:before {
+  content: "\e033";
+}
+.icon-vetement-4:before {
+  content: "\e044";
+}
+.icon-accessoire-4:before {
+  content: "\e045";
+}
+.icon-friperie-1:before {
+  content: "\e047";
 }
