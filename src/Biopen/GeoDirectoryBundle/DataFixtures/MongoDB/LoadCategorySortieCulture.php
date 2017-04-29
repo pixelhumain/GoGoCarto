@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:17:09
+ * @Last Modified time: 2017-04-29 12:56:38
  */
  
 
@@ -20,6 +20,41 @@ use Biopen\GeoDirectoryBundle\Document\Option;
 
 function loadSortieCulture($mainOption, $c, $s)
 {
+	$typeCategory = new Category();
+	$typeCategory->setName('catégories');
+	$typeCategory->setPickingOptionText('Une sous-catégorie');
+	$typeCategory->setIndex(0);
+	$typeCategory->setSingleOption(false);
+	$typeCategory->setEnableDescription(false);
+	$typeCategory->setDisplayCategoryName(false);
+	$typeCategory->setDepth(1);
+
+	// Liste des noms de catégorie à ajouter
+	$types = array(			
+		array('Lieu pour sortir'     , ''     		, ''	,'bar,restaurant, parcs...'				, true),
+		array('Activité Artistique/Culturelle'   ,''     , ''	,'cinéma, journal, expo...'        , true),		
+	);
+
+	foreach ($types as $key => $type) 
+	{
+		$new_type = new Option();
+		$new_type->setName($type[0]);
+
+		$new_type->setIcon($type[1]);
+		$new_type->setColor($c[$type[2]]);
+		$new_type->setSoftColor($s[$type[2]]);
+		$new_type->setTextHelper($type[3]);
+
+		$new_type->setNameShort($type[0]);
+		$new_type->setDisplayOption(false);
+		$new_type->setShowSubcategories(true);
+		$new_type->setUseIconForMarker(true);
+		$new_type->setUseColorForMarker(true);
+
+		$new_type->setIndex($key);
+		$typeCategory->addOption($new_type);
+	}
+
 	// AGRICULTURE
 		$sortieCategory = new Category();
 		$sortieCategory->setName('Sorties');
@@ -34,7 +69,8 @@ function loadSortieCulture($mainOption, $c, $s)
 		$sorties = array(			
 			array('Bar/Café'     , 'icon-cafe'     		, 'red'	,''				, true),
 			array('Restaurant'   ,'icon-restaurant'     , 'brown'	,''        , true),
-			array('Parc'     		, 'icon-park'     		, 'green',''				, true),			
+			array('Parc'     		, 'icon-park'     		, 'green',''				, true),
+			array('Autre'     	, 'icon-autre'     		, 'darkblue',''				, true)			
 		);
 
 		foreach ($sorties as $key => $sortie) 
@@ -93,7 +129,7 @@ function loadSortieCulture($mainOption, $c, $s)
 			$cultureCategory->addOption($new_culture);
 		}
 
-		
-		$mainOption->addSubcategory($sortieCategory);
-		$mainOption->addSubcategory($cultureCategory);
+		$typeCategory->getOptions()[0]->addSubcategory($sortieCategory);
+		$typeCategory->getOptions()[1]->addSubcategory($cultureCategory);
+		$mainOption->addSubcategory($typeCategory);
 }
