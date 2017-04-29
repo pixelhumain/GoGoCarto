@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-28 12:04:08
+ * @Last Modified time: 2017-04-29 08:52:16
  */
  
 
@@ -30,6 +30,34 @@ class LoadMainCategory implements FixtureInterface
 	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
 	public function load(ObjectManager $manager)
 	{
+		$c = []; // colors
+		$s = []; // softColors
+
+		$c[''] = '';						$s[''] = '';
+
+		$c['yellowbrown'] = '#b77b03';$s['yellowbrown'] = '#b77b03';
+		$c['brown'] = '#8e5440';		$s['brown'] = '#8e5440';
+
+		$c['orange'] = '#c36c2e';		$s['orange'] = '#c36c2e';
+		
+		$c['red'] = '#b33738';			$s['red'] = 'rgba(179, 55, 56, 0.89)';
+		$c['softred'] = 'rgba(179, 55, 56, 0.89)';			$s['softred'] = 'rgba(179, 55, 56, 0.89)';
+		$c['pink'] = '#d23f71';			$s['pink'] = '#d23f71';
+		$c['lightpink'] = '#de5a5f';	$s['lightpink'] = '#de5a5f';
+		
+		
+		$c['lightblue'] = '#258bb9';	$s['lightblue'] = '#258bb9';
+		$c['blue'] = '#5262b7';			$s['blue'] = 'rgba(82, 98, 183, 0.93)';
+		$c['darkblue'] = '#383D5A';	$s['darkblue'] = 'rgba(56, 61, 90, 0.93)';
+		$c['purple'] = '#985389';		$s['purple'] = '#985389';		
+		$c['darkpurple'] = '#6a45ab';	$s['darkpurple'] = '#6a45ab';
+		$c['bluegreen'] = '#1b8a7f';	$s['bluegreen'] = '#1b8a7f';
+
+		$c['lightgreen'] = '#4a7874';	$s['lightgreen'] = '#4a7874';
+		$c['green'] = '#48843a';		$s['green'] = 'rgba(78, 136, 65, 0.92)';
+		
+		
+
 		// main
 		$mainCategory = new Category();
 		$mainCategory->setName('Catégories Principales');
@@ -42,12 +70,13 @@ class LoadMainCategory implements FixtureInterface
 
 		// Liste des noms de catégorie à ajouter
 		$mains = array(
-			array('Agriculture & Alimentation'  , 'leaf-1'     , '#579c46'		, 'rgba(78, 136, 65, 0.92)'	, 'Agriculture'        , true),
-			array('Habitat'    						, 'home'      	, '#8e5440'		, '#8e5440'	,''        , false),			
-			array('Education & Formation'    , 'education'     , '#383D5A'	   , 'rgba(56, 61, 90, 0.93)'	,'Education'        , false),
-			array('Mobilité'        			, 'mobilite-2'    , '#b33738'		, 'rgba(179, 55, 56, 0.89)'	,''        , false),
-			array('Sortie & Culture'   		 , 'coffee'      	, '#5262b7'		, 'rgba(82, 98, 183, 0.93)'	,'Sortie'        , false),			
-			array('Voyages'      				, 'bed'     		, '#985389'		, '#985389'	,'', false),			
+			array('Agriculture & Alimentation'  , 'leaf-1'     , 'green'		, ''	, 'Agriculture'        , true),
+			array('Habitat'    						, 'home'      	, 'brown'		, ''	,''        				, false),			
+			array('Education & Formation'    , 'education'     , 'darkblue'	   , ''	,'Education'        , false),
+			array('Mobilité'        			, 'mobilite-2'    , 'lightblue'		, ''	,''       				 , false),
+			array('Sortie & Culture'   		 , 'coffee'      	, 'blue'				, ''	,'Sortie'        , false),	
+			array('Mode & Beauté'   		 	, 'clothe'      	, 'purple'		, ''	,'Mode/Beauté'        , false),			
+			array('Voyages'      				, 'voyage-1'     		, 'softred'		, ''	,''					, false),			
 			
 		);
 
@@ -57,8 +86,8 @@ class LoadMainCategory implements FixtureInterface
 			$new_main->setName($main[0]);
 
 			$new_main->setIcon('icon-' . $main[1]);
-			$new_main->setColor($main[2]);
-			$new_main->setSoftColor($main[3]);
+			$new_main->setColor($c[$main[2]]);
+			$new_main->setSoftColor($s[$main[2]]);
 
 			if ($main[4] == '') $new_main->setNameShort($main[0]);
 			else $new_main->setNameShort($main[4]);
@@ -75,12 +104,13 @@ class LoadMainCategory implements FixtureInterface
 			$mainCategory->addOption($new_main);
 		}
 
-		loadAgriculture($mainCategory->getOptions()[0]);
-		loadHabitat($mainCategory->getOptions()[1]);
-		loadEducation($mainCategory->getOptions()[2]);
-		loadMobilite($mainCategory->getOptions()[3]);
-		loadSortieCulture($mainCategory->getOptions()[4]);
-		loadVoyage($mainCategory->getOptions()[5]);
+		loadAgriculture($mainCategory->getOptions()[0], $c, $s);
+		loadHabitat($mainCategory->getOptions()[1], $c, $s);
+		loadEducation($mainCategory->getOptions()[2], $c, $s);
+		loadMobilite($mainCategory->getOptions()[3], $c, $s);
+		loadSortieCulture($mainCategory->getOptions()[4], $c, $s);
+		loadModeBeauté($mainCategory->getOptions()[5], $c, $s);
+		loadVoyage($mainCategory->getOptions()[6], $c, $s);
 
 		$manager->persist($mainCategory);
 		// On déclenche l'enregistrement de toutes les catégories

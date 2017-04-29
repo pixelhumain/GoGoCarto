@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-27 21:29:51
+ * @Last Modified time: 2017-04-29 10:05:28
  */
  
 
@@ -18,7 +18,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
-function loadAgriculture($mainOption)
+function loadAgriculture($mainOption, $c, $s)
 {
 	// AGRICULTURE
 		$typeCategory = new Category();
@@ -32,11 +32,11 @@ function loadAgriculture($mainOption)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
-			array('Epicerie & Supérette'   ,'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , '#258bb9',''        , true),
-			array('Ruche qui dit oui'     , 'icon-boutique'     	, '#8e5440',''				, true),
-			array('Circuit courts'  		, ''     			, '', 'producteur, amap, artisan, ruche...'        , false)
+			array('Marché'      				, 'icon-marche'     		, 'blue',''				, true),
+			array('Epicerie & Supérette'   ,'icon-epicerie'      , 'darkblue',''        , true),
+			array('Restauration'    		, 'icon-restaurant'      , 'brown',''        , true),
+			array('Ruche qui dit oui'     , 'icon-flower'     	, 'yellowbrown',''				, true),
+			array('Circuit courts'  		, ''     				, ''		, 'producteur, amap, artisan, ruche...'        , false)
 		);
 
 		foreach ($types as $key => $type) 
@@ -45,8 +45,8 @@ function loadAgriculture($mainOption)
 			$new_type->setName($type[0]);
 
 			$new_type->setIcon($type[1]);
-			$new_type->setColor($type[2]);
-			$new_type->setSoftColor($type[2]);
+			$new_type->setColor($c[$type[2]]);
+			$new_type->setSoftColor($s[$type[2]]);
 			$new_type->setTextHelper($type[3]);
 
 			$new_type->setNameShort($type[0]);
@@ -76,8 +76,8 @@ function loadAgriculture($mainOption)
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Producteur/Artisan'     , ''    , '#B33536', ''        , ''),
-			array('AMAP'             		 , ''    , '#d23f71',''        , '')
+			array('Producteur/Artisan'     , ''    , 'red', ''        , ''),
+			array('AMAP'             		 , ''    , 'lightgreen',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
@@ -86,8 +86,8 @@ function loadAgriculture($mainOption)
 			$new_circuit->setName($circuit[0]);
 
 			$new_circuit->setIcon($circuit[1]);
-			$new_circuit->setColor($circuit[2]);
-			$new_circuit->setSoftColor($circuit[2]);
+			$new_circuit->setColor($c[$circuit[2]]);
+			$new_circuit->setSoftColor($s[$circuit[2]]);
 
 			if ($circuit[3] == '') $new_circuit->setNameShort($circuit[0]);
 			else $new_circuit->setNameShort($circuit[3]);
@@ -115,20 +115,20 @@ function loadAgriculture($mainOption)
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
-			array('Légumes'             , 'icon-legumes'     , '#4A148C', ''        , ''),
-			array('Fruits'              , 'icon-fruits'      , '#880E4F',''        , ''),
-			array('Produits laitiers'   , 'icon-laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
-			array('Viande'              , 'icon-viande'      , '#961616',''        , ''),			
-			array('Miel'                , 'icon-miel'        , '#E09703',''        , ''),
-			array('Oeufs'               , 'icon-oeufs'       , '#E09703',''        , ''),
-			array('Poisson'             , 'icon-poisson'     , '#3F51B5',''        , ''),
-			array('Légumineuses'        , 'icon-legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches...'),
-			array('Produits transformés', 'icon-transformes' , '#37474F','Transformés', 'Confitures, pestos...'),
-			array('Pain, farine'        , 'icon-pain'        , '#B37800','Pain/Farine'        , ''),
-			array('Huiles'              , 'icon-huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
-			array('Boissons'            , 'icon-boissons'    , '#258BB9',''        , ''),
-			array('Plantes'             , 'icon-plantes'     , '#4CAF50',''        , ''),
-			array('Autre'               , 'icon-autre'       , '#444444',''        , ''),
+			array('Légumes'             , 'icon-legumes'     , '', ''        , ''),
+			array('Fruits'              , 'icon-fruits'      , '',''        , ''),
+			array('Produits laitiers'   , 'icon-laitier'     , '','Laitiers', 'Fromage, Lait, Yahourt...'),
+			array('Viande'              , 'icon-viande'      , '',''        , ''),			
+			array('Miel'                , 'icon-miel'        , '',''        , ''),
+			array('Oeufs'               , 'icon-oeufs'       , '',''        , ''),
+			array('Poisson'             , 'icon-poisson'     , '',''        , ''),
+			array('Légumineuses'        , 'icon-legumineuses', '',''        , 'Lentilles, Pois chiches...'),
+			array('Produits transformés', 'icon-transformes' , '','Transformés', 'Confitures, pestos...'),
+			array('Pain, farine'        , 'icon-pain'        , '','Pain/Farine'        , ''),
+			array('Huiles'              , 'icon-huile'       , '',''         , 'Huile de colza, de tournesol...'),
+			array('Boissons'            , 'icon-boissons'    , '',''        , ''),
+			array('Plantes'             , 'icon-plantes'     , '',''        , ''),
+			array('Autre'               , 'icon-autre'       , '',''        , ''),
 		);
 
 		// $subproducts = array(

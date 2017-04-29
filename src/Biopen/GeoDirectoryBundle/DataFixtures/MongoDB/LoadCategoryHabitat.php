@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-27 21:34:20
+ * @Last Modified time: 2017-04-29 08:55:57
  */
  
 
@@ -18,189 +18,169 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
-function loadHabitat($mainOption)
+function loadHabitat($mainOption, $c, $s)
 {
-	// AGRICULTURE
-		$typeCategory = new Category();
-		$typeCategory->setName('Type');
-		$typeCategory->setPickingOptionText('Une un type');
-		$typeCategory->setIndex(0);
-		$typeCategory->setSingleOption(false);
-		$typeCategory->setEnableDescription(false);
-		$typeCategory->setDisplayCategoryName(true);
-		$typeCategory->setDepth(1);
+	$typeCategory = new Category();
+	$typeCategory->setName('Catégories');
+	$typeCategory->setPickingOptionText('Une catégorie');
+	$typeCategory->setIndex(0);
+	$typeCategory->setSingleOption(false);
+	$typeCategory->setEnableDescription(false);
+	$typeCategory->setDisplayCategoryName(true);
+	$typeCategory->setDepth(1);
 
-		// Liste des noms de catégorie à ajouter
-		$types = array(			
-			array('Marché'      				, 'icon-marche'     		, '#3F51B5',''				, true),
-			array('Epicerie & Supérette'   ,'icon-epicerie'      , '#383D5A',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , '#258bb9',''        , true),
-			array('Ruche qui dit oui'     , 'icon-boutique'     	, '#8e5440',''				, true),
-			array('Circuit courts'  		, ''     			, '', 'producteur, amap, artisan, ruche...'        , false)
-		);
+	// Liste des noms de catégorie à ajouter
+	$types = array(			
+		array('Matériaux'   				,'icon-materiaux'      		, 'brown',''        , true),
+		array('Ressourcerie'      		, 'icon-ressourcerie'     		, 'blue',''				, true),
+		array('Artisan/Installateur' ,''      							, 'red',''          , false),
+		array('Conception'   			,''      						, 'darkblue',''      , false),
+		array('Jardin'   					,''      						, 'green',''        , false)
+	);
 
-		foreach ($types as $key => $type) 
-		{
-			$new_type = new Option();
-			$new_type->setName($type[0]);
+	foreach ($types as $key => $type) 
+	{
+		$new_type = new Option();
+		$new_type->setName($type[0]);
 
-			$new_type->setIcon($type[1]);
-			$new_type->setColor($type[2]);
-			$new_type->setSoftColor($type[2]);
-			$new_type->setTextHelper($type[3]);
+		$new_type->setIcon($type[1]);
+		$new_type->setColor($c[$type[2]]);
+		$new_type->setSoftColor($s[$type[2]]);
+		$new_type->setTextHelper($type[3]);
 
-			$new_type->setNameShort($type[0]);
+		$new_type->setNameShort($type[0]);
 
-			$new_type->setUseIconForMarker($type[4]);
-			$new_type->setUseColorForMarker($type[4]);
+		$new_type->setUseIconForMarker($type[4]);
+		$new_type->setUseColorForMarker(true);
 
-			$new_type->setIndex($key);
+		$new_type->setIndex($key);
+		$new_type->setShowSubcategories(false);
 
-			if ($key == 4) 
-			{
-				$new_type->setShowSubcategories(true);
-				$new_type->setDisplayOption(false);
-			}
-			$typeCategory->addOption($new_type);
-		}
+		$typeCategory->addOption($new_type);
+	}
 
-		// CIRCUIT court détail
-		$circuitCategory = new Category();
-		$circuitCategory->setName('type');
-		$circuitCategory->setPickingOptionText('Un type de circuit court');
-		$circuitCategory->setIndex(1);
-		$circuitCategory->setSingleOption(false);
-		$circuitCategory->setEnableDescription(false);
-		$circuitCategory->setDisplayCategoryName(false);
-		$circuitCategory->setDepth(1);
+	// artisan court détail
+	$artisanCategory = new Category();
+	$artisanCategory->setName('compétences');
+	$artisanCategory->setPickingOptionText('Une compétence');
+	$artisanCategory->setIndex(1);
+	$artisanCategory->setSingleOption(false);
+	$artisanCategory->setEnableDescription(true);
+	$artisanCategory->setDisplayCategoryName(false);
+	$artisanCategory->setDepth(2);
 
-		// Liste des names de catégorie à ajouter
-		$circuitCourtType = array(
-			array('Producteur/Artisan'     , ''    , '#B33536', ''        , ''),
-			array('AMAP'             		 , ''    , '#d23f71',''        , '')
-		);
+	// Liste des names de catégorie à ajouter
+	$artisanType = array(
+		array('Charpente/Menuiserie'  , 'icon-charpentier'    , 'red', ''        , ''),
+		array('Chauffage/Isolation'   , 'icon-temperature-1'    , 'red',''        , ''),
+		array('Maconnerie'            , 'icon-maconnerie'       , 'red',''        , ''),
+		array('Energie renouvelable'  , 'icon-renouvelable-1'     , 'red',''        , ''),
+		array('Electricité'           , 'icon-electricite'    , 'red',''        , ''),
+		array('Autre'                 , 'icon-autre'    			, 'red',''        , '')
 
-		foreach ($circuitCourtType as $key => $circuit) 
-		{
-			$new_circuit = new Option();
-			$new_circuit->setName($circuit[0]);
+	);
 
-			$new_circuit->setIcon($circuit[1]);
-			$new_circuit->setColor($circuit[2]);
-			$new_circuit->setSoftColor($circuit[2]);
+	foreach ($artisanType as $key => $artisan) 
+	{
+		$new_artisan = new Option();
+		$new_artisan->setName($artisan[0]);
 
-			if ($circuit[3] == '') $new_circuit->setNameShort($circuit[0]);
-			else $new_circuit->setNameShort($circuit[3]);
+		$new_artisan->setIcon($artisan[1]);
+		$new_artisan->setColor($c[$artisan[2]]);
+		$new_artisan->setSoftColor($s[$artisan[2]]);
 
-			$new_circuit->setTextHelper($circuit[4]);
+		if ($artisan[3] == '') $new_artisan->setNameShort($artisan[0]);
+		else $new_artisan->setNameShort($artisan[3]);
 
-			$new_circuit->setUseIconForMarker(false);
-			$new_circuit->setUseColorForMarker(true);
+		$new_artisan->setTextHelper($artisan[4]);
 
-			$new_circuit->setIndex($key);
+		$new_artisan->setUseIconForMarker(true);
+		$new_artisan->setUseColorForMarker(false);
 
-			$circuitCategory->addOption($new_circuit);
-		}
+		$new_artisan->setIndex($key);
 
+		$artisanCategory->addOption($new_artisan);
+	}
 
-		// PRODUITS
-		$productCategory = new Category();
-		$productCategory->setName('Produits');
-		$productCategory->setPickingOptionText('Un produit');
-		$productCategory->setIndex(2);
-		$productCategory->setSingleOption(false);
-		$productCategory->setEnableDescription(true);
-		$productCategory->setDisplayCategoryName(true);
-		$productCategory->setDepth(1);
+	$conceptionCategory = new Category();
+	$conceptionCategory->setName('compétence');
+	$conceptionCategory->setPickingOptionText('Une compétence');
+	$conceptionCategory->setIndex(1);
+	$conceptionCategory->setSingleOption(false);
+	$conceptionCategory->setEnableDescription(true);
+	$conceptionCategory->setDisplayCategoryName(false);
+	$conceptionCategory->setDepth(2);
 
-		// Liste des names de catégorie à ajouter
-		$products = array(
-			array('Légumes'             , 'icon-legumes'     , '#4A148C', ''        , ''),
-			array('Fruits'              , 'icon-fruits'      , '#880E4F',''        , ''),
-			array('Produits laitiers'   , 'icon-laitier'     , '#B77B03','Laitiers', 'Fromage, Lait, Yahourt...'),
-			array('Viande'              , 'icon-viande'      , '#961616',''        , ''),			
-			array('Miel'                , 'icon-miel'        , '#E09703',''        , ''),
-			array('Oeufs'               , 'icon-oeufs'       , '#E09703',''        , ''),
-			array('Poisson'             , 'icon-poisson'     , '#3F51B5',''        , ''),
-			array('Légumineuses'        , 'icon-legumineuses', '#2F7332',''        , 'Lentilles, Pois chiches...'),
-			array('Produits transformés', 'icon-transformes' , '#37474F','Transformés', 'Confitures, pestos...'),
-			array('Pain, farine'        , 'icon-pain'        , '#B37800','Pain/Farine'        , ''),
-			array('Huiles'              , 'icon-huile'       , '#082D09',''         , 'Huile de colza, de tournesol...'),
-			array('Boissons'            , 'icon-boissons'    , '#258BB9',''        , ''),
-			array('Plantes'             , 'icon-plantes'     , '#4CAF50',''        , ''),
-			array('Autre'               , 'icon-autre'       , '#444444',''        , ''),
-		);
+	// Liste des names de catégorie à ajouter
+	$conceptions = array(
+		array('Conseil énergétique'    , 'icon-co2-1'     , 'darkblue', ''        , ''),
+		array('Architecte'             , 'icon-architecte'   , 'darkblue',''        , ''),
+		array('Paygasiste/Déco'  , 'icon-design'     		, 'darkblue',''         , '')
+	);
 
-		// $subproducts = array(
-		// 	
-		// );
+	foreach ($conceptions as $key => $conception) 
+	{
+		$new_conception = new Option();
+		$new_conception->setName($conception[0]);
 
-		$subproducts = array(
-			array('Agneau'               , 'icon-angle-right'       , ''        , ''),
-			array('Boeuf'             	, 'icon-angle-right'   	 	, ''        , ''),
-			array('Volaille'        	, 'icon-angle-right'				, ''				,'' )
-		);
+		$new_conception->setIcon($conception[1]);
+		$new_conception->setColor($c[$conception[2]]);
+		$new_conception->setSoftColor($s[$conception[2]]);
 
-		foreach ($products as $key => $product) 
-		{
-			$new_product = new Option();
-			$new_product->setName($product[0]);
+		if ($conception[3] == '') $new_conception->setNameShort($conception[0]);
+		else $new_conception->setNameShort($conception[3]);
 
-			$new_product->setIcon($product[1]);
-			$new_product->setColor($product[2]);
+		$new_conception->setTextHelper($conception[4]);
 
-			if ($product[3] == '') $new_product->setNameShort($product[0]);
-			else $new_product->setNameShort($product[3]);
+		$new_conception->setUseIconForMarker(true);
+		$new_conception->setUseColorForMarker(false);
 
-			$new_product->setTextHelper($product[4]);
+		$new_conception->setIndex($key);
 
-			$new_product->setUseIconForMarker(true);
-			$new_product->setUseColorForMarker(false);
+		$conceptionCategory->addOption($new_conception);
+	}
 
-			$new_product->setIndex($key);
+	$jardinCategory = new Category();
+	$jardinCategory->setName('catégories');
+	$jardinCategory->setPickingOptionText('Une catégorie');
+	$jardinCategory->setIndex(1);
+	$jardinCategory->setSingleOption(false);
+	$jardinCategory->setEnableDescription(false);
+	$jardinCategory->setDisplayCategoryName(false);
+	$jardinCategory->setDepth(2);
 
-			if ($key == 3)
-			{
-				// SOUS PRODUITS
-				$subproductCategory = new Category();
-				$subproductCategory->setName('Sous Produits');
-				$subproductCategory->setPickingOptionText('le type de viande');
-				$subproductCategory->setIndex(2);
-				$subproductCategory->setSingleOption(false);
-				$subproductCategory->setEnableDescription(true);
-				$subproductCategory->setDisplayCategoryName(false);
-				$subproductCategory->setDepth(2);
+	// Liste des names de catégorie à ajouter
+	$jardins = array(
+		array('Jardin partagé'    , 'icon-jaridnier'     , 'green', ''        , ''),
+		array('Grainothèque'      , 'icon-seeds'   			, 'green',''        , ''),
+		array('Horticulture'      , 'icon-plants-1'     		, 'green',''         , '')
+	);
 
-				foreach ($subproducts as $key => $subproduct) 
-				{
-					$new_subproduct = new Option();
-					$new_subproduct->setName($subproduct[0]);
+	foreach ($jardins as $key => $jardin) 
+	{
+		$new_jardin = new Option();
+		$new_jardin->setName($jardin[0]);
 
-					$new_subproduct->setIcon($subproduct[1]);
-					$new_subproduct->setColor($subproduct[2]);
-					$new_subproduct->setSoftColor($subproduct[2]);
+		$new_jardin->setIcon($jardin[1]);
+		$new_jardin->setColor($c[$jardin[2]]);
+		$new_jardin->setSoftColor($s[$jardin[2]]);
 
-					if ($subproduct[3] == '') $new_subproduct->setNameShort($subproduct[0]);
-					else $new_subproduct->setNameShort($subproduct[3]);
+		if ($jardin[3] == '') $new_jardin->setNameShort($jardin[0]);
+		else $new_jardin->setNameShort($jardin[3]);
 
-					$new_subproduct->setTextHelper('');
+		$new_jardin->setTextHelper($jardin[4]);
 
-					$new_subproduct->setUseIconForMarker(false);
-					$new_subproduct->setUseColorForMarker(false);
+		$new_jardin->setUseIconForMarker(true);
+		$new_jardin->setUseColorForMarker(false);
 
-					$new_subproduct->setIndex($key);
+		$new_jardin->setIndex($key);
 
-					$subproductCategory->addOption($new_subproduct);
-				}
+		$jardinCategory->addOption($new_jardin);
+	}
 
-				$new_product->addSubcategory($subproductCategory);
-			}
-
-			$productCategory->addOption($new_product);
-		}
-
-		// COMPILE
-		$typeCategory->getOptions()[4]->addSubcategory($circuitCategory);
-		$typeCategory->getOptions()[4]->addSubcategory($productCategory);
-		$mainOption->addSubcategory($typeCategory);
+	// COMPILE
+	$typeCategory->getOptions()[2]->addSubcategory($artisanCategory);
+	$typeCategory->getOptions()[3]->addSubcategory($conceptionCategory);
+	$typeCategory->getOptions()[4]->addSubcategory($jardinCategory);
+	$mainOption->addSubcategory($typeCategory);
 }

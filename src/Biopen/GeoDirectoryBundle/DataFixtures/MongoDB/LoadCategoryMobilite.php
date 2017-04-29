@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-28 12:05:17
+ * @Last Modified time: 2017-04-29 10:16:53
  */
  
 
@@ -22,11 +22,11 @@ function loadMobilite($mainOption)
 {
 	// AGRICULTURE
 		$serviceCategory = new Category();
-		$serviceCategory->setName('Service');
+		$serviceCategory->setName('Services');
 		$serviceCategory->setPickingOptionText('Un service');
 		$serviceCategory->setIndex(0);
 		$serviceCategory->setSingleOption(false);
-		$serviceCategory->setEnableDescription(true);
+		$serviceCategory->setEnableDescription(false);
 		$serviceCategory->setDisplayCategoryName(true);
 		$serviceCategory->setDepth(1);
 
@@ -60,7 +60,7 @@ function loadMobilite($mainOption)
 
 		// vehicule court détail
 		$vehiculeCategory = new Category();
-		$vehiculeCategory->setName('Véhicule');
+		$vehiculeCategory->setName('Véhicules');
 		$vehiculeCategory->setPickingOptionText('Un type de vehicule');
 		$vehiculeCategory->setIndex(1);
 		$vehiculeCategory->setSingleOption(false);
