@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 08:53:37
+ * @Last Modified time: 2017-04-29 12:17:09
  */
  
 
@@ -23,7 +23,7 @@ function loadSortieCulture($mainOption, $c, $s)
 	// AGRICULTURE
 		$sortieCategory = new Category();
 		$sortieCategory->setName('Sorties');
-		$sortieCategory->setPickingOptionText('Un lieu');
+		$sortieCategory->setPickingOptionText('Un type de lieu');
 		$sortieCategory->setIndex(0);
 		$sortieCategory->setSingleOption(false);
 		$sortieCategory->setEnableDescription(false);
@@ -58,7 +58,7 @@ function loadSortieCulture($mainOption, $c, $s)
 
 		$cultureCategory = new Category();
 		$cultureCategory->setName('Art & Culture');
-		$cultureCategory->setPickingOptionText('Une catégorie');
+		$cultureCategory->setPickingOptionText('Une domaine artistique/culturel');
 		$cultureCategory->setIndex(1);
 		$cultureCategory->setSingleOption(false);
 		$cultureCategory->setEnableDescription(false);

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 08:53:11
+ * @Last Modified time: 2017-04-29 12:16:17
  */
  
 
@@ -23,7 +23,7 @@ function loadEducation($mainOption, $c, $s)
 	// AGRICULTURE
 		$typeCategory = new Category();
 		$typeCategory->setName('Structures');
-		$typeCategory->setPickingOptionText('Une structure');
+		$typeCategory->setPickingOptionText('Un type de structure');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);
@@ -61,8 +61,8 @@ function loadEducation($mainOption, $c, $s)
 
 		// CIRCUIT court détail
 		$ecoleCategory = new Category();
-		$ecoleCategory->setName('secteur');
-		$ecoleCategory->setPickingOptionText('Un secteur');
+		$ecoleCategory->setName('niveau');
+		$ecoleCategory->setPickingOptionText('Un niveau d\'étude');
 		$ecoleCategory->setIndex(1);
 		$ecoleCategory->setSingleOption(false);
 		$ecoleCategory->setEnableDescription(false);
@@ -100,8 +100,8 @@ function loadEducation($mainOption, $c, $s)
 		}
 
 		$serviceCategory = new Category();
-		$serviceCategory->setName('Services');
-		$serviceCategory->setPickingOptionText('Un service');
+		$serviceCategory->setName('Activités');
+		$serviceCategory->setPickingOptionText('Une activité');
 		$serviceCategory->setIndex(1);
 		$serviceCategory->setSingleOption(false);
 		$serviceCategory->setEnableDescription(true);

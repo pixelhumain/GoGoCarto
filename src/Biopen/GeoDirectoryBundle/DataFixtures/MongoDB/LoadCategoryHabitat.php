@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 08:55:57
+ * @Last Modified time: 2017-04-29 12:16:05
  */
  
 
@@ -22,7 +22,7 @@ function loadHabitat($mainOption, $c, $s)
 {
 	$typeCategory = new Category();
 	$typeCategory->setName('Catégories');
-	$typeCategory->setPickingOptionText('Une catégorie');
+	$typeCategory->setPickingOptionText('Une sous-catégorie');
 	$typeCategory->setIndex(0);
 	$typeCategory->setSingleOption(false);
 	$typeCategory->setEnableDescription(false);
@@ -31,11 +31,11 @@ function loadHabitat($mainOption, $c, $s)
 
 	// Liste des noms de catégorie à ajouter
 	$types = array(			
-		array('Matériaux'   				,'icon-materiaux'      		, 'brown',''        , true),
-		array('Ressourcerie'      		, 'icon-ressourcerie'     		, 'blue',''				, true),
-		array('Artisan/Installateur' ,''      							, 'red',''          , false),
-		array('Conception'   			,''      						, 'darkblue',''      , false),
-		array('Jardin'   					,''      						, 'green',''        , false)
+		array('Matériaux'   				,'icon-materiaux'      		, 'brown'		,	'Vente de matériaux pour la construction'        , true),
+		array('Ressourcerie'      		, 'icon-ressourcerie'     		, 'blue'			,''				, true),
+		array('Artisan/Installateur' 	,''      							, 'red'			,'Charpentier, production d\'énergie...'          , false),
+		array('Conception'   			,''      						, 'darkblue'		,'Architecte, designer...'      , false),
+		array('Jardin'   					,''      						, 'green'		,''        , false)
 	);
 
 	foreach ($types as $key => $type) 

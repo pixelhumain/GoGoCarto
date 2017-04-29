@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 08:17:01
+ * @Last Modified time: 2017-04-29 12:17:20
  */
  
 
@@ -23,7 +23,7 @@ function loadVoyage($mainOption, $c, $s)
 	// AGRICULTURE
 		$typeCategory = new Category();
 		$typeCategory->setName('Catégories');
-		$typeCategory->setPickingOptionText('Une catégorie');
+		$typeCategory->setPickingOptionText('Une sous-catégorie');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 10:05:28
+ * @Last Modified time: 2017-04-29 12:15:49
  */
  
 
@@ -23,7 +23,7 @@ function loadAgriculture($mainOption, $c, $s)
 	// AGRICULTURE
 		$typeCategory = new Category();
 		$typeCategory->setName('Type');
-		$typeCategory->setPickingOptionText('Une un type');
+		$typeCategory->setPickingOptionText('Une sous catégorie');
 		$typeCategory->setIndex(0);
 		$typeCategory->setSingleOption(false);
 		$typeCategory->setEnableDescription(false);
@@ -36,7 +36,7 @@ function loadAgriculture($mainOption, $c, $s)
 			array('Epicerie & Supérette'   ,'icon-epicerie'      , 'darkblue',''        , true),
 			array('Restauration'    		, 'icon-restaurant'      , 'brown',''        , true),
 			array('Ruche qui dit oui'     , 'icon-flower'     	, 'yellowbrown',''				, true),
-			array('Circuit courts'  		, ''     				, ''		, 'producteur, amap, artisan, ruche...'        , false)
+			array('Circuit courts'  		, ''     				, ''		, 'producteur, artisan, paniers'        , false)
 		);
 
 		foreach ($types as $key => $type) 
@@ -77,7 +77,7 @@ function loadAgriculture($mainOption, $c, $s)
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
 			array('Producteur/Artisan'     , ''    , 'red', ''        , ''),
-			array('AMAP'             		 , ''    , 'lightgreen',''        , '')
+			array('AMAP/Paniers'             		 , ''    , 'lightgreen',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 
