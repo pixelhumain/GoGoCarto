@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 14:49:08
+ * @Last Modified time: 2017-04-29 12:43:54
  */
  
 
@@ -83,37 +83,43 @@ class RandomCreationService
   private function recursivelyCreateOptionsforCategory($category, $element, $lipsum)
   {
   	$nbreOptionsSet = [
-	  1 => 0.7,
-	  2 => 0.2,
+	  1 => 0.6,
+	  2 => 0.3,
 	  3 => 0.1,
 	];
 
-  	$nbreOptions = 2;//$this->randWithSet($nbreOptionsSet) * max(1, $category->getDepth());
+  	$nbreOptions = $this->randWithSet($nbreOptionsSet) * max(1, $category->getDepth());
 
    $options = $category->getOptions();
 
+   // store keys to avoid duplicate
+   $optionKeys = [];
    for ($j = 0; $j < $nbreOptions; $j++) 
    {
    	$optionValue = new OptionValue();
 
    	$key = rand(0,count($options)-1);
-   	$option = $options[$key]; 
-
-   	$optionValue->setOptionId($option->getId());	
-   	$optionValue->setIndex($j); 
-
-   	if ($category->getEnableDescription())
+   	if (!in_array($key, $optionKeys))
    	{
-   		$optionValue->setDescription($lipsum->words(rand(3,10)));
-   	}
+	   	$optionKeys[] = $key;
+	   	$option = $options[$key]; 
 
-   	$element->addOptionValue($optionValue);
+	   	$optionValue->setOptionId($option->getId());	
+	   	$optionValue->setIndex($j); 
 
-   	// for each subcategory
-   	for($k = 0; $k < count($option->getSubcategories()); $k++)
-   	{
-   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element, $lipsum);
-   	}     	
+	   	if ($category->getEnableDescription())
+	   	{
+	   		$optionValue->setDescription($lipsum->words(rand(3,10)));
+	   	}
+
+	   	$element->addOptionValue($optionValue);
+
+	   	// for each subcategory
+	   	for($k = 0; $k < count($option->getSubcategories()); $k++)
+	   	{
+	   		$this->recursivelyCreateOptionsforCategory($option->getSubcategories()[$k], $element, $lipsum);
+	   	}   
+   	}  	
    }
   }
 
