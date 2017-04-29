@@ -16,7 +16,7 @@
       <span class="col s12 name">
 
         {# Icons #}
-        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
+        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.colorOptionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
@@ -42,13 +42,13 @@
       {# Description #}
       <span class="description col s12">{{ element.description|capitalize }}</span> 
 
-      {# Products litteral #}
+      {# Categories litteral #}
       <span class="inline-option-values col s8 hideOnLargeScreen">
-         {% set isDisabled = mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' %}
+        {#} {% set isDisabled = mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' %}
         <span class="option-value {{ isDisabled }}">{{ mainOptionValueToDisplay.option.name|capitalize }} 
-        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}</span>
+        {% if otherOptionsValuesToDisplay.length != 0 %}, {% endif %}</span>#}
 
-        {% for optionValue in otherOptionsValuesToDisplay %} 
+        {% for optionValue in allOptionsValues %} 
             {% set isDisabled = optionValue.isFilledByFilters ? '' : 'disabled' %}
             <span class="option-value {{ isDisabled }}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}

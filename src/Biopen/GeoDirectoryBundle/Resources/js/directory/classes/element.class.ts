@@ -412,6 +412,7 @@ export class Element
 			showDistance: App.geocoder.getLocation() ? true : false,
 			listingMode: App.mode == AppModes.List, 
 			optionsToDisplay: optionstoDisplay,
+			allOptionsValues: this.getCurrOptionsValues().filter( (oV) => oV.option.displayOption).sort( (a,b) => a.isFilledByFilters ? -1 : 1),
 			mainOptionValueToDisplay: optionstoDisplay[0], 
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
