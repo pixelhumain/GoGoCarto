@@ -1,6 +1,6 @@
 <?php
 
-namespace Biopen\CoreBundle\DataFixtures\ORM;
+namespace Biopen\CoreBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

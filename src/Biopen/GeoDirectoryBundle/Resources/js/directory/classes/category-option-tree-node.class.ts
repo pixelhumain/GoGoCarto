@@ -95,9 +95,9 @@ export class CategoryOptionTreeNode
 			if(humanAction)
 			{
 				if (this.getOwner()) this.getOwner().updateState();
-
-				if (App.mode == AppModes.Map) App.elementModule.updateCurrentsElements();
-				App.elementModule.updateElementToDisplay(check);
+				
+				//if (App.mode == AppModes.Map) App.elementModule.updateElementsIcons(true);
+				App.elementModule.updateElementsToDisplay(check, false, true);
 				App.historyModule.updateCurrState();
 			}
 	}

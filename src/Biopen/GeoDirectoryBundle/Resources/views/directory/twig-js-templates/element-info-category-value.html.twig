@@ -17,13 +17,14 @@
 																		and not optionValue.children[0].category.enableDescription %}
 
 		{#{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}#}
-		{% set colWidth = categoryValue.category.enableDescription ? 's6 m4' : 's12' %}
+		{% set colWidth = categoryValue.category.enableDescription ? 's6 m5' : 's12' %}
 	  <div class='row {% if loop.first %}strong{% endif %}'>
 	    <span class="option-value col {{ colWidth }}">
 
 	    	{% set iconClass = optionValue.option.icon ? optionValue.option.icon : 'icon-angle-right' %}	
+	    	{% set iconColorId = optionValue.option.icon ? optionValue.option.id : '' %}	
 				{% if iconClass %}    
-					<span class="icon {{ iconClass }} colorAs" option-id={{ optionValue.option.id }} ></span>
+					<span class="icon {{ iconClass }} colorAs" option-id={{ iconColorId }} ></span>
 				{% endif %}
 				
 	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> 
@@ -39,7 +40,7 @@
 
 	    </span>
 	    {% if categoryValue.category.enableDescription %}
-	    	<span class="col s6 m8 option-description">{{ optionValue.description|capitalize }}</span>
+	    	<span class="col s6 m7 option-description">{{ optionValue.description|capitalize }}</span>
 	    {% endif %}
 	  </div>
 

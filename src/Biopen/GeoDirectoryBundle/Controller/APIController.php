@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-18 15:09:50
+ * @Last Modified time: 2017-04-26 10:57:01
  */
  
 
@@ -27,25 +27,29 @@ use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
 
+use MongoClient;
+
 class APIController extends Controller
 {
     public function getElementsAroundLocationAction(Request $request)
     {
         if($request->isXmlHttpRequest())
         {
-            $originPoint = new Point($request->get('originLat'), $request->get('originLng'));
+            $em = $this->get('doctrine_mongodb')->getManager(); 
 
-            $elementService = $this->get('biopen.element_service');
-            $serializer = $this->container->get('jms_serializer');
+            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+            $elementsFromDB = $elementRepo->findAround(
+                (float) $request->get('originLat'), 
+                (float) $request->get('originLng'), 
+                (float) $request->get('distance'),
+                $request->get('mainOptionId')
+            ); 
+    
+            $responseJson = $this->encoreArrayToJson($elementsFromDB);  
 
-            $response = $elementService->getElementsAround($originPoint, $request->get('distance'), $request->get('maxResults'));
-
-            $responseJson = $serializer->serialize($response, 'json');  
-
-            $response = new Response($responseJson); 
-            //$response = new Response('bonjour');       
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
+            $result = new Response($responseJson);   
+            $result->headers->set('Content-Type', 'application/json');
+            return $result;
         }
         else 
         {
@@ -53,19 +57,64 @@ class APIController extends Controller
         }
     }
 
-    public function getElementByIdAction(Request $request)
+    public function getElementsInBoundsAction(Request $request)
     {
         if($request->isXmlHttpRequest())
         {
             $em = $this->get('doctrine_mongodb')->getManager();
-            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-            ->find($request->get('elementId'));
 
-            $response['data'] = $element;
+            $boxes = [];
+            $bounds = explode( ';' , $request->get('bounds'));
+            foreach ($bounds as $key => $bound) 
+            {
+              $boxes[] = explode( ',' , $bound);
+            }
+
+            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
+    
+            $responseJson = $this->encoreArrayToJson($elementsFromDB);            
+
+            $result = new Response($responseJson);   
+            $result->headers->set('Content-Type', 'application/json');
+            return $result;
+        }
+        else 
+        {
+            return new JsonResponse("Not valid ajax request");
+        }
+    }
+
+    private function encoreArrayToJson($array)
+    {
+        $elementsJson = '['; 
+ 
+        foreach ($array as $key => $value) { 
+           $elementsJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
+        } 
+
+        $elementsJson = rtrim($elementsJson,",") . ']';
+
+        $responseJson = '{ "data":'. $elementsJson . '}';
+
+        return $responseJson;
+    }
+
+    public function getElementByIdAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $elementId = $request->get('elementId');
+
+            $em = $this->get('doctrine_mongodb')->getManager();
             
-            $serializer = $this->container->get('jms_serializer');
-            $responseJson = $serializer->serialize($response, 'json');  
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
+            ->findOneBy(array('id' => $elementId));
 
+            $elementJson = $element->getJson();
+
+            $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
+            
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
             return $response;

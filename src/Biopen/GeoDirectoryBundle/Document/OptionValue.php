@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-17 15:33:09
+ * @Last Modified time: 2017-04-22 11:53:30
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -14,18 +14,18 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class OptionValue
 {
 	/** @MongoDB\Id */
-   private $id;
+   public $id;
 
 	/**
 	* @MongoDB\Field(type="int")
 	*/
-	private $optionId;
+	public $optionId;
 
 	/** @MongoDB\Field(type="string") */
-	private $description;
+	public $description;
 
 	/** @MongoDB\Field(type="int") */
-	private $index;
+	public $index;
 
     /**
      * Get id

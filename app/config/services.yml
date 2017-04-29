@@ -27,7 +27,6 @@ services:
         arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Bandeaux de la page d'accueil }
-    
 
     my_user_provider:
         class: "%my_user_provider.class%"

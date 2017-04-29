@@ -63,24 +63,26 @@ export class Element
 
 	isFavorite : boolean= false;
 
+	needToBeUpdatedWhenShown : boolean = true;
+
 	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
 		this.name = elementJson.name;
-		this.position = L.latLng(elementJson.lat, elementJson.lng);
+		this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
-		this.webSite = elementJson.web_site;
+		this.webSite = elementJson.webSite;
 		this.mail = elementJson.mail;
-		this.openHours = elementJson.open_hours;
-		this.openHoursMoreInfos =  elementJson.open_hours_more_infos;
+		this.openHours = elementJson.openHours;
+		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;
 
 		// initialize formated open hours
 		this.getFormatedOpenHours();
 
 		let newOption : OptionValue, ownerId : number;
-		for (let optionValueJson of elementJson.option_values)
+		for (let optionValueJson of elementJson.optionValues)
 		{
 			newOption = new OptionValue(optionValueJson);
 
@@ -106,19 +108,17 @@ export class Element
 
 	initialize() 
 	{		
-		if (!this.isInitialized_) 
-		{
-			this.createOptionsTree();
-			this.updateIconsToDisplay();
+		this.createOptionsTree();
+		this.updateIconsToDisplay();
 
-			this.biopenMarker_ = new BiopenMarker(this.id, this.position);
-			this.isInitialized_ = true;
-		}		
+		this.biopenMarker_ = new BiopenMarker(this.id, this.position);
+		this.isInitialized_ = true;	
 	}
 
 	show() 
 	{		
-		this.update();
+		if (!this.isInitialized_) this.initialize();	
+		//this.update();
 		//this.biopenMarker_.update();
 		this.biopenMarker_.show();
 		this.isVisible_ = true;		
@@ -132,14 +132,71 @@ export class Element
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
 	};
 
-	update()
+	update($force : boolean = false)
 	{
-		if (!this.isInitialized_) this.initialize();	
-		else
+		//console.log("marker update needToBeUpdated", this.needToBeUpdatedWhenShown);
+		if (this.needToBeUpdatedWhenShown || App.mode == AppModes.List || $force)
 		{
 			this.updateIconsToDisplay();
+
+			let optionValuesToUpdate = this.getCurrOptionsValues().filter( (optionValue) => optionValue.isFilledByFilters);
+			optionValuesToUpdate.push(this.getCurrMainOptionValue());
+			for(let optionValue of optionValuesToUpdate) this.updateOwnerColor(optionValue);
+
+			this.colorOptionId = this.iconsToDisplay.length > 0 && this.getIconsToDisplay()[0] ? this.getIconsToDisplay()[0].colorOptionId : null;	
+
 			if (this.marker) this.marker.update();
+			this.needToBeUpdatedWhenShown = false;
 		}		
+	}
+
+	updateOwnerColor($optionValue : OptionValue)
+	{
+		if (!$optionValue) return;
+		//console.log("updateOwnerColor", $optionValue.option.name);
+		if ($optionValue.option.useColorForMarker)
+		{
+			$optionValue.colorOptionId = $optionValue.optionId;
+		}		
+		else 
+		{
+			let option : Option;
+			let category : Category;
+			let colorId : number = null;
+
+			let siblingsOptionsForColoring : OptionValue[] = this.getCurrOptionsValues().filter( 
+				(optionValue) => 
+					optionValue.isFilledByFilters 
+					&& optionValue.option.useColorForMarker
+					&& optionValue.option.ownerId !== $optionValue.option.ownerId 
+					&& optionValue.categoryOwner.ownerId == $optionValue.categoryOwner.ownerId
+			);
+
+			//console.log("siblingsOptionsForColoring", siblingsOptionsForColoring.map( (op) => op.option.name));
+			if (siblingsOptionsForColoring.length > 0)
+			{
+				option = <Option> siblingsOptionsForColoring.shift().option;
+				//console.log("-> sibling found : ", option.name);
+				colorId = option.id;
+			}
+			else
+			{
+				option = $optionValue.option;
+				//console.log("no siblings, looking for parent");
+				while(colorId == null && option)
+				{
+					category = <Category> option.getOwner();
+					if (category)
+					{
+						option = <Option> category.getOwner();					
+						//console.log("->parent option" + option.name + " usecolorForMarker", option.useColorForMarker);
+						colorId = option.useColorForMarker ? option.id : null;
+					}					
+				}
+			}
+			
+			$optionValue.colorOptionId = colorId;
+		}
 	}
 
 	getCurrOptionsValues() : OptionValue[]
@@ -228,8 +285,6 @@ export class Element
 		{
 			this.iconsToDisplay.push(this.getCurrMainOptionValue());
 		}
-
-		this.colorOptionId = this.iconsToDisplay.length > 0 ? this.getIconsToDisplay()[0].option.ownerColorId : null;
 		
 		//console.log("Icons to display sorted", this.getIconsToDisplay());
 	}
@@ -257,7 +312,6 @@ export class Element
 					resultOptions.push(optionValue);
 				}
 
-				optionValue
 			}
 		}
 		return resultOptions;
@@ -265,37 +319,39 @@ export class Element
 
 	checkForDisabledOptionValues()
 	{
-		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree());
+		this.recursivelyCheckForDisabledOptionValues(this.getOptionTree(), App.currMainId == 'all');
 	}
 
-	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue)
+	private recursivelyCheckForDisabledOptionValues(optionValue : OptionValue, noRecursive : boolean = true)
 	{
 		let isEveryCategoryContainsOneOptionNotdisabled = true;
+		//console.log("checkForDisabledOptionValue Norecursive : " + noRecursive, optionValue);
 
 		for(let categoryValue of optionValue.children)
 		{
 			let isSomeOptionNotdisabled = false;
 			for (let suboptionValue of categoryValue.children)
 			{
-				if (suboptionValue.children.length == 0)
+				if (suboptionValue.children.length == 0 || noRecursive)
 				{
 					//console.log("bottom option " + suboptionValue.option.name,suboptionValue.option.isChecked );
 					suboptionValue.isFilledByFilters = suboptionValue.option.isChecked;					
 				}
 				else
 				{
-					this.recursivelyCheckForDisabledOptionValues(suboptionValue);
+					this.recursivelyCheckForDisabledOptionValues(suboptionValue, noRecursive);
 				}
 				if (suboptionValue.isFilledByFilters) isSomeOptionNotdisabled = true;
 			}
 			if (!isSomeOptionNotdisabled) isEveryCategoryContainsOneOptionNotdisabled = false;
+			//console.log("CategoryValue " + categoryValue.category.name + "isSomeOptionNotdisabled", isSomeOptionNotdisabled);
 		}
 
 		if (optionValue.option)
 		{
-			//console.log("OptionValue " + optionValue.option.name + "isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
+			//console.log("OptionValue " + optionValue.option.name + " : isEveryCategoyrContainOnOption", isEveryCategoryContainsOneOptionNotdisabled );
 			optionValue.isFilledByFilters = isEveryCategoryContainsOneOptionNotdisabled;
-			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(false);
+			if (!optionValue.isFilledByFilters) optionValue.setRecursivelyFilledByFilters(optionValue.isFilledByFilters);
 		}
 	}
 
@@ -356,6 +412,7 @@ export class Element
 			showDistance: App.geocoder.getLocation() ? true : false,
 			listingMode: App.mode == AppModes.List, 
 			optionsToDisplay: optionstoDisplay,
+			allOptionsValues: this.getCurrOptionsValues().filter( (oV) => oV.option.displayOption).sort( (a,b) => a.isFilledByFilters ? -1 : 1),
 			mainOptionValueToDisplay: optionstoDisplay[0], 
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,

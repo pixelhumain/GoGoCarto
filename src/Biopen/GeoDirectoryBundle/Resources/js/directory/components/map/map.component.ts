@@ -5,6 +5,7 @@ import { initAutoCompletionForElement } from "../../../commons/search-bar.compon
 import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
+/// <reference types="leaflet" />
 
 declare let App : AppModule;
 declare var $, L : any;
@@ -67,15 +68,12 @@ export class MapComponent
 	markerClustererGroup;
 	isInitialized : boolean = false;
 	isMapLoaded : boolean = false;
-	clusterer_ = null;
 	oldZoom = -1;
 	viewport : ViewPort = null;
 
-
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
-	getBounds() : L.LatLngBounds { return this.map_ ? this.map_.getBounds() : null; }
-	getClusterer() { return this.clusterer_; };
+	getBounds() : L.LatLngBounds { return this.isMapLoaded ? this.map_.getBounds() : null; }
 	getZoom() { return this.map_.getZoom(); }
 	getOldZoom() { return this.oldZoom; }
 
@@ -99,14 +97,15 @@ export class MapComponent
 		    spiderfyOnHover: false,
 		    spiderfyMaxCount: 8,
 		    spiderfyDistanceMultiplier: 1.1,
+		    chunkedLoading: true,
 		    maxClusterRadius: (zoom) =>
 		    {
 		    	if (zoom > 9) return 55;
-		    	else return 100;
+		    	else return 70;
 		    }
 		});
 
-		this.map_.addLayer(this.markerClustererGroup);
+		this.addMarkerClusterGroup();		
 
 		L.control.zoom({
 		   position:'topright'
@@ -119,6 +118,7 @@ export class MapComponent
 		{ 
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
+			App.boundsModule.extendBounds(0.2, this.map_.getBounds());
 			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
@@ -128,19 +128,21 @@ export class MapComponent
 		// if we began with List Mode, when we initialize map
 		// there is already an address geocoded or a viewport defined
 		if (App && App.geocoder.getBounds())
-	   {
-	   	this.fitBounds(App.geocoder.getBounds(), false);
-	   }
-	   else if (this.viewport)
-	   {
-	   	// setTimeout waiting for the map to be resized
-	   	setTimeout( () => { this.setViewPort(this.viewport); },200);
-	   }
+		{
+			this.fitBounds(App.geocoder.getBounds(), false);
+		}
+		else if (this.viewport)
+		{
+			// setTimeout waiting for the map to be resized
+			setTimeout( () => { this.setViewPort(this.viewport); },200);
+		}
 
 		this.isInitialized = true;
 		//console.log("map init done");
 		this.onMapReady.emit();
 	};
+
+	addMarkerClusterGroup() { this.map_.addLayer(this.markerClustererGroup); }
 
 	resize()
 	{
@@ -151,6 +153,7 @@ export class MapComponent
 		// be careful if updating the leaflet library this will
 		// not work anymore
 		if (this.map_) this.map_.invalidateSize(false);
+
 	}
 
 	addMarker(marker : L.Marker)
@@ -158,15 +161,25 @@ export class MapComponent
 		this.markerClustererGroup.addLayer(marker);
 	}
 
+	addMarkers(markers : L.Marker[])
+	{
+		if (this.markerClustererGroup) this.markerClustererGroup.addLayers(markers);
+	}
+
 	removeMarker(marker : L.Marker)
 	{
 		this.markerClustererGroup.removeLayer(marker);
 	}
 
+	removeMarkers(markers : L.Marker[])
+	{
+		if (this.markerClustererGroup) this.markerClustererGroup.removeLayers(markers);
+	}
+
 	// fit map view to bounds
 	fitBounds(bounds : L.LatLngBounds, animate : boolean = true)
 	{
-		console.log("fitbounds", bounds);
+		//console.log("fitbounds", bounds);
 		
 		if (this.isMapLoaded && animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
@@ -197,12 +210,22 @@ export class MapComponent
 
 	contains(position : L.LatLngExpression) : boolean
 	{
-		if (this.isMapLoaded && position)
+		if (position)
 		{
 			 return this.map_.getBounds().contains(position);
 		}
 		console.log("MapComponent->contains : map not loaded or element position undefined");
 		return false;		
+	}
+
+	extendedContains(position : L.LatLngExpression) : boolean
+	{
+		if (this.isMapLoaded && position)
+		{
+			 return App.boundsModule.extendedBounds.contains(position);
+		}
+		//console.log("MapComponent->contains : map not loaded or element position undefined");
+		return false;
 	}
 
 	updateViewPort()
@@ -211,7 +234,7 @@ export class MapComponent
 		this.viewport.lat =  this.map_.getCenter().lat;
 		this.viewport.lng =  this.map_.getCenter().lng;
 		this.viewport.zoom = this.getZoom();
-	}
+	}	
 
 	setViewPort($viewport : ViewPort, $panMapToViewport : boolean = true)
 	{		

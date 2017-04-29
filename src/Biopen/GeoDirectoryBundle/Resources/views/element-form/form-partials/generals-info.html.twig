@@ -37,8 +37,8 @@
 	</div>	
 
 	<!-- HIDDEN input pour stocker valeur de la lat et lng -->
-	{{ form_widget(form.lat, {'id': 'input-latitude'}) }}	
-	{{ form_widget(form.lng, {'id': 'input-longitude'}) }}	
+	{{ form_widget(form.coordinates.lat, {'id': 'input-latitude'}) }}	
+	{{ form_widget(form.coordinates.lng, {'id': 'input-longitude'}) }}	
 	{{ form_widget(form.postalCode, {'id': 'input-postal-code'}) }}						
 
 	<!-- Map -->

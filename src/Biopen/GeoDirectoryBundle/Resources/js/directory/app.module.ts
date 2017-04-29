@@ -27,6 +27,7 @@ import { DirectoryMenuComponent } from "./components/directory-menu.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
 import { HistoryModule, HistoryState } from './modules/history.module';
+import { BoundsModule } from './modules/bounds.module';
 
 
 import { initializeAppInteractions } from "./app-interactions";
@@ -46,6 +47,8 @@ $(document).ready(function()
    App.categoryModule.createCategoriesFromJson(MAIN_CATEGORY, OPENHOURS_CATEGORY);
 
    App.elementModule.initialize();
+  
+   App.boundsModule.initialize();
 
    App.loadHistoryState();
 
@@ -92,6 +95,7 @@ export class AppModule
 	historyModule = new HistoryModule();
 	categoryModule = new CategoriesModule();
 	directoryMenuComponent = new DirectoryMenuComponent();
+	boundsModule = new BoundsModule();
 
 	//starRepresentationChoiceModule_ = constellationMode ? new StarRepresentationChoiceModule() : null;
 	
@@ -129,6 +133,9 @@ export class AppModule
 		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
 	
 		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
+
+		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
+		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
 	}
 
 	initializeMapFeatures()
@@ -171,7 +178,6 @@ export class AppModule
 			if (historystate.mode == AppModes.List )
 			{
 				let location = L.latLng(historystate.viewport.lat, historystate.viewport.lng);
-				this.ajaxModule.getElementsAroundLocation(location, 30);	
 			}	
 		}	
 
@@ -187,7 +193,7 @@ export class AppModule
 				{ 
 					// if viewport is given, nothing to do, we already did initialization
 					// with viewport
-					if (historystate.viewport) return;
+					if (historystate.viewport && historystate.mode == AppModes.Map) return;
 					this.handleGeocodeResult(results);
 				},
 				() => {
@@ -225,21 +231,23 @@ export class AppModule
 		{			
 			if ($mode == AppModes.Map)
 			{
-				this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
-				this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
-
 				$('#directory-content-map').show();
 				$('#directory-content-list').hide();				
 
 				this.mapComponent.init();
+
+				if (this.mapComponent_.isMapLoaded) this.boundsModule.extendBounds(0, this.mapComponent.getBounds());
 			}
 			else
 			{
-				this.mapComponent_.onIdle.off( () => { this.handleMapIdle();  });
-				this.mapComponent_.onClick.off( () => { this.handleMapClick(); });		
-
 				$('#directory-content-map').hide();
 				$('#directory-content-list').show();
+
+				if (App.geocoder.getLocation()) 
+					{
+						this.boundsModule.createBoundsFromLocation(App.geocoder.getLocation());
+						this.checkForNewElementsToRetrieve();
+					}
 			}
 
 			// if previous mode wasn't null 
@@ -247,10 +255,11 @@ export class AppModule
 			this.mode_ = $mode;
 
 			// update history if we need to
-			if (oldMode != null && !$backFromHistory && $mode == AppModes.List) this.historyModule.pushNewState();
+			if (oldMode != null && !$backFromHistory) this.historyModule.pushNewState();
+
 
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true, true);
+			this.elementModule.updateElementsToDisplay(true, true);
 
 			if ($updateTitleAndState)
 			{
@@ -258,7 +267,7 @@ export class AppModule
 
 				// after clearing, we set the current state again
 				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
-			}		
+			}	
 			
 		}
 	}
@@ -325,10 +334,7 @@ export class AppModule
 							this.historyModule.pushNewState(options);
 							// we get element around so if the user end the DPAMdoule
 							// the elements will already be available to display
-							this.ajaxModule.getElementsAroundLocation(
-								this.mapComponent.getCenter(), 
-								this.mapComponent.mapRadiusInKm() * 2
-							);	 
+							//this.ajaxModule.getElementsInBounds([this.mapComponent.getBounds()]);	 
 						},
 						(error) => { /*TODO*/ alert("No element with this id"); }
 					);						
@@ -384,8 +390,7 @@ export class AppModule
 							}, 500);
 						}
 						else
-							calculateRoute(origin, element);		
-											
+							calculateRoute(origin, element);											
 					},
 					(error) => { /*TODO*/ alert("No element with this id"); }
 					);										
@@ -424,19 +429,19 @@ export class AppModule
 	handleGeocodeResult(results)
 	{
 		//console.log("handleGeocodeResult", results);
-		$('#directory-spinner-loader').hide();		
+		$('#directory-spinner-loader').hide();			
 
 		// if just address was given
 		if (this.mode == AppModes.Map)
 		{
-			this.setState(AppStates.Normal);
-			this.mapComponent.fitBounds(this.geocoder.getBounds());
+			this.setState(AppStates.Normal);	
+			this.mapComponent.fitBounds(this.geocoder.getBounds());			
 		}
 		else
 		{
+			this.boundsModule.createBoundsFromLocation(this.geocoder.getLocation());
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementToDisplay(true,true);
-			this.ajaxModule.getElementsAroundLocation(this.geocoder.getLocation(), 30);	
+			this.elementModule.updateElementsToDisplay(true,true);
 		}
 	}
 
@@ -458,7 +463,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
+		console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
@@ -491,21 +496,19 @@ export class AppModule
 			forceRepaint = true;
 		}
 
-		// sometimes idle event is fired but map is not yet initialized (somes millisecond
-		// after it will be)
-		// let delay = this.mapComponent.isMapLoaded ? 0 : 100;
-		// setTimeout(() => {
-			
-		// }, delay);	
+		this.elementModule.updateElementsToDisplay(updateInAllElementList, forceRepaint);
+		//this.elementModule.updateElementsIcons(false);
 
-		this.elementModule.updateElementToDisplay(updateInAllElementList, forceRepaint);
-		this.ajaxModule.getElementsAroundLocation(
-			this.mapComponent.getCenter(), 
-			this.mapComponent.mapRadiusInKm() * 2
-		);	 
+		this.checkForNewElementsToRetrieve();
 
 		this.historyModule.updateCurrState();
 	};
+
+	checkForNewElementsToRetrieve()
+	{
+		let freeBounds = this.boundsModule.calculateFreeBounds();
+		if (freeBounds && freeBounds.length > 0) this.ajaxModule.getElementsInBounds(freeBounds); 
+	}
 
 	handleMapClick()
 	{
@@ -551,15 +554,25 @@ export class AppModule
 	
 
 	handleNewElementsReceivedFromServer(elementsJson)
-	{
+	{		
 		if (!elementsJson || elementsJson.length === 0) return;
-		let newelements = this.elementModule.addJsonElements(elementsJson, true);
-		if (newelements > 0) this.elementModule.updateElementToDisplay(); 
+		//console.log("handleNewMarkersFromServer", elementsJson.length);
+		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, true);
+		//console.log("new Elements length", newElements.length);
+		
+		// on add markerClusterGroup after first elements received
+		if (newElements.length > 0) 
+		{
+			this.elementModule.updateElementsToDisplay(true,true);	
+		}
 	}; 
 
 	handleElementsChanged(result : ElementsChanged)
 	{
-		//console.log("handleElementsChanged new : ", result);
+		// console.log("handleElementsChanged toDisplay : ",result.elementsToDisplay.length);
+		// console.log("handleElementsChanged new : ",result.newElements.length);
+		// console.log("handleElementsChanged remove : ",result.elementsToRemove.length);
+		let start = new Date().getTime();
 
 		if (this.mode_ == AppModes.List)
 		{
@@ -567,15 +580,15 @@ export class AppModule
 		}
 		else if (this.state != AppStates.ShowElementAlone)
 		{
-			for(let element of result.newElements)
-			{				
-				element.show();
-			}
-			for(let element of result.elementsToRemove)
-			{
-				if (!element.isShownAlone) element.hide();
-			}
-		}
+			let newMarkers = result.newElements.map( (e) => e.marker.getLeafletMarker());
+			let markersToRemove = result.elementsToRemove.filter((e) => !e.isShownAlone).map( (e) => e.marker.getLeafletMarker());
+
+			this.mapComponent.addMarkers(newMarkers);
+			this.mapComponent.removeMarkers(markersToRemove);
+		}			
+
+		let end = new Date().getTime();
+		//console.log("ElementsChanged in " + (end-start) + " ms");	
 	}; 
 
 	handleInfoBarHide()
@@ -669,7 +682,6 @@ export class AppModule
 	map() : L.Map { return this.mapComponent_? this.mapComponent_.getMap() : null; };
 	elements() { return this.elementsModule_.currVisibleElements();  };
 	elementById(id) { return this.elementsModule_.getElementById(id);  };
-	clusterer() : any { return this.mapComponent_? this.mapComponent_.getClusterer() : null; };
 
 	get constellation() { return null; }
 

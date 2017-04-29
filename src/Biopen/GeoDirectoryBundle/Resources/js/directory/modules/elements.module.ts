@@ -29,6 +29,7 @@ export class ElementsModule
 	onElementsChanged = new Event<ElementsChanged>();
 
 	everyElements_ : Element[][] = [];
+	everyElementsId_ : string[] = [];
 	
 	// current visible elements
 	visibleElements_ : Element[][] = [];
@@ -65,40 +66,49 @@ export class ElementsModule
 	  	}
 	};
 
-	addJsonElements (elementList, checkIfAlreadyExist = true)
+	addJsonElements (elementList, checkIfAlreadyExist = true) : Element[]
 	{
 		let element : Element, elementJson;
-		let newElementsCount = 0;
-		//console.log("ElementModule adds " + elementList.length);
-		for (let i = 0; i < elementList.length; i++)
+		let newElements : Element[] = [];
+		let start = new Date().getTime();
+
+		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
+        id: e.id,
+        index: index
+    }});
+		
+		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
+
+		// if (newIds.length != elementList.length)
+		// 	console.log("DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
+
+		let i = newIds.length;
+
+		while(i--)
 		{
-			elementJson = elementList[i].Element ? elementList[i].Element : elementList[i];
+			elementJson = elementList[newIds[i].index];
 
-			if (!checkIfAlreadyExist || !this.getElementById(elementJson.id))
+			element = new Element(elementJson);
+			element.initialize();
+
+			for (let mainId of element.mainOptionOwnerIds)
 			{
-				element = new Element(elementJson);
-
-				for (let mainId of element.mainOptionOwnerIds)
-				{
-					this.everyElements_[mainId].push(element);
-				}				
-				this.everyElements_['all'].push(element);
-
-				newElementsCount++;
-			}
-			else
-			{
-				//console.log("addJsonElements, cet element existe deja");
-			}		
+				this.everyElements_[mainId].push(element);
+			}				
+			this.everyElements_['all'].push(element);
+			this.everyElementsId_.push(element.id);
+			newElements.push(element);
 		}
 		this.checkCookies();
-		//console.log("ElementModule really added " + newElementsCount);
-		return newElementsCount;
+		let end = new Date().getTime();
+		//console.log("AddJsonElements in " + (end-start) + " ms");	
+		return newElements;
 	};
 
 	showElement(element : Element)
 	{
 		element.show();
+		//if (!element.isDisplayed) App.mapComponent.addMarker(element.marker.getLeafletMarker());
 		this.currVisibleElements().push(element);
 	}
 
@@ -138,31 +148,46 @@ export class ElementsModule
 			this.currVisibleElements()[l].hide();
 			this.currVisibleElements()[l].isDisplayed = false;
 		}
+		let markers = this.currVisibleElements().map( (e) => e.marker.getLeafletMarker());
+		App.mapComponent.removeMarkers(markers);
+
 		this.clearCurrVisibleElements();
 	}
 
-	updateCurrentsElements()
+	updateElementsIcons(somethingChanged : boolean = false)
 	{
-		//console.log("UpdateCurrElements");
+		//console.log("UpdateCurrElements somethingChanged", somethingChanged);
+		let start = new Date().getTime();
 		let l = this.currVisibleElements().length;
+		let element : Element;
 		while(l--)
 		{
-			this.currVisibleElements()[l].update();
+			element = this.currVisibleElements()[l];
+			if (somethingChanged) element.needToBeUpdatedWhenShown = true;
+
+			// if domMarker not visible that's mean that marker is in a cluster
+			if (element.marker.domMarker().is(':visible')) element.update();
 		}
+		let end = new Date().getTime();
+		let time = end - start;
+		//window.console.log("updateElementsIcons " + time + " ms");
 	}
 
 	// check elements in bounds and who are not filtered
-	updateElementToDisplay (checkInAllElements = true, forceRepaint = false) 
+	updateElementsToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
 	{	
 		// in these state,there is no need to update elements to display
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
-					&& App.mode != AppModes.List) 
+					&& App.mode == AppModes.Map) 
 				return;
+
+		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
 		let elements : Element[] = null;
 		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
 		else elements = this.currVisibleElements();
-		
+
+		//elements = this.currEveryElements();		
 		
 		//console.log("UPDATE ELEMENTS ", elements.length);
 
@@ -177,7 +202,7 @@ export class ElementsModule
 
 		i = elements.length;
 
-		//console.log("UpdateElementToDisplay. Nbre element à traiter : " + i, checkInAllElements);
+		//console.log("updateElementsToDisplay. Nbre element à traiter : " + i, checkInAllElements);
 		
 		let start = new Date().getTime();
 
@@ -186,7 +211,7 @@ export class ElementsModule
 			element = elements[i];
 
 			// in List mode we don't need to check bounds;
-			let elementInBounds = (App.mode == AppModes.List) || App.mapComponent.contains(element.position);
+			let elementInBounds = (App.mode == AppModes.List) || App.mapComponent.extendedContains(element.position);
 
 			if ( elementInBounds && filterModule.checkIfElementPassFilters(element))
 			{
@@ -226,7 +251,7 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		//window.console.log("    analyse elements en " + time + " ms");	
+		//window.console.log("UpdateElementsToDisplay en " + time + " ms");		
 
 		if (elementsChanged || forceRepaint)
 		{		
@@ -237,7 +262,7 @@ export class ElementsModule
 			});		
 		}
 
-		
+		this.updateElementsIcons(filterHasChanged);		
 	};
 
 	currVisibleElements() 
@@ -252,7 +277,7 @@ export class ElementsModule
 
 	private clearCurrVisibleElements() 
 	{
-		return this.visibleElements_[App.currMainId] = [];
+		this.visibleElements_[App.currMainId] = [];
 	};
 
 	allElements()

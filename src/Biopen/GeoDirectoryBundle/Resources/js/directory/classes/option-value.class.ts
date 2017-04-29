@@ -9,13 +9,14 @@ export class OptionValue
 	index : number;
 	description : string;
 	option_ : Option = null;
-	isFilledByFilters : boolean;
+	isFilledByFilters : boolean = true;
 
 	children : CategoryValue[] = [];
+	colorOptionId : number = null;
 
 	constructor( $optionValueJson )
 	{
-		this.optionId = $optionValueJson.option_id;
+		this.optionId = $optionValueJson.optionId;
 		this.index = $optionValueJson.index;
 		this.description = $optionValueJson.description || '';
 	}

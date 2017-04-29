@@ -9,7 +9,7 @@
 	
 	
 	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
-    <select id="category-field-{{category.id}}" class="category-select keep-title-option {{ category.depth%2 != 0 ? 'secondary-color' : ''}}" data-id="{{category.id}}" name="category-field-{{category.id}}">
+    <select id="category-field-{{category.id}}" class="category-select keep-title-option depth-{{ category.depth }}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
    	  <option disabled selected>Choissisez {{ category.pickingOptionText }}</option>
    	   
@@ -37,15 +37,16 @@
 			{% endfor %}
 		{% endif %}
 
-		<div class="option-field {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
+		<div class="option-field depth-{{ category.depth }} {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
 					data-id="{{option.id}}" data-index={{curr_index}}>
 
 			<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
 				<span class="option-field-name">
-							{% set iconClass = option.icon ? option.icon : option.useColorForMarker ? 'icon-marker' : '' %}	
+							{% set iconClass = option.icon ?  option.icon : 'icon-angle-right' %}	
+							{% set iconColorId = '' %}	
 							{% if iconClass %}    
-								<span class="icon {{ iconClass }} colorAs" option-id='{{ option.id }}' ></span>
+								<span class="icon {{ iconClass }} colorAs depth-{{ category.depth }}" option-id='{{ iconColorId }}' ></span>
 							{% endif %}
 							{{ option.name }}
 				</span>

@@ -67,7 +67,9 @@ export class BiopenMarker
 
 		this.isHalfHidden_ = false;			
 
-		this.update();	
+
+		//this.update();	
+		this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\"></span>"}));
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -75,7 +77,7 @@ export class BiopenMarker
 		return App.infoBarComponent.getCurrElementId() == this.id_;
 	}
 
-	private domMarker()
+	domMarker()
 	{
 		return $('#marker-'+ this.id_);
 	}
@@ -125,8 +127,7 @@ export class BiopenMarker
 			element : element, 
 			mainOptionValueToDisplay: optionstoDisplay[0],
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1), 
-			showMoreIcon : showMoreIcon,
-			disableMarker : disableMarker
+			showMoreIcon : showMoreIcon
 		});
 
   	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
@@ -276,7 +277,7 @@ export class BiopenMarker
 
 	getId () : string { return this.id_; };
 
-	getRichMarker () : L.Marker { return this.richMarker_; };
+	getLeafletMarker () : L.Marker { return this.richMarker_; };
 
 	isHalfHidden() : boolean { return this.isHalfHidden_; }
 
@@ -298,14 +299,14 @@ export class BiopenMarker
 
 	show () 
 	{	
-		App.mapComponent.addMarker(this.richMarker_);
+		//App.mapComponent.addMarker(this.richMarker_);
 		//this.richMarker_.addTo(App.map());
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{			
-		App.mapComponent.removeMarker(this.richMarker_);
+		//App.mapComponent.removeMarker(this.richMarker_);
 		//this.richMarker_.remove();
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};

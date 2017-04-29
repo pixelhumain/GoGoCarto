@@ -72,7 +72,7 @@ export class DirectoryMenuComponent
 			let checkValue = !favoriteCheckbox.is(':checked');
 
 			App.filterModule.showOnlyFavorite(checkValue);
-			App.elementModule.updateElementToDisplay(!checkValue);
+			App.elementModule.updateElementsToDisplay(!checkValue);
 
 			favoriteCheckbox.prop('checked',checkValue);
 
@@ -164,9 +164,12 @@ export class DirectoryMenuComponent
 
 		//console.log("setMainOptionId " + optionId + " / oldOption : " + oldId);
 		if (oldId != null) App.historyModule.updateCurrState();
+
+		App.elementListComponent.reInitializeElementToDisplayLength();
 		
-		App.elementModule.updateElementToDisplay(true,true);
-		App.elementModule.updateCurrentsElements();
+		App.boundsModule.updateFilledBoundsAccordingToNewMainOptionId();
+		App.checkForNewElementsToRetrieve();
+		App.elementModule.updateElementsToDisplay(true,true,true);
 	}
 
 	updateMainOptionBackground()

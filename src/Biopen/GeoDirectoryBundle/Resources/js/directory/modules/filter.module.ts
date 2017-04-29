@@ -69,7 +69,7 @@ export class FilterModule
 		if (log) console.log(ecart + "Check for option ", option.name);
 
 		let result;
-		if (option.subcategories.length == 0 || option.isDisabled)
+		if (option.subcategories.length == 0 || (option.isDisabled && !option.isMainOption) )
 		{
 			if (log) console.log(ecart + "No subcategories ");
 			result = option.isChecked;
@@ -153,7 +153,7 @@ export class FilterModule
 		if (mainOptionSlug == 'all') App.categoryModule.mainCategory.updateState();
 		else App.categoryModule.getMainOptionBySlug(mainOptionSlug).recursivelyUpdateStates();
 
-		App.elementModule.updateElementToDisplay(true);
+		App.elementModule.updateElementsToDisplay(true);
 		//App.historyModule.updateCurrState();
 
 	}

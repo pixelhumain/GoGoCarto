@@ -7,7 +7,7 @@
   .colorAs { color:#484848 }
 
   {% for option in optionList %} 
-     {% if option.useColorForMarker or option.useIconForMarker %}
+     {% if option.icon or option.softColor %}
 	    .bgdSoftColorAs[option-id="{{ option.id }}"] { background-color: {{ option.softColor }} }
 	    .borderSoftColorAs[option-id="{{ option.id }}"] { border-color: {{ option.softColor }} }
 	    .bgdColorAs[option-id="{{ option.id }}"] { background-color: {{ option.color }} }

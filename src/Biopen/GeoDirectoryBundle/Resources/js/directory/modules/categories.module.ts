@@ -94,6 +94,18 @@ export class CategoriesModule
 		return this.mainCategory.options;
 	}
 
+	getMainOptionsIdsWithAll() : any[]
+	{
+		let optionIds : any[] = this.getMainOptionsIds();
+		optionIds.push("all");
+		return optionIds;
+	}
+
+	getMainOptionsIds() : number[]
+	{
+		return this.mainCategory.options.map( (option) => option.id);
+	}
+
 	getCurrMainOption() : Option
 	{
 		return App.currMainId == 'all' ? null : this.getMainOptionById(App.currMainId);
@@ -118,4 +130,9 @@ export class CategoriesModule
 	{
 		return this.options.filter( (option : Option) => option.id == $id).shift();
 	};
+
+	getCurrOptions() : Option[]
+	{
+		return this.options.filter( (option : Option) => option.mainOwnerId == App.currMainId);
+	}
 }

@@ -41,6 +41,7 @@ export class DisplayElementAloneModule
 		App.elementModule.clearCurrentsElement();
 		//}			
 		App.elementModule.showElement(element);
+		App.mapComponent.addMarker(element.marker.getLeafletMarker());
 		element.isShownAlone = true;
 
 		App.infoBarComponent.showElement(element.id);
@@ -61,8 +62,10 @@ export class DisplayElementAloneModule
 		// if (App.state == AppStates.Constellation) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
 		// else 
 		// {
-			App.elementModule.updateElementToDisplay(true,true);
+			App.elementModule.updateElementsToDisplay(true,true);
 		//}
+
+		App.mapComponent.removeMarker(this.elementShownAlone_.marker.getLeafletMarker());
 		
 		this.elementShownAlone_.isShownAlone = false;	
 

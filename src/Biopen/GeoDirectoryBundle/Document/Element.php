@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 17:00:47
+ * @Last Modified time: 2017-04-24 14:49:54
  */
  
 
@@ -19,6 +19,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * Element
  *
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
+ * @MongoDB\HasLifecycleCallbacks 
+ * @MongoDB\Index(keys={"coordinates"="2d"})
  */
 class Element
 {
@@ -34,98 +36,87 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $name;
+    public $name;
 
-    /**
-     * 
-     *
-     * @MongoDB\Field(type="float")
-     */
-    private $lat;
-
-    /**
-     * 
-     *
-     * @MongoDB\Field(type="float")
-     */
-    private $lng;
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") */
+    public $coordinates;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $address;
+    public $address;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $postalCode;
+    public $postalCode;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=false)
      */
-    private $description;
+    public $description;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $tel;
+    public $tel;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $mail;
+    public $mail;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $webSite;
+    public $webSite;
     
     /**
      * @var \stdClass
      *
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
-    private $optionValues;
+    public $optionValues;
 
     /**
      * @var \stdClass
      *
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
-    private $openHours;
+    public $openHours;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=true)
      */
-    private $openHoursMoreInfos;
+    public $openHoursMoreInfos;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $contributor;
+    public $contributor;
 
    /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $contributorMail;
+    public $contributorMail;
 
    /**
      * @var string
@@ -140,6 +131,13 @@ class Element
      * MongoDB\Field(type="boolean")
      */
     private $valide = false;
+
+    /** 
+     * @var string 
+     * 
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $json; 
 
 
     /**
@@ -162,6 +160,29 @@ class Element
     {
         $this->optionValues = [];
     } 
+
+    /** @MongoDB\PrePersist */
+    public function doOtherStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    {
+        $responseJson =  json_encode($this);  
+        $this->json = $responseJson;
+        //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
+    }
+
+     /** @PrePersist */
+    // public function doStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    // {
+    //     $this->createdAt = date('Y-m-d H:i:s');
+    // }
+
+    /** @MongoDB\PostPersist */
+    // public function doStuffOnPostPersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    // {
+    //     $responseJson =  json_encode($this);  
+    //    //   $new_element->setJson($responseJson);   
+    //     //$this->json = 'changed from postPersist callback! ID = ' . $this->id;
+    //     $this->json = $responseJson;
+    // }
 
 
     /**
@@ -196,49 +217,6 @@ class Element
         return $this->name;
     }
 
-    /**
-     * Set lat
-     *
-     * @param float $lat
-     * @return $this
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return float $lat
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
-
-    /**
-     * Set lng
-     *
-     * @param float $lng
-     * @return $this
-     */
-    public function setLng($lng)
-    {
-        $this->lng = $lng;
-        return $this;
-    }
-
-    /**
-     * Get lng
-     *
-     * @return float $lng
-     */
-    public function getLng()
-    {
-        return $this->lng;
-    }
 
     /**
      * Set address
@@ -533,5 +511,53 @@ class Element
     public function getOptionValues()
     {
         return $this->optionValues;
+    }
+
+    /** 
+     * Set json 
+     * 
+     * @param string $json 
+     * @return $this 
+     */ 
+    public function setJson($json) 
+    { 
+        $this->json = $json; 
+        return $this; 
+    } 
+ 
+    /** 
+     * Remove category 
+     * Get json 
+     * 
+     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category 
+     * @return string $json 
+     */ 
+    public function getJson() 
+    { 
+        return $this->json;
+        //return preg_replace('/"([^"]+)"\s*:\s*/', '$1:', $this->json); 
+        //return decode_json($this->json); 
+    } 
+
+    /**
+     * Set coordinates
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates
+     * @return $this
+     */
+    public function setCoordinates(\Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates)
+    {
+        $this->coordinates = $coordinates;
+        return $this;
+    }
+
+    /**
+     * Get coordinates
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates
+     */
+    public function getCoordinates()
+    {
+        return $this->coordinates;
     }
 }

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-22 15:46:13
+ * @Last Modified time: 2017-04-26 12:46:08
  */
  
 
@@ -22,61 +22,42 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ElementRepository extends DocumentRepository
 {
-	public function findFromPoint($distance, $point, $maxResult = 0)
-	{	 
-    // $qb = $this->createQueryBuilder('element');
+  public function findAround($lat, $lng, $distance)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    // $qb = $this->createQueryBuilder()
-    //   ->select('element as Element, DISTANCE(element.latlng, POINT_STR(:point))*100 AS distance')
-    //   ->setParameter('point',$point)
-    //   ->from($this->_entityName, 'element')
-    //   ->where('element.valide = 0')
-    //   ->andwhere('DISTANCE(element.latlng, POINT_STR(:point))*100 < :distance')
-    //   ->setParameter('distance', $distance)
-    //   ->orderBy('distance')  
-    //   ->leftjoin('element.products', 'elementProduct')
-    //   ->addSelect('elementProduct')
-    //   ->leftjoin('elementProduct.product', 'product')
-    //   ->addSelect('product');
-    // ;
+    // convert kilometre in degrees
+    $radius = $distance / 110;
+    return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
+              ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+  }
 
-    $repository = $this->get('doctrine_mongodb')
-    ->getManager()
-    ->getRepository('BiopenGeoDirectoryBundle:element');
-    // $qb = $this->createQueryBuilder('element');
-    $repository->findAll();
+  public function findWhithinBoxes($bounds, $optionId)
+  {
+    $results = [];
 
-    // Puis on ne retourne que $limit résultats
-    if ($maxResult != 0) $qb->setMaxResults(intval($maxResult));
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    // Enfin, on retourne le résultat
-    return $qb
-      ->getQuery()
-      ->getResult()
-      ;
-  	}
+    dump("quering optionId " . $optionId);
 
-  public function findAllElements()
-  {  
-   $qb = $this->createQueryBuilder('element');
+    foreach ($bounds as $key => $bound) 
+    {
+      if (count($bound) == 4)
+      {
+        if ($optionId && $optionId != "all")
+        {
+          //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
+          $qb->field('optionValues.optionId')->in(array((float) $optionId));
+        }
+        $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
+                    ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
 
-    $qb = $this->_em->createQueryBuilder()
-      ->select('element as Element')
-      ->from($this->_entityName, 'element')
-      ->where('element.valide = 0')
-      ->leftjoin('element.products', 'elementProduct')
-      ->addSelect('elementProduct')
-      ->leftjoin('elementProduct.product', 'product')
-      ->addSelect('product');
-    ;
-
-    // Puis on ne retourne que $limit résultats
-    //$qb->setMaxResults(10);
-
-    // Enfin, on retourne le résultat
-    return $qb
-      ->getQuery()
-      ->getResult()
-      ;
+        $results = array_merge($results, $array);  
+      }
     }
+
+    return $results;
+  }
 }
+
+
