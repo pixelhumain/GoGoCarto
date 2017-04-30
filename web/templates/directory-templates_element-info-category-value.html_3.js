@@ -79,7 +79,7 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
         sb.append("\n\t\t");
         // line 20
         sb.append("\t\t");
-        context["colWidth"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) ? ("s6 m4") : ("s12"));
+        context["colWidth"] = ((twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) ? ("s6 m5") : ("s12"));
         // line 21
         sb.append("\t  <div class='row ");
         if (twig.attr(loop, "first")) {
@@ -91,28 +91,31 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
         sb.append("\">\n\n\t    \t");
         // line 24
         context["iconClass"] = ((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")) ? (twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")) : ("icon-angle-right"));
-        sb.append("\t\n\t\t\t\t");
+        sb.append("\t\n\t    \t");
         // line 25
+        context["iconColorId"] = ((twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "icon")) ? (twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id")) : (""));
+        sb.append("\t\n\t\t\t\t");
+        // line 26
         if (("iconClass" in context ? context["iconClass"] : null)) {
             sb.append("    \n\t\t\t\t\t<span class=\"icon ");
-            // line 26
+            // line 27
             sb.append(twig.filter.escape(this.env_, ("iconClass" in context ? context["iconClass"] : null), "html", null, true));
             sb.append(" colorAs\" option-id=");
-            sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id"), "html", null, true));
+            sb.append(twig.filter.escape(this.env_, ("iconColorId" in context ? context["iconColorId"] : null), "html", null, true));
             sb.append(" ><\/span>\n\t\t\t\t");
         }
-        // line 28
-        sb.append("\t\t\t\t\n\t      <span class=\"option-name\" option-id=");
         // line 29
+        sb.append("\t\t\t\t\n\t      <span class=\"option-name\" option-id=");
+        // line 30
         sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "id"), "html", null, true));
         sb.append(" >");
         sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "option"), "nameShort")), "html", null, true));
         sb.append("<\/span> \n\n\t      ");
-        // line 31
+        // line 32
         if (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null)) {
-            // line 32
-            sb.append("\t      \t<span class=\"inline-option\">(\n\t      \t\t");
             // line 33
+            sb.append("\t      \t<span class=\"inline-option\">(\n\t      \t\t");
+            // line 34
             var seq1 = twig.attr(twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), 0, undefined, "array"), "children");
             var loop1 = {
                 'parent': loop,
@@ -131,7 +134,7 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
                 context["_key"] = k1;
                 context["suboptionValue"] = v1;
                 sb.append(" \n\t      \t\t\t<span>");
-                // line 34
+                // line 35
                 sb.append(twig.filter.escape(this.env_, twig.attr(twig.attr(("suboptionValue" in context ? context["suboptionValue"] : null), "option"), "name"), "html", null, true));
                 sb.append(" ");
                 if ((!twig.attr(loop1, "last"))) {
@@ -147,30 +150,30 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
                     loop1['last'] = 0 === loop1['revindex0'];
                 }
             }, this);
-            // line 36
+            // line 37
             sb.append(")\n\t      <\/span>\n\t      ");
         }
-        // line 39
+        // line 40
         sb.append("\n\t    <\/span>\n\t    ");
-        // line 41
+        // line 42
         if (twig.attr(twig.attr(("categoryValue" in context ? context["categoryValue"] : null), "category"), "enableDescription")) {
-            // line 42
-            sb.append("\t    \t<span class=\"col s6 m8 option-description\">");
+            // line 43
+            sb.append("\t    \t<span class=\"col s6 m7 option-description\">");
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("optionValue" in context ? context["optionValue"] : null), "description")), "html", null, true));
             sb.append("<\/span>\n\t    ");
         }
-        // line 44
+        // line 45
         sb.append("\t  <\/div>\n\n\t");
-        // line 46
-        context["subcategoriesCount"] = twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), "length");
         // line 47
+        context["subcategoriesCount"] = twig.attr(twig.attr(("optionValue" in context ? context["optionValue"] : null), "children"), "length");
+        // line 48
         sb.append("\t");
         if (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null)) {
             context["subcategoriesCount"] = ((("subcategoriesCount" in context ? context["subcategoriesCount"] : null)) - (1));
         }
-        // line 48
-        sb.append("\n\t");
         // line 49
+        sb.append("\n\t");
+        // line 50
         var seq1 = twig.attr(("optionValue" in context ? context["optionValue"] : null), "children");
         var loop1 = {
             'parent': loop,
@@ -188,16 +191,16 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
         twig.forEach(seq1, function(v1, k1) {
             context["_key"] = k1;
             context["subcategory"] = v1;
-            // line 50
-            sb.append("\n\t\t");
             // line 51
+            sb.append("\n\t\t");
+            // line 52
             if ((!((twig.attr(loop1, "first")) && (("displayFirstCategoryInline" in context ? context["displayFirstCategoryInline"] : null))))) {
-                // line 52
+                // line 53
                 sb.append("\t\t\t");
                 (new biopen_twigJs_category_value(this.env_)).render_(sb, twig.extend({}, context, {"categoryValue": ("subcategory" in context ? context["subcategory"] : null), "subcategoriesCount": ("subcategoriesCount" in context ? context["subcategoriesCount"] : null)}));
                 sb.append(" \n\t\t");
             }
-            // line 54
+            // line 55
             sb.append("\n\t");
             ++loop1['index0'];
             ++loop1['index'];
@@ -208,7 +211,7 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
                 loop1['last'] = 0 === loop1['revindex0'];
             }
         }, this);
-        // line 55
+        // line 56
         sb.append(" \n\n");
         ++loop['index0'];
         ++loop['index'];
@@ -219,11 +222,11 @@ biopen_twigJs_category_value.prototype.render_ = function(sb, context, blocks) {
             loop['last'] = 0 === loop['revindex0'];
         }
     }, this);
-    // line 57
+    // line 58
     sb.append(" \n\n");
-    // line 59
+    // line 60
     if (("displayThisCategoryValue" in context ? context["displayThisCategoryValue"] : null)) {
-        // line 60
+        // line 61
         sb.append("\t<!-- div end for category-wrapper -->\n\t<\/div>\n");
     }
 };
@@ -262,13 +265,14 @@ biopen_twigJs_category_value.prototype.isTraitable = function() {
 /* 																		and not optionValue.children[0].category.enableDescription %}*/
 /* */
 /* 		{#{% set isDisabled = optionValue.option.isDisabled ? 'disabled' : '' %}#}*/
-/* 		{% set colWidth = categoryValue.category.enableDescription ? 's6 m4' : 's12' %}*/
+/* 		{% set colWidth = categoryValue.category.enableDescription ? 's6 m5' : 's12' %}*/
 /* 	  <div class='row {% if loop.first %}strong{% endif %}'>*/
 /* 	    <span class="option-value col {{ colWidth }}">*/
 /* */
 /* 	    	{% set iconClass = optionValue.option.icon ? optionValue.option.icon : 'icon-angle-right' %}	*/
+/* 	    	{% set iconColorId = optionValue.option.icon ? optionValue.option.id : '' %}	*/
 /* 				{% if iconClass %}    */
-/* 					<span class="icon {{ iconClass }} colorAs" option-id={{ optionValue.option.id }} ></span>*/
+/* 					<span class="icon {{ iconClass }} colorAs" option-id={{ iconColorId }} ></span>*/
 /* 				{% endif %}*/
 /* 				*/
 /* 	      <span class="option-name" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> */
@@ -284,7 +288,7 @@ biopen_twigJs_category_value.prototype.isTraitable = function() {
 /* */
 /* 	    </span>*/
 /* 	    {% if categoryValue.category.enableDescription %}*/
-/* 	    	<span class="col s6 m8 option-description">{{ optionValue.description|capitalize }}</span>*/
+/* 	    	<span class="col s6 m7 option-description">{{ optionValue.description|capitalize }}</span>*/
 /* 	    {% endif %}*/
 /* 	  </div>*/
 /* */
