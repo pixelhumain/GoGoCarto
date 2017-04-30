@@ -23,7 +23,15 @@ import { capitalize, slugify } from "../../commons/commons";
 
 export function initializeVoting()
 {	
-	console.log("initialize vote");			
+	//console.log("initialize vote");	
+
+	$(".validation-process-info").click( (e) => 
+	{
+		$("#popup-vote").openModal();	
+		e.stopPropagation();
+  	e.stopImmediatePropagation();
+  	e.preventDefault();
+	});	
 
 	$('#modal-vote #submit-vote').click(() => 
 	{
