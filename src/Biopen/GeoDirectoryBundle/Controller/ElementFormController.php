@@ -17,10 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
 use Biopen\GeoDirectoryBundle\Document\Option;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\GeoDirectoryBundle\Document\Catgeory;
+
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -41,8 +44,6 @@ class ElementFormController extends Controller
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
 
-		$element->reinitContributor();
-
 		return $this->renderForm($element, true, $request, $em);		
 	}
 
@@ -52,7 +53,42 @@ class ElementFormController extends Controller
 		  throw new NotFoundHttpException("Cet élément n'existe pas.");
 		}
 
-		
+		$securityContext = $this->container->get('security.context');
+		$session = $this->getRequest()->getSession();
+
+		if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->get('user_email'))
+		{
+			//$loginform = $this->get('form.factory')->createNamed('email',EmailType::class);
+			 $loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
+			->add('email', 'email', array('required' => false))
+			->getForm();			
+
+			if ($loginform->handleRequest($request)->isValid()) 
+			{
+				$user = $request->request->get('user')['email'];
+				$user_email = $user;
+				
+				$session->set('user_email', $user_email);				
+			}
+			else
+			{
+				return $this->render('@directory/element-form/contributor-login.html.twig', array('loginForm' => $loginform->createView()));
+			}		   
+		} 
+		else 
+		{
+			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+			{
+				$user = $this->get('security.context')->getToken()->getUser();
+				$user_email = $user->getEmail();
+			}
+			else
+			{
+				$user = $session->get('user_email');
+				$user_email = $session->get('user_email');
+			}
+			//dump($user);
+		}			
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
@@ -81,13 +117,16 @@ class ElementFormController extends Controller
 
 		//dump($element);	
 
+		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
+
 		return $this->render('@directory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,
 						'form' => $form->createView(),
 						'mainCategory'=> $mainCategory,
 						"optionList" => $optionsList,
-						"element" => $element
+						"element" => $element,
+						"user_email" => $user_email
 					));
 	}
 
@@ -127,6 +166,23 @@ class ElementFormController extends Controller
 			$element->setWebSite($webSiteUrl);
 		}		
 
+		$securityContext = $this->container->get('security.context');		
+		$element->setContributorIsRegisteredUser($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
+
+		if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+		{
+			$user = $securityContext->getToken()->getUser();
+
+			if ($user->isAdmin())
+				$element->setStatus(ElementStatus::AdminValidate);
+			else
+				$element->setStatus(ElementStatus::Pending);
+		}
+		else
+		{
+			$element->setStatus(ElementStatus::Pending);
+		}		
+		
 		//dump($element);			
 		
 		$em->persist($element);

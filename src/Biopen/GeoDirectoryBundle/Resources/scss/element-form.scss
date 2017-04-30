@@ -97,16 +97,15 @@ i.material-icons {
   }
 }
 
-
-#other-selling-point
+.logged-info
 {
-  margin-left: 42px;
-  display:none;
-  color: rgba(0, 0, 0, 0.85);
+  margin-top: 1rem;
+  margin-bottom: .5rem;
   font-style: italic;
-  font-size: 0.92rem;
+  text-align: center;
 }
 
+#captcha { margin-top: 1rem;}
 #captcha > div 
 {
     margin: 0 auto;

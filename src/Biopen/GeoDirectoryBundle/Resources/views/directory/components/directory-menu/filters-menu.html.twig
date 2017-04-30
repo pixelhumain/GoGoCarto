@@ -41,6 +41,20 @@
 			    </div>
 				</li>
 
+				{# ELEMENT WITH PENDING STATUS#}
+				<li class="subcategorie-option-item row" id="filter-pending" data-position="right" data-delay="300" data-tooltip="Afficher les éléments en attente de validation">
+			    <span class="icon icon-attention"></span>
+			    <span class="option-name"><span class="validation-process-info">En cours de validation</span></span> 
+
+			    {# --- CHECKBOX ---- #}
+					<div class="checkbox-wrapper">
+						<div class="checkbox-container">
+				      <input type="checkbox" checked class="subcategorie-option-checkbox pending-checkbox" id="pending-checkbox" data-type='pending' data="pending" />
+				      <label for="pending-checkbox" ></label>
+			    	</div>
+			    </div>
+				</li>
+
 				{# ALL CATEGORIES MENU #}
 				<div id="main-option-all" class="main-option-subcategories-container" style="display:none">		
 

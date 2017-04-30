@@ -15,6 +15,15 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+abstract class ElementStatus
+{
+    const Deleted = -2;
+    const ModerationNeeded = -1;
+    const Pending = 0;
+    const AdminValidate = 1;
+    const CollaborativeValidate = 1;    
+}
+
 /**
  * Element
  *
@@ -30,6 +39,17 @@ class Element
      * @MongoDB\Id(strategy="ALNUM") 
      */
     private $id;
+
+    /** @MongoDB\Field(type="int")
+     */
+    private $status;
+
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Vote")
+     */
+    private $votes;
 
     /**
      * @var string
@@ -104,13 +124,6 @@ class Element
      */
     public $openHoursMoreInfos;
 
-    /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    public $contributor;
-
    /**
      * @var string
      *
@@ -118,19 +131,10 @@ class Element
      */
     public $contributorMail;
 
-   /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $validationCode;
-
     /**
-     * @var bool
-     *
-     * MongoDB\Field(type="boolean")
+     * @MongoDB\Field(type="bool")
      */
-    private $valide = false;
+    private $contributorIsRegisteredUser;
 
     /** 
      * @var string 
@@ -145,21 +149,13 @@ class Element
      */
     public function __construct()
     {
-        $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributor = '';
-    }
-
-    public function reinitContributor()
-    {
-        $this->validationCode = md5(uniqid(rand(), true));
-        $this->contributorMail = '';
-        $this->contributor = '';
+        
     }
 
     public function resetOptionsValues()
     {
         $this->optionValues = [];
-    } 
+    }
 
     /** @MongoDB\PrePersist */
     public function doOtherStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
@@ -511,6 +507,80 @@ class Element
     public function getOptionValues()
     {
         return $this->optionValues;
+    }
+
+    /**
+     * Set status
+     *
+     * @param int $status
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int $status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Add vote
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
+     */
+    public function addVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    {
+        $this->votes[] = $vote;
+    }
+
+    /**
+     * Remove vote
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
+     */
+    public function removeVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    {
+        $this->votes->removeElement($vote);
+    }
+
+    /**
+     * Get votes
+     *
+     * @return \Doctrine\Common\Collections\Collection $votes
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * Set contributorIsRegisteredUser
+     *
+     * @param bool $contributorIsRegisteredUser
+     * @return $this
+     */
+    public function setContributorIsRegisteredUser($contributorIsRegisteredUser)
+    {
+        $this->contributorIsRegisteredUser = $contributorIsRegisteredUser;
+        return $this;
+    }
+
+    /**
+     * Get contributorIsRegisteredUser
+     *
+     * @return bool $contributorIsRegisteredUser
+     */
+    public function getContributorIsRegisteredUser()
+    {
+        return $this->contributorIsRegisteredUser;
     }
 
     /** 

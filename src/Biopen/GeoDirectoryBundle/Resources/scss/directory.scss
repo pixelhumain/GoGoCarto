@@ -24,6 +24,7 @@
 @import "components/directory/info-bar/element-info";
 
 @import "components/directory/modals/delete-element";
+@import "components/directory/modals/vote";
 @import "components/directory/modals/modals";
 
 @import "components/commons/shadow-bottom";
@@ -77,3 +78,4 @@ h1
 
    @media screen and (min-width: 600px) { font-size: 3.5rem; }
 }
+

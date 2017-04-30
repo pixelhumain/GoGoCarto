@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-05 15:04:49
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-05 18:47:33
+* @Last Modified time: 2017-04-20 15:45:39
 */
 .modal.page-modal
 {
@@ -30,6 +30,7 @@
 		float: left;
     font-size: 2rem;
     line-height: 2.5rem;
+    color: white !important;
 
     @media only screen and (min-width: 601px) { display:none; }
 	}   

@@ -94,14 +94,14 @@ export class MapComponent
 		    spiderfyOnMaxZoom: true,
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
-		    spiderfyOnHover: false,
-		    spiderfyMaxCount: 8,
+		    spiderfyOnHover: true,
+		    spiderfyMaxCount: 4,
 		    spiderfyDistanceMultiplier: 1.1,
 		    chunkedLoading: true,
 		    maxClusterRadius: (zoom) =>
 		    {
-		    	if (zoom > 9) return 55;
-		    	else return 70;
+		    	if (zoom > 7) return 40;
+		    	else return 100;
 		    }
 		});
 

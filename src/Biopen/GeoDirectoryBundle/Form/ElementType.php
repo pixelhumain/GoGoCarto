@@ -75,27 +75,16 @@ class ElementType extends AbstractType
           //         'mapped'=> false
           // ))  
           ->add('openHours', OpenHoursType::class, array('required' => false))
-          ->add('openHoursMoreInfos', TextType::class, array('required' => false))          
-          // ->add('type', ChoiceType::class, array(
-          //                 'mapped'=> false,
-          //                 'choices'  => array(
-          //                       '' => null,
-          //                       'Producteur en vente directe' => "producteur",
-          //                       'Marché' => "marche",
-          //                       'AMAP' => "amap",
-          //                       'Boutique de producteurs' => "boutique",
-          //                       'Epicerie' => "epicerie"
-          //                       ),
-          //                 'choices_as_values' => true,
-          //                 ))
+          ->add('openHoursMoreInfos', TextType::class, array('required' => false))        
           // ->add('contributor', CheckboxType::class, array(
           //           'label'    => 'Vous êtes ou travaillez chez le element en question',
           //           'required' => false))
           ->add('engagement', CheckboxType::class, array(
                 'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte notre charte',
                 'mapped' => false,
+                'data' => false,
                 'required' => false))
-          ->add('contributorMail', EmailType::class, array('required' => false));        
+          ->add('contributorMail', HiddenType::class, array('required' => false));        
   }
 
   

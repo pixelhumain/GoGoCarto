@@ -9,6 +9,7 @@
 
   {# HEADER #}
   <div class="collapsible-header bgdSoftColorAs" option-id={{mainOptionValueToDisplay.colorOptionId}}>
+  <div class="collapsible-header bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>
     
     {# Header Title #}
     <div class='collapsible-header-title row'> 
@@ -16,6 +17,7 @@
       <span class="col s12 name">
 
         {# Icons #}
+        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs {{pendingClass}} hideOnLargeScreen" option-id={{mainOptionValueToDisplay.optionId}}></span>
         <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs hideOnLargeScreen" option-id={{mainOptionValueToDisplay.colorOptionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
@@ -53,7 +55,7 @@
             <span class="option-value {{ isDisabled }}">{{ optionValue.option.name|capitalize }} {% if not loop.last %}, {% endif %}</span>            
         {% endfor %}
 
-      </span>
+      </span>      
 
       {# Select as Representant (constellation mode) #}
       <span class="col s4 right-align btn-select-as-representant-container" style="display:none">
@@ -69,14 +71,38 @@
 
     </div>
 
+    {% if element.isPending() and not listingMode %}
+        <div class="vote-section">
+          <span class="basic-message">
+            <span class="icon-attention"></span>
+            <span class="text">Acteur en cours de validation {#(<span class="validation-process-info">En savoir plus</span>)#}</span>
+            <span class="btn-vote-more-info validation-process-info" onclick='$("#popup-vote").openModal()'>EN SAVOIR PLUS</span>
+            <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
+          </span>
+          <div class="result-message" style="display:none"></div>
+        </div>
+    {% endif %}
+
   </div>
 
   {# BODY #}
-  <div class="collapsible-body moreDetails custom-scroll-bar" > 
+  <div class="collapsible-body moreDetails custom-scroll-bar"> 
   
     {# Menu in constellation mode #}
     {% if listingMode %}
+       {% if element.isPending() %}
+      <div class="vote-section">
+          <span class="basic-message">
+            <span class="icon-attention"></span>
+            <span class="text">Attention cet acteur est en cours de validation</span>
+            <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
+          </span>
+          <div class="result-message" style="display:none"></div>
+      </div>
+      {% endif %}
       <div class="menu-element bgdSoftColorAs" option-id={{mainOptionValueToDisplay.colorOptionId}}>  
+
+      <div class="menu-element bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}}>  
 
         <div class="menu-element-item item-add-favorite" style="display:none">
           <span class="menu-icon icon-star-empty icon-favorite tooltipped" 

@@ -127,7 +127,9 @@ export class BiopenMarker
 			element : element, 
 			mainOptionValueToDisplay: optionstoDisplay[0],
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1), 
-			showMoreIcon : showMoreIcon
+			showMoreIcon : showMoreIcon,
+			disableMarker : disableMarker,
+			pendingClass : element.isPending() ? 'pending' : ''
 		});
 
   	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	

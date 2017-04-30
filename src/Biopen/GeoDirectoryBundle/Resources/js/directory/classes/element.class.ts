@@ -17,10 +17,19 @@ declare let Twig : any;
 declare let biopen_twigJs_elementInfo : any;
 
 
+export enum ElementStatus 
+{
+	Deleted = -2,
+  ModerationNeeded = -1,
+  Pending = 0,
+  AdminValidate = 1,
+  CollaborativeValidate = 1
+}
 
 export class Element 
 {	
 	readonly id : string;
+	readonly status : ElementStatus;
 	readonly name : string;
 	readonly position : L.LatLng;
 	readonly address : string;
@@ -68,6 +77,7 @@ export class Element
 	constructor(elementJson : any)
 	{
 		this.id = elementJson.id;
+		this.status = elementJson.status;
 		this.name = elementJson.name;
 		this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
 		this.address = elementJson.address;
@@ -126,7 +136,7 @@ export class Element
 
 	hide() 
 	{		
-		if (this.biopenMarker_) this.biopenMarker_.hide();
+		if (this.biopenMarker_ && App.mode == AppModes.Map) this.biopenMarker_.hide();
 		this.isVisible_ = false;
 		// unbound events (click etc...)?
 		//if (constellationMode) $('#directory-content-list #element-info-'+this.id).hide();
@@ -396,6 +406,8 @@ export class Element
 		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 	}
 
+	isPending() { return this.status === ElementStatus.Pending; }
+
 	getHtmlRepresentation() 
 	{	
 		this.update();	
@@ -417,6 +429,7 @@ export class Element
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
 			mainCategoryValue : this.getOptionTree().children[0],
+			pendingClass : this.isPending() ? 'pending' : ''
 		});
 
 		

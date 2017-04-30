@@ -26,6 +26,7 @@ export function initializeElementMenu()
 	createListenersForElementMenu(menu_element);	
 
 	$('#popup-delete-element #select-reason').material_select();
+	$('#modal-vote #select-vote').material_select();
 
 	// button to confirm calculate idrections in modal pick address for directions
 	$('#modal-pick-address #btn-calculate-directions').click(() => 
@@ -197,13 +198,18 @@ export function createListenersForElementMenu(object)
 	});	
 }
 
-function getCurrentElementIdShown() : number
+export function getCurrentElementIdShown() : number
+{
+	return getCurrentElementInfoBarShown().attr('data-element-id');
+}
+
+export function getCurrentElementInfoBarShown()
 {
 	if ( App.mode == AppModes.Map ) 
 	{
-		return $('#element-info-bar').find('.element-item').attr('data-element-id');
+		return $('#element-info-bar').find('.element-item');
 	}
-	return parseInt($('.element-item.active').attr('data-element-id'));
+	return $('.element-item.active');
 }
 
 

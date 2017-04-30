@@ -84,6 +84,30 @@ export class DirectoryMenuComponent
 		$('#filter-favorite').tooltip();
 
 		// -------------------------------
+		// --------- PENDING-------------
+		// -------------------------------
+		$('#filter-pending').click(function(e : Event)
+		{
+			
+			let pendingCheckbox = $('#pending-checkbox');
+
+			let checkValue = !pendingCheckbox.is(':checked');
+
+			App.filterModule.showPending(checkValue);
+			App.elementModule.updateElementToDisplay(checkValue);
+
+			pendingCheckbox.prop('checked',checkValue);
+
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
+
+		$('#filter-pending').tooltip();
+
+
+
+		// -------------------------------
 		// ------ MAIN OPTIONS -----------
 		// -------------------------------
 		var that = this;
@@ -117,7 +141,7 @@ export class DirectoryMenuComponent
 		// -------------------------------
 		// ------ SUB OPTIONS ------------
 		// -------------------------------
-		$('.subcategorie-option-item:not(#filter-favorite) .icon-name-wrapper').click(function(e : Event)
+		$('.subcategorie-option-item:not(#filter-favorite):not(#filter-pending) .icon-name-wrapper').click(function(e : Event)
 		{
 			let optionId = $(this).attr('data-option-id');
 			let option = App.categoryModule.getOptionById(optionId);
@@ -125,7 +149,7 @@ export class DirectoryMenuComponent
 			option.isCollapsible() ? option.toggleChildrenDetail() : option.toggle();
 		});
 
-		$('.subcategorie-option-item:not(#filter-favorite) .checkbox-wrapper').click(function(e)
+		$('.subcategorie-option-item:not(#filter-favorite):not(#filter-pending) .checkbox-wrapper').click(function(e)
 		{		
 			e.stopPropagation();
 			e.stopImmediatePropagation();

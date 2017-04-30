@@ -22,18 +22,20 @@
 	
 	.collapsible-header
 	{
-		padding: .5rem;
-		@media #{$medium-and-up} { padding: .5rem 1rem; }
+		padding: .5rem 0 0 0; 
+		//@media #{$medium-and-up} { padding: .5rem 0 0 0; }
 		i { margin-right: 0; padding-left: 0.3rem; }
 
 		.collapsible-header-title 
 		{ 		
 			position: relative;
+			padding: 0;
+			@media #{$medium-and-up} { padding: 0 1rem; }
 			margin-bottom: 0rem; 
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 2rem;
-    		margin: .5rem 0;
+    	margin: .5rem 0;
 			font-weight: bold;
 
 			.distance 
@@ -48,6 +50,8 @@
 		.collapsible-header-more 
 		{ 
 			line-height: 1.5rem; 
+			padding: 0;
+			@media #{$medium-and-up} { padding: 0 1rem; }
 			margin-bottom: .5rem;
 
 			.inline-option-values  
@@ -63,7 +67,7 @@
 			    margin-bottom: .7rem;
 			    text-align: justify;
 			}
-		}
+		}		
 	}
 
 	@media #{$medium-and-down} 

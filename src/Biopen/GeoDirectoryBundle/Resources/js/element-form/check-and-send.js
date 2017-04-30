@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 17:05:21
+ * @Last Modified time: 2017-04-30 12:20:32
  */
 
 
@@ -14,10 +14,9 @@ function checkAndSend()
 	checkCategories();
 	checkAgreeConditions();
 	checkOpenHours();
-	checkAddressGeolocalisation();	
-	//checkCaptcha();	
+	checkAddressGeolocalisation();
 	checkRequiredFields();
-	
+	checkCaptcha();
 
 	// Dealing with error class
 	$('.invalid').each(function ()
@@ -34,23 +33,23 @@ function checkAndSend()
 	// par une input text invalide avec materialize
 	var errorCount = $('.error:visible, .invalid:visible').length;
 
-	// CHECK contact or open hours provided
-	if ($('.open-day').length === 0 &&
-		!$('#input-tel').val() &&
-		($('#element-type').val() != "3") &&
-		errorCount === 0)
-	{
-		$('#modal-title').text("Erreur");
-		$('#popup-content').text("Veuillez renseignez soit les horaires d'ouvertures" +
-			 " soit un numéro de téléphone pour pouvoir les connaitre !");
-		$('#popup').openModal({
-		      dismissible: true, 
-		      opacity: 0.5, 
-		      in_duration: 300, 
-		      out_duration: 200
-    		});
-		errorCount+= 1;
-	}
+	// // CHECK contact or open hours provided
+	// if ($('.open-day').length === 0 &&
+	// 	!$('#input-tel').val() &&
+	// 	($('#element-type').val() != "3") &&
+	// 	errorCount === 0)
+	// {
+	// 	$('#modal-title').text("Erreur");
+	// 	$('#popup-content').text("Veuillez renseignez soit les horaires d'ouvertures" +
+	// 		 " soit un numéro de téléphone pour pouvoir les connaitre !");
+	// 	$('#popup').openModal({
+	// 	      dismissible: true, 
+	// 	      opacity: 0.5, 
+	// 	      in_duration: 300, 
+	// 	      out_duration: 200
+ //    		});
+	// 	errorCount+= 1;
+	// }
 
 	// Si tout est OK
 	if (errorCount === 0) 
@@ -60,6 +59,27 @@ function checkAndSend()
 	}
 	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top - 80}, 'slow');
 	
+}
+
+function checkCaptcha()
+{
+	var exists = null;
+	try {
+    if (grecaptcha)
+        exists = true;
+	} catch(e) { exists = false; }
+
+	console.log("checkCaptcha", exists);
+
+	if (exists && grecaptcha.getResponse().length === 0)
+	{
+		$('#captcha-error-message').addClass('error').show();
+		grecaptcha.reset();
+	}
+	else
+	{
+		$('#captcha-error-message').removeClass('error').hide();
+	}	
 }
 
 
@@ -91,7 +111,7 @@ function checkAgreeConditions()
 	{
 		$('#informations-title').removeClass('error');
 		$('#label-agree').removeClass('error'); 	
-		$('#informations-title').text('Vos informations'); 		
+		$('#informations-title').text('Validation'); 		
 	}
 }
 
@@ -143,19 +163,6 @@ function checkAddressGeolocalisation()
 		      in_duration: 300, 
 		      out_duration: 200
     		});		
-	}
-}
-
-function checkCaptcha()
-{
-	if (grecaptcha.getResponse().length === 0)
-	{
-		$('#captcha-error-message').addClass('error').show();
-		grecaptcha.reset();
-	}
-	else
-	{
-		$('#captcha-error-message').removeClass('error').hide();
 	}
 }
 

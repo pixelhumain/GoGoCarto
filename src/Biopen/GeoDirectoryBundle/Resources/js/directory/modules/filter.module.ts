@@ -21,6 +21,7 @@ declare let App : AppModule;
 export class FilterModule
 {
 	showOnlyFavorite_ : boolean = false;
+	showPending_ : boolean = true;
 
 	constructor() {	}
 
@@ -29,9 +30,16 @@ export class FilterModule
 		this.showOnlyFavorite_ = bool;
 	};
 
+	showPending(bool : boolean)
+	{
+		this.showPending_ = bool;
+	};
+
 	checkIfElementPassFilters (element : Element) : boolean
 	{
 		if (this.showOnlyFavorite_) return element.isFavorite;
+
+		if(!this.showPending_ && element.isPending()) return false;
 
 		if (App.currMainId == 'all')
 		{

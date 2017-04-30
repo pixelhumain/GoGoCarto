@@ -15,6 +15,8 @@ import { Event, IEvent } from "../utils/event";
 import { updateMapSize, updateInfoBarSize } from "../app-interactions";
 import { updateFavoriteIcon, showFullTextMenu } from "./element-menu.component";
 
+import { createListenersForVoting } from "../components/vote.component";
+
 declare var $;
 
 export class InfoBarComponent
@@ -39,7 +41,7 @@ export class InfoBarComponent
 	{
 		let element = App.elementModule.getElementById(elementId);
 
-		//console.log("showElement", this.isDisplayedAside());
+		console.log("showElement", element);
 		
 		// if element already visible
 		if (this.elementVisible)
@@ -55,6 +57,13 @@ export class InfoBarComponent
 
 		let domMenu = $('#element-info-bar .menu-element');
 		domMenu.attr('option-id', element.colorOptionId);
+
+		if (element.isPending()) 
+		{
+			domMenu.addClass("pending");
+			createListenersForVoting();
+		}
+		else domMenu.removeClass("pending");
 
 		updateFavoriteIcon(domMenu, element);
 
