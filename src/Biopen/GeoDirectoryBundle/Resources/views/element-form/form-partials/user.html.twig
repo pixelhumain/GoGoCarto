@@ -27,15 +27,7 @@
 		{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : mail,
   								      		   'attr': {'class': 'validate required',
   											   		 'placeholder':'Votre adresse mail personelle' }}) }}
-	</div>
+	</div>#}
 
-	{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-		<div class="logged-info col s12">Vous êtes loggué en tant que {{ app.user }}. <a href="#">Changer d'utilisateur</a></div>
-	{% else %}
-		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
-		<div id="captcha" class="col s12"></div>
-	{% endif %}
-	#}
-	
 
 </section>

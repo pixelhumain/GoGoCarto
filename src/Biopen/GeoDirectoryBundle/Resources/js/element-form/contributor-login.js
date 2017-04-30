@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-16 09:32:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-16 12:48:28
+* @Last Modified time: 2017-04-30 12:15:45
 */
 
 jQuery(document).ready(function()
@@ -46,14 +46,6 @@ function checkLoginAndSend()
 		$('#inputMail').removeClass('invalid');
 		$('#inputMail').siblings('i').removeClass('invalid');
 
-		if (grecaptcha.getResponse().length === 0)
-		{
-			$('#captcha-error-message').addClass('error').show();
-			grecaptcha.reset();
-		}
-		else
-		{
-			$('form[name="user"]').submit();
-		}	
+		$('form[name="user"]').submit();		
 	}
 }

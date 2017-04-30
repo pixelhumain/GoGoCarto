@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-16 15:59:44
+ * @Last Modified time: 2017-04-30 12:15:45
  */
  
 
@@ -113,13 +113,11 @@ class ElementFormController extends Controller
 			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
 			$request->getSession()->getFlashBag()->add('notice', $noticeText);
-
-
 		}
 
 		dump($element);	
 
-		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes Connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
+		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
 
 		return $this->render('@directory/element-form/element-form.html.twig', 
 					array(

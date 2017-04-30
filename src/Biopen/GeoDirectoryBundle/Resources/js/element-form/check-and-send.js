@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-16 13:55:28
+ * @Last Modified time: 2017-04-30 12:20:32
  */
 
 
@@ -16,7 +16,7 @@ function checkAndSend()
 	checkOpenHours();
 	checkAddressGeolocalisation();
 	checkRequiredFields();
-	
+	checkCaptcha();
 
 	// Dealing with error class
 	$('.invalid').each(function ()
@@ -59,6 +59,27 @@ function checkAndSend()
 	}
 	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top - 80}, 'slow');
 	
+}
+
+function checkCaptcha()
+{
+	var exists = null;
+	try {
+    if (grecaptcha)
+        exists = true;
+	} catch(e) { exists = false; }
+
+	console.log("checkCaptcha", exists);
+
+	if (exists && grecaptcha.getResponse().length === 0)
+	{
+		$('#captcha-error-message').addClass('error').show();
+		grecaptcha.reset();
+	}
+	else
+	{
+		$('#captcha-error-message').removeClass('error').hide();
+	}	
 }
 
 

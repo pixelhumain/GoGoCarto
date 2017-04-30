@@ -43,8 +43,7 @@
 	</div>
 
 	<div class="explanations">
-	Un mail vous sera envoyé pour vous permettre d'annuler votre contribution.</br></br>
-	Il n'est pas nécessaire d'être logué pour participer, mais nous accorderons dans ce cas moins de confiance à votre contribution
+		Un mail vous sera envoyé pour vous permettre d'annuler votre contribution.
 	</div>
 
 		{{ form_rest(loginForm) }}
@@ -53,8 +52,7 @@
 {{ form_end(loginForm) }}
 
 
-	<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
-	<div id="captcha" class="col s12"></div>
+	
 
 	<center>
 		<button onclick="checkLoginAndSend()" class="btn waves-effect waves-light">Continuer</button>
@@ -67,12 +65,4 @@
 {% block page_javascripts %}
 		<script src="{{ asset('js/libs.js') }}"></script>
     <script src="{{ asset('js/element-form.js') }}"></script>
-
-	 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
-        async defer>
-    </script>
-
-    <script>
-    
-		</script>
 {% endblock %}

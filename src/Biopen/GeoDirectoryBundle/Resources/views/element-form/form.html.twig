@@ -1,3 +1,4 @@
+
 {{ form_start(form, {'id': 'formElement'}) }}   
 
 {#<section class="row" id="section_element" {% if editMode %}style="display:none"{% endif %} >
@@ -24,6 +25,12 @@
 	{% include "@directory/element-form/form-partials/open-hours.html.twig" %}
 
 	{% include "@directory/element-form/form-partials/user.html.twig" %}	
+
+	
+	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+		<div id="captcha" class="col s12"></div>
+	{% endif %}
 
 	<section id="section-validate-and-send">
 		<center>
@@ -56,9 +63,17 @@
 		<script src="{{ asset('js/libs.js') }}"></script>
     <script src="{{ asset('js/element-form.js') }}"></script>
 
+    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+		        async defer>
+		  </script>
+		{% endif %}
+
     <script>
 		  var editMode = false;		  
 		  {% if editMode %} editMode = true; {% endif %}
 		  initMap();
 	  </script>
 {% endblock %}
+
+	
