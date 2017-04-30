@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-20 15:39:46
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-20 18:18:38
+* @Last Modified time: 2017-04-30 14:15:58
 */
 
 
@@ -33,6 +33,17 @@
 	  color: white;
 	}
 
+	.btn-vote-more-info
+	{
+		line-height: 1.2rem;
+    position: absolute;
+    top: 15px;
+    right: 110px;
+    padding: 0;
+    font-size: .85rem;
+    color: white;
+	}
+
 	.btn-vote 
 	{ 
 		position: absolute; 
@@ -43,6 +54,18 @@
     color: #272626;
     font-size: .85rem;
 	}
+}
+
+.validation-process-info
+{
+    //text-decoration: underline;
+    &:hover
+    {
+        cursor: help;
+        border-bottom: 1px dashed;
+        border-color: inherit;
+        text-decoration: none;
+    }
 }
 
 #modal-vote

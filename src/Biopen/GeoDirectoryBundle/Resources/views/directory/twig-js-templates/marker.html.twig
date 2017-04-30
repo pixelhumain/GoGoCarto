@@ -7,7 +7,7 @@
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
-		{% set mainIcon = element.isPending() ? 'icon-thumbs-up' :  mainOptionValueToDisplay.option.icon %}
+		{% set mainIcon = element.isPending() ? 'icon-attention' :  mainOptionValueToDisplay.option.icon %}
 		<div class="iconInsideMarker colorAs {{pendingClass}} {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{mainIcon}}" option-id={{ mainOptionValueToDisplay.optionId }}>
 		</div>
 	</div>
