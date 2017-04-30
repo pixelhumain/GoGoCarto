@@ -1,18 +1,14 @@
 {% twig_js name="biopen_twigJs_marker" %}
 
-<div class="marker-name bgdColorAs" option-id={{mainOptionValueToDisplay.colorOptionId}} style="display:none">{{ element.name | capitalize }}</div>
-<div class="marker-name bgdColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.option.ownerColorId}} style="display:none">{{ element.name | capitalize }}</div>
+<div class="marker-name bgdColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.colorOptionId}} style="display:none">{{ element.name | capitalize }}</div>
 
-<div class="marker-wrapper colorAs" option-id="{{mainOptionValueToDisplay.colorOptionId}}" id="marker-{{ element.id }}">
-<div class="marker-wrapper colorAs {{pendingClass}}" option-id="{{mainOptionValueToDisplay.option.ownerColorId}}" id="marker-{{ element.id }}">
+<div class="marker-wrapper colorAs {{pendingClass}}" option-id="{{mainOptionValueToDisplay.colorOptionId}}" id="marker-{{ element.id }}">
 
 	<div class="rotate animate icon-marker"></div>
 	
 	<div class="iconInsideMarker-wrapper rotate">
 		{% set mainIcon = element.isPending() ? 'icon-attention' :  mainOptionValueToDisplay.option.icon %}
-		<div class="iconInsideMarker colorAs {{pendingClass}} {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{mainIcon}}" option-id={{ mainOptionValueToDisplay.optionId }}>
-		<div class="iconInsideMarker colorAs {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{ mainOptionValueToDisplay.option.icon }}" option-id={{ mainOptionValueToDisplay.option.color ? mainOptionValueToDisplay.optionId : mainOptionValueToDisplay.colorOptionId}}>
-		</div>
+		<div class="iconInsideMarker colorAs {{pendingClass}} {{ mainOptionValueToDisplay.isFilledByFilters ? '' : 'disabled' }} {{mainIcon}}" option-id={{ mainOptionValueToDisplay.option.color ? mainOptionValueToDisplay.optionId : mainOptionValueToDisplay.colorOptionId }}>
 	</div>
 
 	{% set nbreOthersOptions = otherOptionsValuesToDisplay.length %}	
@@ -30,11 +26,9 @@
 
 				{% set disableOption = otherOptionValue.isFilledByFilters == false ? 'disabled' : '' %}
 
-				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.option.ownerColorId ? 'colorAs' : '' }} {{pendingClass}}" option-id={{ otherOptionValue.option.ownerColorId }}
-				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.colorOptionId ? 'colorAs' : '' }}" option-id={{ otherOptionValue.colorOptionId }}
+				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.colorOptionId ? 'colorAs' : '' }} {{pendingClass}}" option-id={{ otherOptionValue.colorOptionId }}
 						style="left:{{ 32 * loop.index0 }}px">
-					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs {{pendingClass}}" option-id={{ otherOptionValue.optionId }}>
-					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs" option-id={{ otherOptionValue.option.color ? otherOptionValue.optionId : otherOptionValue.colorOptionId }}>
+					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs {{pendingClass}}" option-id={{ otherOptionValue.option.color ? otherOptionValue.optionId : otherOptionValue.colorOptionId }}>
 					</span>
 			 	</div>
 

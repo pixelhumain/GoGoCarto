@@ -94,7 +94,7 @@ export class DirectoryMenuComponent
 			let checkValue = !pendingCheckbox.is(':checked');
 
 			App.filterModule.showPending(checkValue);
-			App.elementModule.updateElementToDisplay(checkValue);
+			App.elementModule.updateElementsToDisplay(checkValue);
 
 			pendingCheckbox.prop('checked',checkValue);
 
