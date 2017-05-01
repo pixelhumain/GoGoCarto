@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-26 10:57:01
+ * @Last Modified time: 2017-05-01 15:21:56
  */
  
 
@@ -57,6 +57,18 @@ class APIController extends Controller
         }
     }
 
+    public function getAllElementsAction()
+    {
+        $em = $this->get('doctrine_mongodb')->getManager(); 
+        $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+        $elementsFromDB = $elementRepo->findAll();
+        $responseJson = $this->encoreArrayToJson($elementsFromDB);  
+        $compressed = gzdeflate($responseJson, 9);
+        $result = new Response($responseJson); 
+        $result->headers->set('Content-Type', 'application/json');
+        return $result;
+    }
+
     public function getElementsInBoundsAction(Request $request)
     {
         if($request->isXmlHttpRequest())
@@ -69,13 +81,19 @@ class APIController extends Controller
             {
               $boxes[] = explode( ',' , $bound);
             }
-
+            $before = memory_get_usage();
             $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
             $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
     
-            $responseJson = $this->encoreArrayToJson($elementsFromDB);            
+            $responseJson = $this->encoreArrayToJson($elementsFromDB, $before);  
+            //dump($responseJson);
+            $after = memory_get_usage();          
+            dump(($after-$before)*0.000122);
 
+            $before = memory_get_usage();
             $result = new Response($responseJson);   
+            $after = memory_get_usage();
+            dump(($after-$before)*0.000122);
             $result->headers->set('Content-Type', 'application/json');
             return $result;
         }
@@ -85,7 +103,7 @@ class APIController extends Controller
         }
     }
 
-    private function encoreArrayToJson($array)
+    private function encoreArrayToJson($array, $before = 0)
     {
         $elementsJson = '['; 
  
@@ -94,8 +112,8 @@ class APIController extends Controller
         } 
 
         $elementsJson = rtrim($elementsJson,",") . ']';
-
-        $responseJson = '{ "data":'. $elementsJson . '}';
+        $after = memory_get_usage();
+        $responseJson = '{ "data":'. $elementsJson . ', "size":'. (int) ($after-$before)*0.000122 .'}';
 
         return $responseJson;
     }

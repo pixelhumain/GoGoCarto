@@ -16,9 +16,9 @@ export class OptionValue
 
 	constructor( $optionValueJson )
 	{
-		this.optionId = $optionValueJson.optionId;
-		this.index = $optionValueJson.index;
-		this.description = $optionValueJson.description || '';
+		this.optionId = $optionValueJson[0];
+		this.index = $optionValueJson[1];
+		this.description = $optionValueJson.length == 3 ?  $optionValueJson[2] : '';
 	}
 
 	get option() : Option

@@ -89,7 +89,7 @@ export class AjaxModule
 	{
 		if (this.allElementsReceived) { console.log("All elements already received"); return; }
 
-		//console.log("Ajax send elements request ", $request);
+		console.log("Ajax send elements request ", $request);
 
 		if (this.isRetrievingElements)
 		{		
@@ -106,7 +106,7 @@ export class AjaxModule
 		
 		$.ajax({
 			url: $request.route,
-			method: "post",
+			method: "get",
 			data: $request.data,
 			beforeSend: () =>
 			{ 				
@@ -119,7 +119,7 @@ export class AjaxModule
 				if (response.data !== null)
 				{
 					let end = new Date().getTime();					
-					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms. Memory size : ", response.size);				
 
 					this.onNewElements.emit(response.data);				
 				}

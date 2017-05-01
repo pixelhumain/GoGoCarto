@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:43:05
+ * @Last Modified time: 2017-05-01 15:12:13
  */
  
 
@@ -42,7 +42,7 @@ class Element
 
     /** @MongoDB\Field(type="int")
      */
-    public $status;
+    private $status;
 
     /**
      * @var \stdClass
@@ -66,42 +66,42 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    public $address;
+    private $address;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    public $postalCode;
+    private $postalCode;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=false)
      */
-    public $description;
+    private $description;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    public $tel;
+    private $tel;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    public $mail;
+    private $mail;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    public $webSite;
+    private $webSite;
     
     /**
      * @var \stdClass
@@ -115,21 +115,21 @@ class Element
      *
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
-    public $openHours;
+    private $openHours;
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string", nullable=true)
      */
-    public $openHoursMoreInfos;
+    private $openHoursMoreInfos;
 
    /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    public $contributorMail;
+    private $contributorMail;
 
     /**
      * @MongoDB\Field(type="bool")
@@ -158,27 +158,22 @@ class Element
     }
 
     /** @MongoDB\PrePersist */
-    public function doOtherStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    public function updateJsonRepresentationOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
     {
-        $responseJson =  json_encode($this);  
+        //$responseJson =  json_encode($this);  
+
+        $responseJson = '{"o":["'.$this->name . '",' . $this->coordinates->getLat() .','. $this->coordinates->getLng().'], "v":[';
+        foreach ($this->optionValues as $key => $value) {
+            $responseJson .= '['.$value->getOptionId().','.$value->getIndex();
+            //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
+            $responseJson .= ']';
+            if ($key != count($this->optionValues) -1) $responseJson .= ',';
+        }
+        $elementsJson = rtrim($responseJson, ',');
+        $responseJson .= ']}';
         $this->json = $responseJson;
         //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
     }
-
-     /** @PrePersist */
-    // public function doStuffOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
-    // {
-    //     $this->createdAt = date('Y-m-d H:i:s');
-    // }
-
-    /** @MongoDB\PostPersist */
-    // public function doStuffOnPostPersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
-    // {
-    //     $responseJson =  json_encode($this);  
-    //    //   $new_element->setJson($responseJson);   
-    //     //$this->json = 'changed from postPersist callback! ID = ' . $this->id;
-    //     $this->json = $responseJson;
-    // }
 
 
     /**
@@ -412,27 +407,6 @@ class Element
         return $this->openHoursMoreInfos;
     }
 
-    /**
-     * Set contributor
-     *
-     * @param string $contributor
-     * @return $this
-     */
-    public function setContributor($contributor)
-    {
-        $this->contributor = $contributor;
-        return $this;
-    }
-
-    /**
-     * Get contributor
-     *
-     * @return string $contributor
-     */
-    public function getContributor()
-    {
-        return $this->contributor;
-    }
 
     /**
      * Set contributorMail

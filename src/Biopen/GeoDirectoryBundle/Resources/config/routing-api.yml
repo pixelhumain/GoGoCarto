@@ -2,7 +2,13 @@ biopen_api_element_by_id:
     path:     /element
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementById }
     requirements:
-        _method: POST
+        _method: GET
+    options:
+        expose: true
+
+biopen_api_element_all:
+    path:     /elements
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getAllElements }
     options:
         expose: true
 
@@ -10,7 +16,7 @@ biopen_api_elements_around_location:
     path:     /elementsAround
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsAroundLocation }
     requirements:
-        _method: POST
+        _method: GET
     options:
         expose: true
 
@@ -18,6 +24,6 @@ biopen_api_elements_in_bounds:
     path:     /elementsInBounds
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsInBounds }
     requirements:
-        _method: POST
+        _method: GET
     options:
         expose: true

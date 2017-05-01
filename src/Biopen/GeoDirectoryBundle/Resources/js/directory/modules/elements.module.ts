@@ -101,7 +101,7 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
-		//console.log("AddJsonElements in " + (end-start) + " ms");	
+		console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
 		return newElements;
 	};
 

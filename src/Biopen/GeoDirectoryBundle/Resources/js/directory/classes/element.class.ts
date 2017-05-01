@@ -19,7 +19,6 @@ declare let biopen_twigJs_elementInfo : any;
 
 export enum ElementStatus 
 {
-	Deleted = -2,
   ModerationNeeded = -1,
   Pending = 0,
   AdminValidate = 1,
@@ -78,8 +77,8 @@ export class Element
 	{
 		this.id = elementJson.id;
 		this.status = elementJson.status;
-		this.name = elementJson.name;
-		this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
+		this.name = elementJson.o[0];
+		this.position = L.latLng(elementJson.o[1], elementJson.o[2]);
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
@@ -92,7 +91,7 @@ export class Element
 		this.getFormatedOpenHours();
 
 		let newOption : OptionValue, ownerId : number;
-		for (let optionValueJson of elementJson.optionValues)
+		for (let optionValueJson of elementJson.v)
 		{
 			newOption = new OptionValue(optionValueJson);
 

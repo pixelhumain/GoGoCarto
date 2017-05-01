@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:03:18
+ * @Last Modified time: 2017-05-01 13:59:18
  */
  
 
@@ -22,6 +22,12 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ElementRepository extends DocumentRepository
 {
+  public function findAll()
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    return $qb->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+  }
+
   public function findAround($lat, $lng, $distance)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
