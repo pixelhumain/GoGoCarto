@@ -16,6 +16,7 @@
 /vendor/
 /web/bundles/
 /web/assets/css/*
+!web/assets/css/images
 /web/js/*
 !web/js/directory.js
 !web/js/element-form.js

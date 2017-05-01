@@ -157,7 +157,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('clean', function(cb) {
-    del(['web/assets/css', 'web/js'], cb);
+    del(['web/assets/css/*.css', 'web/js'], cb);
 });
 
 gulp.task('build', function() {
