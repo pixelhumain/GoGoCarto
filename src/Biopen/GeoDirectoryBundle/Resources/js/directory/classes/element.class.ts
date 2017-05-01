@@ -93,7 +93,6 @@ export class Element
 	updateAttributesFromFullJson(elementJson : any)
 	{
 		// if the element was not prefilled with the compact json representation
-		console.log("full json", elementJson);
 		if (!this.id)
 		{
 			this.id = elementJson.id;

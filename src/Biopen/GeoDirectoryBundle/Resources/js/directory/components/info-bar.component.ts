@@ -41,11 +41,11 @@ export class InfoBarComponent
 	{
 		let element = App.elementModule.getElementById(elementId);
 
-		console.log("showElement", element);
+		//console.log("showElement", element);
 
 		if (!element.isFullyLoaded)
 		{
-			console.log("Element not fully Loaded");
+			//console.log("Element not fully Loaded");
 			App.ajaxModule.getElementById(elementId,
 			(response) => {
 				element.updateAttributesFromFullJson(response);

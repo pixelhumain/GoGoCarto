@@ -29,8 +29,7 @@ export class OptionValue
 			this.optionId = $optionValueJson.optionId;
 			this.index = $optionValueJson.index;
 			this.description = $optionValueJson.description || '';
-		}
-		
+		}		
 	}
 
 	get option() : Option
