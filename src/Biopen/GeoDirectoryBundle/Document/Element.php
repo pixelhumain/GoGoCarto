@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 14:49:54
+ * @Last Modified time: 2017-05-01 09:43:05
  */
  
 
@@ -21,7 +21,6 @@ abstract class ElementStatus
     const ModerationNeeded = -1;
     const Pending = 0;
     const AdminValidate = 1;
-    const CollaborativeValidate = 1;    
     const CollaborativeValidate = 2;    
 }
 
@@ -43,7 +42,7 @@ class Element
 
     /** @MongoDB\Field(type="int")
      */
-    private $status;
+    public $status;
 
     /**
      * @var \stdClass
