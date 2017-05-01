@@ -3,20 +3,21 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Expose;
 
 /** @MongoDB\EmbeddedDocument */
 class Coordinates
 {
     /**
      * 
-     *
+     * @Expose
      * @MongoDB\Field(type="float")
      */
     public $lat;
 
     /**
      * 
-     *
+     * @Expose
      * @MongoDB\Field(type="float")
      */
     public $lng;

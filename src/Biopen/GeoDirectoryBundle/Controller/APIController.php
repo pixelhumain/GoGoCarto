@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 15:21:56
+ * @Last Modified time: 2017-05-01 17:08:18
  */
  
 
@@ -86,14 +86,9 @@ class APIController extends Controller
             $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
     
             $responseJson = $this->encoreArrayToJson($elementsFromDB, $before);  
-            //dump($responseJson);
-            $after = memory_get_usage();          
-            dump(($after-$before)*0.000122);
-
-            $before = memory_get_usage();
+            dump($responseJson);
             $result = new Response($responseJson);   
-            $after = memory_get_usage();
-            dump(($after-$before)*0.000122);
+
             $result->headers->set('Content-Type', 'application/json');
             return $result;
         }
@@ -108,12 +103,11 @@ class APIController extends Controller
         $elementsJson = '['; 
  
         foreach ($array as $key => $value) { 
-           $elementsJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
+           $elementsJson .= $value['compactJson'] .  ', "' .$key. '"],'; 
         } 
 
         $elementsJson = rtrim($elementsJson,",") . ']';
-        $after = memory_get_usage();
-        $responseJson = '{ "data":'. $elementsJson . ', "size":'. (int) ($after-$before)*0.000122 .'}';
+        $responseJson = '{ "data":'. $elementsJson . '}';
 
         return $responseJson;
     }
@@ -129,7 +123,7 @@ class APIController extends Controller
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findOneBy(array('id' => $elementId));
 
-            $elementJson = $element->getJson();
+            $elementJson = $element->getFullJson();
 
             $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
             

@@ -7,13 +7,14 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 15:12:13
+ * @Last Modified time: 2017-05-01 17:06:45
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Expose;
 
 abstract class ElementStatus
 {
@@ -35,14 +36,16 @@ class Element
 {
     /**
      * @var int
-     *
+     *  
      * @MongoDB\Id(strategy="ALNUM") 
      */
     private $id;
 
-    /** @MongoDB\Field(type="int")
+    /** 
+     * @Expose
+     * @MongoDB\Field(type="int")
      */
-    private $status;
+    public $status;
 
     /**
      * @var \stdClass
@@ -53,20 +56,23 @@ class Element
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string")
      */
     public $name;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") */
+    /** 
+    * @Expose
+    * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
+    */
     public $coordinates;
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string")
      */
-    private $address;
+    public $address;
 
     /**
      * @var string
@@ -77,56 +83,56 @@ class Element
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string", nullable=false)
      */
-    private $description;
+    public $description;
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string")
      */
-    private $tel;
+    public $tel;
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string")
      */
-    private $mail;
+    public $mail;
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string")
      */
-    private $webSite;
+    public $webSite;
     
     /**
      * @var \stdClass
-     *
+     * @Expose
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
     public $optionValues;
 
     /**
      * @var \stdClass
-     *
+     * @Expose
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
-    private $openHours;
+    public $openHours;
 
     /**
      * @var string
-     *
+     * @Expose
      * @MongoDB\Field(type="string", nullable=true)
      */
-    private $openHoursMoreInfos;
+    public $openHoursMoreInfos;
 
    /**
      * @var string
-     *
+     * 
      * @MongoDB\Field(type="string")
      */
     private $contributorMail;
@@ -141,7 +147,14 @@ class Element
      * 
      * @MongoDB\Field(type="string") 
      */ 
-    private $json; 
+    private $compactJson; 
+
+    /** 
+     * @var string 
+     * 
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $fullJson; 
 
 
     /**
@@ -160,18 +173,17 @@ class Element
     /** @MongoDB\PrePersist */
     public function updateJsonRepresentationOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
     {
-        //$responseJson =  json_encode($this);  
+        $this->fullJson =  json_encode($this);  
 
-        $responseJson = '{"o":["'.$this->name . '",' . $this->coordinates->getLat() .','. $this->coordinates->getLng().'], "v":[';
+        $compactJson = '["'.$this->name . '",' . $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
         foreach ($this->optionValues as $key => $value) {
-            $responseJson .= '['.$value->getOptionId().','.$value->getIndex();
+            $compactJson .= '['.$value->getOptionId().','.$value->getIndex();
             //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
-            $responseJson .= ']';
-            if ($key != count($this->optionValues) -1) $responseJson .= ',';
+            $compactJson .= ']';
+            if ($key != count($this->optionValues) -1) $compactJson .= ',';
         }
-        $elementsJson = rtrim($responseJson, ',');
-        $responseJson .= ']}';
-        $this->json = $responseJson;
+        $compactJson .= ']';
+        $this->setCompactJson($compactJson);
         //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
     }
 
@@ -557,31 +569,6 @@ class Element
         return $this->contributorIsRegisteredUser;
     }
 
-    /** 
-     * Set json 
-     * 
-     * @param string $json 
-     * @return $this 
-     */ 
-    public function setJson($json) 
-    { 
-        $this->json = $json; 
-        return $this; 
-    } 
- 
-    /** 
-     * Remove category 
-     * Get json 
-     * 
-     * @param Biopen\GeoDirectoryBundle\Document\CategoryValue $category 
-     * @return string $json 
-     */ 
-    public function getJson() 
-    { 
-        return $this->json;
-        //return preg_replace('/"([^"]+)"\s*:\s*/', '$1:', $this->json); 
-        //return decode_json($this->json); 
-    } 
 
     /**
      * Set coordinates
@@ -603,5 +590,51 @@ class Element
     public function getCoordinates()
     {
         return $this->coordinates;
+    }
+
+
+
+    /**
+     * Set compactJson
+     *
+     * @param string $compactJson
+     * @return $this
+     */
+    public function setCompactJson($compactJson)
+    {
+        $this->compactJson = $compactJson;
+        return $this;
+    }
+
+    /**
+     * Get compactJson
+     *
+     * @return string $compactJson
+     */
+    public function getCompactJson()
+    {
+        return $this->compactJson;
+    }
+
+    /**
+     * Set fullJson
+     *
+     * @param string $fullJson
+     * @return $this
+     */
+    public function setFullJson($fullJson)
+    {
+        $this->fullJson = $fullJson;
+        return $this;
+    }
+
+    /**
+     * Get fullJson
+     *
+     * @return string $fullJson
+     */
+    public function getFullJson()
+    {
+        return $this->fullJson;
     }
 }

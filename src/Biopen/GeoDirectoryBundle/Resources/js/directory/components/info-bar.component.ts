@@ -42,6 +42,20 @@ export class InfoBarComponent
 		let element = App.elementModule.getElementById(elementId);
 
 		console.log("showElement", element);
+
+		if (!element.isFullyLoaded)
+		{
+			console.log("Element not fully Loaded");
+			App.ajaxModule.getElementById(elementId,
+			(response) => {
+				element.updateAttributesFromFullJson(response);
+				this.showElement(element.id);
+			},
+			() => {
+				console.log("Ajax failure for elementId", elementId);
+			});
+			return;
+		}
 		
 		// if element already visible
 		if (this.elementVisible)
@@ -49,9 +63,7 @@ export class InfoBarComponent
 			this.elementVisible.marker.showNormalSize(true);
 		}
 
-		this.elementVisible = element;				
-
-		element.updateDistance();
+		this.elementVisible = element;	
 
 		$('#element-info').html(element.getHtmlRepresentation());
 

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 13:59:18
+ * @Last Modified time: 2017-05-01 16:54:59
  */
  
 
@@ -25,7 +25,7 @@ class ElementRepository extends DocumentRepository
   public function findAll()
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-    return $qb->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+    return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
   public function findAround($lat, $lng, $distance)
@@ -35,7 +35,7 @@ class ElementRepository extends DocumentRepository
     // convert kilometre in degrees
     $radius = $distance / 110;
     return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
-              ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+              ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
   public function findWhithinBoxes($bounds, $optionId)
@@ -56,7 +56,7 @@ class ElementRepository extends DocumentRepository
           $qb->field('optionValues.optionId')->in(array((float) $optionId));
         }
         $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
-                    ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+                    ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
 
         $results = array_merge($results, $array);  
       }

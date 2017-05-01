@@ -101,9 +101,24 @@ export class ElementsModule
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
-		console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
+		//console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
+		//console.log("last element", element);
 		return newElements;
 	};
+
+	addFullJsonElement(elementJson)
+	{
+		let element = new Element([]);
+		element.updateAttributesFromFullJson(elementJson);
+		element.initialize();
+
+		for (let mainId of element.mainOptionOwnerIds)
+		{
+			this.everyElements_[mainId].push(element);
+		}				
+		this.everyElements_['all'].push(element);
+		this.everyElementsId_.push(element.id);
+	}
 
 	showElement(element : Element)
 	{
