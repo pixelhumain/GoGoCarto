@@ -22,6 +22,7 @@ abstract class ElementStatus
     const Pending = 0;
     const AdminValidate = 1;
     const CollaborativeValidate = 1;    
+    const CollaborativeValidate = 2;    
 }
 
 /**

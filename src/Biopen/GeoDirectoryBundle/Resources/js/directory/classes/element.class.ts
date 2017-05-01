@@ -23,7 +23,7 @@ export enum ElementStatus
   ModerationNeeded = -1,
   Pending = 0,
   AdminValidate = 1,
-  CollaborativeValidate = 1
+  CollaborativeValidate = 2
 }
 
 export class Element 
