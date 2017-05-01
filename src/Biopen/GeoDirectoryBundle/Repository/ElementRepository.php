@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-26 12:46:08
+ * @Last Modified time: 2017-05-01 09:03:18
  */
  
 
@@ -38,7 +38,7 @@ class ElementRepository extends DocumentRepository
 
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    dump("quering optionId " . $optionId);
+    //dump("quering optionId " . $optionId);
 
     foreach ($bounds as $key => $bound) 
     {
