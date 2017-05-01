@@ -74,9 +74,6 @@
 .icon-boissons:before {
   content: "\6f";
 }
-.icon-constellation:before {
-  content: "\74";
-}
 .icon-expand:before {
   content: "\75";
 }
@@ -89,12 +86,6 @@
 .icon-huile:before {
   content: "\79";
 }
-.icon-fruits2:before {
-  content: "\70";
-}
-.icon-plus:before {
-  content: "\73";
-}
 .icon-plus-circle:before {
   content: "\7a";
 }
@@ -103,12 +94,6 @@
 }
 .icon-close:before {
   content: "\45";
-}
-.icon-close-circle:before {
-  content: "\46";
-}
-.icon-icon-liste:before {
-  content: "\47";
 }
 .icon-search:before {
   content: "\48";
@@ -140,71 +125,20 @@
 .icon-day:before {
   content: "\52";
 }
-.icon-exclamation:before {
-  content: "\64";
-}
-.icon-exclamation-2:before {
-  content: "\50";
-}
-.icon-thumbs-up2:before {
-  content: "\51";
-}
-.icon-thumbs-down-2:before {
-  content: "\53";
-}
 .icon-attention:before {
   content: "\56";
 }
 .icon-exclamation-1:before {
   content: "\59";
 }
-.icon-notify:before {
-  content: "\5a";
-}
 .icon-share-alt:before {
   content: "\30";
-}
-.icon-material-design-icons-12:before {
-  content: "\31";
-}
-.icon-reply:before {
-  content: "\32";
-}
-.icon-app:before {
-  content: "\33";
-}
-.icon-ellipsis-v:before {
-  content: "\34";
-}
-.icon-exclamation-circle:before {
-  content: "\35";
 }
 .icon-external-link:before {
   content: "\38";
 }
 .icon-paper-plane:before {
   content: "\21";
-}
-.icon-paper-plane-o:before {
-  content: "\22";
-}
-.icon-share:before {
-  content: "\24";
-}
-.icon-share-alt2:before {
-  content: "\23";
-}
-.icon-thumbs-o-up:before {
-  content: "\25";
-}
-.icon-thumbs-o-down:before {
-  content: "\26";
-}
-.icon-thumbs-down:before {
-  content: "\27";
-}
-.icon-thumbs-up:before {
-  content: "\28";
 }
 .icon-legumineuses:before {
   content: "\61";
@@ -284,9 +218,6 @@
 .icon-material-design-icons-1:before {
   content: "\e009";
 }
-.icon-plus-1:before {
-  content: "\76";
-}
 .icon-person:before {
   content: "\e00a";
 }
@@ -295,9 +226,6 @@
 }
 .icon-add-element:before {
   content: "\e011";
-}
-.icon-settings:before {
-  content: "\e014";
 }
 .icon-info:before {
   content: "\e018";
@@ -316,12 +244,6 @@
 }
 .icon-yahoo:before {
   content: "\e01e";
-}
-.icon-minus-one:before {
-  content: "\e020";
-}
-.icon-plus-one:before {
-  content: "\e021";
 }
 .icon-camping:before {
   content: "\e022";
@@ -353,17 +275,8 @@
 .icon-mobilite-2:before {
   content: "\37";
 }
-.icon-material-design-icons:before {
-  content: "\6a";
-}
-.icon-material-design-icons-2:before {
-  content: "\42";
-}
-.icon-material-design-icons-3:before {
+.icon-marker-symbol:before {
   content: "\54";
-}
-.icon-material-design-icons-4:before {
-  content: "\55";
 }
 .icon-cafe:before {
   content: "\2f";
