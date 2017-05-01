@@ -21,7 +21,7 @@ export class BiopenMarker
 {
 	id_ : string;
 	isAnimating_ : boolean = false;
-	richMarker_ : L.Marker;
+	leafletMarker_ : L.Marker;
 	isHalfHidden_ : boolean = false;
 	inclination_ = "normal";
 	polyline_;
@@ -37,21 +37,21 @@ export class BiopenMarker
 			else position_ = element.position;
 		} 
 
-		this.richMarker_ = L.marker(position_, { 'riseOnHover' : true});	
+		this.leafletMarker_ = L.marker(position_, { 'riseOnHover' : true});	
 			
-		this.richMarker_.on('click', (ev) =>
+		this.leafletMarker_.on('click', (ev) =>
 		{
 			App.handleMarkerClick(this);	
   	});
 	
-		this.richMarker_.on('mouseover', (ev) =>
+		this.leafletMarker_.on('mouseover', (ev) =>
 		{
 			if (this.isAnimating_) { return; }
 			//if (!this.isNearlyHidden_) // for constellation mode !
 				this.showBigSize();
 		});
 
-		this.richMarker_.on('mouseout', (ev) =>
+		this.leafletMarker_.on('mouseout', (ev) =>
 		{
 			if (this.isAnimating_) { return; }			
 			this.showNormalSize();
@@ -59,7 +59,7 @@ export class BiopenMarker
 
 		// if (App.state == AppStates.Constellation)
 		// {
-		// 	google.maps.event.addListener(this.richMarker_, 'visible_changed', () => 
+		// 	google.maps.event.addListener(this.leafletMarker_, 'visible_changed', () => 
 		// 	{ 
 		// 		this.checkPolylineVisibility_(this); 
 		// 	});
@@ -69,7 +69,7 @@ export class BiopenMarker
 
 
 		//this.update();	
-		this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\"></span>"}));
+		this.leafletMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\"></span>"}));
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -132,7 +132,7 @@ export class BiopenMarker
 			pendingClass : element.isPending() ? 'pending' : ''
 		});
 
-  	this.richMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
+  	this.leafletMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
 
   	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
 
@@ -140,13 +140,13 @@ export class BiopenMarker
   	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
-	addClassToRichMarker_ (classToAdd) 
+	private addClassToLeafletMarker_ (classToAdd) 
 	{		
 		this.domMarker().addClass(classToAdd);
 		this.domMarker().siblings('.marker-name').addClass(classToAdd); 
 	};
 
-	removeClassToRichMarker_ (classToRemove) 
+	private removeClassToLeafletMarker_ (classToRemove) 
 	{		
 		this.domMarker().removeClass(classToRemove);
 		this.domMarker().siblings('.marker-name').removeClass(classToRemove);      
@@ -154,7 +154,7 @@ export class BiopenMarker
 
 	showBigSize () 
 	{			
-		this.addClassToRichMarker_("BigSize");
+		this.addClassToLeafletMarker_("BigSize");
 		let domMarker = this.domMarker();
 		domMarker.parent().find('.marker-name').show();
 		domMarker.find('.moreIconContainer').show();
@@ -174,7 +174,7 @@ export class BiopenMarker
 		if (!$force && this.isDisplayedOnElementInfoBar()) return;
 
 		let domMarker = this.domMarker();
-		this.removeClassToRichMarker_("BigSize");
+		this.removeClassToLeafletMarker_("BigSize");
 		domMarker.parent().find('.marker-name').hide();
 		domMarker.find('.moreIconContainer').hide();
 		domMarker.find('.icon-plus-circle').show();
@@ -234,13 +234,13 @@ export class BiopenMarker
 	{
 		// if (!this.polyline_)
 		// {
-		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, null, options);
+		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.leafletMarker_.getPosition(), this.getElement().type, null, options);
 		// }
 		// else
 		// {		
 		// 	let map = this.polyline_.getMap();
 		// 	this.polyline_.setMap(null);
-		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.richMarker_.getPosition(), this.getElement().type, map, options);	
+		// 	this.polyline_ = drawLineBetweenPoints(App.constellation.getOrigin(), this.leafletMarker_.getPosition(), this.getElement().type, map, options);	
 		// }
 	};
 
@@ -248,7 +248,7 @@ export class BiopenMarker
 	{		
 		if (!$force && this.isDisplayedOnElementInfoBar()) return;
 
-		this.addClassToRichMarker_("halfHidden");
+		this.addClassToLeafletMarker_("halfHidden");
 		let domMarker = this.domMarker();
 		domMarker.css('z-index','1');
 		domMarker.find('.icon-plus-circle').addClass("halfHidden");
@@ -263,7 +263,7 @@ export class BiopenMarker
 
 	showNormalHidden () 
 	{		
-		this.removeClassToRichMarker_("halfHidden");
+		this.removeClassToLeafletMarker_("halfHidden");
 		let domMarker = this.domMarker();
 		domMarker.css('z-index','10');
 		domMarker.find('.icon-plus-circle').removeClass("halfHidden");
@@ -279,7 +279,7 @@ export class BiopenMarker
 
 	getId () : string { return this.id_; };
 
-	getLeafletMarker () : L.Marker { return this.richMarker_; };
+	getLeafletMarker () : L.Marker { return this.leafletMarker_; };
 
 	isHalfHidden() : boolean { return this.isHalfHidden_; }
 
@@ -287,10 +287,10 @@ export class BiopenMarker
 
 	checkPolylineVisibility_ (context) 
 	{		
-		if (context.richMarker_ === null) return;
-		//window.console.log("checkPolylineVisibility_ " + context.richMarker_.getVisible());
-		context.polyline_.setVisible(context.richMarker_.getVisible());	
-		context.polyline_.setMap(context.richMarker_.getMap());	
+		if (context.leafletMarker_ === null) return;
+		//window.console.log("checkPolylineVisibility_ " + context.leafletMarker_.getVisible());
+		context.polyline_.setVisible(context.leafletMarker_.getVisible());	
+		context.polyline_.setMap(context.leafletMarker_.getMap());	
 
 		if (App.state == AppStates.ShowDirections) 
 		{
@@ -301,28 +301,28 @@ export class BiopenMarker
 
 	show () 
 	{	
-		//App.mapComponent.addMarker(this.richMarker_);
-		//this.richMarker_.addTo(App.map());
+		//App.mapComponent.addMarker(this.leafletMarker_);
+		//this.leafletMarker_.addTo(App.map());
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{			
-		//App.mapComponent.removeMarker(this.richMarker_);
-		//this.richMarker_.remove();
+		//App.mapComponent.removeMarker(this.leafletMarker_);
+		//this.leafletMarker_.remove();
 		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
 
 	setVisible (bool : boolean) 
 	{	
-		//this.richMarker_.setVisible(bool);
+		//this.leafletMarker_.setVisible(bool);
 		if (bool) this.show();
 		else this.hide();
 	};
 
 	getPosition () : L.LatLng
 	{	
-		return this.richMarker_.getLatLng();
+		return this.leafletMarker_.getLatLng();
 	};
 }
 
