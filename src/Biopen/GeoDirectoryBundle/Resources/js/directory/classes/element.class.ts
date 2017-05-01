@@ -79,12 +79,13 @@ export class Element
 	{
 		// when we get the compact json representation of the element from the server
 		// the elementJson is a simple array with the more important element attribute
-		if (elementJson.length == 5)
+		if (elementJson.length == 6)
 		{
-			this.id = elementJson[4];
+			this.id = elementJson[5];
 			this.name = elementJson[0];
 			this.position = L.latLng(elementJson[1], elementJson[2]);		
-			this.createOptionValues(elementJson[3]);			
+			this.createOptionValues(elementJson[3]);		
+			this.status = elementJson[4];			
 		}
 	}	
 
@@ -98,9 +99,10 @@ export class Element
 			this.id = elementJson.id;
 			this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
 			this.name = elementJson.name;
+			this.status = elementJson.status;		
 		}
 
-		this.status = elementJson.status;		
+		
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	

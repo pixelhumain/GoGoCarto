@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 17:06:45
+ * @Last Modified time: 2017-05-01 17:58:34
  */
  
 
@@ -182,7 +182,7 @@ class Element
             $compactJson .= ']';
             if ($key != count($this->optionValues) -1) $compactJson .= ',';
         }
-        $compactJson .= ']';
+        $compactJson .= '], ' . $this->getStatus();
         $this->setCompactJson($compactJson);
         //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
     }
