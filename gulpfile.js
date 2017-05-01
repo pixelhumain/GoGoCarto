@@ -105,6 +105,15 @@ gulp.task('prod_styles', function() {
   return gulp.src('web/assets/css/**/*.css')
     //.pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
+    //.pipe(gzip())
+    .pipe(gulp.dest('web/assets/css'));
+    //.pipe(notify({ message: 'Styles task complete' }));
+});
+
+gulp.task('gzip_styles', function() {
+  return gulp.src('web/assets/css/**/*.css')
+    //.pipe(rename({suffix: '.min'}))
+    //.pipe(minifycss())
     .pipe(gzip())
     .pipe(gulp.dest('web/assets/css'));
     //.pipe(notify({ message: 'Styles task complete' }));
@@ -114,6 +123,18 @@ gulp.task('prod_js', function() {
   return gulp.src(['web/js/*.js'])
     //.pipe(rename({suffix: '.min'}))
     .pipe(uglify())
+    //.pipe(gzip())
+    //.pipe(minify())
+    //.pipe(sourcemaps.init({loadMaps: true}))
+    //.pipe(uglify().on('error', gulpUtil.log)) // notice the error event here
+    //.pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('web/js'));
+});
+
+gulp.task('gzip_js', function() {
+  return gulp.src(['web/js/*.js'])
+    //.pipe(rename({suffix: '.min'}))
+    //.pipe(uglify())
     .pipe(gzip())
     //.pipe(minify())
     //.pipe(sourcemaps.init({loadMaps: true}))
@@ -165,6 +186,6 @@ gulp.task('build', function() {
 });
 
 gulp.task('production', function() {
-    gulp.start('prod_styles', 'prod_js');
+    gulp.start('prod_styles', 'prod_js', 'gzip_js', 'gzip_styles');
 });
 
