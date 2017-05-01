@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:43:05
+ * @Last Modified time: 2017-05-01 11:40:52
  */
  
 
@@ -17,7 +17,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 abstract class ElementStatus
 {
-    const Deleted = -2;
+    const CollaborativeRefused = -3;
+    const AdminRefused = -2;    
     const ModerationNeeded = -1;
     const Pending = 0;
     const AdminValidate = 1;

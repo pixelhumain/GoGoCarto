@@ -7,13 +7,14 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 14:34:55
+ * @Last Modified time: 2017-05-01 12:43:30
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 
 class ElementService
 {	
@@ -25,6 +26,62 @@ class ElementService
     public function __construct(DocumentManager $documentManager)
     {
     	 $this->em = $documentManager;
+    }
+
+
+
+    public function voteForelement($elementId, $voteValue, $comment, $user)
+    {
+        $element = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')
+        ->find($elementId);
+
+        // CHECK USER HASN'T ALREADY VOTED
+        $currentVotes = $element->getVotes();
+        $hasAlreadyVoted = false;
+        foreach ($currentVotes as $key => $vote) 
+        {
+            if ($vote->getUserMail() == $user->getEmail()) 
+            {
+                $hasAlreadyVoted = true;
+                $oldVote= $vote;
+            }
+        }
+
+        if (!$hasAlreadyVoted) $vote = new Vote();            
+        
+        $vote->setValue($voteValue);
+        $vote->setUserMail($user->getEmail());
+
+        if ($comment) $vote->setComment($comment);
+
+        $element->addVote($vote);
+
+        if ($user->isAdmin())
+        {
+            $element->setStatus($voteValue < 0 ? ElementStatus::AdminRefused : ElementStatus::AdminValidate);
+        }
+        else $this->checkVotes();
+
+        $em->persist($element);
+        $em->flush();
+
+        $resultMessage = $hasAlreadyVoted ? 'Merci ' . $user . " : votre vote a bien été modifié !" : "Merci de votre contribution !";
+
+        return $resultMessage;
+    }
+
+    public function checkVotes($element)
+    {
+        // $currentVotes = $element->getVotes();
+        // $hasAlreadyVoted = false;
+        // foreach ($currentVotes as $key => $vote) 
+        // {
+        //     if ($vote->getUserMail() == $user->getEmail()) 
+        //     {
+        //         $hasAlreadyVoted = true;
+        //         $oldVote= $vote;
+        //     }
+        // }
     }
 
     public function buildConstellation($elementList, $geocodeResponse)

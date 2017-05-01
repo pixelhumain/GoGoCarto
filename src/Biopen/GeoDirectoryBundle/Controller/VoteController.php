@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-20 18:01:28
+ * @Last Modified time: 2017-05-01 11:33:38
  */
  
 
@@ -37,40 +37,11 @@ class VoteController extends Controller
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('voteValue') === null) return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
             
-            $user = $securityContext->getToken()->getUser();     
+            $user = $securityContext->getToken()->getUser();             
 
-            $em = $this->get('doctrine_mongodb')->getManager();
-
-            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-            ->find($request->get('elementId'));
-
-            // CHECK USER HASN'T ALREADY VOTED
-            $currentVotes = $element->getVotes();
-            $hasAlreadyVoted = false;
-            foreach ($currentVotes as $key => $vote) 
-            {
-                if ($vote->getUserMail() == $user->getEmail()) 
-                {
-                    $hasAlreadyVoted = true;
-                    $oldVote= $vote;
-                }
-            }
-
-            if (!$hasAlreadyVoted) $vote = new Vote();            
-            
-            $vote->setValue($request->get('voteValue'));
-            $vote->setUserMail($user->getEmail());
-            if ($request->get('comment')) $vote->setComment($request->get('comment'));
-
-            $element->addVote($vote);
-
-            dump($element->getVotes());
-
-            $em->persist($element);
-            $em->flush();
-
-            $sucessMessage = $hasAlreadyVoted ? 'Merci ' . $user . " : votre vote a bien été modifié !" : "Merci de votre contribution !";
-            return $this->returnResponse(true, $sucessMessage);           
+            $resultMessage = $this->get('biopen.element_service')->voteForElement($request->get('elementId'), $request->get('voteValue'), $request->get('comment'), $user);
+         
+            return $this->returnResponse(true, $resultMessage);           
         }
         else 
         {

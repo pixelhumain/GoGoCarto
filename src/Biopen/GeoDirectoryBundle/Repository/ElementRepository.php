@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:03:18
+ * @Last Modified time: 2017-05-01 11:49:06
  */
  
 
@@ -28,7 +28,7 @@ class ElementRepository extends DocumentRepository
 
     // convert kilometre in degrees
     $radius = $distance / 110;
-    return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
+    return $qb->field('status')->gte(-1)->field('coordinates')->withinCenter($lat, $lng, $radius)
               ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
@@ -36,21 +36,25 @@ class ElementRepository extends DocumentRepository
   {
     $results = [];
 
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-
     //dump("quering optionId " . $optionId);
 
     foreach ($bounds as $key => $bound) 
     {
       if (count($bound) == 4)
       {
+        $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+        $qb->field('status')->gte(-1);
+
         if ($optionId && $optionId != "all")
         {
           //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
           $qb->field('optionValues.optionId')->in(array((float) $optionId));
         }
-        $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
-                    ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+        
+        $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
+                    
+        $array = $qb->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
 
         $results = array_merge($results, $array);  
       }
