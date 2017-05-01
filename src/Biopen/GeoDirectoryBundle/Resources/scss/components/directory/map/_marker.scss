@@ -96,6 +96,8 @@
     font-size: 18px;
     line-height: 30px;
 
+    
+
     &.rotateRight
     {
     	left: 10px;
@@ -111,6 +113,9 @@
 	    height: 25px;
 	    top: 5px;
     }
+}
+:-moz-any(.iconInsideMarker-wrapper) {
+    top: 3px;
 }	
 /* 
 html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
@@ -127,10 +132,10 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 .icon-plus-circle
 {
 	position: absolute;
-    top: -8px;
+    top: -7px;
     z-index: 3;
     font-size: 16px;
-    right: 0px;
+    right: -7px;
 
     &.rotateRight { top: -7px; right: -3px; }
 	&.rotateLeft { top: -9px; right: 3px; }
@@ -171,8 +176,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	display:none;
 	z-index: 10;
 	position: absolute;
-	bottom: 0;
-	left: 36px;
+	bottom: -10px;
+	left: 30px;
 
 	&.rotateRight { left: 39px }
 	&.rotateLeft { left: 35px; }
