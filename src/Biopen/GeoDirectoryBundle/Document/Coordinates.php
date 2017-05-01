@@ -47,7 +47,7 @@ class Coordinates
      */
     public function getLat()
     {
-        return $this->lat;
+        return number_format($this->lat,5);
     }
 
     /**
@@ -69,6 +69,6 @@ class Coordinates
      */
     public function getLng()
     {
-        return $this->lng;
+        return number_format($this->lng,5);
     }
 }
