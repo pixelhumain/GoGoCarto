@@ -24,8 +24,8 @@ class Coordinates
 
     public function __construct($lat, $lng)
     {
-        $this->lat = $lat;
-        $this->lng = $lng;
+        $this->setLat($lat);
+        $this->setLng($lng);
     }
 
     /**
@@ -36,7 +36,7 @@ class Coordinates
      */
     public function setLat($lat)
     {
-        $this->lat = $lat;
+        $this->lat = number_format($lat,5);
         return $this;
     }
 
@@ -47,7 +47,7 @@ class Coordinates
      */
     public function getLat()
     {
-        return number_format($this->lat,5);
+        return $this->lat;
     }
 
     /**
@@ -58,7 +58,7 @@ class Coordinates
      */
     public function setLng($lng)
     {
-        $this->lng = $lng;
+        $this->lng = number_format($lng,5);
         return $this;
     }
 
@@ -69,6 +69,6 @@ class Coordinates
      */
     public function getLng()
     {
-        return number_format($this->lng,5);
+        return $this->lng;
     }
 }
