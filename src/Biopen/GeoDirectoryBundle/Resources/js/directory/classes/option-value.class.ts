@@ -16,9 +16,20 @@ export class OptionValue
 
 	constructor( $optionValueJson )
 	{
-		this.optionId = $optionValueJson.optionId;
-		this.index = $optionValueJson.index;
-		this.description = $optionValueJson.description || '';
+		// in case of compact json, the options values are stored in simple array
+		if ($optionValueJson.length >= 2)
+		{
+			this.optionId = $optionValueJson[0];
+			this.index = $optionValueJson[1];
+			this.description = $optionValueJson.length == 3 ?  $optionValueJson[2] : '';
+		}
+		// in fully json representation, there are keys
+		else
+		{
+			this.optionId = $optionValueJson.optionId;
+			this.index = $optionValueJson.index;
+			this.description = $optionValueJson.description || '';
+		}		
 	}
 
 	get option() : Option

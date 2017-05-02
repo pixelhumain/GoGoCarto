@@ -19,7 +19,6 @@ declare let biopen_twigJs_elementInfo : any;
 
 export enum ElementStatus 
 {
-	Deleted = -2,
   ModerationNeeded = -1,
   Pending = 0,
   AdminValidate = 1,
@@ -28,19 +27,19 @@ export enum ElementStatus
 
 export class Element 
 {	
-	readonly id : string;
-	readonly status : ElementStatus;
-	readonly name : string;
-	readonly position : L.LatLng;
-	readonly address : string;
-	readonly description : string;
-	readonly tel : string;
-	readonly webSite : string;
-	readonly mail : string;
-	readonly openHours : any;
-	readonly openHoursDays : string[] = [];
-	readonly openHoursMoreInfos : any;
-	readonly mainOptionOwnerIds : number[] = [];
+	id : string;
+	status : ElementStatus;
+	name : string;
+	position : L.LatLng;
+	address : string;
+	description : string;
+	tel : string;
+	webSite : string;
+	mail : string;
+	openHours : any;
+	openHoursDays : string[] = [];
+	openHoursMoreInfos : any;
+	mainOptionOwnerIds : number[] = [];
 
 	optionsValues : OptionValue[] = [];
 	optionValuesByCatgeory : OptionValue[][] = [];
@@ -50,6 +49,8 @@ export class Element
 	private optionTree : OptionValue;
 
 	formatedOpenHours_ = null;
+
+	isFullyLoaded : boolean = false;
 
 	distance : number;
 
@@ -76,29 +77,57 @@ export class Element
 
 	constructor(elementJson : any)
 	{
-		this.id = elementJson.id;
-		this.status = elementJson.status;
-		this.name = elementJson.name;
-		this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
+		// when we get the compact json representation of the element from the server
+		// the elementJson is a simple array with the more important element attribute
+		if (elementJson.length == 6)
+		{
+			this.id = elementJson[5];
+			this.name = elementJson[0];
+			this.position = L.latLng(elementJson[1], elementJson[2]);		
+			this.createOptionValues(elementJson[3]);		
+			this.status = elementJson[4];			
+		}
+		else this.updateAttributesFromFullJson(elementJson);
+	}	
+
+	// when we get the full representation of the element, we update
+	// all the fields
+	updateAttributesFromFullJson(elementJson : any)
+	{
+		// if the element was not prefilled with the compact json representation
+		if (!this.id)
+		{
+			this.id = elementJson.id;
+			this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
+			this.name = elementJson.name;
+			this.status = elementJson.status;		
+
+			this.createOptionValues(elementJson.optionValues);
+		}
+		
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
 		this.webSite = elementJson.webSite;
 		this.mail = elementJson.mail;
 		this.openHours = elementJson.openHours;
-		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;
+		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;		
 
 		// initialize formated open hours
 		this.getFormatedOpenHours();
 
-		let newOption : OptionValue, ownerId : number;
-		for (let optionValueJson of elementJson.optionValues)
+		this.isFullyLoaded = true;
+	}
+
+	private createOptionValues(optionsValuesJson)
+	{
+		if (this.optionsValues.length > 0) return; //already created !
+		let newOption : OptionValue;
+		for (let optionValueJson of optionsValuesJson)
 		{
 			newOption = new OptionValue(optionValueJson);
 
-			//ownerId = newOption.option.mainOwnerId;
 			if (newOption.option.isMainOption()) this.mainOptionOwnerIds.push(newOption.optionId);
-			//if (this.mainOptionOwnerIds.indexOf(ownerId) == -1) 
 
 			this.optionsValues.push(newOption);
 
@@ -106,10 +135,7 @@ export class Element
 			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
 			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
-
-		this.distance = elementJson.distance ? Math.round(elementJson.distance) : null;	
-
-	}	
+	}
 
 	getOptionValueByCategoryId($categoryId)
 	{
@@ -408,9 +434,17 @@ export class Element
 
 	isPending() { return this.status === ElementStatus.Pending; }
 
+	// use twig template js to create the html representation of the element
 	getHtmlRepresentation() 
 	{	
+		if (!this.isFullyLoaded)
+		{
+			console.log("Send Ajax to retrieve full element");
+			return;
+		}
+
 		this.update();	
+		this.updateDistance();
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
 		let starNames : any[] = [];
 

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:03:18
+ * @Last Modified time: 2017-05-02 16:05:43
  */
  
 
@@ -22,6 +22,12 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ElementRepository extends DocumentRepository
 {
+  public function findAll()
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
+  }
+
   public function findAround($lat, $lng, $distance)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
@@ -29,16 +35,16 @@ class ElementRepository extends DocumentRepository
     // convert kilometre in degrees
     $radius = $distance / 110;
     return $qb->field('coordinates')->withinCenter($lat, $lng, $radius)
-              ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
+              ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
-  public function findWhithinBoxes($bounds, $optionId)
+  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation)
   {
     $results = [];
 
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    //dump("quering optionId " . $optionId);
+    //dump("quering getFullRepresentation " . $getFullRepresentation);
 
     foreach ($bounds as $key => $bound) 
     {
@@ -49,9 +55,24 @@ class ElementRepository extends DocumentRepository
           //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
           $qb->field('optionValues.optionId')->in(array((float) $optionId));
         }
-        $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
-                    ->select('json')->hydrate(false)->getQuery()->execute()->toArray(); 
 
+        // get elements within box
+        $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
+
+        // get json representation
+        if ($getFullRepresentation == 'true') 
+          {
+            dump("fullJson");
+            $qb->select('fullJson'); 
+          }
+        else
+        {
+          dump("compactJson");
+          $qb->select('compactJson');   
+        } 
+
+        // execute request   
+        $array = $qb->hydrate(false)->getQuery()->execute()->toArray(); 
         $results = array_merge($results, $array);  
       }
     }

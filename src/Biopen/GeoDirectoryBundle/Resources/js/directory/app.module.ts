@@ -130,7 +130,7 @@ export class AppModule
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
 		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
-		this.ajaxModule_.onNewElements.do( (elements) => { this.handleNewElementsReceivedFromServer(elements); });
+		this.ajaxModule_.onNewElements.do( (result) => { this.handleNewElementsReceivedFromServer(result); });
 	
 		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
 	
@@ -248,7 +248,7 @@ export class AppModule
 				if (App.geocoder.getLocation()) 
 					{
 						this.boundsModule.createBoundsFromLocation(App.geocoder.getLocation());
-						this.checkForNewElementsToRetrieve();
+						this.checkForNewElementsToRetrieve(true);
 					}
 			}
 
@@ -330,7 +330,7 @@ export class AppModule
 				{
 					this.ajaxModule_.getElementById(options.id,
 						(elementJson) => {
-							this.elementModule.addJsonElements([elementJson], true);
+							this.elementModule.addFullJsonElement(elementJson);
 							this.DEAModule.begin(elementJson.id, options.panToLocation);
 							this.updateDocumentTitle(options);
 							this.historyModule.pushNewState(options);
@@ -371,7 +371,7 @@ export class AppModule
 				{
 					this.ajaxModule_.getElementById(options.id, (elementJson) => 
 					{
-						this.elementModule.addJsonElements([elementJson], true);
+						this.elementModule.addFullJsonElement(elementJson);
 						element = this.elementById(elementJson.id);
 						this.updateDocumentTitle(options);
             
@@ -506,10 +506,15 @@ export class AppModule
 		this.historyModule.updateCurrState();
 	};
 
-	checkForNewElementsToRetrieve()
+	checkForNewElementsToRetrieve($getFullRepresentation = false)
 	{
-		let freeBounds = this.boundsModule.calculateFreeBounds();
-		if (freeBounds && freeBounds.length > 0) this.ajaxModule.getElementsInBounds(freeBounds); 
+		//console.log("checkForNewelementToRetrieve, fullRepresentation", $getFullRepresentation);
+		let result = this.boundsModule.calculateFreeBounds($getFullRepresentation);
+		//console.log("checkForNewelementToRetrieve, calculateBounds", result);
+		if (result === null) return; // nothing to do, all elements already retrieved
+		let freeBounds = result.freeBounds;
+		let expectedFilledBounds = result.expectedFillBounds;
+		if (freeBounds && freeBounds.length > 0) this.ajaxModule.getElementsInBounds(freeBounds, $getFullRepresentation, expectedFilledBounds); 
 	}
 
 	handleMapClick()
@@ -555,15 +560,16 @@ export class AppModule
 	};
 	
 
-	handleNewElementsReceivedFromServer(elementsJson)
+	handleNewElementsReceivedFromServer(result)
 	{		
+		let elementsJson = result.data;
 		if (!elementsJson || elementsJson.length === 0) return;
 		//console.log("handleNewMarkersFromServer", elementsJson.length);
-		let newElements : Element[] = this.elementModule.addJsonElements(elementsJson, true);
+		let elements = this.elementModule.addJsonElements(elementsJson, true, result.fullRepresentation);
 		//console.log("new Elements length", newElements.length);
 		
 		// on add markerClusterGroup after first elements received
-		if (newElements.length > 0) 
+		if (elements.newElementsLength > 0 || App.mode == AppModes.List) 
 		{
 			this.elementModule.updateElementsToDisplay(true,true);	
 		}

@@ -3,28 +3,29 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Expose;
 
 /** @MongoDB\EmbeddedDocument */
 class Coordinates
 {
     /**
      * 
-     *
+     * @Expose
      * @MongoDB\Field(type="float")
      */
     public $lat;
 
     /**
      * 
-     *
+     * @Expose
      * @MongoDB\Field(type="float")
      */
     public $lng;
 
     public function __construct($lat, $lng)
     {
-        $this->lat = $lat;
-        $this->lng = $lng;
+        $this->setLat($lat);
+        $this->setLng($lng);
     }
 
     /**
@@ -35,7 +36,7 @@ class Coordinates
      */
     public function setLat($lat)
     {
-        $this->lat = $lat;
+        $this->lat = number_format($lat,5);
         return $this;
     }
 
@@ -57,7 +58,7 @@ class Coordinates
      */
     public function setLng($lng)
     {
-        $this->lng = $lng;
+        $this->lng = number_format($lng,5);
         return $this;
     }
 

@@ -49,6 +49,7 @@ export class ElementListComponent
 
 	update($elementsResult : ElementsChanged) 
 	{
+		//console.log("elementList update", $elementsResult);
 		if ($elementsResult.elementsToDisplay.length == 0) this.stepsCount = 1;
 
 		this.clear();		
@@ -86,10 +87,10 @@ export class ElementListComponent
 
 	private draw($elementList : Element[], $animate = false) 
 	{
-		//console.log('ElementList draw', $elementList.length);
-
 		let element : Element;
-		let elementsToDisplay : Element[] = $elementList; 
+		let elementsToDisplay : Element[] = $elementList.filter( (el) => el.isFullyLoaded); 
+
+		//console.log('ElementList draw', elementsToDisplay.length);
 
 		for(element of elementsToDisplay)
 		{
@@ -105,7 +106,7 @@ export class ElementListComponent
 		{
 			// expand bounds
 			App.boundsModule.extendBounds(0.5);
-			App.checkForNewElementsToRetrieve();		
+			App.checkForNewElementsToRetrieve(true);		
 		}	
 		else
 		{
