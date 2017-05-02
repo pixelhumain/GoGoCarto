@@ -83,6 +83,7 @@ export class BoundsModule
 	calculateFreeBounds($getFullRepresentation = false)
 	{
 		let freeBounds = [];
+		let expectedBounds;
 
 		let currFilledBound = this.currFilledBound($getFullRepresentation);
 
@@ -93,7 +94,13 @@ export class BoundsModule
 
 		let freeBound1, freeBound2, freeBound3, freeBound4;
 
-		if (currFilledBound)
+		if (!currFilledBound || !currFilledBound.intersects(this.extendedBounds))
+		{
+			// first initialization or no intersection
+			freeBounds.push(this.extendedBounds);
+			expectedBounds = this.extendedBounds;
+		}		
+		else
 		{
 			if (!currFilledBound.contains(this.extendedBounds))
 			{
@@ -106,7 +113,7 @@ export class BoundsModule
 					freeBound3 = L.latLngBounds( currFilledBound.getSouthEast()	 , this.extendedBounds.getSouthWest() );
 					freeBound4 = L.latLngBounds( freeBound1.getSouthWest()				 , currFilledBound.getSouthWest() );
 
-					currFilledBound = this.extendedBounds;
+					expectedBounds = this.extendedBounds;
 
 					freeBounds.push(freeBound1,freeBound2, freeBound3, freeBound4);					
 				}
@@ -172,7 +179,7 @@ export class BoundsModule
 					freeBounds.push(freeBound1);
 					if (freeBound2) freeBounds.push(freeBound2);		
 
-					currFilledBound = L.latLngBounds( 
+					expectedBounds = L.latLngBounds( 
 						L.latLng(
 							Math.max(currFilledBound.getNorth(), this.extendedBounds.getNorth()),
 							Math.max(currFilledBound.getEast(), this.extendedBounds.getEast())
@@ -189,14 +196,8 @@ export class BoundsModule
 				// extended bounds included in filledbounds
 				return null;
 			}
-		}
-		else
-		{
-			// first initialization
-			freeBounds.push(this.extendedBounds);
-			currFilledBound = this.extendedBounds;
 		}		
 
-		return { "freeBounds" : freeBounds, "expectedFillBounds" : currFilledBound};
+		return { "freeBounds" : freeBounds, "expectedFillBounds" : expectedBounds};
 	}
 }
