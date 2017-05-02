@@ -106,6 +106,8 @@ export class InfoBarComponent
 		}, 1000);
 
 		this.onShow.emit(elementId);
+
+		App.updateDocumentTitle();
 	};
 
 	show()
