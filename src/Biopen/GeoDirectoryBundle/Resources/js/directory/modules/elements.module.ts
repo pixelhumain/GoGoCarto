@@ -123,20 +123,6 @@ export class ElementsModule
 		return { newElementsLength : newIds.length, elementsUpdatedLength : elementToUpdateIds.length};
 	};
 
-	addFullJsonElement(elementJson)
-	{
-		let element = new Element([]);
-		element.updateAttributesFromFullJson(elementJson);
-		element.initialize();
-
-		for (let mainId of element.mainOptionOwnerIds)
-		{
-			this.everyElements_[mainId].push(element);
-		}				
-		this.everyElements_['all'].push(element);
-		this.everyElementsId_.push(element.id);
-	}
-
 	showElement(element : Element)
 	{
 		element.show();

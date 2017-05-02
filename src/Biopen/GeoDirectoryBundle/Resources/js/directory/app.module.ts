@@ -330,7 +330,7 @@ export class AppModule
 				{
 					this.ajaxModule_.getElementById(options.id,
 						(elementJson) => {
-							this.elementModule.addFullJsonElement(elementJson);
+							this.elementModule.addJsonElements([elementJson], true, true);
 							this.DEAModule.begin(elementJson.id, options.panToLocation);
 							this.updateDocumentTitle(options);
 							this.historyModule.pushNewState(options);
@@ -371,7 +371,7 @@ export class AppModule
 				{
 					this.ajaxModule_.getElementById(options.id, (elementJson) => 
 					{
-						this.elementModule.addFullJsonElement(elementJson);
+						this.elementModule.addJsonElements([elementJson], true, true);
 						element = this.elementById(elementJson.id);
 						this.updateDocumentTitle(options);
             
