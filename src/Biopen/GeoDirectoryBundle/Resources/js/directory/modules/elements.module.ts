@@ -73,7 +73,7 @@ export class ElementsModule
 		let start = new Date().getTime();
 
 		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
-        id: e.id,
+        id: isFullRepresentation ? e.id : e[5], // in compact way, id is the fifth element of an array
         index: index
     }});
 
@@ -194,20 +194,19 @@ export class ElementsModule
 	// check elements in bounds and who are not filtered
 	updateElementsToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
 	{	
-		// in these state,there is no need to update elements to display
-		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
-					&& App.mode == AppModes.Map) 
-				return;
-
 		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
 		let elements : Element[] = null;
-		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
+
+		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) && App.mode == AppModes.Map) 
+				elements = [App.DEAModule.getElement()];
+		else if (checkInAllElements || this.visibleElements_.length === 0) 
+				elements = this.currEveryElements();
 		else elements = this.currVisibleElements();
 
 		//elements = this.currEveryElements();		
 		
-		//console.log("UPDATE ELEMENTS ", elements.length);
+		//console.log("UPDATE ELEMENTS ", elements);
 
 		let i : number, element : Element;
 		let bounds;
@@ -303,12 +302,12 @@ export class ElementsModule
 		return this.everyElements_['all'];
 	}
 
-	clearMarkers()
-	{
-		console.log("clearMarkers");
-		this.hideAllMarkers();
-		this.clearCurrVisibleElements();
-	};
+	// clearMarkers()
+	// {
+	// 	console.log("clearMarkers");
+	// 	this.hideAllMarkers();
+	// 	this.clearCurrVisibleElements();
+	// };
 
 	getMarkers () 
 	{
@@ -331,14 +330,14 @@ export class ElementsModule
 		}		
 	};
 
-	hideAllMarkers () 
-	{
-		let l = this.currVisibleElements().length;
-		while(l--)
-		{
-			this.currVisibleElements()[l].hide();
-		}
-	};
+	// hideAllMarkers () 
+	// {
+	// 	let l = this.currVisibleElements().length;
+	// 	while(l--)
+	// 	{
+	// 		this.currVisibleElements()[l].hide();
+	// 	}
+	// };
 
 	showNormalHiddenAllMarkers () 
 	{

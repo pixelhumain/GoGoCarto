@@ -23,7 +23,7 @@ export class DisplayElementAloneModule
 
 	begin(elementId : string, panToElementLocation : boolean = true) 
 	{	
-		console.log("DisplayElementAloneModule begin", panToElementLocation);
+		//console.log("DisplayElementAloneModule begin", panToElementLocation);
 
 		let element = App.elementById(elementId);
 		this.elementShownAlone_ = element;			
@@ -34,15 +34,7 @@ export class DisplayElementAloneModule
 			this.elementShownAlone_.isShownAlone = false;
 		}
 
-		// if (App.state == AppStates.Constellation) App.elementModule.focusOnThesesElements([element.id]);
-		// else 
-		// {
-		//App.elementModule.clearMarkers();
 		App.elementModule.clearCurrentsElement();
-		//}			
-		App.elementModule.showElement(element);
-		App.mapComponent.addMarker(element.marker.getLeafletMarker());
-		element.isShownAlone = true;
 
 		App.infoBarComponent.showElement(element.id);
 
@@ -56,16 +48,9 @@ export class DisplayElementAloneModule
 
 	end () 
 	{
-
 		if (this.elementShownAlone_ === null) return;
 
-		// if (App.state == AppStates.Constellation) App.elementModule.clearFocusOnThesesElements([this.elementShownAlone_.getId()]);
-		// else 
-		// {
-			App.elementModule.updateElementsToDisplay(true,true);
-		//}
-
-		App.mapComponent.removeMarker(this.elementShownAlone_.marker.getLeafletMarker());
+		App.elementModule.updateElementsToDisplay(true,true);
 		
 		this.elementShownAlone_.isShownAlone = false;	
 

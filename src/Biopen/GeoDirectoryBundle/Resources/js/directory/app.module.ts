@@ -586,10 +586,10 @@ export class AppModule
 		{
 			this.elementListComponent.update(result);
 		}
-		else if (this.state != AppStates.ShowElementAlone)
+		else
 		{
 			let newMarkers = result.newElements.map( (e) => e.marker.getLeafletMarker());
-			let markersToRemove = result.elementsToRemove.filter((e) => !e.isShownAlone).map( (e) => e.marker.getLeafletMarker());
+			let markersToRemove = result.elementsToRemove.map( (e) => e.marker.getLeafletMarker());
 
 			this.mapComponent.addMarkers(newMarkers);
 			this.mapComponent.removeMarkers(markersToRemove);
