@@ -66,7 +66,7 @@ export class ElementsModule
 	  	}
 	};
 
-	addJsonElements (elementList, checkIfAlreadyExist = true) : Element[]
+	addJsonElements (elementList, checkIfAlreadyExist = true, isFullRepresentation : boolean) 
 	{
 		let element : Element, elementJson;
 		let newElements : Element[] = [];
@@ -76,11 +76,27 @@ export class ElementsModule
         id: e.id,
         index: index
     }});
+
+    //console.log("AddJsonelement isFullRepresentation", isFullRepresentation); 
 		
 		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
-
+		let elementToUpdateIds = [];
 		// if (newIds.length != elementList.length)
 		// 	console.log("DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
+		if (isFullRepresentation)
+		{			
+			let elementToUpdateIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) >= 0;});
+			//console.log("AddJsonelement elementToUpdate", elementToUpdateIds.length);
+			let j = elementToUpdateIds.length;
+			while(j--)
+			{
+				elementJson = elementList[elementToUpdateIds[j].index];
+				element = this.getElementById(elementJson.id);
+				element.updateAttributesFromFullJson(elementJson);
+			}
+		}
+
+		//console.log("AddJsonelement new elements", newIds.length);
 
 		let i = newIds.length;
 
@@ -88,8 +104,7 @@ export class ElementsModule
 		{
 			elementJson = elementList[newIds[i].index];
 
-			element = new Element(elementJson);
-			element.initialize();
+			element = new Element(elementJson);		
 
 			for (let mainId of element.mainOptionOwnerIds)
 			{
@@ -98,12 +113,14 @@ export class ElementsModule
 			this.everyElements_['all'].push(element);
 			this.everyElementsId_.push(element.id);
 			newElements.push(element);
+
+			element.initialize();
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
 		//console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
 		//console.log("last element", element);
-		return newElements;
+		return { newElementsLength : newIds.length, elementsUpdatedLength : elementToUpdateIds.length};
 	};
 
 	addFullJsonElement(elementJson)

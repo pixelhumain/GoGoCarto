@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 16:54:59
+ * @Last Modified time: 2017-05-02 16:05:43
  */
  
 
@@ -38,13 +38,13 @@ class ElementRepository extends DocumentRepository
               ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
   }
 
-  public function findWhithinBoxes($bounds, $optionId)
+  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation)
   {
     $results = [];
 
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    //dump("quering optionId " . $optionId);
+    //dump("quering getFullRepresentation " . $getFullRepresentation);
 
     foreach ($bounds as $key => $bound) 
     {
@@ -55,9 +55,24 @@ class ElementRepository extends DocumentRepository
           //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
           $qb->field('optionValues.optionId')->in(array((float) $optionId));
         }
-        $array =  $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2])
-                    ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
 
+        // get elements within box
+        $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
+
+        // get json representation
+        if ($getFullRepresentation == 'true') 
+          {
+            dump("fullJson");
+            $qb->select('fullJson'); 
+          }
+        else
+        {
+          dump("compactJson");
+          $qb->select('compactJson');   
+        } 
+
+        // execute request   
+        $array = $qb->hydrate(false)->getQuery()->execute()->toArray(); 
         $results = array_merge($results, $array);  
       }
     }

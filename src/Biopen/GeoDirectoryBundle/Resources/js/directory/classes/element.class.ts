@@ -87,6 +87,7 @@ export class Element
 			this.createOptionValues(elementJson[3]);		
 			this.status = elementJson[4];			
 		}
+		else this.updateAttributesFromFullJson(elementJson);
 	}	
 
 	// when we get the full representation of the element, we update
@@ -100,8 +101,9 @@ export class Element
 			this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
 			this.name = elementJson.name;
 			this.status = elementJson.status;		
-		}
 
+			this.createOptionValues(elementJson.optionValues);
+		}
 		
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
@@ -109,9 +111,7 @@ export class Element
 		this.webSite = elementJson.webSite;
 		this.mail = elementJson.mail;
 		this.openHours = elementJson.openHours;
-		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;
-
-		this.createOptionValues(elementJson.optionValues);
+		this.openHoursMoreInfos =  elementJson.openHoursMoreInfos;		
 
 		// initialize formated open hours
 		this.getFormatedOpenHours();
@@ -121,19 +121,20 @@ export class Element
 
 	private createOptionValues(optionsValuesJson)
 	{
+		if (this.optionsValues.length > 0) return; //already created !
 		let newOption : OptionValue;
-			for (let optionValueJson of optionsValuesJson)
-			{
-				newOption = new OptionValue(optionValueJson);
+		for (let optionValueJson of optionsValuesJson)
+		{
+			newOption = new OptionValue(optionValueJson);
 
-				if (newOption.option.isMainOption()) this.mainOptionOwnerIds.push(newOption.optionId);
+			if (newOption.option.isMainOption()) this.mainOptionOwnerIds.push(newOption.optionId);
 
-				this.optionsValues.push(newOption);
+			this.optionsValues.push(newOption);
 
-				// put options value in specific easy accessible array for better performance
-				if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
-				this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
-			}
+			// put options value in specific easy accessible array for better performance
+			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
+			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
+		}
 	}
 
 	getOptionValueByCategoryId($categoryId)

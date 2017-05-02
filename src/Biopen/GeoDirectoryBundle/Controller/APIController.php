@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 17:08:18
+ * @Last Modified time: 2017-05-02 16:05:48
  */
  
 
@@ -81,12 +81,12 @@ class APIController extends Controller
             {
               $boxes[] = explode( ',' , $bound);
             }
-            $before = memory_get_usage();
             $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
+            //dump('fullRepresentation' . $request->get('fullRepresentation'));
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation')); 
     
-            $responseJson = $this->encoreArrayToJson($elementsFromDB, $before);  
-            dump($responseJson);
+            $responseJson = $this->encoreArrayToJson($elementsFromDB, $request->get('fullRepresentation'));  
+            //dump($responseJson);
             $result = new Response($responseJson);   
 
             $result->headers->set('Content-Type', 'application/json');
@@ -98,16 +98,18 @@ class APIController extends Controller
         }
     }
 
-    private function encoreArrayToJson($array, $before = 0)
+    private function encoreArrayToJson($array, $fullRepresentation)
     {
         $elementsJson = '['; 
- 
-        foreach ($array as $key => $value) { 
-           $elementsJson .= $value['compactJson'] .  ', "' .$key. '"],'; 
-        } 
 
-        $elementsJson = rtrim($elementsJson,",") . ']';
-        $responseJson = '{ "data":'. $elementsJson . '}';
+        foreach ($array as $key => $value) 
+        { 
+           if ($fullRepresentation == 'true') $elementsJson .= rtrim($value['fullJson'],'}') .  ', "id": "' .$key. '"},';  
+           else                     $elementsJson .= $value['compactJson'] .  ', "' .$key. '"],'; 
+        }   
+
+        $elementsJson = rtrim($elementsJson,",") . ']';    
+        $responseJson = '{ "data":'. $elementsJson . ', "fullRepresentation" : '. $fullRepresentation .'}';
 
         return $responseJson;
     }
