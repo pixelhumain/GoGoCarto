@@ -160,8 +160,8 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 		  	$("#directory-content-map").css('height',$("#directory-content").height());	
 		  	if ($('#element-info-bar').is(":visible")) 
 	  		{
-	  			$('#directory-content-map').css('margin-right','480px');
-	  			$('#bandeau_helper').css('margin-right','480px');
+	  			$('#directory-content-map').css('margin-right','540px');
+	  			$('#bandeau_helper').css('margin-right','540px');
 	  			
 	  		}
 		  	else 
