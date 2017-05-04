@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 17:58:34
+ * @Last Modified time: 2017-05-04 18:43:35
  */
  
 
@@ -171,10 +171,10 @@ class Element
         $this->optionValues = [];
     }
 
-    /** @MongoDB\PrePersist */
-    public function updateJsonRepresentationOnPrePersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $eventArgs)
+    /** @MongoDB\PreFlush */
+    public function updateJsonRepresentation()
     {
-        $this->fullJson =  json_encode($this);  
+        $this->fullJson = json_encode($this);  
 
         $compactJson = '["'.$this->name . '",' . $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
         foreach ($this->optionValues as $key => $value) {
