@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-26 10:57:01
+ * @Last Modified time: 2017-05-02 16:05:48
  */
  
 
@@ -57,6 +57,18 @@ class APIController extends Controller
         }
     }
 
+    public function getAllElementsAction()
+    {
+        $em = $this->get('doctrine_mongodb')->getManager(); 
+        $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+        $elementsFromDB = $elementRepo->findAll();
+        $responseJson = $this->encoreArrayToJson($elementsFromDB);  
+        $compressed = gzdeflate($responseJson, 9);
+        $result = new Response($responseJson); 
+        $result->headers->set('Content-Type', 'application/json');
+        return $result;
+    }
+
     public function getElementsInBoundsAction(Request $request)
     {
         if($request->isXmlHttpRequest())
@@ -69,13 +81,14 @@ class APIController extends Controller
             {
               $boxes[] = explode( ',' , $bound);
             }
-
             $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId')); 
+            //dump('fullRepresentation' . $request->get('fullRepresentation'));
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation')); 
     
-            $responseJson = $this->encoreArrayToJson($elementsFromDB);            
-
+            $responseJson = $this->encoreArrayToJson($elementsFromDB, $request->get('fullRepresentation'));  
+            //dump($responseJson);
             $result = new Response($responseJson);   
+
             $result->headers->set('Content-Type', 'application/json');
             return $result;
         }
@@ -85,17 +98,18 @@ class APIController extends Controller
         }
     }
 
-    private function encoreArrayToJson($array)
+    private function encoreArrayToJson($array, $fullRepresentation)
     {
         $elementsJson = '['; 
- 
-        foreach ($array as $key => $value) { 
-           $elementsJson .= rtrim($value['json'],'}') .  ', "id": "' .$key. '"},'; 
-        } 
 
-        $elementsJson = rtrim($elementsJson,",") . ']';
+        foreach ($array as $key => $value) 
+        { 
+           if ($fullRepresentation == 'true') $elementsJson .= rtrim($value['fullJson'],'}') .  ', "id": "' .$key. '"},';  
+           else                     $elementsJson .= $value['compactJson'] .  ', "' .$key. '"],'; 
+        }   
 
-        $responseJson = '{ "data":'. $elementsJson . '}';
+        $elementsJson = rtrim($elementsJson,",") . ']';    
+        $responseJson = '{ "data":'. $elementsJson . ', "fullRepresentation" : '. $fullRepresentation .'}';
 
         return $responseJson;
     }
@@ -111,7 +125,7 @@ class APIController extends Controller
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findOneBy(array('id' => $elementId));
 
-            $elementJson = $element->getJson();
+            $elementJson = $element->getFullJson();
 
             $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
             

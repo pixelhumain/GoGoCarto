@@ -66,21 +66,37 @@ export class ElementsModule
 	  	}
 	};
 
-	addJsonElements (elementList, checkIfAlreadyExist = true) : Element[]
+	addJsonElements (elementList, checkIfAlreadyExist = true, isFullRepresentation : boolean) 
 	{
 		let element : Element, elementJson;
 		let newElements : Element[] = [];
 		let start = new Date().getTime();
 
 		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
-        id: e.id,
+        id: isFullRepresentation ? e.id : e[5], // in compact way, id is the fifth element of an array
         index: index
     }});
+
+    //console.log("AddJsonelement isFullRepresentation", isFullRepresentation); 
 		
 		let newIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) < 0;});
-
+		let elementToUpdateIds = [];
 		// if (newIds.length != elementList.length)
 		// 	console.log("DES ACTEURS EXISTAIENT DEJA", elementList.length - newIds.length)
+		if (isFullRepresentation)
+		{			
+			let elementToUpdateIds = elementsIdsReceived.filter((obj) => {return this.everyElementsId_.indexOf(obj.id) >= 0;});
+			//console.log("AddJsonelement elementToUpdate", elementToUpdateIds.length);
+			let j = elementToUpdateIds.length;
+			while(j--)
+			{
+				elementJson = elementList[elementToUpdateIds[j].index];
+				element = this.getElementById(elementJson.id);
+				element.updateAttributesFromFullJson(elementJson);
+			}
+		}
+
+		//console.log("AddJsonelement new elements", newIds.length);
 
 		let i = newIds.length;
 
@@ -88,8 +104,7 @@ export class ElementsModule
 		{
 			elementJson = elementList[newIds[i].index];
 
-			element = new Element(elementJson);
-			element.initialize();
+			element = new Element(elementJson);		
 
 			for (let mainId of element.mainOptionOwnerIds)
 			{
@@ -98,11 +113,14 @@ export class ElementsModule
 			this.everyElements_['all'].push(element);
 			this.everyElementsId_.push(element.id);
 			newElements.push(element);
+
+			element.initialize();
 		}
 		this.checkCookies();
 		let end = new Date().getTime();
-		//console.log("AddJsonElements in " + (end-start) + " ms");	
-		return newElements;
+		//console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
+		//console.log("last element", element);
+		return { newElementsLength : newIds.length, elementsUpdatedLength : elementToUpdateIds.length};
 	};
 
 	showElement(element : Element)
@@ -176,20 +194,19 @@ export class ElementsModule
 	// check elements in bounds and who are not filtered
 	updateElementsToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
 	{	
-		// in these state,there is no need to update elements to display
-		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) 
-					&& App.mode == AppModes.Map) 
-				return;
-
 		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
 		let elements : Element[] = null;
-		if (checkInAllElements || this.visibleElements_.length === 0) elements = this.currEveryElements();
+
+		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) && App.mode == AppModes.Map) 
+				elements = [App.DEAModule.getElement()];
+		else if (checkInAllElements || this.visibleElements_.length === 0) 
+				elements = this.currEveryElements();
 		else elements = this.currVisibleElements();
 
 		//elements = this.currEveryElements();		
 		
-		//console.log("UPDATE ELEMENTS ", elements.length);
+		//console.log("UPDATE ELEMENTS ", elements);
 
 		let i : number, element : Element;
 		let bounds;
@@ -285,12 +302,12 @@ export class ElementsModule
 		return this.everyElements_['all'];
 	}
 
-	clearMarkers()
-	{
-		console.log("clearMarkers");
-		this.hideAllMarkers();
-		this.clearCurrVisibleElements();
-	};
+	// clearMarkers()
+	// {
+	// 	console.log("clearMarkers");
+	// 	this.hideAllMarkers();
+	// 	this.clearCurrVisibleElements();
+	// };
 
 	getMarkers () 
 	{
@@ -313,14 +330,14 @@ export class ElementsModule
 		}		
 	};
 
-	hideAllMarkers () 
-	{
-		let l = this.currVisibleElements().length;
-		while(l--)
-		{
-			this.currVisibleElements()[l].hide();
-		}
-	};
+	// hideAllMarkers () 
+	// {
+	// 	let l = this.currVisibleElements().length;
+	// 	while(l--)
+	// 	{
+	// 		this.currVisibleElements()[l].hide();
+	// 	}
+	// };
 
 	showNormalHiddenAllMarkers () 
 	{

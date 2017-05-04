@@ -7,24 +7,33 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 17:07:55
+ * @Last Modified time: 2017-05-01 16:42:51
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Expose;
 
 /** @MongoDB\EmbeddedDocument */
 class DailyTimeSlot
 {
-	/** @MongoDB\Field(type="date") */
+	/** 
+    * @Expose
+    * @MongoDB\Field(type="date") */
     protected $slot1start;
-    /** @MongoDB\Field(type="date") */
+    /** 
+    * @Expose
+    * @MongoDB\Field(type="date") */
     protected $slot1end;
-    /** @MongoDB\Field(type="date") */
+    /** 
+    * @Expose
+    * @MongoDB\Field(type="date") */
 	protected $slot2start;
-    /** @MongoDB\Field(type="date") */
+    /** 
+    * @Expose
+    * @MongoDB\Field(type="date") */
     protected $slot2end;
 
 	public function __construct()

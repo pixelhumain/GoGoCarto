@@ -37,7 +37,7 @@ export class AjaxModule
 	isRetrievingElements : boolean = false;
 
 	requestWaitingToBeExecuted : boolean = false;
-	waitingRequest : Request = null;
+	waitingRequestFullRepresentation : boolean = null;
 
 	currRequest : Request = null;
 
@@ -47,27 +47,27 @@ export class AjaxModule
 
 	constructor() { }  
 
-	getElementsAroundLocation($location, $distance, $maxResults = 0)
-	{
-		// if invalid location we abort
-		if (!$location || !$location.lat) 
-		{
-			console.log("Ajax invalid request", $location);
-			return;
-		}
+	// getElementsAroundLocation($location, $distance, $maxResults = 0)
+	// {
+	// 	// if invalid location we abort
+	// 	if (!$location || !$location.lat) 
+	// 	{
+	// 		console.log("Ajax invalid request", $location);
+	// 		return;
+	// 	}
 
-		let dataRequest = new DataAroundRequest($location.lat, $location.lng, $distance, $maxResults, App.currMainId);
-		let route = Routing.generate('biopen_api_elements_around_location');	
+	// 	let dataRequest = new DataAroundRequest($location.lat, $location.lng, $distance, $maxResults, App.currMainId);
+	// 	let route = Routing.generate('biopen_api_elements_around_location');	
 		
-		this.sendAjaxElementRequest(new Request(route, dataRequest));
-	}
+	// 	this.sendAjaxElementRequest(new Request(route, dataRequest));
+	// }
 
-	getElementsInBounds($bounds : L.LatLngBounds[])
+	getElementsInBounds($bounds : L.LatLngBounds[], getFullRepresentation : boolean = false, expectedFilledBounds : L.LatLngBounds)
 	{
 		// if invalid location we abort
 		if (!$bounds || $bounds.length == 0 || !$bounds[0]) 
 		{
-			console.log("Ajax invalid request", $bounds);
+			//console.log("Ajax invalid request", $bounds);
 			return;
 		}
 		//console.log($bounds);
@@ -79,13 +79,13 @@ export class AjaxModule
 			stringifiedBounds += bound.toBBoxString() + ";";
 		}
 
-		let dataRequest : any = { bounds : stringifiedBounds, mainOptionId : App.currMainId };
+		let dataRequest : any = { bounds : stringifiedBounds, mainOptionId : App.currMainId, fullRepresentation : getFullRepresentation };
 		let route = Routing.generate('biopen_api_elements_in_bounds');
 		
-		this.sendAjaxElementRequest(new Request(route, dataRequest));
+		this.sendAjaxElementRequest(new Request(route, dataRequest), expectedFilledBounds);
 	}
 
-	private sendAjaxElementRequest($request : Request)
+	private sendAjaxElementRequest($request : Request, $expectedFilledBounds = null)
 	{
 		if (this.allElementsReceived) { console.log("All elements already received"); return; }
 
@@ -95,7 +95,7 @@ export class AjaxModule
 		{		
 			console.log("Ajax isRetrieving");
 			this.requestWaitingToBeExecuted = true;
-			this.waitingRequest = $request;
+			this.waitingRequestFullRepresentation = $request.data.fullRepresentation;
 			return;
 		}
 		this.isRetrievingElements = true;
@@ -106,7 +106,7 @@ export class AjaxModule
 		
 		$.ajax({
 			url: $request.route,
-			method: "post",
+			method: "get",
 			data: $request.data,
 			beforeSend: () =>
 			{ 				
@@ -119,9 +119,13 @@ export class AjaxModule
 				if (response.data !== null)
 				{
 					let end = new Date().getTime();					
-					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms");				
+					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms. fullRepresentation", response.fullRepresentation);				
 
-					this.onNewElements.emit(response.data);				
+					if ($expectedFilledBounds)
+					{
+						App.boundsModule.updateFilledBoundsWithBoundsReceived($expectedFilledBounds, $request.data.mainOptionId,  $request.data.fullRepresentation);
+					}
+					this.onNewElements.emit(response);				
 				}
 			  
 			  if (response.allElementsSends) this.allElementsReceived = true;
@@ -134,8 +138,9 @@ export class AjaxModule
 			  clearTimeout(this.loaderTimer);
 			  if (this.requestWaitingToBeExecuted)
 			  {
-			  	 //console.log("    requestWaitingToBeExecuted stored", this.waitingRequest);
-			  	 this.sendAjaxElementRequest(this.waitingRequest);
+			  	 console.log("REQUEST WAITING TO BE EXECUTED, fullRepresentation", this.waitingRequestFullRepresentation);
+			  	 App.checkForNewElementsToRetrieve(this.waitingRequestFullRepresentation);
+			  	 //this.sendAjaxElementRequest(this.waitingRequest);
 			  	 this.requestWaitingToBeExecuted = false;
 			  }
 			  else
@@ -154,7 +159,7 @@ export class AjaxModule
 
 		$.ajax({
 			url: route,
-			method: "post",
+			method: "get",
 			data: { elementId: elementId },
 			success: response => 
 			{	        

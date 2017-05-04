@@ -10,13 +10,16 @@ export class BoundsModule
 
 	// the bounds where elements has already been retrieved
 	// we save one filledBound per mainOptionId
-	filledBound : L.LatLngBounds[] = [];
+	// and one filledBound per level of element representation
+	fullRepresentationFilledBound : L.LatLngBounds[] = [];
+	compactRepresentationFilledBound : L.LatLngBounds[] = [];
 
 	initialize()
 	{
 		for(let mainOptionId of App.categoryModule.getMainOptionsIdsWithAll())
 		{
-			this.filledBound[mainOptionId] = null;
+			this.fullRepresentationFilledBound[mainOptionId] = null;
+			this.compactRepresentationFilledBound[mainOptionId] = null;
 		}
 	}	
 
@@ -24,6 +27,8 @@ export class BoundsModule
 	{
 		let degree = $radius / 110 / 2;
 		this.extendedBounds = L.latLngBounds(L.latLng($location.lat - degree, $location.lng - degree), L.latLng($location.lat + degree, $location.lng + degree) );
+		//console.log("CREATE BOUNDS from loaction", this.extendedBounds);
+		//if (this.extendedBounds) L.rectangle(this.extendedBounds, {color: "blue", weight: 3}).addTo(App.map()); 
 	}
 
 	extendBounds($ratio : number, $bounds : L.LatLngBounds = this.extendedBounds)
@@ -37,43 +42,65 @@ export class BoundsModule
 	{
 		if (App.currMainId == 'all')
 		{
-			// let othersfilledBoundsNotEmpty = App.categoryModule.getMainOptionsIds().map( (id) => this.filledBound[id]).filter( (bound) => bound != null);
-
-			// // getting the smallest
-			// let west =  Math.max.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getWest()));
-			// let south = Math.max.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getSouth()));
-			// let east =  Math.min.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getEast()));
-			// let north = Math.min.apply(Math, othersfilledBoundsNotEmpty.map( (bound) => bound.getNorth()));
-
-
+			// nothing to do
 		}
-		else if (this.filledBound['all'])
+		else 
 		{
-			if (!this.currFilledBound || this.filledBound['all'].contains(this.filledBound[App.currMainId]))
-			{
-				this.filledBound[App.currMainId] = this.filledBound['all']
-			}
+			// if fillebounds for category 'all' contains the filledbound of other category
+			// we set fillebound from other category to filledBound "all"
+			this.tryToExtendFilledBoundFromAllCategory(this.fullRepresentationFilledBound);
+			this.tryToExtendFilledBoundFromAllCategory(this.compactRepresentationFilledBound);
 		}
 	}
 
-	// implements this function to wait from ajax response to update new filledBounds, instead of
-	// updating it before ajax send (possibly wrong if ajax fail)
-	// updateFilledBoundsWithBoundsReceived(bound : L.LatLngBoundsExpression, mainOptionId : number)
-	// {
-	// 	this.filledBound[mainOptionId] = new L.latLngBounds(bound);
-	// }
+	private tryToExtendFilledBoundFromAllCategory($filledBound)
+	{
+		if ($filledBound['all'] &&
+				 (!$filledBound[App.currMainId] || $filledBound['all'].contains($filledBound[App.currMainId]) ))
+			{
+				$filledBound[App.currMainId] = $filledBound['all']
+			}
+	}
 
-	get currFilledBound() { return this.filledBound[App.currMainId]; }
+	// Wait from ajax response to update new filledBounds
+	updateFilledBoundsWithBoundsReceived(expectedBound : L.LatLngBounds, mainOptionId : number, getFullRepresentation : boolean)
+	{
+		//console.log("updateFilledBoundsWithBoundsReceived", mainOptionId);
+		if(getFullRepresentation) this.fullRepresentationFilledBound[mainOptionId] = expectedBound;
+		else this.compactRepresentationFilledBound[mainOptionId] = expectedBound;
 
-	calculateFreeBounds()
+		
+	}
+
+	private currFilledBound($getFullRepresentation : boolean) 
+	{ 
+		if ($getFullRepresentation) 
+			return this.fullRepresentationFilledBound[App.currMainId];
+		else
+			return this.compactRepresentationFilledBound[App.currMainId];
+	}
+
+	calculateFreeBounds($getFullRepresentation = false)
 	{
 		let freeBounds = [];
+		let expectedBounds;
 
-		let currFilledBound = this.currFilledBound;
+		let currFilledBound = this.currFilledBound($getFullRepresentation);
+
+		//console.log("calculateFreebounds extendedBounds = ", this.extendedBounds);
+
+		//if (currFilledBound) L.rectangle(currFilledBound, {color: "red", weight: 3}).addTo(App.map()); 
+		//if (this.extendedBounds) L.rectangle(this.extendedBounds, {color: "blue", weight: 3}).addTo(App.map()); 
 
 		let freeBound1, freeBound2, freeBound3, freeBound4;
 
-		if (currFilledBound)
+		if (!currFilledBound || !currFilledBound.intersects(this.extendedBounds))
+		{
+			// first initialization or no intersection
+			freeBounds.push(this.extendedBounds);
+			expectedBounds = this.extendedBounds;
+		}		
+		else
 		{
 			if (!currFilledBound.contains(this.extendedBounds))
 			{
@@ -86,7 +113,7 @@ export class BoundsModule
 					freeBound3 = L.latLngBounds( currFilledBound.getSouthEast()	 , this.extendedBounds.getSouthWest() );
 					freeBound4 = L.latLngBounds( freeBound1.getSouthWest()				 , currFilledBound.getSouthWest() );
 
-					currFilledBound = this.extendedBounds;
+					expectedBounds = this.extendedBounds;
 
 					freeBounds.push(freeBound1,freeBound2, freeBound3, freeBound4);					
 				}
@@ -147,15 +174,12 @@ export class BoundsModule
 							freeBound1 = L.latLngBounds( currFilledBound.getNorthWest(), this.extendedBounds.getNorthEast() );
 							freeBound2 = L.latLngBounds( currFilledBound.getSouthEast(), freeBound1.getSouthEast() );
 						}
-					}
-
-					//L.rectangle(freeBound1, {color: "red", weight: 3}).addTo(this.map_); 
-					//L.rectangle(freeBound2, {color: "blue", weight: 3}).addTo(this.map_); 
+					}					
 
 					freeBounds.push(freeBound1);
 					if (freeBound2) freeBounds.push(freeBound2);		
 
-					currFilledBound = L.latLngBounds( 
+					expectedBounds = L.latLngBounds( 
 						L.latLng(
 							Math.max(currFilledBound.getNorth(), this.extendedBounds.getNorth()),
 							Math.max(currFilledBound.getEast(), this.extendedBounds.getEast())
@@ -172,16 +196,8 @@ export class BoundsModule
 				// extended bounds included in filledbounds
 				return null;
 			}
-		}
-		else
-		{
-			// first initialization
-			freeBounds.push(this.extendedBounds);
-			currFilledBound = this.extendedBounds;
 		}		
 
-		this.filledBound[App.currMainId] = currFilledBound;
-
-		return freeBounds;
+		return { "freeBounds" : freeBounds, "expectedFillBounds" : expectedBounds};
 	}
 }

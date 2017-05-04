@@ -119,7 +119,7 @@ export class MapComponent
 		{ 
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
-			App.boundsModule.extendBounds(0.2, this.map_.getBounds());
+			App.boundsModule.extendBounds(0.5, this.map_.getBounds());
 			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });

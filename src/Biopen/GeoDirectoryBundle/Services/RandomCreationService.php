@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 09:43:46
+ * @Last Modified time: 2017-05-01 12:54:46
  */
  
 
@@ -75,7 +75,6 @@ class RandomCreationService
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
-	      $new_element->setContributor('true');
 	      $new_element->setContributorMail('contributor@gmail.com');
 		   
 	      $this->em->persist($new_element);      

@@ -24,6 +24,4 @@
 .sass-cache
 *.DS_Store
 /composer.phar
-
-
 ssh_password
