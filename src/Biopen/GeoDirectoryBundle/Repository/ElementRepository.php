@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-04 17:42:29
+ * @Last Modified time: 2017-05-04 17:48:58
  */
  
 
@@ -66,12 +66,10 @@ class ElementRepository extends DocumentRepository
         // get json representation
         if ($getFullRepresentation == 'true') 
           {
-            dump("fullJson");
             $qb->select('fullJson'); 
           }
         else
         {
-          dump("compactJson");
           $qb->select('compactJson');   
         } 
 
