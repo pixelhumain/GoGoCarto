@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 11:33:38
+ * @Last Modified time: 2017-05-04 18:20:18
  */
  
 
@@ -37,11 +37,14 @@ class VoteController extends Controller
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('voteValue') === null) return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
             
-            $user = $securityContext->getToken()->getUser();             
+            $user = $securityContext->getToken()->getUser(); 
 
-            $resultMessage = $this->get('biopen.element_service')->voteForElement($request->get('elementId'), $request->get('voteValue'), $request->get('comment'), $user);
+            $em = $this->get('doctrine_mongodb')->getManager(); 
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
+
+            $resultMessage = $this->get('biopen.element_service')->voteForElement($element, $request->get('voteValue'), $request->get('comment'), $user);
          
-            return $this->returnResponse(true, $resultMessage);           
+            return $this->returnResponse($element->getstatus(), $resultMessage);        
         }
         else 
         {

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 12:43:30
+ * @Last Modified time: 2017-05-04 18:21:49
  */
  
 
@@ -15,6 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\Vote;
 
 class ElementService
 {	
@@ -28,13 +29,8 @@ class ElementService
     	 $this->em = $documentManager;
     }
 
-
-
-    public function voteForelement($elementId, $voteValue, $comment, $user)
+    public function voteForelement($element, $voteValue, $comment, $user)
     {
-        $element = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')
-        ->find($elementId);
-
         // CHECK USER HASN'T ALREADY VOTED
         $currentVotes = $element->getVotes();
         $hasAlreadyVoted = false;
@@ -60,10 +56,10 @@ class ElementService
         {
             $element->setStatus($voteValue < 0 ? ElementStatus::AdminRefused : ElementStatus::AdminValidate);
         }
-        else $this->checkVotes();
+        else $this->checkVotes($element);
 
-        $em->persist($element);
-        $em->flush();
+        $this->em->persist($element);
+        $this->em->flush();
 
         $resultMessage = $hasAlreadyVoted ? 'Merci ' . $user . " : votre vote a bien été modifié !" : "Merci de votre contribution !";
 
@@ -72,16 +68,17 @@ class ElementService
 
     public function checkVotes($element)
     {
-        // $currentVotes = $element->getVotes();
-        // $hasAlreadyVoted = false;
-        // foreach ($currentVotes as $key => $vote) 
-        // {
-        //     if ($vote->getUserMail() == $user->getEmail()) 
-        //     {
-        //         $hasAlreadyVoted = true;
-        //         $oldVote= $vote;
-        //     }
-        // }
+        $currentVotes = $element->getVotes();
+        $nbrePositiveVote = 0;
+        $nbreNegativeVote = 0;
+
+        foreach ($currentVotes as $key => $vote) 
+        {
+           $vote->getValue() >= 0 ? $nbrePositiveVote++ : $nbreNegativeVote++;
+        }
+
+        if ($nbrePositiveVote >= 1 && $nbreNegativeVote == 0) $element->setStatus(ElementStatus::CollaborativeValidate);
+        if ($nbrePositiveVote == 0 && $nbreNegativeVote >= 1) $element->setStatus(ElementStatus::CollaborativeRefused);
     }
 
     public function buildConstellation($elementList, $geocodeResponse)

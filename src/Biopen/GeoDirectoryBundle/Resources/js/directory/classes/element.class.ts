@@ -19,6 +19,8 @@ declare let biopen_twigJs_elementInfo : any;
 
 export enum ElementStatus 
 {
+ CollaborativeRefused = -3,
+ AdminRefused = -2,    
   ModerationNeeded = -1,
   Pending = 0,
   AdminValidate = 1,
@@ -432,7 +434,7 @@ export class Element
 		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 	}
 
-	isPending() { return this.status === ElementStatus.Pending; }
+	isPending() { return this.status <= ElementStatus.Pending; }
 
 	// use twig template js to create the html representation of the element
 	getHtmlRepresentation() 

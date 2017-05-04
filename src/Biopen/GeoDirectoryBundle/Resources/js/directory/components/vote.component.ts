@@ -16,6 +16,7 @@ import { AppModule, AppStates, AppModes } from "../app.module";
 import { getCurrentElementIdShown, getCurrentElementInfoBarShown } from "./element-menu.component";
 import { AjaxModule } from "../modules/ajax.module";
 import { updateInfoBarSize } from "../app-interactions";
+import { ElementStatus } from "../classes/element.class";
 
 declare let App : AppModule;
 
@@ -46,13 +47,38 @@ export function initializeVoting()
 
 			console.log("send vote " +voteValue + " to element id ", elementId);
 
-			App.ajaxModule.vote(elementId, voteValue, comment, (successMessage) =>
+			App.ajaxModule.vote(elementId, voteValue, comment, (response) =>
 			{
-				console.log("success", successMessage);
+				let responseMessage = response.data;
+				let newstatus = response.status;
+
+				let element = App.elementById(elementId);
+				if (element.status != newstatus)
+				{
+					element.status = newstatus;
+					switch (newstatus) {
+						case ElementStatus.AdminValidate:
+							responseMessage += "</br>L'élement a bien été validé";
+							element.update(true);
+							break;
+						case ElementStatus.CollaborativeValidate:
+							responseMessage += "</br>Félicitations, cet acteur a reçu assez de vote pour être validé !";
+							element.update(true);
+							break;
+						case ElementStatus.AdminRefused:
+							responseMessage += "</br>L'élement a bien été supprimé";
+							break;
+						case ElementStatus.CollaborativeRefused:
+							responseMessage += "</br>Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
+							break;
+					}
+				}
+
+				console.log("success", response.data);
 				$('#modal-vote').closeModal();
 				let elementInfo = getCurrentElementInfoBarShown();
-				elementInfo.find(".vote-section").find('.basic-message').hide();				
-				elementInfo.find('.result-message').text(successMessage).show();
+				elementInfo.find(".vote-section").find('.basic-message').hide();	
+				elementInfo.find('.result-message').html(responseMessage).show();
 				updateInfoBarSize();
 
 			},

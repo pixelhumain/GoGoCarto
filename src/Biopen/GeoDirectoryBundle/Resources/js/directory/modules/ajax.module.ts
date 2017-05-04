@@ -190,11 +190,11 @@ export class AjaxModule
 			data: { elementId: elementId, voteValue: voteValue, comment: comment },
 			success: response => 
 			{	        
-				if (response.status)
+				console.log("Vote response", response);
+				if (response)
 				{					
-					if (callbackSuccess) callbackSuccess(response.data); 						
-				}	
-				else if (callbackFailure) callbackFailure(response.data); 				       
+					if (callbackSuccess) callbackSuccess(response); 						
+				}				       
 			},
 			error: response =>
 			{
