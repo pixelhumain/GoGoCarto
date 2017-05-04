@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-02 16:05:48
+ * @Last Modified time: 2017-05-04 18:36:42
  */
  
 
@@ -53,7 +53,7 @@ class APIController extends Controller
         }
         else 
         {
-            return new JsonResponse("Not valid ajax request");
+            return new Response("Not valid ajax request");
         }
     }
 
@@ -94,7 +94,7 @@ class APIController extends Controller
         }
         else 
         {
-            return new JsonResponse("Not valid ajax request");
+            return new Response("Not valid ajax request");
         }
     }
 
@@ -135,7 +135,7 @@ class APIController extends Controller
         }
         else 
         {
-            return new JsonResponse("Not valid ajax request");
+            return new Response("Not valid ajax request");
         }
     }
 }
