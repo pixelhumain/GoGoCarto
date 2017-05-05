@@ -26,7 +26,7 @@ export class OptionValue
 		// in fully json representation, there are keys
 		else
 		{
-			this.optionId = $optionValueJson.optionId;
+			this.optionId = parseInt($optionValueJson.optionId);
 			this.index = $optionValueJson.index;
 			this.description = $optionValueJson.description || '';
 		}		
