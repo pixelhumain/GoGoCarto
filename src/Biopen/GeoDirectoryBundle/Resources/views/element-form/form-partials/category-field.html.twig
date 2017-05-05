@@ -27,16 +27,15 @@
 		{% set displayOption = false %}
 		{% set curr_description = '' %} 
 		{% set curr_index = 0 %} 
-		{% if editMode %}
-			{% for optionValue in element.optionValues %}
-				{% if optionValue.optionId == option.id %} 
-					{% set displayOption = true %} 
-					{% set curr_description = optionValue.description %} 
-					{% set curr_index = optionValue.index %} 
-				{% endif %}
-			{% endfor %}
-		{% endif %}
 
+		{% for optionValue in element.optionValues %}
+			{% if optionValue.optionId == option.id %} 
+				{% set displayOption = true %} 
+				{% set curr_description = optionValue.description %} 
+				{% set curr_index = optionValue.index %} 
+			{% endif %}
+		{% endfor %}
+		
 		<div class="option-field depth-{{ category.depth }} {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
 					data-id="{{option.id}}" data-index={{curr_index}}>
 
