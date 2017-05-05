@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-05 10:03:01
+ * @Last Modified time: 2017-05-05 11:47:46
  */
  
 
@@ -44,7 +44,16 @@ class ElementFormController extends Controller
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
 
-		return $this->renderForm($element, true, $request, $em);		
+		if ($element->getStatus() <= ElementStatus::Pending && !$this->isUserAdmin())
+		{
+			return $this->addAction($request);
+		}
+		else
+		{
+			return $this->renderForm($element, true, $request, $em);		
+		}
+
+		
 	}
 
 	private function renderForm($element, $editMode, $request, $em)
@@ -115,11 +124,13 @@ class ElementFormController extends Controller
 
 			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
-			$request->getSession()->getFlashBag()->add('notice', $noticeText);
+			$request->getSession()->getFlashBag()->add('success', $noticeText);
 
-			if (!$editMode && (!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ||  !$this->get('security.context')->getToken()->getUser()->isAdmin()))
+			if ( !$this->isUserAdmin() )
 			{
 				// resetting form
+				dump("resetting the form");
+				$editMode = false;
 				$form = $this->get('form.factory')->create(ElementType::class, new Element());
 				$element = new Element();
 			}
@@ -136,6 +147,12 @@ class ElementFormController extends Controller
 						"element" => $element,
 						"user_email" => $user_email
 					));
+	}
+
+	private function isUserAdmin()
+	{
+		$securityContext = $this->container->get('security.context');
+		return $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
 	}
 
 	public function deleteAction($id, Request $request)

@@ -74,8 +74,13 @@ export class InfoBarComponent
 		{
 			domMenu.addClass("pending");
 			createListenersForVoting();
+			$('#element-info-bar .menu-element-item.item-edit').hide();
 		}
-		else domMenu.removeClass("pending");
+		else
+		{
+			domMenu.removeClass("pending");
+			$('#element-info-bar .menu-element-item.item-edit').show();
+		} 
 
 		updateFavoriteIcon(domMenu, element);
 
