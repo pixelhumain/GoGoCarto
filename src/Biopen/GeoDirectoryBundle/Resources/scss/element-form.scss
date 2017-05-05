@@ -131,7 +131,7 @@ i.material-icons {
 }
 
 // ---------------------------------------
-//             GOOGLE MAP
+//             MAP
 // ---------------------------------------
 #address-preview-map
 {
@@ -140,6 +140,18 @@ i.material-icons {
   border-radius: 5px;
   z-index: 500;
   //border: 2px solid #D0CCCC;
+}
+
+a.leaflet-control-zoom-in {
+    font-size: 18px !important;
+    color: #3d3d3d;
+}
+
+a.leaflet-control-zoom-out {
+    font-size: 25px! important;
+    font-weight: normal;
+    color: #3d3d3d;
+    text-indent: 0;
 }
 
 #geocode-spinner-loader

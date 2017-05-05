@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-06 14:45:59
+ * @Last Modified time: 2017-05-05 08:30:35
  */
 var map;
 var geocoder;
@@ -34,7 +34,8 @@ function initMap()
 	map = L.map('address-preview-map', {
 	    center: mapCenter,
 	    zoom: mapZoom,
-	    zoomControl: false
+	    zoomControl: true,
+	    scrollWheelZoom : false
 	});
 
 	// L.Control.Zoom({
