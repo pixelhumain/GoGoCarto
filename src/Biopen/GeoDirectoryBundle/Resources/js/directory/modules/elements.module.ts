@@ -73,7 +73,7 @@ export class ElementsModule
 		let start = new Date().getTime();
 
 		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
-        id: isFullRepresentation ? e.id : e[5], // in compact way, id is the fifth element of an array
+        id: isFullRepresentation ? e.id : e[0], // in compact way, id is the first element of an array
         index: index
     }});
 

@@ -81,13 +81,14 @@ export class Element
 	{
 		// when we get the compact json representation of the element from the server
 		// the elementJson is a simple array with the more important element attribute
-		if (elementJson.length == 6)
+		if (!elementJson.id && elementJson.length == 6)
 		{
-			this.id = elementJson[5];
-			this.name = elementJson[0];
-			this.position = L.latLng(elementJson[1], elementJson[2]);		
-			this.createOptionValues(elementJson[3]);		
-			this.status = elementJson[4];			
+			this.id = elementJson[0];
+			this.status = elementJson[1];
+			this.name = elementJson[2];
+			this.position = L.latLng(elementJson[3], elementJson[4]);		
+			this.createOptionValues(elementJson[5]);		
+				
 		}
 		else this.updateAttributesFromFullJson(elementJson);
 	}	

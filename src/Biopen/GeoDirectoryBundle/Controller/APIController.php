@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-04 18:36:42
+ * @Last Modified time: 2017-05-05 10:16:12
  */
  
 
@@ -85,7 +85,7 @@ class APIController extends Controller
             //dump('fullRepresentation' . $request->get('fullRepresentation'));
             $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation')); 
     
-            $responseJson = $this->encoreArrayToJson($elementsFromDB, $request->get('fullRepresentation'));  
+            $responseJson = $this->encoreArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'));  
             //dump($responseJson);
             $result = new Response($responseJson);   
 
@@ -98,14 +98,14 @@ class APIController extends Controller
         }
     }
 
-    private function encoreArrayToJson($array, $fullRepresentation)
+    private function encoreArrayToJsonArray($array, $fullRepresentation)
     {
         $elementsJson = '['; 
 
         foreach ($array as $key => $value) 
         { 
-           if ($fullRepresentation == 'true') $elementsJson .= rtrim($value['fullJson'],'}') .  ', "id": "' .$key. '"},';  
-           else                     $elementsJson .= $value['compactJson'] .  ', "' .$key. '"],'; 
+           if ($fullRepresentation == 'true') $elementsJson .= $value['fullJson'] . ',';  
+           else $elementsJson .= $value['compactJson'] .  ','; 
         }   
 
         $elementsJson = rtrim($elementsJson,",") . ']';    

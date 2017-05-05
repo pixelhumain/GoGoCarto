@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-04 18:43:35
+ * @Last Modified time: 2017-05-05 10:17:14
  */
  
 
@@ -40,7 +40,7 @@ class Element
      *  
      * @MongoDB\Id(strategy="ALNUM") 
      */
-    private $id;
+    public $id;
 
     /** 
      * @Expose
@@ -176,14 +176,14 @@ class Element
     {
         $this->fullJson = json_encode($this);  
 
-        $compactJson = '["'.$this->name . '",' . $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
+        $compactJson = '["'.$this->id . '",' .$this->status . ',"' .$this->name . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
         foreach ($this->optionValues as $key => $value) {
             $compactJson .= '['.$value->getOptionId().','.$value->getIndex();
             //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
             $compactJson .= ']';
             if ($key != count($this->optionValues) -1) $compactJson .= ',';
         }
-        $compactJson .= '], ' . $this->getStatus();
+        $compactJson .= ']]';
         $this->setCompactJson($compactJson);
         //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
     }
