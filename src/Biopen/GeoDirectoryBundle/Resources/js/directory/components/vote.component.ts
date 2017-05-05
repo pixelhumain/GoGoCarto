@@ -36,7 +36,7 @@ export function initializeVoting()
 
 	$('#modal-vote #submit-vote').click(() => 
 	{
-		let voteValue = $('.vote-option-radio-btn:checked').attr('value');
+		let voteValue = $('#modal-vote .option-radio-btn:checked').attr('value');
 
 		$('#modal-vote #select-error').hide();
 		
@@ -109,7 +109,7 @@ export function createListenersForVoting()
 		{
 			let element = App.elementModule.getElementById(getCurrentElementIdShown());
 
-			$('.vote-option-radio-btn:checked').prop('checked', false);
+			$('#modal-vote .option-radio-btn:checked').prop('checked', false);
 			$('#modal-vote .input-comment').val("");
 			$('#modal-vote #select-error').hide();
 			$('#modal-vote .elementName').text(capitalize(element.name));

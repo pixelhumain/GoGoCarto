@@ -49,6 +49,29 @@
   }
 }
 
+// vote and report-error modals
+.modal.action-modal
+{
+  h5 
+  {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  #select-error
+  {
+    display:none;
+    color: $error-color;
+  }
+
+  .option-radio-label
+  {
+    margin-top: .5rem;
+    display: block !important;
+    height: auto !important;
+  }
+}
+
 
 #too-many-markers-modal
 {

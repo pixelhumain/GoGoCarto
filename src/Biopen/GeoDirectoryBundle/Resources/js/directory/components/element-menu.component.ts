@@ -25,7 +25,7 @@ export function initializeElementMenu()
 	let menu_element = $('#element-info-bar .menu-element');
 	createListenersForElementMenu(menu_element);	
 
-	$('#popup-delete-element #select-reason').material_select();
+	$('#popup-report-error #select-reason').material_select();
 	$('#modal-vote #select-vote').material_select();
 
 	// button to confirm calculate idrections in modal pick address for directions
@@ -65,7 +65,7 @@ function deleteElement()
 	else
 	{
 		$('#captcha-error-message').hide();
-		$('#popup-delete-element').closeModal();
+		$('#popup-report-error').closeModal();
 	}	
 }
 
@@ -116,8 +116,8 @@ export function createListenersForElementMenu(object)
 	{		
 		let element = App.elementModule.getElementById(getCurrentElementIdShown());
 		//window.console.log(element.name);
-		$('#popup-delete-element .elementName').text(capitalize(element.name));
-		$('#popup-delete-element').openModal({
+		$('#popup-report-error .elementName').text(capitalize(element.name));
+		$('#popup-report-error').openModal({
 		      dismissible: true, 
 		      opacity: 0.5, 
 		      in_duration: 300, 

@@ -1,12 +1,11 @@
 /*
 * @Author: Sebastian Castro
-* @Date:   2017-04-20 15:39:46
+* @Date:   2017-05-05 12:23:12
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-30 14:15:58
+* @Last Modified time: 2017-05-05 12:23:27
 */
 
-
-.element-item .vote-section
+.vote-section
 {
 	background-color: $primary-color;//#4a8680;
 	padding: 0 1rem 0 .8rem;
@@ -67,20 +66,3 @@
         text-decoration: none;
     }
 }
-
-#modal-vote
-{
-	#select-error
-	{
-		display:none;
-		color: $error-color;
-	}
-
-	.vote-option-radio-label
-	{
-		margin-top: .5rem;
-		display: block !important;
-		height: auto !important;
-	}
-}
-	

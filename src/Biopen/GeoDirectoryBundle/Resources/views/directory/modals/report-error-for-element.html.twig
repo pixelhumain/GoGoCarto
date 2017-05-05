@@ -1,0 +1,45 @@
+<!-- Pop up message alerte-->
+<div id="popup-report-error" class="modal action-modal">
+  <div class="modal-content">
+  	<form>
+
+	    <h5 id="modal-title">Signaler une erreur concernant "<span class="elementName"></span>"</h5>
+	    <p>Quelle erreur voulez-vous signaler ?</p>	 
+
+	    <p id="select-error" class="error">Vous devez sélectionner un type d'erreur!</p>
+
+			<input class="option-radio-btn "value="0" name="report-error" type="radio" id="report1"/>
+	    <label class="option-radio-label" for="report1">Cet acteur n'existe plus</label>
+
+	    <input class="option-radio-btn "value="1" name="report-error" type="radio" id="report2"/>
+	    <label class="option-radio-label" for="report2">Les informations ne sont pas correctes</label>
+
+	    <input class="option-radio-btn "value="2" name="report-error" type="radio" id="report3"/>
+	    <label class="option-radio-label" for="report3">Cet acteur ne respecte pas la charte de "Près de chez nous" </label>
+
+			<div class="input-field">
+					<input class="input-comment" type="text" placeholder="Commentaire optionnel pour la modération"/>
+			</div>
+
+	<!-- 		<div id="captcha-error-message" style="display:none;color:red;text-align:center;">
+				Vous devez valider le captcha ci-dessous
+			</div>
+			<div id="captcha"></div> -->
+			
+			<button type="button"
+					onclick="$('#popup-report-error').closeModal()"  
+					class="waves-effect waves-teal btn-flat">
+				Annuler
+			</button>
+			
+			<button type="button" 
+					id="submit-error"		
+					class="btn waves-effect waves-light">
+				Supprimer
+			</button>
+		
+		</form>	    
+
+  </div>
+   
+</div>
