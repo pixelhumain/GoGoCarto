@@ -19,6 +19,7 @@ build-essential \
 git \
 php5-fpm \
 php5 \
+php5-curl \
 php5-mysql \
 mariadb-server \
 git-core \
