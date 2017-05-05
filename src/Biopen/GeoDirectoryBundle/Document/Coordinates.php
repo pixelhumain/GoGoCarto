@@ -22,7 +22,7 @@ class Coordinates
      */
     public $lng;
 
-    public function __construct($lat, $lng)
+    public function __construct($lat = null, $lng = null)
     {
         $this->setLat($lat);
         $this->setLng($lng);
