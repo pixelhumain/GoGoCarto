@@ -1,8 +1,8 @@
 <!-- Pop up message alerte-->
-<div id="modal-vote" class="modal custom-scroll-bar">
+<div id="modal-vote" class="modal action-modal custom-scroll-bar">
   <div class="modal-content">
 
-	    <h5>Voter pour l'acteur "<span class="elementName"></span>"</h5>
+	    <h5>Voter pour l'acteur <span class="elementName"></span></h5>
 	    <!-- <p>Dites nous ce que vous savez de cet acteur : </p>	   -->  
 
 	  <!--   <div class="input-field">
@@ -46,18 +46,18 @@
 		</div>
 		<div id="captcha"></div> -->
 
-		<div class="footer">	
-		
-			<button type="button" 
-					id="submit-vote"				
-					class="btn btn-primary waves-effect waves-light">
-				Voter
-			</button>
+		<div class="footer">				
 
 			<button type="button"
 					onclick="$('#modal-vote').closeModal()"  
 					class="waves-effect waves-teal btn-flat">
 				Annuler
+			</button>
+
+			<button type="button" 
+					id="submit-vote"				
+					class="btn btn-primary waves-effect waves-light">
+				Voter
 			</button>
 		</div>
 	
