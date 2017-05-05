@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-03 13:24:36
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-07 10:01:13
+* @Last Modified time: 2017-05-05 11:47:34
 */
 //   FLASHBAG
 .flash-messages-container
@@ -38,4 +38,8 @@
     {
         display: none;
     }
+
+    &.notice { background-color: #444444; }
+    &.error { background-color: #b90303 }
+    &.success { background-color: #4caf50; }
 }
