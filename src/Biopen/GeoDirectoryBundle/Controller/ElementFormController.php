@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-24 09:44:46
+ * @Last Modified time: 2017-05-05 10:03:01
  */
  
 
@@ -109,13 +109,21 @@ class ElementFormController extends Controller
 
 			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
 
-			$noticeText = 'Merci de votre contribution !</br>' . $editMode ? 'Les modifications ont bien été prises en compte' : 'L\'acteur a bien été ajouté';
+			$noticeText = 'Merci de votre contribution ! ';
+			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
+			else $noticeText .=  'L\'acteur a bien été ajouté';
+
 			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
 			$request->getSession()->getFlashBag()->add('notice', $noticeText);
-		}
 
-		//dump($element);	
+			if (!$editMode && (!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ||  !$this->get('security.context')->getToken()->getUser()->isAdmin()))
+			{
+				// resetting form
+				$form = $this->get('form.factory')->create(ElementType::class, new Element());
+				$element = new Element();
+			}
+		}
 
 		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
 
