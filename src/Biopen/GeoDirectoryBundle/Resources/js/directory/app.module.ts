@@ -338,7 +338,11 @@ export class AppModule
 							// the elements will already be available to display
 							//this.ajaxModule.getElementsInBounds([this.mapComponent.getBounds()]);	 
 						},
-						(error) => { /*TODO*/ alert("No element with this id"); }
+						(error) => 
+						{ 
+							alert("Cet acteur n'existe pas ou a été supprimé !"); 
+							this.setState(AppStates.Normal);
+						}
 					);						
 				}			
 										
