@@ -4,8 +4,9 @@
     height: 0px !important;
     margin: 0 !important;
 
-    &:hover { z-index: 10000000 !important; }
+    &:hover { z-index: 10000000 !important; }  
 }
+
 .marker-name
 {
     position: absolute;
@@ -34,9 +35,6 @@
 
     &.disabled { color: grey !important}    
 
-    &.rotateLeft { right: -8px; bottom: -6px; }
-	&.rotateRight { right: -35px; bottom: -6px; }
-
     // Gestion de la taille si on est en hover
     &.BigSize 
 	{
@@ -44,10 +42,6 @@
         z-index: 10000 !important;
 	    @include transform( scale(1.3,1.3) );
 	    bottom: 5px !important; // pour que l'ancre bottom reste identique
-   
-
-    	&.rotateLeft { right: -4px; bottom: -2px  !important; }
-		&.rotateRight { right: -39px; bottom: -2px !important; }
 
         .iconInsideMarker-wrapper
         {
@@ -67,15 +61,10 @@
         position: absolute;
         z-index: 1;
 
-        &.rotateRight
-        {
-            @include transform( rotate(45deg) );       
-        }
-
-        &.rotateLeft
-        {
-            @include transform( rotate(-45deg) );      
-        }
+        background-image: url(images/marker-shadow.png);
+        background-position: 8px;
+        background-repeat: no-repeat;
+        width: 50px;
     }
 }
 
@@ -95,24 +84,6 @@
     top: 4px;
     font-size: 18px;
     line-height: 30px;
-
-    
-
-    &.rotateRight
-    {
-    	left: 10px;
-	    width: 25px;
-	    height: 25px;
-	    top: 5px;
-    }
-
-    &.rotateLeft
-    {
-    	left: 5px;
-	    width: 25px;
-	    height: 25px;
-	    top: 5px;
-    }
 }
 :-moz-any(.iconInsideMarker-wrapper) {
     top: 3px;
@@ -206,4 +177,77 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 .halfHidden
 {
 	opacity: 0.6;
+}
+
+.leaflet-marker-container
+{
+    &.rotateLeft
+    {
+        .marker-wrapper { right: -8px; bottom: -6px; }
+        .marker-wrapper.BigSize  { right: -4px; bottom: -2px  !important; }
+        .icon-marker { @include transform( rotate(-45deg) ); }
+        .iconInsideMarker-wrapper
+        {
+            left: 6px !important;
+            width: 25px;
+            height: 25px;
+            top: 9px;
+        }
+        .icon-plus-circle { top: -7px; right: -7px; }
+        .marker-wrapper .icon-star-full{ top: -10px; right: 1px; }
+        .moreIconContainer { left: 30px; }
+        .marker-name { bottom: 47px; left: -50px;}
+    }
+    &.rotateRight
+    {
+        .marker-wrapper  { right: -35px; bottom: -6px; }
+        .marker-wrapper.BigSize  { right: -39px; bottom: -2px !important; }
+        .icon-marker { @include transform( rotate(45deg) ); }
+        .iconInsideMarker-wrapper
+        {
+            left: 11px !important;
+            width: 25px;
+            height: 25px;
+            top: 1px;
+        }
+        .icon-plus-circle { top: -7px; right: -8px; }
+        .marker-wrapper .icon-star-full{ top: -9px; right: -5px; }
+        .moreIconContainer { left: 30px }
+        .marker-name { bottom: 47px; left: -10px;}
+    }
+
+    &.rotateSoftLeft
+    {
+        .marker-wrapper { right: -13px; bottom: -1px; }
+        .marker-wrapper.BigSize  { right: -10px; bottom: 4px  !important; }
+        .icon-marker { @include transform( rotate(-25deg) ); }
+        .iconInsideMarker-wrapper
+        {
+            right: 6px !important;
+            width: 25px;
+            height: 25px;
+            top: 7px;
+        }
+        .icon-plus-circle { top: -7px; right: -7px; }
+        .marker-wrapper .icon-star-full{ top: -10px; right: 1px; }
+        .moreIconContainer { left: 30px; }
+        .marker-name { bottom: 47px; left: -50px;}
+    }
+    &.rotateSoftRight
+    {
+        .marker-wrapper  { right: -30px; bottom: -2px; }
+        .marker-wrapper.BigSize  { right: -33px; bottom: 4px !important; }
+        .icon-marker { @include transform( rotate(25deg) ); }
+        .iconInsideMarker-wrapper
+        {
+            left: 9px !important;
+            width: 25px;
+            height: 25px;
+            top: 3px;
+        }
+        .icon-plus-circle { top: -7px; right: -8px; }
+        .marker-wrapper .icon-star-full{ top: -9px; right: -5px; }
+        .moreIconContainer { left: 25px }
+        .marker-name { bottom: 47px; left: -10px;}
+    }
 }
