@@ -2,7 +2,6 @@
 import { AppModule, AppStates } from "../../app.module";
 import { Event, IEvent } from "../../utils/event";
 import { initAutoCompletionForElement } from "../../../commons/search-bar.component";
-import { initCluster } from "./cluster/init-cluster";
 import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 /// <reference types="leaflet" />
@@ -98,9 +97,10 @@ export class MapComponent
 		    spiderfyMaxCount: 4,
 		    spiderfyDistanceMultiplier: 1.1,
 		    chunkedLoading: true,
+		    animate: false,
 		    maxClusterRadius: (zoom) =>
 		    {
-		    	if (zoom > 10) return 40;
+		    	if (zoom > 10) return 50;
 		    	if (zoom > 7) return 75;
 		    	else return 100;
 		    }
@@ -117,9 +117,23 @@ export class MapComponent
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
 		{ 
+			let visibleMarkersLength = $('.leaflet-marker-icon:visible').length;
+			let ratio;
+			if (this.map_.getZoom() == this.oldZoom)
+			{
+				ratio = 0.5/Math.pow((visibleMarkersLength/100),2);
+				ratio = Math.min(0.5, ratio);
+				ratio = Math.round(ratio*10)/10;
+			}
+			else
+			{
+				ratio = 0;
+			}			
+
 			this.oldZoom = this.map_.getZoom();
 			this.updateViewPort();
-			App.boundsModule.extendBounds(0.5, this.map_.getBounds());
+
+			App.boundsModule.extendBounds(ratio, this.map_.getBounds());
 			this.onIdle.emit(); 
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
