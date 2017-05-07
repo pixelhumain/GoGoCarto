@@ -1096,13 +1096,24 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 	{
 		bounds = bounds || this._map.getBounds();
 		var mapZoom = this._map.getZoom();
+		var index;
+
+		var that = this;
 
 		this._featureGroup.eachLayer(function (c) {
 			if (c instanceof L.MarkerCluster && !c._isUnclustered && c._zoom === mapZoom && bounds.contains(c._latlng) /*&& !c._isSingleParent()*/) 
 			{
 				c.uncluster();
+				index = that._clustersWaitingToBeShown.indexOf(c);
+				if (index >= 0) that._clustersWaitingToBeShown.splice(index, 1);
 			}
 		});
+
+		for (var i = this._clustersWaitingToBeShown.length - 1; i >= 0; i--) 
+		{
+		 	this._clustersWaitingToBeShown[i].clusterShow()
+		} 
+		this._clustersWaitingToBeShown = [];
 		//console.log("uncluster total", this._unclusters.length);
 	},
 
@@ -1787,10 +1798,18 @@ L.MarkerCluster = L.Marker.extend({
 		return false;
 	},
 
-	restoreCluster: function ()
+	restoreCluster: function (showCluster)
 	{
 		var markers = this.getAllChildMarkers();
-		this.clusterShow();
+
+		// if showCluster wi show it right away, if not, we wait for a later "checkForUncluster" who will
+		// hide the retore cluster
+		// this is to avoid that a cluster is being shown to be hide just after
+		if (showCluster) this.clusterShow();
+		else
+		{
+			this._group._clustersWaitingToBeShown.push(this);
+		}
 		//console.log("resotrecluster, childMarker", markers.length);
 		for (var i = markers.length - 1; i >= 0; i--)
 		{
@@ -1911,6 +1930,7 @@ L.MarkerCluster = L.Marker.extend({
 
 L.MarkerClusterGroup.include({
 	_unclusters: [],
+	_clustersWaitingToBeShown: [],
 });
 
 
