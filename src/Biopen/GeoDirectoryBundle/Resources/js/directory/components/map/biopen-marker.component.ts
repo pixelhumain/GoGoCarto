@@ -134,7 +134,7 @@ export class BiopenMarker
 
 		// save the class because it has been modified by marker cluster adding or
 		// removing the "rotate" class	
-		let oldClassName = this.leafletMarker_._icon ?  this.leafletMarker_._icon.className : 'leaflet-marker-container';
+		let oldClassName = (<any>this.leafletMarker_)._icon ?  (<any>this.leafletMarker_)._icon.className : 'leaflet-marker-container';
 		oldClassName.replace('leaflet-marker-icon', '');
   	this.leafletMarker_.setIcon(L.divIcon({className: oldClassName, html: htmlMarker}));	
 
