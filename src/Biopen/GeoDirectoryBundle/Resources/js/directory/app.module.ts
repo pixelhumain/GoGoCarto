@@ -592,14 +592,24 @@ export class AppModule
 		}
 		else
 		{
-			let newMarkers = result.newElements.map( (e) => e.marker.getLeafletMarker());
-			let markersToRemove = result.elementsToRemove.map( (e) => e.marker.getLeafletMarker());
-
 			if (!this.mapComponent.isInitialized) { return;}
 
 			this.mapComponent.markerClustererGroup.restoreUnclusters();
-			this.mapComponent.addMarkers(newMarkers);
-			this.mapComponent.removeMarkers(markersToRemove);
+
+			//console.log("Display = " + result.elementsToDisplay.length + " / remove = " + result.elementsToRemove.length + " / add = " + result.newElements.length);
+
+			// In some cases, markerCluster works faster clearing alls markers and adding them again
+			if (result.elementsToRemove.length + result.newElements.length > result.elementsToDisplay.length)
+			{
+				this.mapComponent.clearMarkers();
+				this.mapComponent.addMarkers(result.elementsToDisplay.map( (e) => e.marker.getLeafletMarker()));
+			}
+			else
+			{
+				this.mapComponent.removeMarkers(result.elementsToRemove.map( (e) => e.marker.getLeafletMarker()));
+				this.mapComponent.addMarkers(result.newElements.map( (e) => e.marker.getLeafletMarker()));
+			}			
+
 			this.mapComponent.markerClustererGroup.checkForUnclestering(this.map().getBounds());
 		}			
 

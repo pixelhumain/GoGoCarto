@@ -191,6 +191,11 @@ export class MapComponent
 		if (this.markerClustererGroup) this.markerClustererGroup.removeLayers(markers);
 	}
 
+	clearMarkers()
+	{
+		if (this.markerClustererGroup) this.markerClustererGroup.clearLayers();
+	}
+
 	// fit map view to bounds
 	fitBounds(bounds : L.LatLngBounds, animate : boolean = true)
 	{
