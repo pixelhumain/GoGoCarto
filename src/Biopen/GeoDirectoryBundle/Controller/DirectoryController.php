@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-03-15 19:47:40
+ * @Last Modified time: 2017-05-07 18:16:14
  */
  
 
@@ -34,16 +34,14 @@ class DirectoryController extends Controller
 
     public function normalAction($mode, $addressAndViewport, Request $request)
     {
-        list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);       
-        //$address = $this->checkAddressInSession($address);
+        list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);   
 
         $config['address'] = $address;
         $config['viewport'] = $viewport;
         $config['mode'] = $this->formatMode($mode);
         $config['state'] = 'Normal';
 
-        return $this->renderDirectory($config, $request);      
-
+        return $this->renderDirectory($config, $request);
     }  
 
     public function showElementAction($name, $id, $addressAndViewport, Request $request)
@@ -144,17 +142,6 @@ class DirectoryController extends Controller
 
         return $openHoursCategory;
     }
-    
-
-    private function checkAddressInSession($address)
-    {
-        if ($address == '' && $this->get('session')->get('address'))
-        {
-            return $this->get('session')->get('address');
-        }
-        if ($address != '') $this->get('session')->set('address', $address);
-        return $address;
-    }  
 
     private function parseAddressViewport($addressViewport)
     {
