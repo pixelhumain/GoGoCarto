@@ -11,9 +11,11 @@
   max-height: 80%;
   position: absolute !important;
 
+  h5 { margin-bottom: .5rem; }
+
   .modal-content
   {
-    padding-bottom: 0 !important;
+    padding-bottom: .8rem !important;
 
     .modal-error-msg
     {
@@ -24,9 +26,21 @@
 
   .modal-footer
   {
+    padding-right: 2.5rem;
+    background-color: #444;
+
     .modal-action
     {
-      color: white !important;
+      
+      color: white;      
+      font-size: .9rem;
+      padding: 0 25px;
+
+      &.btn
+      {
+        background-color: #de5a5f;
+        &:hover{ background-color: #ec787d }
+      }
     }
   }
 
