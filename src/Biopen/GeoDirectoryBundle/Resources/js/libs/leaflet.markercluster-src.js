@@ -1806,7 +1806,7 @@ L.MarkerCluster = L.Marker.extend({
 	{
 		if (marker._icon)
 		{ 
-			marker._icon.className = marker._icon.className.replace('rotateSoftRight','').replace('rotateSoftLeft','').replace('rotateRight','').replace('rotateRight','').replace('leaflet-marker-icon', ''); 
+			marker._icon.className = marker._icon.className.replace('rotateSoftRight','').replace('rotateSoftLeft','').replace('rotateLeft','').replace('rotateRight','').replace('leaflet-marker-icon', ''); 
 			// really update icon
 			marker.setIcon(L.divIcon({className: marker._icon.className, html: marker._icon.innerHTML}));	
 		}
