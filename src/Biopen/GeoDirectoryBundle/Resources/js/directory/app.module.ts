@@ -36,6 +36,8 @@ import { initializeVoting } from "./components/vote.component";
 
 import { getQueryParams, capitalize } from "../commons/commons";
 import { Element } from "./classes/element.class";
+import * as Cookies from "./utils/cookies";
+
 declare var App : AppModule;
 
 /**
@@ -151,7 +153,18 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
-		//console.log("loadHistorystate filtersd", historystate.filters)
+		console.log("loadHistorystate", historystate);
+
+		console.log("viewport cookie", Cookies.readCookie('viewport'));
+
+		// check viewport and address from cookies
+		if (!historystate.viewport) historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
+		if (!historystate.address) 
+		{
+			historystate.address = Cookies.readCookie('address');
+			if (historystate.address) $('#search-bar').val(historystate.address);
+		}		
+
 		if (historystate.filters)
 		{
 			this.filterModule.loadFiltersFromString(historystate.filters);

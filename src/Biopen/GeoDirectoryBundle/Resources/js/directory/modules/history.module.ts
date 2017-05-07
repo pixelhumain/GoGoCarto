@@ -13,6 +13,7 @@ import { slugify, capitalize } from "../../commons/commons";
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { Element } from "../classes/element.class";
 import { ViewPort } from "../components/map/map.component";
+import * as Cookies from "../utils/cookies";
 
 declare let App : AppModule;
 declare let $;
@@ -46,7 +47,7 @@ export class HistoryState
 		this.mode = $historyState.mode == 'Map' ? AppModes.Map : AppModes.List;
 		this.state = parseInt(AppStates[$historyState.state]);
 		this.address = $historyState.address;
-		this.viewport = new ViewPort().fromString($historyState.viewport);
+		this.viewport = typeof $historyState.viewport === 'string' ? new ViewPort().fromString($historyState.viewport) : $historyState.viewport;
 		this.id = $historyState.id;
 		this.filters = $historyState.filters;
 		return this;
@@ -104,6 +105,9 @@ export class HistoryModule
 			//console.log("Replace state", historyState);
 			history.replaceState(historyState, '', route);
 		}
+
+		Cookies.createCookie('viewport',historyState.viewport);
+		Cookies.createCookie('address',historyState.address);
 	};
 
 	private generateRoute(historyState : HistoryState)
@@ -162,8 +166,7 @@ export class HistoryModule
 		}
 
 		if (historyState.filters) route += '?cat=' + historyState.filters;
-		
-		
+
 		
 		// for (let key in options)
 		// {
