@@ -69,7 +69,7 @@ export class BiopenMarker
 
 
 		//this.update();	
-		this.leafletMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\"></span>"}));
+		this.leafletMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: "<span id=\"marker-"+ this.id_ + "\" icon-marker></span>"}));
 	};	
 
 	isDisplayedOnElementInfoBar()
@@ -132,12 +132,13 @@ export class BiopenMarker
 			pendingClass : element.isPending() ? 'pending' : ''
 		});
 
-  	this.leafletMarker_.setIcon(L.divIcon({className: 'leaflet-marker-container', html: htmlMarker}));	
+		// save the class because it has been modified by marker cluster adding or
+		// removing the "rotate" class	
+		let oldClassName = this.leafletMarker_._icon ?  this.leafletMarker_._icon.className : 'leaflet-marker-container';
+		oldClassName.replace('leaflet-marker-icon', '');
+  	this.leafletMarker_.setIcon(L.divIcon({className: oldClassName, html: htmlMarker}));	
 
   	if (this.isDisplayedOnElementInfoBar()) this.showBigSize();
-
-  	if (this.inclination_ == "right") this.inclinateRight();
-  	if (this.inclination_ == "left") this.inclinateLeft();
 	};
 
 	private addClassToLeafletMarker_ (classToAdd) 
@@ -186,31 +187,6 @@ export class BiopenMarker
 				strokeWeight: 3
 			});
 		}	
-	};
-
-	initializeInclination () 
-	{	
-		let domMarker = this.domMarker();
-		domMarker.css("z-index","1");
-		domMarker.find(".rotate").removeClass("rotateLeft").removeClass("rotateRight");
-		domMarker.removeClass("rotateLeft").removeClass("rotateRight");
-		this.inclination_ = "normal";
-	};
-
-	inclinateRight () 
-	{	
-		let domMarker = this.domMarker();
-		domMarker.find(".rotate").addClass("rotateRight");
-	   domMarker.addClass("rotateRight");
-	   this.inclination_ = "right";
-	};
-
-	inclinateLeft () 
-	{	
-		let domMarker = this.domMarker();
-		domMarker.find(".rotate").addClass("rotateLeft");
-	   domMarker.addClass("rotateLeft");
-	   this.inclination_ = "left";
 	};
 
 

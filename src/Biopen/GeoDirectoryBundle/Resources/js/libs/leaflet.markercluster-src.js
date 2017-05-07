@@ -11,6 +11,7 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 
 	options: {
 		maxClusterRadius: 80, //A cluster will cover at most this many pixels from its center
+
 		iconCreateFunction: null,
 
 		spiderfyOnMaxZoom: true,
@@ -132,7 +133,21 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 			}
 		}
 
+		// console.log("addLayer restore");
+		// this.restoreUnclusters();
+		// console.log("addLayer checkForUnclstering");
+		// this.checkForUnclestering();
 		return this;
+	},
+
+	getClusters: function () {
+		var clusters = [];
+		this._featureGroup.eachLayer(function (c) {
+			if (c instanceof L.MarkerCluster) {
+				clusters.push(c);
+			}
+		});
+		return clusters;
 	},
 
 	removeLayer: function (layer) {
@@ -266,6 +281,9 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 					this._refreshClustersIcons();
 
 					this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
+
+					// this.restoreUnclusters();
+					// this.checkForUnclestering();
 				} else {
 					setTimeout(process, this.options.chunkDelay);
 				}
@@ -301,7 +319,8 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 
 				needsClustering.push(m);
 			}
-		}
+		}	
+
 		return this;
 	},
 
@@ -312,6 +331,9 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		    fg = this._featureGroup,
 		    npg = this._nonPointGroup,
 		    originalArray = true;
+
+		// console.log("removeLayer restoring clusters");
+		// this.restoreUnclusters();
 
 		if (!this._map) {
 			for (i = 0; i < l; i++) {
@@ -393,6 +415,9 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 
 		//Fix up the clusters and markers on the map
 		this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds);
+
+		// console.log("removeLayer checkForUnclestering");
+		// this.checkForUnclestering();
 
 		return this;
 	},
@@ -888,8 +913,11 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		if (!this._map) { //May have been removed from the map by a zoomEnd handler
 			return;
 		}
+		// console.log("zoomEnd restoreUnclusters");
+		// this.restoreUnclusters();
 		this._mergeSplitClusters();
-
+		// console.log("zoomEnd checkForUnclestering");
+		// this.checkForUnclestering();
 		this._zoom = Math.round(this._map._zoom);
 		this._currentShownBounds = this._getExpandedVisibleBounds();
 	},
@@ -903,6 +931,9 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 
 		this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, this._zoom, newBounds);
 		this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), newBounds);
+
+		// console.log("modeEnd checkForUnclestering");
+		// this.checkForUnclestering();
 
 		this._currentShownBounds = newBounds;
 		return;
@@ -934,7 +965,7 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		}
 
 		// Instantiate the appropriate L.MarkerCluster class (animated or not).
-		this._topClusterLevel = new this._markerCluster(this, -1);
+		this._topClusterLevel = new this._markerCluster(this, -1);		
 	},
 
 	//Zoom: Zoom to start adding at (Pass this._maxZoom to start at the bottom)
@@ -1050,6 +1081,29 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		} else {
 			this._moveEnd();
 		}
+	},
+
+	restoreUnclusters: function ()
+	{
+		//console.log("restore clusters", this._unclusters.length);
+		for (var i = this._unclusters.length - 1; i >= 0; i--) {
+			this._unclusters[i].restoreCluster();
+		}
+		this._unclusters = [];
+	},
+
+	checkForUnclestering: function (bounds)
+	{
+		bounds = bounds || this._map.getBounds();
+		var mapZoom = this._map.getZoom();
+
+		this._featureGroup.eachLayer(function (c) {
+			if (c instanceof L.MarkerCluster && !c._isUnclustered && c._zoom === mapZoom && bounds.contains(c._latlng) /*&& !c._isSingleParent()*/) 
+			{
+				c.uncluster();
+			}
+		});
+		//console.log("uncluster total", this._unclusters.length);
 	},
 
 	//Gets the maps visible bounds expanded in each direction by the size of the screen (so the user cannot see an area we do not cover in one pan)
@@ -1370,6 +1424,8 @@ L.MarkerCluster = L.Marker.extend({
 		this._iconNeedsUpdate = true;
 		this._boundsNeedUpdate = true;
 
+		this._isUnclustered = false;
+
 		this._bounds = new L.LatLngBounds();
 
 		if (a) {
@@ -1656,6 +1712,106 @@ L.MarkerCluster = L.Marker.extend({
 		);
 	},
 
+	uncluster: function ()
+	{
+		if (this._isUnclustered) { return ;}
+
+		var markers = this.getAllChildMarkers();
+
+		if (markers.length > 3) { return; }
+		else
+		{
+			this.clusterHide();			
+			//console.log("uncluster, childMarker", markers.length);
+			for (var i = markers.length - 1; i >= 0; i--)
+			{
+				var nm = markers[i];		
+				if (nm._backupLatlng)
+				{
+					nm.setLatLng(nm._backupLatlng);
+					//delete nm._backupLatlng;
+				}
+				
+				this._group._featureGroup.addLayer(nm);
+				this._clearRotateClassName(nm);
+				//if (nm._icon) { nm._icon.className += markers.length == 3 ? " uncluster3" : markers.length == 2 ? " uncluster2" : "uncluster1"; }
+				//console.log(nm._icon);
+			}
+
+			markers.sort(function compareMarkersLat(a, b) {  return b._latlng.lng - a._latlng.lng; });
+
+			var rightMarker = markers[0];
+			var leftMarker = markers[markers.length - 1];
+			var rightPoint = this._group._map.latLngToLayerPoint(rightMarker._latlng, 'rotateSoft');
+			var leftPoint = this._group._map.latLngToLayerPoint(leftMarker._latlng, 'rotateSoft');
+
+			//console.log(rightMarker._icon ? 'icon' : 'noicon');
+
+			if (markers.length == 2)
+			{
+				 this._checkNeeToRotate(leftMarker, rightMarker, leftPoint, rightPoint, 'rotateSoft')
+			}
+			else
+			{
+				var centerMarker = markers[1];
+				var centerPoint = this._group._map.latLngToLayerPoint(centerMarker._latlng);
+
+				// check center only if extremes markers don't intersect
+				if (!this._checkNeeToRotate(leftMarker, rightMarker, leftPoint, rightPoint, 'rotate'))
+				{
+					this._checkNeeToRotate(leftMarker, centerMarker, leftPoint, centerPoint, 'rotateSoft');
+					this._checkNeeToRotate(centerMarker, rightMarker, centerPoint, rightPoint, 'rotateSoft');
+
+					if (leftMarker._icon && leftMarker._icon.className.indexOf('rotate') >= 0 && rightMarker._icon && rightMarker._icon.className.indexOf('rotate') >= 0)
+					{
+						this._clearRotateClassName(centerMarker);
+					}
+				}				
+			}		  
+
+			this._isUnclustered = true;
+			this._group._unclusters.push(this);
+		}		
+	},
+
+	_checkNeeToRotate: function (leftMarker, rightMarker, leftPoint, rightPoint, className)
+	{
+		if (rightPoint.x - leftPoint.x < 20 && Math.abs(rightPoint.y - leftPoint.y) < 30)
+		{
+			this._clearRotateClassName(leftMarker);
+			this._clearRotateClassName(rightMarker);
+			if (rightMarker._icon) { rightMarker._icon.className += " " + className + "Right"; }
+    	if (leftMarker._icon) { leftMarker._icon.className += " " + className + "Left"; }
+    	return true;
+		}	 
+		return false;
+	},
+
+	restoreCluster: function ()
+	{
+		var markers = this.getAllChildMarkers();
+		this.clusterShow();
+		//console.log("resotrecluster, childMarker", markers.length);
+		for (var i = markers.length - 1; i >= 0; i--)
+		{
+			var nm = markers[i];
+			this._clearRotateClassName(nm);
+			//if (!nm._icon) console.log("no icon");
+			this._group._featureGroup.removeLayer(nm);
+		}
+		this._isUnclustered = false;
+	},
+
+	_clearRotateClassName: function (marker)
+	{
+		if (marker._icon)
+		{ 
+			marker._icon.className = marker._icon.className.replace('rotateSoftRight','').replace('rotateSoftLeft','').replace('rotateRight','').replace('rotateRight','').replace('leaflet-marker-icon', ''); 
+			// really update icon
+			marker.setIcon(L.divIcon({className: marker._icon.className, html: marker._icon.innerHTML}));	
+		}
+	},
+
 	_recursivelyRestoreChildPositions: function (zoomLevel) {
 		//Fix positions of child markers
 		for (var i = this._markers.length - 1; i >= 0; i--) {
@@ -1751,6 +1907,10 @@ L.MarkerCluster = L.Marker.extend({
 		//Don't need to check this._markers as the rest won't work if there are any
 		return this._childClusters.length > 0 && this._childClusters[0]._childCount === this._childCount;
 	}
+});
+
+L.MarkerClusterGroup.include({
+	_unclusters: [],
 });
 
 
@@ -2553,7 +2713,6 @@ L.MarkerClusterGroup.include({
 	 * @returns {L.MarkerClusterGroup}
 	 */
 	refreshClusters: function (layers) {
-
 		if (!layers) {
 			layers = this._topClusterLevel.getAllChildMarkers();
 		} else if (layers instanceof L.MarkerClusterGroup) {

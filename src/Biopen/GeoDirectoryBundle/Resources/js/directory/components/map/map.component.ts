@@ -64,7 +64,7 @@ export class MapComponent
 	//Leaflet map
 	map_ : L.Map = null;
 
-	markerClustererGroup;
+	markerClustererGroup = null;
 	isInitialized : boolean = false;
 	isMapLoaded : boolean = false;
 	oldZoom = -1;
@@ -94,7 +94,7 @@ export class MapComponent
 		    showCoverageOnHover: false,
 		    zoomToBoundsOnClick: true,
 		    spiderfyOnHover: false,
-		    spiderfyMaxCount: 4,
+		    spiderfyMaxCount: 10,
 		    spiderfyDistanceMultiplier: 1.1,
 		    chunkedLoading: true,
 		    animate: false,

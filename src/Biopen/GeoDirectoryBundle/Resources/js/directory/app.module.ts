@@ -595,8 +595,12 @@ export class AppModule
 			let newMarkers = result.newElements.map( (e) => e.marker.getLeafletMarker());
 			let markersToRemove = result.elementsToRemove.map( (e) => e.marker.getLeafletMarker());
 
+			if (!this.mapComponent.isInitialized) { return;}
+
+			this.mapComponent.markerClustererGroup.restoreUnclusters();
 			this.mapComponent.addMarkers(newMarkers);
 			this.mapComponent.removeMarkers(markersToRemove);
+			this.mapComponent.markerClustererGroup.checkForUnclestering(this.map().getBounds());
 		}			
 
 		let end = new Date().getTime();
