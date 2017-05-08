@@ -159,100 +159,109 @@ biopen_twigJs_elementInfo.prototype.render_ = function(sb, context, blocks) {
     sb.append("    ");
     if (("listingMode" in context ? context["listingMode"] : null)) {
         // line 91
-        sb.append("       ");
+        sb.append("      ");
         if (twig.attr(("element" in context ? context["element"] : null), "isPending", undefined, "method")) {
             // line 92
             sb.append("      <div class=\"vote-section\">\n          <span class=\"basic-message\">\n            <span class=\"icon-attention\"><\/span>\n            <span class=\"text\">Attention cet acteur est en cours de validation<\/span>\n            <span class=\"vote-button btn btn-vote waves-effect waves-light\">Voter<\/span>\n          <\/span>\n          <div class=\"result-message\" style=\"display:none\"><\/div>\n      <\/div>\n      ");
         }
         // line 101
+        sb.append("\n      ");
+        // line 107
         sb.append("      <div class=\"menu-element bgdSoftColorAs ");
         sb.append(twig.filter.escape(this.env_, ("pendingClass" in context ? context["pendingClass"] : null), "html", null, true));
         sb.append("\" option-id=");
         sb.append(twig.filter.escape(this.env_, twig.attr(("mainOptionValueToDisplay" in context ? context["mainOptionValueToDisplay"] : null), "colorOptionId"), "html", null, true));
-        sb.append(">  \n\n        <div class=\"menu-element-item item-add-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-empty icon-favorite tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Enregistrer comme favoris\"><\/span>\n          <span class=\"menu-element-item-text\">Enregistrer<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-remove-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-full icon-favorite tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Retirer des favoris\"><\/span>\n          <span class=\"menu-element-item-text favorite\">Enregistr\u00e9<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-share\">\n          <span class=\"menu-icon icon-share-alt tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Partager l'URL\"><\/span>\n          <span class=\"menu-element-item-text\">Partager l'URL<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-directions\">\n          <span class=\"menu-icon icon-directions tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Itin\u00e9raire vers cet \u00e9l\u00e9ment\"><\/span>\n          <span class=\"menu-element-item-text\">Itin\u00e9raire<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-edit\">\n          <span class=\"menu-icon icon-edit tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Proposer des modifications\"><\/span>\n          <span class=\"menu-element-item-text\">Proposer des modifications<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-delete\"> \n          <span class=\"menu-icon btn-delete icon-exclamation-1 tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Signaler une erreur\"><\/span>\n          <span class=\"menu-element-item-text\">Signaler une erreur<\/span>\n        <\/div>  \n            \n      <\/div> \n    ");
+        sb.append(">  \n\n        <div class=\"menu-element-item item-add-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-empty icon-favorite tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Enregistrer comme favoris\"><\/span>\n          <span class=\"menu-element-item-text\">Enregistrer<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-remove-favorite\" style=\"display:none\">\n          <span class=\"menu-icon icon-star-full icon-favorite tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Retirer des favoris\"><\/span>\n          <span class=\"menu-element-item-text favorite\">Enregistr\u00e9<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-share\">\n          <span class=\"menu-icon icon-share-alt tooltipped\"\n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Partager l'URL\"><\/span>\n          <span class=\"menu-element-item-text\">Partager l'URL<\/span>\n        <\/div>\n        <div class=\"menu-element-item item-directions\">\n          <span class=\"menu-icon icon-directions tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Itin\u00e9raire vers cet \u00e9l\u00e9ment\"><\/span>\n          <span class=\"menu-element-item-text\">Itin\u00e9raire<\/span>\n        <\/div>\n        ");
+        // line 129
+        if ((!twig.attr(("element" in context ? context["element"] : null), "isPending", undefined, "method"))) {
+            // line 130
+            sb.append("        <div class=\"menu-element-item item-edit\">\n          <span class=\"menu-icon icon-edit tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Proposer des modifications\"><\/span>\n          <span class=\"menu-element-item-text\">Proposer des modifications<\/span>\n        <\/div>\n        ");
+        }
+        // line 136
+        sb.append("        <div class=\"menu-element-item item-delete\"> \n          <span class=\"menu-icon btn-delete icon-exclamation-1 tooltipped\" \n          data-position=\"top\" data-delay=\"0\" data-tooltip=\"Signaler une erreur\"><\/span>\n          <span class=\"menu-element-item-text\">Signaler une erreur<\/span>\n        <\/div>  \n            \n      <\/div> \n    ");
     }
-    // line 136
+    // line 144
     sb.append("  \n    ");
-    // line 138
+    // line 146
     sb.append("    <div class=\"collapsible-body-main-content\"> \n\n      ");
-    // line 141
+    // line 149
     sb.append("      <h3>Infos<\/h3>   \n      <div class=\"section row sectionInfos\">\n\n        ");
-    // line 145
+    // line 153
     sb.append("        <span class=\"col s12 address\">");
     sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("element" in context ? context["element"] : null), "address")), "html", null, true));
     sb.append("<\/span>\n        \n        ");
-    // line 148
+    // line 156
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "tel")) {
-        // line 149
+        // line 157
         sb.append("          <span class=\"col s12 tel\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "tel"), "html", null, true));
         sb.append("<\/span>\n        ");
     }
-    // line 151
+    // line 159
     sb.append("\n        ");
-    // line 153
+    // line 161
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "mail")) {
-        // line 154
+        // line 162
         sb.append("          <span class=\"col s12 tel\"><a href=\"mailto:");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "mail"), "html", null, true));
         sb.append("\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "mail"), "html", null, true));
         sb.append("<\/a>\n          <\/span>\n        ");
     }
-    // line 157
+    // line 165
     sb.append("\n        ");
-    // line 159
+    // line 167
     sb.append("        ");
     if (twig.attr(("element" in context ? context["element"] : null), "webSite")) {
-        // line 160
+        // line 168
         sb.append("          <span class=\"col s12 tel\"><a href=\"");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "webSite"), "html", null, true));
         sb.append("\" target=\"_blank\">");
         sb.append(twig.filter.escape(this.env_, twig.attr(("element" in context ? context["element"] : null), "webSite"), "html", null, true));
         sb.append("<\/a>\n          <\/span>\n        ");
     }
-    // line 163
-    sb.append("\n      <\/div>\n      <div class=\"divider\"><\/div>\n      \n      ");
-    // line 168
-    sb.append("      <h3>Les cat\u00e9gories<\/h3> \n      <div class=\"section row categories\">\n        \n        ");
     // line 171
+    sb.append("\n      <\/div>\n      <div class=\"divider\"><\/div>\n      \n      ");
+    // line 176
+    sb.append("      <h3>Les cat\u00e9gories<\/h3> \n      <div class=\"section row categories\">\n        \n        ");
+    // line 179
     (new biopen_twigJs_category_value(this.env_)).render_(sb, twig.extend({}, context, {"categoryValue": ("mainCategoryValue" in context ? context["mainCategoryValue"] : null), "subcategoriesCount": 1}));
     sb.append("  \n\n      <\/div>\n      <div class=\"divider\"><\/div>\n\n      ");
-    // line 177
+    // line 185
     sb.append("      <h3>Horaires d'ouverture<\/h3>   \n      <div class=\"section row sectionOpenHourss\">  \n        ");
-    // line 179
+    // line 187
     context["count"] = 0;
     sb.append(" \n\n        ");
-    // line 181
+    // line 189
     context['_parent'] = context;
     var seq = twig.attr(("element" in context ? context["element"] : null), "getFormatedOpenHours", undefined, "method");
     twig.forEach(seq, function(v, k) {
         context["key"] = k;
         context["horaire"] = v;
         sb.append(" \n          ");
-        // line 182
+        // line 190
         if (((("horaire" in context ? context["horaire"] : null)) != (null))) {
-            // line 183
+            // line 191
             sb.append("\n            <div class='row'>\n              <span class=\"col s3 day\">");
-            // line 185
+            // line 193
             sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, ("key" in context ? context["key"] : null)), "html", null, true));
             sb.append("<\/span>\n              <span class=\"col s9 openHours\">");
-            // line 186
+            // line 194
             sb.append(twig.filter.escape(this.env_, ("horaire" in context ? context["horaire"] : null), "html", null, true));
             sb.append(" <\/span>\n            <\/div>\n            ");
-            // line 188
+            // line 196
             context["count"] = (Number(("count" in context ? context["count"] : null)) + Number(1));
             sb.append(" \n\n          ");
         }
-        // line 191
+        // line 199
         sb.append("        ");
     }, this);
     sb.append("          \n\n        ");
-    // line 193
+    // line 201
     if (twig.attr(("element" in context ? context["element"] : null), "openHoursMoreInfos")) {
-        // line 194
+        // line 202
         sb.append("          <div class='col' ");
         if (((("count" in context ? context["count"] : null)) != (0))) {
             sb.append("style=\"margin-top:1rem;\"");
@@ -260,13 +269,13 @@ biopen_twigJs_elementInfo.prototype.render_ = function(sb, context, blocks) {
         sb.append(">");
         sb.append(twig.filter.escape(this.env_, twig.filter.capitalize(this.env_, twig.attr(("element" in context ? context["element"] : null), "openHoursMoreInfos")), "html", null, true));
         sb.append("<\/div> \n          ");
-        // line 195
+        // line 203
         context["count"] = (Number(("count" in context ? context["count"] : null)) + Number(1));
         sb.append(" \n        ");
     }
-    // line 197
+    // line 205
     sb.append("\n        ");
-    // line 198
+    // line 206
     if (((("count" in context ? context["count"] : null)) == (0))) {
         sb.append("<div class='col'> Non renseign\u00e9es <\/div>");
     }
@@ -376,9 +385,9 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*   {# BODY #}*/
 /*   <div class="collapsible-body moreDetails custom-scroll-bar"> */
 /*   */
-/*     {# Menu in constellation mode #}*/
+/*     {# Menu in listing mode #}*/
 /*     {% if listingMode %}*/
-/*        {% if element.isPending() %}*/
+/*       {% if element.isPending() %}*/
 /*       <div class="vote-section">*/
 /*           <span class="basic-message">*/
 /*             <span class="icon-attention"></span>*/
@@ -388,6 +397,12 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*           <div class="result-message" style="display:none"></div>*/
 /*       </div>*/
 /*       {% endif %}*/
+/* */
+/*       {#*/
+/*         WARNING*/
+/*         If you modify this menu-element, please report changes in element-menu.html.twig also.*/
+/*         this is a lack of feature in TwigJsTemplate who does not implements the twig "include" method*/
+/*       #}*/
 /*       <div class="menu-element bgdSoftColorAs {{pendingClass}}" option-id={{mainOptionValueToDisplay.colorOptionId}}>  */
 /* */
 /*         <div class="menu-element-item item-add-favorite" style="display:none">*/
@@ -410,11 +425,13 @@ biopen_twigJs_elementInfo.prototype.isTraitable = function() {
 /*           data-position="top" data-delay="0" data-tooltip="Itinéraire vers cet élément"></span>*/
 /*           <span class="menu-element-item-text">Itinéraire</span>*/
 /*         </div>*/
+/*         {% if not element.isPending() %}*/
 /*         <div class="menu-element-item item-edit">*/
 /*           <span class="menu-icon icon-edit tooltipped" */
 /*           data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>*/
 /*           <span class="menu-element-item-text">Proposer des modifications</span>*/
 /*         </div>*/
+/*         {% endif %}*/
 /*         <div class="menu-element-item item-delete"> */
 /*           <span class="menu-icon btn-delete icon-exclamation-1 tooltipped" */
 /*           data-position="top" data-delay="0" data-tooltip="Signaler une erreur"></span>*/

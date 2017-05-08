@@ -76,32 +76,37 @@
 
 {% endblock %}
 
-{% block javascripts %}
-
-  {# Making the routes accessibles from javascript #}
-  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+{% block javascripts %}  
   
-  {# FMS twig.js file, not necessary if twig js templates are generated via assetic
-  but there is a bug in assetic dump with certains workspaces, so we include it
-  when we want to use twig template in javascript by hand #}
-  <script src="{{ asset('vendors/twig.js') }}"></script> 
-  {# templates generated via the assetic:dump above 
-  <script src="{{ asset('templates/directory-templates.js') }}"></script>  #} 
-  {# create dynamic js template 
-  comment out the following lines and do "assetic:dump" to generate the new
-  twig js template files #}
-  {% javascripts filter="twig_js" output='templates/directory-templates.js'
-    '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
-     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig' 
-     '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info-category-value.html.twig'    
-  %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-  {% endjavascripts %}
+  <script src="{{ asset('js/libs.js') }}"></script> 
 
-  <script src="{{ asset('js/libs.js') }}"></script>  
-  <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
-  <script src="{{ asset('js/directory.js') }}"></script>
+  {# <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script> INCLUDED IN libs.js #}
+  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script> 
+
+  <script src="{{ asset('vendors/twig.js') }}"></script>   
+  
+  {# in production environnement we concat alls theses following javascript into the directory.js file #}
+  {% if app.environment == 'dev' %}
+
+    
+
+    {# create dynamic js template. command in console "assetic:dump" to generate the new
+    twig js template files #}
+    {% javascripts filter="twig_js" output='templates/directory-templates.js'
+      '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
+       '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig' 
+       '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info-category-value.html.twig'    
+    %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
+
+    <script src="{{ asset('js/directory.js') }}"></script>
+  {% else %}      
+    <script src="{{ asset('js/directory_prod.js') }}"></script>
+  {% endif %}    
+
   <script>
 
     //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";

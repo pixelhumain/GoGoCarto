@@ -104,12 +104,12 @@ biopen_twigJs_marker.prototype.render_ = function(sb, context, blocks) {
             sb.append(((twig.attr(("otherOptionValue" in context ? context["otherOptionValue"] : null), "colorOptionId")) ? ("colorAs") : ("")));
             sb.append(" ");
             sb.append(twig.filter.escape(this.env_, ("pendingClass" in context ? context["pendingClass"] : null), "html", null, true));
-            sb.append("\" option-id=");
-            sb.append(twig.filter.escape(this.env_, twig.attr(("otherOptionValue" in context ? context["otherOptionValue"] : null), "colorOptionId"), "html", null, true));
-            sb.append("\n\t\t\t\t\t\tstyle=\"left:");
-            // line 30
+            sb.append("\" style=\"left:");
             sb.append(twig.filter.escape(this.env_, ((32) * (twig.attr(loop, "index0"))), "html", null, true));
-            sb.append("px\">\n\t\t\t\t\t<span class=\"moreIcon iconInsideMarker ");
+            sb.append("px\"\n\t\t\t\t\t\toption-id=");
+            // line 30
+            sb.append(twig.filter.escape(this.env_, twig.attr(("otherOptionValue" in context ? context["otherOptionValue"] : null), "colorOptionId"), "html", null, true));
+            sb.append(">\n\t\t\t\t\t<span class=\"moreIcon iconInsideMarker ");
             // line 31
             sb.append(twig.filter.escape(this.env_, ("disableOption" in context ? context["disableOption"] : null), "html", null, true));
             sb.append(" ");
@@ -185,8 +185,8 @@ biopen_twigJs_marker.prototype.isTraitable = function() {
 /* */
 /* 				{% set disableOption = otherOptionValue.isFilledByFilters == false ? 'disabled' : '' %}*/
 /* */
-/* 				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.colorOptionId ? 'colorAs' : '' }} {{pendingClass}}" option-id={{ otherOptionValue.colorOptionId }}*/
-/* 						style="left:{{ 32 * loop.index0 }}px">*/
+/* 				<div class="moreIconWrapper {{ disableOption }} {{ otherOptionValue.colorOptionId ? 'colorAs' : '' }} {{pendingClass}}" style="left:{{ 32 * loop.index0 }}px"*/
+/* 						option-id={{ otherOptionValue.colorOptionId }}>*/
 /* 					<span class="moreIcon iconInsideMarker {{ disableOption }} {{ otherOptionValue.option.icon }} colorAs {{pendingClass}}" option-id={{ otherOptionValue.option.color ? otherOptionValue.optionId : otherOptionValue.colorOptionId }}>*/
 /* 					</span>*/
 /* 			 	</div>*/

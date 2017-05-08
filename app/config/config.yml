@@ -11,7 +11,7 @@ parameters:
     mongodb_server: "mongodb://localhost:27017"
 
 fos_js_routing:
-    routes_to_expose: [ (.*) ]
+    routes_to_expose: [ ]
 
 framework:
     #esi:             ~
