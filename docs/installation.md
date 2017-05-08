@@ -3,6 +3,8 @@ Installation and Production Instructions
 
 Feel free to add some more informations if you solve installation issues !
 
+*There is a script for debian installation called install_debian.sh in this docs directory !*
+
 Requirements
 ------------
 
@@ -10,9 +12,8 @@ Requirements
 2. [Composer](https://getcomposer.org/download/) 
 3. [Nodejs](https://nodejs.org/en/download/)
 4. [Git](https://git-scm.com/)
-5. Php Server (Apache, [Wamp server](http://www.wampserver.com/) for example)
+5. Web Server (Apache, Ngninx, [Wamp server](http://www.wampserver.com/) ...)
 6. MongoDB (http://php.net/manual/fr/mongodb.installation.php)
-7. Any Text Editor (SublimeText for example)
 
 Installation
 ------------
@@ -20,7 +21,7 @@ Installation
 ### Cloning repo (clone dev branch)
 ```
 cd path-to-php-server-folder (default linux /var/www/html, windows c:/wamp/www... )
-git clone -b dev https://github.com/Biopenlandes/CartoV3.git
+git clone -b dev https://github.com/Biopen/CartoV3.git
 cd CartoV3/
 ```
 
@@ -33,6 +34,7 @@ php path-to/composer.phar install or composer install
 
 Workflow dependencies (compiling sass and javascript)
 ```
+npm install gulp
 npm install -g gulp
 npm install
 ```
@@ -66,8 +68,13 @@ doctrine:mongodb:generate:proxies
 doctrine:mongodb:fixtures:load
 ```
 
+Load defaul admin user "admin/admin"
+```
+doctrine:fixtures:load
+```
+
 Then generate if necessary random point on the map :
-http://localhost/cartoV3/PagesVertes/web/app_dev.php/acteurs/generate/500
+app:elements:generate 200
 
 Everthing is ready, enjoy :
 http://localhost/PagesVertes/web/app_dev.php
@@ -75,13 +82,18 @@ http://localhost/PagesVertes/web/app_dev.php
 Production
 ----------
 
-1. Generate compressed js and css files
-```gulp production```
+1. Dump assetic in symfony console to update the web/templates files
+```assetic:dump```
 
-2. Move files to distant Server (FTP or other)
+2. Generate compressed js and css files
+```
+gulp build
+gulp production
+```
 
-3. In the distant console (http://yoursite.com/web/app_dev.php/_console)
+3. enable gz compression in your web server
+
+4. In the distant console (http://yoursite.com/web/app_dev.php/_console)
 ```
 cache:clear --env=prod
-assetic:dump --env=prod
 ```
