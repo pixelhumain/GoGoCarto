@@ -386,3 +386,9 @@
 .icon-friperie-1:before {
   content: "\e047";
 }
+.icon-eye:before {
+  content: "\64";
+}
+.icon-no-eye:before {
+  content: "\6a";
+}

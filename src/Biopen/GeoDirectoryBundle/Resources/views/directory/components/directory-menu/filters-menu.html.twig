@@ -44,7 +44,11 @@
 				{# ELEMENT WITH PENDING STATUS#}
 				<li class="subcategorie-option-item row" id="filter-pending" data-position="right" data-delay="300" data-tooltip="Afficher les éléments en attente de validation">
 			    <span class="icon icon-attention"></span>
-			    <span class="option-name"><span class="validation-process-info">En cours de validation</span></span> 
+			    {% if is_granted('ROLE_ADMIN') %}
+			    	<span class="option-name">Attente validation</span><span class="icon icon-eye" id="show-only-pending"></span></span> 
+		    	{% else %}
+		    		<span class="option-name"><span class="validation-process-info">En cours de validation</span></span> 
+		    	{% endif %}
 
 			    {# --- CHECKBOX ---- #}
 					<div class="checkbox-wrapper">

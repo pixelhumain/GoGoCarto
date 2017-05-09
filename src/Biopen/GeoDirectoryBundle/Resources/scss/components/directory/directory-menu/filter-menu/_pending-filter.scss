@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-16 16:21:51
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-16 16:41:23
+* @Last Modified time: 2017-05-09 16:22:59
 */
 
 $pending-color: #565656;
@@ -14,17 +14,17 @@ $pending-color: #565656;
 
 	.icon { color:inherit !important }
 
-	// .icon-star-full
-	// {
-	// 	color: white;
-	// 	font-size: 18px;
-	// 	&:before
-	// 	{
-	// 		padding: 2px;
-	// 		padding-bottom: 3px;
-	// 		border: none;
-	// 	}
-	// }
+	#show-only-pending
+	{
+		float: right;
+    margin-right: 3.3rem;
+
+		&:hover
+		{
+			color: $primary-color !important;
+			cursor: pointer;
+		}
+	}
 
 	&:hover
 	{

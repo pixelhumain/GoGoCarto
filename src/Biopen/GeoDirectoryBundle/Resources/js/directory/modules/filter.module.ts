@@ -22,6 +22,7 @@ export class FilterModule
 {
 	showOnlyFavorite_ : boolean = false;
 	showPending_ : boolean = true;
+	showOnlyPending_ : boolean = false;
 
 	constructor() {	}
 
@@ -35,9 +36,16 @@ export class FilterModule
 		this.showPending_ = bool;
 	};
 
+	showOnlyPending(bool : boolean)
+	{
+		this.showOnlyPending_ = bool;
+	};
+
 	checkIfElementPassFilters (element : Element) : boolean
 	{
 		if (this.showOnlyFavorite_) return element.isFavorite;
+		
+		if (this.showOnlyPending_) return element.isPending();
 
 		if(!this.showPending_ && element.isPending()) return false;
 
