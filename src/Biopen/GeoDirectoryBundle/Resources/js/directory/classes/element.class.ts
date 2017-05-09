@@ -466,7 +466,8 @@ export class Element
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
 			mainCategoryValue : this.getOptionTree().children[0],
-			pendingClass : this.isPending() ? 'pending' : ''
+			pendingClass : this.isPending() ? 'pending' : '',
+			isAdmin : App.isUserAdmin,
 		});
 
 		

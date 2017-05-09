@@ -126,7 +126,7 @@
           data-position="top" data-delay="0" data-tooltip="Itinéraire vers cet élément"></span>
           <span class="menu-element-item-text">Itinéraire</span>
         </div>
-        {% if not element.isPending() %}
+        {% if not element.isPending() or isAdmin %}
         <div class="menu-element-item item-edit">
           <span class="menu-icon icon-edit tooltipped" 
           data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>
