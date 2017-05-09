@@ -607,7 +607,7 @@ export class AppModule
 		{
 			if (!this.mapComponent.isInitialized) { return;}
 
-			this.mapComponent.markerClustererGroup.restoreUnclusters(false);
+			this.mapComponent.markerClustererGroup.restoreUnclusters(true);
 
 			//console.log("Display = " + result.elementsToDisplay.length + " / remove = " + result.elementsToRemove.length + " / add = " + result.newElements.length);
 

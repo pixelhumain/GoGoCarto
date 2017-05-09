@@ -1083,11 +1083,12 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		}
 	},
 
-	restoreUnclusters: function ()
+	restoreUnclusters: function (dontShowClusters)
 	{
+		dontShowClusters = dontShowClusters || false;
 		//console.log("restore clusters", this._unclusters.length);
 		for (var i = this._unclusters.length - 1; i >= 0; i--) {
-			this._unclusters[i].restoreCluster();
+			this._unclusters[i].restoreCluster(!dontShowClusters);
 		}
 		this._unclusters = [];
 	},
@@ -1099,19 +1100,20 @@ L.MarkerClusterGroup = L.FeatureGroup.extend({
 		var index;
 
 		var that = this;
-
 		this._featureGroup.eachLayer(function (c) {
 			if (c instanceof L.MarkerCluster && !c._isUnclustered && c._zoom === mapZoom && bounds.contains(c._latlng) /*&& !c._isSingleParent()*/) 
 			{
-				c.uncluster();
-				index = that._clustersWaitingToBeShown.indexOf(c);
-				if (index >= 0) that._clustersWaitingToBeShown.splice(index, 1);
+				if(c.uncluster() )
+				{
+					index = that._clustersWaitingToBeShown.indexOf(c);
+					if (index >= 0) that._clustersWaitingToBeShown.splice(index, 1);
+				}				
 			}
 		});
 
 		for (var i = this._clustersWaitingToBeShown.length - 1; i >= 0; i--) 
 		{
-		 	this._clustersWaitingToBeShown[i].clusterShow()
+		 	this._clustersWaitingToBeShown[i].clusterShow();
 		} 
 		this._clustersWaitingToBeShown = [];
 		//console.log("uncluster total", this._unclusters.length);
@@ -1725,11 +1727,11 @@ L.MarkerCluster = L.Marker.extend({
 
 	uncluster: function ()
 	{
-		if (this._isUnclustered) { return ;}
+		if (this._isUnclustered) { return false;}
 
 		var markers = this.getAllChildMarkers();
 
-		if (markers.length > 3) { return; }
+		if (markers.length > 3) { return false; }
 		else
 		{
 			this.clusterHide();			
@@ -1782,6 +1784,8 @@ L.MarkerCluster = L.Marker.extend({
 
 			this._isUnclustered = true;
 			this._group._unclusters.push(this);
+
+			return true;
 		}		
 	},
 

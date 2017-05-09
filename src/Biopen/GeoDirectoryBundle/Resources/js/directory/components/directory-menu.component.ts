@@ -103,6 +103,22 @@ export class DirectoryMenuComponent
 			e.preventDefault();
 		});
 
+		$('#show-only-pending').click(function(e : Event)
+		{			
+			let check = $('#show-only-pending').hasClass('icon-eye');
+			App.filterModule.showOnlyPending(check);
+			App.elementModule.updateElementsToDisplay(!check);
+
+			if (check)
+				$('#show-only-pending').removeClass('icon-eye').addClass('icon-no-eye');
+			else
+				$('#show-only-pending').removeClass('icon-no-eye').addClass('icon-eye');
+
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			e.preventDefault();
+		});
+
 		$('#filter-pending').tooltip();
 
 
