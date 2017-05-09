@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-05 11:47:46
+ * @Last Modified time: 2017-05-09 15:28:00
  */
  
 
@@ -51,9 +51,7 @@ class ElementFormController extends Controller
 		else
 		{
 			return $this->renderForm($element, true, $request, $em);		
-		}
-
-		
+		}		
 	}
 
 	private function renderForm($element, $editMode, $request, $em)
@@ -115,6 +113,11 @@ class ElementFormController extends Controller
 		if ($form->handleRequest($request)->isValid()) 
 		{
 			$this->handleFormSubmission($form, $element, $em, $request);
+
+			if (!($this->isUserAdmin() && $request->request->get('dont-send-mail')))
+			{
+				// TODO Send email !
+			}
 
 			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
 
@@ -198,7 +201,7 @@ class ElementFormController extends Controller
 		{
 			$user = $securityContext->getToken()->getUser();
 
-			if ($user->isAdmin())
+			if ($user->isAdmin() && !$request->request->get('dont-validate'))
 				$element->setStatus(ElementStatus::AdminValidate);
 			else
 				$element->setStatus(ElementStatus::Pending);

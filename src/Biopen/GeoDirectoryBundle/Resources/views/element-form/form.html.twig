@@ -24,8 +24,13 @@
 
 	{% include "@directory/element-form/form-partials/open-hours.html.twig" %}
 
-	{% include "@directory/element-form/form-partials/user.html.twig" %}	
+	{% if not is_granted('ROLE_ADMIN') %}
+		{% include "@directory/element-form/form-partials/user.html.twig" %}	
+	{% endif %}
 
+	{% if is_granted('ROLE_ADMIN') %}
+		{% include "@directory/element-form/form-partials/admin.html.twig" %}	
+	{% endif %}
 	
 	{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 		<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
