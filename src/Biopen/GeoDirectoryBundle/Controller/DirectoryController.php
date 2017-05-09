@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-09 15:52:06
+ * @Last Modified time: 2017-05-09 17:17:52
  */
  
 
@@ -116,7 +116,7 @@ class DirectoryController extends Controller
         $securityContext = $this->container->get('security.context');
         $isAdmin = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
         $isAdmin = $isAdmin ? 'true' : 'false';
-        dump($isAdmin);
+        
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategory" => $mainCategory, "openHoursCategory" => $openHours,
                                     "config" => $config, "optionList" => $optionsList,
