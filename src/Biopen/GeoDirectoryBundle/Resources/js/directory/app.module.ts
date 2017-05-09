@@ -29,7 +29,6 @@ import { BiopenMarker } from "./components/map/biopen-marker.component";
 import { HistoryModule, HistoryState } from './modules/history.module';
 import { BoundsModule } from './modules/bounds.module';
 
-
 import { initializeAppInteractions } from "./app-interactions";
 import { initializeElementMenu } from "./components/element-menu.component";
 import { initializeVoting } from "./components/vote.component";
@@ -607,7 +606,7 @@ export class AppModule
 		{
 			if (!this.mapComponent.isInitialized) { return;}
 
-			this.mapComponent.markerClustererGroup.restoreUnclusters();
+			this.mapComponent.markerClustererGroup.restoreUnclusters(false);
 
 			//console.log("Display = " + result.elementsToDisplay.length + " / remove = " + result.elementsToRemove.length + " / add = " + result.newElements.length);
 
