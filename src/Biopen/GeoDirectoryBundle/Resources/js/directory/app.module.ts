@@ -152,14 +152,12 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
 	{
-		console.log("loadHistorystate", historystate);
-
-		console.log("viewport cookie", Cookies.readCookie('viewport'));
+		//console.log("loadHistorystate", historystate);
 
 		// check viewport and address from cookies
-		if (!historystate.viewport) historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
-		if (!historystate.address) 
+		if (!historystate.viewport && !historystate.address) 
 		{
+			historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
 			historystate.address = Cookies.readCookie('address');
 			if (historystate.address) $('#search-bar').val(historystate.address);
 		}		
