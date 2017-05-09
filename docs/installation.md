@@ -97,3 +97,5 @@ gulp production
 ```
 cache:clear --env=prod
 ```
+
+5. Make sure that the var folder is writable ```chmod -R 771 var/```

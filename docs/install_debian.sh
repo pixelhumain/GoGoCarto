@@ -159,7 +159,9 @@ php bin/console doctrine:mongodb:fixtures:load ;
 php bin/console doctrine:schema:update --force
 php bin/console doctrine:fixtures:load
 
-php bin/console cache:clear  ;
+php bin/console cache:clear --env=prod;
+
+chmod -R 777 var/;
 
 # services au démarrage
 systemctl enable mongod
