@@ -113,12 +113,12 @@ server {
     rewrite ^/app\.php/?(.*)$ /$1 permanent;
 
     location / {
-        index app_dev.php;
+        index app.php;
         try_files $uri @rewriteapp;
     }
 
     location @rewriteapp {
-        rewrite ^(.*)$ /app_dev.php/$1 last;
+        rewrite ^(.*)$ /app.php/$1 last;
     }
 
     # pass the PHP scripts to FastCGI server from upstream phpfcgi
