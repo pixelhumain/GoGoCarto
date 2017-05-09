@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-07 18:16:14
+ * @Last Modified time: 2017-05-09 15:52:06
  */
  
 
@@ -113,12 +113,15 @@ class DirectoryController extends Controller
         $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
         $openHoursCategoryJson = $serializer->serialize($openHours, 'json');
 
-
-
+        $securityContext = $this->container->get('security.context');
+        $isAdmin = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
+        $isAdmin = $isAdmin ? 'true' : 'false';
+        dump($isAdmin);
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategory" => $mainCategory, "openHoursCategory" => $openHours,
                                     "config" => $config, "optionList" => $optionsList,
-                                    "mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson));
+                                    "mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson,
+                                    'isAdmin' => $isAdmin));
     }
 
     private function getMainCategory()

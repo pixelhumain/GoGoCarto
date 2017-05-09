@@ -31,7 +31,6 @@
     {% include '@directory/directory/components/spinner-loader.html.twig'  
               with {'id': 'directory-spinner-loader' }%}
     
-  
     <div id="directory-content-map" style="display:none"> 
       <div id="directory-loading" style="display:none">
         Chargement...
@@ -117,7 +116,9 @@
 
     var OPENHOURS_CATEGORY = {{ openHoursCategoryJson | raw }};
 
-    var App;       
+    var App;   
+
+    var IS_ADMIN = {{ isAdmin | raw }};    
 
   </script>  
 

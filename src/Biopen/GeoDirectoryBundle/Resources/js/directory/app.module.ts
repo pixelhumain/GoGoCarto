@@ -10,7 +10,7 @@
 /// <reference types="leaflet" />
 
 declare let window, Routing : any;
-declare let CONFIG, MAIN_CATEGORY, OPENHOURS_CATEGORY;
+declare let CONFIG, MAIN_CATEGORY, OPENHOURS_CATEGORY, IS_ADMIN;
 declare var $;
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
@@ -108,6 +108,9 @@ export class AppModule
 
 	// somes states need a element id, we store it in this property
 	private stateElementId : number = null;
+
+	// let us know if current log user is Admin
+	readonly isUserAdmin : boolean = IS_ADMIN;
 
 
 	// when click on marker it also triger click on map
