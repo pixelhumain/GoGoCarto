@@ -15,8 +15,9 @@
 
       <span class="col s12 name">
 
+      {% set mainIcon = element.isPending() ? 'icon-attention' : mainOptionValueToDisplay.option.icon %}
         {# Icons #}
-        <span class="element-main-icon icon {{mainOptionValueToDisplay.option.icon}} colorAs {{pendingClass}} hideOnLargeScreen" option-id={{mainOptionValueToDisplay.colorOptionId}}></span>
+        <span class="element-main-icon icon {{ mainIcon }} colorAs {{pendingClass}} hideOnLargeScreen" option-id={{mainOptionValueToDisplay.colorOptionId}}></span>
         <span class="star-names-icons">
           {% for starName in starNames %} 
               <span class="icon icon-{{starName}}"></span>
