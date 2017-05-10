@@ -1,0 +1,52 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% set pageName = 'check-for-duplicates' %}
+
+{% block title %}
+	Détection de doublons
+{% endblock %}
+
+{# Stylessheets #}
+{% block page_stylesheets %}
+
+ 	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
+
+{% endblock %}
+
+
+{# BODY CONTENT #}
+{% block body_content %}	
+ 
+  <h1>Recherche de doublons</h1> 
+
+  <h2>Des acteurs similaires ont été détectés, vous vouliez peut être ajouter l'un d'eux?</h2> 
+
+  {% for key, element in duplicatesElements %}
+
+  	<div class="element row">
+  		<span>{{ element.name }}</span>
+  		<span>{% if element.description is defined %} element.description {% endif %}</span>
+  		<span>{{ element.address }}</span>
+  		<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) }}"><button class="btn">c'est lui !</button></a>
+  	</div>
+
+  {% endfor %}
+ 
+	{{ form_start(duplicateForm) }}
+
+	<center>
+		<button type="submit" class="btn waves-effect waves-light">Non, c'est un nouvel acteur, je continue !</button>
+	</center>
+
+	{{ form_rest(duplicateForm) }}
+
+
+{# Fermeture de la balise <form> du formulaire HTML #}
+{{ form_end(duplicateForm) }}
+
+{% endblock %}
+
+{% block page_javascripts %}
+		<script src="{{ asset('js/libs.js') }}"></script>
+    <script src="{{ asset('js/element-form.js') }}"></script>
+{% endblock %}

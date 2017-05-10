@@ -7,17 +7,21 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 08:46:42
+ * @Last Modified time: 2017-05-10 14:14:56
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Symfony\Component\Security\Core\SecurityContext;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\OptionValue;
+
 class ElementFormService
 {	
 	protected $em;
-    protected $user;
+    protected $securityContext;
 
 	/**
      * Constructor
@@ -25,7 +29,7 @@ class ElementFormService
     public function __construct(DocumentManager $documentManager, SecurityContext $securityContext)
     {
     	 $this->em = $documentManager;
-         $this->user = $securityContext->getToken()->getUser();
+         $this->securityContext = $securityContext;
     }
 
     public function handleFormSubmission($element, $request)
@@ -57,13 +61,12 @@ class ElementFormService
             }
             $element->setWebSite($webSiteUrl);
         }       
+     
+        $element->setContributorIsRegisteredUser($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
 
-        $securityContext = $this->container->get('security.context');       
-        $element->setContributorIsRegisteredUser($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
-
-        if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
-            $user = $securityContext->getToken()->getUser();
+            $user = $this->securityContext->getToken()->getUser();
 
             if ($user->isAdmin() && !$request->request->get('dont-validate'))
                 $element->setStatus(ElementStatus::AdminValidate);
@@ -74,11 +77,17 @@ class ElementFormService
         {
             $element->setStatus(ElementStatus::Pending);
         }       
-        
-        //dump($element);           
-        
-        $this->em->persist($element);
-        $this->em->flush();
+
+        return $element;
+   }
+
+   public function checkForDuplicates($element)
+   {
+    $distance = 10; // km
+    $maxResults = 10;
+    $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround($element->getCoordinates()->getLat(), $element->getCoordinates()->getLng(), 
+                                                                                        $distance, $maxResults, $element->getName());
+    return $elements;
    }
    
 

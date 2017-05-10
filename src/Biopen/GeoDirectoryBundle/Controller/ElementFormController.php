@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 08:49:48
+ * @Last Modified time: 2017-05-10 15:44:42
  */
  
 
@@ -19,9 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
-use Biopen\GeoDirectoryBundle\Document\Option;
-use Biopen\GeoDirectoryBundle\Document\OptionValue;
-use Biopen\GeoDirectoryBundle\Document\Catgeory;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
@@ -54,6 +51,37 @@ class ElementFormController extends Controller
 		}		
 	}
 
+	// when submitting new element, check it's not yet existing
+	public function checkDuplicatesAction(Request $request)
+	{
+		$em = $this->get('doctrine_mongodb')->getManager();
+		$session = $this->getRequest()->getSession();
+
+		// a form with just a submit button
+		$checkDuplicatesForm = $this->get('form.factory')->createNamedBuilder('duplicates', 'form')->getForm();	
+
+		if ($checkDuplicatesForm->handleRequest($request)->isValid()) 
+		{
+			// if user say that it's not a duplicate, we go back to add action with checkDuplicate to true
+			return $this->redirect($this->generateUrl('biopen_element_add', array('checkDuplicate' => true)));
+		}
+		// check that duplicateselement are in session and are not empty
+		else if ($session->has('duplicatesElements') && count($session->get('duplicatesElements') > 0))
+		{
+			$duplicates = $session->get('duplicatesElements');
+			// c'est aucun d'eux, je continue
+			// c'est lui -> redirige vers showElement 
+			return $this->render('@directory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
+																															 'duplicatesElements' => $duplicates));
+		}	
+		// otherwise just redirect ot add action
+		else 
+		{
+			return $this->redirect($this->generateUrl('biopen_element_add'));
+		}			
+	}
+
+	// render for both Add and Edit actions
 	private function renderForm($element, $editMode, $request, $em)
 	{
 		if (null === $element) {
@@ -63,10 +91,11 @@ class ElementFormController extends Controller
 		$securityContext = $this->container->get('security.context');
 		$session = $this->getRequest()->getSession();
 
+		// we need to be authentificate to access form, with account or just giving email address
 		if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->get('user_email'))
 		{
-			//$loginform = $this->get('form.factory')->createNamed('email',EmailType::class);
-			 $loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
+			// creating simple form to let user enter a email address
+			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
 			->add('email', 'email', array('required' => false))
 			->getForm();			
 
@@ -75,13 +104,14 @@ class ElementFormController extends Controller
 				$user = $request->request->get('user')['email'];
 				$user_email = $user;
 				
-				$session->set('user_email', $user_email);				
+				$session->set('user_email', $user_email);
 			}
 			else
 			{
 				return $this->render('@directory/element-form/contributor-login.html.twig', array('loginForm' => $loginform->createView()));
 			}		   
 		} 
+		// depending on authentification type (account or just giving email) we fill some variables
 		else 
 		{
 			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
@@ -94,24 +124,66 @@ class ElementFormController extends Controller
 				$user = $session->get('user_email');
 				$user_email = $session->get('user_email');
 			}
-			//dump($user);
-		}			
+		}		
+		
+		// create the element form
+		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
 
-		$form = $this->get('form.factory')->create(ElementType::class, $element);
+		// when we check for duplicates, we jump to an other action, and coem back to the add action
+		// with the "duplicate" GET param to true. We check that in this case an 'elementWaitingForDuplicateCheckForDuplicateCheck'
+		// is stored in the session
+		$checkDuplicateOk = $request->query->get('checkDuplicate') && $session->has('elementWaitingForDuplicateCheck');
 
-		//dump($element);	
+		//  If form submitted with valid values
+		if ($elementForm->handleRequest($request)->isValid() || $checkDuplicateOk) 
+		{	
+			// if checkDuplicate process is done
+			if ($checkDuplicateOk)
+			{			
+				$element = $session->get('elementWaitingForDuplicateCheck');
+				$em->persist($element);
+				$em->flush();
+				// filling the form with the previous element created in case we want to recopy its informations (only for admins)
+				$elementForm = $this->get('form.factory')->create(ElementType::class, $element);				
+			}
+			// if we just submit the form
+			else
+			{				
+				// check for duplicates in Add action
+				if (!$editMode)
+				{					
+					$duplicates = $this->get("biopen.element_form_service")->checkForDuplicates($element);
+					$needToCheckDuplicates = count($duplicates) > 0;
+				}
+				else $needToCheckDuplicates = false;
 
-		// Submission du formulaire
-		if ($form->handleRequest($request)->isValid()) 
-		{
-			$this->get("biopen.element_form_service")->handleFormSubmission($element, $request);
+				// custom handling form (to creating OptionValues for example)
+				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request);	
 
+				if ($needToCheckDuplicates)	
+				{				
+					// saving values in session instead of querying in the DB them again (don't know what's the best)
+					$session->set('elementWaitingForDuplicateCheck', $element);
+					$session->set('duplicatesElements', $duplicates);	
+					$session->set('recopyInfo', $request->request->get('recopyInfo'));
+					// redirect to check duplicate
+					return $this->redirect($this->generateUrl('biopen_element_check_duplicate'));			
+				}
+				else 
+				{
+					$em->persist($element);
+					$em->flush();
+				}			
+			}
+
+			// Unless admin ask for not sending mails
 			if (!($this->isUserAdmin() && $request->request->get('dont-send-mail')))
 			{
 				// TODO Send email !
 			}
 
-			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));
+			// Add flashBags succeess
+			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));					
 
 			$noticeText = 'Merci de votre contribution ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
@@ -121,14 +193,23 @@ class ElementFormController extends Controller
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);
 
-			if ( !$this->isUserAdmin() )
+			// getting the admin option "recopy info" from POST or from session (in case of checkDuplicate process)
+			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
+			// Unless admin ask for recopying the informations
+			if (!($this->isUserAdmin() && $recopyInfo))
 			{
 				// resetting form
 				$editMode = false;
-				$form = $this->get('form.factory')->create(ElementType::class, new Element());
+				$elementForm = $this->get('form.factory')->create(ElementType::class, new Element());
 				$element = new Element();
 			}
+
+			// clear session
+			$session->remove('elementWaitingForDuplicateCheck');
+			$session->remove('duplicatesElements');
+			$session->remove('recopyInfo');			
 		}
+
 
 		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
 
@@ -140,14 +221,15 @@ class ElementFormController extends Controller
 		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
         ->findAll(); 
 
+
 		return $this->render('@directory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,
-						'form' => $form->createView(),
+						'form' => $elementForm->createView(),
 						'mainCategory'=> $mainCategory,
 						"optionList" => $optionsList,
 						"element" => $element,
-						"user_email" => $user_email
+						"user_email" => $user_email,
 					));
 	}	
 

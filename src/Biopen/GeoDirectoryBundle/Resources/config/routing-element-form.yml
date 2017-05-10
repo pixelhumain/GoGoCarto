@@ -8,6 +8,10 @@ biopen_element_edit:
     options:
         expose: true
 
+biopen_element_check_duplicate:
+    path:     /check-doublons
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementForm:checkDuplicates }
+
 biopen_element_delete:
     path:     /delete/{id}
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementForm:delete }
