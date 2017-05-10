@@ -15,4 +15,11 @@
 	</div>
 	{% endif %}
 
+	{% if not editMode %}
+	<div class="col s12">
+		<input type="checkbox" name="recopyInfo" id="recopy-info"/>
+		<label for="recopy-info">Recopier les informations dans un nouveau formulaire</label> 	
+	</div>
+	{% endif %}
+
 </section>
