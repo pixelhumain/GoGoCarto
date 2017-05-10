@@ -4,9 +4,13 @@ services:
         arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
         tags:
             - { name: form.type }
-    biopen.element_service:
-       class: Biopen\GeoDirectoryBundle\Services\ElementService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
+    biopen.element_vote_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementVoteService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context" ]
+
+    biopen.element_form_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementFormService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context" ]
 
     biopen.random_creation_service:
        class: Biopen\GeoDirectoryBundle\Services\RandomCreationService
