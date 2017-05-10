@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-09 15:28:00
+ * @Last Modified time: 2017-05-10 08:49:48
  */
  
 
@@ -97,14 +97,6 @@ class ElementFormController extends Controller
 			//dump($user);
 		}			
 
-		// Get categories      
-		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-		->findOneByDepth(0);
-
-		// options list for dynamic styles generation
-		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
-        ->findAll(); 
-
 		$form = $this->get('form.factory')->create(ElementType::class, $element);
 
 		//dump($element);	
@@ -112,7 +104,7 @@ class ElementFormController extends Controller
 		// Submission du formulaire
 		if ($form->handleRequest($request)->isValid()) 
 		{
-			$this->handleFormSubmission($form, $element, $em, $request);
+			$this->get("biopen.element_form_service")->handleFormSubmission($element, $request);
 
 			if (!($this->isUserAdmin() && $request->request->get('dont-send-mail')))
 			{
@@ -132,7 +124,6 @@ class ElementFormController extends Controller
 			if ( !$this->isUserAdmin() )
 			{
 				// resetting form
-				dump("resetting the form");
 				$editMode = false;
 				$form = $this->get('form.factory')->create(ElementType::class, new Element());
 				$element = new Element();
@@ -140,6 +131,14 @@ class ElementFormController extends Controller
 		}
 
 		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
+
+		// Get categories      
+		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+		->findOneByDepth(0);
+
+		// options list for dynamic styles generation
+		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
+        ->findAll(); 
 
 		return $this->render('@directory/element-form/element-form.html.twig', 
 					array(
@@ -150,6 +149,12 @@ class ElementFormController extends Controller
 						"element" => $element,
 						"user_email" => $user_email
 					));
+	}	
+
+	public function deleteAction($id, Request $request)
+	{
+		// TODO implémenter suppression
+		//$this->addAction($id, $request);
 	}
 
 	private function isUserAdmin()
@@ -158,62 +163,5 @@ class ElementFormController extends Controller
 		return $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
 	}
 
-	public function deleteAction($id, Request $request)
-	{
-		// TODO implémenter suppression
-		//$this->addAction($id, $request);
-	}
-
-	private function handleFormSubmission($form, $element, $em, $request)
-  	{
-	  	$optionValuesString = $request->request->get('options-values');
-	  	//dump($optionValuesString);
-
-	  	$optionValues = json_decode($optionValuesString, true);
-	  	//dump($optionValues);
-
-	  	$element->resetOptionsValues();
-
-	  	foreach($optionValues as $optionValue)
-	  	{
-	  		$new_optionValue = new OptionValue();
-	  		$new_optionValue->setOptionId($optionValue['id']);
-	  		$new_optionValue->setIndex($optionValue['index']);
-	  		$new_optionValue->setDescription($optionValue['description']);
-	  		$element->addOptionValue($new_optionValue);
-	  	}
-
-		// ajout HTTP:// aux url si pas inscrit
-		$webSiteUrl = $element->getWebSite();
-		if ($webSiteUrl && $webSiteUrl != '')
-		{
-			$parsed = parse_url($webSiteUrl);
-			if (empty($parsed['scheme'])) {
-			    $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
-			}
-			$element->setWebSite($webSiteUrl);
-		}		
-
-		$securityContext = $this->container->get('security.context');		
-		$element->setContributorIsRegisteredUser($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
-
-		if($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
-		{
-			$user = $securityContext->getToken()->getUser();
-
-			if ($user->isAdmin() && !$request->request->get('dont-validate'))
-				$element->setStatus(ElementStatus::AdminValidate);
-			else
-				$element->setStatus(ElementStatus::Pending);
-		}
-		else
-		{
-			$element->setStatus(ElementStatus::Pending);
-		}		
-		
-		//dump($element);			
-		
-		$em->persist($element);
-		$em->flush();
-   }
+	
 }
