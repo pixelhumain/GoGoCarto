@@ -21,21 +21,27 @@
 
   <h2>Des acteurs similaires ont été détectés, vous vouliez peut être ajouter l'un d'eux?</h2> 
 
-  {% for key, element in duplicatesElements %}
+	<div class="duplicate-list">
+	  {% for key, element in duplicatesElements %}
 
-  	<div class="element row">
-  		<span>{{ element.name }}</span>
-  		<span>{% if element.description is defined %} element.description {% endif %}</span>
-  		<span>{{ element.address }}</span>
-  		<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) }}"><button class="btn">c'est lui !</button></a>
-  	</div>
+	  	<div class="element row">
+	  		<div class="col s10">
+		  		<div class="name">{{ element.name | capitalize }}</div>
+		  		{% if element.description is defined %}<div class="description">{{ element.description | capitalize }}</div>{% endif %}
+		  		<div class="address">{{ element.address | capitalize }}</div>
+		  	</div>
+		  	<div class="col s2 right-align">
+	  			<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) }}"><button class="btn-biopen btn-secondary small">c'est lui !</button></a>
+	  		</div>
+	  	</div>
 
-  {% endfor %}
+	  {% endfor %}
+  </div>
  
 	{{ form_start(duplicateForm) }}
 
 	<center>
-		<button type="submit" class="btn waves-effect waves-light">Non, c'est un nouvel acteur, je continue !</button>
+		<button type="submit" class="btn-biopen btn-primary">Non, c'est un nouvel acteur, je continue !</button>
 	</center>
 
 	{{ form_rest(duplicateForm) }}

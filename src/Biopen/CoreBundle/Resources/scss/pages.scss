@@ -97,3 +97,33 @@ h2.no-margin-bottom
 {
   margin-bottom: 0;
 }
+
+.btn-biopen
+{
+  @extend .waves-light;
+  @extend .waves-effect;
+  @extend .btn;
+
+  &.small
+  {
+    font-size: .85rem;
+    line-height: 2rem;
+    height: 2rem;
+    padding: 0 15px;
+  }
+}
+
+.btn-primary
+{
+  color : white;
+  background-color: $primary-color;
+  &:hover { background-color : $primary-color-light}
+}
+
+
+.btn-secondary
+{
+  color : white;
+  background-color: #56948f;
+  &:hover { background-color : $secondary-color-light}
+}

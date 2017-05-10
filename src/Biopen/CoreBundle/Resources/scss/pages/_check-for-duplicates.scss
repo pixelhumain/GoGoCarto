@@ -2,11 +2,27 @@
 * @Author: Sebastian Castro
 * @Date:   2017-05-10 15:43:00
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-10 15:51:08
+* @Last Modified time: 2017-05-10 16:52:22
 */
 #page-content.check-for-duplicates
 {
-  padding: 2rem;
-  padding-top: 0;
+  padding: 0 3rem 2rem 3rem;
   box-shadow: 6px 6px 9px 0px rgba(0, 0, 0, 0.35);
+
+  .duplicate-list
+  {
+  	margin: 2rem 0;
+  }
+
+  .element
+  {
+  	padding-bottom: 1rem;
+    border-bottom: 1px dashed grey;
+    line-height: 1.5rem;
+
+    .name { font-weight: bold; }
+    .description { font-style: italic; color: #5f5f5f;}
+  }
+  
+
 }
