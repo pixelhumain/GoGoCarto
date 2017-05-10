@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-03 13:24:36
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-05 11:47:34
+* @Last Modified time: 2017-05-10 08:55:55
 */
 //   FLASHBAG
 .flash-messages-container
@@ -39,7 +39,7 @@
         display: none;
     }
 
-    &.notice { background-color: #444444; }
-    &.error { background-color: #b90303 }
-    &.success { background-color: #4caf50; }
+    &.notice { background-color: #444444; a:hover { color: $primary-color; } }
+    &.error { background-color: #b90303; a:hover { color: white; } }
+    &.success { background-color: #4caf50; a:hover { color: #444444; } }
 }
