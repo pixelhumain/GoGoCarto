@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-04 17:48:58
+ * @Last Modified time: 2017-05-10 11:04:55
  */
  
 
@@ -22,20 +22,26 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ElementRepository extends DocumentRepository
 {
-  public function findAll()
+  // public function findAll()
+  // {
+  //   $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+  //   return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
+  // }
+
+  public function findDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-    return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
-  }
 
-  public function findAround($lat, $lng, $distance)
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-
+    $expr = $qb->expr()->operator('$text', array('$search' => $text));
     // convert kilometre in degrees
     $radius = $distance / 110;
-    return $qb->field('status')->gte(-1)->field('coordinates')->withinCenter($lat, $lng, $radius)
-              ->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
+    return $qb  //->limit($maxResults)
+                ->equals($expr->getQuery())
+                ->field('coordinates')->withinCenter((float)$lat, (float)$lng, $radius)
+                
+                ->sortMeta('score', 'textScore')
+                ->hydrate(false)->getQuery()->execute()->toArray();
+    
   }
 
   public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation)
