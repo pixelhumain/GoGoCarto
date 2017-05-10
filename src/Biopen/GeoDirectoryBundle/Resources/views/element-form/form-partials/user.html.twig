@@ -1,33 +1,14 @@
 <!-- SECTION INFOS UTILISATEUR -->
 <section class="row" id="section_vos_infos">
 	<h2 id="informations-title">Validation</h2>
-	
-	<!-- etes vous le producteur -->
-	{#<div class="col s12">
-		<input type="checkbox" name="is-part-of-element" id="is-part-of-element"/>
-		<label for="is-part-of-element">Vous êtes ou travaillez chez le element en question </label> 
-		{{ form_widget(form.contributor) }}			
-	</div> #}
 
 	<!-- S'engager à bla bla bla -->
 	<div class="col s12">			
-		{{ form_widget(form.engagement, {'id' : 'agree' }) }}
+		<input type="checkbox" name="agree" id="agree"/>
 		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte la charte de "Près de chez nous"</label>
 	</div>
 
-	{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : user_email}) }}	
-
-	<!-- E mail pour validation -->
-	{#{% set mail = is_granted('IS_AUTHENTICATED_REMEMBERED') ? app.user.email : '' %} 
-	
-	
-
-	<div class="input-field col s12" {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}>
-		<i class="material-icons icon-mail prefix"></i>	
-		{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : mail,
-  								      		   'attr': {'class': 'validate required',
-  											   		 'placeholder':'Votre adresse mail personelle' }}) }}
-	</div>#}
-
+	{# Hidden usermail input #}
+	{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : user_email }) }}		
 
 </section>

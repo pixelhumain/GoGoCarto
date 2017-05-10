@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-27 13:07:39
+ * @Last Modified time: 2017-05-10 15:20:36
  */
  
 
@@ -62,28 +62,9 @@ class ElementType extends AbstractType
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
           ->add('postalCode', HiddenType::class)
-          // ->add('coordinates.lat', HiddenType::class)
-          // ->add('coordinates.lng', HiddenType::class)
           ->add('coordinates', CoordinatesType::class)
-          // ->add('listeProducts', DocumentType::class, array(
-          //         'class' => 'Biopen\GeoDirectoryBundle\Document\Category',
-          //         'choice_label' => 'name',
-          //         'choice_name' => 'nameFormate',
-          //         // 'query_builder' => function (DocumentRepository $er) { return $er->createQueryBuilder('u')->orderBy('u.id', 'ASC');},
-          //         'expanded' =>'true',
-          //         'multiple' =>'true',
-          //         'mapped'=> false
-          // ))  
           ->add('openHours', OpenHoursType::class, array('required' => false))
           ->add('openHoursMoreInfos', TextType::class, array('required' => false))        
-          // ->add('contributor', CheckboxType::class, array(
-          //           'label'    => 'Vous êtes ou travaillez chez le element en question',
-          //           'required' => false))
-          ->add('engagement', CheckboxType::class, array(
-                'label'=> 'Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte notre charte',
-                'mapped' => false,
-                'data' => false,
-                'required' => false))
           ->add('contributorMail', HiddenType::class, array('required' => false));        
   }
 
