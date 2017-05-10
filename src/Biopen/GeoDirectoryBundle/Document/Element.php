@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-05 10:17:14
+ * @Last Modified time: 2017-05-10 09:25:33
  */
  
 
@@ -32,6 +32,7 @@ abstract class ElementStatus
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
  * @MongoDB\HasLifecycleCallbacks 
  * @MongoDB\Index(keys={"coordinates"="2d"})
+ * @MongoDB\Index(keys={"name"="text"})
  */
 class Element
 {
