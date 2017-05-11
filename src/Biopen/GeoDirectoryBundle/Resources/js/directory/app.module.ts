@@ -188,6 +188,12 @@ export class AppModule
 			// map initialisation
 			this.mapComponent.setViewPort(historystate.viewport, this.mapComponent.isMapLoaded);
 
+			// on list mode initialize bounds
+			if (historystate.mode == AppModes.List)
+			{
+				this.boundsModule.createBoundsFromLocation(L.latLng(historystate.viewport.lat, historystate.viewport.lng));
+			}
+
 			$('#directory-spinner-loader').hide();	
 
 			if (historystate.mode == AppModes.List )
@@ -259,10 +265,10 @@ export class AppModule
 				$('#directory-content-list').show();
 
 				if (App.geocoder.getLocation()) 
-					{
-						this.boundsModule.createBoundsFromLocation(App.geocoder.getLocation());
-						this.checkForNewElementsToRetrieve(true);
-					}
+				{
+					this.boundsModule.createBoundsFromLocation(App.geocoder.getLocation());
+					this.checkForNewElementsToRetrieve(true);
+				}
 			}
 
 			// if previous mode wasn't null 
