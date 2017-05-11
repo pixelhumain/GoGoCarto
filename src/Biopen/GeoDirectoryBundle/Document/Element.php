@@ -175,7 +175,17 @@ class Element
     /** @MongoDB\PreFlush */
     public function updateJsonRepresentation()
     {
-        $this->fullJson = json_encode($this);  
+        $fullJson = json_encode($this);
+        $fullJson = rtrim($fullJson,'}');
+        $fullJson .= ', "optionValues": [';
+        foreach ($this->optionValues as $key => $value) {
+            $fullJson .= '{ "optionId" :'.$value->getOptionId().', "index" :'.$value->getIndex();
+            if ($value->getDescription()) $fullJson .=  ', "description" : "' . $value->getDescription() . '"';
+            $fullJson .= '}';
+            if ($key != count($this->optionValues) -1) $fullJson .= ',';
+        }
+        $fullJson .= ']}';
+        $this->setFullJson($fullJson);  
 
         $compactJson = '["'.$this->id . '",' .$this->status . ',"' .$this->name . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
         foreach ($this->optionValues as $key => $value) {
