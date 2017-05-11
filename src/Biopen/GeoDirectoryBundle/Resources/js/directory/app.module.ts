@@ -158,7 +158,7 @@ export class AppModule
 		//console.log("loadHistorystate", historystate);
 
 		// check viewport and address from cookies
-		if (!historystate.viewport && !historystate.address) 
+		if (!historystate.viewport && !historystate.address && historystate.state == AppStates.Normal) 
 		{
 			historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
 			historystate.address = Cookies.readCookie('address');
