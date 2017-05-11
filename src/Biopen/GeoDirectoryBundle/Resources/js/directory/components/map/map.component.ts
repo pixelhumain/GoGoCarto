@@ -106,6 +106,11 @@ export class MapComponent
 		    }
 		});
 
+		this.markerClustererGroup.on('spiderfied', (clusters, markers) =>
+		{
+			App.elementModule.updateElementsIcons(true);
+		});
+
 		this.addMarkerClusterGroup();		
 
 		L.control.zoom({
