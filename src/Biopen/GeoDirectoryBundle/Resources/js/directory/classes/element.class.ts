@@ -19,8 +19,9 @@ declare let biopen_twigJs_elementInfo : any;
 
 export enum ElementStatus 
 {
- CollaborativeRefused = -3,
- AdminRefused = -2,    
+  Deleted = -4,
+  CollaborativeRefused = -3,
+  AdminRefused = -2,    
   ModerationNeeded = -1,
   Pending = 0,
   AdminValidate = 1,

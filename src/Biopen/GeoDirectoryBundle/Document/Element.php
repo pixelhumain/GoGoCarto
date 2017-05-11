@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 09:25:33
+ * @Last Modified time: 2017-05-11 17:01:02
  */
  
 
@@ -18,6 +18,7 @@ use JMS\Serializer\Annotation\Expose;
 
 abstract class ElementStatus
 {
+    const Deleted = -4;
     const CollaborativeRefused = -3;
     const AdminRefused = -2;    
     const ModerationNeeded = -1;
@@ -55,6 +56,13 @@ class Element
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Vote")
      */
     private $votes;
+
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Report")
+     */
+    private $reports;
 
     /**
      * @var string
@@ -116,7 +124,7 @@ class Element
      * @Expose
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
-    public $optionValues;
+    private $optionValues;
 
     /**
      * @var \stdClass
@@ -648,5 +656,35 @@ class Element
     public function getFullJson()
     {
         return $this->fullJson;
+    }
+
+    /**
+     * Add report
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Report $report
+     */
+    public function addReport(\Biopen\GeoDirectoryBundle\Document\Report $report)
+    {
+        $this->reports[] = $report;
+    }
+
+    /**
+     * Remove report
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Report $report
+     */
+    public function removeReport(\Biopen\GeoDirectoryBundle\Document\Report $report)
+    {
+        $this->reports->removeElement($report);
+    }
+
+    /**
+     * Get reports
+     *
+     * @return \Doctrine\Common\Collections\Collection $reports
+     */
+    public function getReports()
+    {
+        return $this->reports;
     }
 }

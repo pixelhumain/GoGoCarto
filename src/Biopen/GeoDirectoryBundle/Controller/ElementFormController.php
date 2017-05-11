@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 15:44:42
+ * @Last Modified time: 2017-05-11 16:15:21
  */
  
 
@@ -232,12 +232,6 @@ class ElementFormController extends Controller
 						"user_email" => $user_email,
 					));
 	}	
-
-	public function deleteAction($id, Request $request)
-	{
-		// TODO implémenter suppression
-		//$this->addAction($id, $request);
-	}
 
 	private function isUserAdmin()
 	{

@@ -2,66 +2,41 @@
 <div id="modal-vote" class="modal action-modal custom-scroll-bar">
   <div class="modal-content">
 
-	    <h5>Voter pour l'acteur <span class="elementName"></span></h5>
-	    <!-- <p>Dites nous ce que vous savez de cet acteur : </p>	   -->  
+    <h5>Voter pour l'acteur <span class="elementName"></span></h5>
 
-	  <!--   <div class="input-field">
-		    <select id="select-vote">
-		   	    <option value=""  disabled selected>Choississez le vote</option>	      
-		      	<option value="-2"></option>
-		      	<option value="-1"></option>
-		      	<option value="0"></option>
-		      	<option value="1">i</option>
-		      	<option value="2"></option>
-		    </select>		
-			</div> -->
+		<p id="select-error" class="error">Vous devez sélectionner votre vote !</p>
 
-			<p id="select-error" class="error">Vous devez sélectionner votre vote !</p>
+		<input class="option-radio-btn "value="-2" name="voteOption" type="radio" id="option3"/>
+    <label class="option-radio-label" for="option3">Cet acteur ne respecte pas la charte de près de chez nous, et ne doit donc pas y être répertorié</label>
 
-			<input class="option-radio-btn "value="-2" name="voteOption" type="radio" id="option3"/>
-	    <label class="option-radio-label" for="option3">Cet acteur ne respecte pas la charte de près de chez nous, et ne doit donc pas y être répertorié</label>
+    <input class="option-radio-btn "value="-1" name="voteOption" type="radio" id="option4"/>
+    <label class="option-radio-label" for="option4">Cet acteur n'existe pas</label>
 
-	    <input class="option-radio-btn "value="-1" name="voteOption" type="radio" id="option4"/>
-	    <label class="option-radio-label" for="option4">Cet acteur n'existe pas</label>
+    <input class="option-radio-btn "value="0" name="voteOption" type="radio" id="option0"/>
+    <label class="option-radio-label" for="option0">Cet acteur existe mais les informations indiquées ne sont pas correctes</label>
 
-	    <input class="option-radio-btn "value="0" name="voteOption" type="radio" id="option0"/>
-	    <label class="option-radio-label" for="option0">Cet acteur existe mais les informations indiquées ne sont pas correctes</label>
+    <input class="option-radio-btn "value="1" name="voteOption" type="radio" id="option1"/>
+    <label class="option-radio-label" for="option1">Cet acteur existe, mais je n'en sais pas plus sur lui</label>
 
-	    <input class="option-radio-btn "value="1" name="voteOption" type="radio" id="option1"/>
-	    <label class="option-radio-label" for="option1">Cet acteur existe, mais je n'en sais pas plus sur lui</label>
+    <input class="option-radio-btn "value="2" name="voteOption" type="radio" id="option2"/>
+    <label class="option-radio-label" for="option2">Cet acteur existe et je valide l'exactitude des informations renseignées</label>    
 
-	    <input class="option-radio-btn "value="2" name="voteOption" type="radio" id="option2"/>
-	    <label class="option-radio-label" for="option2">Cet acteur existe et je valide l'exactitude des informations renseignées</label>
-
-	    
-
-			<div class="input-field">
-				<input class="input-comment" type="text" placeholder="Commentaire optionnel pour la modération"/>
-			</div>
-
-		<!-- <p id="delete-info">L'acteur ne sera pas automatiquement supprimé, une requête va être envoyé aux administrateurs pour validation</p> -->
-
-		<!-- <div id="captcha-error-message" style="display:none;color:red;text-align:center;">
-			Vous devez valider le captcha ci-dessous
+		<div class="input-field">
+			<input class="input-comment" type="text" placeholder="Commentaire optionnel pour la modération"/>
 		</div>
-		<div id="captcha"></div> -->
 
-		<div class="footer">				
-
+		<div class="footer">	
 			<button type="button"
 					onclick="$('#modal-vote').closeModal()"  
 					class="waves-effect waves-teal btn-flat">
 				Annuler
 			</button>
-
 			<button type="button" 
 					id="submit-vote"				
 					class="btn btn-primary waves-effect waves-light">
 				Voter
 			</button>
-		</div>
-	
-	   
+		</div>   
 
   </div>
    

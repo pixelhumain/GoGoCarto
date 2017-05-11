@@ -187,10 +187,56 @@ export class AjaxModule
 		$.ajax({
 			url: route,
 			method: "post",
-			data: { elementId: elementId, voteValue: voteValue, comment: comment },
+			data: { elementId: elementId, value: voteValue, comment: comment },
 			success: response => 
 			{	        
 				console.log("Vote response", response);
+				if (response)
+				{					
+					if (callbackSuccess) callbackSuccess(response); 						
+				}				       
+			},
+			error: response =>
+			{
+				if (callbackFailure) callbackFailure(response.data); 		
+			}
+		});
+	}
+
+	reportError(elementId :number, reportValue : number, comment : string, callbackSuccess?, callbackFailure?)
+	{
+		let route = Routing.generate('biopen_report_error_for_element');
+
+		$.ajax({
+			url: route,
+			method: "post",
+			data: { elementId: elementId, value: reportValue, comment: comment },
+			success: response => 
+			{	        
+				console.log("Report response", response);
+				if (response)
+				{					
+					if (callbackSuccess) callbackSuccess(response); 						
+				}				       
+			},
+			error: response =>
+			{
+				if (callbackFailure) callbackFailure(response.data); 		
+			}
+		});
+	}
+
+	deleteElement(elementId, message: string, callbackSuccess?, callbackFailure?)
+	{
+		let route = Routing.generate('biopen_delete_element');
+
+		$.ajax({
+			url: route,
+			method: "post",
+			data: { elementId: elementId, message: message },
+			success: response => 
+			{	        
+				console.log("Delete response", response);
 				if (response)
 				{					
 					if (callbackSuccess) callbackSuccess(response); 						

@@ -1,8 +1,0 @@
-biopen_vote_for_element:
-    path:     /forelement
-    defaults: { _controller: BiopenGeoDirectoryBundle:Vote:vote }
-    requirements:
-        _method: POST
-    options:
-        expose: true
-

@@ -10,8 +10,8 @@ biopen_api:
     prefix:   /api
 
 biopen_vote:
-    resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-vote.yml"
-    prefix: /vote
+    resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-element-interaction.yml"
+    prefix: /interact
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

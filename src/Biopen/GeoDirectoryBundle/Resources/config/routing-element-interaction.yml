@@ -1,0 +1,24 @@
+biopen_vote_for_element:
+    path:     /vote
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:vote }
+    requirements:
+        _method: POST
+    options:
+        expose: true
+
+biopen_report_error_for_element:
+    path:     /report
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:reportError }
+    requirements:
+        _method: POST
+    options:
+        expose: true
+
+biopen_delete_element:
+    path:     /delete
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:delete }
+    requirements:
+        _method: POST
+    options:
+        expose: true
+

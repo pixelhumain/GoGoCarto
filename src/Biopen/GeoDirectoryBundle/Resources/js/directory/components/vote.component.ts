@@ -48,43 +48,48 @@ export function initializeVoting()
 			console.log("send vote " +voteValue + " to element id ", elementId);
 
 			App.ajaxModule.vote(elementId, voteValue, comment, (response) =>
-			{
-				let responseMessage = response.data;
-				let newstatus = response.status;
+			{				
+				let responseMessage = response.message;
+				let newstatus = response.data;
+				let success = response.success;
 
-				let element = App.elementById(elementId);
-				if (element.status != newstatus)
+				if (success)
 				{
-					element.status = newstatus;
-					switch (newstatus) {
-						case ElementStatus.AdminValidate:
-							responseMessage += "</br>L'élement a bien été validé";
-							element.update(true);
-							break;
-						case ElementStatus.CollaborativeValidate:
-							responseMessage += "</br>Félicitations, cet acteur a reçu assez de vote pour être validé !";
-							element.update(true);
-							break;
-						case ElementStatus.AdminRefused:
-							responseMessage += "</br>L'élement a bien été supprimé";
-							break;
-						case ElementStatus.CollaborativeRefused:
-							responseMessage += "</br>Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
-							break;
+					let element = App.elementById(elementId);
+					if (element.status != newstatus)
+					{
+						element.status = newstatus;
+						switch (newstatus) {
+							case ElementStatus.AdminValidate:
+								responseMessage += "</br>L'élement a bien été validé";
+								element.update(true);
+								break;
+							case ElementStatus.CollaborativeValidate:
+								responseMessage += "</br>Félicitations, cet acteur a reçu assez de vote pour être validé !";
+								element.update(true);
+								break;
+							case ElementStatus.AdminRefused:
+								responseMessage += "</br>L'élement a bien été supprimé";
+								break;
+							case ElementStatus.CollaborativeRefused:
+								responseMessage += "</br>Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
+								break;
+						}
 					}
+
+					$('#modal-vote').closeModal();
+					let elementInfo = getCurrentElementInfoBarShown();
+					elementInfo.find(".vote-section").find('.basic-message').hide();	
+					elementInfo.find('.result-message').html(responseMessage).show();
+					App.infoBarComponent.show();
 				}
-
-				console.log("success", response.data);
-				$('#modal-vote').closeModal();
-				let elementInfo = getCurrentElementInfoBarShown();
-				elementInfo.find(".vote-section").find('.basic-message').hide();	
-				elementInfo.find('.result-message').html(responseMessage).show();
-				updateInfoBarSize();
-
+				else
+				{
+					$('#modal-vote #select-error').text(responseMessage).show();
+				}
 			},
 			(errorMessage) => 
 			{
-				console.log("error", errorMessage);
 				$('#modal-vote #select-error').text(errorMessage).show();
 			});			
 		}

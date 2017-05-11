@@ -2,19 +2,11 @@
 * @Author: Sebastian Castro
 * @Date:   2017-05-05 12:23:12
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-10 08:43:55
+* @Last Modified time: 2017-05-11 11:26:30
 */
 
 .vote-section
 {
-	background-color: $primary-color;//#4a8680;
-	padding: 0 1rem 0 .8rem;
-	@media #{$medium-and-up} { padding: 0 1rem 0 1.6rem; }
-	// border-top: 1px solid #565656;
-	// border-bottom: 1px solid #797979;
-	position: relative;
-	line-height: 3rem;
-
 	.icon-attention
 	{
 		color: white;
@@ -23,16 +15,7 @@
 		position: absolute;
 	}
 
-	.text { padding-left : 2.2rem; color: white;}
-
-	.result-message
-	{
-		text-align: center;
-	  font-weight: bold;
-	  color: white;
-	  line-height: 1.7rem;
-    padding: .6rem 0;
-	}
+	.text { padding-left : 2.2rem; color: white;}	
 
 	.btn-vote-more-info
 	{

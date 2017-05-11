@@ -70,16 +70,20 @@
 
     </div>
 
-    {% if element.isPending() and not listingMode %}
-        <div class="vote-section">
-          <span class="basic-message">
-            <span class="icon-attention"></span>
-            <span class="text">Acteur en cours de validation {#(<span class="validation-process-info">En savoir plus</span>)#}</span>
-            <span class="btn-vote-more-info validation-process-info" onclick='$("#popup-vote").openModal()'>EN SAVOIR PLUS</span>
-            <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
-          </span>
-          <div class="result-message" style="display:none"></div>
-        </div>
+    {% if not listingMode %}
+    <div class="interactive-section">  
+      {% if element.isPending() %}
+      <div class="vote-section">
+        <span class="basic-message">
+          <span class="icon-attention"></span>
+          <span class="text">Acteur en cours de validation</span>
+          <span class="btn-vote-more-info validation-process-info" onclick='$("#popup-vote").openModal()'>EN SAVOIR PLUS</span>
+          <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
+        </span>        
+      </div>
+      {% endif %}
+      <div class="result-message" style="display:none"></div>
+    </div>
     {% endif %}
 
   </div>
@@ -89,17 +93,19 @@
   
     {# Menu in listing mode #}
     {% if listingMode %}
-      {% if element.isPending() %}
-      <div class="vote-section">
+      <div class="interactive-section">  
+        {% if element.isPending() %}
+        <div class="vote-section">
           <span class="basic-message">
             <span class="icon-attention"></span>
-            <span class="text">Attention cet acteur est en cours de validation</span>
+            <span class="text">Acteur en cours de validation </span>
+            <span class="btn-vote-more-info validation-process-info" onclick='$("#popup-vote").openModal()'>EN SAVOIR PLUS</span>
             <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
-          </span>
-          <div class="result-message" style="display:none"></div>
+          </span>        
+        </div>
+        {% endif %}
+        <div class="result-message" style="display:none"></div>
       </div>
-      {% endif %}
-
       {#
         WARNING
         If you modify this menu-element, please report changes in element-menu.html.twig also.
