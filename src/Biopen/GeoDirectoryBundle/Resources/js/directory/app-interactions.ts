@@ -123,7 +123,7 @@ export function updateComponentsSize()
 	$("#directory-container").css('height',content_height);
 	$("#directory-content-list").css('height',content_height);
 
-	if (App) setTimeout(App.updateMaxElements, 500);
+	if (App) setTimeout(App.updateMaxElements(), 500);
 
 	updateInfoBarSize();	
 	updateMapSize();
@@ -150,8 +150,7 @@ export function updateMapSize(elementInfoBar_height = $('#element-info-bar').out
 		  	if (matchMediaBigSize_old) elementInfoBar_height = 0;
 
 		  	//console.log("resize map height to", $("#directory-content").outerHeight()-elementInfoBar_height);
-		  	$("#directory-content-map").css('height',$("#directory-content").outerHeight()-elementInfoBar_height);	
-		  	
+		  	$("#directory-content-map").css('height',$("#directory-content").outerHeight()-elementInfoBar_height);		  	
 
 		  	matchMediaBigSize_old = false;
 	  	} 
@@ -199,19 +198,19 @@ export function updateInfoBarSize()
 	{	
 		if (window.matchMedia("(max-width: 1200px)").matches) 
 		{
-		  	$('#element-info-bar .moreDetails').css('height', 'auto');
-		  	$('#element-info-bar .collapsible-body').css('margin-top','0px');
-	  	} 
+	  	$('#element-info-bar .moreDetails').css('height', 'auto');
+	  	$('#element-info-bar .collapsible-body').css('margin-top','0px');
+	  } 
 		else 
 		{			
-		  	let elementInfoBar = $("#element-info-bar");
-		  	let height = elementInfoBar.outerHeight(true);
+	  	let elementInfoBar = $("#element-info-bar");
+	  	let height = elementInfoBar.outerHeight(true);
 			height -= elementInfoBar.find('.collapsible-header').outerHeight(true);
 			height -= elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true);
 			height -= elementInfoBar.find(".menu-element").outerHeight(true);
 
-		  	$('#element-info-bar .collapsible-body').css('height', height);
-		  	$('#element-info-bar .collapsible-body').css('margin-top', elementInfoBar.find('.collapsible-header').outerHeight(true)+elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true));
+	  	$('#element-info-bar .collapsible-body').css('height', height);
+	  	$('#element-info-bar .collapsible-body').css('margin-top', elementInfoBar.find('.collapsible-header').outerHeight(true)+elementInfoBar.find('.starRepresentationChoice-helper:visible').outerHeight(true));
 		}
 	}
 }
