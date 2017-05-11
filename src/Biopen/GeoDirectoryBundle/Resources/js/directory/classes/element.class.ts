@@ -103,10 +103,11 @@ export class Element
 			this.id = elementJson.id;
 			this.position = L.latLng(elementJson.coordinates.lat, elementJson.coordinates.lng);
 			this.name = elementJson.name;
-			this.status = elementJson.status;		
-
-			this.createOptionValues(elementJson.optionValues);
+			this.status = elementJson.status;			
 		}
+
+		// update createOptionValue vene if element already exist
+		this.createOptionValues(elementJson.optionValues);
 		
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
@@ -124,7 +125,14 @@ export class Element
 
 	private createOptionValues(optionsValuesJson)
 	{
-		if (this.optionsValues.length > 0) return; //already created !
+		let alreadyCreated = false;
+		if (this.optionsValues.length > 0) 
+		{ 
+			alreadyCreated = true; 
+			this.optionsValues = [];
+			this.optionValuesByCatgeory = [];
+		}
+
 		let newOption : OptionValue;
 		for (let optionValueJson of optionsValuesJson)
 		{
@@ -138,6 +146,12 @@ export class Element
 			if (!this.optionValuesByCatgeory[newOption.option.ownerId]) this.optionValuesByCatgeory[newOption.option.ownerId] = [];
 			this.optionValuesByCatgeory[newOption.option.ownerId].push(newOption);
 		}
+
+		if(alreadyCreated)
+		{
+			this.createOptionsTree();
+			this.update(true);
+		}		
 	}
 
 	getOptionValueByCategoryId($categoryId)
