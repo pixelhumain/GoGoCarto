@@ -117,7 +117,30 @@ export class MapComponent
 		   position:'topright'
 		}).addTo(this.map_);
 
-		L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(this.map_);
+		// payant
+		let mapbox = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ';
+		// mapbox : joli, 0.5Ko
+		let cartodb = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'; // pas mal, très clair. 5ko
+
+		// gratuit (je crois)
+		let hydda = 'http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png'; // pas mal ! 20ko
+		let monochrome = 'http://www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'; // ça passe
+		let lyrk  = 'http://tiles.lyrk.org/ls/{z}/{x}/{y}?apikey=982c82cc765f42cf950a57de0d891076'; // pas mal, mais zomm max 16. 20ko
+		let osmfr = '//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png';
+		let stamen = 'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png';		
+		let openriver = 'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png';
+
+
+		L.tileLayer(hydda, {
+		    minZoom: 1,
+		    maxZoom: 16
+		}).addTo(this.map_);
+
+		L.tileLayer(hydda, {
+		    minZoom: 17,
+		    maxZoom: 19
+		}).addTo(this.map_);
+
 
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
