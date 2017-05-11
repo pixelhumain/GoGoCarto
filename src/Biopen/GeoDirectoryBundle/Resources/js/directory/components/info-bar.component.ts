@@ -74,12 +74,12 @@ export class InfoBarComponent
 		{
 			domMenu.addClass("pending");
 			createListenersForVoting();
-			if (!App.isUserAdmin) $('#element-info-bar .menu-element-item.item-edit').hide();
+			if (!App.isUserAdmin) $('#element-info-bar .menu-element-item.item-edit, #element-info-bar .menu-element-item.item-delete').hide();
 		}
 		else
 		{
 			domMenu.removeClass("pending");
-			$('#element-info-bar .menu-element-item.item-edit').show();
+			$('#element-info-bar .menu-element-item.item-edit, #element-info-bar .menu-element-item.item-delete').show();
 		} 
 
 		updateFavoriteIcon(domMenu, element);
