@@ -14,12 +14,29 @@ export class BoundsModule
 	fullRepresentationFilledBound : L.LatLngBounds[] = [];
 	compactRepresentationFilledBound : L.LatLngBounds[] = [];
 
+	// indicate if we already retrieved all elements of the max bounds
+	fullRepresentationRetrievingComplete : boolean[] = [];
+	compactRepresentationRetrievingComplete : boolean[] = [];
+
+	// the bounds including all our map (here France)
+	maxBounds : L.LatLngBounds;
+
+	constructor()
+	{
+		// france
+		let corner1 = L.latLng(52, 10);
+		let corner2 = L.latLng(40, -5);
+		this.maxBounds = L.latLngBounds(corner1, corner2);
+	}
+
 	initialize()
 	{
 		for(let mainOptionId of App.categoryModule.getMainOptionsIdsWithAll())
 		{
 			this.fullRepresentationFilledBound[mainOptionId] = null;
 			this.compactRepresentationFilledBound[mainOptionId] = null;
+			this.fullRepresentationRetrievingComplete[mainOptionId] = false;
+			this.compactRepresentationRetrievingComplete[mainOptionId] = false;
 		}
 	}	
 
@@ -69,10 +86,14 @@ export class BoundsModule
 		if(getFullRepresentation) this.fullRepresentationFilledBound[mainOptionId] = expectedBound;
 		else this.compactRepresentationFilledBound[mainOptionId] = expectedBound;
 
-		
+		if (expectedBound.contains(this.maxBounds)) 
+		{
+			if(getFullRepresentation) this.fullRepresentationRetrievingComplete[mainOptionId] = true;
+			else this.compactRepresentationRetrievingComplete[mainOptionId] = true;
+		}
 	}
 
-	private currFilledBound($getFullRepresentation : boolean) 
+	private currFilledBound($getFullRepresentation : boolean) : L.LatLngBounds
 	{ 
 		if ($getFullRepresentation) 
 			return this.fullRepresentationFilledBound[App.currMainId];
@@ -80,10 +101,21 @@ export class BoundsModule
 			return this.compactRepresentationFilledBound[App.currMainId];
 	}
 
+	private currRetrievingComplete($getFullRepresentation : boolean) : boolean
+	{ 
+		if ($getFullRepresentation) 
+			return this.fullRepresentationRetrievingComplete[App.currMainId];
+		else
+			return this.compactRepresentationRetrievingComplete[App.currMainId];
+	}
+
 	calculateFreeBounds($getFullRepresentation = false)
 	{
 		let freeBounds = [];
 		let expectedBounds;
+
+		// if we already complete the retrieving (i.e. all element are already received)
+		if (this.currRetrievingComplete($getFullRepresentation)) return null;
 
 		let currFilledBound = this.currFilledBound($getFullRepresentation);
 
