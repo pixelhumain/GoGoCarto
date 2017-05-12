@@ -192,7 +192,7 @@ export class ElementsModule
 	}
 
 	// check elements in bounds and who are not filtered
-	updateElementsToDisplay (checkInAllElements = true, forceRepaint = false, filterHasChanged = false) 
+	updateElementsToDisplay (checkInAllElements = true, filterHasChanged = false) 
 	{	
 		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
@@ -268,16 +268,13 @@ export class ElementsModule
 
 		let end = new Date().getTime();
 		let time = end - start;
-		//window.console.log("UpdateElementsToDisplay en " + time + " ms");		
-
-		if (elementsChanged || forceRepaint)
-		{		
-			this.onElementsChanged.emit({
-				elementsToDisplay: this.currVisibleElements(), 
-				newElements : newElements, 
-				elementsToRemove : elementsToRemove
-			});		
-		}
+		//window.console.log("UpdateElementsToDisplay en " + time + " ms");
+	
+		this.onElementsChanged.emit({
+			elementsToDisplay: this.currVisibleElements(), 
+			newElements : newElements, 
+			elementsToRemove : elementsToRemove
+		});	
 
 		this.updateElementsIcons(filterHasChanged);		
 	};

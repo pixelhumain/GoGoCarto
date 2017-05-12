@@ -282,7 +282,7 @@ export class AppModule
 
 
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementsToDisplay(true, true);
+			this.elementModule.updateElementsToDisplay(true);
 
 			if ($updateTitleAndState)
 			{
@@ -468,7 +468,7 @@ export class AppModule
 		{
 			this.boundsModule.createBoundsFromLocation(this.geocoder.getLocation());
 			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementsToDisplay(true,true);
+			this.elementModule.updateElementsToDisplay(true);
 		}
 	}
 
@@ -512,7 +512,6 @@ export class AppModule
 		}
 
 		let updateInAllElementList = true;
-		let forceRepaint = false;
 
 		let zoom = this.mapComponent_.getZoom();
 		let old_zoom = this.mapComponent_.getOldZoom();
@@ -520,10 +519,9 @@ export class AppModule
 		if (zoom != old_zoom && old_zoom != -1)  
 		{
 			if (zoom > old_zoom) updateInAllElementList = false;	   		
-			forceRepaint = true;
 		}
 
-		this.elementModule.updateElementsToDisplay(updateInAllElementList, forceRepaint);
+		this.elementModule.updateElementsToDisplay(updateInAllElementList);
 		//this.elementModule.updateElementsIcons(false);
 
 		this.checkForNewElementsToRetrieve();
@@ -595,7 +593,7 @@ export class AppModule
 		// on add markerClusterGroup after first elements received
 		if (elements.newElementsLength > 0 || App.mode == AppModes.List) 
 		{
-			this.elementModule.updateElementsToDisplay(true,true);	
+			this.elementModule.updateElementsToDisplay(true);	
 		}
 	}; 
 

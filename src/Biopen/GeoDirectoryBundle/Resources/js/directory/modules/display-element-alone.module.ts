@@ -50,7 +50,7 @@ export class DisplayElementAloneModule
 	{
 		if (this.elementShownAlone_ === null) return;
 
-		App.elementModule.updateElementsToDisplay(true,true);
+		App.elementModule.updateElementsToDisplay(true);
 		
 		this.elementShownAlone_.isShownAlone = false;	
 

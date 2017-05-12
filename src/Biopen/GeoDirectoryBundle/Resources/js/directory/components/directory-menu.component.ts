@@ -209,7 +209,7 @@ export class DirectoryMenuComponent
 		
 		App.boundsModule.updateFilledBoundsAccordingToNewMainOptionId();
 		App.checkForNewElementsToRetrieve();
-		App.elementModule.updateElementsToDisplay(true,true,true);
+		App.elementModule.updateElementsToDisplay(true,true);
 	}
 
 	updateMainOptionBackground()
