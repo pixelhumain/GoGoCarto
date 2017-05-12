@@ -66,7 +66,7 @@ export class GeocoderModule
 		{
 			console.log("default location");
 			this.lastResults = [];
-			this.lastResultBounds = this.latLngBoundsFromRawBounds([51.68617954855624,8.833007812500002,42.309815415686664, -5.339355468750001]);
+			this.lastResultBounds = App.boundsModule.maxBounds;
 
 			// leave time for map to load
 			setTimeout( () => { callbackComplete(this.lastResults); }, 200);
