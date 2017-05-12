@@ -490,7 +490,7 @@ export class AppModule
 
 	handleMapIdle()
 	{
-		console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
+		//console.log("App handle map idle, mapLoaded : " , this.mapComponent.isMapLoaded);
 
 		// showing InfoBarComponent make the map resized and so idle is triggered, 
 		// but we're not interessed in this idling
