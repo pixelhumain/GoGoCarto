@@ -6,7 +6,8 @@
   		{% if is_granted('ROLE_ADMIN') %}
 
   			<h5 id="modal-title">Supprimer <span class="elementName"></span> ?</h5>
-  			<p>Un mail sera envoyé à l'acteur</p>	 
+  			<p>Un mail sera envoyé à l'acteur</p>	
+  			<p id="select-error" class="error"></p> 
 				<div class="input-field">
 						<input class="input-comment materialize-textarea" type="text" placeholder="Message optionnel explicatif"/>
 				</div>
