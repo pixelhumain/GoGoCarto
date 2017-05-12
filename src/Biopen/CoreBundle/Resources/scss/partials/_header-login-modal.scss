@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-10 10:39:51
+* @Last Modified time: 2017-05-12 08:42:49
 */
 #popup-login
 {
@@ -22,9 +22,7 @@
     margin-bottom: 1rem;
 
     
-	}
-
-	    
+	}	    
 
 	.oauth-section
 	{
@@ -78,8 +76,15 @@
 		.input-field label { left: 0 !important; color: #ccc8c8; } 
 		label#remember-me-checkbox { left: 0 !important; color: white; }
 
-		.input-field input[type=text], .input-field input[type=password] { margin-bottom : 0 !important; border-color: white !important;}
+		.input-field input[type=text], .input-field input[type=password] 
+		{ 
+			margin-bottom : 0 !important; 
+			border-color: white !important;
+			height: 2rem;
+   	  margin-top: 10px;
 
+   	  &#username { margin-bottom: 10px !important;}
+		}
 		
 		
 		[type="checkbox"] + label#remember-me-checkbox:before
