@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-09 17:17:52
+ * @Last Modified time: 2017-05-13 10:21:30
  */
  
 
@@ -36,69 +36,69 @@ class DirectoryController extends Controller
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);   
 
-        $config['address'] = $address;
-        $config['viewport'] = $viewport;
-        $config['mode'] = $this->formatMode($mode);
-        $config['state'] = 'Normal';
+        $initialState['address'] = $address;
+        $initialState['viewport'] = $viewport;
+        $initialState['mode'] = $this->formatMode($mode);
+        $initialState['state'] = 'Normal';
 
-        return $this->renderDirectory($config, $request);
+        return $this->renderDirectory($initialState, $request);
     }  
 
     public function showElementAction($name, $id, $addressAndViewport, Request $request)
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
 
-        $config['address'] = $address;
-        $config['viewport'] = $viewport;
-        $config['mode'] = 'Map';
-        $config['state'] = 'ShowElementAlone';
-        $config['id'] = $id;
+        $initialState['address'] = $address;
+        $initialState['viewport'] = $viewport;
+        $initialState['mode'] = 'Map';
+        $initialState['state'] = 'ShowElementAlone';
+        $initialState['id'] = $id;
 
-        return $this->renderDirectory($config, $request);  
+        return $this->renderDirectory($initialState, $request);  
     }   
 
     public function showDirectionsAction($name, $id, $addressAndViewport, Request $request)
     {
         list($address, $viewport) = $this->parseAddressViewport($addressAndViewport);
 
-        $config['address'] = $address;
-        $config['viewport'] = $viewport;
-        $config['mode'] = 'Map';
-        $config['state'] = 'ShowDirections';
-        $config['id'] = $id;
+        $initialState['address'] = $address;
+        $initialState['viewport'] = $viewport;
+        $initialState['mode'] = 'Map';
+        $initialState['state'] = 'ShowDirections';
+        $initialState['id'] = $id;
 
-        return $this->renderDirectory($config, $request);  
+        return $this->renderDirectory($initialState, $request);  
     }    
 
     public function constellationAction($mode, $address, $range, Request $request)
     {             
         $address = $this->checkAddressInSession($address);
 
-        $config['address'] = $address;
-        $config['viewport'] = '';
-        $config['mode'] = $this->formatMode($mode);
-        $config['state'] = 'Constellation';
-        $config['range'] = $range;
+        $initialState['address'] = $address;
+        $initialState['viewport'] = '';
+        $initialState['mode'] = $this->formatMode($mode);
+        $initialState['state'] = 'Constellation';
+        $initialState['range'] = $range;
 
-        return $this->renderDirectory($config, $request);    
+        return $this->renderDirectory($initialState, $request);    
     } 
 
     public function directionsAction($address, $name, $id, Request $request)
     {             
         $address = $this->checkAddressInSession($address);
 
-        $config['address'] = $address;
-        $config['viewport'] = '';
-        $config['mode'] = 'Map';
-        $config['state'] = 'ShowDirections';
-        $config['id'] = $id;
+        $initialState['address'] = $address;
+        $initialState['viewport'] = '';
+        $initialState['mode'] = 'Map';
+        $initialState['state'] = 'ShowDirections';
+        $initialState['id'] = $id;
 
-        return $this->renderDirectory($config, $request);      
+        return $this->renderDirectory($initialState, $request);      
     } 
 
-    private function renderDirectory($config, Request $request)
+    private function renderDirectory($initialState, Request $request)
     {
-        $config['filters'] = $request->query->get('cat');
+        $initialState['filters'] = $request->query->get('cat');
 
         $mainCategory = $this->getMainCategory();
         $openHours = $this->getOpenHoursCategory();
@@ -119,7 +119,7 @@ class DirectoryController extends Controller
         
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategory" => $mainCategory, "openHoursCategory" => $openHours,
-                                    "config" => $config, "optionList" => $optionsList,
+                                    "initialState" => $initialState, "optionList" => $optionsList,
                                     "mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson,
                                     'isAdmin' => $isAdmin));
     }

@@ -10,7 +10,7 @@
 /// <reference types="leaflet" />
 
 declare let window, Routing : any;
-declare let CONFIG, MAIN_CATEGORY, OPENHOURS_CATEGORY, IS_ADMIN;
+declare let INITIAL_STATE, MAIN_CATEGORY, OPENHOURS_CATEGORY, IS_ADMIN;
 declare var $;
 
 import { GeocoderModule, GeocodeResult } from "./modules/geocoder.module";
@@ -152,10 +152,10 @@ export class AppModule
 	};
 
 	/*
-	* Load initial state with CONFIG provided by symfony controller or
+	* Load initial state with INITIAL_STATE provided by symfony controller or
 	  with state poped by window history manager
 	*/
-	loadHistoryState(historystate : HistoryState = CONFIG, $backFromHistory = false)
+	loadHistoryState(historystate : HistoryState = INITIAL_STATE, $backFromHistory = false)
 	{
 		//console.log("loadHistorystate", historystate);
 
