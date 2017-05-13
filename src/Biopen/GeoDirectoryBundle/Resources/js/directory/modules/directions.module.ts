@@ -10,16 +10,15 @@ export class DirectionsModule
 {
 	markerDirectionResult = null;
 
-	routingControl : any;
-	
+	routingControl : any;	
 
-  constructor() {
+  constructor() 
+  {
   	window.lrmConfig = {
 			// TODO change this demo serviceUrl
 			// 		serviceUrl: '//router.project-osrm.org/viaroute',
 			//    profile: 'mapbox/driving',
 		};
-
   }
 
 	clear()
@@ -37,7 +36,6 @@ export class DirectionsModule
 
 	clearRoute()
 	{
-		console.log("clearing route");
 		if (this.routingControl) 
 		{
 			this.routingControl.spliceWaypoints(0,2);		
@@ -100,39 +98,18 @@ export class DirectionsModule
 		{
 			$('#modal-directions-fail').openModal();
 			this.clear();
-		});
-			
+		});			
 	};
 
 	hideItineraryPanel()
 	{
-		//this.routingControl.hide();
-		//App.map().removeControl(this.routingControl);
-
-		//$('.leaflet-routing-container').hide();
-		//$('.leaflet-routing-container').prependTo('.directory-menu-content');
 		$('#directory-menu-main-container').removeClass();
-		$('.directory-menu-header');
-		$('#search-bar').removeClass();		
 	}
 
 	showItineraryPanel(element : Element)
 	{
-		//this.routingControl.show();
-		//App.map().addControl(this.routingControl);	
-
-		//$('.leaflet-routing-container').show();
-
-		console.log("show itinerary");
-
 		$('#directory-menu-main-container').removeClass().addClass("directions");	
-		$('.directory-menu-header').attr('option-id',element.colorOptionId);
-		//$('#search-bar').removeClass().addClass(element.colorOptionId);	
-
-		$('.leaflet-routing-container').prependTo('.directory-menu-content');
-			
-
-		
+		$('.leaflet-routing-container').prependTo('.directory-menu-content');		
 	}
 
 	clearDirectionMarker()

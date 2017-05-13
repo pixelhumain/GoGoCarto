@@ -2,6 +2,7 @@
 @import 'leaflet-routing-machine';
 @import 'filter-menu/filter-menu';
 @import 'directory-menu-directions';
+@import 'directory-menu-search';
 
 #directory-menu
 {
@@ -58,9 +59,7 @@
       }
     }
 
-    .shadow-bottom { top: 3.5rem; }
-
-  	.directions-header { display : none; position: relative }
+    .shadow-bottom { top: 3.5rem; }  	
 
     .directory-menu-content
     {     
