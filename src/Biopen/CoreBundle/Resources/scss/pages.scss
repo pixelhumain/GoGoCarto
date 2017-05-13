@@ -16,6 +16,23 @@ body
   min-height: 100%;
 }
 
+header
+{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+#page-container
+{
+  padding-top: 3rem;
+
+  @media only screen and (min-width : 801px)
+  {
+    padding-top: 3.4rem;
+  }
+}
 
 #page-content
 {
@@ -29,7 +46,7 @@ body
 
   @media screen and (min-width: 600px)
 	{
-	   margin-top: 40px;
+	   margin-top: 30px;
 	   max-width: 900px;
 	   width:80%;  
 	}

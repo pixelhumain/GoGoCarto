@@ -11,9 +11,9 @@
 
 {% block body %}
 
-	<div id="page-container">		
+	<div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
 
-    <div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
+	<div id="page-container">	   
 		
 		<div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
 
