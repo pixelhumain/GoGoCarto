@@ -157,6 +157,13 @@ export class AppModule
 	*/
 	loadHistoryState(historystate : HistoryState = INITIAL_STATE, $backFromHistory = false)
 	{
+		// if no backfromhistory that means historystate is actually the INITIAL_STATE
+		// given by symfony, so we need to convert this obect in real Historystate class
+		if (!$backFromHistory)
+			historystate = new HistoryState().parse(historystate);	
+
+		if (historystate === null) return;	
+
 		//console.log("loadHistorystate", historystate);
 
 		// check viewport and address from cookies
@@ -174,14 +181,7 @@ export class AppModule
 		else
 		{
 			this.directoryMenuComponent.setMainOption('all');
-		}
-
-		if (historystate === null) return;
-
-		// if no backfromhistory that means historystate is actually the CONFIG
-		// given by symfony, so we need to convert this obect in real Historystate class
-		if (!$backFromHistory)
-			historystate = new HistoryState().parse(historystate);		
+		}		
 
 		if (historystate.viewport)
 		{			
