@@ -22,6 +22,11 @@ body
   width: 100%;
 }
 
+#page-container
+{
+	height: calc(100% - 3.4rem);
+}
+
 #page-content
 {
 	position: relative;
