@@ -2,11 +2,9 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 20:08:08
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-13 09:28:36
+* @Last Modified time: 2017-05-14 09:23:32
 */
-#directory-menu-main-container .directions-header { display : none; position: relative }
-
-#directory-menu-main-container.directions
+#directory-menu #directory-menu-main-container.directions
 {
 	background-color: #f7f7f7;
 
@@ -57,7 +55,10 @@
     top: 6.5rem; 
     
     #directory-menu-spinner-loader { display: block; }
-  }
+  }  
+}
 
-  
+#directory-menu #directory-menu-main-container 
+{
+  .directions-header { display : none; position: relative }
 }
