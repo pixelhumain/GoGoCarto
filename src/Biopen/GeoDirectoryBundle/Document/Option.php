@@ -98,7 +98,7 @@ class Option
      *
      * @MongoDB\Field(type="boolean")
      */
-    private $showSubcategories = false;
+    private $showExpanded = false;
 
      /**
      * @var bool
@@ -374,25 +374,25 @@ class Option
     }
 
     /**
-     * Set showSubcategories
+     * Set showExpanded
      *
-     * @param boolean $showSubcategories
+     * @param boolean $showExpanded
      * @return $this
      */
-    public function setShowSubcategories($showSubcategories)
+    public function setShowExpanded($showExpanded)
     {
-        $this->showSubcategories = $showSubcategories;
+        $this->showExpanded = $showExpanded;
         return $this;
     }
 
     /**
-     * Get showSubcategories
+     * Get showExpanded
      *
-     * @return boolean $showSubcategories
+     * @return boolean $showExpanded
      */
-    public function getShowSubcategories()
+    public function getShowExpanded()
     {
-        return $this->showSubcategories;
+        return $this->showExpanded;
     }
 
     /**
