@@ -135,15 +135,18 @@
         </div>
         {% if not element.isPending() or isAdmin %}
         <div class="menu-element-item item-edit">
+          {% set editText = isAdmin ? 'Modifier' : 'Proposer des modifications' %}
           <span class="menu-icon icon-edit tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Proposer des modifications"></span>
-          <span class="menu-element-item-text">Proposer des modifications</span>
+          data-position="top" data-delay="0" data-tooltip="{{ editText }}"></span>
+          <span class="menu-element-item-text">{{ editText }}</span>
         </div>
         
         <div class="menu-element-item item-delete"> 
-          <span class="menu-icon btn-delete icon-exclamation-1 tooltipped" 
-          data-position="top" data-delay="0" data-tooltip="Signaler une erreur"></span>
-          <span class="menu-element-item-text">Signaler une erreur</span>
+          {% set deleteText = isAdmin ? 'Supprimer' : 'Signaler une erreur' %}
+          {% set deleteIcon = isAdmin ? 'icon-delete' : 'icon-exclamation-1' %}
+          <span class="menu-icon btn-delete {{ deleteIcon }} tooltipped" 
+          data-position="top" data-delay="0" data-tooltip="{{ deleteText }}"></span>
+          <span class="menu-element-item-text">{{ deleteText }}</span>
         </div>  
         {% endif %}
             
