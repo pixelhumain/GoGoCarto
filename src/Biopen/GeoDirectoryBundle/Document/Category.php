@@ -79,6 +79,20 @@ class Category
      */
     private $pickingOptionText;
 
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="boolean")
+     */
+    private $showExpanded = true;
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="boolean")
+     */
+    private $unexpandable = false;
+
 
     public function __construct()
     {
@@ -299,5 +313,49 @@ class Category
     public function getPickingOptionText()
     {
         return $this->pickingOptionText;
+    }
+
+    /**
+     * Set showExpanded
+     *
+     * @param boolean $showExpanded
+     * @return $this
+     */
+    public function setShowExpanded($showExpanded)
+    {
+        $this->showExpanded = $showExpanded;
+        return $this;
+    }
+
+    /**
+     * Get showExpanded
+     *
+     * @return boolean $showExpanded
+     */
+    public function getShowExpanded()
+    {
+        return $this->showExpanded;
+    }
+
+    /**
+     * Set unexpandable
+     *
+     * @param boolean $unexpandable
+     * @return $this
+     */
+    public function setUnexpandable($unexpandable)
+    {
+        $this->unexpandable = $unexpandable;
+        return $this;
+    }
+
+    /**
+     * Get unexpandable
+     *
+     * @return boolean $unexpandable
+     */
+    public function getUnexpandable()
+    {
+        return $this->unexpandable;
     }
 }

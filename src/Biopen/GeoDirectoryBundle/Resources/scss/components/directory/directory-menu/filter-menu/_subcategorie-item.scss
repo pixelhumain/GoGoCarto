@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 08:57:20
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-03-24 13:52:16
+* @Last Modified time: 2017-05-14 09:08:40
 */
 
 .subcategory-item
@@ -56,11 +56,20 @@
 	  }
 
 	  &:hover
-	  {
+	  {	  	
 	  	cursor: pointer;
 	  	color: $primary-color;
 	  	.arrow-after { border-color:  transparent transparent $primary-color transparent; }
 	  }
+  }
+
+  &.unexpandable
+  {
+  	.name-wrapper:hover
+  	{
+  		cursor: default;
+  		color: inherit;
+  	}
   }
 
   .checkbox-wrapper

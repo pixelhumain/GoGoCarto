@@ -141,9 +141,12 @@ export class CategoryOptionTreeNode
 	}
 
 	isExpanded() : boolean { return this.getDom().hasClass('expanded'); }
+	isUnexpandable() : boolean { return this.getDom().hasClass('unexpandable'); }
 
 	toggleChildrenDetail()
 	{
+		if (this.isUnexpandable()) return;
+
 		if (this.isExpanded())
 		{
 			this.getDomChildren().stop(true,false).slideUp({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
