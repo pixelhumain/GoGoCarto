@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:15:49
+ * @Last Modified time: 2017-05-14 08:56:55
  */
  
 
@@ -29,6 +29,8 @@ function loadAgriculture($mainOption, $c, $s)
 		$typeCategory->setEnableDescription(false);
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
+		$typeCategory->setUnexpandable(true);
+
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
@@ -58,7 +60,7 @@ function loadAgriculture($mainOption, $c, $s)
 
 			if ($key == 4) 
 			{
-				$new_type->setShowSubcategories(true);
+				$new_type->setShowExpanded(true);
 				$new_type->setDisplayOption(false);
 			}
 			$typeCategory->addOption($new_type);
@@ -111,6 +113,7 @@ function loadAgriculture($mainOption, $c, $s)
 		$productCategory->setSingleOption(false);
 		$productCategory->setEnableDescription(true);
 		$productCategory->setDisplayCategoryName(true);
+		$productCategory->setShowExpanded(false);
 		$productCategory->setDepth(1);
 
 		// Liste des names de catégorie à ajouter

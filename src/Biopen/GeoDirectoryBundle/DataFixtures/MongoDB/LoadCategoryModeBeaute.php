@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:16:41
+ * @Last Modified time: 2017-05-14 09:10:15
  */
  
 
@@ -29,6 +29,7 @@ function loadModeBeauté($mainOption, $c, $s)
 		$typeCategory->setEnableDescription(false);
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
+		$typeCategory->setUnexpandable(true);
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
@@ -55,7 +56,7 @@ function loadModeBeauté($mainOption, $c, $s)
 			$new_type->setUseColorForMarker(true);
 
 			$new_type->setIndex($key);
-			$new_type->setShowSubcategories(!$type[4]);
+			$new_type->setShowExpanded(!$type[4]);
 
 			$typeCategory->addOption($new_type);
 		}

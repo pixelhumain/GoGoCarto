@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:17:20
+ * @Last Modified time: 2017-05-14 09:10:31
  */
  
 
@@ -29,6 +29,7 @@ function loadVoyage($mainOption, $c, $s)
 		$typeCategory->setEnableDescription(false);
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
+		$typeCategory->setUnexpandable(true);
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:56:38
+ * @Last Modified time: 2017-05-14 08:41:25
  */
  
 
@@ -47,7 +47,7 @@ function loadSortieCulture($mainOption, $c, $s)
 
 		$new_type->setNameShort($type[0]);
 		$new_type->setDisplayOption(false);
-		$new_type->setShowSubcategories(true);
+		$new_type->setShowExpanded(true);
 		$new_type->setUseIconForMarker(true);
 		$new_type->setUseColorForMarker(true);
 

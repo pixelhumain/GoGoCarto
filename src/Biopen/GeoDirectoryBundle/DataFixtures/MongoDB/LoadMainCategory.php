@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 08:52:16
+ * @Last Modified time: 2017-05-14 09:09:21
  */
  
 
@@ -67,6 +67,7 @@ class LoadMainCategory implements FixtureInterface
 		$mainCategory->setEnableDescription(false);
 		$mainCategory->setDisplayCategoryName(true);
 		$mainCategory->setDepth(0);
+		$mainCategory->setUnexpandable(true);
 
 		// Liste des noms de catégorie à ajouter
 		$mains = array(

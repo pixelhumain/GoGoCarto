@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-27 21:32:19
+ * @Last Modified time: 2017-05-14 08:51:53
  */
  
 
@@ -28,6 +28,7 @@ class LoadOpenHoursCategory implements FixtureInterface
 		$openHoursCategory->setIndex(1);
 		$openHoursCategory->setDisplayCategoryName(true);
 		$openHoursCategory->setDepth(-1);
+		$openHoursCategory->setShowExpanded(false);
 
 		// Liste des names de catégorie à ajouter
 		$days = array('Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche');
