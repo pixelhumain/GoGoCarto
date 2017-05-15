@@ -25,31 +25,6 @@ export class DirectoryMenuComponent
 
 	initialize()
 	{	
-		// -------------------------------
-		// ------ SEARCH BAR -------------
-		// -------------------------------
-		$('#search-bar').on("search", function(event, address)
-		{
-			// if (App.state == AppStates.Constellation) redirectToDirectory('biopen_constellation', address, $('#search-distance-input').val());
-			// else 
-			App.geocoder.geocodeAddress(
-				address, 
-				function(results) 
-				{ 
-					//App.handleGeocoding(results);
-					$('#search-bar').val(results[0].getFormattedAddress()); 
-				},
-				function(results) { $('#search-bar').addClass('invalid'); } 
-			);
-
-			// If Menu take all available width (in case of small mobile)
-			if ($('#directory-menu').outerWidth() == $(window).outerWidth())
-			{
-				// then we hide menu to show search result
-				hideDirectoryMenu();
-			}
-		});	
-
 		// affiche une petite ombre sous le titre menu quand on scroll
 		// (uniquement visible sur petts écrans)
 		// $("#directory-menu-main-container").scroll(function() 

@@ -135,21 +135,17 @@ export class AppModule
 	
 		this.mapComponent_.onMapReady.do( () => { this.initializeMapFeatures(); });
 
-		//this.geocoderModule_.onResult.do( (array) => { this.handleGeocoding(array); });
 		this.ajaxModule_.onNewElements.do( (result) => { this.handleNewElementsReceivedFromServer(result); });
 	
 		this.elementsModule_.onElementsChanged.do( (elementsChanged)=> { this.handleElementsChanged(elementsChanged); });
 	
-		this.searchBarComponent.onSearch.do( (address : string) => { this.handleSearchAction(address); });
+		this.geocoderModule_.onGeocodeResult.do( () => { this.handleGeocodeResult(); this.searchBarComponent.handleGeocodeResult(); });
 
 		this.mapComponent_.onIdle.do( () => { this.handleMapIdle();  });
 		this.mapComponent_.onClick.do( () => { this.handleMapClick(); });		
 	}
 
-	initializeMapFeatures()
-	{	
-		
-	};
+	initializeMapFeatures() {	};
 
 	/*
 	* Load initial state with INITIAL_STATE provided by symfony controller or
@@ -217,7 +213,6 @@ export class AppModule
 					// if viewport is given, nothing to do, we already did initialization
 					// with viewport
 					if (historystate.viewport && historystate.mode == AppModes.Map) return;
-					this.handleGeocodeResult(results);
 				},
 				() => {
 					// failure callback
@@ -225,7 +220,7 @@ export class AppModule
 					if (!historystate.viewport) 
 					{
 						// geocode default location
-						this.geocoderModule_.geocodeAddress('', (r) => { this.handleGeocodeResult(r); });
+						this.geocoderModule_.geocodeAddress('');
 					}
 				}	
 			);
@@ -248,6 +243,9 @@ export class AppModule
 		}		
 	};	
 
+	/*
+	* Change App mode
+	*/
 	setMode($mode : AppModes, $backFromHistory : boolean = false, $updateTitleAndState = true)
 	{
 		if ($mode != this.mode_)
@@ -451,26 +449,7 @@ export class AppModule
 			this.historyModule.pushNewState(options);
 
 		this.updateDocumentTitle(options);
-	};
-
-	handleGeocodeResult(results)
-	{
-		//console.log("handleGeocodeResult", results);
-		$('#directory-spinner-loader').hide();			
-
-		// if just address was given
-		if (this.mode == AppModes.Map)
-		{
-			this.setState(AppStates.Normal);	
-			this.mapComponent.fitBounds(this.geocoder.getBounds());			
-		}
-		else
-		{
-			this.boundsModule.createBoundsFromLocation(this.geocoder.getLocation());
-			this.elementModule.clearCurrentsElement();
-			this.elementModule.updateElementsToDisplay(true);
-		}
-	}
+	};	
 
 	handleMarkerClick(marker : BiopenMarker)
 	{
@@ -551,36 +530,36 @@ export class AppModule
 		else if (this.state == AppStates.ShowDirections)
 			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				
 	};
-    
 
-	handleSearchAction(address : string)
+	handleGeocodeResult()
 	{
-		console.log("handle search action", address);
-		
-			this.geocoderModule_.geocodeAddress(
-			address, 
-			(results : GeocodeResult[]) => 
-			{ 
-				switch (App.state)
-				{
-					case AppStates.Normal:	
-					case AppStates.ShowElement:	
-						this.handleGeocodeResult(results);
-						this.updateDocumentTitle();
-						break;
-					case AppStates.ShowElementAlone:
-						this.infoBarComponent.hide();
-						this.handleGeocodeResult(results);
-						this.updateDocumentTitle();
-						break;
-					
-					case AppStates.ShowDirections:	
-						this.setState(AppStates.ShowDirections,{id: this.infoBarComponent.getCurrElementId() });
-						break;		
-				}					
-			}	
-		);	
-	};
+		//console.log("handleGeocodeResult", results);
+		$('#directory-spinner-loader').hide();
+
+		if (this.state == AppStates.ShowDirections)	
+		{
+			// we restart directions from this new start location
+			this.setState(AppStates.ShowDirections,{id: this.infoBarComponent.getCurrElementId() });
+		}		
+		else
+		{
+			// if just address was given
+			if (this.mode == AppModes.Map)
+			{
+				this.infoBarComponent.hide();
+				this.setState(AppStates.Normal);	
+				this.mapComponent.fitBounds(this.geocoder.getBounds());			
+			}
+			else
+			{
+				this.boundsModule.createBoundsFromLocation(this.geocoder.getLocation());
+				this.elementModule.clearCurrentsElement();
+				this.elementModule.updateElementsToDisplay(true);
+			}
+
+			this.updateDocumentTitle();
+		}				
+	}
 	
 
 	handleNewElementsReceivedFromServer(result)

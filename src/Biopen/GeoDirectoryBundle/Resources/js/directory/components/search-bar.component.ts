@@ -7,16 +7,16 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-
+import { AppModule, AppStates } from "../app.module";
+import { GeocoderModule, GeocodeResult } from "../modules/geocoder.module";
 declare var google, $;
+declare let App : AppModule;
 
 import { Event, IEvent } from "../utils/event";
 
 export class SearchBarComponent
 {
 	domId;
-
-	onSearch = new Event<string>();
 
 	domElement() { return $(`${this.domId}`); }
 
@@ -39,10 +39,20 @@ export class SearchBarComponent
 		});	
 	}
 
+	handleGeocodeResult()
+	{
+		this.setValue(App.geocoder.getLocationAddress());
+	}
 
 	private handleSearchAction()
 	{
-		this.onSearch.emit(this.domElement().val());
+		App.geocoder.geocodeAddress(
+			this.domElement().val(), 
+			(results : GeocodeResult[]) => 
+			{ 
+			}
+		);	
+
 	}
 
 	setValue($value : string)

@@ -35,13 +35,12 @@ export function initializeElementMenu()
 		
 		if (address)
 		{			
+			App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
+
 			App.geocoder.geocodeAddress(address,
 			() => {
 				$("#modal-pick-address .modal-error-msg").hide();
-				$('#modal-pick-address').closeModal();
-				App.searchBarComponent.setValue(address);
-
-				App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
+				$('#modal-pick-address').closeModal();				
 			},
 			() => {
 				$("#modal-pick-address .modal-error-msg").show();

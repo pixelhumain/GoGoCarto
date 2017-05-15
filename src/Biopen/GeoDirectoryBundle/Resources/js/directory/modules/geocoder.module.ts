@@ -4,7 +4,9 @@ declare var L, $;
 
 import { AppModule } from "../app.module";
 import { slugify, capitalize, unslugify } from "../../commons/commons";
+import { Event, IEvent } from "../utils/event";
 
+/** results type returned by geocoderJS */
 export interface GeocodeResult
 {
 	getCoordinates() : L.LatLngTuple;
@@ -26,6 +28,8 @@ export class GeocoderModule
 	lastResults : GeocodeResult[] = null;
 	lastResultBounds : L.LatLngBounds = null;
 
+	onGeocodeResult = new Event<any>();
+
 	getLocation() : L.LatLng
 	{
 		if (!this.lastResults || !this.lastResults[0]) return null;
@@ -36,7 +40,11 @@ export class GeocoderModule
 	{
 		if (!this.lastResultBounds) return null;
 		return this.lastResultBounds;
-	}
+	}	
+
+	getLocationSlug() : string { return slugify(this.lastAddressRequest); }
+	getLocationAddress() : string { return this.lastAddressRequest; }
+	setLocationAddress($address : string) { this.lastAddressRequest = $address; }
 
 	private latLngBoundsFromRawBounds(rawbounds : RawBounds) : L.LatLngBounds
 	{
@@ -45,19 +53,14 @@ export class GeocoderModule
 		return L.latLngBounds(corner1, corner2);
 	}
 
-	getLocationSlug() : string { return slugify(this.lastAddressRequest); }
-	getLocationAddress() : string { return this.lastAddressRequest; }
-
-	setLocationAddress($address : string) { this.lastAddressRequest = $address; }
-
 	constructor()
 	{
 		this.geocoder = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'countrycodes' : 'fr'});
 		//this.geocoder = GeocoderJS.createGeocoder({'provider': 'google'});
 	}
 
-	geocodeAddress( address, callbackComplete?, callbackFail? ) {
-
+	geocodeAddress( address, callbackComplete?, callbackFail? ) 
+	{
 		//console.log("geocode address : ", address);
 		this.lastAddressRequest = address;
 
@@ -84,6 +87,8 @@ export class GeocoderModule
 					{				
 						this.lastResults = results;
 						this.lastResultBounds = this.latLngBoundsFromRawBounds(this.lastResults[0].getBounds());
+
+						this.onGeocodeResult.emit();
 
 						if (callbackComplete) callbackComplete(results);	
 					} 	
