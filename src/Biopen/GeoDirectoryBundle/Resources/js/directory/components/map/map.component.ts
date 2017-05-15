@@ -1,7 +1,6 @@
 
 import { AppModule, AppStates } from "../../app.module";
 import { Event, IEvent } from "../../utils/event";
-import { initAutoCompletionForElement } from "../../../commons/search-bar.component";
 import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 /// <reference types="leaflet" />
@@ -78,7 +77,6 @@ export class MapComponent
 
 	init() 
 	{	
-		//initAutoCompletionForElement(document.getElementById('search-bar'));
 		if (this.isInitialized) 
 		{
 			this.resize();

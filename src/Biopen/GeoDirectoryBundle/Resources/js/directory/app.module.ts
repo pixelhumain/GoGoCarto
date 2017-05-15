@@ -22,7 +22,7 @@ import { CategoriesModule } from './modules/categories.module';
 import { DirectionsModule } from "./modules/directions.module";
 import { ElementListComponent } from "./components/element-list.component";
 import { InfoBarComponent } from "./components/info-bar.component";
-import { SearchBarComponent } from "../commons/search-bar.component";
+import { SearchBarComponent } from "./components/search-bar.component";
 import { DirectoryMenuComponent } from "./components/directory-menu.component";
 import { MapComponent, ViewPort } from "./components/map/map.component";
 import { BiopenMarker } from "./components/map/biopen-marker.component";
@@ -95,7 +95,7 @@ export class AppModule
 	ajaxModule_ = new AjaxModule();
 	infoBarComponent_ = new InfoBarComponent();
 	mapComponent_  = new MapComponent();
-	searchBarComponent = new SearchBarComponent('search-bar');
+	searchBarComponent = new SearchBarComponent('#search-bar');
 	elementListComponent = new ElementListComponent();
 	historyModule = new HistoryModule();
 	categoryModule = new CategoriesModule();

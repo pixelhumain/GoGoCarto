@@ -10,7 +10,7 @@
 
 declare var google, $;
 
-import { Event, IEvent } from "../directory/utils/event";
+import { Event, IEvent } from "../utils/event";
 
 export class SearchBarComponent
 {
@@ -18,7 +18,7 @@ export class SearchBarComponent
 
 	onSearch = new Event<string>();
 
-	domElement() { return $(`#${this.domId}`); }
+	domElement() { return $(`${this.domId}`); }
 
 	constructor(domId : string)
 	{	
@@ -27,10 +27,9 @@ export class SearchBarComponent
 		// handle all validation by user (enter press, icon click...)
 		this.domElement().keyup((e) =>
 		{    
-			if(e.keyCode == 13) // touche entrée
+			if(e.keyCode == 13) // press enter
 			{ 			 
 				this.handleSearchAction();
-				console.log(this.domId);
 			}
 		});
 
@@ -38,8 +37,6 @@ export class SearchBarComponent
 		{					
 			this.handleSearchAction();
 		});	
-
-		this.domElement().on("place_changed", this.handleSearchAction());
 	}
 
 
@@ -53,16 +50,4 @@ export class SearchBarComponent
 		this.domElement().val($value);
 	}  
     
-}
-
-export function initAutoCompletionForElement(element)
-{
-    var options = {
-      componentRestrictions: {country: 'fr'}
-    };
-    var autocomplete = new google.maps.places.Autocomplete(element, options);   
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        $(element).trigger('place_changed');
-        return false;
-    });
 }
