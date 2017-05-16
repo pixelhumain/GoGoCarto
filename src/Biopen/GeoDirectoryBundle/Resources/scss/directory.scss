@@ -27,43 +27,48 @@
 //@import "components/commons/search-bar";
 @import "components/commons/auto-complete";
 
+body
+{
+  @include flexbox();
+  @include flex-flow(column nowrap);
+}
 #directory-menu
 {
     display: none;
-    position: absolute;
     background-color: white;
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 100%;  
+    width: 100%; 
     @include transition(height .5s);
+
+    @media #{$medium-and-up} { flex: 0 0 22rem; display: block; } 
 }
 
-#page-content { height: 100% ; background-color: #dfdfdf }
+#page-content 
+{ 
+    @include flexbox();
+    @include flex(1 auto);
+    @include flex-flow(column nowrap);
+    background-color: #dfdfdf 
+}
 
-#directory-container { position: relative; height: 100% }   
+#directory-container 
+{ 
+    position: relative; 
+    @include flex(1 auto); 
+    @include flexbox();
+    @include flex-flow(row nowrap);
+}   
 
 #directory-content
 {
     position: relative; 
-    height: 100%;   
+    @include flex(1 auto);  
     background-color: #9e9e9e;
+    @include flexbox();
+    @include flex-flow(column nowrap);
     overflow: hidden;
+
+    @media screen and (min-width: 1200px) { @include flex-flow(row nowrap); }
 }
-
-@media #{$medium-and-up} 
-{
-    #directory-menu
-    {
-        display: block !important;  
-        width: 22rem;     
-    }
-
-    #directory-content
-    {
-        margin-left: 22rem;
-    }
-} 
 
 h1
 {

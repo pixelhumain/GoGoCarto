@@ -1,27 +1,14 @@
-// ---------------------------------------
-//             GOOGLE MAP
-// ---------------------------------------
 #directory-content-map
 {   
     position: relative;
     z-index: 10;
-    heigh:200px;
-    width:100%;
-    @include transition(height .5s);
-
+    @media #{$medium-and-down} { margin-right: 0 !important; }
+    @include flex(1 auto);
+    //@include transition(height .5s);
     @include box-shadow-1(inset 0px 5px 5px 0px rgba(119, 119, 119, 0.75)  );
-
 }
-
-@media #{$large-only}
+#overlay 
 {
-    #directory-content-map
-    {
-        width:auto;
-    }
-}
-
-#overlay {
     position: absolute;
     top: 0;
     left: 0;

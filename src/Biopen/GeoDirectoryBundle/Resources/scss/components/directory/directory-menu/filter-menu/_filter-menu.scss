@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 13:25:52
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-16 16:23:22
+* @Last Modified time: 2017-05-16 08:54:19
 */
 @import 'favorite-filter';
 @import 'pending-filter';
@@ -12,7 +12,14 @@
 
 #directory-menu 
 {
-	.filter-menu { height: 100%; }
+	.filter-menu 
+	{ 
+		width: 100%;
+    position: relative;
+    @include flexbox();
+    @include flex-flow(row nowrap); 
+    @include flex(1 auto);
+  }
 
 	.main-categories
 	{
@@ -93,15 +100,10 @@
 
 	.sub-categories
 	{
-		left: 3.5rem;
+		@include flex(1 auto);
 		padding-left: 7px;
     padding-right: 4px;
-    position: absolute;
-    background-color: #eeeeee;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    
+    background-color: #eeeeee;    
 
 		.sub-categorie-main-title
 		{

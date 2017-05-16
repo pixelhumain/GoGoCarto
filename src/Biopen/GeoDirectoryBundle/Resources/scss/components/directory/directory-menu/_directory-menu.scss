@@ -2,7 +2,6 @@
 @import 'leaflet-routing-machine';
 @import 'filter-menu/filter-menu';
 @import 'directory-menu-directions';
-@import 'directory-menu-search';
 
 #directory-menu
 {
@@ -18,9 +17,10 @@
 
 	#directory-menu-main-container
 	{
-		//overflow-y: scroll;
-  	@include calc(height, '100% - 2.5rem');
-
+    @include flexbox();
+    @include flex-flow(column);
+    width: 100%;
+    
   	@media #{$medium-and-up} 
   	{
   		height: 100%;
@@ -30,13 +30,9 @@
 
     .directory-menu-header
     {      
-      position: absolute;
       width: 100%;
+      position: relative;
       background-color: $primary-color;
-      //yellow #da952a
-      // green #4e9c51
-      // red #d24c51
-      // grey #676565
 
       .btn-close-menu 
       { 
@@ -45,8 +41,7 @@
         z-index: 20;
         top: 7px;
         left: 8px;
-      }
-      
+      }      
 
       @include transition(all .5s);
 
@@ -59,14 +54,12 @@
       }
     }
 
-    .shadow-bottom { top: 3.5rem; }  	
+    .shadow-bottom { bottom: -8px; }  	
 
     .directory-menu-content
     {     
-      position: absolute;
-      top: 3.5rem;
-      bottom: 0;
-      width: 100%;  
+      @include flexbox();
+      @include flex(1 auto);
 
       #directory-menu-spinner-loader
       {
@@ -156,12 +149,6 @@
   font-weight: 500;
   text-align: center;
   display:none;
-
-  .shadow-bottom
-  {
-    top: 2.5rem;
-    display: none;
-  } 
 
   > .icon-close
   {
