@@ -15,6 +15,20 @@
     
 </div>
 
+<div class="search-options" style="display:none">
+    <input class="search-option-radio-btn" data-name="place" name="search-type-option" type="radio" id="search-option-place" checked/>
+    <label class="search-option-radio-label" for="search-option-place">Un lieu</label>
+    <input class="search-option-radio-btn" data-name="element" name="search-type-option" type="radio" id="search-option-element"/>
+    <label class="search-option-radio-label" for="search-option-element">Un Acteur</label>
+    
+    <button id="search-btn" class="search-btn btn waves-effects">chercher</button>
+    <button id="search-cancel-btn" class="search-btn btn waves-effects" style="display:none">
+        anuller
+        {% include '@directory/directory/components/spinner-loader.html.twig'  
+              with {'id': 'search-spinner-loader' }%}
+    </button>
+</div>
+
 {% if config.range is defined %}
 <div id="search-distance-component">
     <div class="range-field" id="search-distance-container">

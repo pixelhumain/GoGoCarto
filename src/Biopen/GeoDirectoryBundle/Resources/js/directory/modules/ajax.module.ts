@@ -249,4 +249,27 @@ export class AjaxModule
 		});
 	}
 
+	searchElements(text: string, callbackSuccess?, callbackFailure?)
+	{
+		let route = Routing.generate('biopen_api_elements_from_text');
+
+		$.ajax({
+			url: route,
+			method: "get",
+			data: { text: text },
+			success: response => 
+			{	        
+				console.log("Search response", response);
+				if (response)
+				{					
+					if (callbackSuccess) callbackSuccess(response); 						
+				}				       
+			},
+			error: response =>
+			{
+				if (callbackFailure) callbackFailure(response.data); 		
+			}
+		});
+	}
+
 }

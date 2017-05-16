@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 11:04:55
+ * @Last Modified time: 2017-05-16 17:22:36
  */
  
 
@@ -86,6 +86,19 @@ class ElementRepository extends DocumentRepository
     }
 
     return $results;
+  }
+
+  public function findElementsWithText($text)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    $expr = $qb->expr()->operator('$text', array('$search' => $text));
+    
+    return $qb  //->limit($maxResults)
+                ->equals($expr->getQuery())        
+                ->sortMeta('score', 'textScore')
+                ->hydrate(false)->getQuery()->execute()->toArray();
+    
   }
 }
 

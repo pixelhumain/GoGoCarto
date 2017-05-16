@@ -37,22 +37,59 @@ export class SearchBarComponent
 		{					
 			this.handleSearchAction();
 		});	
+
+		$('#search-btn').click(() =>
+		{					
+			this.handleSearchAction();
+		});	
+
+		$('#search-cancel-btn').click( () =>
+		{
+			this.clearLoader();
+			// TODO cancel request
+		})
+
+		$('#search-type-select').material_select();
+
+		this.domElement().on('focus', function() 
+		{
+			$('.search-options').slideDown(350);
+		});		
+
+		$('.directory-menu-header').on('mouseleave', () => 
+		{
+			$('.search-options').slideUp(350);
+			this.domElement().blur();
+		});
 	}
 
 	handleGeocodeResult()
 	{
 		this.setValue(App.geocoder.getLocationAddress());
+		this.clearLoader();
+	}
+
+	private clearLoader()
+	{
+		$('#search-btn').show();
+		$('#search-cancel-btn').hide();
 	}
 
 	private handleSearchAction()
 	{
-		App.geocoder.geocodeAddress(
-			this.domElement().val(), 
-			(results : GeocodeResult[]) => 
-			{ 
-			}
-		);	
+		$('#search-cancel-btn').show();
+		$('#search-btn').hide();
 
+		let searchType = $('.search-option-radio-btn:checked').attr('data-name');	
+		switch (searchType)
+		{
+			case "place":
+				App.geocoder.geocodeAddress(this.domElement().val());
+				break;
+			case "element":
+				App.ajaxModule.searchElements(this.domElement().val());
+				break;
+		}
 	}
 
 	setValue($value : string)

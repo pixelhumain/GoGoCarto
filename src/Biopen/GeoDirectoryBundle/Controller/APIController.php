@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 09:37:44
+ * @Last Modified time: 2017-05-16 17:23:14
  */
  
 
@@ -128,6 +128,27 @@ class APIController extends Controller
             $elementJson = $element->getFullJson();
 
             $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
+            
+            $response = new Response($responseJson);    
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+        else 
+        {
+            return new Response("Not valid ajax request");
+        }
+    }
+
+    public function getElementsFromTextAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->get('doctrine_mongodb')->getManager();
+            
+            $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
+            ->findElementsWithText($request->get('text'));
+
+            $responseJson = $this->encoreArrayToJsonArray($elements, true);
             
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');

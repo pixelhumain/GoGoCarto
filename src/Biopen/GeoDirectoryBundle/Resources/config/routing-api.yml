@@ -27,3 +27,11 @@ biopen_api_elements_in_bounds:
         _method: GET
     options:
         expose: true
+
+biopen_api_elements_from_text:
+    path:     /search
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsFromText }
+    requirements:
+        _method: GET
+    options:
+        expose: true
