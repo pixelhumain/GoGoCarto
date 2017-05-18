@@ -553,7 +553,9 @@ export class AppModule
 		if (this.state == AppStates.ShowElement || this.state == AppStates.ShowElementAlone)
 			this.infoBarComponent.hide(); 		
 		else if (this.state == AppStates.ShowDirections)
-			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });				
+			this.setState(AppStates.ShowElement, { id : App.infoBarComponent.getCurrElementId() });		
+
+		this.searchBarComponent.hideSearchOptions();		
 	};
 
 	handleGeocodeResult()
