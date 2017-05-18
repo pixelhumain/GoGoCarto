@@ -20,13 +20,8 @@
     @include flexbox();
     @include flex-flow(column);
     width: 100%;
-    
-  	@media #{$medium-and-up} 
-  	{
-  		height: 100%;
-      background-color: #272626;
-  		//overflow-y: hidden;
-  	}
+    height: 100%;
+    background-color: #272626;
 
     .directory-menu-header
     {      
