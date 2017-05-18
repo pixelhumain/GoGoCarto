@@ -120,6 +120,7 @@ export class MapComponent
 
 		// payant
 		let mapbox = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ';
+		let mapboxlight = 'https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ';
 		// mapbox : joli, 0.5Ko
 
 		// gratuit (je crois)
@@ -133,15 +134,12 @@ export class MapComponent
 		let openriver = 'http://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png';
 
 		let transport = 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png'; // belle mais y'a les layers transport partout !
-		let thunderforest = 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'; // pas très joli
-		
+		let thunderforest = 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'; // pas très joli		
 
 		L.tileLayer(hydda, {
 		    minZoom: 1,
 		    maxZoom: 19
 		}).addTo(this.map_);
-
-
 
 		this.map_.on('click', (e) => { this.onClick.emit(); });
 		this.map_.on('moveend', (e) => 
