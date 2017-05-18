@@ -2,15 +2,13 @@
 * @Author: Sebastian Castro
 * @Date:   2017-02-28 10:25:51
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-02 18:09:07
+* @Last Modified time: 2017-05-18 11:08:50
 */
 
 .leaflet-routing-container, .leaflet-routing-error {
-        /* width: 320px; */
-    position: absolute;
     border-radius: 0;
     box-shadow: none;
-    height: 100%;
+    @include flexbox();
     background-color: white;
     /* padding-top: 4px; */
     transition: all 0.2s ease;
@@ -20,11 +18,6 @@
 .leaflet-control-container .leaflet-routing-container-hide {
     width: 32px;
     height: 32px;
-}
-
-.leaflet-routing-alternatives-container
-{
-    height: 100%;
 }
 
 .leaflet-routing-container h2 {

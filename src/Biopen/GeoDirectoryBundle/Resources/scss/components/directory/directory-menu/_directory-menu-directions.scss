@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 20:08:08
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-15 11:49:50
+* @Last Modified time: 2017-05-18 11:10:52
 */
 #directory-menu #directory-menu-main-container.directions
 {
@@ -49,9 +49,7 @@
 	.directory-menu-content .filter-menu { display : none; }
 
 	.directory-menu-content 
-  { 
-    top: 6.5rem; 
-    
+  {     
     #directory-menu-spinner-loader { display: block; }
   }  
 }
