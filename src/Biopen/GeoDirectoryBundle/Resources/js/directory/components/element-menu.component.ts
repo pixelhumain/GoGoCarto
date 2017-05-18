@@ -29,29 +29,31 @@ export function initializeElementMenu()
 	$('#modal-vote #select-vote').material_select();
 
 	// button to confirm calculate idrections in modal pick address for directions
-	$('#modal-pick-address #btn-calculate-directions').click(() => 
-	{
-		let address = $('#modal-pick-address input').val();
+	$('#modal-pick-address #btn-calculate-directions').click(() => handleDirectionsPickingAddress());
+	$('#modal-pick-address input').keyup((e) => { if(e.keyCode == 13) handleDirectionsPickingAddress(); });
+}
+
+function handleDirectionsPickingAddress()
+{
+	let address = $('#modal-pick-address input').val();
 		
-		if (address)
-		{			
-			App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
+	if (address)
+	{			
+		App.setState(AppStates.ShowDirections,{id: getCurrentElementIdShown()});
 
-			App.geocoder.geocodeAddress(address,
-			() => {
-				$("#modal-pick-address .modal-error-msg").hide();
-				$('#modal-pick-address').closeModal();				
-			},
-			() => {
-				$("#modal-pick-address .modal-error-msg").show();
-			});			
-		}
-		else
-		{
-			$('#modal-pick-address input').addClass('invalid');
-		}
-
-	});
+		App.geocoder.geocodeAddress(address,
+		() => {
+			$("#modal-pick-address .modal-error-msg").hide();
+			$('#modal-pick-address').closeModal();				
+		},
+		() => {
+			$("#modal-pick-address .modal-error-msg").show();
+		});			
+	}
+	else
+	{
+		$('#modal-pick-address input').addClass('invalid');
+	}
 }
 
 function deleteElement()
