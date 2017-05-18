@@ -473,7 +473,7 @@ export class AppModule
 
 	setDataType($dataType : AppDataType, $backFromHistory : boolean = false)
 	{
-		console.log("setDataType", AppDataType[$dataType]);
+		//console.log("setDataType", AppDataType[$dataType]);
 		this.dataType_ = $dataType;
 		this.elementModule.clearCurrentsElement();	
 		this.elementListComponent.clear();

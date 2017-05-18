@@ -92,7 +92,6 @@ export function hideDirectoryMenu()
 	$('#overlay').css('z-index','-1');
 	$('#overlay').animate({'opacity': '.0'},500);
 	$('#directory-menu').hide( "slide", {direction: 'left', easing: 'swing'} , 250 );
-	$('#menu-title .shadow-bottom').hide();
 	//$('#directory-menu').animate({'width': '0px'},700).hide();
 }
 

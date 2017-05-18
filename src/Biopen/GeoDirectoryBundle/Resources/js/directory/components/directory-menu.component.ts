@@ -25,17 +25,6 @@ export class DirectoryMenuComponent
 
 	initialize()
 	{	
-		// affiche une petite ombre sous le titre menu quand on scroll
-		// (uniquement visible sur petts écrans)
-		// $("#directory-menu-main-container").scroll(function() 
-		// {
-		//   if ($(this).scrollTop() > 0) {
-		//     $('#menu-title .shadow-bottom').show();
-		//   } else {
-		//     $('#menu-title .shadow-bottom').hide();
-		//   }
-		// });
-
 		// -------------------------------
 		// --------- FAVORITE-------------
 		// -------------------------------
