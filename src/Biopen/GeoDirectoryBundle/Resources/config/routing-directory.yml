@@ -27,10 +27,4 @@ biopen_directory_constellation:
         range: \d+
         mode: carte|liste
 
-biopen_directory_directions:
-    path:     /dir/{address}/{name}/{id}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:directions }
-    options:
-        expose: true
-
 

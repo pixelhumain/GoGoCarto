@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-13 10:21:30
+ * @Last Modified time: 2017-05-18 15:17:42
  */
  
 
@@ -40,6 +40,7 @@ class DirectoryController extends Controller
         $initialState['viewport'] = $viewport;
         $initialState['mode'] = $this->formatMode($mode);
         $initialState['state'] = 'Normal';
+        $initialState['dataType'] = 'All';
 
         return $this->renderDirectory($initialState, $request);
     }  
@@ -52,6 +53,7 @@ class DirectoryController extends Controller
         $initialState['viewport'] = $viewport;
         $initialState['mode'] = 'Map';
         $initialState['state'] = 'ShowElementAlone';
+        $initialState['dataType'] = 'All';
         $initialState['id'] = $id;
 
         return $this->renderDirectory($initialState, $request);  
@@ -65,6 +67,7 @@ class DirectoryController extends Controller
         $initialState['viewport'] = $viewport;
         $initialState['mode'] = 'Map';
         $initialState['state'] = 'ShowDirections';
+        $initialState['dataType'] = 'All';
         $initialState['id'] = $id;
 
         return $this->renderDirectory($initialState, $request);  
@@ -81,19 +84,6 @@ class DirectoryController extends Controller
         $initialState['range'] = $range;
 
         return $this->renderDirectory($initialState, $request);    
-    } 
-
-    public function directionsAction($address, $name, $id, Request $request)
-    {             
-        $address = $this->checkAddressInSession($address);
-
-        $initialState['address'] = $address;
-        $initialState['viewport'] = '';
-        $initialState['mode'] = 'Map';
-        $initialState['state'] = 'ShowDirections';
-        $initialState['id'] = $id;
-
-        return $this->renderDirectory($initialState, $request);      
     } 
 
     private function renderDirectory($initialState, Request $request)
