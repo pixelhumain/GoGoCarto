@@ -478,6 +478,7 @@ export class AppModule
 		this.elementModule.updateElementsToDisplay(true);		
 		this.checkForNewElementsToRetrieve();	
 		this.historyModule.pushNewState();
+		this.updateDocumentTitle();
 	}
 
 	handleMarkerClick(marker : BiopenMarker)
@@ -694,7 +695,11 @@ export class AppModule
 			elementName = capitalize(element ? element.name : '');
 		}
 
-		if (this.mode_ == AppModes.List)
+		if (this.dataType_ == AppDataType.SearchResults)
+		{
+			title = 'Recherche : ' + this.searchBarComponent.getCurrSearchText();	
+		}
+		else if (this.mode_ == AppModes.List)
 		{		
 			title = 'Liste des acteurs ' + this.getLocationAddressForTitle();		
 		}

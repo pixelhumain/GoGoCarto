@@ -20,7 +20,7 @@ export class SearchBarComponent
 
 	domElement() { return $(`${this.domId}`); }
 
-	currSearchText : string = '';
+	private currSearchText : string = '';
 
 	constructor(domId : string)
 	{	
