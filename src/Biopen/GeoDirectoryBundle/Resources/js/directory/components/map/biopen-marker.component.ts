@@ -97,24 +97,24 @@ export class BiopenMarker
 		let disableMarker = false;
 		let showMoreIcon = true;
 
-		if (App.state == AppStates.Constellation)
-		{
-			// POLYLINE TYPE
-			let lineType;
+		// if (App.state == AppStates.Constellation)
+		// {
+		// 	// POLYLINE TYPE
+		// 	let lineType;
 
-			if (element.starChoiceForRepresentation === '')
-			{
-				lineType = AppStates.Normal;				
-			}
-			else
-			{			
-				lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
-				// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
-				disableMarker = !element.isCurrentStarChoiceRepresentant();
-			}		
+		// 	if (element.starChoiceForRepresentation === '')
+		// 	{
+		// 		lineType = AppStates.Normal;				
+		// 	}
+		// 	else
+		// 	{			
+		// 		lineType = element.isCurrentStarChoiceRepresentant() ? AppStates.Normal : 'dashed';
+		// 		// en mode SCR, tout lesmarkers sont disabled sauf le représentant de l'étoile
+		// 		disableMarker = !element.isCurrentStarChoiceRepresentant();
+		// 	}		
 
-			this.updatePolyline({lineType: lineType});
-		}
+		// 	this.updatePolyline({lineType: lineType});
+		// }
 
 		let optionstoDisplay = element.getIconsToDisplay();
 
@@ -279,14 +279,14 @@ export class BiopenMarker
 	{	
 		//App.mapComponent.addMarker(this.leafletMarker_);
 		//this.leafletMarker_.addTo(App.map());
-		if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
+		//if (App.state == AppStates.Constellation) this.polyline_.setMap(App.map());
 	};
 
 	hide () 
 	{			
 		//App.mapComponent.removeMarker(this.leafletMarker_);
 		//this.leafletMarker_.remove();
-		if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
+		//if (App.state == AppStates.Constellation) this.polyline_.setMap(null);
 	};
 
 	setVisible (bool : boolean) 

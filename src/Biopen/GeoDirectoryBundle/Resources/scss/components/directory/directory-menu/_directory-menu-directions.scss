@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-02 20:08:08
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-05-18 11:10:52
+* @Last Modified time: 2017-05-18 11:34:58
 */
 #directory-menu #directory-menu-main-container.directions
 {
@@ -27,22 +27,7 @@
         font-weight: 600;
         line-height: 3rem;
         margin: 0;
-			}
-
-      #btn-close-directions
-      {
-        position: absolute;
-        bottom: .3rem;
-        right: 1rem;
-        margin: 0;
-        color: #CECECE;
-
-        &:hover
-        {
-          color: white;
-          cursor: pointer;
-        }
-      }
+			}      
 		}
 	}
 

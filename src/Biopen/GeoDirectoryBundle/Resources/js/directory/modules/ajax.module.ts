@@ -93,7 +93,7 @@ export class AjaxModule
 
 		if (this.isRetrievingElements)
 		{		
-			console.log("Ajax isRetrieving");
+			//console.log("Ajax isRetrieving");
 			this.requestWaitingToBeExecuted = true;
 			this.waitingRequestFullRepresentation = $request.data.fullRepresentation;
 			return;
@@ -119,7 +119,7 @@ export class AjaxModule
 				if (response.data !== null)
 				{
 					let end = new Date().getTime();					
-					console.log("receive " + response.data.length + " elements in " + (end-start) + " ms. fullRepresentation", response.fullRepresentation);				
+					//console.log("receive " + response.data.length + " elements in " + (end-start) + " ms. fullRepresentation", response.fullRepresentation);				
 
 					if ($expectedFilledBounds)
 					{
@@ -138,7 +138,7 @@ export class AjaxModule
 			  clearTimeout(this.loaderTimer);
 			  if (this.requestWaitingToBeExecuted)
 			  {
-			  	 console.log("REQUEST WAITING TO BE EXECUTED, fullRepresentation", this.waitingRequestFullRepresentation);
+			  	 //console.log("REQUEST WAITING TO BE EXECUTED, fullRepresentation", this.waitingRequestFullRepresentation);
 			  	 App.checkForNewElementsToRetrieve(this.waitingRequestFullRepresentation);
 			  	 //this.sendAjaxElementRequest(this.waitingRequest);
 			  	 this.requestWaitingToBeExecuted = false;

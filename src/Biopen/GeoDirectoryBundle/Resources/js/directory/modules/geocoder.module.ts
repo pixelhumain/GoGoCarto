@@ -55,8 +55,8 @@ export class GeocoderModule
 
 	constructor()
 	{
-		this.geocoder = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'countrycodes' : 'fr'});
-		//this.geocoder = GeocoderJS.createGeocoder({'provider': 'google'});
+		//this.geocoder = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'countrycodes' : 'fr'});
+		this.geocoder = GeocoderJS.createGeocoder({'provider': 'google'});
 	}
 
 	geocodeAddress( address, callbackComplete?, callbackFail? ) 

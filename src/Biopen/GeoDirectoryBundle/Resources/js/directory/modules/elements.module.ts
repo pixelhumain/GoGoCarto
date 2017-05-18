@@ -8,7 +8,7 @@
  * @Last Modified time: 2016-12-13
  */
 
-import { AppModule, AppStates, AppModes } from "../app.module";
+import { AppModule, AppStates, AppModes, AppDataType } from "../app.module";
 declare let App : AppModule;
 declare var $;	
 
@@ -33,6 +33,8 @@ export class ElementsModule
 	
 	// current visible elements
 	visibleElements_ : Element[][] = [];
+
+	searchResultElements_ : Element[] = [];
 
 	favoriteIds_ : number[] = [];
 	isShowingHalfHidden : boolean = false;
@@ -70,6 +72,7 @@ export class ElementsModule
 	{
 		let element : Element, elementJson;
 		let newElements : Element[] = [];
+		let elementsConverted : Element[] = [];
 		let start = new Date().getTime();
 
 		let elementsIdsReceived = elementList.map( (e, index) =>  { return {
@@ -93,6 +96,7 @@ export class ElementsModule
 				elementJson = elementList[elementToUpdateIds[j].index];
 				element = this.getElementById(elementJson.id);
 				element.updateAttributesFromFullJson(elementJson);
+				elementsConverted.push(element);
 			}
 		}
 
@@ -116,12 +120,19 @@ export class ElementsModule
 
 			element.initialize();
 		}
+
+		elementsConverted = elementsConverted.concat(newElements);
 		this.checkCookies();
 		let end = new Date().getTime();
 		//console.log("AddJsonElements in " + (end-start) + " ms", elementJson);	
 		//console.log("last element", element);
-		return { newElementsLength : newIds.length, elementsUpdatedLength : elementToUpdateIds.length};
+		return { newElementsLength : newIds.length, elementsUpdatedLength : elementToUpdateIds.length, elementsConverted: elementsConverted};
 	};
+
+	setSearchResultElement(elements : Element[])
+	{
+		this.searchResultElements_ = elements;
+	}
 
 	showElement(element : Element)
 	{
@@ -160,13 +171,15 @@ export class ElementsModule
 	clearCurrentsElement()
 	{
 		//console.log("clearCurrElements");
-		let l = this.currVisibleElements().length;
+		let visibleElements = this.currVisibleElements();
+		if (!visibleElements || !visibleElements.length) return;
+		let l = visibleElements.length;
 		while(l--)
 		{
-			this.currVisibleElements()[l].hide();
-			this.currVisibleElements()[l].isDisplayed = false;
+			visibleElements[l].hide();
+			visibleElements[l].isDisplayed = false;
 		}
-		let markers = this.currVisibleElements().map( (e) => e.marker.getLeafletMarker());
+		let markers = visibleElements.map( (e) => e.marker.getLeafletMarker());
 		App.mapComponent.removeMarkers(markers);
 
 		this.clearCurrVisibleElements();
@@ -196,16 +209,22 @@ export class ElementsModule
 	{	
 		if (App.mode == AppModes.Map && !App.mapComponent.isMapLoaded) return;
 
-		let elements : Element[] = null;
+		let elements : Element[] = [];
 
 		if ( (App.state == AppStates.ShowElementAlone || App.state == AppStates.ShowDirections ) && App.mode == AppModes.Map) 
-				elements = [App.DEAModule.getElement()];
-		else if (checkInAllElements || this.visibleElements_.length === 0) 
-				elements = this.currEveryElements();
-		else elements = this.currVisibleElements();
-
-		//elements = this.currEveryElements();		
+			elements = [App.DEAModule.getElement()];		
+		else if (App.dataType == AppDataType.All)
+		{			
+			if (checkInAllElements || this.visibleElements_.length === 0) 
+					elements = this.currEveryElements();
+			else elements = this.currVisibleElements();
+		}
+		else if (App.dataType == AppDataType.SearchResults)
+		{
+			elements = this.searchResultElements_;
+		}		
 		
+		if (!elements) return;
 		//console.log("UPDATE ELEMENTS ", elements);
 
 		let i : number, element : Element;
@@ -252,19 +271,6 @@ export class ElementsModule
 				}
 			}
 		}
-
-		// if (this.visibleElements_.length >= App.getMaxElements())
-		// {
-		// 	/*$('#too-many-markers-modal').show().fadeTo( 500 , 1);
-		// 	this.clearMarkers();		
-		// 	return;*/
-		// 	//console.log("Toomany markers. Nbre markers : " + this.visibleElements_.length + " // MaxMarkers = " + App.getMaxElements());
-		// }
-		// else
-		// {
-		// 	$('#too-many-markers-modal:visible').fadeTo(600,0, function(){ $(this).hide(); });
-		// }
-
 
 		let end = new Date().getTime();
 		let time = end - start;

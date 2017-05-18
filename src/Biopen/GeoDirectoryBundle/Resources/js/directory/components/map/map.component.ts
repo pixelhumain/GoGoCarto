@@ -1,6 +1,7 @@
 
 import { AppModule, AppStates } from "../../app.module";
 import { Event, IEvent } from "../../utils/event";
+import { Element } from "../../classes/element.class";
 import { capitalize, slugify } from "../../../commons/commons";
 import { GeocodeResult, RawBounds } from "../../modules/geocoder.module";
 /// <reference types="leaflet" />
@@ -68,6 +69,8 @@ export class MapComponent
 	isMapLoaded : boolean = false;
 	oldZoom = -1;
 	viewport : ViewPort = null;
+	// requested bounds who could not be displayed when map not initialized (see fitbounds method)
+	waitingBounds : L.LatLngBounds = null;
 
 	getMap(){ return this.map_; }; 
 	getCenter() : L.LatLng { return this.viewport ? L.latLng(this.viewport.lat, this.viewport.lng) : null; }
@@ -164,21 +167,14 @@ export class MapComponent
 		});
 		this.map_.on('load', (e) => { this.isMapLoaded = true; this.onMapLoaded.emit(); });
 
-		this.resize();
+		this.resize();		
+
+		this.isInitialized = true;
 
 		// if we began with List Mode, when we initialize map
 		// there is already an address geocoded or a viewport defined
-		if (App && App.geocoder.getBounds())
-		{
-			this.fitBounds(App.geocoder.getBounds(), false);
-		}
-		else if (this.viewport)
-		{
-			// setTimeout waiting for the map to be resized
-			setTimeout( () => { this.setViewPort(this.viewport); },200);
-		}
-
-		this.isInitialized = true;
+		if (this.waitingBounds) this.fitBounds(this.waitingBounds, false);
+		else if (this.viewport) setTimeout( () => { this.setViewPort(this.viewport); },200);
 		//console.log("map init done");
 		this.onMapReady.emit();
 	};
@@ -222,11 +218,22 @@ export class MapComponent
 		if (this.markerClustererGroup) this.markerClustererGroup.clearLayers();
 	}
 
+	fitElementsBounds(elements : Element[])
+	{
+		let bounds = L.latLngBounds();
+		for(let element of elements) bounds.extend(element.position);
+		this.fitBounds(bounds);
+	}
+
 	// fit map view to bounds
 	fitBounds(bounds : L.LatLngBounds, animate : boolean = true)
 	{
 		//console.log("fitbounds", bounds);
-		
+		if (!this.isInitialized)
+		{
+			this.waitingBounds = bounds;
+			return;
+		}
 		if (this.isMapLoaded && animate) App.map().flyToBounds(bounds);
 		else App.map().fitBounds(bounds);
 	}		

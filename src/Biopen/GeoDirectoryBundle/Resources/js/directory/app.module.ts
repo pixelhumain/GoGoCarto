@@ -70,14 +70,21 @@ export enum AppStates
 	ShowElement,
 	ShowElementAlone,
 	ShowDirections,
-	Constellation,
-	StarRepresentationChoice    
+	StarRepresentationChoice,
+	Constellation
 }
 
 export enum AppModes
 {
 	Map,
 	List
+}
+
+export enum AppDataType 
+{
+	All,
+	SearchResults,
+	Constellation 
 }
 
 /*
@@ -107,6 +114,7 @@ export class AppModule
 	// curr state of the app
 	private state_ : AppStates = null;	
 	private mode_ : AppModes = null;
+	private dataType_ : AppDataType = null;
 
 	// somes states need a element id, we store it in this property
 	private stateElementId : number = null;
@@ -162,6 +170,9 @@ export class AppModule
 
 		//console.log("loadHistorystate", historystate);
 
+		// TODO
+		this.setDataType(AppDataType.All);
+
 		// check viewport and address from cookies
 		if (!historystate.viewport && !historystate.address && historystate.state == AppStates.Normal) 
 		{
@@ -201,7 +212,7 @@ export class AppModule
 		}	
 
 		this.setMode(historystate.mode, $backFromHistory, false);
-
+		
 		// if address is provided we geolocalize
 		// if no viewport and state normal we geocode on default location
 		if (historystate.address || (!historystate.viewport && historystate.state === AppStates.Normal)) 
@@ -288,8 +299,7 @@ export class AppModule
 
 				// after clearing, we set the current state again
 				if ($mode == AppModes.Map) this.setState(this.state, {id : this.stateElementId});	
-			}	
-			
+			}				
 		}
 	}
 
@@ -373,14 +383,14 @@ export class AppModule
 				element = this.elementById(options.id);
 				let origin;
 
-				if (this.state_ == AppStates.Constellation)
-				{
-					origin = this.constellation.getOrigin();
-				}
-				else
-				{
+				// if (this.state_ == AppStates.Constellation)
+				// {
+				// 	origin = this.constellation.getOrigin();
+				// }
+				// else
+				// {
 					origin = this.geocoder.getLocation();
-				}
+				//}
 
 				// local function
 				let calculateRoute = function (origin : L.LatLng, element : Element)
@@ -451,6 +461,16 @@ export class AppModule
 		this.updateDocumentTitle(options);
 	};	
 
+	setDataType($dataType : AppDataType)
+	{
+		//console.log("setDataType", AppDataType[$dataType]);
+		this.dataType_ = $dataType;
+		this.elementModule.clearCurrentsElement();	
+		this.elementListComponent.clear();
+		this.elementModule.updateElementsToDisplay(true);		
+		this.checkForNewElementsToRetrieve();	
+	}
+
 	handleMarkerClick(marker : BiopenMarker)
 	{
 		if ( this.mode != AppModes.Map) return;
@@ -461,10 +481,10 @@ export class AppModule
 
 		this.setState(AppStates.ShowElement, { id: marker.getId() });		
 
-		if (App.state == AppStates.StarRepresentationChoice)
-		{
-			//App.SRCModule().selectElementById(this.id_);
-		}
+		// if (App.state == AppStates.StarRepresentationChoice)
+		// {
+		// 	//App.SRCModule().selectElementById(this.id_);
+		// }
 	}
 
 	handleMapIdle()
@@ -510,6 +530,7 @@ export class AppModule
 
 	checkForNewElementsToRetrieve($getFullRepresentation = false)
 	{
+		if (this.dataType != AppDataType.All || this.state != AppStates.Normal && this.state != AppStates.ShowElement) return;
 		//console.log("checkForNewelementToRetrieve, fullRepresentation", $getFullRepresentation);
 		let result = this.boundsModule.calculateFreeBounds($getFullRepresentation);
 		//console.log("checkForNewelementToRetrieve, calculateBounds", result);
@@ -547,8 +568,7 @@ export class AppModule
 			if (this.mode == AppModes.Map)
 			{
 				this.infoBarComponent.hide();
-				this.setState(AppStates.Normal);	
-				this.mapComponent.fitBounds(this.geocoder.getBounds());			
+				this.setState(AppStates.Normal);					
 			}
 			else
 			{
@@ -556,6 +576,9 @@ export class AppModule
 				this.elementModule.clearCurrentsElement();
 				this.elementModule.updateElementsToDisplay(true);
 			}
+
+			// fit bounds anyway so the mapcomponent will register this requested bounds for later
+			this.mapComponent.fitBounds(this.geocoder.getBounds());
 
 			this.updateDocumentTitle();
 		}				
@@ -728,5 +751,5 @@ export class AppModule
 	//get listElementModule() { return this.listElementModule_; };
 	get state() { return this.state_; };
 	get mode() { return this.mode_; };
-
+	get dataType() { return this.dataType_; };
 }

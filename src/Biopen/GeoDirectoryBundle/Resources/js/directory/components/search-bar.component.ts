@@ -7,7 +7,7 @@
  * @license    MIT License
  * @Last Modified time: 2016-08-31
  */
-import { AppModule, AppStates } from "../app.module";
+import { AppModule, AppStates, AppDataType } from "../app.module";
 import { GeocoderModule, GeocodeResult } from "../modules/geocoder.module";
 declare var google, $;
 declare let App : AppModule;
@@ -33,34 +33,21 @@ export class SearchBarComponent
 			}
 		});
 
-		this.domElement().parents().find('#search-bar-icon').click(() =>
-		{					
-			this.handleSearchAction();
-		});	
+		this.domElement().parents().find('#search-bar-icon').click(() => this.handleSearchAction());	
 
-		$('#search-btn').click(() =>
-		{					
-			this.handleSearchAction();
-		});	
+		$('#search-btn').click(() => this.handleSearchAction());
 
-		$('#search-cancel-btn').click( () =>
-		{
-			this.clearLoader();
-			// TODO cancel request
-		})
+		$('#search-cancel-btn').click(() => this.clearLoader());	
+
+		$('#btn-close-search-result').click( () => this.clearSearchResult());	
 
 		$('#search-type-select').material_select();
 
-		this.domElement().on('focus', function() 
-		{
-			$('.search-options').slideDown(350);
-		});		
+		this.domElement().on('focus', () => { this.showSearchOptions(); });
 
-		$('.directory-menu-header').on('mouseleave', () => 
-		{
-			$('.search-options').slideUp(350);
-			this.domElement().blur();
-		});
+		this.domElement().on('keyup', () => this.showSearchOptions());
+
+		//$('.directory-menu-header').on('mouseleave', this.hideSearchOptions);
 	}
 
 	handleGeocodeResult()
@@ -84,12 +71,57 @@ export class SearchBarComponent
 		switch (searchType)
 		{
 			case "place":
-				App.geocoder.geocodeAddress(this.domElement().val());
+				App.geocoder.geocodeAddress(this.domElement().val(),
+					(result) => {
+						this.clearSearchResult(false);
+						this.hideSearchOptions();
+					});
 				break;
 			case "element":
-				App.ajaxModule.searchElements(this.domElement().val());
+				App.ajaxModule.searchElements(
+					this.domElement().val(),
+					(searchResult) => 
+					{
+						let result = App.elementModule.addJsonElements(searchResult.data, true, true);
+						App.elementModule.setSearchResultElement(result.elementsConverted);
+						App.setDataType(AppDataType.SearchResults);
+						this.clearLoader();
+						this.showSearchResultLabel(searchResult.data.length);
+						if (searchResult.data.length)
+							App.mapComponent.fitElementsBounds(result.elementsConverted);
+					});
 				break;
 		}
+	}
+
+	showSearchOptions()
+	{
+		$('.search-options').slideDown(350);
+	}
+
+	hideSearchOptions()
+	{
+		$('.search-options').slideUp(350);
+		this.domElement().blur();
+	}
+
+	showSearchResultLabel($number : number)
+	{
+		$('#search-result-number').text($number);
+		$('.search-results').show();
+		$('.search-options').hide();
+	}
+
+	hideSearchResultLabel()
+	{
+		$('.search-results').slideUp(350);
+	}
+
+	clearSearchResult(resetValue = true)
+	{
+		App.setDataType(AppDataType.All);
+		this.hideSearchResultLabel();
+		if (resetValue) this.setValue("");
 	}
 
 	setValue($value : string)

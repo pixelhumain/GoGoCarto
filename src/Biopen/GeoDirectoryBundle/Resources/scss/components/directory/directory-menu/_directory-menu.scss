@@ -34,6 +34,21 @@
       position: relative;
       background-color: $primary-color;
 
+      .btn-close
+      {
+        position: absolute;
+        bottom: .3rem;
+        right: 1rem;
+        margin: 0;
+        color: #CECECE;
+
+        &:hover
+        {
+          color: white;
+          cursor: pointer;
+        }
+      }
+
       .btn-close-menu 
       { 
         color:white;
