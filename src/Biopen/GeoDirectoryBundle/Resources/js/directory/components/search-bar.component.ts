@@ -85,19 +85,18 @@ export class SearchBarComponent
 		}
 	}
 
-	searchElements($text : string)
+	searchElements($text : string, $backFromHistory = false)
 	{		
 		this.setValue($text);
+		this.currSearchText = $text;
 
 		App.ajaxModule.searchElements(
 		$text,
 		(searchResult) => 
 		{
-			this.currSearchText = $text;
-
 			let result = App.elementModule.addJsonElements(searchResult.data, true, true);
 			App.elementModule.setSearchResultElement(result.elementsConverted);
-			App.setDataType(AppDataType.SearchResults);
+			App.setDataType(AppDataType.SearchResults, $backFromHistory);
 
 			this.clearLoader();			
 			this.showSearchResultLabel(searchResult.data.length);

@@ -172,7 +172,9 @@ export class AppModule
 
 		if (historystate.dataType == AppDataType.SearchResults)
 		{
-			this.searchBarComponent.searchElements(historystate.text);
+			// force setting dataType before searchBarComponent to avoid history issues
+			this.setDataType(historystate.dataType, true);
+			this.searchBarComponent.searchElements(historystate.text, $backFromHistory);
 			$('#directory-spinner-loader').hide();
 		}	
 		else
@@ -196,7 +198,7 @@ export class AppModule
 			this.directoryMenuComponent.setMainOption('all');
 		}		
 
-		if (historystate.viewport)
+		if (historystate.dataType == AppDataType.All && historystate.viewport)
 		{			
 			// if map not loaded we just set the mapComponent viewport without changing the
 			// actual viewport of the map, because it will be done in
@@ -459,7 +461,7 @@ export class AppModule
 				break;			
 		}
 
-		if (!$backFromHistory &&
+		if (!$backFromHistory && App.dataType == AppDataType.All &&
 			 ( oldStateName !== $newState 
 				|| $newState == AppStates.ShowElement
 				|| $newState == AppStates.ShowElementAlone
@@ -469,15 +471,15 @@ export class AppModule
 		this.updateDocumentTitle(options);
 	};	
 
-	setDataType($dataType : AppDataType)
+	setDataType($dataType : AppDataType, $backFromHistory : boolean = false)
 	{
-		//console.log("setDataType", AppDataType[$dataType]);
+		console.log("setDataType", AppDataType[$dataType]);
 		this.dataType_ = $dataType;
 		this.elementModule.clearCurrentsElement();	
 		this.elementListComponent.clear();
 		this.elementModule.updateElementsToDisplay(true);		
 		this.checkForNewElementsToRetrieve();	
-		this.historyModule.pushNewState();
+		if (!$backFromHistory) this.historyModule.pushNewState();
 		this.updateDocumentTitle();
 	}
 
@@ -535,7 +537,7 @@ export class AppModule
 
 		if (this.state == AppStates.Normal || this.state == AppStates.ShowElement) this.checkForNewElementsToRetrieve();
 
-		this.historyModule.updateCurrState();
+		if (this.dataType == AppDataType.All) this.historyModule.updateCurrState();
 	};
 
 	checkForNewElementsToRetrieve($getFullRepresentation = false)

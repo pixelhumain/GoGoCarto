@@ -189,11 +189,15 @@ export class ElementsModule
 	{
 		//console.log("UpdateCurrElements somethingChanged", somethingChanged);
 		let start = new Date().getTime();
-		let l = this.currVisibleElements().length;
+
+		let visibleElements = this.currVisibleElements();
+		if (!visibleElements || !visibleElements.length) return;
+		
+		let l = visibleElements.length;
 		let element : Element;
 		while(l--)
 		{
-			element = this.currVisibleElements()[l];
+			element = visibleElements[l];
 			if (somethingChanged) element.needToBeUpdatedWhenShown = true;
 
 			// if domMarker not visible that's mean that marker is in a cluster
