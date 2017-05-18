@@ -20,6 +20,8 @@ export class SearchBarComponent
 
 	domElement() { return $(`${this.domId}`); }
 
+	currSearchText : string = '';
+
 	constructor(domId : string)
 	{	
 		this.domId = domId;
@@ -78,20 +80,37 @@ export class SearchBarComponent
 					});
 				break;
 			case "element":
-				App.ajaxModule.searchElements(
-					this.domElement().val(),
-					(searchResult) => 
-					{
-						let result = App.elementModule.addJsonElements(searchResult.data, true, true);
-						App.elementModule.setSearchResultElement(result.elementsConverted);
-						App.setDataType(AppDataType.SearchResults);
-						this.clearLoader();
-						this.showSearchResultLabel(searchResult.data.length);
-						if (searchResult.data.length)
-							App.mapComponent.fitElementsBounds(result.elementsConverted);
-					});
+				this.searchElements(this.domElement().val());
 				break;
 		}
+	}
+
+	searchElements($text : string)
+	{		
+		this.setValue($text);
+
+		App.ajaxModule.searchElements(
+		$text,
+		(searchResult) => 
+		{
+			this.currSearchText = $text;
+
+			let result = App.elementModule.addJsonElements(searchResult.data, true, true);
+			App.elementModule.setSearchResultElement(result.elementsConverted);
+			App.setDataType(AppDataType.SearchResults);
+
+			this.clearLoader();			
+			this.showSearchResultLabel(searchResult.data.length);
+
+			if (searchResult.data.length > 0)
+				App.mapComponent.fitElementsBounds(result.elementsConverted);
+			else
+				App.mapComponent.fitDefaultBounds();
+		},
+		(error) =>
+		{
+			//App.geocoder.geocodeAddress('');
+		});
 	}
 
 	showSearchOptions()
@@ -121,6 +140,7 @@ export class SearchBarComponent
 	{
 		App.setDataType(AppDataType.All);
 		this.hideSearchResultLabel();
+		this.currSearchText = '';
 		if (resetValue) this.setValue("");
 	}
 
@@ -128,5 +148,7 @@ export class SearchBarComponent
 	{
 		this.domElement().val($value);
 	}  
+
+	getCurrSearchText() { return this.currSearchText; }
     
 }

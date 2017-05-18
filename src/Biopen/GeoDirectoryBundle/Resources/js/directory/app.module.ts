@@ -114,7 +114,7 @@ export class AppModule
 	// curr state of the app
 	private state_ : AppStates = null;	
 	private mode_ : AppModes = null;
-	private dataType_ : AppDataType = null;
+	private dataType_ : AppDataType = AppDataType.All;
 
 	// somes states need a element id, we store it in this property
 	private stateElementId : number = null;
@@ -164,22 +164,27 @@ export class AppModule
 		// if no backfromhistory that means historystate is actually the INITIAL_STATE
 		// given by symfony, so we need to convert this obect in real Historystate class
 		if (!$backFromHistory)
-			historystate = new HistoryState().parse(historystate);	
+			historystate = new HistoryState().parse(historystate);
 
 		if (historystate === null) return;	
 
-		//console.log("loadHistorystate", historystate);
+		console.log("loadHistorystate", historystate);	
 
-		// TODO save dataType in url?
-		this.setDataType(AppDataType.All);
-
-		// check viewport and address from cookies
-		if (!historystate.viewport && !historystate.address && historystate.state == AppStates.Normal) 
+		if (historystate.dataType == AppDataType.SearchResults)
 		{
-			console.log("no viewport nor address provided, using cookies values");
-			historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
-			historystate.address = Cookies.readCookie('address');
-			if (historystate.address) $('#search-bar').val(historystate.address);
+			this.searchBarComponent.searchElements(historystate.text);
+			$('#directory-spinner-loader').hide();
+		}	
+		else
+		{
+			// check viewport and address from cookies
+			if (!historystate.viewport && !historystate.address && historystate.state == AppStates.Normal) 
+			{
+				console.log("no viewport nor address provided, using cookies values");
+				historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
+				historystate.address = Cookies.readCookie('address');
+				if (historystate.address) $('#search-bar').val(historystate.address);
+			}		
 		}		
 
 		if (historystate.filters)
@@ -216,7 +221,7 @@ export class AppModule
 		
 		// if address is provided we geolocalize
 		// if no viewport and state normal we geocode on default location
-		if (historystate.address || (!historystate.viewport && historystate.state === AppStates.Normal)) 
+		if (historystate.dataType == AppDataType.All && (historystate.address || (!historystate.viewport && historystate.state === AppStates.Normal))) 
 		{
 			this.geocoderModule_.geocodeAddress(
 				historystate.address, 
@@ -472,6 +477,7 @@ export class AppModule
 		this.elementListComponent.clear();
 		this.elementModule.updateElementsToDisplay(true);		
 		this.checkForNewElementsToRetrieve();	
+		this.historyModule.pushNewState();
 	}
 
 	handleMarkerClick(marker : BiopenMarker)

@@ -27,4 +27,11 @@ biopen_directory_constellation:
         range: \d+
         mode: carte|liste
 
+biopen_directory_search:
+    path:     /{mode}/recherche/{text}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:search}
+    options:
+        expose: true
+    requirements:
+        mode: carte|liste
 

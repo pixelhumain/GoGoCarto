@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-18 15:17:42
+ * @Last Modified time: 2017-05-18 15:41:07
  */
  
 
@@ -85,6 +85,16 @@ class DirectoryController extends Controller
 
         return $this->renderDirectory($initialState, $request);    
     } 
+
+    public function searchAction($mode, $text, Request $request)
+    {
+        $initialState['mode'] = $this->formatMode($mode);
+        $initialState['state'] = 'Normal';
+        $initialState['dataType'] = 'SearchResults';
+        $initialState['text'] = $text;
+
+        return $this->renderDirectory($initialState, $request);
+    }  
 
     private function renderDirectory($initialState, Request $request)
     {

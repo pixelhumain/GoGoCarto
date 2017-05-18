@@ -10,7 +10,7 @@
 
 import { Event, IEvent } from "../utils/event";
 import { slugify, capitalize } from "../../commons/commons";
-import { AppModule, AppStates, AppModes } from "../app.module";
+import { AppModule, AppStates, AppModes, AppDataType } from "../app.module";
 import { Element } from "../classes/element.class";
 import { ViewPort } from "../components/map/map.component";
 import * as Cookies from "../utils/cookies";
@@ -37,18 +37,22 @@ export class HistoryState
 {
 	mode: AppModes;
 	state : AppStates;
+	dataType : AppDataType;
 	address : string;
 	viewport : ViewPort;
 	id : number;
+	text : string;
 	filters : string;
 
 	parse($historyState : any) : HistoryState
 	{
 		this.mode = $historyState.mode == 'Map' ? AppModes.Map : AppModes.List;
 		this.state = parseInt(AppStates[$historyState.state]);
+		this.dataType = parseInt(AppDataType[$historyState.dataType]);
 		this.address = $historyState.address;
 		this.viewport = typeof $historyState.viewport === 'string' ? new ViewPort().fromString($historyState.viewport) : $historyState.viewport;
 		this.id = $historyState.id;
+		this.text = $historyState.text;
 		this.filters = $historyState.filters;
 		return this;
 	}
@@ -83,11 +87,12 @@ export class HistoryModule
 		let historyState = new HistoryState;
 		historyState.mode = App.mode;
 		historyState.state = App.state;
+		historyState.dataType = App.dataType;
 		historyState.address = App.geocoder.getLocationSlug();
 		historyState.viewport = App.mapComponent.viewport;
 		historyState.id = App.infoBarComponent.getCurrElementId() || $options.id;
 		historyState.filters = App.filterModule.getFiltersToString();
-
+		historyState.text = App.searchBarComponent.getCurrSearchText();
 		// if ($pushState) console.log("NEW Sate", historyState.filters);
 		// else console.log("UPDATE State", historyState.filters);
 
@@ -122,9 +127,13 @@ export class HistoryModule
 		// in List mode we add viewport only when no address provided
 		if (viewport && (App.mode == AppModes.Map || !address)) addressAndViewport += viewport.toString();
 
-		// in list mode we don't care about state
-		if (App.mode == AppModes.List)
+		if (App.dataType == AppDataType.SearchResults)
 		{
+			route = Routing.generate('biopen_directory_search', { mode :  mode, text : historyState.text });	
+		}		
+		else if (App.mode == AppModes.List)
+		{
+			// in list mode we don't care about state
 			route = Routing.generate('biopen_directory_normal', { mode :  mode });	
 			if (addressAndViewport) route += '/' + addressAndViewport;
 		}
@@ -157,24 +166,11 @@ export class HistoryModule
 					// forjsrouting doesn't support speacial characts like in viewport
 					// so we add them manually
 					if (addressAndViewport) route += '/' + addressAndViewport;										
-					break;
-
-				// case AppStates.ShowDirections:
-													
-				// 	break;			
+					break;		
 			}		
 		}
 
 		if (historyState.filters) route += '?cat=' + historyState.filters;
-
-		
-		// for (let key in options)
-		// {
-		// 	route += '?' + key + '=' + options[key];
-		// 	//route += '/' + key + '/' + options[key];
-		// }
-
-		//console.log("route generated", route);
 
 		return route;
 	};

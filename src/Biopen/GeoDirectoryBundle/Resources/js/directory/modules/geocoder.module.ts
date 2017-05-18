@@ -72,7 +72,7 @@ export class GeocoderModule
 			this.lastResultBounds = App.boundsModule.maxBounds;
 
 			// leave time for map to load
-			setTimeout( () => { callbackComplete(this.lastResults); }, 200);
+			if (callbackComplete) setTimeout( () => { callbackComplete(this.lastResults); }, 200);
 		}
 		else
 		{

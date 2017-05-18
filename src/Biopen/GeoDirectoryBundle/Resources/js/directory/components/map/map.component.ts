@@ -238,6 +238,11 @@ export class MapComponent
 		else App.map().fitBounds(bounds);
 	}		
 
+	fitDefaultBounds()
+	{
+		this.fitBounds(App.boundsModule.maxBounds);
+	}
+
 	panToLocation(location : L.LatLng, zoom?, animate : boolean = true)
 	{
 		zoom = zoom || this.getZoom() || 12;
