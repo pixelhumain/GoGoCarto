@@ -77,6 +77,7 @@ export class SearchBarComponent
 					(result) => {
 						this.clearSearchResult(false);
 						this.hideSearchOptions();
+						App.mapComponent.fitBounds(App.geocoder.getBounds(), true);
 					});
 				break;
 			case "element":
