@@ -170,12 +170,13 @@ export class AppModule
 
 		//console.log("loadHistorystate", historystate);
 
-		// TODO
+		// TODO save dataType in url?
 		this.setDataType(AppDataType.All);
 
 		// check viewport and address from cookies
 		if (!historystate.viewport && !historystate.address && historystate.state == AppStates.Normal) 
 		{
+			console.log("no viewport nor address provided, using cookies values");
 			historystate.viewport = new ViewPort().fromString(Cookies.readCookie('viewport'));
 			historystate.address = Cookies.readCookie('address');
 			if (historystate.address) $('#search-bar').val(historystate.address);
@@ -224,6 +225,8 @@ export class AppModule
 					// if viewport is given, nothing to do, we already did initialization
 					// with viewport
 					if (historystate.viewport && historystate.mode == AppModes.Map) return;
+					// fit bounds anyway so the mapcomponent will register this requested bounds for later
+					this.mapComponent.fitBounds(this.geocoder.getBounds());
 				},
 				() => {
 					// failure callback
@@ -523,14 +526,15 @@ export class AppModule
 		this.elementModule.updateElementsToDisplay(updateInAllElementList);
 		//this.elementModule.updateElementsIcons(false);
 
-		this.checkForNewElementsToRetrieve();
+		if (this.state == AppStates.Normal || this.state == AppStates.ShowElement) this.checkForNewElementsToRetrieve();
 
 		this.historyModule.updateCurrState();
 	};
 
 	checkForNewElementsToRetrieve($getFullRepresentation = false)
 	{
-		if (this.dataType != AppDataType.All || this.state != AppStates.Normal && this.state != AppStates.ShowElement) return;
+		if (this.dataType != AppDataType.All) return;
+
 		//console.log("checkForNewelementToRetrieve, fullRepresentation", $getFullRepresentation);
 		let result = this.boundsModule.calculateFreeBounds($getFullRepresentation);
 		//console.log("checkForNewelementToRetrieve, calculateBounds", result);
@@ -575,10 +579,7 @@ export class AppModule
 				this.boundsModule.createBoundsFromLocation(this.geocoder.getLocation());
 				this.elementModule.clearCurrentsElement();
 				this.elementModule.updateElementsToDisplay(true);
-			}
-
-			// fit bounds anyway so the mapcomponent will register this requested bounds for later
-			this.mapComponent.fitBounds(this.geocoder.getBounds());
+			}			
 
 			this.updateDocumentTitle();
 		}				
