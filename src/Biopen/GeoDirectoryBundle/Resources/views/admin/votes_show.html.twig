@@ -1,0 +1,24 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% set votesValues = {
+	'-2': 'Ne respecte pas la charte',
+	'-1': "N'existe pas",
+	'-0': 'Existe mais infos mauvaises',
+	'1': 'Existe',
+	'2': 'Existe et valide info'
+	}
+%} 
+
+{% block field %}
+{% spaceless %}
+	Nombre de votes : {{ value|length }}
+	<div class="row">
+	{% for key, vote in value %}
+		<div class="col-sm-3">({{ key + 1 }}) -> {{ votesValues[vote.value] }}</div>
+		<div class="col-sm-2">{{ vote.userMail}} </div>
+		<div class="col-sm-5">{{ vote.comment }}</div> 
+		<div class="col-sm-2">{{ vote.updated|date("d/m/Y à H:m")}}</div> 
+	{% endfor %}
+	</div>
+{% endspaceless %}
+{% endblock %}

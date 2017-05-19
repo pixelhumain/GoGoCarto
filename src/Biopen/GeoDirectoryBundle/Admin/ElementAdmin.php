@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-19 15:37:24
+ * @Last Modified time: 2017-05-19 16:42:02
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -18,13 +18,13 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 class ElementAdmin extends AbstractAdmin
 {
 	private $statusChoices = [
-		'-4'=>'Deleted', 
-		'-3'=>'CollaborativeRefused', 
-		'-2'=>'AdminRefused', 
-		'-1'=>'ModerationNeeded', 
-		'0' => 'Pending',
-		'1' => 'AdminValidate',
-		'2' => 'CollaborativeValidate',
+		'-4'=>'Supprimé', 
+		'-3'=>'Refusé (votes) ', 
+		'-2'=>'Réfusé (admin)', 
+		'-1'=>'Besoin modération', 
+		'0' => 'En attente',
+		'1' => 'Validé (admin)',
+		'2' => 'Validé (votes)',
 	];
 
 	protected function configureFormFields(FormMapper $formMapper)
@@ -62,8 +62,11 @@ class ElementAdmin extends AbstractAdmin
 	  $show
 	      ->add('id')
 	      ->add('name')
-	      ->add('status')
+	      ->add('status', 'choice', [
+               'choices'=> $this->statusChoices,
+               ])
 	      ->add('description')
+	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:votes_show.html.twig'))
 	      ->add('address')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
@@ -74,8 +77,8 @@ class ElementAdmin extends AbstractAdmin
 	      ->add('openHoursMoreInfos')
 	      ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
-	      ->add('created')
-	      ->add('updated');
+	      ->add('created', 'datetime', array("format" => "d/m/Y à H:m"))
+	      ->add('updated', 'datetime', array("format" => "d/m/Y à H:m"));
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
@@ -86,7 +89,7 @@ class ElementAdmin extends AbstractAdmin
                'choices'=> $this->statusChoices,
                'editable'=>true,
                ])
-         ->add('updated')
+         ->add('updated','date', array("format" => "d/m/Y"))
 	      ->add('_action', 'actions', array(
 	          'actions' => array(
 	              'show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_show.html.twig'),
