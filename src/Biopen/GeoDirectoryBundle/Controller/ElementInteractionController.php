@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-11 17:23:00
+ * @Last Modified time: 2017-05-19 16:05:47
  */
  
 
@@ -41,7 +41,7 @@ class ElementInteractionController extends Controller
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
-            $resultMessage = $this->get('biopen.element_vote_service')->voteForElement($element, $request->get('voteValue'), $request->get('comment'));
+            $resultMessage = $this->get('biopen.element_vote_service')->voteForElement($element, $request->get('value'), $request->get('comment'));
          
             return $this->returnResponse(true, $resultMessage, $element->getstatus());     
         }
