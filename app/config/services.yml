@@ -28,6 +28,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Bandeaux de la page d'accueil }
 
+    admin.element:
+        class: Biopen\GeoDirectoryBundle\Admin\ElementAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:ElementAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Acteurs }
+
     my_user_provider:
         class: "%my_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml

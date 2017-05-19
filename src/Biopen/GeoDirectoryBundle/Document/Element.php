@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-11 17:01:02
+ * @Last Modified time: 2017-05-19 10:54:09
  */
  
 
@@ -15,6 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Expose;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 abstract class ElementStatus
 {
@@ -34,6 +35,7 @@ abstract class ElementStatus
  * @MongoDB\HasLifecycleCallbacks 
  * @MongoDB\Index(keys={"coordinates"="2d"})
  * @MongoDB\Index(keys={"name"="text"})
+ * @Gedmo\Loggable
  */
 class Element
 {
@@ -67,19 +69,22 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $name;
 
     /** 
     * @Expose
+    * @Gedmo\Versioned
     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
     */
     public $coordinates;
 
     /**
      * @var string
-     * @Expose
+     * @Expose     
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $address;
@@ -87,6 +92,7 @@ class Element
     /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     private $postalCode;
@@ -94,6 +100,7 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string", nullable=false)
      */
     public $description;
@@ -101,6 +108,7 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $tel;
@@ -108,6 +116,7 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $mail;
@@ -115,6 +124,7 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $webSite;
@@ -129,6 +139,7 @@ class Element
     /**
      * @var \stdClass
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
     public $openHours;
@@ -136,6 +147,7 @@ class Element
     /**
      * @var string
      * @Expose
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string", nullable=true)
      */
     public $openHoursMoreInfos;
@@ -143,11 +155,13 @@ class Element
    /**
      * @var string
      * 
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     private $contributorMail;
 
     /**
+     * @Gedmo\Versioned
      * @MongoDB\Field(type="bool")
      */
     private $contributorIsRegisteredUser;
@@ -165,6 +179,22 @@ class Element
      * @MongoDB\Field(type="string") 
      */ 
     private $fullJson; 
+
+    /**
+     * @var date $created
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var date $updated
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable
+     */
+    private $updated;
 
 
     /**
@@ -686,5 +716,49 @@ class Element
     public function getReports()
     {
         return $this->reports;
+    }
+
+    /**
+     * Set created
+     *
+     * @param date $created
+     * @return $this
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return date $created
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param date $updated
+     * @return $this
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return date $updated
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

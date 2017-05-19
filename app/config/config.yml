@@ -101,24 +101,24 @@ doctrine_mongodb:
         default:
             auto_mapping: true
             mappings:                   
-                gedmo_translatable:
-                    type: annotation
-                    prefix: Gedmo\Translatable\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Document"
-                    alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
-                    is_bundle: false
-                gedmo_translator:
-                    type: annotation
-                    prefix: Gedmo\Translator\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
-                    alias: GedmoTranslator # (optional) it will default to the name set for the mapping
-                    is_bundle: false
-                # gedmo_loggable:
+                # gedmo_translatable:
                 #     type: annotation
-                #     prefix: Gedmo\Loggable\Document
-                #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
-                #     alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                #     prefix: Gedmo\Translatable\Document
+                #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Document"
+                #     alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
                 #     is_bundle: false
+                # gedmo_translator:
+                #     type: annotation
+                #     prefix: Gedmo\Translator\Document
+                #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
+                #     alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                #     is_bundle: false
+                gedmo_loggable:
+                    type: annotation
+                    prefix: Gedmo\Loggable\Document
+                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
+                    alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                    is_bundle: false
                 # gedmo_tree:
                 #     type: annotation
                 #     prefix: Gedmo\Tree\Document
@@ -131,6 +131,8 @@ stof_doctrine_extensions:
     mongodb:
         default:
             sortable: true
+            loggable: true
+            timestampable: true
 
 pix_sortable_behavior:
     db_driver: mongodb # default value : orm
