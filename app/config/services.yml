@@ -34,6 +34,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Acteurs }
 
+    sonata.block.service.monitoring:
+        class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
+        tags:
+            - { name: sonata.block }
+
     my_user_provider:
         class: "%my_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml

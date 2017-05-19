@@ -177,6 +177,7 @@ sonata_block:
         sonata.user.block.account: # used to display menu option (login option)
         sonata.block.service.text: # used to if you plan to use Sonata user routes
         # enable the SonataAdminBundle block
+        sonata.block.service.monitoring: 
         sonata.admin.block.admin_list:
             contexts: [admin]
 
@@ -262,6 +263,11 @@ sonata_admin:
     templates:
         # default global templates
         layout:  SonataAdminBundle::layout.html.twig
+    dashboard:
+        blocks:
+            # display a dashboard block
+            - { position: left, type: sonata.admin.block.admin_list }
+            - { position: right, type: sonata.block.service.monitoring }
 
 sonata_user:
     security_acl: true
