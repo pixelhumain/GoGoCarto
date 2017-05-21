@@ -14,10 +14,12 @@
 	Nombre de votes : {{ value|length }}
 	<div class="row">
 	{% for key, vote in value %}
+		{% if vote.value %}
 		<div class="col-sm-3">({{ key + 1 }}) -> {{ votesValues[vote.value] }}</div>
 		<div class="col-sm-2">{{ vote.userMail}} </div>
 		<div class="col-sm-5">{{ vote.comment }}</div> 
 		<div class="col-sm-2">{{ vote.updated|date("d/m/Y à H:m")}}</div> 
+		{% endif %}
 	{% endfor %}
 	</div>
 {% endspaceless %}
