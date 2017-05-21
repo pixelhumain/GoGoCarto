@@ -2,7 +2,40 @@
 
 {% block block %}
 
-    <div>{{ pendingCount }} acteurs en attente de validation collaborative</div>
-    <div>{{ moderationNeededCount }} acteurs ayant besoin d'une intervention de modération par un admin</div>
+    <div>
+      <div class="row">
+        <div class="col-xs-6">       
+    			<!-- small box -->
+			    <div class="small-box bg-aqua">
+			        <div class="inner">
+			            <h3>{{ pendingCount }}</h3>
+			            <p>En attente de validation</p>
+			        </div>
+			        <div class="icon">
+			            <i class="fa fa-exclamation-triangle"></i>
+			        </div>
+			        <a href="{{ path('admin_biopen_geodirectory_element_list') }}?filter[status][type]=1&filter[status][value]=0&filter[_page]=1&filter[_sort_by]=updated&filter[_sort_order]=DESC&filter[_per_page]=32" class="small-box-footer">
+			            Afficher <i class="fa fa-arrow-circle-right"></i>
+			        </a>
+			    </div>
+		  	</div>
+
+		  	<div class="col-xs-6">       
+    			<!-- small box -->
+			    <div class="small-box bg-yellow">
+			        <div class="inner">
+			            <h3>{{ moderationNeededCount }}</h3>
+			            <p>Besoin d'une modération</p>
+			        </div>
+			        <div class="icon">
+			            <i class="fa fa-wrench"></i>
+			        </div>
+			        <a href="{{ path('admin_biopen_geodirectory_element_list') }}?filter[status][type]=1&filter[status][value]=-1&filter[_page]=1&filter[_sort_by]=updated&filter[_sort_order]=DESC&filter[_per_page]=32" class="small-box-footer">
+			            Afficher <i class="fa fa-arrow-circle-right"></i>
+			        </a>
+			    </div>
+		  	</div>
+
+		  </div>
 
 {% endblock %}
