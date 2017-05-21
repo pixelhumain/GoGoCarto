@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-19 16:42:02
+ * @Last Modified time: 2017-05-21 11:02:00
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -25,7 +25,16 @@ class ElementAdmin extends AbstractAdmin
 		'0' => 'En attente',
 		'1' => 'Validé (admin)',
 		'2' => 'Validé (votes)',
+		'3' => 'Ajouté par admin',
+		'4' => 'Modifié par admin',
 	];
+
+    protected $datagridValues = array(
+        '_page' => 1,            // display the first page (default = 1)
+        '_sort_order' => 'DESC', // reverse order (default = 'ASC')
+        '_sort_by' => 'updated'  // name of the ordered field
+                                 // (default = the model's id field, if any)
+    );
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{
@@ -64,9 +73,10 @@ class ElementAdmin extends AbstractAdmin
 	      ->add('name')
 	      ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
+               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
                ])
 	      ->add('description')
-	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:votes_show.html.twig'))
+	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
 	      ->add('address')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
@@ -88,6 +98,7 @@ class ElementAdmin extends AbstractAdmin
          ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
                'editable'=>true,
+               'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updated','date', array("format" => "d/m/Y"))
 	      ->add('_action', 'actions', array(

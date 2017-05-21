@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-11 16:15:21
+ * @Last Modified time: 2017-05-21 10:53:26
  */
  
 
@@ -158,7 +158,7 @@ class ElementFormController extends Controller
 				else $needToCheckDuplicates = false;
 
 				// custom handling form (to creating OptionValues for example)
-				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request);	
+				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode);	
 
 				if ($needToCheckDuplicates)	
 				{				

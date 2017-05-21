@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-19 10:54:09
+ * @Last Modified time: 2017-05-21 10:44:05
  */
  
 
@@ -25,7 +25,9 @@ abstract class ElementStatus
     const ModerationNeeded = -1;
     const Pending = 0;
     const AdminValidate = 1;
-    const CollaborativeValidate = 2;    
+    const CollaborativeValidate = 2;
+    const AddedByAdmin = 3; 
+    const ModifiedByAdmin = 4;            
 }
 
 /**

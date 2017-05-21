@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 14:14:56
+ * @Last Modified time: 2017-05-21 10:58:28
  */
  
 
@@ -32,7 +32,7 @@ class ElementFormService
          $this->securityContext = $securityContext;
     }
 
-    public function handleFormSubmission($element, $request)
+    public function handleFormSubmission($element, $request, $editMode)
     {
         $optionValuesString = $request->request->get('options-values');
         //dump($optionValuesString);
@@ -68,8 +68,19 @@ class ElementFormService
         {
             $user = $this->securityContext->getToken()->getUser();
 
-            if ($user->isAdmin() && !$request->request->get('dont-validate'))
-                $element->setStatus(ElementStatus::AdminValidate);
+            if ($user->isAdmin())
+            {
+                if (!$editMode) $element->setStatus(ElementStatus::AddedByAdmin);
+                else if ($element->getStatus() == ElementStatus::Pending)
+                {
+                    if (!$request->request->get('dont-validate')) $element->setStatus(ElementStatus::AdminValidate);
+                    else $element->setStatus(ElementStatus::Pending);
+                }
+                else
+                {
+                    $element->setStatus(ElementStatus::ModifiedByAdmin);
+                }
+            }                
             else
                 $element->setStatus(ElementStatus::Pending);
         }

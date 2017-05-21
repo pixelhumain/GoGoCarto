@@ -8,10 +8,10 @@
 	</div>
 
 	{# if element is pending #}
-	{% if element.status != null and element.status == 0 %}
+	{% if element.status is defined and element.status == 0 %}
 	<div class="col s12">
 		<input type="checkbox" name="dont-validate" id="dont-validate"/>
-		<label for="dont-send-mail">Ne pas valider l'acteur, je modifie simplement la mise en forme</label> 	
+		<label for="dont-validate">Ne pas valider l'acteur, je modifie simplement la mise en forme</label> 	
 	</div>
 	{% endif %}
 
