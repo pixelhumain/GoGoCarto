@@ -1,0 +1,12 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+    {% spaceless %}
+        {% if field_description.options.choices is defined %}
+            {% for key, optionValue in value %}
+                {{ field_description.options.choices[optionValue.optionId].nameShort }}
+                {% if not loop.last %}, {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}

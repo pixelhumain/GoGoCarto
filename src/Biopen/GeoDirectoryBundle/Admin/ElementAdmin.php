@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-21 12:07:27
+ * @Last Modified time: 2017-05-21 13:17:17
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -40,6 +40,7 @@ class ElementAdmin extends AbstractAdmin
 	{
 	  $formMapper
 	  	->add('name', 'text')
+	  	->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 	  	->add('status', 'choice', [
                'choices'=> $this->statusChoices,
                ])
@@ -68,6 +69,11 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureShowFields(ShowMapper $show)
 	{
+	  $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
+	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
+
 	  $show
 	      ->add('id')
 	      ->add('name')
@@ -76,6 +82,11 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
                ])
 	      ->add('description')
+	      ->add('optionValues', null, [
+	      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
+	      	'choices' => $optionList,
+	      	'label' => 'Catégories'
+	      ])
 	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
 	      ->add('address')
 	      ->add('postalCode')
@@ -94,7 +105,7 @@ class ElementAdmin extends AbstractAdmin
 	protected function configureListFields(ListMapper $listMapper)
 	{
 	  $listMapper
-	      ->addIdentifier('name', null,  array('editable' => true))
+	      ->addIdentifier('name', null,  array('editable' => true))	      
          ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
                'editable'=>true,
