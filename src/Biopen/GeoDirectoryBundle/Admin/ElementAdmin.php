@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-21 11:02:00
+ * @Last Modified time: 2017-05-21 12:07:27
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -32,7 +32,7 @@ class ElementAdmin extends AbstractAdmin
     protected $datagridValues = array(
         '_page' => 1,            // display the first page (default = 1)
         '_sort_order' => 'DESC', // reverse order (default = 'ASC')
-        '_sort_by' => 'updated'  // name of the ordered field
+        '_sort_by' => 'updatedAt'  // name of the ordered field
                                  // (default = the model's id field, if any)
     );
 
@@ -87,8 +87,8 @@ class ElementAdmin extends AbstractAdmin
 	      ->add('openHoursMoreInfos')
 	      ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
-	      ->add('created', 'datetime', array("format" => "d/m/Y à H:m"))
-	      ->add('updated', 'datetime', array("format" => "d/m/Y à H:m"));
+	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:m"))
+	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:m"));
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
@@ -100,7 +100,7 @@ class ElementAdmin extends AbstractAdmin
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
-         ->add('updated','date', array("format" => "d/m/Y"))
+         ->add('updatedAt','date', array("format" => "d/m/Y"))
 	      ->add('_action', 'actions', array(
 	          'actions' => array(
 	              'show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_show.html.twig'),

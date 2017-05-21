@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-21 10:44:05
+ * @Last Modified time: 2017-05-21 12:10:55
  */
  
 
@@ -183,20 +183,20 @@ class Element
     private $fullJson; 
 
     /**
-     * @var date $created
+     * @var date $createdAt
      *
      * @MongoDB\Date
      * @Gedmo\Timestampable(on="create")
      */
-    private $created;
+    private $createdAt;
 
     /**
-     * @var date $updated
+     * @var date $updatedAt
      *
      * @MongoDB\Date
      * @Gedmo\Timestampable
      */
-    private $updated;
+    private $updatedAt;
 
 
     /**
@@ -726,9 +726,9 @@ class Element
      * @param date $created
      * @return $this
      */
-    public function setCreated($created)
+    public function setCreatedAt($created)
     {
-        $this->created = $created;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -737,9 +737,9 @@ class Element
      *
      * @return date $created
      */
-    public function getCreated()
+    public function getCreatedAt()
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     /**
@@ -748,9 +748,9 @@ class Element
      * @param date $updated
      * @return $this
      */
-    public function setUpdated($updated)
+    public function setUpdatedAt($updated)
     {
-        $this->updated = $updated;
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 
@@ -759,8 +759,8 @@ class Element
      *
      * @return date $updated
      */
-    public function getUpdated()
+    public function getUpdatedAt()
     {
-        return $this->updated;
+        return $this->updatedAt;
     }
 }
