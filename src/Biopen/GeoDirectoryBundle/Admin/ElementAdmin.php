@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-21 13:17:17
+ * @Last Modified time: 2017-05-23 09:12:24
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -40,7 +40,7 @@ class ElementAdmin extends AbstractAdmin
 	{
 	  $formMapper
 	  	->add('name', 'text')
-	  	->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
+	  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 	  	->add('status', 'choice', [
                'choices'=> $this->statusChoices,
                ])

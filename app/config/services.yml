@@ -40,6 +40,12 @@ services:
         tags:
             - { name: sonata.block }
 
+    biopen.block.recent_validations:
+        class: Biopen\GeoDirectoryBundle\Block\RecentValidationBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @sonata.admin.pool ]
+        tags:
+            - { name: sonata.block }
+
     my_user_provider:
         class: "%my_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml

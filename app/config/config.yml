@@ -178,6 +178,8 @@ sonata_block:
         sonata.block.service.text: # used to if you plan to use Sonata user routes
         # enable the SonataAdminBundle block
         sonata.block.service.monitoring: 
+        biopen.block.recent_validations:
+            contexts: [admin]
         sonata.admin.block.admin_list:
             contexts: [admin]
 
@@ -267,7 +269,8 @@ sonata_admin:
         blocks:
             # display a dashboard block
             - { position: left, type: sonata.admin.block.admin_list }
-            - { position: right, type: sonata.block.service.monitoring }
+            - { position: right, type: biopen.block.recent_validations  }
+            - { position: top, class: col-md-12, type: sonata.block.service.monitoring}
 
 sonata_user:
     security_acl: true
