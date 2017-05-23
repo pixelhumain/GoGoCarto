@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-23 09:12:24
+ * @Last Modified time: 2017-05-23 18:04:13
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -49,6 +49,11 @@ class ElementAdmin extends AbstractAdmin
 		->add('webSite', 'text', array('required' => false)) 
 		->add('mail', 'text', array('required' => false))
 		->add('openHoursMoreInfos', 'text', array('required' => false));        
+	}
+
+	public function getExportFields()
+	{
+	    return array('name', 'coordinates.lat', 'coordinates.lng', 'address', 'postalCode', 'description', 'tel', 'mail', 'webSite');
 	}
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
