@@ -1,0 +1,17 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+{% spaceless %}
+	{% set positiveVotes = 0 %}
+	{% set negativeVotes = 0 %}
+
+	{% for key, vote in value %}
+		{% if vote.value < 0  %} {% set negativeVotes = negativeVotes + 1 %}
+		{% else %} {% set positiveVotes = positiveVotes + 1 %}
+		{% endif %}
+	{% endfor %}
+
+	{% if negativeVotes > 0 %}<span class="label label-danger"><i class="fa fa-thumbs-down"></i> {{ negativeVotes }}</span> {% endif %}
+	{% if positiveVotes > 0 %}<span class="label label-success"><i class="fa fa-thumbs-up"></i> {{ positiveVotes }}</span> {% endif %}
+{% endspaceless %}
+{% endblock %}
