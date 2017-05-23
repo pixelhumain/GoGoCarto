@@ -17,8 +17,8 @@ biopen_element_delete:
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementForm:delete }
 
 biopen_element_generate:
-    path:     /generate/{nombre}
-    defaults: { _controller: BiopenGeoDirectoryBundle:RandomCreation:generate, nombre:'1' }
+    path:     /generate/{nombre}/{generateVotes}
+    defaults: { _controller: BiopenGeoDirectoryBundle:RandomCreation:generate, nombre:'1', generateVotes:'0' }
 
 
 

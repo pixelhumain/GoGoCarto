@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 22:02:32
+ * @Last Modified time: 2017-05-23 23:17:06
  */
  
 
@@ -16,6 +16,7 @@ namespace Biopen\GeoDirectoryBundle\Services;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Document\Vote;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 
@@ -34,14 +35,14 @@ class RandomCreationService
     	 $this->em = $documentManager;
     }
 
-    public function generate($nombre)
+    public function generate($nombre, $generateVotes = false)
     {
 	    $SOlat = 43.55;
 	    $SOlng = -0.94;
 	    $NElat = 49.22;
 	    $NElng = 5.89;
 
-	    $activeSet = [
+	    $statusSet = [
 		  -4 => 0.05,
 		  -3 => 0.05,
 		  -2 => 0.05,
@@ -53,9 +54,22 @@ class RandomCreationService
 		  4 => 0.1,
 		];
 
-		$pendingSet = [
-		  0 => 0.7,
+		$pendingTypeSet = [
+		  0 => 0.3,
+		  1 => 0.7,
+		];
+
+		$voteEditSet = [
+		  -1 => 0.3,
+		  1 => 0.7,
+		];
+
+		$voteNewSet = [
+		  -2 => 0.1,
+		  -1 => 0.1,
+		  0 => 0.3,
 		  1 => 0.3,
+		  2 => 0.2,
 		];
 
 	    $lngSpan = $NElng - $SOlng;
@@ -80,11 +94,27 @@ class RandomCreationService
 	      $new_element->setCoordinates(new Coordinates($lat, $lng));
 	      $new_element->setAddress($lipsum->words(rand(6,10)));       
 	      $new_element->setDescription($lipsum->words(rand(3,20)));
-	      $new_element->setTel('O678459586');
+	      $new_element->setTel('0678459586');
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
-	      $new_element->setStatus($this->randWithSet($activeSet));
-	      if ($new_element->getStatus() == 0) $new_element->setStatusMessage( $this->randWithSet($pendingSet) ? 'modification' : 'ajout');
+	      $new_element->setStatus($this->randWithSet($statusSet));
+	      if ($new_element->getStatus() == 0) 
+      	{
+      		$isNewElement = $this->randWithSet($pendingTypeSet);
+      		$new_element->setStatusMessage( $isNewElement ? 'ajout' : 'modification');
+      		if ($generateVotes)
+      		{
+	      		$nbreVotes = rand(0,5);
+	      		for ($i=0; $i < $nbreVotes; $i++) 
+	      		{ 
+	      			$vote = new Vote();
+	      			$vote->setValue($this->randWithSet($isNewElement ? $voteNewSet : $voteEditSet));
+	      			$vote->setUserMail($lipsum->words(1) . '@gmail.com');
+	      			if (rand(0,1)) $vote->setComment($lipsum->words(rand(6,10)));
+	      			$new_element->addVote($vote);
+	      		}
+	      	}
+      	}
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
