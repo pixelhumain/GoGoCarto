@@ -3,7 +3,7 @@
 {% set votesValues = {
 	'-2': 'Ne respecte pas la charte',
 	'-1': "N'existe pas",
-	'-0': 'Existe mais infos mauvaises',
+	'0': 'Existe mais infos mauvaises',
 	'1': 'Existe',
 	'2': 'Existe et valide info'
 	}
@@ -14,11 +14,12 @@
 	Nombre de votes : {{ value|length }}
 	<div class="row">
 	{% for key, vote in value %}
-		{% if vote.value %}
-		<div class="col-sm-3">({{ key + 1 }}) -> {{ votesValues[vote.value] }}</div>
-		<div class="col-sm-2">{{ vote.userMail}} </div>
-		<div class="col-sm-5">{{ vote.comment }}</div> 
-		<div class="col-sm-2">{{ vote.updated|date("d/m/Y à H:m")}}</div> 
+		{% if vote.value is defined %}
+			{% set labelClass = vote.value >= 0 ? 'label-success' : 'label-danger' %}
+			<div class="col-sm-3"><span class="label {{labelClass}}">{{ votesValues[vote.value] }}</span></div>
+			<div class="col-sm-2">{{ vote.userMail}}</div>
+			<div class="col-sm-5">{{ vote.comment }}</div> 
+			<div class="col-sm-2">{{ vote.updated|date("d/m/Y à H:m")}}</div> 
 		{% endif %}
 	{% endfor %}
 	</div>
