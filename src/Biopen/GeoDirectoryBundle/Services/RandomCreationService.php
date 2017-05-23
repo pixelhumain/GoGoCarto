@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 12:54:46
+ * @Last Modified time: 2017-05-23 14:23:01
  */
  
 
@@ -42,8 +42,15 @@ class RandomCreationService
 	    $NElng = 5.89;
 
 	    $activeSet = [
-		  1 => 0.95,
-		  0 => 0.05,
+		  -4 => 0.05,
+		  -3 => 0.05,
+		  -2 => 0.05,
+		  -1 => 0.05,
+		  0 => 0.2,
+		  1 => 0.2,
+		  2 => 0.2,
+		  3 => 0.1,
+		  4 => 0.1,
 		];
 
 	    $lngSpan = $NElng - $SOlng;
