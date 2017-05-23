@@ -16,7 +16,7 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class RecentValidationBlockService extends AbstractAdminBlockService
+class RecentElementsBlockService extends AbstractAdminBlockService
 {
     protected $manager;
     /**
@@ -33,57 +33,27 @@ class RecentValidationBlockService extends AbstractAdminBlockService
     {
         $this->manager = $documentManager;
         $this->adminPool = $adminPool;
-        parent::__construct("Récentes validation", $templating);
+        parent::__construct("RecentElementsBlockService", $templating);
     }
     /**
      * {@inheritdoc}
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $criteria = array(
-            'mode' => $blockContext->getSetting('mode'),
-        );
         $parameters = array(
             'context' => $blockContext,
             'settings' => $blockContext->getSettings(),
             'block' => $blockContext->getBlock(),
-            'results' => $this->manager->createQueryBuilder('BiopenGeoDirectoryBundle:Element')
-						    ->limit(10)
-						    ->field('status')->equals(ElementStatus::CollaborativeValidate)
+            'results' => $this->manager->createQueryBuilder('BiopenGeoDirectoryBundle:Element')						    
+						    ->field('status')->equals($blockContext->getSettings()['filterStatus'])
+						    ->sort('updatedAt', 'DESC')
+						    ->limit($blockContext->getSettings()['number'])
 						    ->getQuery()
 						    ->execute(),
             'admin_pool' => $this->adminPool,
         );
-        if ($blockContext->getSetting('mode') === 'admin') {
-            return $this->renderPrivateResponse($blockContext->getTemplate(), $parameters, $response);
-        }
+
         return $this->renderResponse($blockContext->getTemplate(), $parameters, $response);
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
-    {
-        $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array(
-                array('number', 'integer', array(
-                    'required' => true,
-                    'label' => 'form.label_number',
-                )),
-                array('title', 'text', array(
-                    'required' => false,
-                    'label' => 'form.label_title',
-                )),
-                array('mode', 'choice', array(
-                    'choices' => array(
-                        'public' => 'form.label_mode_public',
-                        'admin' => 'form.label_mode_admin',
-                    ),
-                    'label' => 'form.label_mode',
-                )),
-            ),
-            'translation_domain' => 'BiopenGeoDirectoryBundle',
-        ));
     }
     /**
      * {@inheritdoc}
@@ -92,9 +62,10 @@ class RecentValidationBlockService extends AbstractAdminBlockService
     {
         $resolver->setDefaults(array(
             'number' => 5,
-            'mode' => 'public',
-            'title' => 'Dernières validation collaboratives',
-            'template' => 'BiopenGeoDirectoryBundle:admin:block_recent_validation.html.twig',
+            'title' => 'Derniers elements',
+            'class' => '',
+            'filterStatus' => 0,
+            'template' => 'BiopenGeoDirectoryBundle:admin:block_recent_elements.html.twig',
         ));
     }
     /**

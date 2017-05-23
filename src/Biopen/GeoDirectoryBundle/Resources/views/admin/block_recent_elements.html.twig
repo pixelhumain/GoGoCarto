@@ -2,7 +2,7 @@
 
 {% block block %}
 
-    <div class="sonata-news-block-recent-element box box-primary">
+    <div class="sonata-news-block-recent-element box {{ settings.class }}">
         <div class="box-header with-border">
             <h3 class="box-title">
                 {{ settings.title }}
@@ -15,8 +15,11 @@
                 {% for element in results %}
                     
                         <a class="list-group-item" href="{{ admin_pool.getAdminByAdminCode('admin.element').generateUrl('edit', { 'id': element.id }) }}">
-
-                            {{ element.name }} {#- {{ 'archive_author'|trans({'%author%': element.author }, 'SonataNewsBundle') }} - {{ element.publicationDateStart | format_date }}#}</a>
+                            <span>{{ element.name|capitalize }}</span>  
+                            <span style="position: absolute;right: 1.5rem;z-index: 5;background-color: white;padding-left: 10px;">
+                                {{ element.updatedAt|date("d/m/Y à H:m") }}
+                            </span>
+                        </a>
                 {% else %}
                     <a class="list-group-item" href="#">Aucun élement trouvé</a>
                 {% endfor %}
@@ -24,7 +27,7 @@
         </div>
 
         <div class="box-footer">
-                <a href="{{ path('admin_biopen_geodirectory_element_list') }}?filter[status][type]=1&filter[status][value]=2&filter[_page]=1&filter[_sort_by]=updatedAt&filter[_sort_order]=DESC&filter[_per_page]=32" class="btn btn-primary btn-block"><i class="fa fa-list"></i> Afficher tous</a>
+                <a href="{{ path('admin_biopen_geodirectory_element_list') }}?filter[status][type]=1&filter[status][value]={{settings.filterStatus}}&filter[_page]=1&filter[_sort_by]=updatedAt&filter[_sort_order]=DESC&filter[_per_page]=32" class="btn btn-primary btn-block"><i class="fa fa-list"></i> Afficher tous</a>
         </div>
     </div>
 
