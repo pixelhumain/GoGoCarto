@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-19 16:05:47
+ * @Last Modified time: 2017-05-23 21:54:39
  */
  
 
@@ -73,6 +73,8 @@ class ElementInteractionController extends Controller
             if ($comment) $report->setComment($comment);
             
             $element->addReport($report);
+            $element->setStatus(ElementStatus::ModerationNeeded);
+            $element->setStatusMessage("Des signalement ont été fait");
 
             $em->persist($element);
             $em->flush();

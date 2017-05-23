@@ -32,6 +32,7 @@ export class Element
 {	
 	id : string;
 	status : ElementStatus;
+	statusMessage : string;
 	name : string;
 	position : L.LatLng;
 	address : string;
@@ -110,6 +111,7 @@ export class Element
 		// update createOptionValue vene if element already exist
 		this.createOptionValues(elementJson.optionValues);
 		
+		this.statusMessage = elementJson.statusMessage;
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-21 12:10:55
+ * @Last Modified time: 2017-05-23 21:51:13
  */
  
 
@@ -53,6 +53,12 @@ class Element
      * @MongoDB\Field(type="int")
      */
     public $status;
+
+    /** 
+     * @Expose
+     * @MongoDB\Field(type="string")
+     */
+    public $statusMessage;
 
     /**
      * @var \stdClass
@@ -762,5 +768,27 @@ class Element
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set statusMessage
+     *
+     * @param string $statusMessage
+     * @return $this
+     */
+    public function setStatusMessage($statusMessage)
+    {
+        $this->statusMessage = $statusMessage;
+        return $this;
+    }
+
+    /**
+     * Get statusMessage
+     *
+     * @return string $statusMessage
+     */
+    public function getStatusMessage()
+    {
+        return $this->statusMessage;
     }
 }
