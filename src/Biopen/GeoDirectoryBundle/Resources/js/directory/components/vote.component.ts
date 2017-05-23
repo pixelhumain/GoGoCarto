@@ -114,6 +114,16 @@ export function createListenersForVoting()
 		{
 			let element = App.elementModule.getElementById(getCurrentElementIdShown());
 
+			if (App.isUserAdmin || element.statusMessage == "modification")
+			{
+				$('#modal-vote .long-options').hide();
+				$('#modal-vote .short-options').show();
+			}
+			else
+			{
+				$('#modal-vote .long-options').show();
+				$('#modal-vote .short-options').hide();
+			}
 			$('#modal-vote .option-radio-btn:checked').prop('checked', false);
 			$('#modal-vote .input-comment').val("");
 			$('#modal-vote #select-error').hide();

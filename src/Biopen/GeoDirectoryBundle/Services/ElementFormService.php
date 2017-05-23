@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-21 10:58:28
+ * @Last Modified time: 2017-05-23 21:57:47
  */
  
 
@@ -87,7 +87,12 @@ class ElementFormService
         else
         {
             $element->setStatus(ElementStatus::Pending);
-        }       
+        } 
+
+        if ($element->getStatus() == ElementStatus::Pending)  
+        {
+            $element->setStatusMessage($editMode ? 'modification' : 'ajout');
+        }
 
         return $element;
    }

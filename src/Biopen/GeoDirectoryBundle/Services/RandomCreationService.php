@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 14:23:01
+ * @Last Modified time: 2017-05-23 22:02:32
  */
  
 
@@ -53,6 +53,11 @@ class RandomCreationService
 		  4 => 0.1,
 		];
 
+		$pendingSet = [
+		  0 => 0.7,
+		  1 => 0.3,
+		];
+
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
@@ -79,6 +84,7 @@ class RandomCreationService
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 	      $new_element->setStatus($this->randWithSet($activeSet));
+	      if ($new_element->getStatus() == 0) $new_element->setStatusMessage( $this->randWithSet($pendingSet) ? 'modification' : 'ajout');
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
