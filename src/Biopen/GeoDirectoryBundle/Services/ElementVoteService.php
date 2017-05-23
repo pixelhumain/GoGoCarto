@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-19 16:07:05
+ * @Last Modified time: 2017-05-23 22:47:31
  */
  
 
@@ -22,6 +22,9 @@ class ElementVoteService
 {	
 	protected $em;
     protected $user;
+
+    protected $minVoteToChangeStatus = 3;
+    protected $maxOppositeVoteTolerated = 0;
 
 	/**
      * Constructor
@@ -80,7 +83,23 @@ class ElementVoteService
            $vote->getValue() >= 0 ? $nbrePositiveVote++ : $nbreNegativeVote++;
         }
 
-        if ($nbrePositiveVote >= 3 && $nbreNegativeVote == 0) $element->setStatus(ElementStatus::CollaborativeValidate);
-        if ($nbrePositiveVote == 0 && $nbreNegativeVote >= 3) $element->setStatus(ElementStatus::CollaborativeRefused);
+        if ($nbrePositiveVote >= $this->minVoteToChangeStatus)
+        {
+            if ($nbreNegativeVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeValidate);
+            else 
+            {
+                $element->setStatus(ElementStatus::ModerationNeeded);
+                $element->setStatusMessage("Pas de consensus dans les votes");
+            }
+        }
+        else if ($nbreNegativeVote >= $this->minVoteToChangeStatus)
+        {
+            if ($nbrePositiveVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeRefused);
+            else 
+            {
+                $element->setStatus(ElementStatus::ModerationNeeded);
+                $element->setStatusMessage("Pas de consensus dans les votes");
+            }
+        }
     }
 }
