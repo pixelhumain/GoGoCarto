@@ -135,7 +135,12 @@ export class Element
 		// update createOptionValue vene if element already exist
 		this.createOptionValues(elementJson.optionValues);
 		
-		if(elementJson.modifiedElement) this.modifiedElement = elementJson.modifiedElement;
+		if(elementJson.modifiedElement) 
+		{
+			this.modifiedElement = new Element(elementJson.modifiedElement);
+			let diffOptionValues = this.getDiffOptionValues(elementJson.optionValues, elementJson.modifiedElement.optionValues);
+			this.modifiedElement.createOptionValues(diffOptionValues);
+		}
 		this.statusMessage = elementJson.statusMessage;
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
@@ -149,6 +154,56 @@ export class Element
 		this.getFormatedOpenHours();
 
 		this.isFullyLoaded = true;
+	}
+
+	private getDiffOptionValues(optionValues, newOptionValues)
+	{
+		let diffOptionsValues = [];
+		let newOVIds = newOptionValues.map((obj) => obj.optionId);
+		let oldOVIds = optionValues.map((obj) => obj.optionId);
+		for(let ov of optionValues)
+		{
+			if (newOVIds.indexOf(ov.optionId) == -1)
+			{
+				ov.diff = 'removed';
+				diffOptionsValues.push(ov);
+			}
+		}
+		for(let newOv of newOptionValues)
+		{
+			let index = oldOVIds.indexOf(newOv.optionId);
+			if (index == -1)
+			{
+				newOv.diff = 'added';
+			}
+			else
+			{				
+				let modifiedValue = capitalize(newOv.description);
+		    let value = capitalize(optionValues[index].description),
+		    spanClass = '',
+		    span = null;
+				let diff = JsDiff.diffWords(value, modifiedValue),
+				    display = document.createElement('div'),
+				    fragment = document.createDocumentFragment();
+
+				diff.forEach(function(part)
+				{
+				  spanClass = part.added ? 'added' : part.removed ? 'removed' : 'equals';
+				  span = document.createElement('span');
+				  if (spanClass) span.className = spanClass;
+				  span.appendChild(document.createTextNode(part.value));
+				  fragment.appendChild(span);
+				});
+
+				display.appendChild(fragment);
+
+				newOv.description = display.innerHTML;
+				newOv.diff = 'equals';
+			}
+			diffOptionsValues.push(newOv);
+		}
+		console.log(diffOptionsValues);
+		return diffOptionsValues;
 	}
 
 	private createOptionValues(optionsValuesJson)
@@ -494,6 +549,11 @@ export class Element
 
 		let optionstoDisplay = this.getIconsToDisplay();
 
+		let mainCategoryValue;
+		if (this.isPending() && this.statusMessage == "modification")
+			mainCategoryValue = this.modifiedElement.getOptionTree().children[0];
+		else
+			mainCategoryValue = this.getOptionTree().children[0];
 		//console.log("GetHtmlRepresentation " + this.distance + " km", this.getOptionTree().children[0]);
 
 		let html = Twig.render(biopen_twigJs_elementInfo, 
@@ -506,7 +566,7 @@ export class Element
 			mainOptionValueToDisplay: optionstoDisplay[0], 
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
-			mainCategoryValue : this.getOptionTree().children[0],
+			mainCategoryValue : mainCategoryValue,
 			pendingClass : this.isPending() ? 'pending' : '',
 			isAdmin : App.isUserAdmin,
 		});
@@ -525,14 +585,13 @@ export class Element
     let modifiedValue = capitalizeConfiguration[propertyName] ? capitalize(this.modifiedElement[propertyName]) : this.modifiedElement[propertyName],
     spanClass = '',
     span = null;
-    let JsDiffFunction = JsDiff.diffChars;
 		let diff = diffConfiguration[propertyName](value, modifiedValue),
 		    display = document.createElement('div'),
 		    fragment = document.createDocumentFragment();
 
 		diff.forEach(function(part)
 		{
-		  spanClass = part.added ? 'added' : part.removed ? 'removed' : '';
+		  spanClass = part.added ? 'added' : part.removed ? 'removed' : 'equals';
 		  span = document.createElement('span');
 		  if (spanClass) span.className = spanClass;
 		  span.appendChild(document.createTextNode(part.value));

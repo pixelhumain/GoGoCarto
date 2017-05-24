@@ -14,6 +14,8 @@ export class OptionValue
 	children : CategoryValue[] = [];
 	colorOptionId : number = null;
 
+	diff : string;
+
 	constructor( $optionValueJson )
 	{
 		// in case of compact json, the options values are stored in simple array
@@ -29,6 +31,7 @@ export class OptionValue
 			this.optionId = parseInt($optionValueJson.optionId);
 			this.index = $optionValueJson.index;
 			this.description = $optionValueJson.description || '';
+			this.diff = $optionValueJson.diff || null;
 		}		
 	}
 
