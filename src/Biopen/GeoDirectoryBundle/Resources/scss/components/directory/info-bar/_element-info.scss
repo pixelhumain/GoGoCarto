@@ -109,6 +109,8 @@
 			h3 { margin-bottom: 1rem; }
 		}
 
+		.sectionInfos { line-height: 2rem; }    
+
 		.category-wrapper 
 		{
 			.strong { text-decoration: underline }	
@@ -227,6 +229,26 @@
 			.disabled { color:#9C9C9C; }
 		}
 	}	
+}
+
+.element-item
+{	
+	span.added 
+	{
+		color: #3a772c
+	}	
+
+	span.removed
+	{
+		text-decoration: line-through;
+    margin-right: 5px;
+    color: #b57e7e;
+	}
+}
+
+#element-info
+{
+	.collapsible-header { span.added { color: #3ab33a;} }
 }
 
 

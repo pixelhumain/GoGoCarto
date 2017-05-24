@@ -10,10 +10,11 @@
 import { AppModule, AppStates, AppModes } from "../app.module";
 import { BiopenMarker } from "../components/map/biopen-marker.component";
 import { OptionValue, CategoryValue, Option, Category } from "./classes";
+import { capitalize } from "../../commons/commons";
 
 declare let App : AppModule;
 declare var $;
-declare let Twig : any;
+declare let Twig : any, JsDiff : any;
 declare let biopen_twigJs_elementInfo : any;
 
 
@@ -28,6 +29,28 @@ export enum ElementStatus
   CollaborativeValidate = 2
 }
 
+var diffConfiguration =
+{
+	name: JsDiff.diffWords,
+	description: JsDiff.diffWords,
+	address: JsDiff.diffWords,
+	tel: JsDiff.diffSentences,
+	webSite: JsDiff.diffSentences,
+	mail: JsDiff.diffSentences,
+	openHoursMoreInfos: JsDiff.diffSentences,
+}
+
+var capitalizeConfiguration =
+{
+	name: true,
+	description: true,
+	address: true,
+	tel: false,
+	webSite: false,
+	mail: false,
+	openHoursMoreInfos: true,
+}
+
 export class Element 
 {	
 	id : string;
@@ -37,6 +60,7 @@ export class Element
 	position : L.LatLng;
 	address : string;
 	description : string;
+	modifiedElement : Element = null;
 	tel : string;
 	webSite : string;
 	mail : string;
@@ -111,6 +135,7 @@ export class Element
 		// update createOptionValue vene if element already exist
 		this.createOptionValues(elementJson.optionValues);
 		
+		if(elementJson.modifiedElement) this.modifiedElement = elementJson.modifiedElement;
 		this.statusMessage = elementJson.statusMessage;
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
@@ -462,7 +487,6 @@ export class Element
 			console.log("Send Ajax to retrieve full element");
 			return;
 		}
-
 		this.update();	
 		this.updateDistance();
 		//let starNames = App.state == AppStates.Constellation ? App.constellation.getStarNamesRepresentedByElementId(this.id) : [];
@@ -491,6 +515,34 @@ export class Element
 		this.htmlRepresentation_ = html;				
 		return html;
 	};
+
+	getProperty(propertyName)
+	{
+		let value = capitalizeConfiguration[propertyName] ? capitalize(this[propertyName]) : this[propertyName];
+
+		if (!this.isPending() || this.statusMessage == 'ajout' || !this.modifiedElement[propertyName]) return value;
+
+    let modifiedValue = capitalizeConfiguration[propertyName] ? capitalize(this.modifiedElement[propertyName]) : this.modifiedElement[propertyName],
+    spanClass = '',
+    span = null;
+    let JsDiffFunction = JsDiff.diffChars;
+		let diff = diffConfiguration[propertyName](value, modifiedValue),
+		    display = document.createElement('div'),
+		    fragment = document.createDocumentFragment();
+
+		diff.forEach(function(part)
+		{
+		  spanClass = part.added ? 'added' : part.removed ? 'removed' : '';
+		  span = document.createElement('span');
+		  if (spanClass) span.className = spanClass;
+		  span.appendChild(document.createTextNode(part.value));
+		  fragment.appendChild(span);
+		});
+
+		display.appendChild(fragment);
+
+		return display.innerHTML;
+	}
 
 	getFormatedOpenHours() 
 	{		

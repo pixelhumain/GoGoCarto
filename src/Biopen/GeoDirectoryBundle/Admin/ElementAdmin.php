@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-23 22:30:28
+ * @Last Modified time: 2017-05-24 11:33:37
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -35,6 +35,15 @@ class ElementAdmin extends AbstractAdmin
         '_sort_by' => 'updatedAt'  // name of the ordered field
                                  // (default = the model's id field, if any)
     );
+
+   public function createQuery($context = 'list')
+	{
+	    $query = parent::createQuery($context);
+	    // not display the modified version whos status is -5
+	    // neither deleted elements (specific folder for that)
+	    $query->field('status')->gte(-3);
+	    return $query;
+	}
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{

@@ -13,6 +13,7 @@
     {# Header Title #}
     <div class='collapsible-header-title row'> 
 
+
       <span class="col s12 name">
 
       {% set mainIcon = element.isPending() ? 'icon-attention' : mainOptionValueToDisplay.option.icon %}
@@ -31,9 +32,10 @@
         {% endif %}
 
         {# Name #}
-        {{ element.name|capitalize }}
+        {{ element.getProperty('name')|raw }}
 
       </span>
+      <span id="testDiff"></span>
       
     </div>
 
@@ -41,7 +43,7 @@
     <div class='collapsible-header-more row'>
 
       {# Description #}
-      <span class="description col s12">{{ element.description|capitalize }}</span> 
+      <span class="description col s12">{{ element.getProperty('description')|raw }}</span> 
 
       {# Categories litteral #}
       <span class="inline-option-values col s8 hideOnLargeScreen">
@@ -76,7 +78,7 @@
       <div class="vote-section">
         <span class="basic-message">
           <span class="icon-attention"></span>
-          <span class="text">Acteur en cours de validation</span>
+          <span class="text">{{ element.statusMessage == 'ajout' ? 'Acteur' : 'Modifications' }} en cours de validation</span>
           <span class="btn-vote-more-info validation-process-info" onclick='$("#popup-vote").openModal()'>EN SAVOIR PLUS</span>
           <span class="vote-button btn btn-vote waves-effect waves-light">Voter</span>
         </span>        
@@ -161,22 +163,22 @@
       <div class="section row sectionInfos">
 
         {# Address #}
-        <span class="col s12 address">{{ element.address|capitalize }}</span>
+        <span class="col s12 address">{{ element.getProperty('address')|raw }}</span>
         
         {# Tel #}
         {% if element.tel %}
-          <span class="col s12 tel">{{ element.tel }}</span>
+          <span class="col s12 tel">{{ element.getProperty('tel')|raw }}</span>
         {% endif %}
 
         {# Mail #}
         {% if element.mail %}
-          <span class="col s12 tel"><a href="mailto:{{ element.mail }}">{{ element.mail }}</a>
+          <span class="col s12 tel"><a href="mailto:{{ element.mail }}">{{  element.getProperty('mail')|raw }}</a>
           </span>
         {% endif %}
 
         {# WebSite #}
         {% if element.webSite %}
-          <span class="col s12 tel"><a href="{{ element.webSite }}" target="_blank">{{ element.webSite }}</a>
+          <span class="col s12 tel"><a href="{{ element.webSite }}" target="_blank">{{ element.getProperty('webSite')|raw }}</a>
           </span>
         {% endif %}
 
@@ -210,7 +212,7 @@
         {% endfor %}          
 
         {% if element.openHoursMoreInfos %}
-          <div class='col' {% if count != 0 %}style="margin-top:1rem;"{% endif %}>{{  element.openHoursMoreInfos | capitalize }}</div> 
+          <div class='col' {% if count != 0 %}style="margin-top:1rem;"{% endif %}>{{ element.getProperty('openHoursMoreInfos')|raw }}</div> 
           {% set count = count + 1 %} 
         {% endif %}
 

@@ -26,14 +26,14 @@
       <span class="menu-element-item-text">Itinéraire</span>
     </div>
     <div class="menu-element-item item-edit">
-      {% set editText = isAdmin ? 'Modifier' : 'Proposer des modifications' %}
+      {% set editText = is_granted('ROLE_ADMIN') ? 'Modifier' : 'Proposer des modifications' %}
       <span class="menu-icon icon-edit tooltipped" 
       data-position="top" data-delay="0" data-tooltip="{{ editText }}"></span>
       <span class="menu-element-item-text">{{ editText }}</span>
     </div>
     <div class="menu-element-item item-delete"> 
-      {% set deleteText = isAdmin ? 'Supprimer' : 'Signaler une erreur' %}
-      {% set deleteIcon = isAdmin ? 'icon-delete' : 'icon-exclamation-1' %}
+      {% set deleteText = is_granted('ROLE_ADMIN') ? 'Supprimer' : 'Signaler une erreur' %}
+      {% set deleteIcon = is_granted('ROLE_ADMIN') ? 'icon-delete' : 'icon-exclamation-1' %}
       <span class="menu-icon btn-delete {{ deleteIcon }} tooltipped" 
       data-position="top" data-delay="0" data-tooltip="{{ deleteText }}"></span>
       <span class="menu-element-item-text">{{ deleteText }}</span>

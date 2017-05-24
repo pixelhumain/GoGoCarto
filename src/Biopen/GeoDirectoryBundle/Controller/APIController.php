@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-16 17:23:14
+ * @Last Modified time: 2017-05-24 12:07:42
  */
  
 
@@ -126,10 +126,8 @@ class APIController extends Controller
             ->findOneBy(array('id' => $elementId));
 
             $elementJson = $element->getFullJson();
-
-            $responseJson = rtrim($elementJson,'}') .  ', "id": "' .$elementId. '"}'; 
             
-            $response = new Response($responseJson);    
+            $response = new Response($elementJson);    
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }

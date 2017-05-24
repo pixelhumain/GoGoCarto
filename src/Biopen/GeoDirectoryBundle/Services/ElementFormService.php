@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 21:57:47
+ * @Last Modified time: 2017-05-24 10:55:39
  */
  
 
@@ -64,6 +64,18 @@ class ElementFormService
      
         $element->setContributorIsRegisteredUser($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
 
+        // in case of modification, we actually don't change the elements attributes. Instead we save the modifications
+        // in the modifiedElement attributes.
+        // the old element as just his status attribute modified, all the other modifications are saved in modifiedelement attribute
+        if ($editMode && !($this->isUserAdmin() && !$request->request->get('dont-validate')))
+        {                   
+            $modifiedElement = clone $element;
+            $modifiedElement->setId(null);
+            $modifiedElement->setStatus(ElementStatus::ModifiedPendingVersion);
+            $this->em->refresh($element);
+            $element->setModifiedElement($modifiedElement);
+        }
+
         if($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $user = $this->securityContext->getToken()->getUser();
@@ -92,7 +104,7 @@ class ElementFormService
         if ($element->getStatus() == ElementStatus::Pending)  
         {
             $element->setStatusMessage($editMode ? 'modification' : 'ajout');
-        }
+        }       
 
         return $element;
    }
@@ -105,6 +117,11 @@ class ElementFormService
                                                                                         $distance, $maxResults, $element->getName());
     return $elements;
    }
+
+   private function isUserAdmin()
+    {
+        return $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $this->securityContext->getToken()->getUser()->isAdmin();
+    }
    
 
 }

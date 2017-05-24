@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 21:51:13
+ * @Last Modified time: 2017-05-24 12:04:36
  */
  
 
@@ -19,6 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 abstract class ElementStatus
 {
+    const ModifiedPendingVersion = -5;
     const Deleted = -4;
     const CollaborativeRefused = -3;
     const AdminRefused = -2;    
@@ -73,6 +74,13 @@ class Element
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Report")
      */
     private $reports;
+
+    /**
+     * @var \stdClass
+     *
+     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
+     */
+    private $modifiedElement;
 
     /**
      * @var string
@@ -221,16 +229,22 @@ class Element
     /** @MongoDB\PreFlush */
     public function updateJsonRepresentation()
     {
+        if (!$this->optionValues || !$this->coordinates) return;
+
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
         $fullJson .= ', "optionValues": [';
+
         foreach ($this->optionValues as $key => $value) {
             $fullJson .= '{ "optionId" :'.$value->getOptionId().', "index" :'.$value->getIndex();
             if ($value->getDescription()) $fullJson .=  ', "description" : "' . $value->getDescription() . '"';
             $fullJson .= '}';
             if ($key != count($this->optionValues) -1) $fullJson .= ',';
         }
-        $fullJson .= ']}';
+        $fullJson .= ']';
+        if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
+        $fullJson .= '}';
+        
         $this->setFullJson($fullJson);  
 
         $compactJson = '["'.$this->id . '",' .$this->status . ',"' .$this->name . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
@@ -254,6 +268,17 @@ class Element
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get id
+     *
+     * @return custom_id $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -790,5 +815,27 @@ class Element
     public function getStatusMessage()
     {
         return $this->statusMessage;
+    }
+
+    /**
+     * Set modifiedElement
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Element $modifiedElement
+     * @return $this
+     */
+    public function setModifiedElement(\Biopen\GeoDirectoryBundle\Document\Element $modifiedElement)
+    {
+        $this->modifiedElement = $modifiedElement;
+        return $this;
+    }
+
+    /**
+     * Get modifiedElement
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Element $modifiedElement
+     */
+    public function getModifiedElement()
+    {
+        return $this->modifiedElement;
     }
 }
