@@ -108,9 +108,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     font-size: 16px;
     right: -7px;
 
-    &.rotateRight { top: -7px; right: -3px; }
-	&.rotateLeft { top: -9px; right: 3px; }
-
 	&:before
 	{
 		border-radius: 50%;
@@ -125,11 +122,8 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
     top: -10px;
     z-index: 3;
     font-size: 14px;
-    right: -2px;
+    right: -8px;
     color: #d9dad9;
-
-    &.rotateRight { top: -9px; right: -5px; }
-    &.rotateLeft { top: -10px; right: 1px; }
 }
 
 .icon-star-full:before
@@ -149,9 +143,6 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
 	position: absolute;
 	bottom: -10px;
 	left: 30px;
-
-	&.rotateRight { left: 39px }
-	&.rotateLeft { left: 35px; }
 
 	.moreIconWrapper
 	{
@@ -194,7 +185,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
             top: 9px;
         }
         .icon-plus-circle { top: -7px; right: -7px; }
-        .marker-wrapper .icon-star-full{ top: -10px; right: 1px; }
+        .icon-star-full{ top: -10px; right: -7px; }
         .moreIconContainer { left: 30px; }
         .marker-name { bottom: 47px; left: -50px;}
     }
@@ -211,7 +202,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
             top: 1px;
         }
         .icon-plus-circle { top: -7px; right: -8px; }
-        .marker-wrapper .icon-star-full{ top: -9px; right: -5px; }
+        .icon-star-full{ top: -9px; right: -8px; }
         .moreIconContainer { left: 30px }
         .marker-name { bottom: 47px; left: -10px;}
     }
@@ -229,7 +220,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
             top: 7px;
         }
         .icon-plus-circle { top: -7px; right: -7px; }
-        .marker-wrapper .icon-star-full{ top: -10px; right: 1px; }
+        .icon-star-full{ top: -10px; right: -7px; }
         .moreIconContainer { left: 30px; }
         .marker-name { bottom: 51px; left: -44px;}
     }
@@ -246,7 +237,7 @@ html[data-useragent*='MSIE 10.0'] .iconInsideMarker-wrapper {
             top: 3px;
         }
         .icon-plus-circle { top: -7px; right: -8px; }
-        .marker-wrapper .icon-star-full{ top: -9px; right: -5px; }
+        .icon-star-full{ top: -9px; right: -8px; }
         .moreIconContainer { left: 30px }
         .marker-name { bottom: 56px; left: -10px;}
     }
