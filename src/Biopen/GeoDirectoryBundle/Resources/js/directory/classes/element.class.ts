@@ -550,7 +550,7 @@ export class Element
 		let optionstoDisplay = this.getIconsToDisplay();
 
 		let mainCategoryValue;
-		if (this.isPending() && this.statusMessage == "modification")
+		if (this.isPending() && this.statusMessage == "modification" && this.modifiedElement)	
 			mainCategoryValue = this.modifiedElement.getOptionTree().children[0];
 		else
 			mainCategoryValue = this.getOptionTree().children[0];
@@ -580,7 +580,7 @@ export class Element
 	{
 		let value = capitalizeConfiguration[propertyName] ? capitalize(this[propertyName]) : this[propertyName];
 
-		if (!this.isPending() || this.statusMessage == 'ajout' || !this.modifiedElement[propertyName]) return value;
+		if (!this.isPending() || this.statusMessage == 'ajout' || !this.modifiedElement || !this.modifiedElement[propertyName]) return value;
 
     let modifiedValue = capitalizeConfiguration[propertyName] ? capitalize(this.modifiedElement[propertyName]) : this.modifiedElement[propertyName],
     spanClass = '',
