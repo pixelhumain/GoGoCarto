@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 16:13:25
+ * @Last Modified time: 2017-05-25 19:13:46
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -15,6 +15,8 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Knp\Menu\ItemInterface;
 
 class ElementAdmin extends AbstractAdmin
 {
@@ -54,17 +56,23 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{
+	  $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
+	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+	  $optionList = $qb->select('name')->hydrate(false)->getQuery()->execute()->toArray();
+
 	  $formMapper
-	  	->add('name', 'text')
-	  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
-	  	->add('status', 'choice', [
-               'choices'=> $this->statusChoices,
-               ])
-		->add('description', 'textarea')
-		->add('tel', 'text', array('required' => false)) 
-		->add('webSite', 'text', array('required' => false)) 
-		->add('mail', 'text', array('required' => false))
-		->add('openHoursMoreInfos', 'text', array('required' => false));        
+	  ->with('Informations générales', array())
+		  	->add('name', 'text')
+		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
+		  	->add('status', 'choice', [
+	               'choices'=> $this->statusChoices,
+	               ])
+			->add('description', 'textarea')
+			->add('tel', 'text', array('required' => false)) 
+			->add('webSite', 'text', array('required' => false)) 
+			->add('mail', 'text', array('required' => false))
+			->add('openHoursMoreInfos', 'text', array('required' => false)) 
+		->end();      
 	}
 
 	public function getExportFields()
@@ -132,37 +140,38 @@ class ElementAdmin extends AbstractAdmin
 	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
 
-	  $show
-	      ->add('id')
-	      ->add('name')
-	      ->add('status', 'choice', [
-               'choices'=> $this->statusChoices,
-               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
-               ])
+	  $show	      
+       ->with('Acteur', array(
+       ))
+         ->add('id')
 	      ->add('moderationState', 'choice', [
 	      		'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
                ])
-	      ->add('description')
 	      ->add('optionValues', null, [
 	      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
 	      	'choices' => $optionList,
 	      	'label' => 'Catégories'
 	      ])
 	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
-	      ->add('address')
+       ->end()
+
+       ->with('Localisation', array(
+       ))
+         ->add('address')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
 	      ->add('coordinates.lng')
-	      ->add('tel')
-	      ->add('webSite')
-	      ->add('mail')
-	      ->add('openHoursMoreInfos')
-	      ->add('contributorMail')
+       ->end()   
+
+       ->with('Autre infos', array(
+       ))
+         ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:m"))
-	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:m"));
+	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:m"))
+       ->end();  
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
@@ -185,8 +194,8 @@ class ElementAdmin extends AbstractAdmin
          
 	      ->add('_action', 'actions', array(
 	          'actions' => array(
-	              'show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_show.html.twig'),
-	              'edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_edit.html.twig'),
+	              'show-edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_show_edit.html.twig'),
+	              //'edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_edit.html.twig'),
 	              //'delete' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_delete.html.twig'),
 	              'redirect-show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_redirect_show.html.twig'),
 	              'redirect-edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_redirect_edit.html.twig')
@@ -217,5 +226,6 @@ class ElementAdmin extends AbstractAdmin
 	{
 		$collection->add('redirectShow', $this->getRouterIdParameter().'/redirectShow');
 		$collection->add('redirectEdit', $this->getRouterIdParameter().'/redirectEdit');
+		$collection->add('showEdit', $this->getRouterIdParameter().'/show-edit');
 	}
 }
