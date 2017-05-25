@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 13:19:17
+ * @Last Modified time: 2017-05-25 14:17:39
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -109,9 +109,9 @@ class ElementAdmin extends AbstractAdmin
                'choices'=> $this->statusChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
                ])
-	      ->add('status', 'choice', [
-               'choices'=> $this->moderationState,
-               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
+	      ->add('moderationState', 'choice', [
+               'choices'=> $this->moderationChoices,
+               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
                ])
 	      ->add('description')
 	      ->add('optionValues', null, [

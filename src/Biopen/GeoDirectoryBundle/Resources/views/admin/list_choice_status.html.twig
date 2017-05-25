@@ -1,15 +1,5 @@
 {% extends "@BiopenAdmin/list_choice_base.html.twig" %}
 
 {% block display_value %}
-     {% if real_value <= -4 %}
-        <span class="label label-default">
-    {% elseif real_value <= -2 %}
-        <span class="label label-danger">
-    {% elseif real_value <= 0 %}
-        <span class="label label-info">
-    {% else %}
-        <span class="label label-success">
-    {% endif %}
-    {{ value }}
-    </span>
+     {% include "@BiopenAdmin/display_choice_status.html.twig" %}
 {% endblock %}

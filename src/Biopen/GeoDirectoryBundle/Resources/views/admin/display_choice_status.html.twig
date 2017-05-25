@@ -1,0 +1,11 @@
+{% if real_value <= -4 %}
+    <span class="label label-default">
+{% elseif real_value <= -2 %}
+    <span class="label label-danger">
+{% elseif real_value <= 0 %}
+    <span class="label label-info">
+{% else %}
+    <span class="label label-success">
+{% endif %}
+{{ value }}
+</span>
