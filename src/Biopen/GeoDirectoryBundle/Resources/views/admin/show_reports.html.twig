@@ -1,11 +1,9 @@
 {% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
 
 {% set itemValues = {
-	'-2': 'Ne respecte pas la charte',
-	'-1': "N'existe pas",
-	'0': 'Existe mais infos mauvaises',
-	'1': 'Existe',
-	'2': 'Existe et valide info'
+	0: "L'acteur n'existe plus",
+	1: 'Les informations sont incorrectes',
+	2: "L'acteur ne respecte pas la charte"
 	}
 %} 
 
@@ -14,10 +12,11 @@
 	
 		{% for key, item in value %}
 			{% if item.value is defined %}
-				{% set labelClass = item.value >= 0 ? 'label-success' : 'label-danger' %}
+				{% set labelClass = 'label-danger' %}
 				{% include "@BiopenAdmin/display_vote_report_item.html.twig" %}
 			{% endif %}
 		{% endfor %}
 
 {% endspaceless %}
 {% endblock %}
+

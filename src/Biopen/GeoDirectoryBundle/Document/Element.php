@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 16:18:33
+ * @Last Modified time: 2017-05-25 19:26:02
  */
  
 
@@ -741,8 +741,8 @@ class Element
     public function addReport(\Biopen\GeoDirectoryBundle\Document\Report $report)
     {
         $this->reports[] = $report;
-        $element->setModerationState(ModerationState::ReportsSubmitted);
-
+        $this->setModerationState(ModerationState::ReportsSubmitted);
+        dump($this->reports);
     }
 
     /**

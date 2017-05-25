@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 19:13:46
+ * @Last Modified time: 2017-05-25 19:47:44
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -141,32 +141,33 @@ class ElementAdmin extends AbstractAdmin
 	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
 
 	  $show	      
-       ->with('Acteur', array(
-       ))
+       ->with('Modération', array())
          ->add('id')
 	      ->add('moderationState', 'choice', [
 	      		'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
-               ])
-	      ->add('optionValues', null, [
-	      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
-	      	'choices' => $optionList,
-	      	'label' => 'Catégories'
-	      ])
+               ])	      
 	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
+	      ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig'))
        ->end()
 
-       ->with('Localisation', array(
-       ))
+       ->with('Catégorisation', array())
+	       ->add('optionValues', null, [
+		      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
+		      	'choices' => $optionList,
+		      	'label' => 'Catégories'
+		      ])
+       ->end()
+
+       ->with('Localisation', array())
          ->add('address')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
 	      ->add('coordinates.lng')
        ->end()   
 
-       ->with('Autre infos', array(
-       ))
+       ->with('Autre infos', array())
          ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:m"))

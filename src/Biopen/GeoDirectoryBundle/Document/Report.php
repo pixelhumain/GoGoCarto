@@ -3,6 +3,7 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 abstract class ReporteValue
 {
@@ -35,6 +36,14 @@ class Report
     * @MongoDB\Field(type="string")
     */
     private $comment;   
+
+    /**
+     * @var date $updated
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable
+     */
+    private $updated;  
 
     /**
      * Get id
@@ -110,5 +119,10 @@ class Report
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }
