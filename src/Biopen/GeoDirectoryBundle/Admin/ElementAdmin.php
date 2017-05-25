@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 19:47:44
+ * @Last Modified time: 2017-05-25 20:05:52
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -141,15 +141,14 @@ class ElementAdmin extends AbstractAdmin
 	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
 
 	  $show	      
-       ->with('Modération', array())
-         ->add('id')
+       ->with('Modération', array())         
 	      ->add('moderationState', 'choice', [
 	      		'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
                ])	      
 	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
-	      ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig'))
+	      ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig', 'label' => 'Signalements',))
        ->end()
 
        ->with('Catégorisation', array())
@@ -168,6 +167,7 @@ class ElementAdmin extends AbstractAdmin
        ->end()   
 
        ->with('Autre infos', array())
+       	->add('id')
          ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:m"))
