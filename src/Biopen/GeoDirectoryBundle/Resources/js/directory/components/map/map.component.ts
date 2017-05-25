@@ -136,7 +136,7 @@ export class MapComponent
 		let transport = 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png'; // belle mais y'a les layers transport partout !
 		let thunderforest = 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png'; // pas très joli		
 
-		L.tileLayer(hydda, {
+		L.tileLayer("", {
 		    minZoom: 1,
 		    maxZoom: 19
 		}).addTo(this.map_);

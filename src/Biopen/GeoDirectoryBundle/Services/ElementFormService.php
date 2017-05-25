@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-24 10:55:39
+ * @Last Modified time: 2017-05-25 12:19:18
  */
  
 
@@ -82,29 +82,29 @@ class ElementFormService
 
             if ($user->isAdmin())
             {
+                // Admins
                 if (!$editMode) $element->setStatus(ElementStatus::AddedByAdmin);
-                else if ($element->getStatus() == ElementStatus::Pending)
+                else if ($element->isPending())
                 {
+                    // if editing element who was previously pending
                     if (!$request->request->get('dont-validate')) $element->setStatus(ElementStatus::AdminValidate);
-                    else $element->setStatus(ElementStatus::Pending);
+                    else $element->setStatus(ElementStatus::PendingModification);
                 }
                 else
                 {
+                    // editing element previously non pending
                     $element->setStatus(ElementStatus::ModifiedByAdmin);
                 }
             }                
             else
-                $element->setStatus(ElementStatus::Pending);
+                // logued users
+                $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
         }
         else
         {
-            $element->setStatus(ElementStatus::Pending);
-        } 
-
-        if ($element->getStatus() == ElementStatus::Pending)  
-        {
-            $element->setStatusMessage($editMode ? 'modification' : 'ajout');
-        }       
+            // non logued users
+            $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
+        }           
 
         return $element;
    }

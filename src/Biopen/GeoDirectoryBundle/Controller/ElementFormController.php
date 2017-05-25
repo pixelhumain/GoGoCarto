@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-21 10:53:26
+ * @Last Modified time: 2017-05-25 12:08:47
  */
  
 
@@ -41,8 +41,9 @@ class ElementFormController extends Controller
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
 
-		if ($element->getStatus() <= ElementStatus::Pending && !$this->isUserAdmin())
+		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->isUserAdmin())
 		{
+			// only admin can edited pending, refused and deleted elements
 			return $this->addAction($request);
 		}
 		else

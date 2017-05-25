@@ -45,18 +45,18 @@ class MonitoringElementsBlockService extends AbstractBlockService
 
 	public function execute(BlockContextInterface $blockContext, Response $response = null)
 	{
-	    $pendings = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findByStatus(ElementStatus::Pending);
-	    $moderationNeeded = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findByStatus(ElementStatus::ModerationNeeded);
-	    $validateElements = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element')->field('status')->gt(ElementStatus::Pending)->getQuery()->execute();
+	    $pendings = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findPendings(true);
+	    $moderationNeeded = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findModerationNeeded(true);
+	    $validateElements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findValidated(true);
 	    // merge settings
 	    $settings = $blockContext->getSettings();
 
 	    return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_monitoring.html.twig', array(
 	        'block'     => $blockContext->getBlock(),
 	        'settings'  => $settings,
-	        'pendingCount' => count($pendings),
-	        'moderationNeededCount' => count($moderationNeeded),
-	        'validatesCount' => count($validateElements)
+	        'pendingCount' => $pendings,
+	        'moderationNeededCount' => $moderationNeeded,
+	        'validatesCount' => $validateElements
 	    ), $response);
 	}
 }

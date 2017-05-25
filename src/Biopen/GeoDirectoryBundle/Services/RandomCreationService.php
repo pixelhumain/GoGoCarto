@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 23:17:06
+ * @Last Modified time: 2017-05-25 13:21:15
  */
  
 
@@ -46,8 +46,8 @@ class RandomCreationService
 		  -4 => 0.05,
 		  -3 => 0.05,
 		  -2 => 0.05,
-		  -1 => 0.05,
-		  0 => 0.2,
+		  -1 => 0.1,
+		  0 => 0.15,
 		  1 => 0.2,
 		  2 => 0.2,
 		  3 => 0.1,
@@ -57,6 +57,12 @@ class RandomCreationService
 		$pendingTypeSet = [
 		  0 => 0.3,
 		  1 => 0.7,
+		];
+
+		$moderationTypeSet = [
+		  0 => 0.8,
+		  1 => 0.1,
+		  2 => 0.1,
 		];
 
 		$voteEditSet = [
@@ -98,23 +104,23 @@ class RandomCreationService
 	      $new_element->setWebSite('http://www.element-info.fr');
 	      $new_element->setMail('element@bio.fr');
 	      $new_element->setStatus($this->randWithSet($statusSet));
-	      if ($new_element->getStatus() == 0) 
+	      if ($new_element->isPending()) 
       	{
-      		$isNewElement = $this->randWithSet($pendingTypeSet);
-      		$new_element->setStatusMessage( $isNewElement ? 'ajout' : 'modification');
       		if ($generateVotes)
       		{
 	      		$nbreVotes = rand(0,5);
-	      		for ($i=0; $i < $nbreVotes; $i++) 
+	      		for ($j=0; $j < $nbreVotes; $j++) 
 	      		{ 
 	      			$vote = new Vote();
-	      			$vote->setValue($this->randWithSet($isNewElement ? $voteNewSet : $voteEditSet));
+	      			$vote->setValue($this->randWithSet($new_element->getStatus() == 0 ? $voteNewSet : $voteEditSet));
 	      			$vote->setUserMail($lipsum->words(1) . '@gmail.com');
 	      			if (rand(0,1)) $vote->setComment($lipsum->words(rand(6,10)));
 	      			$new_element->addVote($vote);
 	      		}
 	      	}
       	}
+
+      	$new_element->setModerationState($this->randWithSet($moderationTypeSet));
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 

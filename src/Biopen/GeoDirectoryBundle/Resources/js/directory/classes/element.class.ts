@@ -23,8 +23,8 @@ export enum ElementStatus
   Deleted = -4,
   CollaborativeRefused = -3,
   AdminRefused = -2,    
-  ModerationNeeded = -1,
-  Pending = 0,
+  PendingModification = -1,
+  PendingAdd = 0,
   AdminValidate = 1,
   CollaborativeValidate = 2
 }
@@ -55,7 +55,6 @@ export class Element
 {	
 	id : string;
 	status : ElementStatus;
-	statusMessage : string;
 	name : string;
 	position : L.LatLng;
 	address : string;
@@ -141,7 +140,6 @@ export class Element
 			let diffOptionValues = this.getDiffOptionValues(elementJson.optionValues, elementJson.modifiedElement.optionValues);
 			this.modifiedElement.createOptionValues(diffOptionValues);
 		}
-		this.statusMessage = elementJson.statusMessage;
 		this.address = elementJson.address;
 		this.description = elementJson.description || '';
 		this.tel = elementJson.tel ? elementJson.tel.replace(/(.{2})(?!$)/g,"$1 ") : '';	
@@ -202,7 +200,6 @@ export class Element
 			}
 			diffOptionsValues.push(newOv);
 		}
-		console.log(diffOptionsValues);
 		return diffOptionsValues;
 	}
 
@@ -532,7 +529,7 @@ export class Element
 		this.distance = this.distance ? Math.round(1.2*this.distance) : null;
 	}
 
-	isPending() { return this.status <= ElementStatus.Pending; }
+	isPending() { return this.status == ElementStatus.PendingAdd || this.status == ElementStatus.PendingModification; }
 
 	// use twig template js to create the html representation of the element
 	getHtmlRepresentation() 
@@ -550,7 +547,7 @@ export class Element
 		let optionstoDisplay = this.getIconsToDisplay();
 
 		let mainCategoryValue;
-		if (this.isPending() && this.statusMessage == "modification" && this.modifiedElement)	
+		if (this.status == ElementStatus.PendingModification && this.modifiedElement)	
 			mainCategoryValue = this.modifiedElement.getOptionTree().children[0];
 		else
 			mainCategoryValue = this.getOptionTree().children[0];
@@ -580,7 +577,7 @@ export class Element
 	{
 		let value = capitalizeConfiguration[propertyName] ? capitalize(this[propertyName]) : this[propertyName];
 
-		if (!this.isPending() || this.statusMessage == 'ajout' || !this.modifiedElement || !this.modifiedElement[propertyName]) return value;
+		if (this.status != ElementStatus.PendingModification || !this.modifiedElement || !this.modifiedElement[propertyName]) return value;
 
     let modifiedValue = capitalizeConfiguration[propertyName] ? capitalize(this.modifiedElement[propertyName]) : this.modifiedElement[propertyName],
     spanClass = '',

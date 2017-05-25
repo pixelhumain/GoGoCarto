@@ -1,0 +1,9 @@
+{% extends "@BiopenAdmin/list_choice_base.html.twig" %}
+
+{% block display_value %}
+    {% if real_value > 0 %}
+        <span class="label label-danger">{{ value }}</span>
+    {% else %}
+        <span style="display:none">{{ value }}</span>
+    {% endif %}    
+{% endblock %}

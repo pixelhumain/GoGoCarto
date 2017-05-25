@@ -44,6 +44,7 @@ twig:
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": directory
+        "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views/admin": BiopenAdmin
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
         "%kernel.root_dir%/../src/Application/Sonata/UserBundle/Resources/views": UserBundle
     form_themes:

@@ -114,7 +114,7 @@ export function createListenersForVoting()
 		{
 			let element = App.elementModule.getElementById(getCurrentElementIdShown());
 
-			if (App.isUserAdmin || element.statusMessage == "modification")
+			if (App.isUserAdmin || element.status == ElementStatus.PendingModification)
 			{
 				$('#modal-vote .long-options').hide();
 				$('#modal-vote .short-options').show();

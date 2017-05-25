@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-23 22:47:31
+ * @Last Modified time: 2017-05-25 12:59:56
  */
  
 
@@ -15,6 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\ModerationState;
 use Biopen\GeoDirectoryBundle\Document\Vote;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -88,8 +89,7 @@ class ElementVoteService
             if ($nbreNegativeVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeValidate);
             else 
             {
-                $element->setStatus(ElementStatus::ModerationNeeded);
-                $element->setStatusMessage("Pas de consensus dans les votes");
+                $element->setModerationState(ModerationState::VotesConflicts);
             }
         }
         else if ($nbreNegativeVote >= $this->minVoteToChangeStatus)
@@ -97,8 +97,7 @@ class ElementVoteService
             if ($nbrePositiveVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeRefused);
             else 
             {
-                $element->setStatus(ElementStatus::ModerationNeeded);
-                $element->setStatusMessage("Pas de consensus dans les votes");
+                $element->setModerationState(ModerationState::VotesConflicts);
             }
         }
     }

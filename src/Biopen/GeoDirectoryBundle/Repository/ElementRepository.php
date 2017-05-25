@@ -7,12 +7,14 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-18 15:40:12
+ * @Last Modified time: 2017-05-25 13:26:19
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Repository;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\ModerationState;
 
 /**
  * ElementRepository
@@ -99,6 +101,36 @@ class ElementRepository extends DocumentRepository
                 ->sortMeta('score', 'textScore')
                 ->hydrate(false)->getQuery()->execute()->toArray();
     
+  }
+
+  public function findPendings($getCount = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    $qb->field('status')->in(array(-1,0));
+    if ($getCount) $qb->count();
+    
+    return $qb->getQuery()->execute();
+  }
+
+  public function findModerationNeeded($getCount = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    $qb->field('moderationState')->notEqual(ModerationState::NotNeeded);
+    if ($getCount) $qb->count();
+
+    return $qb->getQuery()->execute();
+  }
+
+  public function findValidated($getCount = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    $qb->field('status')->gt(ElementStatus::PendingAdd);
+    if ($getCount) $qb->count();
+
+    return $qb->getQuery()->execute();
   }
 }
 

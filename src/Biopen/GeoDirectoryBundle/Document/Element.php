@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-24 12:04:36
+ * @Last Modified time: 2017-05-25 12:58:52
  */
  
 
@@ -23,12 +23,19 @@ abstract class ElementStatus
     const Deleted = -4;
     const CollaborativeRefused = -3;
     const AdminRefused = -2;    
-    const ModerationNeeded = -1;
-    const Pending = 0;
+    const PendingModification = -1;
+    const PendingAdd = 0;
     const AdminValidate = 1;
     const CollaborativeValidate = 2;
     const AddedByAdmin = 3; 
     const ModifiedByAdmin = 4;            
+}
+
+abstract class ModerationState
+{
+    const NotNeeded = 0;
+    const ReportsSubmitted = 1;
+    const VotesConflicts = 2;      
 }
 
 /**
@@ -57,9 +64,10 @@ class Element
 
     /** 
      * @Expose
-     * @MongoDB\Field(type="string")
+     * If element need moderation we write here the type of modification needed
+     * @MongoDB\Field(type="int")
      */
-    public $statusMessage;
+    private $moderationState;
 
     /**
      * @var \stdClass
@@ -259,6 +267,10 @@ class Element
         //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
     }
 
+    public function isPending()
+    {
+        return $this->status == ElementStatus::PendingAdd || $this->status == ElementStatus::PendingModification;
+    }
 
     /**
      * Get id
@@ -801,9 +813,9 @@ class Element
      * @param string $statusMessage
      * @return $this
      */
-    public function setStatusMessage($statusMessage)
+    public function setModerationState($moderationState)
     {
-        $this->statusMessage = $statusMessage;
+        $this->moderationState = $moderationState;
         return $this;
     }
 
@@ -812,9 +824,9 @@ class Element
      *
      * @return string $statusMessage
      */
-    public function getStatusMessage()
+    public function getModerationState()
     {
-        return $this->statusMessage;
+        return $this->moderationState;
     }
 
     /**

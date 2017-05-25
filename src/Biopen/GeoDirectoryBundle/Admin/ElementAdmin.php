@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-24 11:33:37
+ * @Last Modified time: 2017-05-25 13:19:17
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -21,12 +21,18 @@ class ElementAdmin extends AbstractAdmin
 		'-4'=>'Supprimé', 
 		'-3'=>'Refusé (votes) ', 
 		'-2'=>'Réfusé (admin)', 
-		'-1'=>'Besoin modération', 
-		'0' => 'En attente',
+		'-1'=>'En attente (modifs)', 
+		'0' => 'En attente (ajout)',
 		'1' => 'Validé (admin)',
 		'2' => 'Validé (votes)',
 		'3' => 'Ajouté par admin',
 		'4' => 'Modifié par admin',
+	];
+
+	private $moderationChoices = [
+		'0'=>'RAS', 
+		'1'=>'Erreurs signalées', 
+		'2'=>'Votes non consensuels'
 	];
 
     protected $datagridValues = array(
@@ -41,7 +47,7 @@ class ElementAdmin extends AbstractAdmin
 	    $query = parent::createQuery($context);
 	    // not display the modified version whos status is -5
 	    // neither deleted elements (specific folder for that)
-	    $query->field('status')->gte(-3);
+	    $query->field('status')->notEqual(-5);
 	    return $query;
 	}
 
@@ -77,6 +83,14 @@ class ElementAdmin extends AbstractAdmin
 	         'multiple' => false
 	        )
         )
+	  	->add('moderationState', 'doctrine_mongo_choice', array(), 
+        'choice', 
+        array(
+            'choices' => $this->moderationChoices, 
+	         'expanded' => false,    
+	         'multiple' => false
+	        )
+        )
 	  	->add('postalCode')
 	  	->add('contributorMail');
 	}
@@ -95,7 +109,10 @@ class ElementAdmin extends AbstractAdmin
                'choices'=> $this->statusChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
                ])
-	      ->add('statusMessage')
+	      ->add('status', 'choice', [
+               'choices'=> $this->moderationState,
+               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
+               ])
 	      ->add('description')
 	      ->add('optionValues', null, [
 	      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
@@ -126,7 +143,11 @@ class ElementAdmin extends AbstractAdmin
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
-         ->add('statusMessage')
+         ->add('moderationState', 'choice', [
+               'choices'=> $this->moderationChoices,
+               'editable'=>true,
+               'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_moderation.html.twig'
+               ])
          ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig'))
          ->add('updatedAt','date', array("format" => "d/m/Y"))
 	      ->add('_action', 'actions', array(

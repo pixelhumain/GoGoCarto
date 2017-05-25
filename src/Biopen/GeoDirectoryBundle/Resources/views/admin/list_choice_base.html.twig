@@ -1,9 +1,25 @@
-{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+{% extends admin.getTemplate('base_list_field') %}
 
-{% block field%}
+{% set is_editable =
+    field_description.options.editable is defined and
+    field_description.options.editable and
+    admin.isGranted('EDIT', object)
+%}
+{% set x_editable_type = field_description.type|sonata_xeditable_type %}
+
+{% if is_editable and x_editable_type %}
+    {% block field_span_attributes %}
+        {% spaceless %}
+            {{ parent() }}
+            data-source="{{ field_description|sonata_xeditable_choices|json_encode }}"
+        {% endspaceless %}
+    {% endblock %}
+{% endif %}
+
+{% block field %}
 {% spaceless %}
     {% set real_value = value %}
-    {% if field_description.options.choices  is defined %}
+    {% if field_description.options.choices is defined %}
         {% if field_description.options.multiple is defined and field_description.options.multiple==true and value is iterable %}
 
             {% set result = '' %}
@@ -36,23 +52,7 @@
         {% endif %}
     {% endif %}
 
-    {% if real_value <= -4 %}
-        <span class="label label-default">
-    {% elseif real_value <= -2 %}
-        <span class="label label-danger">
-    {% elseif real_value <= 0 %}
-        <span class="label label-info">
-    {% else %}
-        <span class="label label-success">
-    {% endif %}
-
-    {% if field_description.options.safe %}
-        {{ value|raw }}
-    {% else %}
-        {{ value }}
-    {% endif %}
-
-    </span>
-
+    {% block display_value %}
+    {% endblock %}
 {% endspaceless %}
 {% endblock %}
