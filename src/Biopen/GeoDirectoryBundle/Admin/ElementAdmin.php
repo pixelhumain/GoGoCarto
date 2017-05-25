@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 14:17:39
+ * @Last Modified time: 2017-05-25 16:13:25
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\ModerationState;
 
 class ElementAdmin extends AbstractAdmin
 {
@@ -30,7 +31,7 @@ class ElementAdmin extends AbstractAdmin
 	];
 
 	private $moderationChoices = [
-		'0'=>'RAS', 
+		'0'=>'Pas de modération nécessaire', 
 		'1'=>'Erreurs signalées', 
 		'2'=>'Votes non consensuels'
 	];
@@ -83,15 +84,45 @@ class ElementAdmin extends AbstractAdmin
 	         'multiple' => false
 	        )
         )
-	  	->add('moderationState', 'doctrine_mongo_choice', array(), 
-        'choice', 
-        array(
-            'choices' => $this->moderationChoices, 
-	         'expanded' => false,    
-	         'multiple' => false
+	  	->add('valide', 'doctrine_mongo_callback', array(
+                'label' => 'Validés',
+                'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+
+                    $queryBuilder->field('status')->gt(ElementStatus::PendingAdd);
+                    return true;
+                },
+                'field_type' => 'checkbox'
+            ))
+	  	->add('pending', 'doctrine_mongo_callback', array(
+                'label' => 'En attente',
+                'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+
+                    $queryBuilder->field('status')->in(array(ElementStatus::PendingModification,ElementStatus::PendingAdd));
+                    return true;
+                },
+                'field_type' => 'checkbox'
+            ))
+	  	->add('moderationNeeded', 'doctrine_mongo_callback', array(
+	  				'label' => 'Modération Nécessaire',
+                'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+
+                    $queryBuilder->field('moderationState')->notEqual(ModerationState::NotNeeded);
+                    return true;
+                },
+                'field_type' => 'checkbox'
+            ))
+	  	->add('moderationState', 'doctrine_mongo_choice', array('label' => 'Type de Modération'	), 
+	        'choice', 
+	        array(	            
+	            'choices' => $this->moderationChoices, 
+		         'expanded' => false,    
+		         'multiple' => false
+		        )
 	        )
-        )
-	  	->add('postalCode')
+	  	->add('postalCode')	  	
 	  	->add('contributorMail');
 	}
 
@@ -99,7 +130,6 @@ class ElementAdmin extends AbstractAdmin
 	{
 	  $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
 	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-
 	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
 
 	  $show
@@ -110,6 +140,7 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_status.html.twig'
                ])
 	      ->add('moderationState', 'choice', [
+	      		'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
                ])
@@ -137,28 +168,49 @@ class ElementAdmin extends AbstractAdmin
 	protected function configureListFields(ListMapper $listMapper)
 	{
 	  $listMapper
-	      ->addIdentifier('name', null,  array('editable' => true))	      
+	      ->add('name', null,  array('editable' => false, 'template' => 'BiopenGeoDirectoryBundle:admin:list_name.html.twig'))	      
          ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
+         ->add('updatedAt','date', array("format" => "d/m/Y"))
          ->add('moderationState', 'choice', [
+               'label' => "Modération",
                'choices'=> $this->moderationChoices,
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_moderation.html.twig'
                ])
          ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig'))
-         ->add('updatedAt','date', array("format" => "d/m/Y"))
+         
 	      ->add('_action', 'actions', array(
 	          'actions' => array(
 	              'show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_show.html.twig'),
 	              'edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_edit.html.twig'),
-	              'delete' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_delete.html.twig'),
+	              //'delete' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_delete.html.twig'),
 	              'redirect-show' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_redirect_show.html.twig'),
 	              'redirect-edit' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_redirect_edit.html.twig')
 	          )
 	      ));
+	}
+
+	public function configureBatchActions($actions)
+	{
+	    	$actions = [];
+	    	$actions['validate'] = array(
+            'label' => 'Valider',
+            'ask_confirmation' => false
+        	);
+        	$actions['delete'] = array(
+            'label' => 'Supprimer',
+            'ask_confirmation' => false
+        	);
+        	$actions['refuse'] = array(
+            'label' => 'Refuser',
+            'ask_confirmation' => false
+        	);
+
+	    return $actions;
 	}
 
 	protected function configureRoutes(RouteCollection $collection)
