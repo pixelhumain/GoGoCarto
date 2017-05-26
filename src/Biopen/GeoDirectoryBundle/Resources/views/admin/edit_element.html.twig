@@ -9,13 +9,15 @@
 {% endblock %}
 
 {% block navbar_title %}
-    le titre
     {{ block('title') }}
 {% endblock %}
 
-{%- block actions -%}
-		les bouttons
-    {% include 'SonataAdminBundle:CRUD:action_buttons.html.twig' %}
+{%- block actions -%}		
+    <li><a href="{{ admin.generateUrl('list') }}" class="" target="_blank" title="Retourner à la liste">
+         
+           <span>Retourner à la liste </span>
+           <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </a></li>
 {%- endblock -%}
 
 {% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': sonata_admin.adminPool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
@@ -25,7 +27,7 @@
 {% import 'SonataAdminBundle:CRUD:base_show_macro.html.twig' as show_helper %}
 
 {% block form %}
-	<div class="row">
+	<div class="row" style="padding-bottom: 8rem;">
 		{# EDIT FORM #}
 		<div class="col-md-6 col-sm-12">
 	    {{ block('parentForm') }}

@@ -109,6 +109,7 @@ class ElementAdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+
             //TODO: remove this check for 4.0
             if (method_exists($this->admin, 'preValidate')) {
                 $this->admin->preValidate($object);
@@ -129,8 +130,11 @@ class ElementAdminController extends Controller
                         )
                     );
 
-                    // redirect to edit mode
-                    return $this->redirectTo($object);
+                    if ($request->get('submit_redirect')) 
+                        return new RedirectResponse(
+                            $this->admin->generateUrl('list')
+                        );
+
                 } catch (ModelManagerException $e) {
                     $this->handleModelManagerException($e);
 
