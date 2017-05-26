@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 09:28:04
+ * @Last Modified time: 2017-05-26 16:28:37
  */
  
 
@@ -38,6 +38,10 @@ class ElementVoteService
 
     public function voteForelement($element, $voteValue, $comment)
     {
+        // Check user don't vote for his own creation
+        if ($element->getContributorMail() == $this->user->getEmail())
+                return "Erreur : vous ne pouvez pas votez pour votre propre contribution";
+
         // CHECK USER HASN'T ALREADY VOTED
         $currentVotes = $element->getVotes();
         $hasAlreadyVoted = false;
