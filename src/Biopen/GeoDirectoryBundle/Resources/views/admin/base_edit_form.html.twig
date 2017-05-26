@@ -73,6 +73,17 @@
                             {% if admin.hasroute('list') and admin.isGranted('LIST') %}
                                 <button type="submit" class="btn btn-success" name="btn_update_and_list"><i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> {{ 'btn_update_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
                             {% endif %}
+
+                            <a href="{{ admin.generateObjectUrl('redirectShow', object) }}" class="btn btn-warning" target="_blank" title="Voir sur le site">
+                                <i class="fa fa-external-link" aria-hidden="true"></i><i class="fa fa-eye" aria-hidden="true"></i>
+                                Voir sur le site
+                            </a>
+
+                            <a href="{{ admin.generateObjectUrl('redirectEdit', object) }}" class="btn btn-primary" target="_blank" title="Editer sur le site">
+                               <i class="fa fa-external-link" aria-hidden="true"></i><i class="fa fa-pencil" aria-hidden="true"></i>
+                                 Editer sur le site
+                            </a>
+                           
                         {% else %}
                             {% if admin.hasroute('edit') and admin.isGranted('EDIT') %}
                                 <button class="btn btn-success" type="submit" name="btn_create_and_edit"><i class="fa fa-save" aria-hidden="true"></i> {{ 'btn_create_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
