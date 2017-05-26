@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 19:26:02
+ * @Last Modified time: 2017-05-26 09:18:47
  */
  
 
@@ -72,14 +72,14 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Vote")
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction")
      */
     private $votes;
 
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Report")
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction")
      */
     private $reports;
 
@@ -617,7 +617,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
      */
-    public function addVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    public function addVote(\Biopen\GeoDirectoryBundle\Document\UserInteraction $vote)
     {
         $this->votes[] = $vote;
     }
@@ -627,7 +627,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
      */
-    public function removeVote(\Biopen\GeoDirectoryBundle\Document\Vote $vote)
+    public function removeVote(\Biopen\GeoDirectoryBundle\Document\UserInteraction $vote)
     {
         $this->votes->removeElement($vote);
     }
@@ -738,7 +738,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Report $report
      */
-    public function addReport(\Biopen\GeoDirectoryBundle\Document\Report $report)
+    public function addReport(\Biopen\GeoDirectoryBundle\Document\UserInteraction $report)
     {
         $this->reports[] = $report;
         $this->setModerationState(ModerationState::ReportsSubmitted);
@@ -750,7 +750,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Report $report
      */
-    public function removeReport(\Biopen\GeoDirectoryBundle\Document\Report $report)
+    public function removeReport(\Biopen\GeoDirectoryBundle\Document\UserInteraction $report)
     {
         $this->reports->removeElement($report);
     }

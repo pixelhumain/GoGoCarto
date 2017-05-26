@@ -5,6 +5,15 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+abstract class VoteValue
+{
+    const DontRespectChart = -2;
+    const DontExist = -1;
+    const ExistButWrongInformations = 0;
+    const Exist = 1;
+    const ExistAndGoodInformations = 2;    
+}
+
 abstract class ReporteValue
 {
     const DontExist = 0;
@@ -13,7 +22,7 @@ abstract class ReporteValue
 }
 
 /** @MongoDB\EmbeddedDocument */
-class Report
+class UserInteraction
 {
     /** @MongoDB\Id */
     private $id;
@@ -35,7 +44,7 @@ class Report
     /**
     * @MongoDB\Field(type="string")
     */
-    private $comment;   
+    private $comment; 
 
     /**
      * @var date $updated

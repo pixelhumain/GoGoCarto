@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 12:59:56
+ * @Last Modified time: 2017-05-26 09:28:04
  */
  
 
@@ -16,7 +16,7 @@ namespace Biopen\GeoDirectoryBundle\Services;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
-use Biopen\GeoDirectoryBundle\Document\Vote;
+use Biopen\GeoDirectoryBundle\Document\UserInteraction;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class ElementVoteService
@@ -50,7 +50,7 @@ class ElementVoteService
             }
         }
 
-        if (!$hasAlreadyVoted) $vote = new Vote();            
+        if (!$hasAlreadyVoted) $vote = new UserInteraction();       
         
         $vote->setValue($voteValue);
         $vote->setUserMail($this->user->getEmail());

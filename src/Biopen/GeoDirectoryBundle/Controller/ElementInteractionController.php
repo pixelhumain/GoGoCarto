@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 16:16:48
+ * @Last Modified time: 2017-05-26 09:28:37
  */
  
 
@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
-use Biopen\GeoDirectoryBundle\Document\Report;
+use Biopen\GeoDirectoryBundle\Document\UserInteraction;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -61,7 +61,7 @@ class ElementInteractionController extends Controller
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
-            $report = new Report();            
+            $report = new UserInteraction();            
         
             $report->setValue($request->get('value'));
 
