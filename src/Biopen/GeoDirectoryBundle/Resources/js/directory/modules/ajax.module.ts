@@ -203,14 +203,14 @@ export class AjaxModule
 		});
 	}
 
-	reportError(elementId :number, reportValue : number, comment : string, callbackSuccess?, callbackFailure?)
+	reportError(elementId :number, reportValue : number, comment : string, userMail : string, callbackSuccess?, callbackFailure?)
 	{
 		let route = Routing.generate('biopen_report_error_for_element');
 
 		$.ajax({
 			url: route,
 			method: "post",
-			data: { elementId: elementId, value: reportValue, comment: comment },
+			data: { elementId: elementId, value: reportValue, comment: comment, userMail : userMail },
 			success: response => 
 			{	        
 				console.log("Report response", response);

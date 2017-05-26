@@ -22,6 +22,34 @@ declare let App : AppModule;
 
 import { capitalize, slugify } from "../../commons/commons";
 
+export function openReportDeleteModal()
+{
+	let element = App.elementModule.getElementById(getCurrentElementIdShown());
+		//window.console.log(element.name);
+		$('#popup-report-error .elementName').text(capitalize(element.name));
+
+		$('#popup-report-error .input-comment').val('');
+		$('#popup-report-error .option-radio-btn:checked').prop('checked', false);
+		$('#popup-report-error #select-error').hide();
+		$('#popup-report-error #mail-error').hide();
+
+		if (App.isUserLogged()) 
+		{
+			$('#popup-report-error .input-mail').val('Logged@info.fr');
+			$('#popup-report-error .input-mail').hide();
+		}
+		else
+		{
+			$('#popup-report-error .input-mail').show();
+		}
+
+		$('#popup-report-error').openModal({
+		      dismissible: true, 
+		      opacity: 0.5, 
+		      in_duration: 300, 
+		      out_duration: 200
+    		});
+}
 export function initializeReportingAndDeleting()
 {	
 
@@ -57,18 +85,32 @@ export function initializeReportingAndDeleting()
 		}
 		else
 		{
-			let errorValue = $('#popup-report-error .option-radio-btn:checked').attr('value');
+			let reportValue = $('#popup-report-error .option-radio-btn:checked').attr('value');
+			let userMail = $('#popup-report-error .input-mail').val();
 
 			$('#popup-report-error #select-error').hide();
+			$('#popup-report-error #mail-error').hide();
 
-			if (errorValue)
+			let errors = false;
+			if (!reportValue)
+			{
+				$('#popup-report-error #select-error').show();
+				errors = true;
+			}
+			if (!userMail || $('#popup-report-error .input-mail').hasClass('invalid'))
+			{
+				$('#popup-report-error #mail-error').show();
+				errors = true;
+			}
+			if (!errors)
 			{			
 				let elementId = getCurrentElementIdShown();	
 				let comment = $('#popup-report-error .input-comment').val();
+				
 
-				console.log("send vote " +errorValue + " to element id ", elementId);
+				console.log("send vote " +reportValue + " to element id ", elementId);
 
-				App.ajaxModule.reportError(elementId, errorValue, comment, (response) =>
+				App.ajaxModule.reportError(elementId, reportValue, comment, userMail, (response) =>
 				{
 					let success = response.success;
 					let responseMessage = response.message;
@@ -89,10 +131,6 @@ export function initializeReportingAndDeleting()
 				{
 					$('#popup-report-error #select-error').text(errorMessage).show();
 				});			
-			}
-			else
-			{
-				$('#popup-report-error #select-error').show();
 			}
 		}		
 

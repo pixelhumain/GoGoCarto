@@ -17,7 +17,7 @@ import { Element } from "../classes/element.class";
 declare let App : AppModule;
 
 import { capitalize, slugify } from "../../commons/commons";
-
+import { openReportDeleteModal } from './reporting-deleting.component';
 
 export function initializeElementMenu()
 {	
@@ -115,15 +115,7 @@ export function createListenersForElementMenu(object)
 
 	object.find('.item-delete').click(function() 
 	{		
-		let element = App.elementModule.getElementById(getCurrentElementIdShown());
-		//window.console.log(element.name);
-		$('#popup-report-error .elementName').text(capitalize(element.name));
-		$('#popup-report-error').openModal({
-		      dismissible: true, 
-		      opacity: 0.5, 
-		      in_duration: 300, 
-		      out_duration: 200
-    		});
+		openReportDeleteModal();
 	});
 
 	object.find('.item-directions').click(function() 

@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 09:28:37
+ * @Last Modified time: 2017-05-26 17:33:49
  */
  
 
@@ -56,7 +56,7 @@ class ElementInteractionController extends Controller
         if($request->isXmlHttpRequest())
         {
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || $request->get('value') === null) return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
+            if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
@@ -68,6 +68,8 @@ class ElementInteractionController extends Controller
             $securityContext = $this->container->get('security.context');
             if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
                 $report->setUserMail($securityContext->getToken()->getUser()->getEmail());
+            else 
+                $report->setUserMail($request->get('userMail'));
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);
