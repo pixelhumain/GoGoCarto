@@ -43,7 +43,7 @@
 
             {% set value = result %}
 
-        {% elseif value in field_description.options.choices|keys %}
+        {% elseif value is defined and value in field_description.options.choices|keys %}
             {% if field_description.options.catalogue is not defined %}
                 {% set value = field_description.options.choices[value] %}
             {% else %}
