@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-25 20:05:52
+ * @Last Modified time: 2017-05-26 10:39:10
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -133,6 +133,12 @@ class ElementAdmin extends AbstractAdmin
 	  	->add('postalCode')	  	
 	  	->add('contributorMail');
 	}
+
+	public function buildDatagrid() 
+	 {
+	     $this->persistFilters = true;
+	     parent::buildDatagrid();
+	 }
 
 	protected function configureShowFields(ShowMapper $show)
 	{
