@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 10:57:04
+ * @Last Modified time: 2017-05-26 17:05:06
  */
  
 
@@ -67,7 +67,7 @@ class Element
      * If element need moderation we write here the type of modification needed
      * @MongoDB\Field(type="int")
      */
-    private $moderationState;
+    private $moderationState = 0;
 
     /**
      * @var \stdClass
@@ -120,6 +120,14 @@ class Element
      * @MongoDB\Field(type="string")
      */
     private $postalCode;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Versioned
+     * @MongoDB\Field(type="string")
+     */
+    private $departementCode;
 
     /**
      * @var string
@@ -351,6 +359,7 @@ class Element
     public function setPostalCode($postalCode)
     {
         $this->postalCode = $postalCode;
+        $this->setDepartementCode(substr($postalCode, 0, 2));
         return $this;
     }
 
@@ -362,6 +371,28 @@ class Element
     public function getPostalCode()
     {
         return $this->postalCode;
+    }
+    
+    /**
+     * Set postalCode
+     *
+     * @param string $postalCode
+     * @return $this
+     */
+    public function setDepartementCode($code)
+    {
+        $this->departementCode = $code;
+        return $this;
+    }
+
+    /**
+     * Get postalCode
+     *
+     * @return string $postalCode
+     */
+    public function getDepartementCode()
+    {
+        return $this->departementCode;
     }
 
     /**
@@ -746,7 +777,6 @@ class Element
     {
         $this->reports[] = $report;
         $this->setModerationState(ModerationState::ReportsSubmitted);
-        dump($this->reports);
     }
 
     /**

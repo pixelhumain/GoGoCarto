@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-26 10:39:10
+ * @Last Modified time: 2017-05-26 16:19:21
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -91,7 +91,7 @@ class ElementAdmin extends AbstractAdmin
 	         'expanded' => false,    
 	         'multiple' => false
 	        )
-        )
+        )	  	
 	  	->add('valide', 'doctrine_mongo_callback', array(
                 'label' => 'Validés',
                 'callback' => function($queryBuilder, $alias, $field, $value) {
@@ -104,9 +104,9 @@ class ElementAdmin extends AbstractAdmin
             ))
 	  	->add('pending', 'doctrine_mongo_callback', array(
                 'label' => 'En attente',
-                'callback' => function($queryBuilder, $alias, $field, $value) {
+                'callback' => function($queryBuilder, $alias, $field, $value) 
+                {
                     if (!$value || !$value['value']) { return; }
-
                     $queryBuilder->field('status')->in(array(ElementStatus::PendingModification,ElementStatus::PendingAdd));
                     return true;
                 },
@@ -114,23 +114,24 @@ class ElementAdmin extends AbstractAdmin
             ))
 	  	->add('moderationNeeded', 'doctrine_mongo_callback', array(
 	  				'label' => 'Modération Nécessaire',
-                'callback' => function($queryBuilder, $alias, $field, $value) {
+                'callback' => function($queryBuilder, $alias, $field, $value) 
+                {
                     if (!$value || !$value['value']) { return; }
-
                     $queryBuilder->field('moderationState')->notEqual(ModerationState::NotNeeded);
                     return true;
                 },
                 'field_type' => 'checkbox'
             ))
-	  	->add('moderationState', 'doctrine_mongo_choice', array('label' => 'Type de Modération'	), 
+	  	->add('moderationState', 'doctrine_mongo_choice', array('label' => 'Type de Modération'), 
 	        'choice', 
 	        array(	            
 	            'choices' => $this->moderationChoices, 
 		         'expanded' => false,    
 		         'multiple' => false
 		        )
-	        )
-	  	->add('postalCode')	  	
+	        )  	
+	  	->add('postalCode', null, array('label' => 'Code postal'))
+	  	->add('departementCode', null, array('label'=>'Numéro de département'))
 	  	->add('contributorMail');
 	}
 
