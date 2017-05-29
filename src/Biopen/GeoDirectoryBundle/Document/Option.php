@@ -39,7 +39,7 @@ class Option
 
     /**
      * @var int
-     *
+     * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int") 
      */
     private $index;
@@ -111,6 +111,11 @@ class Option
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() 
+    {
+        return "Option/" . $this->getName();
     }
     
     /**

@@ -39,7 +39,7 @@ class Category
 
     /**
      * @var int
-     *
+     * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int")
      */
     private $index;
@@ -97,6 +97,11 @@ class Category
     public function __construct()
     {
         $this->options = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() 
+    {
+        return "Category/" . $this->getName();
     }
     
     /**

@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-26 16:19:21
+ * @Last Modified time: 2017-05-27 14:48:02
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -49,8 +49,7 @@ class ElementAdmin extends AbstractAdmin
 	{
 	    $query = parent::createQuery($context);
 	    // not display the modified version whos status is -5
-	    // neither deleted elements (specific folder for that)
-	    $query->field('status')->notEqual(-5);
+	    $query->field('status')->notEqual(ElementStatus::ModifiedPendingVersion);
 	    return $query;
 	}
 

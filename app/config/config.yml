@@ -138,9 +138,9 @@ stof_doctrine_extensions:
 pix_sortable_behavior:
     db_driver: mongodb # default value : orm
     position_field:
-        default: position #default value : position
+        default: index #default value : position
         entities:
-            Biopen/CoreBundle/Document/About: position
+            Biopen\CoreBundle\Document\About: position
 
 # Swiftmailer Configuration
 swiftmailer:

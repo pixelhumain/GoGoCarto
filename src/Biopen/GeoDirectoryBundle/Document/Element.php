@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 17:05:06
+ * @Last Modified time: 2017-05-27 15:08:54
  */
  
 
@@ -280,7 +280,8 @@ class Element
         return $this->status == ElementStatus::PendingAdd || $this->status == ElementStatus::PendingModification;
     }
 
-    public function __toString() {
+    public function __toString() 
+    {
         return $this->getName();
     }
 

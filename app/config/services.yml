@@ -34,6 +34,18 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Acteurs }
 
+    admin.category:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories }
+
+    admin.option:
+        class: Biopen\GeoDirectoryBundle\Admin\OptionAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Options }
+
     sonata.block.service.monitoring:
         class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
         arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
