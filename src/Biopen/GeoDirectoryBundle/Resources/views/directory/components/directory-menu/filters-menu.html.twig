@@ -72,7 +72,7 @@
 
 					<div id="main-option-{{ mainOption.id }}" class="main-option-subcategories-container" style="display:none">		
 
-					{% for key, category in mainOption.subcategories | sortbyfield('index')%}
+						{% for key, category in mainOption.subcategories %}
 
 						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
               						with {'category': category, 'recursive': true } %}

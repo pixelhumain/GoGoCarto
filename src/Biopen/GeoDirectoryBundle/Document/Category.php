@@ -33,9 +33,14 @@ class Category
     private $nameShort;
 
     /**
-    * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"})
     */
     private $options; 
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", inversedBy="subcategories", cascade={"all"})
+     */
+    public $parent;
 
     /**
      * @var int
@@ -101,7 +106,7 @@ class Category
 
     public function __toString() 
     {
-        return "Category/" . $this->getName();
+        return "(Category) " . $this->getName();
     }
     
     /**
@@ -165,6 +170,7 @@ class Category
      */
     public function addOption(\Biopen\GeoDirectoryBundle\Document\Option $option)
     {
+        $option->setParent($this, false);
         $this->options[] = $option;
     }
 
@@ -362,5 +368,30 @@ class Category
     public function getUnexpandable()
     {
         return $this->unexpandable;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Option $parent
+     * @return $this
+     */
+    public function setParent(\Biopen\GeoDirectoryBundle\Document\Option $parent, $updateParent = true)
+    {
+        if ($updateParent && $this->parent) $this->parent->removeSubcategory($this, false);
+        $this->parent = $parent;
+        if ($updateParent) $parent->addSubcategory($this, false);
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Option $parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

@@ -33,9 +33,14 @@ class Option
     private $nameShort;
 
     /**
-    * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"})
     */
-    private $subcategories;
+    private $subcategories; 
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options", cascade={"all"})
+     */
+    public $parent;
 
     /**
      * @var int
@@ -115,7 +120,7 @@ class Option
 
     public function __toString() 
     {
-        return "Option/" . $this->getName();
+        return "(Option) " . $this->getName();
     }
     
     /**
@@ -177,8 +182,9 @@ class Option
      *
      * @param Biopen\GeoDirectoryBundle\Document\Category $subcategory
      */
-    public function addSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory)
+    public function addSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory, $updateParent = true)
     {
+        if ($updateParent) $subcategory->setParent($this, false);
         $this->subcategories[] = $subcategory;
     }
 
@@ -187,8 +193,9 @@ class Option
      *
      * @param Biopen\GeoDirectoryBundle\Document\Category $subcategory
      */
-    public function removeSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory)
+    public function removeSubcategory(\Biopen\GeoDirectoryBundle\Document\Category $subcategory, $updateParent = true)
     {
+        if ($updateParent) $subcategory->setParent(null);
         $this->subcategories->removeElement($subcategory);
     }
 
@@ -420,5 +427,27 @@ class Option
     public function getDisplayOption()
     {
         return $this->displayOption;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Category $parent
+     * @return $this
+     */
+    public function setParent(\Biopen\GeoDirectoryBundle\Document\Category $parent)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Category $parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

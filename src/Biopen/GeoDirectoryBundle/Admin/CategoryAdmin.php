@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-30 10:24:29
+ * @Last Modified time: 2017-05-30 18:43:50
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -34,6 +34,10 @@ class CategoryAdmin extends AbstractAdmin
 		  	->add('name', null, array('required' => true, 'label' => 'Nom de la catégorie'))
 		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 		  	->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))
+		  	->add('parent', 'sonata_type_model', array(
+		  		'class'=> 'Biopen\GeoDirectoryBundle\Document\Option', 
+		  		'required' => true, 
+		  		'label' => 'Option parente'), array('admin_code' => 'admin.option.lite'))
 		  	->add('pickingOptionText', null, array('required' => true, 'label' => 'Text à afficher dans le formulaire : Choisissez ....'))	
 		  	->add('index', null, array('required' => true, 'label' => 'Position'))
 		  	->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
@@ -44,7 +48,14 @@ class CategoryAdmin extends AbstractAdmin
 			->add('depth', null, array('required' => false, 'label' => 'Profondeur dans l\'arbre'))			
 			->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les options de la catégorie'))
 			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))					
-		->end();        
+		->end()
+		->with('Options', array('class' => 'col-xs-12'))	
+			->add('options', 'sonata_type_collection', array('by_reference' => false), array(
+                'edit' => 'inline',
+                'inline' => 'table',
+                'admin_code'    => 'admin.option.lite'
+            ))
+		->end();         
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
