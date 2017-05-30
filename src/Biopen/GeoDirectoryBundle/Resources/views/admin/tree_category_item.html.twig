@@ -1,0 +1,37 @@
+
+<li class="category-item">
+
+	<span class="category-item {{ category.options|length ? 'expandable':'' }}">
+		{{ category.name|capitalize }}
+		{% if category.options|length %}<span class="arrow-after"></span>{% endif %}
+	</span>
+	<span class="actions">
+		{% include "@BiopenAdmin/list__action_edit.html.twig" with {'object':category} %}
+		{% include "@BiopenAdmin/list__action_delete.html.twig" with {'object':category} %}
+	</span>
+
+  <ul class="children category-children">
+  	{% for key, option in category.options | sortbyfield('index') %} 
+
+      <li class="option-item">
+
+      	<span class="option-item {{ option.subcategories|length ? 'expandable':'' }}">
+	      	{{ option.name|capitalize }}
+	      	{% if option.subcategories|length %}<span class="arrow-after"></span>{% endif %}
+      	</span>
+      	<span class="actions">
+	      	<a href="{{ path('admin_biopen_geodirectory_option_edit', {id: option.id}) }}" class="btn btn-sm btn-default"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+	      	<a href="{{ path('admin_biopen_geodirectory_option_delete', {id: option.id}) }}" class="btn btn-sm btn-default"> <i class="fa fa-trash" aria-hidden="true"></i></a>
+	      </span>
+
+      	<ul class="children option-children" style={{ firstDepth ? "display:none" : ""}}>
+      	{% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
+						{% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': subcategory, 'firstDepth':false } %}
+				{% endfor %} 
+				</ul>
+
+      </li>
+
+    {% endfor %} 
+	</ul>
+</li>

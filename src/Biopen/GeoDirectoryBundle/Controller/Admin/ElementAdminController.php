@@ -1,6 +1,6 @@
 <?php
 
-namespace Biopen\GeoDirectoryBundle\Controller;
+namespace Biopen\GeoDirectoryBundle\Controller\Admin;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;

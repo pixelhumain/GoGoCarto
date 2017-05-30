@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-27 15:44:44
+ * @Last Modified time: 2017-05-30 10:24:29
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -23,6 +23,7 @@ class CategoryAdmin extends AbstractAdmin
    public function createQuery($context = 'list')
 	{
 	    $query = parent::createQuery($context);
+	    $query->field('depth')->lt(1);
 	    return $query;
 	}
 
@@ -49,20 +50,16 @@ class CategoryAdmin extends AbstractAdmin
 	protected function configureListFields(ListMapper $listMapper)
 	{
 	  $listMapper
-	      ->addIdentifier('name')	 
+	      ->add('name')	 
 	      ->add('_action', 'actions', array(
                 'actions' => array(
-                    'edit' => array(),
-                    'delete' => array(),
-                    'move' => array(
-                        'template' => 'PixSortableBehaviorBundle:Default:_sort.html.twig'
-                    )
+                	  'tree' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_tree.html.twig')
                 )
             ));   
 	}
 
 	protected function configureRoutes(RouteCollection $collection)
 	{
-	    $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+	    $collection->add('tree', $this->getRouterIdParameter().'/tree');
 	}
 }

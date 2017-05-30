@@ -1,0 +1,98 @@
+{% extends base_template %}
+
+{% block navbar_title %}
+    {{ category.name }}
+{% endblock %}
+
+{%- block actions -%}		
+    <li><a href="{{ admin.generateUrl('list') }}" class="" title="Retourner à la liste">
+         
+           <span>Retourner à la liste </span>
+           <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </a></li>
+{%- endblock -%}
+
+
+{% block show %}
+	
+	<div class="well" style="font-size: 15px; line-height: 20px;">
+		<ul>
+	    {% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
+    </ul>
+	</div>
+
+<script>
+$(document).ready(function () {
+	$('.expandable').click(function (e) {
+		$(this).siblings('ul.children').toggle(300);
+		e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.preventDefault();
+	});
+});
+</script>
+
+<style>
+
+li.category-item
+{
+	list-style-type: none;
+}
+
+span.category-item
+{
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+li.option-item
+{
+	list-style-type: circle;
+}
+
+span.option-item
+{
+	font-style: italic;
+}
+
+.expandable:hover
+{
+	cursor: pointer;	
+	color: black;
+}
+
+.arrow-after
+{
+	display: inline-block;
+  margin-left: 5px;
+  border: solid 3px;
+  margin-bottom: -1px;
+  border-color: #545454 transparent transparent transparent;
+}
+
+.actions
+{
+	margin-left: 1rem;
+}
+
+.btn
+{
+	border: none;
+	padding: 5px 5px;
+  font-size: 10px;
+  color: grey;
+}
+
+ul
+{
+	padding-left: 30px;
+}
+
+ul.option-children {
+    padding-left: 10px;
+}
+
+</style>
+{% endblock %}
+
+

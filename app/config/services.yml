@@ -30,21 +30,21 @@ services:
 
     admin.element:
         class: Biopen\GeoDirectoryBundle\Admin\ElementAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:ElementAdmin']
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:Admin/ElementAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Acteurs }
-
-    admin.category:
-        class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'PixSortableBehaviorBundle:SortableAdmin']
-        tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Acteurs }    
 
     admin.option:
         class: Biopen\GeoDirectoryBundle\Admin\OptionAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, 'PixSortableBehaviorBundle:SortableAdmin']
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, 'BiopenGeoDirectoryBundle:Admin/OptionAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Options }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories } # duplicate the Catégories label so it does not appear in left menu
+
+    admin.category:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'BiopenGeoDirectoryBundle:Admin/CategoryAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories }
 
     sonata.block.service.monitoring:
         class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
