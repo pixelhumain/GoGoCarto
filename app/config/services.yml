@@ -46,11 +46,17 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories } # duplicate the Catégories label so it does not appear in left menu
 
+    admin.category.lite:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryLiteAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories } # duplicate the Catégories label so it does not appear in left menu
+
     admin.category:
         class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'BiopenGeoDirectoryBundle:Admin/CategoryAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Annuaire", label: Catégories }    
 
     sonata.block.service.monitoring:
         class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
