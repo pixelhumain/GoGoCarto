@@ -46,7 +46,7 @@
 
 
 						{# --- NAME ---- #}
-						<span class="option-name">{{ option.nameShort }}</span> 
+						<span class="option-name">{{ option.nameShort ? option.nameShort : option.name }}</span> 
 
 						{# --- ARROW COLAPSIBLE ---- #}
 						{% if isSubcategories %}<div class="arrow-after"></div>{% endif %}
