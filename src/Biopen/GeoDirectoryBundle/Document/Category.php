@@ -33,12 +33,12 @@ class Category
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"})
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"}, orphanRemoval="true", sort={"index"="ASC"})
     */
     private $options; 
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", inversedBy="subcategories", cascade={"all"})
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", inversedBy="subcategories")
      */
     public $parent;
 
@@ -47,28 +47,28 @@ class Category
      * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int")
      */
-    private $index;
+    private $index = 0;
 
     /**
      * @var bool
      *
      * @MongoDB\Field(type="boolean")
      */
-    private $singleOption;
+    private $singleOption = false;
 
     /**
      * @var bool
      *
      * @MongoDB\Field(type="boolean")
      */
-    private $enableDescription;
+    private $enableDescription = false;
 
     /**
      * @var bool
      *
      * @MongoDB\Field(type="boolean")
      */
-    private $displayCategoryName;
+    private $displayCategoryName = true;
 
     /**
      * @var int
@@ -106,7 +106,8 @@ class Category
 
     public function __toString() 
     {
-        return "(Category) " . $this->getName();
+        $parentName = $this->getParent() ? $this->getParent()->getName() . '/' : '';
+        return "(Category) " . $parentName . $this->getName();
     }
     
     /**
@@ -378,9 +379,13 @@ class Category
      */
     public function setParent(\Biopen\GeoDirectoryBundle\Document\Option $parent, $updateParent = true)
     {
+        // clearing old parent
         if ($updateParent && $this->parent) $this->parent->removeSubcategory($this, false);
+        
         $this->parent = $parent;
         if ($updateParent) $parent->addSubcategory($this, false);
+
+        if (!$this->depth && $this->parent->getParent()) $this->setDepth($this->parent->getParent()->getDepth() + 1);
 
         return $this;
     }

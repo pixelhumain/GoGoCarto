@@ -33,12 +33,12 @@ class Option
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"})
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, orphanRemoval="true", sort={"index"="ASC"})
     */
     private $subcategories; 
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options", cascade={"all"})
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options")
      */
     public $parent;
 
@@ -131,6 +131,11 @@ class Option
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId() 
+    { 
+        return $this; 
     }
 
     /**
@@ -239,6 +244,7 @@ class Option
      */
     public function setColor($color)
     {
+        if (strlen($color) == 6) $color = '#' . $color;
         $this->color = $color;
         return $this;
     }
@@ -261,6 +267,7 @@ class Option
      */
     public function setSoftColor($color)
     {
+        if (strlen($color) == 6) $color = '#' . $color;
         $this->softColor = $color;
         return $this;
     }
