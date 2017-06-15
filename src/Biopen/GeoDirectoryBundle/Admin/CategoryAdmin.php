@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-30 18:43:50
+ * @Last Modified time: 2017-06-15 18:47:35
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -20,40 +20,44 @@ use Knp\Menu\ItemInterface;
 
 class CategoryAdmin extends AbstractAdmin
 {
+   protected $baseRouteName = 'admin_biopen_geodirectory_category';
+	protected $baseRoutePattern = 'admin_biopen_geodirectory_category';
+
    public function createQuery($context = 'list')
 	{
 	    $query = parent::createQuery($context);
-	    $query->field('depth')->lt(1);
 	    return $query;
-	}
+	}	
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 	  $formMapper
 	  ->with('Paramètres principaux', array('class' => 'col-xs-12 col-md-6'))
 		  	->add('name', null, array('required' => true, 'label' => 'Nom de la catégorie'))
-		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 		  	->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))
 		  	->add('parent', 'sonata_type_model', array(
 		  		'class'=> 'Biopen\GeoDirectoryBundle\Document\Option', 
-		  		'required' => true, 
-		  		'label' => 'Option parente'), array('admin_code' => 'admin.option.lite'))
+		  		'required' => false, 
+		  		'label' => 'Option parente'), array('admin_code' => 'admin.option'))
 		  	->add('pickingOptionText', null, array('required' => true, 'label' => 'Text à afficher dans le formulaire : Choisissez ....'))	
 		  	->add('index', null, array('required' => true, 'label' => 'Position'))
 		  	->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
-		  	->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option"))	
-		  	->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées'))				
+		  	->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option)"))	
+		  	->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées)'))				
 		->end()
 		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6'))		  	
 			->add('depth', null, array('required' => false, 'label' => 'Profondeur dans l\'arbre'))			
 			->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les options de la catégorie'))
-			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))					
+			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))				
+		  	->add('depth', null, array('required' => false, 'label' => 'Profondeur dans l\'arbre'))	
+		  	//->add('id')							
 		->end()
 		->with('Options', array('class' => 'col-xs-12'))	
-			->add('options', 'sonata_type_collection', array('by_reference' => false), array(
+			->add('options', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), array(
                 'edit' => 'inline',
                 'inline' => 'table',
-                'admin_code'    => 'admin.option.lite'
+                'admin_code'    => 'admin.option.lite',
+                //'sortable' => 'index',
             ))
 		->end();         
 	}
