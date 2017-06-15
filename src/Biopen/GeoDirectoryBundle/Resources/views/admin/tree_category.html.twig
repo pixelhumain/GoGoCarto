@@ -5,7 +5,14 @@
 {% endblock %}
 
 {%- block actions -%}		
-    <li></li>
+    <li><a class="sonata-action-element" href="{{ path('admin_biopen_geodirectory_category_create') }}">
+    				<i class="fa fa-plus-circle" aria-hidden="true"></i>
+            Ajouter une catégorie
+    </a></li>
+     <li><a class="sonata-action-element" href="{{ path('admin_biopen_geodirectory_option_create') }}">
+    				<i class="fa fa-plus-circle" aria-hidden="true"></i>
+            Ajouter une Option
+    </a></li>
 {%- endblock -%}
 
 
@@ -17,7 +24,7 @@
 	    {% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
     </ul>
     {% else %}
-    	Aucune catégorie. <a href="{{ path('admin_biopen_geodirectory_category_create') }}" class="btn btn-default"> En créer une</a>
+    	Aucune catégorie
     {% endif %}
 	</div>
 
