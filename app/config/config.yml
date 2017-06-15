@@ -273,6 +273,12 @@ sonata_admin:
             - { position: right, type: biopen.block.recent_elements, settings: { title: 'Dernières validation collaboratives', filterStatus: 2, class: box-success}}
             - { position: right, type: biopen.block.recent_elements, settings: { title: 'Derniers refus collaboratifs', filterStatus: -3 , class: box-danger}}
             - { position: top, class: col-md-12, type: sonata.block.service.monitoring}
+        groups:
+            Contenus:
+            Annuaire:
+            sonata_user:
+                label: Utilisateurs
+                icon: <i class='fa fa-users'></i>
 
 sonata_user:
     security_acl: true
