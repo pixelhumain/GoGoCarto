@@ -1,7 +1,7 @@
 {% extends base_template %}
 
 {% block navbar_title %}
-    {{ category.name }}
+    {{ category ? category.name : "Liste des catégories" }}
 {% endblock %}
 
 {%- block actions -%}		
@@ -12,9 +12,13 @@
 {% block show %}
 	
 	<div class="well" style="font-size: 15px; line-height: 20px;">
+	{% if category %}
 		<ul>
 	    {% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
     </ul>
+    {% else %}
+    	Aucune catégorie. <a href="{{ path('admin_biopen_geodirectory_category_create') }}" class="btn btn-default"> En créer une</a>
+    {% endif %}
 	</div>
 
 <script>
