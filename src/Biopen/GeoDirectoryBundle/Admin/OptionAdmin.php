@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-06-15 19:11:33
+ * @Last Modified time: 2017-06-15 22:50:25
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -37,7 +37,7 @@ class OptionAdmin extends AbstractAdmin
 		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 		  	->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))
 		  	->add('index', null, array('required' => true, 'label' => 'Position (pour classer les options)'))
-		    ->add('parent', 'sonata_type_model', array('class'=> 'Biopen\GeoDirectoryBundle\Document\Category', 'required' => true, 'label' => 'Catégorie parente', 'mapped' => true), array('admin_code' => 'admin.category.lite'))
+		    ->add('parent', 'sonata_type_model', array('class'=> 'Biopen\GeoDirectoryBundle\Document\Category', 'required' => false, 'label' => 'Catégorie parente', 'mapped' => true), array('admin_code' => 'admin.category.lite'))
 		  	->add('color', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur'))			  	
 		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))			  	
 		  	->add('useIconForMarker', null, array('required' => false, 'label' => "Utiliser l'icone de l'option pour le marqueur"))		
