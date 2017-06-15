@@ -187,7 +187,7 @@ sonata_block:
 sonata_doctrine_mongo_db_admin:
     templates:
         form:
-            - SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig
+            - BiopenGeoDirectoryBundle:admin:form_admin_fields.html.twig
         filter:
             - SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig
         types:
