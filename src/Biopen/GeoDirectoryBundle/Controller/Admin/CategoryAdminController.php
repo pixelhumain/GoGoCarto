@@ -29,9 +29,9 @@ class CategoryAdminController extends Controller
         $id = $request->get($this->admin->getIdParameter());
         $object = $mainCategory ?: $this->admin->getObject($id);
 
-        if (!$object) {
-            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        }
+        // if (!$object) {
+        //     throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+        // }
 
         $this->admin->checkAccess('edit', $object);
         $this->admin->setSubject($object);
