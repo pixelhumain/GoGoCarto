@@ -24,7 +24,7 @@
 	      	<a href="{{ path('admin_biopen_geodirectory_option_delete', {id: option.id}) }}" class="btn btn-sm btn-default"> <i class="fa fa-trash" aria-hidden="true"></i></a>
 	      </span>
 
-      	<ul class="children option-children" style={{ firstDepth ? "display:none" : ""}}>
+      	<ul class="children option-children" style="display:none">
       	{% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
 						{% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': subcategory, 'firstDepth':false } %}
 				{% endfor %} 
