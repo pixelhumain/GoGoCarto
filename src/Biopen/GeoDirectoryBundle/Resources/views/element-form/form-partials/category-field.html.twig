@@ -11,7 +11,7 @@
 	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
     <select id="category-field-{{category.id}}" class="category-select keep-title-option depth-{{ category.depth }}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
-   	  <option disabled selected>Choissisez {{ category.pickingOptionText }}</option>
+   	  <option disabled selected>Choisissez {{ category.pickingOptionText }}</option>
    	   
       {% for key, option in category.options | sortbyfield('index') %} 
       	<option value="{{option.id}}">
