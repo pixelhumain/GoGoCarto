@@ -580,7 +580,7 @@ export class AppModule
 		else
 		{
 			// if just address was given
-			if (this.mode == AppModes.Map)
+			if (this.mode == AppModes.Map && this.state != AppStates.ShowElementAlone)
 			{
 				this.infoBarComponent.hide();
 				this.setState(AppStates.Normal);					

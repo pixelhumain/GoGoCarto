@@ -43,6 +43,14 @@ export class InfoBarComponent
 
 		//console.log("showElement", element);
 
+		// if element already visible
+		if (this.elementVisible)
+		{
+			this.elementVisible.marker.showNormalSize(true);
+		}
+
+		this.elementVisible = element;	
+
 		if (!element.isFullyLoaded)
 		{
 			//console.log("Element not fully Loaded");
@@ -55,15 +63,7 @@ export class InfoBarComponent
 				console.log("Ajax failure for elementId", elementId);
 			});
 			return;
-		}
-		
-		// if element already visible
-		if (this.elementVisible)
-		{
-			this.elementVisible.marker.showNormalSize(true);
-		}
-
-		this.elementVisible = element;	
+		}		
 
 		$('#element-info').html(element.getHtmlRepresentation());
 
