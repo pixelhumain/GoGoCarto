@@ -10,7 +10,7 @@
 		</div> 
 
 		{# MAIN OPTIONS ICONS & TOOLTIP #}
-		{% for key, mainOption in mainCategory.options | sortbyfield('index')%}
+		{% for key, mainOption in mainCategory.options %}
 
 			<div class="icon main-icon {{ mainOption.icon }}"  id="main-option-icon-{{mainOption.id}}" data-option-id="{{ mainOption.id }}">
 				<div class="main-option-tooltip">{{ mainOption.name }}</div>

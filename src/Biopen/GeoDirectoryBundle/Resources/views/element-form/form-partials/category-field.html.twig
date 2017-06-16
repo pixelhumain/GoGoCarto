@@ -13,7 +13,7 @@
    	  
    	  <option disabled selected>Choisissez {{ category.pickingOptionText }}</option>
    	   
-      {% for key, option in category.options | sortbyfield('index') %} 
+      {% for key, option in category.options %} 
       	<option value="{{option.id}}">
       		{{ option.name }} {% if option.textHelper %} ({{ option.textHelper }}) {% endif %}
       	</option>
@@ -22,7 +22,7 @@
   	
   </span>
 
-	{% for key, option in category.options | sortbyfield('index') %} 
+	{% for key, option in category.options %} 
 
 		{% set displayOption = false %}
 		{% set curr_description = '' %} 
@@ -61,7 +61,7 @@
 			</div>		
 
 	  	<div class="subcategories-wrapper ">
-		    {% for subkey, subcategory in option.subcategories | sortbyfield('index') %}
+		    {% for subkey, subcategory in option.subcategories %}
 
 						{% include '@directory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
 

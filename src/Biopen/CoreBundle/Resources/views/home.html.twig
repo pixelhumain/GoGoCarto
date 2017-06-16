@@ -29,7 +29,7 @@
 			<input class="main-option-radio-btn" data-name="all" name="mainOption" type="radio" id="option-all" checked/>
 	    <label class="main-option-radio-label" for="option-all">Toutes</label>
 
-			{% for option in mainOptions | sortbyfield('index') %}
+			{% for option in mainOptions %}
 				<input class="main-option-radio-btn" data-name="{{option.nameShort}}" name="mainOption" type="radio" id="option-{{option.id}}" />
 	      <label class="main-option-radio-label" for="option-{{option.id}}">{{ option.name }}</label>
 			{% endfor %}
@@ -39,7 +39,7 @@
 	    <select  class="category-select" id="category-select">	   	  
 	   	  <option disabled selected value="all">Choisissez une catégorie (par défaut : toutes)</option>
 	   	   
-	     {% for option in mainOptions | sortbyfield('index') %}
+	     {% for option in mainOptions %}
 	      	<option value="{{option.nameShort}}">{{ option.name }}</option>
 	      {% endfor %}
 	    </select>

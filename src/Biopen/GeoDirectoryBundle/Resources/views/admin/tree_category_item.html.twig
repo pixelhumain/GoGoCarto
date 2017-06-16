@@ -11,7 +11,7 @@
 	</span>
 
   <ul class="children category-children">
-  	{% for key, option in category.options | sortbyfield('index') %} 
+  	{% for key, option in category.options %} 
 
       <li class="option-item">
 
@@ -25,7 +25,7 @@
 	      </span>
 
       	<ul class="children option-children" style="display:none">
-      	{% for subkey, subcategory in option.subcategories | sortbyfield('index')%}
+      	{% for subkey, subcategory in option.subcategories %}
 						{% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': subcategory, 'firstDepth':false } %}
 				{% endfor %} 
 				</ul>
