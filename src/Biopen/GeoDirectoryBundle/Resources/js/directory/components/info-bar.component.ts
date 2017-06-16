@@ -71,7 +71,7 @@ export class InfoBarComponent
 		let domMenu = $('#element-info-bar .menu-element');
 		domMenu.attr('option-id', element.colorOptionId);
 
-		if (element.isPending()) 
+		if (element.isPending() || element.isDeleted() ) 
 		{
 			domMenu.addClass("pending");
 			createListenersForVoting();

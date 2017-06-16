@@ -530,6 +530,7 @@ export class Element
 	}
 
 	isPending() { return this.status == ElementStatus.PendingAdd || this.status == ElementStatus.PendingModification; }
+	isDeleted() { return this.status <= ElementStatus.AdminRefused }
 
 	// use twig template js to create the html representation of the element
 	getHtmlRepresentation() 
@@ -564,7 +565,7 @@ export class Element
 			otherOptionsValuesToDisplay: optionstoDisplay.slice(1),  
 			starNames : starNames,
 			mainCategoryValue : mainCategoryValue,
-			pendingClass : this.isPending() ? 'pending' : '',
+			pendingClass : this.isPending() || this.isDeleted()  ? 'pending' : '',
 			isAdmin : App.isUserAdmin,
 		});
 

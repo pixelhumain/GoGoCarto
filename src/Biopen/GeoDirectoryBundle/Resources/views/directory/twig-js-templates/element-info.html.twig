@@ -33,7 +33,8 @@
 
         {# Name #}
         {{ element.getProperty('name')|raw }}
-
+        {{ element.isDeleted ? ' </br><u>(En cours de suppression)</u>' : '' }}
+ 
       </span>
       <span id="testDiff"></span>
       
