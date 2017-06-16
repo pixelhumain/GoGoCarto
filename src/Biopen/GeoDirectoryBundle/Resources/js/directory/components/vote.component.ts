@@ -59,29 +59,20 @@ export function initializeVoting()
 					if (element.status != newstatus)
 					{
 						element.status = newstatus;
-						switch (newstatus) {
-							case ElementStatus.AdminValidate:
-								responseMessage += "</br>L'élement a bien été validé";
-								element.update(true);
-								break;
-							case ElementStatus.CollaborativeValidate:
-								responseMessage += "</br>Félicitations, cet acteur a reçu assez de vote pour être validé !";
-								element.update(true);
-								break;
-							case ElementStatus.AdminRefused:
-								responseMessage += "</br>L'élement a bien été supprimé";
-								break;
-							case ElementStatus.CollaborativeRefused:
-								responseMessage += "</br>Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
-								break;
-						}
+						element.update(true);
+						element.isFullyLoaded = false;
 					}
 
 					$('#modal-vote').closeModal();
-					let elementInfo = getCurrentElementInfoBarShown();
-					elementInfo.find(".vote-section").find('.basic-message').hide();	
-					elementInfo.find('.result-message').html(responseMessage).show();
-					App.infoBarComponent.show();
+					
+					// reload Element, and add flash message
+					App.infoBarComponent.showElement(element.id, () => {
+						let elementInfo = getCurrentElementInfoBarShown();
+						elementInfo.find(".vote-section").find('.basic-message').hide();	
+						elementInfo.find('.result-message').html(responseMessage).show();
+						App.infoBarComponent.show();
+					});
+					
 				}
 				else
 				{
@@ -114,8 +105,11 @@ export function createListenersForVoting()
 		{
 			let element = App.elementModule.getElementById(getCurrentElementIdShown());
 
+			console.log("vote for", element.name);
 			if (App.isUserAdmin || element.status == ElementStatus.PendingModification)
 			{
+				console.log("show short", App.isUserAdmin);
+				console.log("Vote status = ", ElementStatus[element.status]);
 				$('#modal-vote .long-options').hide();
 				$('#modal-vote .short-options').show();
 			}

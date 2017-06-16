@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 16:28:37
+ * @Last Modified time: 2017-06-16 18:37:18
  */
  
 
@@ -24,7 +24,7 @@ class ElementVoteService
 	protected $em;
     protected $user;
 
-    protected $minVoteToChangeStatus = 3;
+    protected $minVoteToChangeStatus = 1;
     protected $maxOppositeVoteTolerated = 0;
 
 	/**
@@ -54,6 +54,8 @@ class ElementVoteService
             }
         }
 
+        $oldStatus = $element->getStatus();
+
         if (!$hasAlreadyVoted) $vote = new UserInteraction();       
         
         $vote->setValue($voteValue);
@@ -65,14 +67,15 @@ class ElementVoteService
 
         if ($this->user->isAdmin())
         {
-            $element->setStatus($voteValue < 0 ? ElementStatus::AdminRefused : ElementStatus::AdminValidate);
+            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'admin', $voteValue);
         }
-        else $this->checkVotes($element);
+        else $procedureCompleteMessage = $this->checkVotes($element);
 
         $this->em->persist($element);
         $this->em->flush();
 
-        $resultMessage = $hasAlreadyVoted ? 'Merci ' . $this->user . " : votre vote a bien été modifié !" : "Merci de votre contribution !";
+        $resultMessage = $hasAlreadyVoted ? 'Merci ' . $this->user . ' : votre vote a bien été modifié !' : 'Merci de votre contribution !';
+        if ($procedureCompleteMessage) $resultMessage .= '</br>' . $procedureCompleteMessage;
 
         return $resultMessage;
     }
@@ -90,7 +93,7 @@ class ElementVoteService
 
         if ($nbrePositiveVote >= $this->minVoteToChangeStatus)
         {
-            if ($nbreNegativeVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeValidate);
+            if ($nbreNegativeVote <= $this->maxOppositeVoteTolerated) return $this->handleVoteProcedureComplete($element, 'collaborative', true);
             else 
             {
                 $element->setModerationState(ModerationState::VotesConflicts);
@@ -98,11 +101,65 @@ class ElementVoteService
         }
         else if ($nbreNegativeVote >= $this->minVoteToChangeStatus)
         {
-            if ($nbrePositiveVote <= $this->maxOppositeVoteTolerated) $element->setStatus(ElementStatus::CollaborativeRefused);
+            if ($nbrePositiveVote <= $this->maxOppositeVoteTolerated) return $this->handleVoteProcedureComplete($element, 'collaborative', false);
             else 
             {
                 $element->setModerationState(ModerationState::VotesConflicts);
             }
         }
+    }
+
+    private function handleVoteProcedureComplete($element, $voteType, $voteValue)
+    {        
+        // dump("HandleVoteProcedureComplete");
+        // dump("vote type " . $voteType . " // Vote value " . $voteValue);
+        // dump($element);
+
+        $message = '';
+
+        if ($element->getStatus() == ElementStatus::PendingAdd)
+        {
+            if ($voteType == 'collaborative') 
+            {
+                $element->setStatus($voteValue ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
+                $message = $voteValue ? "Félicitations, cet acteur a reçu assez de vote pour être validé !" : "Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
+            }
+            else if ($voteType == 'admin')    
+            {
+                $element->setStatus($voteValue ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
+                $message = $voteValue ? "L'élement a bien été validé" : "L'élement a bien été refusé";
+            }
+        }
+        else if ($element->getStatus() == ElementStatus::PendingModification)
+        {            
+            // if we validate modifications
+            if ($voteValue)
+            {
+                $modifiedElement = $element->getModifiedElement();
+               
+                if ($modifiedElement)
+                {
+                    foreach ($element as $key => $value) 
+                    {
+                       if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
+                    }
+                    // optionValue is pruivate so it's not in element $keys
+                    $element->setOptionValues($modifiedElement->getOptionValues());
+                    $element->setModifiedElement(null);
+                }
+                
+                $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                $message = $voteType == 'admin' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
+            }
+            // if modification are refused
+            else
+            {
+                $element->setModifiedElement(null);
+                $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                $message = $voteType == 'admin' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
+            }            
+        }
+
+        return $message;
     }
 }

@@ -37,7 +37,7 @@ export class InfoBarComponent
 	}
 
 	// App.infoBarComponent.showElement;
-	showElement(elementId) 
+	showElement(elementId, callback = null) 
 	{
 		let element = App.elementModule.getElementById(elementId);
 
@@ -58,6 +58,7 @@ export class InfoBarComponent
 			(response) => {
 				element.updateAttributesFromFullJson(response);
 				this.showElement(element.id);
+				if (callback) callback();
 			},
 			() => {
 				console.log("Ajax failure for elementId", elementId);
