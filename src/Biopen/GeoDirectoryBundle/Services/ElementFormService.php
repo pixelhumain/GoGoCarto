@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 12:19:18
+ * @Last Modified time: 2017-06-16 16:48:50
  */
  
 
@@ -72,7 +72,9 @@ class ElementFormService
             $modifiedElement = clone $element;
             $modifiedElement->setId(null);
             $modifiedElement->setStatus(ElementStatus::ModifiedPendingVersion);
+
             $this->em->refresh($element);
+            $this->em->persist($modifiedElement);
             $element->setModifiedElement($modifiedElement);
         }
 

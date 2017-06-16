@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-27 15:08:54
+ * @Last Modified time: 2017-06-16 16:28:11
  */
  
 
@@ -86,7 +86,7 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element", cascade={"all"})
      */
     private $modifiedElement;
 
@@ -182,7 +182,7 @@ class Element
      * @Gedmo\Versioned
      * @MongoDB\Field(type="string", nullable=true)
      */
-    public $openHoursMoreInfos;
+    public $openHoursMoreInfos = '';
 
    /**
      * @var string
@@ -626,15 +626,21 @@ class Element
         return $this->optionValues;
     }
 
+    public function setOptionValues($optionValues)
+    {
+        $this->optionValues = $optionValues;
+        return $this;
+    }
+
     /**
      * Set status
      *
      * @param int $status
      * @return $this
      */
-    public function setStatus($status)
+    public function setStatus($newStatus)
     {
-        $this->status = $status;
+        $this->status = $newStatus;
         return $this;
     }
 
@@ -872,7 +878,7 @@ class Element
      * @param Biopen\GeoDirectoryBundle\Document\Element $modifiedElement
      * @return $this
      */
-    public function setModifiedElement(\Biopen\GeoDirectoryBundle\Document\Element $modifiedElement)
+    public function setModifiedElement($modifiedElement)
     {
         $this->modifiedElement = $modifiedElement;
         return $this;
