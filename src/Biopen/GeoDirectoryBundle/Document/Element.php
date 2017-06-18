@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 13:18:28
+ * @Last Modified time: 2017-06-18 16:26:51
  */
  
 
@@ -227,6 +227,14 @@ class Element
      * @Gedmo\Timestampable
      */
     private $updatedAt;
+
+    /**
+     * @var date $createdAt
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="update", field={"status"})
+     */
+    private $statusChangedAt;
 
 
     /**
@@ -892,5 +900,27 @@ class Element
     public function getModifiedElement()
     {
         return $this->modifiedElement;
+    }
+
+    /**
+     * Set statusChangedAt
+     *
+     * @param date $statusChangedAt
+     * @return $this
+     */
+    public function setStatusChangedAt($statusChangedAt)
+    {
+        $this->statusChangedAt = $statusChangedAt;
+        return $this;
+    }
+
+    /**
+     * Get statusChangedAt
+     *
+     * @return date $statusChangedAt
+     */
+    public function getStatusChangedAt()
+    {
+        return $this->statusChangedAt;
     }
 }

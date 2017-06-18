@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 13:13:15
+ * @Last Modified time: 2017-06-18 16:31:42
  */
  
 
@@ -26,6 +26,7 @@ class ElementVoteService
 
     protected $minVoteToChangeStatus = 3;
     protected $maxOppositeVoteTolerated = 0;
+    protected $minDayBetweenContributionAndCollaborativeValidation = 0;
 
 	/**
      * Constructor
@@ -117,47 +118,56 @@ class ElementVoteService
 
         $message = '';
 
-        if ($element->getStatus() == ElementStatus::PendingAdd)
+        // days from contribution
+        $diffDate = time() - $element->getStatusChangedAt()->getTimestamp();
+        $daysFromContribution = floor( $diffDate / (60 * 60 * 24));
+
+        // we wait at least some days to validate collaboratively a contribution
+        if ($voteType == 'admin' || $daysFromContribution >= $this->minDayBetweenContributionAndCollaborativeValidation)
         {
-            if ($voteType == 'collaborative') 
+            if ($element->getStatus() == ElementStatus::PendingAdd)
             {
-                $element->setStatus($voteValue ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
-                $message = $voteValue ? "Félicitations, cet acteur a reçu assez de vote pour être validé !" : "Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
-            }
-            else if ($voteType == 'admin')    
-            {
-                $element->setStatus($voteValue ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
-                $message = $voteValue ? "L'élement a bien été validé" : "L'élement a bien été refusé";
-            }
-        }
-        else if ($element->getStatus() == ElementStatus::PendingModification)
-        {            
-            // if we validate modifications
-            if ($voteValue)
-            {
-                $modifiedElement = $element->getModifiedElement();
-               
-                if ($modifiedElement)
+                if ($voteType == 'collaborative') 
                 {
-                    foreach ($element as $key => $value) 
-                    {
-                       if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
-                    }
-                    // optionValue is pruivate so it's not in element $keys
-                    $element->setOptionValues($modifiedElement->getOptionValues());
-                    $element->setModifiedElement(null);
+                    $element->setStatus($voteValue ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
+                    $message = $voteValue ? "Félicitations, cet acteur a reçu assez de vote pour être validé !" : "Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
+                                 
                 }
-                
-                $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                $message = $voteType == 'admin' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
+                else if ($voteType == 'admin')    
+                {
+                    $element->setStatus($voteValue ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
+                    $message = $voteValue ? "L'élement a bien été validé" : "L'élement a bien été refusé";
+                }
             }
-            // if modification are refused
-            else
-            {
-                $element->setModifiedElement(null);
-                $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                $message = $voteType == 'admin' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
-            }            
+            else if ($element->getStatus() == ElementStatus::PendingModification)
+            {            
+                // if we validate modifications
+                if ($voteValue)
+                {
+                    $modifiedElement = $element->getModifiedElement();
+                   
+                    if ($modifiedElement)
+                    {
+                        foreach ($element as $key => $value) 
+                        {
+                           if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
+                        }
+                        // optionValue is pruivate so it's not in element $keys
+                        $element->setOptionValues($modifiedElement->getOptionValues());
+                        $element->setModifiedElement(null);
+                    }
+                    
+                    $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                    $message = $voteType == 'admin' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
+                }
+                // if modification are refused
+                else
+                {
+                    $element->setModifiedElement(null);
+                    $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                    $message = $voteType == 'admin' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
+                }            
+            }
         }
 
         return $message;
