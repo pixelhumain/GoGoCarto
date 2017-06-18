@@ -163,6 +163,10 @@ php bin/console cache:clear --env=prod;
 
 chmod -R 777 var/;
 
+# adding crontab task
+line="5 3 * * * php /var/www/html/CartoV3/bin/console app:elements:checkvote"
+(crontab -l; echo "$line" ) | crontab -u userhere -
+
 # services au démarrage
 systemctl enable mongod
 systemctl start mongod

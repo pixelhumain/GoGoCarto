@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 16:31:42
+ * @Last Modified time: 2017-06-18 18:28:28
  */
  
 
@@ -24,7 +24,7 @@ class ElementVoteService
 	protected $em;
     protected $user;
 
-    protected $minVoteToChangeStatus = 3;
+    protected $minVoteToChangeStatus = 1;
     protected $maxOppositeVoteTolerated = 0;
     protected $minDayBetweenContributionAndCollaborativeValidation = 0;
 
@@ -34,7 +34,7 @@ class ElementVoteService
     public function __construct(DocumentManager $documentManager, SecurityContext $securityContext)
     {
     	 $this->em = $documentManager;
-         $this->user = $securityContext->getToken()->getUser(); 
+         $this->user = $securityContext->getToken() ? $securityContext->getToken()->getUser() : null; 
     }
 
     public function voteForelement($element, $voteValue, $comment)
@@ -81,7 +81,7 @@ class ElementVoteService
         return $resultMessage;
     }
 
-    private function checkVotes($element)
+    public function checkVotes($element)
     {
         $currentVotes = $element->getVotes();
         $nbrePositiveVote = 0;
