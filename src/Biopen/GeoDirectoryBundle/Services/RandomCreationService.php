@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 13:21:15
+ * @Last Modified time: 2017-06-18 13:38:32
  */
  
 
@@ -16,7 +16,7 @@ namespace Biopen\GeoDirectoryBundle\Services;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
-use Biopen\GeoDirectoryBundle\Document\Vote;
+use Biopen\GeoDirectoryBundle\Document\UserInteraction;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 
@@ -35,7 +35,7 @@ class RandomCreationService
     	 $this->em = $documentManager;
     }
 
-    public function generate($nombre, $generateVotes = false)
+    public function generate($nombre, $generateVotes = true)
     {
 	    $SOlat = 43.55;
 	    $SOlng = -0.94;
@@ -111,10 +111,11 @@ class RandomCreationService
 	      		$nbreVotes = rand(0,5);
 	      		for ($j=0; $j < $nbreVotes; $j++) 
 	      		{ 
-	      			$vote = new Vote();
+	      			$vote = new UserInteraction();
 	      			$vote->setValue($this->randWithSet($new_element->getStatus() == 0 ? $voteNewSet : $voteEditSet));
 	      			$vote->setUserMail($lipsum->words(1) . '@gmail.com');
 	      			if (rand(0,1)) $vote->setComment($lipsum->words(rand(6,10)));
+	      			$this->em->persist($vote);
 	      			$new_element->addVote($vote);
 	      		}
 	      	}
