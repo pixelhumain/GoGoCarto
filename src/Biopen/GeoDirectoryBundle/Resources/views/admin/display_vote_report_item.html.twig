@@ -1,5 +1,5 @@
 <div {% if not loop.last %}class="item-container"{% endif %}>
-	<div style="margin-bottom:5px"><span class="label {{ labelClass }}">{{ itemValues[item.value] }}</span> <div style="float:right">{{ item.updated|date("d/m/Y à H:m")}}</div> </div>			
+	<div style="margin-bottom:5px"><span class="label {{ labelClass }}">{{ itemValues[item.value] }}</span> <div style="float:right">{{ item.updated|date("d/m/Y à H:i")}}</div> </div>			
 	<div><i>{{ item.comment|capitalize }}</i> </div> 			
 	<div><u>Par : {{ item.userMail ? item.userMail : 'Anonyme'}}</u></div>
 </div>

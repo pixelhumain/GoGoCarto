@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-27 14:48:02
+ * @Last Modified time: 2017-06-18 13:35:44
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -176,8 +176,8 @@ class ElementAdmin extends AbstractAdmin
        	->add('id')
          ->add('contributorMail')
 	      ->add('contributorIsRegisteredUser')
-	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:m"))
-	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:m"))
+	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))
+	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:i"))
        ->end();  
 	}
 
