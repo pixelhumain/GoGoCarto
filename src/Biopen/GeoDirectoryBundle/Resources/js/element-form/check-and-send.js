@@ -5,11 +5,11 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-09 15:58:46
+ * @Last Modified time: 2017-06-18 12:56:25
  */
 
 
-function checkAndSend() 
+function checkAndSend(submitOption) 
 {	
 	checkCategories();
 	if (!$('#section_admin').is(':visible')) checkAgreeConditions();
@@ -55,6 +55,8 @@ function checkAndSend()
 	if (errorCount === 0) 
 	{
 		encodeOptionValuesIntoHiddenInput();
+		// add submit option for handling multiple submit buttons
+		$('input#submit-option').val(submitOption);
 		$('form').submit();
 	}
 	else  $('html,body').animate({scrollTop: $('.error:visible, .invalid:visible').first().offset().top - 80}, 'slow');

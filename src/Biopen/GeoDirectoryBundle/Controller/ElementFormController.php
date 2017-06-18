@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 12:08:47
+ * @Last Modified time: 2017-06-18 13:04:58
  */
  
 
@@ -181,7 +181,7 @@ class ElementFormController extends Controller
 			if (!($this->isUserAdmin() && $request->request->get('dont-send-mail')))
 			{
 				// TODO Send email !
-			}
+			}			
 
 			// Add flashBags succeess
 			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));					
@@ -190,9 +190,13 @@ class ElementFormController extends Controller
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
 			else $noticeText .=  'L\'acteur a bien été ajouté';
 
-			$noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
+			$submitOption = $request->request->get('submit-option');
+
+			if ($submitOption != 'backtomap') $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);
+
+			if ($submitOption == 'backtomap') return $this->redirect($url_new_element);	
 
 			// getting the admin option "recopy info" from POST or from session (in case of checkDuplicate process)
 			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
