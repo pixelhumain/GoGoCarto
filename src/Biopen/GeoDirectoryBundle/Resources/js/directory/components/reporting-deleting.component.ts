@@ -35,11 +35,11 @@ export function openReportDeleteModal()
 
 		if (App.isUserLogged()) 
 		{
-			$('#popup-report-error .input-mail').val('Logged@info.fr');
 			$('#popup-report-error .input-mail').hide();
 		}
 		else
 		{
+			$('#popup-report-error .input-mail').val('');
 			$('#popup-report-error .input-mail').show();
 		}
 
