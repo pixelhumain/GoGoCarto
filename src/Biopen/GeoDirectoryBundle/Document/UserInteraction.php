@@ -21,7 +21,7 @@ abstract class ReporteValue
     const DontRespectChart = 2;   
 }
 
-/** @MongoDB\EmbeddedDocument */
+/** @MongoDB\Document */
 class UserInteraction
 {
     /** @MongoDB\Id */

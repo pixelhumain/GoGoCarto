@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-16 16:28:11
+ * @Last Modified time: 2017-06-18 13:18:28
  */
  
 
@@ -72,14 +72,14 @@ class Element
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction")
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
      */
     private $votes;
 
     /**
      * @var \stdClass
      *
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction")
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
      */
     private $reports;
 
