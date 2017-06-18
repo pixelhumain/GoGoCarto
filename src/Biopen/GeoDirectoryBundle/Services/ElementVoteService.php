@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-16 18:37:18
+ * @Last Modified time: 2017-06-18 13:13:15
  */
  
 
@@ -24,7 +24,7 @@ class ElementVoteService
 	protected $em;
     protected $user;
 
-    protected $minVoteToChangeStatus = 1;
+    protected $minVoteToChangeStatus = 3;
     protected $maxOppositeVoteTolerated = 0;
 
 	/**
