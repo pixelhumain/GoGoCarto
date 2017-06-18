@@ -56,23 +56,24 @@ export function initializeVoting()
 				if (success)
 				{
 					let element = App.elementById(elementId);
+
+					$('#modal-vote').closeModal();
+
 					if (element.status != newstatus)
 					{
 						element.status = newstatus;
 						element.update(true);
 						element.isFullyLoaded = false;
-					}
 
-					$('#modal-vote').closeModal();
-					
-					// reload Element, and add flash message
-					App.infoBarComponent.showElement(element.id, () => {
-						let elementInfo = getCurrentElementInfoBarShown();
-						elementInfo.find(".vote-section").find('.basic-message').hide();	
-						elementInfo.find('.result-message').html(responseMessage).show();
-						App.infoBarComponent.show();
-					});
-					
+						// reload Element, and add flash message
+						App.infoBarComponent.showElement(element.id, () => {
+							addFalshMessage(responseMessage);
+						});
+					}
+					else
+					{
+						addFalshMessage(responseMessage);
+					}					
 				}
 				else
 				{
@@ -90,6 +91,14 @@ export function initializeVoting()
 		}
 
 	});
+}
+
+function addFalshMessage(message)
+{
+	let elementInfo = getCurrentElementInfoBarShown();
+	elementInfo.find(".vote-section").find('.basic-message').hide();	
+	elementInfo.find('.result-message').html(message).show();
+	App.infoBarComponent.show();
 }
 
 export function createListenersForVoting()
