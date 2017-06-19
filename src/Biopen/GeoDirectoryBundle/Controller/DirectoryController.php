@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-18 15:41:07
+ * @Last Modified time: 2017-06-19 10:55:42
  */
  
 
@@ -98,20 +98,26 @@ class DirectoryController extends Controller
 
     private function renderDirectory($initialState, Request $request)
     {
-        $initialState['filters'] = $request->query->get('cat');
-
-        $mainCategory = $this->getMainCategory();
-        $openHours = $this->getOpenHoursCategory();
+        $initialState['filters'] = $request->query->get('cat');        
 
         $serializer = $this->container->get('jms_serializer');
 
         $em = $this->get('doctrine_mongodb')->getManager();
-      
-        $optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
-        ->findAll(); 
 
-        $mainCategoryJson = $serializer->serialize($mainCategory, 'json');
-        $openHoursCategoryJson = $serializer->serialize($openHours, 'json');
+        // will be deleted when creating template from javascvript
+        $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findAll()[0];
+        $mainCategory = $taxonomy->getMainCategory();
+        $openHours = $taxonomy->getOpenHoursCategory();
+      
+        $optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll(); 
+
+        $taxonomyRep = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy');
+
+        $mainCategoryJson = $taxonomyRep->findMainCategoryJson();
+        $openHoursCategoryJson = $taxonomyRep->findOpenHoursCategoryJson();
+
+        if (!$mainCategoryJson) $mainCategoryJson = $serializer->serialize($mainCategory, 'json'); 
+        if (!$openHoursCategoryJson) $openHoursCategoryJson = $serializer->serialize($openHours, 'json'); 
 
         $securityContext = $this->container->get('security.context');
         $isAdmin = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
