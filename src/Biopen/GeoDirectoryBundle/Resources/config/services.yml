@@ -15,3 +15,11 @@ services:
     biopen.random_creation_service:
        class: Biopen\GeoDirectoryBundle\Services\RandomCreationService
        arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
+
+    biopen.json_generator:
+        class: Biopen\GeoDirectoryBundle\EventListener\JsonRepresentationGenerator
+        arguments: [ '@jms_serializer' ]
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: postUpdate }
+            - { name: doctrine_mongodb.odm.event_listener, event: postRemove }
