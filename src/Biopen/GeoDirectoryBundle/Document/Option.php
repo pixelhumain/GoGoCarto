@@ -113,6 +113,13 @@ class Option
      */
     private $showOpenHours = false;
 
+    /**
+     * @var bool
+     *
+     * If Option is loaded by a fixture
+     */
+    private $isFixture = false;
+
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
@@ -456,5 +463,27 @@ class Option
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set isFixture
+     *
+     * @param boolean $isFixture
+     * @return $this
+     */
+    public function setIsFixture($isFixture)
+    {
+        $this->isFixture = $isFixture;
+        return $this;
+    }
+
+    /**
+     * Get isFixture
+     *
+     * @return boolean $isFixture
+     */
+    public function getIsFixture()
+    {
+        return $this->isFixture;
     }
 }

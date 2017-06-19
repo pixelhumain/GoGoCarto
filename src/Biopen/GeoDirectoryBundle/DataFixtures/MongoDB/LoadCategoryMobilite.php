@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-29 12:16:35
+ * @Last Modified time: 2017-06-19 11:11:04
  */
  
 
@@ -29,6 +29,7 @@ function loadMobilite($mainOption)
 		$serviceCategory->setEnableDescription(false);
 		$serviceCategory->setDisplayCategoryName(true);
 		$serviceCategory->setDepth(1);
+		$serviceCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$services = array(			
@@ -52,7 +53,7 @@ function loadMobilite($mainOption)
 
 			$new_service->setUseIconForMarker(false);
 			$new_service->setUseColorForMarker(true);
-
+			$new_service->setIsFixture(true);
 			$new_service->setIndex($key);
 
 			$serviceCategory->addOption($new_service);
@@ -67,6 +68,7 @@ function loadMobilite($mainOption)
 		$vehiculeCategory->setEnableDescription(false);
 		$vehiculeCategory->setDisplayCategoryName(true);
 		$vehiculeCategory->setDepth(1);
+		$vehiculeCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$vehiculeCourtservice = array(
@@ -93,7 +95,7 @@ function loadMobilite($mainOption)
 
 			$new_vehicule->setUseIconForMarker(true);
 			$new_vehicule->setUseColorForMarker(false);
-
+			$new_vehicule->setIsFixture(true);
 			$new_vehicule->setIndex($key);
 
 			$vehiculeCategory->addOption($new_vehicule);

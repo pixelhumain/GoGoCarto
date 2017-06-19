@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 09:10:31
+ * @Last Modified time: 2017-06-19 11:10:12
  */
  
 
@@ -30,6 +30,7 @@ function loadVoyage($mainOption, $c, $s)
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
 		$typeCategory->setUnexpandable(true);
+		$typeCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
@@ -56,6 +57,7 @@ function loadVoyage($mainOption, $c, $s)
 			$new_type->setUseColorForMarker(true);
 
 			$new_type->setIndex($key);
+			$new_type->setIsFixture(true);
 			$typeCategory->addOption($new_type);
 		}
 

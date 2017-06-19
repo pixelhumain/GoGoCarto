@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 09:10:15
+ * @Last Modified time: 2017-06-19 11:10:46
  */
  
 
@@ -30,6 +30,7 @@ function loadModeBeauté($mainOption, $c, $s)
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
 		$typeCategory->setUnexpandable(true);
+		$typeCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
@@ -54,7 +55,7 @@ function loadModeBeauté($mainOption, $c, $s)
 
 			$new_type->setUseIconForMarker($type[4]);
 			$new_type->setUseColorForMarker(true);
-
+			$new_type->setIsFixture(true);
 			$new_type->setIndex($key);
 			$new_type->setShowExpanded(!$type[4]);
 
@@ -71,6 +72,7 @@ function loadModeBeauté($mainOption, $c, $s)
 		$produitCategory->setEnableDescription(true);
 		$produitCategory->setDisplayCategoryName(false);
 		$produitCategory->setDepth(2);
+		$produitCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$produits = array(
@@ -96,7 +98,7 @@ function loadModeBeauté($mainOption, $c, $s)
 
 			$new_produit->setUseIconForMarker(true);
 			$new_produit->setUseColorForMarker(false);
-
+			$new_produit->setIsFixture(true);
 			$new_produit->setIndex($key);
 
 			$produitCategory->addOption($new_produit);

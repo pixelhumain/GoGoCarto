@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 08:56:55
+ * @Last Modified time: 2017-06-19 11:12:05
  */
  
 
@@ -30,6 +30,7 @@ function loadAgriculture($mainOption, $c, $s)
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
 		$typeCategory->setUnexpandable(true);
+		$typeCategory->setIsFixture(true);
 
 
 		// Liste des noms de catégorie à ajouter
@@ -55,7 +56,7 @@ function loadAgriculture($mainOption, $c, $s)
 
 			$new_type->setUseIconForMarker($type[4]);
 			$new_type->setUseColorForMarker($type[4]);
-
+			$new_type->setIsFixture(true);
 			$new_type->setIndex($key);
 
 			if ($key == 4) 
@@ -75,6 +76,7 @@ function loadAgriculture($mainOption, $c, $s)
 		$circuitCategory->setEnableDescription(false);
 		$circuitCategory->setDisplayCategoryName(false);
 		$circuitCategory->setDepth(1);
+		$circuitCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
@@ -98,7 +100,7 @@ function loadAgriculture($mainOption, $c, $s)
 
 			$new_circuit->setUseIconForMarker(false);
 			$new_circuit->setUseColorForMarker(true);
-
+			$new_circuit->setIsFixture(true);
 			$new_circuit->setIndex($key);
 
 			$circuitCategory->addOption($new_circuit);
@@ -115,6 +117,7 @@ function loadAgriculture($mainOption, $c, $s)
 		$productCategory->setDisplayCategoryName(true);
 		$productCategory->setShowExpanded(false);
 		$productCategory->setDepth(1);
+		$productCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$products = array(
@@ -159,7 +162,7 @@ function loadAgriculture($mainOption, $c, $s)
 
 			$new_product->setUseIconForMarker(true);
 			$new_product->setUseColorForMarker(false);
-
+			$new_product->setIsFixture(true);
 			$new_product->setIndex($key);
 
 			if ($key == 3)
@@ -173,6 +176,7 @@ function loadAgriculture($mainOption, $c, $s)
 				$subproductCategory->setEnableDescription(true);
 				$subproductCategory->setDisplayCategoryName(false);
 				$subproductCategory->setDepth(2);
+				$subproductCategory->setIsFixture(true);
 
 				foreach ($subproducts as $key => $subproduct) 
 				{
@@ -190,7 +194,7 @@ function loadAgriculture($mainOption, $c, $s)
 
 					$new_subproduct->setUseIconForMarker(false);
 					$new_subproduct->setUseColorForMarker(false);
-
+					$new_subproduct->setIsFixture(true);
 					$new_subproduct->setIndex($key);
 
 					$subproductCategory->addOption($new_subproduct);

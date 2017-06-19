@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 09:09:52
+ * @Last Modified time: 2017-06-19 11:11:41
  */
  
 
@@ -30,6 +30,7 @@ function loadEducation($mainOption, $c, $s)
 		$typeCategory->setDisplayCategoryName(true);
 		$typeCategory->setDepth(1);
 		$typeCategory->setUnexpandable(true);
+		$typeCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
@@ -51,7 +52,7 @@ function loadEducation($mainOption, $c, $s)
 
 			$new_type->setUseIconForMarker($type[4]);
 			$new_type->setUseColorForMarker(true);
-
+			$new_type->setIsFixture(true);
 			$new_type->setIndex($key);
 			$new_type->setShowExpanded(!$type[4]);
 
@@ -69,6 +70,7 @@ function loadEducation($mainOption, $c, $s)
 		$ecoleCategory->setEnableDescription(false);
 		$ecoleCategory->setDisplayCategoryName(false);
 		$ecoleCategory->setDepth(2);
+		$ecoleCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
@@ -94,7 +96,7 @@ function loadEducation($mainOption, $c, $s)
 
 			$new_circuit->setUseIconForMarker(false);
 			$new_circuit->setUseColorForMarker(false);
-
+			$new_circuit->setIsFixture(true);
 			$new_circuit->setIndex($key);
 
 			$ecoleCategory->addOption($new_circuit);
@@ -108,6 +110,7 @@ function loadEducation($mainOption, $c, $s)
 		$serviceCategory->setEnableDescription(true);
 		$serviceCategory->setDisplayCategoryName(false);
 		$serviceCategory->setDepth(2);
+		$serviceCategory->setIsFixture(true);
 
 		// Liste des names de catégorie à ajouter
 		$services = array(
@@ -130,10 +133,10 @@ function loadEducation($mainOption, $c, $s)
 			else $new_service->setNameShort($service[3]);
 
 			$new_service->setTextHelper($service[4]);
-
+			
 			$new_service->setUseIconForMarker(true);
 			$new_service->setUseColorForMarker(false);
-
+			$new_service->setIsFixture(true);
 			$new_service->setIndex($key);
 
 			$serviceCategory->addOption($new_service);

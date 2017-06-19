@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 09:10:31
+ * @Last Modified time: 2017-06-19 11:11:27
  */
  
 
@@ -29,6 +29,7 @@ function loadHabitat($mainOption, $c, $s)
 	$typeCategory->setDisplayCategoryName(true);
 	$typeCategory->setDepth(1);
 	$typeCategory->setUnexpandable(true);
+	$typeCategory->setIsFixture(true);
 
 	// Liste des noms de catégorie à ajouter
 	$types = array(			
@@ -53,7 +54,7 @@ function loadHabitat($mainOption, $c, $s)
 
 		$new_type->setUseIconForMarker($type[4]);
 		$new_type->setUseColorForMarker(true);
-
+		$new_type->setIsFixture(true);
 		$new_type->setIndex($key);
 		$new_type->setShowExpanded(false);
 
@@ -69,6 +70,7 @@ function loadHabitat($mainOption, $c, $s)
 	$artisanCategory->setEnableDescription(true);
 	$artisanCategory->setDisplayCategoryName(false);
 	$artisanCategory->setDepth(2);
+	$artisanCategory->setIsFixture(true);
 
 	// Liste des names de catégorie à ajouter
 	$artisanType = array(
@@ -97,7 +99,7 @@ function loadHabitat($mainOption, $c, $s)
 
 		$new_artisan->setUseIconForMarker(true);
 		$new_artisan->setUseColorForMarker(false);
-
+		$new_artisan->setIsFixture(true);
 		$new_artisan->setIndex($key);
 
 		$artisanCategory->addOption($new_artisan);
@@ -111,6 +113,7 @@ function loadHabitat($mainOption, $c, $s)
 	$conceptionCategory->setEnableDescription(true);
 	$conceptionCategory->setDisplayCategoryName(false);
 	$conceptionCategory->setDepth(2);
+	$conceptionCategory->setIsFixture(true);
 
 	// Liste des names de catégorie à ajouter
 	$conceptions = array(
@@ -135,7 +138,7 @@ function loadHabitat($mainOption, $c, $s)
 
 		$new_conception->setUseIconForMarker(true);
 		$new_conception->setUseColorForMarker(false);
-
+		$new_conception->setIsFixture(true);
 		$new_conception->setIndex($key);
 
 		$conceptionCategory->addOption($new_conception);
@@ -149,6 +152,7 @@ function loadHabitat($mainOption, $c, $s)
 	$jardinCategory->setEnableDescription(false);
 	$jardinCategory->setDisplayCategoryName(false);
 	$jardinCategory->setDepth(2);
+	$jardinCategory->setIsFixture(true);
 
 	// Liste des names de catégorie à ajouter
 	$jardins = array(
@@ -173,7 +177,7 @@ function loadHabitat($mainOption, $c, $s)
 
 		$new_jardin->setUseIconForMarker(true);
 		$new_jardin->setUseColorForMarker(false);
-
+		$new_jardin->setIsFixture(true);
 		$new_jardin->setIndex($key);
 
 		$jardinCategory->addOption($new_jardin);

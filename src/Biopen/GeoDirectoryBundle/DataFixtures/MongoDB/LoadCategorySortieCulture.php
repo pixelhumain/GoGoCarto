@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 08:41:25
+ * @Last Modified time: 2017-06-19 11:10:34
  */
  
 
@@ -28,6 +28,7 @@ function loadSortieCulture($mainOption, $c, $s)
 	$typeCategory->setEnableDescription(false);
 	$typeCategory->setDisplayCategoryName(false);
 	$typeCategory->setDepth(1);
+	$typeCategory->setIsFixture(true);
 
 	// Liste des noms de catégorie à ajouter
 	$types = array(			
@@ -50,7 +51,7 @@ function loadSortieCulture($mainOption, $c, $s)
 		$new_type->setShowExpanded(true);
 		$new_type->setUseIconForMarker(true);
 		$new_type->setUseColorForMarker(true);
-
+		$new_type->setIsFixture(true);
 		$new_type->setIndex($key);
 		$typeCategory->addOption($new_type);
 	}
@@ -64,6 +65,7 @@ function loadSortieCulture($mainOption, $c, $s)
 		$sortieCategory->setEnableDescription(false);
 		$sortieCategory->setDisplayCategoryName(true);
 		$sortieCategory->setDepth(1);
+		$sortieCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$sorties = array(			
@@ -87,7 +89,7 @@ function loadSortieCulture($mainOption, $c, $s)
 
 			$new_sortie->setUseIconForMarker(true);
 			$new_sortie->setUseColorForMarker(true);
-
+			$new_sortie->setIsFixture(true);
 			$new_sortie->setIndex($key);
 			$sortieCategory->addOption($new_sortie);
 		}
@@ -100,6 +102,7 @@ function loadSortieCulture($mainOption, $c, $s)
 		$cultureCategory->setEnableDescription(false);
 		$cultureCategory->setDisplayCategoryName(true);
 		$cultureCategory->setDepth(1);
+		$cultureCategory->setIsFixture(true);
 
 		// Liste des noms de catégorie à ajouter
 		$cultures = array(			
@@ -124,7 +127,7 @@ function loadSortieCulture($mainOption, $c, $s)
 
 			$new_culture->setUseIconForMarker(true);
 			$new_culture->setUseColorForMarker(true);
-
+			$new_culture->setIsFixture(true);
 			$new_culture->setIndex($key);
 			$cultureCategory->addOption($new_culture);
 		}
