@@ -30,7 +30,7 @@
 	    <label class="main-option-radio-label" for="option-all">Toutes</label>
 
 			{% for option in mainOptions %}
-				<input class="main-option-radio-btn" data-name="{{option.nameShort}}" name="mainOption" type="radio" id="option-{{option.id}}" />
+				<input class="main-option-radio-btn" data-name="{{ option.nameShort ? option.nameShort : option.name }}" name="mainOption" type="radio" id="option-{{option.id}}" />
 	      <label class="main-option-radio-label" for="option-{{option.id}}">{{ option.name }}</label>
 			{% endfor %}
 		</div>
@@ -40,7 +40,7 @@
 	   	  <option disabled selected value="all">Choisissez une catégorie (par défaut : toutes)</option>
 	   	   
 	     {% for option in mainOptions %}
-	      	<option value="{{option.nameShort}}">{{ option.name }}</option>
+	      	<option value="{{ option.nameShort ? option.nameShort : option.name }}">{{ option.name }}</option>
 	      {% endfor %}
 	    </select>
   	

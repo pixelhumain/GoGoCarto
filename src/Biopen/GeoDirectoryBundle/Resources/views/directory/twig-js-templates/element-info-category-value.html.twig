@@ -27,7 +27,7 @@
 					<span class="icon {{ iconClass }} colorAs" option-id={{ iconColorId }} ></span>
 				{% endif %}
 				
-	      <span class="option-name {{ optionValue.diff }}" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort|capitalize }}</span> 
+	      <span class="option-name {{ optionValue.diff }}" option-id={{ optionValue.option.id }} >{{ optionValue.option.nameShort ? optionValue.option.nameShort : optionValue.option.name|capitalize }}</span> 
 
 	      {% if displayFirstCategoryInline %}
 	      	<span class="inline-option">(
