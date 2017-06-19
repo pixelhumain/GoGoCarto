@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-14 09:09:21
+ * @Last Modified time: 2017-06-19 11:09:56
  */
  
 
@@ -15,6 +15,8 @@ namespace Biopen\GeoDirectoryBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
+use Biopen\GeoDirectoryBundle\Document\Taxonomy;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
@@ -24,10 +26,10 @@ use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryEducation;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryMobilite;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategorySortieCulture;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryVoyages;
+use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadOpenHoursCategory;
 
-class LoadMainCategory implements FixtureInterface
+class LoadTaxonomy implements FixtureInterface
 {
-	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
 	public function load(ObjectManager $manager)
 	{
 		$c = []; // colors
@@ -56,7 +58,9 @@ class LoadMainCategory implements FixtureInterface
 		$c['lightgreen'] = '#4a7874';	$s['lightgreen'] = '#4a7874';
 		$c['green'] = '#48843a';		$s['green'] = 'rgba(78, 136, 65, 0.92)';
 		
-		
+		$taxonomy = new Taxonomy();
+		$manager->persist($taxonomy);
+		$manager->flush();
 
 		// main
 		$mainCategory = new Category();
@@ -68,6 +72,9 @@ class LoadMainCategory implements FixtureInterface
 		$mainCategory->setDisplayCategoryName(true);
 		$mainCategory->setDepth(0);
 		$mainCategory->setUnexpandable(true);
+		$mainCategory->setIsFixture(true);
+
+		$taxonomy->setMainCategory($mainCategory);
 
 		// Liste des noms de catégorie à ajouter
 		$mains = array(
@@ -78,7 +85,6 @@ class LoadMainCategory implements FixtureInterface
 			array('Sortie & Culture'   		 , 'coffee'      	, 'blue'				, ''	,'Sortie'        , false),	
 			array('Mode & Beauté'   		 	, 'clothe'      	, 'purple'		, ''	,'Mode/Beauté'        , false),			
 			array('Voyages'      				, 'voyage-1'     		, 'softred'		, ''	,''					, false),			
-			
 		);
 
 		foreach ($mains as $key => $main) 
@@ -97,7 +103,7 @@ class LoadMainCategory implements FixtureInterface
 
 			$new_main->setUseIconForMarker(true);
 			$new_main->setUseColorForMarker(true);
-
+			$new_main->setIsFixture(true);
 			$new_main->setIndex($key);
 
 			$new_main->setShowOpenHours($main[5]);
@@ -111,9 +117,14 @@ class LoadMainCategory implements FixtureInterface
 		loadMobilite($mainCategory->getOptions()[3], $c, $s);
 		loadSortieCulture($mainCategory->getOptions()[4], $c, $s);
 		loadModeBeauté($mainCategory->getOptions()[5], $c, $s);
-		loadVoyage($mainCategory->getOptions()[6], $c, $s);
+		loadVoyage($mainCategory->getOptions()[6], $c, $s);		
 
-		$manager->persist($mainCategory);
+		$openhoursCategory = loadOpenHoursCategory();
+
+		//$manager->persist($openhoursCategory);
+
+		$taxonomy->setOpenHoursCategory($openhoursCategory);
+
 		// On déclenche l'enregistrement de toutes les catégories
 		$manager->flush();
 	}

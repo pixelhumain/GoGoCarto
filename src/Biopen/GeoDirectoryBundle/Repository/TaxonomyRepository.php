@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * This file is part of the MonVoisinFaitDuBio project.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
+ * @license    MIT License
+ * @Last Modified time: 2017-06-19 10:54:00
+ */
+ 
+
+namespace Biopen\GeoDirectoryBundle\Repository;
+use Doctrine\ODM\MongoDB\DocumentRepository;
+use Biopen\GeoDirectoryBundle\Document\Taxonomy;
+
+class TaxonomyRepository extends DocumentRepository
+{
+  public function findMainCategoryJson()
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
+    $qb->select('mainCategoryJson'); 
+    return $qb->hydrate(false)->getQuery()->getSingleResult()['mainCategoryJson'];
+  }
+
+  public function findOpenHoursCategoryJson()
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
+    $qb->limit(1);
+    $qb->select('openHoursCategoryJson'); 
+    return $qb->hydrate(false)->getQuery()->getSingleResult()['openHoursCategoryJson'];
+  }
+}
+
+
