@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-24 12:07:42
+ * @Last Modified time: 2017-06-21 09:56:34
  */
  
 
@@ -31,44 +31,6 @@ use MongoClient;
 
 class APIController extends Controller
 {
-    // public function getElementsAroundLocationAction(Request $request)
-    // {
-    //     if($request->isXmlHttpRequest())
-    //     {
-    //         $em = $this->get('doctrine_mongodb')->getManager(); 
-
-    //         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-    //         $elementsFromDB = $elementRepo->findAround(
-    //             (float) $request->get('originLat'), 
-    //             (float) $request->get('originLng'), 
-    //             (float) $request->get('distance'),
-    //             $request->get('mainOptionId')
-    //         ); 
-    
-    //         $responseJson = $this->encoreArrayToJson($elementsFromDB);  
-
-    //         $result = new Response($responseJson);   
-    //         $result->headers->set('Content-Type', 'application/json');
-    //         return $result;
-    //     }
-    //     else 
-    //     {
-    //         return new Response("Not valid ajax request");
-    //     }
-    // }
-
-    // public function getAllElementsAction()
-    // {
-    //     $em = $this->get('doctrine_mongodb')->getManager(); 
-    //     $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-    //     $elementsFromDB = $elementRepo->findAll();
-    //     $responseJson = $this->encoreArrayToJson($elementsFromDB);  
-    //     $compressed = gzdeflate($responseJson, 9);
-    //     $result = new Response($responseJson); 
-    //     $result->headers->set('Content-Type', 'application/json');
-    //     return $result;
-    //}
-
     public function getElementsInBoundsAction(Request $request)
     {
         if($request->isXmlHttpRequest())
@@ -135,6 +97,18 @@ class APIController extends Controller
         {
             return new Response("Not valid ajax request");
         }
+    }
+
+    public function getTaxonomyAction(Request $request)
+    {
+        $em = $this->get('doctrine_mongodb')->getManager();
+        
+        $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson();
+        
+        $responseJson = '{ "mainCategory":'. $taxonomy['mainCategoryJson'] . ', "openHours" : '. $taxonomy['openHoursCategoryJson'] .'}';
+        $response = new Response($responseJson);    
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     public function getElementsFromTextAction(Request $request)

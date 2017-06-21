@@ -1,3 +1,11 @@
+biopen_api_taxonomy:
+    path:     /taxonomy
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy }
+    requirements:
+        _method: GET
+    options:
+        expose: true
+
 biopen_api_element_by_id:
     path:     /element
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementById }
