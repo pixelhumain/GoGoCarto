@@ -87,3 +87,9 @@ services:
         arguments: ["%fos_user.model.user.class%"]
         tags:
             - { name: form.type, alias: biopen_user_registration }
+
+    jms_serializer.naming_strategy_camelCase:
+        class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'
+    jms_serializer.naming_strategy:
+        class: 'JMS\Serializer\Naming\SerializedNameAnnotationStrategy'
+        arguments : ['@jms_serializer.naming_strategy_camelCase']
