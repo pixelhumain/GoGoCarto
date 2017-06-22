@@ -5,11 +5,8 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-09-06
+ * @Last Modified time: 2017-06-22 18:49:38
  */
-
-declare var $ : any, Routing;
-//import { initAutoCompletionForElement } from "../commons/search-bar.component";
 
 $(document).ready(function()
 {
@@ -42,12 +39,12 @@ function redirectTodirectory()
 {
 	var address = $('#search-bar').val();
 
-	let mainOption : string;
+	var mainOption;
 	// in small screen a select is displayed
 	if ($('.category-field-select').is(':visible'))
 	{
-		let select = document.getElementById('category-select');
-		mainOption = (<any>select).value;
+		var select = document.getElementById('category-select');
+		mainOption = select.value;
 	}
 	else
 	// in large screen radio button are displayed
@@ -55,7 +52,7 @@ function redirectTodirectory()
 		mainOption = $('.main-option-radio-btn:checked').attr('data-name');			
 	}		
 
-	let route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
+	var route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
 	route += '?cat=' + mainOption;
 
 	window.location.href = route;
@@ -63,20 +60,20 @@ function redirectTodirectory()
 
 function createCookie(name,value) 
 {
-	let days = 100;
+	var days = 100;
 
-	let date = new Date();
+	var date = new Date();
 	date.setTime(date.getTime()+(days*24*60*60*1000));
-	let expires = "; expires="+date.toUTCString();
+	var expires = "; expires="+date.toUTCString();
 	
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 
 function readCookie(name) {
-	let nameEQ = name + "=";
-	let ca = document.cookie.split(';');
-	for(let i=0;i < ca.length;i++) {
-		let c = ca[i];
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
 		while (c.charAt(0) == ' ') c = c.substring(1,c.length);
 		if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
 	}
@@ -100,5 +97,5 @@ function eraseCookie(name) {
 
 // function initMap() 
 // {	
-// 	initAutoCompletionForElement(document.getElementById('search-bar'));
+// 	initAutoCompvarionForElement(document.getElementById('search-bar'));
 // }
