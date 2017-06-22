@@ -1,136 +1,55 @@
 {% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
+{% set pageName = 'directory' %}
+
 {% block title %}{% endblock %}
 
 {# Stylessheets #}
 {% block stylesheets %}
   
-  <link rel="stylesheet" href="{{ asset('assets/css/directory.css') }}"> 
-  {% include '@directory/directory/categories-styles.html.twig' %}
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}">
+  <link rel="stylesheet" href="{{ asset('../node_modules/GoGoCartoJs/dist/gogocarto.css') }}">   
 
 {% endblock %}
 
 {# BODY CONTENT #}
 {% block body_content %}
 
-<div id="directory-container">
-  
-  {# Menu #}
-  <section id="directory-menu"> 
-      {% include '@directory/directory/components/directory-menu/directory-menu.html.twig' %}    
-  </section>
-   
-  {# The directory, map or list displaying, and element information bar #} 
-  <section id="directory-content">
-    
-    {% include '@directory/directory/modals/too-many-markers.html.twig'  %}
-    {% include '@directory/directory/modals/pick-address-for-directions.html.twig'  %}  
-    {% include '@directory/directory/modals/share-element-url.html.twig'  %} 
-    {% include '@directory/directory/modals/vote-for-pending-element.html.twig'  %}  
-
-    {% include '@directory/directory/components/spinner-loader.html.twig'  
-              with {'id': 'directory-spinner-loader' }%}
-    
-    <div id="directory-content-map" style="display:none"> 
-      <div id="directory-loading" style="display:none">
-        Chargement...
-      </div>   
-      <div class="show-as-list-button"><i class="icon-list"></i></div>  
-      {# button for openning menu in small screens #}
-      <div id="menu-button"><i class='icon-menu'></i></div> 
-    </div>       
-
-    <div id="directory-content-list" style="display:none">
-      <div class="element-list-title-bar">
-        Résultats
-        <span class="element-list-title-number-results"></span>
-        <span class="element-list-title-text"></span>        
-        <span class="show-as-map-button"> <span class="icon btn-back icon-material-design-icons-1"></span></span>
-        <div class='shadow-bottom'></div>
-      </div>
-      <ul class="collapsible popout custom-scroll-bar" data-collapsible="accordion">
-      </ul>
-    </div>
-
-    {# <div id="directions-result-container">
-        <span id="distance-value">9,6km</span>
-        <span id="duration-value">13 minutes</span>
-    </div> #}
-
-    {# section conntaining information one a specific element #}
-    <section id="element-info-bar" class="custom-scroll-bar inside-normal-mode" style="display:none">  
-      
-      {# container to receive the twig-js-template element-info, dynamically created #}
-      <div id="element-info"></div> 
-
-      {% include '@directory/directory/components/element-menu.html.twig' %}
-
-    </section>
-
-    {# overlay to partially mask the directory-content when openning menu in small screens #}
-    <div id="overlay"></div>
-  </section>  
-
-</div>
+  <div id="directory-container"></div>
 
 {% endblock %}
 
 {% block javascripts %}  
   
-  <script src="{{ asset('js/libs.js') }}"></script> 
-
-  {# <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script> INCLUDED IN libs.js #}
-  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script> 
-
-  <script src="{{ asset('vendors/twig.js') }}"></script>   
+  {#<script src="{{ asset('js/libs.js') }}"></script>  #}
   
   {# in production environnement we concat alls theses following javascript into the directory.js file #}
-  {% if app.environment == 'dev' %}
-
-    
-
-    {# create dynamic js template. command in console "assetic:dump" to generate the new
-    twig js template files #}
-    {% javascripts filter="twig_js" output='templates/directory-templates.js'
-      '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info.html.twig'
-       '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/marker.html.twig' 
-       '../src/Biopen/GeoDirectoryBundle/Resources/views/directory/twig-js-templates/element-info-category-value.html.twig'    
-    %}
-      <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-    <script src="{{ asset('vendors/leaflet-routing-machine.js') }}"></script>  
-
-    <script src="{{ asset('js/directory.js') }}"></script>
+  {% if app.environment == 'dev' %}    
+    <script src="{{ asset('../node_modules/GoGoCartoJs/dist/gogocarto.js') }}"></script>
   {% else %}      
     <script src="{{ asset('js/directory_prod.js') }}"></script>
-  {% endif %}    
+  {% endif %}  
 
   <script>
 
-    //var ICON_DIRECTORY = "{{ asset('assets/img/icon/') }}";
-
-    var INITIAL_STATE = {{ initialState | json_encode() | raw }};
-
-    var MAIN_CATEGORY = {{ mainCategoryJson | raw }};
-
-    var OPENHOURS_CATEGORY = {{ openHoursCategoryJson | raw }};
-
-    var App;   
-
-    var IS_ADMIN = {{ isAdmin | raw }};    
+    $(document).ready(function()
+    {
+        carto = goGoCarto('#directory-container', {
+            taxonomy: {{ mainCategoryJson | raw }},
+            openHours: {{ openHoursCategoryJson | raw }},
+            elementApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/element',
+            elementInBoundsApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/elementsInBounds',
+            searchApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/search',
+            deleteApiUrl:'http://localhost/GoGoCarto/web/app_dev.php/interact/delete',
+            reportApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/report',
+            voteApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/vote',
+            editElementUrl: 'http://localhost/GoGoCarto/web/app_dev.php/acteur/edit/',
+            userRole: {{ isAdmin ? '2' : '0' }},
+            loginAction: function() { $("#popup-login").openModal(); }
+        });
+    });   
 
   </script>  
-
-  {#<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
-      async defer>
-  </script>#}
-
-{% endblock %}
-
-{% block modals %} 
-
-  {% include '@directory/directory/modals/report-error-for-element.html.twig'  %}  
 
 {% endblock %}
 
