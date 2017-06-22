@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-21 09:56:34
+ * @Last Modified time: 2017-06-22 19:17:40
  */
  
 
@@ -103,9 +103,8 @@ class APIController extends Controller
     {
         $em = $this->get('doctrine_mongodb')->getManager();
         
-        $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson();
-        
-        $responseJson = '{ "mainCategory":'. $taxonomy['mainCategoryJson'] . ', "openHours" : '. $taxonomy['openHoursCategoryJson'] .'}';
+        $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
+
         $response = new Response($responseJson);    
         $response->headers->set('Content-Type', 'application/json');
         return $response;
