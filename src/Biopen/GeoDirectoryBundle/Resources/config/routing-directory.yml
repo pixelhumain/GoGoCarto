@@ -1,37 +1,3 @@
 biopen_directory_normal:
-    path:     /{mode}/{addressAndViewport}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:normal,  addressAndViewport:'' }
-    options:
-        expose: true
-    requirements:
-        mode: carte|liste
-
-biopen_directory_showElement:
-    path:     /acteur/{name}/{id}/{addressAndViewport}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:showElement, addressAndViewport:''}
-    options:
-        expose: true
-
-biopen_directory_showDirections:
-    path:     /itineraire/{name}/{id}/{addressAndViewport}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:showDirections, addressAndViewport:''}
-    options:
-        expose: true
-
-biopen_directory_constellation:
-    path:     /{mode}/constellation/{address}/{range}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:constellation, address: '', range:'50' }
-    options:
-        expose: true
-    requirements:
-        range: \d+
-        mode: carte|liste
-
-biopen_directory_search:
-    path:     /{mode}/recherche/{text}
-    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:search}
-    options:
-        expose: true
-    requirements:
-        mode: carte|liste
-
+    path:     /annuaire
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:render }
