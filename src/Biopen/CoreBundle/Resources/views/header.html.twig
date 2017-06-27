@@ -68,7 +68,7 @@ function logout()
       success     : function(data, status, object) {
           console.log("success logout");
           displayLoginButton(true);
-          handleLogin(false);
+          handleLogin(false, []);
       },
       error: function(data, status, object){
           console.log(data.message);
@@ -89,8 +89,8 @@ function submitAjaxLogin()
           if (data.success)
           {
             $('#popup-login').closeModal();
-            handleLogin(true);
-            displayLoginButton(false);            
+            handleLogin(true, data.role);
+            displayLoginButton(false);       
           }  
           else
           {
@@ -103,11 +103,20 @@ function submitAjaxLogin()
   });
 }
 
-function handleLogin(bool)
+function handleLogin(bool, roles)
 {
   console.log("handle login", bool);
   if (bool) $('#btn-login').trigger('login');
   else $('#btn-login').trigger('logout');
+
+  // carto is the GoGoCartoJs instance, defined in GeoDirectory/directoy.html.twig
+  if (carto)
+  {
+    // in GoGoCartoJs there are 3 roles : anonymous (0), user (1), admin (2)
+    if ($.inArray('ROLE_ADMIN', roles) > -1) carto.setUserRole('admin');
+    else if ($.inArray('ROLE_USER', roles) > -1) carto.setUserRole('user');
+    else carto.setUserRole('anonymous');
+  }  
 }
 
 function displayLoginButton(bool)

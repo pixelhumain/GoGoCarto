@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-22 16:54:16
+ * @Last Modified time: 2017-06-27 19:42:59
  */
  
 
@@ -42,12 +42,12 @@ class DirectoryController extends Controller
         $openHoursCategoryJson = $taxonomyRep->findOpenHoursCategoryJson();
 
         $securityContext = $this->container->get('security.context');
-        $isAdmin = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
-        $isAdmin = $isAdmin ? 'true' : 'false';
+        $roles = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getRoles() : [];
+        $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
         
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson,
-                                    'isAdmin' => $isAdmin));
+                                    'userGogocartoRole' => $userGogocartoRole));
     }
   
 }

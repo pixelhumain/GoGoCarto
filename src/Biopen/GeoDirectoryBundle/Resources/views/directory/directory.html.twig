@@ -44,7 +44,7 @@
             reportApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/report',
             voteApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/vote',
             editElementUrl: 'http://localhost/GoGoCarto/web/app_dev.php/acteur/edit/',
-            userRole: {{ isAdmin ? '2' : '0' }},
+            userRole: '{{ userGogocartoRole }}',
             loginAction: function() { $("#popup-login").openModal(); }
         });
     });   
