@@ -81,6 +81,7 @@ services:
         arguments:
             - @router
             - @session
+            - @security.context
 
     biopen.registration.form.type:
         class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType

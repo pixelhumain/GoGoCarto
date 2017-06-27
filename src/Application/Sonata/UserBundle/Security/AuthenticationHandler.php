@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
+use Symfony\Component\Security\Core\SecurityContext;
  
 class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
 {
@@ -25,10 +26,11 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 	 * @param 	RouterInterface $router
 	 * @param 	Session $session
 	 */
-	public function __construct( RouterInterface $router, Session $session )
+	public function __construct( RouterInterface $router, Session $session, SecurityContext $securityContext )
 	{
 		$this->router  = $router;
 		$this->session = $session;
+		$this->securityContext = $securityContext;
 	}
  
 	/**
@@ -43,8 +45,8 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 	{
 		// if AJAX login
 		if ( $request->isXmlHttpRequest() ) {
- 
-			$array = array( 'success' => true ); // data to return via JSON
+			$user = $this->securityContext->getToken() ? $this->securityContext->getToken()->getUser() : null; 
+			$array = array( 'success' => true, 'role' => $user->getRoles()); // data to return via JSON
 			$response = new Response( json_encode( $array ) );
 			$response->headers->set( 'Content-Type', 'application/json' );
  
