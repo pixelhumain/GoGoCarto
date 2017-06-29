@@ -32,7 +32,7 @@ gulp.task('scriptsElementForm', function() {
 });
 
 gulp.task('scriptsLibs', function() {
-  return gulp.src(['node_modules/GoGoCartoJs/dist/gogocarto.min.js',
+  return gulp.src(['node_modules/GoGoCartoJs/dist/gogocarto.js',
                    'src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', 
                    'web/bundles/fosjsrouting/js/router.js',
                    ])
