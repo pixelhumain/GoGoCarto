@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-29 10:33:29
+ * @Last Modified time: 2017-06-29 18:45:51
  */
 
 $(document).ready(function()
@@ -25,7 +25,7 @@ $(document).ready(function()
 		}
 	});
 
-	$('#bottom-more-info').click( () =>
+	$('#bottom-more-info').click( function()
 	{
 		$('html, body').animate({scrollTop: $('.bottom-section:first').offset().top}, 700);
 	});
