@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-22 18:49:38
+ * @Last Modified time: 2017-06-29 10:33:29
  */
 
 $(document).ready(function()
@@ -52,7 +52,7 @@ function redirectTodirectory()
 		mainOption = $('.main-option-radio-btn:checked').attr('data-name');			
 	}		
 
-	var route = Routing.generate('biopen_directory_normal', { mode: 'carte', addressAndViewport: address}); 
+	var route = Routing.generate('biopen_directory') + '#/carte/' + address;
 	route += '?cat=' + mainOption;
 
 	window.location.href = route;

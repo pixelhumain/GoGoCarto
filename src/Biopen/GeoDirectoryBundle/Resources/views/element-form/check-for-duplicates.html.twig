@@ -31,7 +31,7 @@
 		  		<div class="address">{{ element.address | capitalize }}</div>
 		  	</div>
 		  	<div class="col s3 m2 right-align">
-	  			<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) }}"><button class="btn-biopen btn-secondary small">c'est lui !</button></a>
+	  			<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) | replace({"%23":'#'}) }}"><button class="btn-biopen btn-secondary small waves-light waves-effect btn">c'est lui !</button></a>
 	  		</div>
 	  	</div>
 
@@ -41,7 +41,7 @@
 	{{ form_start(duplicateForm) }}
 
 	<center>
-		<button type="submit" class="btn-biopen btn-primary">Non, c'est un nouvel acteur, je continue !</button>
+		<button type="submit" class="btn-biopen btn-primary waves-light waves-effect btn">Non, c'est un nouvel acteur, je continue !</button>
 	</center>
 
 	{{ form_rest(duplicateForm) }}

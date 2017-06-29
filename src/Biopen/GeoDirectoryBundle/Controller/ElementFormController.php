@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 13:04:58
+ * @Last Modified time: 2017-06-29 10:32:08
  */
  
 
@@ -184,7 +184,7 @@ class ElementFormController extends Controller
 			}			
 
 			// Add flashBags succeess
-			$url_new_element = $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId()));					
+			$url_new_element = str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId())));				
 
 			$noticeText = 'Merci de votre contribution ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';

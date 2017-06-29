@@ -118,10 +118,6 @@ h2.no-margin-bottom
 
 .btn-biopen
 {
-  @extend .waves-light !optional;
-  @extend .waves-effect !optional;
-  @extend .btn !optional;
-
   &.small
   {
     font-size: .85rem;

@@ -1,3 +1,9 @@
-biopen_directory_normal:
+biopen_directory:
     path:     /annuaire
+    defaults: { _controller: BiopenGeoDirectoryBundle:Directory:render }
+    options:
+      expose: true
+
+biopen_directory_showElement:
+    path:     /annuaire#/acteur/{name}/{id}
     defaults: { _controller: BiopenGeoDirectoryBundle:Directory:render }
