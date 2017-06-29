@@ -32,8 +32,9 @@ gulp.task('scriptsElementForm', function() {
 });
 
 gulp.task('scriptsLibs', function() {
-  return gulp.src(['node_modules/GoGoCartoJs/dist/gogocarto.js',
-                   'src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', 
+  gulp.src(['node_modules/GoGoCartoJs/dist/*.js*',])
+      .pipe(gulp.dest('web/js'));
+  return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', 
                    'web/bundles/fosjsrouting/js/router.js',
                    ])
     .pipe(concat('libs.js'))
