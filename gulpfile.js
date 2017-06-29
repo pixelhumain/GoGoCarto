@@ -27,22 +27,17 @@ gulp.task("scriptsHome", function () {
 gulp.task('scriptsElementForm', function() {
   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'])
     .pipe(concat('element-form.js'))
-    //.pipe(livereload())
     .pipe(gulp.dest('web/js'));
 });
 
 gulp.task('scriptsLibs', function() {
-  gulp.src(['node_modules/GoGoCartoJs/dist/*.js*',])
+  gulp.src(['node_modules/GoGoCartoJs/dist/gogocarto.js'])
       .pipe(gulp.dest('web/js'));
   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', 
                    'web/bundles/fosjsrouting/js/router.js',
                    ])
     .pipe(concat('libs.js'))
-    // .pipe(rename({suffix: '.min'}))
-    // .pipe(uglify())
     .pipe(gulp.dest('web/js'));
-    //.pipe(livereload());
-    //.pipe(notify({ message: 'Scripts Libs task complete' }));
 });
 
 gulp.task('sass', function () {
@@ -83,7 +78,7 @@ gulp.task('gzip_styles', ['prod_styles'], function() {
 
 gulp.task('prod_js', function() {
   return gulp.src(['web/js/*.js'])
-    .pipe(rename({suffix: '.min'}))
+    //.pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     //.pipe(sourcemaps.init({loadMaps: true}))
     //.pipe(uglify().on('error', gulpUtil.log)) // notice the error event here
