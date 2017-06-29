@@ -25,13 +25,13 @@
         carto = goGoCarto('#directory-container', {
             taxonomy: {{ mainCategoryJson | raw }},
             openHours: {{ openHoursCategoryJson | raw }},
-            elementApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/element',
-            elementInBoundsApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/elementsInBounds',
-            searchApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/api/search',
-            deleteApiUrl:'http://localhost/GoGoCarto/web/app_dev.php/interact/delete',
-            reportApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/report',
-            voteApiUrl: 'http://localhost/GoGoCarto/web/app_dev.php/interact/vote',
-            editElementUrl: 'http://localhost/GoGoCarto/web/app_dev.php/acteur/edit/',
+            elementApiUrl: "{{ path('biopen_api_element_by_id') }}",
+            elementInBoundsApiUrl: "{{ path('biopen_api_elements_in_bounds') }}",
+            searchApiUrl: "{{ path('biopen_api_elements_from_text') }}",
+            deleteApiUrl: "{{ path('biopen_delete_element') }}",
+            reportApiUrl: "{{ path('biopen_report_error_for_element') }}",
+            voteApiUrl: "{{ path('biopen_vote_for_element') }}",
+            editElementUrl: "{{ path('biopen_element_edit', {'id':'fake'}) | replace({'fake':''}) }}",
             userRole: '{{ userGogocartoRole }}',
             loginAction: function() { $("#popup-login").openModal(); }
         });
