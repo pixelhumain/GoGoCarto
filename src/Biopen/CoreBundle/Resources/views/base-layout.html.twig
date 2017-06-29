@@ -22,8 +22,9 @@
   <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
 
   {# gogocarto conatins materializeCss lib, so we load it for all files #}
-  <link rel="stylesheet" href="{{ asset('../node_modules/GoGoCartoJs/dist/gogocarto.css') }}">
-  <link rel="stylesheet" href="{{ asset('../node_modules/GoGoCartoJs/dist/images/styles.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css') }}">
+  {# the icons as SVG font #}
+  <link rel="stylesheet" href="{{ asset('assets/css/images/styles.css') }}">
 
   {% block stylesheets %}
   {% endblock %}
