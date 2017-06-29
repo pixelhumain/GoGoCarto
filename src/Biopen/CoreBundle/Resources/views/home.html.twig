@@ -2,14 +2,11 @@
 
 {% block title %}Près de chez nous{% endblock %}
 
-{# Stylessheets #}
 {% block stylesheets %}
-	
-	<link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">	
-	<link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">		
+  
+  <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}"> 
 
 {% endblock %}
-
 
 {# BODY CONTENT #}
 {% block body %}
@@ -86,16 +83,7 @@
 
 {% endblock %}
 
-{% block javascripts %}
-  	
-  	<script src="{{ asset('js/libs.js') }}"></script>  
-  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-    <script src="{{ asset('js/home.js') }}"></script>
-
-    {#<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk&libraries=places&callback=initMap">
-		</script>#}
-
-	
+{% block javascripts %}  
+	<script src="{{ asset('js/home.js') }}"></script>
 {% endblock %}
 

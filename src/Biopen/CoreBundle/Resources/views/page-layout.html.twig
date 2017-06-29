@@ -1,11 +1,11 @@
 {% extends "@BiopenCoreBundle/base-layout.html.twig" %}
 
-{% block stylesheets %}
-
-	{% block page_stylesheets %}
-  {% endblock %}
-  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}"> 
+{% block stylesheets %}	
   
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}"> 
+
+  {% block page_stylesheets %}
+  {% endblock %}
 
 {% endblock %}
 
@@ -38,11 +38,9 @@
 {% endblock %}
 
 {% block javascripts %}
-
+		
     {% block page_javascripts %}
-    {% endblock %}
-
-    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>    
+    {% endblock %}  
     
 {% endblock %}
 

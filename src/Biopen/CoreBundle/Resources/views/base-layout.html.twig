@@ -14,29 +14,37 @@
    <!--[if IE]>
      <link rel="stylesheet" href="http://localhost/PagesVertes/web/assets/css/ie_polyfill.css"> 
    <![endif]-->   
-  {% block stylesheets %}
-  {% endblock %}
+  
   
   <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400|Yellowtail" rel="stylesheet">  -->
   <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">  
   <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
-  <link rel="stylesheet" href="{{ asset('assets/img/icon/styles.css') }}">
+
+  {# gogocarto conatins materializeCss lib, so we load it for all files #}
+  <link rel="stylesheet" href="{{ asset('../node_modules/GoGoCartoJs/dist/gogocarto.css') }}">
+  <link rel="stylesheet" href="{{ asset('../node_modules/GoGoCartoJs/dist/images/styles.css') }}">
+
+  {% block stylesheets %}
+  {% endblock %}
   
 <!-- TODO --> <meta name="description" content="" /> 
 <!-- TODO --> <meta name="keywords" content="" />
   <meta name="robots" content="index, follow, all" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
   
 </head>
 <body>
   {% block body %}
-  {% endblock %}
+  {% endblock %} 
 
-  {% block javascripts %}
-           
-  {% endblock %}
+  {# Mains javascripts libs #}
+  <script src="{{ asset('js/libs.js') }}"></script>      
+  <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>   
+
+  {# Block to add custom javascript to each page #}
+  {% block javascripts %}           
+  {% endblock %}    
 
 </body>
 </html>

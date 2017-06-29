@@ -118,9 +118,9 @@ h2.no-margin-bottom
 
 .btn-biopen
 {
-  @extend .waves-light;
-  @extend .waves-effect;
-  @extend .btn;
+  @extend .waves-light !optional;
+  @extend .waves-effect !optional;
+  @extend .btn !optional;
 
   &.small
   {

@@ -2,18 +2,16 @@
 
 {% set pageName = 'element-form' %}
 
+{% block page_stylesheets %}
+  
+  <link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}"> 
+
+{% endblock %}
+
 {% block title %}
 	{% if editMode %} Edition
 	{% else %}  Ajout d'un Acteur
 	{% endif %}
-{% endblock %}
-
-{# Stylessheets #}
-{% block page_stylesheets %}
-
- 	<link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}">
- 	{% include '@directory/directory/categories-styles.html.twig' %}
-
 {% endblock %}
 
 
@@ -24,6 +22,24 @@
 
   {% include "@directory/element-form/form.html.twig" with {'editMode': editMode } %}
 
+{% endblock %}
+
+{% block page_javascripts %}
+
+  <script src="{{ asset('js/element-form.js') }}"></script> 
+
+  {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+	 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
+	        async defer>
+	  </script>
+	{% endif %}
+
+  <script>
+	  var editMode = false;		  
+	  {% if editMode %} editMode = true; {% endif %}
+	  initMap();
+  </script>
+  
 {% endblock %}
 
 

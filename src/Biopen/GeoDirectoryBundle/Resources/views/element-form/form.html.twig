@@ -69,21 +69,6 @@
 
 {% endblock %}
 
-{% block page_javascripts %}
-		<script src="{{ asset('js/libs.js') }}"></script>
-    <script src="{{ asset('js/element-form.js') }}"></script>
 
-    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-		 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
-		        async defer>
-		  </script>
-		{% endif %}
-
-    <script>
-		  var editMode = false;		  
-		  {% if editMode %} editMode = true; {% endif %}
-		  initMap();
-	  </script>
-{% endblock %}
 
 	

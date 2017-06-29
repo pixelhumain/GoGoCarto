@@ -1,7 +1,7 @@
 @import '../../../CoreBundle/Resources/scss/partials/base';
 
 @import 'vendors/timepicki';
-@import 'vendors/leaflet';
+//@import 'vendors/leaflet';
 
 @import "components/element-form/category-field";
 
@@ -9,6 +9,11 @@
 {
   max-width: 700px !important;
 } 
+
+body
+{
+  height: auto;
+}
 
 i.material-icons {
     top: 4px;

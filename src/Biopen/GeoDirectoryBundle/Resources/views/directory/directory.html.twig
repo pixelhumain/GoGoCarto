@@ -21,14 +21,15 @@
 
 {% block javascripts %}  
   
-  {#<script src="{{ asset('js/libs.js') }}"></script>  #}
   
-  {# in production environnement we concat alls theses following javascript into the directory.js file #}
+  
+  {# in production environnement we concat alls theses following javascript into the directory.js file 
   {% if app.environment == 'dev' %}    
     <script src="{{ asset('../node_modules/GoGoCartoJs/dist/gogocarto.js') }}"></script>
+    <script src="{{ asset('js/libs.js') }}"></script>
   {% else %}      
-    <script src="{{ asset('js/directory_prod.js') }}"></script>
-  {% endif %}  
+    <script src="{{ asset('js/gogocarto-all.min.js') }}"></script>
+  {% endif %}  #}
 
   <script>
 
