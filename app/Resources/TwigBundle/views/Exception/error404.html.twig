@@ -1,13 +1,6 @@
-{% extends "::page-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% block title %}Erreur 404{% endblock %}
-
-{# Stylessheets #}
-{% block stylesheets %}
-
- 	<link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}">
-
-{% endblock %}
 
 
 {# BODY CONTENT #}
@@ -18,16 +11,5 @@
     <div>
       La page demandée n'existe pas...
     </div>
-
-{% endblock %}
-
-{% block javascripts %}
-
-	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-  	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-
-  	<script src="{{ asset('js/libs.js') }}"></script>  
-    <script src="{{ asset('assets/js/commons.js') }}"></script>
-
 
 {% endblock %}
