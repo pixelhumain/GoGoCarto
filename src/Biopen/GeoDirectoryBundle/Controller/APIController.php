@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-22 19:17:40
+ * @Last Modified time: 2017-06-27 20:23:57
  */
  
 
@@ -105,7 +105,7 @@ class APIController extends Controller
         
         $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
 
-        $response = new Response($responseJson);    
+        $response = new Response($taxonomy);    
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
