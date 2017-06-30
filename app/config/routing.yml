@@ -69,6 +69,7 @@ sonata_user_admin_resetting:
     resource: '@SonataUserBundle/Resources/config/routing/admin_resetting.xml'
     prefix: /admin/resetting
 
-
-
+biopen_wrong_route:
+    path: /{other}/{other2}
+    defaults: { _controller: BiopenCoreBundle:Core:home, 'other2':'' }
 
