@@ -3,5 +3,5 @@ biopen_homepage:
     defaults: { _controller: BiopenCoreBundle:Core:home }
 
 biopen_partners:
-    path: /partners
+    path: /partenaires
     defaults: { _controller: BiopenCoreBundle:Core:partners }
