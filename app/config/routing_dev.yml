@@ -10,8 +10,8 @@ _errors:
     resource: "@TwigBundle/Resources/config/routing/errors.xml"
     prefix:   /_error
 
-_main:
-    resource: routing.yml
-
 _console:
     resource: "@CoreSphereConsoleBundle/Resources/config/routing.yml"
+
+_main:
+    resource: routing.yml
