@@ -65,7 +65,7 @@ class ImportColibrisLmcService
 	      $new_element->setAddress($address);
 	      $new_element->setPostalCode($row['Code postal']);         
 	      $new_element->setDescription($row['Description']);
-	      $new_element->setTel($row['Téléphone']);
+	      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
 	      
 	      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebSite($row['Site web']);
 	      
