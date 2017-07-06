@@ -129,6 +129,12 @@ class Option
     {
         return "(Option) " . $this->getName();
     }
+
+    public function getParentOption()
+    {
+        if (!$this->parent) return null;
+        return $this->parent->parent;
+    }
     
     /**
      * Get id
