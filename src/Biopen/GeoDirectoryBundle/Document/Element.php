@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 16:26:51
+ * @Last Modified time: 2017-07-06 14:33:56
  */
  
 
@@ -254,18 +254,22 @@ class Element
     /** @MongoDB\PreFlush */
     public function updateJsonRepresentation()
     {
-        if (!$this->optionValues || !$this->coordinates) return;
+        if (!$this->coordinates) { dump('no coordinates'); return;}
 
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
         $fullJson .= ', "optionValues": [';
 
-        foreach ($this->optionValues as $key => $value) {
-            $fullJson .= '{ "optionId" :'.$value->getOptionId().', "index" :'.$value->getIndex();
-            if ($value->getDescription()) $fullJson .=  ', "description" : "' . $value->getDescription() . '"';
-            $fullJson .= '}';
-            if ($key != count($this->optionValues) -1) $fullJson .= ',';
+        if ($this->optionValues)
+        {
+            foreach ($this->optionValues as $key => $value) {
+                $fullJson .= '{ "optionId" :'.$value->getOptionId().', "index" :'.$value->getIndex();
+                if ($value->getDescription()) $fullJson .=  ', "description" : "' . $value->getDescription() . '"';
+                $fullJson .= '}';
+                if ($key != count($this->optionValues) -1) $fullJson .= ',';
+            }
         }
+
         $fullJson .= ']';
         if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
         $fullJson .= '}';
@@ -273,11 +277,14 @@ class Element
         $this->setFullJson($fullJson);  
 
         $compactJson = '["'.$this->id . '",' .$this->status . ',"' .$this->name . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
-        foreach ($this->optionValues as $key => $value) {
-            $compactJson .= '['.$value->getOptionId().','.$value->getIndex();
-            //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
-            $compactJson .= ']';
-            if ($key != count($this->optionValues) -1) $compactJson .= ',';
+        if ($this->optionValues)
+        {
+            foreach ($this->optionValues as $key => $value) {
+                $compactJson .= '['.$value->getOptionId().','.$value->getIndex();
+                //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
+                $compactJson .= ']';
+                if ($key != count($this->optionValues) -1) $compactJson .= ',';
+            }
         }
         $compactJson .= ']]';
         $this->setCompactJson($compactJson);
