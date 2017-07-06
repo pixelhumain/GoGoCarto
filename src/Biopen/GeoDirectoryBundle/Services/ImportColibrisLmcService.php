@@ -171,11 +171,14 @@ class ImportColibrisLmcService
 		$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
 		foreach($options as $option)
-		{
-			
+		{			
 			foreach($mappingTableName as $excelValue => $optionName)
 			{
-				if ($option->getName() == $optionName) $mappingTableIds[$excelValue] = $option->getId();
+				if ($option->getName() == $optionName) 
+					$mappingTableIds[$excelValue] = [
+						'id' => $option->getId(), 
+						'parentId' =>$option->getParentOption() ? $option->getParentOption()->getId() : null
+					];
 			}
 		}
 
@@ -184,26 +187,46 @@ class ImportColibrisLmcService
 		$this->mappingTableIds = $mappingTableIds;
 	}
 
+
+
 	private function parseOptionValues($element, $row)
 	{
+		$optionsIdAdded = [];
+
 		if ($row['Agriculture et Alimentation'])
 		{
-			$optionValue = new OptionValue();
-			$optionValue->setOptionId($this->mappingTableIds['Agriculture et Alimentation']);	
-	   	$optionValue->setIndex(0); 
-	   	$element->addOptionValue($optionValue);
-			$optionsExcel = explode(',', $row['Agriculture et Alimentation']);
+			$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds['Agriculture et Alimentation']['id']);
+
+			$optionsExcel = explode(',', $row['Agriculture et Alimentation']);			
 			foreach($optionsExcel as $optionExcel)
 			{
 				if ($optionExcel)
 				{
-					$optionValue = new OptionValue();
-					$optionValue->setOptionId($this->mappingTableIds[$optionExcel]);	
-			   	$optionValue->setIndex(0); 
-			   	$element->addOptionValue($optionValue);
+					$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);					
+
+					// we add parent option if not already added (because excel import works only with the lower level of options)
+			   	if (!in_array($this->mappingTableIds[$optionExcel]['parentId'], $optionsIdAdded))
+			   	{
+						$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['parentId']);
+			   	}
 				}			
 			}
-		}
-		
+			if (count($optionsIdAdded) == 0)
+			{
+				dump("No options found for " . $element->getName());
+				dump($row['Agriculture et Alimentation']);
+			}
+		}		
 	}
+
+	private function AddOptionValue($element, $id)
+	{
+		$optionValue = new OptionValue();
+		$optionValue->setOptionId($id);		
+   	$optionValue->setIndex(0); 
+   	$element->addOptionValue($optionValue);
+   	return $id;
+	}
+
+	
 }
