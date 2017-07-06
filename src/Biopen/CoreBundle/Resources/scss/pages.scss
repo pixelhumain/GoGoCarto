@@ -15,6 +15,7 @@ body
   background-color: $secondary-color;
   height: auto;
   min-height: 100%;
+  @include flexbox();
 }
 
 header
