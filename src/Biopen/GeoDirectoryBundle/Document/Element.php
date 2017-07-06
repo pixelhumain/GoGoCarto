@@ -35,7 +35,8 @@ abstract class ModerationState
 {
     const NotNeeded = 0;
     const ReportsSubmitted = 1;
-    const VotesConflicts = 2;      
+    const VotesConflicts = 2; 
+    const GeolocError = 3;       
 }
 
 /**
