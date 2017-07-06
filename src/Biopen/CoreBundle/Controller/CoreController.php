@@ -24,13 +24,14 @@ class CoreController extends Controller
         return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions));
     }
 
-    public function headerAction(){
+    public function headerAction($iframe)
+    {
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get About List        
         $listAbouts = $em->getRepository('BiopenCoreBundle:About')
         ->findAll();
         
-        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts));
+        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'iframe' => $iframe));
     }
     
     public function partnersAction()

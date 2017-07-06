@@ -8,14 +8,12 @@
 			<a href="{{ path('biopen_homepage') }}" class="small-logo"><span class="icon-menu icon-home"></span></a> 
 			<a href="{{ path('biopen_homepage') }}" class="large-logo">Près de chez nous</a> 
 		</div>
+
+    {% if not app.request.get('iframe') %}
 		<div id="menu-actions">
 			<div class="col menu-item">
 			  <a href="{{ path('biopen_directory') }}"><span class="icon-menu icon-map"></span><span class="text">Annuaire</span></a> 
-			</div>
-
-			<!-- <div class="col menu-item">
-				<a id="btn-menu-constellation">AUTOUR DE MOI</a> 
-			</div>	 -->		
+			</div>	
 
 			<div class="col menu-item">
 				<a href="{{ path('biopen_element_add') }}"><span class="icon-menu icon-user-plus"></span><span class="text">Ajouter un acteur</span></a>  
@@ -37,21 +35,20 @@
       	{% endfor %}            
       </ul>
 
-       <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
+      <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
 				onclick="logout()" id="btn-logout"
 				class="waves-effect btn-flat btn-login">
-        <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>
-				
+        <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>				
 			</button>
-      	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
-					onclick="$('#popup-login').openModal()" id="btn-login"
-					class="btn btn-login">
-          <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>
-					
-				</button>
-      
-		
-	    </div>
+
+    	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
+				onclick="$('#popup-login').openModal()" id="btn-login"
+				class="btn btn-login">
+        <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>				
+			</button>		
+
+    </div>
+    {% endif %}
 	</div>
 </nav> 
 </header>

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-27 19:42:59
+ * @Last Modified time: 2017-06-30 09:15:28
  */
  
 
@@ -37,6 +37,9 @@ class DirectoryController extends Controller
         $em = $this->get('doctrine_mongodb')->getManager();      
 
         $taxonomyRep = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy');
+
+        dump($request);
+        dump($request->get('iframe'));
 
         $mainCategoryJson = $taxonomyRep->findMainCategoryJson();
         $openHoursCategoryJson = $taxonomyRep->findOpenHoursCategoryJson();
