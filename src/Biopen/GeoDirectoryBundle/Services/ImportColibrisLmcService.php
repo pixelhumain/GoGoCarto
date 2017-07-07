@@ -17,6 +17,7 @@ class ImportColibrisLmcService
 	private $mappingTableIds;
 	private $converter;
 	private $geocoder;
+	private $mainsCategories;
 
 	/**
      * Constructor
@@ -134,7 +135,8 @@ class ImportColibrisLmcService
 	private function createOptionsMappingTable()
 	{
 		$mappingTableName = [
-			// agriculture
+			
+			// AGRICULTURE
 			'Agriculture et Alimentation' => 'Agriculture & Alimentation',
 			'Epicerie et superette' => 'Epicerie & Supérette',
 			'Marché' => 'Marché',
@@ -154,60 +156,168 @@ class ImportColibrisLmcService
 			'huile' => 'Huiles',
 			'Légumineuses' => 'Légumineuses',
 			'transformes' => 'Produits transformés',
-			'Autres' => 'Autre',
+			'Autres' => 'Autre@Circuit courts',                         
+			
+			// SORTIE CULTURE
+			'Sortie/loisirs' => 'Sortie & Culture',
+			'Bars/cafés' => 'Bar/Café',
+			'Restaurant' => 'Restaurant',
+			'Parcs' => 'Parc',
+			'Nature' => 'Parc',
+			'Musique' => 'Musique',
+			'Cinéma' => 'Cinéma',
+			'Papier' => 'Papier',
+			'Spectacle' => 'Théâtre',              // CHECK
+			'Expos' => 'Photographie',               // CHECK
+			'Autres' => 'Autre@Lieu pour sortir',              
+
+			// MOBILITE
+			'Mobilité' => 'Mobilité',
+			'Autos' => 'Auto',
+			'Motos' => 'Moto',
+			'Vélos' => 'Vélo',
+			'Bateaux' => 'Bateau',
+			'Autres' => 'Autre@Mobilité',                     
+			'Reparation' => 'Atelier/Réparation',
+			'Nettoyage' => 'Nettoyage',
+			'Location' => 'Location',
+			'Achat' => 'Vente/Boutique',
+
+			// EDUCATION
+			'Education et Formation' => 'Education & Formation',
+			'ecole' => 'Ecole',
+			'Maternelle' => 'Maternelle',
+			'Elementaire' => 'Elementaire',
+			'Collège' => 'Collège',
+			'Lycée' => 'Lycée',
+			'Animation' => 'Animation',
+			'Formation' => 'Formation',
+			'Conférence' => 'Conférence',
+			'Atelier' => 'Ateliers',
+
+			// MODE BEAUTÉ
+			'Mode et beauté' => 'Mode & Beauté',
+			'Vêtements' => 'Vêtement',
+			'Accessoires' => 'Accessoire',
+			'Décoration' => 'Décoration',
+			'Cosmétiques' => 'Cosmétique',
+			'Frippe' => 'Fripperie',
+			'Salon de coiffure' => 'Coiffeur',
+			'Institut de beauté' => 'Institut Beauté',
+			'Pharmacie alternative' => 'Pharamacie',
+
+			// HABITAT
+			'Habitat' => 'Habitat',
+			'Ressourcerie' => 'Ressourcerie',
+			'Matériaux écologique' => 'Matériaux',
+			'Charpentier menuisier' => 'Charpente/Menuiserie',
+			'Chauffage&Isolation' => 'Chauffage/Isolation',
+			'Energie renouvelable' => 'Energie renouvelable',
+			'electricité' => 'Electricité',
+			'Maçonnerie' => 'Maconnerie',
+			'Habitat intérieur' => 'Autre@Artisan/installateur',                 
+			'Autres' => 'Autre@Artisan/Installateur',                           
+			'Conseil energétique' => 'Conseil énergétique',
+			'Paysagiste/décorateur' => 'Paygasiste/Déco',
+			'Architecte' => 'Architecte',
+			'Horticulture' => 'Horticulture',
+			'jardinage' => 'Jardin partagé',
+			'Grainothèque' => 'Grainothèque',
+			//'Animaux' => '',                               // CHECK
+			//'Eco-construction' => '',	                   // CHECK		
+
+			// VOYAGE
+			'Voyages' => 'Voyages',
+			'Camping' => 'Camping',
+			"Chambre d'hôtes" => 'Accueil Paysan',             // CHECK
+			'Gites' => 'Gite',
+			'Hôtels' => 'Hotel',
+			'Chalet' => 'Refuge',                               // CHECK
+
 		];
 
 		$mappingTableIds;
 
 		$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
-		foreach($options as $option)
-		{			
-			foreach($mappingTableName as $excelValue => $optionName)
-			{
-				if ($option->getName() == $optionName) 
+		
+		foreach($mappingTableName as $excelValue => $optionName)
+		{
+			// some $optionName are write with their parentOption like "optionName@parentOptionName"
+			// this allow to distinct options who got same name (like "Autre" who is common name)
+			$values = explode('@', $optionName);
+
+			foreach($options as $option)
+			{		
+				if ( (count($values) == 1 && $option->getName() == $optionName)
+					|| (count($values) == 2 && $option->getName() == $values[0] && $option->getParentOption() && $option->getParentOption()->getName() == $values[1]) )
+				{
 					$mappingTableIds[$excelValue] = [
 						'id' => $option->getId(), 
-						'parentId' =>$option->getParentOption() ? $option->getParentOption()->getId() : null
+						'parentId' => $option->getParentOption() ? $option->getParentOption()->getId() : null
 					];
+				}
 			}
 		}
 
 		dump($mappingTableIds);
 
 		$this->mappingTableIds = $mappingTableIds;
+
+		$this->mainsCategories = [
+			'Agriculture et Alimentation',			
+			'Habitat',
+			'Education et Formation',
+			'Mobilité',
+			'Sortie/loisirs',
+			'Mode et beauté',
+			'Voyages',
+		];
 	}
-
-
 
 	private function parseOptionValues($element, $row)
 	{
-		$optionsIdAdded = [];
-
-		if ($row['Agriculture et Alimentation'])
+		foreach($this->mainsCategories as $mainCategorie)
 		{
-			$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds['Agriculture et Alimentation']['id']);
+			$optionsIdAdded = [];
 
-			$optionsExcel = explode(',', $row['Agriculture et Alimentation']);			
-			foreach($optionsExcel as $optionExcel)
+			if ($row[$mainCategorie])
 			{
-				if ($optionExcel)
+				$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$mainCategorie]['id']);
+
+				$optionsExcel = explode(',', $row[$mainCategorie]);			
+				foreach($optionsExcel as $optionExcel)
 				{
-					$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);					
+					if ($optionExcel)
+					{
+						if (array_key_exists($optionExcel, $this->mappingTableIds))
+						{
+							$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);					
 
-					// we add parent option if not already added (because excel import works only with the lower level of options)
-			   	if (!in_array($this->mappingTableIds[$optionExcel]['parentId'], $optionsIdAdded))
-			   	{
-						$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['parentId']);
-			   	}
-				}			
-			}
-			if (count($optionsIdAdded) == 0)
-			{
-				dump("No options found for " . $element->getName());
-				dump($row['Agriculture et Alimentation']);
-			}
-		}		
+							// we add parent option if not already added (because excel import works only with the lower level of options)
+					   	if (!in_array($this->mappingTableIds[$optionExcel]['parentId'], $optionsIdAdded))
+					   	{
+								$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['parentId']);
+					   	}
+						}
+						else
+						{
+							dump("Option from excel '" . $optionExcel . "' don't exist in the web site");
+						}						
+					}			
+				}
+				if (count($optionsIdAdded) == 0)
+				{
+					dump("No options found for " . $element->getName());
+					dump($row[$mainCategorie]);
+				}
+			}		
+		}
+
+		if (count($element->getOptionValues()) == 0) 
+		{
+			$element->setModerationState(ModerationState::NoOptionProvided);
+		}
 	}
 
 	private function AddOptionValue($element, $id)
