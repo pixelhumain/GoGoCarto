@@ -31,19 +31,13 @@ class ImportColibrisLmcService
 	public function import($fileName, $geocode = false, OutputInterface $output = null)
 	{
 	  // Getting php array of data from CSV
-	  $data = $this->converter->convert('../colibris_formated_small.csv', ',');
+	  $data = $this->converter->convert($fileName, ',');
 
-	  $this->createOptionsMappingTable();
-
-	  
-
-
-	  // Turning off doctrine default logs queries for saving memory
-	  //$em->getConnection()->getConfiguration()->setSQLLogger(null);
+	  $this->createOptionsMappingTable();	
 	  
 	  // Define the size of record, the frequency for persisting the data and the current index of records
 	  $size = count($data);
-	  $batchSize = 10;
+	  $batchSize = 50;
 	  $i = 1;
 	  
 	  if ($output) 
@@ -52,7 +46,7 @@ class ImportColibrisLmcService
 		  // Starting progress
 		  $progress = new ProgressBar($output, $size);
 		  $progress->start();
-		}
+	  }
 
 	  foreach($data as $row) 
 	  {
@@ -114,7 +108,7 @@ class ImportColibrisLmcService
 
 	          $this->em->flush();
 				 // Detaches all objects from Doctrine for memory save
-	          // $this->em->clear();
+	          $this->em->clear();
 	          
 	          if ($output) 
 	          {
