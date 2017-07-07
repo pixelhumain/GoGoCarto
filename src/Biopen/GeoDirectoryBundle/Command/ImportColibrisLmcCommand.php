@@ -25,7 +25,7 @@ class ImportColibrisLmcCommand extends ContainerAwareCommand
 	  ->setName('import:colibris_lmc')
 	  ->setDescription('Import colibris and lmc elements from CSV file')
 	  ->addArgument('path', InputArgument::REQUIRED, 'The path to csv file')
-	  ->addArgument('is_colibris', InputArgument::REQUIRED, 'Importing colibris or lmc code');
+	  ->addArgument('geocode', InputArgument::REQUIRED, 'Geocoding missing locations or not');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
@@ -35,13 +35,11 @@ class ImportColibrisLmcCommand extends ContainerAwareCommand
 	  $output->writeln('<comment>Start : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
 
 	  // Importing CSV on DB via Doctrine ORM
-	  $this->getContainer()->get('biopen.import_colibris_lmc')->import($input->getArgument('path'), $output);
+	  $this->getContainer()->get('biopen.import_colibris_lmc')->import($input->getArgument('path'), $input->getArgument('geocode'), $output);
 	  
 	  // Showing when the script is over
 	  $now = new \DateTime();
 	  $output->writeln('<comment>End : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
-	}
-
-	
+	}	
     
 }
