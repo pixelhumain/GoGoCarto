@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-06 14:33:56
+ * @Last Modified time: 2017-07-07 10:56:54
  */
  
 
@@ -276,7 +276,7 @@ class Element
         
         $this->setFullJson($fullJson);  
 
-        $compactJson = '["'.$this->id . '",' .$this->status . ',"' .$this->name . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
+        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
         if ($this->optionValues)
         {
             foreach ($this->optionValues as $key => $value) {
