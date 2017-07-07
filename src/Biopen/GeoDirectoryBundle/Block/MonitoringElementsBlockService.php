@@ -48,6 +48,7 @@ class MonitoringElementsBlockService extends AbstractBlockService
 	    $pendings = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findPendings(true);
 	    $moderationNeeded = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findModerationNeeded(true);
 	    $validateElements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findValidated(true);
+	    $visibleElements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findVisibles(true);
 	    // merge settings
 	    $settings = $blockContext->getSettings();
 
@@ -56,7 +57,8 @@ class MonitoringElementsBlockService extends AbstractBlockService
 	        'settings'  => $settings,
 	        'pendingCount' => $pendings,
 	        'moderationNeededCount' => $moderationNeeded,
-	        'validatesCount' => $validateElements
+	        'validatesCount' => $validateElements,
+	        'visiblesCount' => $visibleElements,
 	    ), $response);
 	}
 }
