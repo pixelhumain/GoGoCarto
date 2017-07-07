@@ -54,7 +54,9 @@ class ImportColibrisLmcService
 
 	      $new_element->setName($row['Nom']);	      
 
-		   $address = $row['Address'] . ', ' . $row['Code postal'] . ' ' . $row['Ville'];   
+		   $address = $row['Address'] ? $row['Address'] . ', ' : '';
+		   $address .= $row['Code postal'] ? $row['Code postal'] . ' ' : '';
+		   $address .= $row['Ville']; 
 
 	      $new_element->setAddress($address);
 	      $new_element->setPostalCode($row['Code postal']);         
@@ -66,6 +68,9 @@ class ImportColibrisLmcService
 	      $new_element->setMail($row['Email de contact (export uniquement)']);
 	      $new_element->setOpenHoursMoreInfos($row['Horaires']);
 	      $new_element->setStatus(ElementStatus::AddedByAdmin);
+
+	      $lat = 0;
+			$lng = 0;
 
 	      if (strlen($row['Lattitude']) > 2 && strlen($row['Longitude']) > 2)
 	      {
@@ -82,19 +87,11 @@ class ImportColibrisLmcService
 			      	$lat = $result->getLatitude();
 			      	$lng = $result->getLongitude();	
 			      }
-			      catch (\Exception $error) {
-			      	 $new_element->setModerationState(ModerationState::GeolocError);
-			      	 $lat = 0;
-			      	 $lng = 0;
-			      }      
-		      }
-		      else
-		      {
-		      	$new_element->setModerationState(ModerationState::GeolocError);
-			      $lat = 0;
-			      $lng = 0;
+			      catch (\Exception $error) { }      
 		      }
 		   } 
+
+		   if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 
 		   $new_element->setCoordinates(new Coordinates((float)$lat, (float)$lng));
 	      
