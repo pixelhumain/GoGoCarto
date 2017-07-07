@@ -61,6 +61,7 @@ class ElementRepository extends DocumentRepository
         $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
         $qb->field('status')->gte(-1);
+        $qb->field('moderationState')->gte(0);
 
         if ($optionId && $optionId != "all")
         {

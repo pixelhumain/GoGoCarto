@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-07 10:56:54
+ * @Last Modified time: 2017-07-07 12:31:19
  */
  
 
@@ -33,10 +33,11 @@ abstract class ElementStatus
 
 abstract class ModerationState
 {
+    const GeolocError = -2;
+    const NoOptionProvided = -1;     
     const NotNeeded = 0;
     const ReportsSubmitted = 1;
-    const VotesConflicts = 2; 
-    const GeolocError = 3;       
+    const VotesConflicts = 2;     
 }
 
 /**
