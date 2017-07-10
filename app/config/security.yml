@@ -52,7 +52,9 @@ security:
                 failure_path:   /login                
                 success_handler: biopen.authentication_handler
                 failure_handler: biopen.authentication_handler
-            logout:             true
+            logout:             
+                path:   /logout
+                success_handler: biopen.authentication_handler
             anonymous: ~
             oauth:
                 resource_owners:
