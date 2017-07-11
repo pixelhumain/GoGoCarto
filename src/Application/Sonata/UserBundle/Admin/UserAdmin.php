@@ -126,28 +126,28 @@ class UserAdmin extends AbstractAdmin
             ->with('Groups')
                 ->add('groups')
             ->end()
-            ->with('Profile')
-                ->add('dateOfBirth')
-                ->add('firstname')
-                ->add('lastname')
-                ->add('website')
-                ->add('biography')
-                ->add('gender')
-                ->add('locale')
-                ->add('timezone')
-                ->add('phone')
-            ->end()
-            ->with('Social')
-                ->add('facebookUid')
-                ->add('facebookName')
-                ->add('twitterUid')
-                ->add('twitterName')
-                ->add('gplusUid')
-                ->add('gplusName')
-            ->end()
+            // ->with('Profile')
+            //     ->add('dateOfBirth')
+            //     ->add('firstname')
+            //     ->add('lastname')
+            //     ->add('website')
+            //     ->add('biography')
+            //     ->add('gender')
+            //     ->add('locale')
+            //     ->add('timezone')
+            //     ->add('phone')
+            // ->end()
+            // ->with('Social')
+            //     ->add('facebookUid')
+            //     ->add('facebookName')
+            //     ->add('twitterUid')
+            //     ->add('twitterName')
+            //     ->add('gplusUid')
+            //     ->add('gplusName')
+            // ->end()
             ->with('Security')
                 ->add('token')
-                ->add('twoStepVerificationCode')
+                //->add('twoStepVerificationCode')
             ->end()
         ;
     }
@@ -160,14 +160,16 @@ class UserAdmin extends AbstractAdmin
         // define group zoning
         $formMapper
             ->tab('User')
-                ->with('Profile', array('class' => 'col-md-6'))->end()
+                //->with('Profile', array('class' => 'col-md-6'))->end()
                 ->with('General', array('class' => 'col-md-6'))->end()
-                ->with('Social', array('class' => 'col-md-6'))->end()
+                //->with('Social', array('class' => 'col-md-6'))->end()
+                ->with('Status', array('class' => 'col-md-6'))->end()
+                ->with('Groups', array('class' => 'col-md-12'))->end()
             ->end()
             ->tab('Security')
-                ->with('Status', array('class' => 'col-md-4'))->end()
-                ->with('Groups', array('class' => 'col-md-4'))->end()
-                ->with('Keys', array('class' => 'col-md-4'))->end()
+                //->with('Status', array('class' => 'col-md-4'))->end()
+                //->with('Groups', array('class' => 'col-md-4'))->end()
+                //->with('Keys', array('class' => 'col-md-4'))->end()
                 ->with('Roles', array('class' => 'col-md-12'))->end()
             ->end()
         ;
@@ -204,35 +206,6 @@ class UserAdmin extends AbstractAdmin
                         'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
                     ))
                 ->end()
-                ->with('Profile')
-                    ->add('dateOfBirth', $datePickerType, array(
-                        'years' => range(1900, $now->format('Y')),
-                        'dp_min_date' => '1-1-1900',
-                        'dp_max_date' => $now->format('c'),
-                        'required' => false,
-                    ))
-                    ->add('firstname', null, array('required' => false))
-                    ->add('lastname', null, array('required' => false))
-                    ->add('website', $urlType, array('required' => false))
-                    ->add('biography', $textType, array('required' => false))
-                    ->add('gender', $userGenderType, array(
-                        'required' => true,
-                        'translation_domain' => $this->getTranslationDomain(),
-                    ))
-                    ->add('locale', $localeType, array('required' => false))
-                    ->add('timezone', $timezoneType, array('required' => false))
-                    ->add('phone', null, array('required' => false))
-                ->end()
-                ->with('Social')
-                    ->add('facebookUid', null, array('required' => false))
-                    ->add('facebookName', null, array('required' => false))
-                    ->add('twitterUid', null, array('required' => false))
-                    ->add('twitterName', null, array('required' => false))
-                    ->add('gplusUid', null, array('required' => false))
-                    ->add('gplusName', null, array('required' => false))
-                ->end()
-            ->end()
-            ->tab('Security')
                 ->with('Status')
                     ->add('locked', null, array('required' => false))
                     ->add('expired', null, array('required' => false))
@@ -246,6 +219,35 @@ class UserAdmin extends AbstractAdmin
                         'multiple' => true,
                     ))
                 ->end()
+                // ->with('Profile')
+                //     ->add('dateOfBirth', $datePickerType, array(
+                //         'years' => range(1900, $now->format('Y')),
+                //         'dp_min_date' => '1-1-1900',
+                //         'dp_max_date' => $now->format('c'),
+                //         'required' => false,
+                //     ))
+                //     ->add('firstname', null, array('required' => false))
+                //     ->add('lastname', null, array('required' => false))
+                //     ->add('website', $urlType, array('required' => false))
+                //     ->add('biography', $textType, array('required' => false))
+                //     ->add('gender', $userGenderType, array(
+                //         'required' => true,
+                //         'translation_domain' => $this->getTranslationDomain(),
+                //     ))
+                //     ->add('locale', $localeType, array('required' => false))
+                //     ->add('timezone', $timezoneType, array('required' => false))
+                //     ->add('phone', null, array('required' => false))
+                // ->end()
+                // ->with('Social')
+                //     ->add('facebookUid', null, array('required' => false))
+                //     ->add('facebookName', null, array('required' => false))
+                //     ->add('twitterUid', null, array('required' => false))
+                //     ->add('twitterName', null, array('required' => false))
+                //     ->add('gplusUid', null, array('required' => false))
+                //     ->add('gplusName', null, array('required' => false))
+                // ->end()
+            ->end()
+            ->tab('Security')                
                 ->with('Roles')
                     ->add('realRoles', $securityRolesType, array(
                         'label' => 'form.label_roles',
@@ -254,10 +256,10 @@ class UserAdmin extends AbstractAdmin
                         'required' => false,
                     ))
                 ->end()
-                ->with('Keys')
-                    ->add('token', null, array('required' => false))
-                    ->add('twoStepVerificationCode', null, array('required' => false))
-                ->end()
+                // ->with('Keys')
+                //     ->add('token', null, array('required' => false))
+                //     ->add('twoStepVerificationCode', null, array('required' => false))
+                // ->end()
             ->end()
         ;
     }
