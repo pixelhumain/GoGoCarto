@@ -10,10 +10,7 @@ admin_area:
     resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
     prefix: /admin
 
-_sonata_admin:
-    resource: .
-    type: sonata_admin
-    prefix: /admin
+
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
@@ -68,6 +65,11 @@ sonata_user_admin_security:
 sonata_user_admin_resetting:
     resource: '@SonataUserBundle/Resources/config/routing/admin_resetting.xml'
     prefix: /admin/resetting
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
 
 biopen_wrong_route:
     path: /{other}/{other2}
