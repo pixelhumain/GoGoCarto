@@ -33,7 +33,7 @@ class Option
     private $nameShort;
 
     /**
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, orphanRemoval="true", sort={"index"="ASC"})
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
     */
     private $subcategories; 
 
@@ -44,7 +44,6 @@ class Option
 
     /**
      * @var int
-     * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int") 
      */
     private $index;
