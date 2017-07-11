@@ -4,7 +4,9 @@ imports:
     - { resource: services.yml }
     - { resource: config_fosuser.yml }
     - { resource: config_sonata.yml }
+    - { resource: config_database_name.php }
     - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services.yml" }
+    - { resource: "@BiopenCoreBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -71,7 +73,7 @@ doctrine_mongodb:
         default:
             server: "%mongodb_server%"
             options: {}
-    default_database: gogocarto
+    default_database: "%database_name%"
     document_managers:
         default:
             auto_mapping: true
