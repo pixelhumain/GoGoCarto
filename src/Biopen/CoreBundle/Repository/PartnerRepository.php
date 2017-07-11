@@ -11,4 +11,11 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class PartnerRepository extends DocumentRepository
 {
+	public function findAllOrderedByPosition()
+	{
+	  return $this->createQueryBuilder()
+	      ->sort('position', 'ASC')
+	      ->getQuery()
+	      ->execute();
+	}
 }

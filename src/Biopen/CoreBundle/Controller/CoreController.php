@@ -13,7 +13,7 @@ class CoreController extends Controller
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get Wrapper List        
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
-        ->findAll();
+        ->findAllOrderedByPosition();
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
         ->findOneByDepth(0);
 
@@ -24,11 +24,12 @@ class CoreController extends Controller
         return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions));
     }
 
-    public function headerAction(){
+    public function headerAction()
+    {
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get About List        
         $listAbouts = $em->getRepository('BiopenCoreBundle:About')
-        ->findAll();
+        ->findAllOrderedByPosition();
         
         return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts));
     }
@@ -40,7 +41,7 @@ class CoreController extends Controller
     	  ->get('doctrine_mongodb')->getManager()
     	  ->getRepository('BiopenCoreBundle:Partner');
 
-        $listPartners = $repository->findAll();
+        $listPartners = $repository->findAllOrderedByPosition();
 
         return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
         
