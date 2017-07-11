@@ -40,7 +40,6 @@
         "joshtronic/php-loremipsum": "dev-master",
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
-        "snilius/twig-sort-by-field": "^0.1.5",
         "sonata-project/admin-bundle": "3.9",
         "sonata-project/doctrine-mongodb-admin-bundle": "^3.0",
         "pixassociates/sortable-behavior-bundle": "^1.2",

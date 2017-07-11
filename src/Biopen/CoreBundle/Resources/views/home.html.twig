@@ -65,7 +65,7 @@
 </div>
 
 
-{% for wrapper in listWrappers | sortbyfield('position') %}
+{% for wrapper in listWrappers %}
 	<section class="bottom-section valign-wrapper" style="background-color: #{{wrapper.backgroundColor}}">
 	    <div class="content valign" style="color: #{{wrapper.textColor}}">
 	    	<h2 >{{wrapper.title | raw}}</h2>

@@ -1,8 +1,4 @@
 services:
-    twig.extension.sortbyfield:
-        class: Snilius\Twig\SortByFieldExtension
-        tags:
-            - { name: twig.extension }
     admin.about:
         class: Biopen\CoreBundle\Admin\AboutAdmin
         arguments: [~, Biopen\CoreBundle\Document\About, 'PixSortableBehaviorBundle:SortableAdmin']
