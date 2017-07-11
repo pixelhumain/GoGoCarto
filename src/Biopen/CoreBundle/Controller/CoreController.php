@@ -14,8 +14,8 @@ class CoreController extends Controller
         // Get Wrapper List        
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
         ->findAllOrderedByPosition();
-        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-        ->findOneByDepth(0);
+        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
+        ->findMainCategory();
 
         $mainOptions = $mainCategory->getOptions();
 
