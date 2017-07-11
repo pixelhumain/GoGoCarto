@@ -113,11 +113,12 @@ stof_doctrine_extensions:
             timestampable: true
 
 pix_sortable_behavior:
-    db_driver: mongodb # default value : orm
+    db_driver: mongodb 
     position_field:
-        default: index #default value : position
+        default: position 
         entities:
-            Biopen\CoreBundle\Document\About: position
+            Biopen\GeoDirectoryBundle\Document\Option: index
+            Biopen\GeoDirectoryBundle\Document\Category: index
 
 # Swiftmailer Configuration
 swiftmailer:
