@@ -97,11 +97,11 @@ doctrine_mongodb:
         default:
             server: "%mongodb_server%"
             options: {}
-    default_database: cartoV3
+    default_database: gogocarto
     document_managers:
         default:
             auto_mapping: true
-            mappings:                   
+            mappings:                  
                 # gedmo_translatable:
                 #     type: annotation
                 #     prefix: Gedmo\Translatable\Document
@@ -259,7 +259,7 @@ sonata_formatter:
             extensions: [] # Twig formatter cannot have extensions
 
 sonata_admin:
-    title:                'Cartopen Administration'
+    title:                'GoGoCarto Administration'
     title_logo:           'assets/img/favicon.png'
     security:
         handler: sonata.admin.security.handler.role
@@ -284,36 +284,36 @@ sonata_user:
     security_acl: true
     impersonating:
         route: sonata_admin_dashboard
-    manager_type: orm # can be orm or mongodb
+    manager_type: mongodb # can be orm or mongodb
     class:                  # Entity Classes
-        user:               Application\Sonata\UserBundle\Entity\User
-        group:              Application\Sonata\UserBundle\Entity\Group
+        user:               Biopen\CoreBundle\Document\User
+        group:              Application\Sonata\UserBundle\Document\Group
 
     admin:                  # Admin Classes
         user:
-            class:          Sonata\UserBundle\Admin\Entity\UserAdmin
+            class:          Application\Sonata\UserBundle\Admin\UserAdmin
             controller:     SonataAdminBundle:CRUD
             translation:    SonataUserBundle
 
         group:
-            class:          Sonata\UserBundle\Admin\Entity\GroupAdmin
+            class:          Sonata\UserBundle\Admin\Document\GroupAdmin
             controller:     SonataAdminBundle:CRUD
             translation:    SonataUserBundle        
 
 fos_user:
-    db_driver:      orm # can be orm or odm
+    db_driver:      mongodb # can be orm or mongodb
     firewall_name:  main
-    user_class:     Application\Sonata\UserBundle\Entity\User
+    user_class:     Biopen\CoreBundle\Document\User
     registration:
         form:
             type: biopen_user_registration
 
     group:
-        group_class:   Application\Sonata\UserBundle\Entity\Group
-        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+        group_class:   Application\Sonata\UserBundle\Document\Group
+        group_manager: sonata.user.mongodb.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
 
     service:
-        user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+        user_manager: sonata.user.mongodb.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
 
 hwi_oauth:
     # list of names of the firewalls in which this bundle is active, this setting MUST be set

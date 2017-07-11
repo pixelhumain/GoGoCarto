@@ -1,6 +1,5 @@
 <?php
-// Change the namespace!
-namespace Biopen\Corebundle\DataFixtures\ORM;
+namespace Biopen\Corebundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
