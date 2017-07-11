@@ -1,13 +1,4 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
-parameters:
-#    parameter_name: value
-    my_user_provider.class: Application\Sonata\UserBundle\Security\FOSUBUserProvider
-
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     twig.extension.sortbyfield:
         class: Snilius\Twig\SortByFieldExtension
         tags:
@@ -71,7 +62,7 @@ services:
             - { name: sonata.block }
 
     my_user_provider:
-        class: "%my_user_provider.class%"
+        class: Application\Sonata\UserBundle\Security\FOSUBUserProvider
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid, yahoo: twitterUid}]
 
@@ -82,12 +73,6 @@ services:
             - @router
             - @session
             - @security.context
-
-    biopen.registration.form.type:
-        class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType
-        arguments: ["%fos_user.model.user.class%"]
-        tags:
-            - { name: form.type, alias: biopen_user_registration }
 
     jms_serializer.naming_strategy_camelCase:
         class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'

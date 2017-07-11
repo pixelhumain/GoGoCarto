@@ -12,9 +12,6 @@ parameters:
     locale: fr
     mongodb_server: "mongodb://localhost:27017"
 
-fos_js_routing:
-    routes_to_expose: []
-
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
@@ -67,31 +64,6 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-        mapping_types:
-            point: string
-        types:
-            point:
-                class:  Wantlet\ORM\PointType
-            json: Sonata\Doctrine\Types\JsonType        
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
-
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        dql: 
-            numeric_functions: 
-                DISTANCE: Wantlet\ORM\Distance 
-                POINT_STR: Wantlet\ORM\PointStr
-        mappings:
-            ApplicationSonataUserBundle: ~
-            SonataUserBundle: ~
-            FOSUserBundle: ~ 
         
 # Mongodb Configuration
 doctrine_mongodb:
@@ -128,6 +100,9 @@ doctrine_mongodb:
                 #     dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
                 #     alias: GedmoTree # (optional) it will default to the name set for the mapping
                 #     is_bundle: false
+
+fos_js_routing:
+    routes_to_expose: []
 
 stof_doctrine_extensions:
     default_locale: fr
