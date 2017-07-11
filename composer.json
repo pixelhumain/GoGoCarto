@@ -56,7 +56,12 @@
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^2.7"
     },
-    "repositories": [],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Biopen/mongodb-odm.git"
+        }
+    ],
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
