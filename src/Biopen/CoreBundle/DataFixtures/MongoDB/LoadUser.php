@@ -35,6 +35,18 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         // Update the user
         $userManager->updateUser($user, true);
 
+        // Create our user and set details
+        $user = $userManager->createUser();
+        $user->setUsername('user');
+        $user->setEmail('user@domain.com');
+        $user->setPlainPassword('user');
+        //$user->setPassword('3NCRYPT3D-V3R51ON');
+        $user->setEnabled(true);
+        $user->setRoles(array('ROLE_USER'));
+
+        // Update the user
+        $userManager->updateUser($user, true);
+
         $manager->persist($user);
         $manager->flush();
     }
