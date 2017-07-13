@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-13 09:11:22
+ * @Last Modified time: 2017-07-13 10:04:56
  */
  
 
@@ -200,7 +200,17 @@ class Element
      */
     public $openHoursMoreInfos = '';
 
-   /**
+    /**
+     * @var string
+     *
+     * A key to clarify the source of the information, i.e. from wich organization/source the
+     * element has been imported
+     *
+     * @MongoDB\Field(type="string")
+     */
+    public $sourceKey = 'gogocarto';
+
+    /**
      * @var string
      * 
      * Email of the last person who created or modificated this element
@@ -955,5 +965,27 @@ class Element
     public function getStatusChangedAt()
     {
         return $this->statusChangedAt;
+    }
+
+    /**
+     * Set sourceKey
+     *
+     * @param string $sourceKey
+     * @return $this
+     */
+    public function setSourceKey($sourceKey)
+    {
+        $this->sourceKey = $sourceKey;
+        return $this;
+    }
+
+    /**
+     * Get sourceKey
+     *
+     * @return string $sourceKey
+     */
+    public function getSourceKey()
+    {
+        return $this->sourceKey;
     }
 }
