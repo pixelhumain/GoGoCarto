@@ -4,23 +4,31 @@
 <nav>
 	<div id="menu" class="row ">
 
+    {% set iframe = app.request.get('iframe') %}
+
 		<div class="col menu-item" id="menu-home">			
-			<a href="{{ path('biopen_homepage') }}" class="small-logo"><span class="icon-menu icon-home"></span></a> 
-			<a href="{{ path('biopen_homepage') }}" class="large-logo">Près de chez nous</a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo"><span class="icon-menu icon-home"></span></a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo">Près de chez nous</a> 
 		</div>
-
-    {% if not app.request.get('iframe') %}
+    
 		<div id="menu-actions">
-			<div class="col menu-item">
-			  <a href="{{ path('biopen_directory') }}"><span class="icon-menu icon-map"></span><span class="text">Annuaire</span></a> 
-			</div>	
+    
+      {% if not iframe %}
+  			<div class="col menu-item">
+  			  <a href="{{ path('biopen_directory') }}"><span class="icon-menu icon-map"></span><span class="text">Annuaire</span></a> 
+  			</div>	
+      {% endif %}
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_element_add') }}"><span class="icon-menu icon-user-plus"></span><span class="text">Ajouter un acteur</span></a>  
+				<a href="{{ path('biopen_element_add') }}" {% if iframe %}target="_blank"{% endif %}>
+          <span class="icon-menu icon-user-plus"></span><span class="text">Ajouter un acteur</span>
+        </a>  
 			</div>
 
 			<div class="col menu-item">
-				<a href="{{ path('biopen_partners') }}"><span class="icon-menu icon-partner-3"></span><span class="text">Partenaires</span></a>  
+				<a href="{{ path('biopen_partners') }}" {% if iframe %}target="_blank"{% endif %}>
+          <span class="icon-menu icon-partner-3"></span><span class="text">Partenaires</span>
+        </a>  
 			</div>	
                        
       <div class="col menu-item dropdown-button" data-activates='listAbout'>
@@ -35,20 +43,22 @@
       	{% endfor %}            
       </ul>
 
-      <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
-				onclick="logout()" id="btn-logout"
-				class="waves-effect btn-flat btn-login">
-        <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>				
-			</button>
+      {# no loggin in iframe #}
+      {% if not iframe %}
+        <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
+  				onclick="logout()" id="btn-logout"
+  				class="waves-effect btn-flat btn-login">
+          <span class="icon-menu icon-lock"></span><span class="text">Se déconnecter</span>				
+  			</button>
 
-    	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
-				onclick="$('#popup-login').openModal()" id="btn-login"
-				class="btn btn-login">
-        <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>				
-			</button>		
+      	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
+  				onclick="$('#popup-login').openModal()" id="btn-login"
+  				class="btn btn-login">
+          <span class="icon-menu icon-unlock"></span><span class="text">Connexion</span>				
+  			</button>		
+      {% endif %}
 
     </div>
-    {% endif %}
 	</div>
 </nav> 
 </header>
