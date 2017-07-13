@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-07 12:31:19
+ * @Last Modified time: 2017-07-13 09:11:22
  */
  
 
@@ -60,6 +60,7 @@ class Element
 
     /** 
      * @Expose
+     * See ElementStatus
      * @MongoDB\Field(type="int")
      */
     public $status;
@@ -74,12 +75,17 @@ class Element
     /**
      * @var \stdClass
      *
+     * When user propose a new element, or a modification, the element status became "pending", and other
+     * users can vote to validate or not the add/modification
+     *
      * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
      */
     private $votes;
 
     /**
      * @var \stdClass
+     *
+     * Users can report some problem related to the Element (no more existing, wrong informations...)
      *
      * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
      */
@@ -88,6 +94,9 @@ class Element
     /**
      * @var \stdClass
      *
+     * When a user propose a modification to an element, the modified element in saved in this attributes,
+     * so we keep recording both versions (the old one and the new one) and so we can display the diff
+     *
      * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element", cascade={"all"})
      */
     private $modifiedElement;
@@ -95,22 +104,22 @@ class Element
     /**
      * @var string
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $name;
 
     /** 
     * @Expose
-    * @Gedmo\Versioned
     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
     */
     public $coordinates;
 
     /**
      * @var string
+     *
+     * Complete address with street/city/region or wathever needed to localize the element
+     *
      * @Expose     
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $address;
@@ -118,7 +127,8 @@ class Element
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * Postal code returned by geocoding the address
+     *
      * @MongoDB\Field(type="string")
      */
     private $postalCode;
@@ -126,7 +136,8 @@ class Element
     /**
      * @var string
      *
-     * @Gedmo\Versioned
+     * Departement code (two first number of postal code) needed in back office to fitler element by departement
+     *
      * @MongoDB\Field(type="string")
      */
     private $departementCode;
@@ -134,7 +145,6 @@ class Element
     /**
      * @var string
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string", nullable=false)
      */
     public $description;
@@ -142,7 +152,6 @@ class Element
     /**
      * @var string
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $tel;
@@ -150,7 +159,6 @@ class Element
     /**
      * @var string
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $mail;
@@ -158,13 +166,15 @@ class Element
     /**
      * @var string
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string")
      */
     public $webSite;
     
     /**
      * @var \stdClass
+     *
+     * The options filled by the element, with maaybe some description attached to them
+     *
      * @Expose
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
@@ -172,16 +182,20 @@ class Element
 
     /**
      * @var \stdClass
+     *
+     * Structured OpenHours
+     *
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
     public $openHours;
 
     /**
      * @var string
+     *
+     * A string for giving mor openHours infos, or for importing non structured open hours
+     *
      * @Expose
-     * @Gedmo\Versioned
      * @MongoDB\Field(type="string", nullable=true)
      */
     public $openHoursMoreInfos = '';
@@ -189,19 +203,26 @@ class Element
    /**
      * @var string
      * 
-     * @Gedmo\Versioned
+     * Email of the last person who created or modificated this element
+     *
      * @MongoDB\Field(type="string")
      */
     private $contributorMail;
 
     /**
-     * @Gedmo\Versioned
+     * if last contributor was a registered User or a anonymous who just provided an email address
+     * because wo don't need to be logged to make some contribution
+     *
      * @MongoDB\Field(type="bool")
      */
     private $contributorIsRegisteredUser;
 
     /** 
      * @var string 
+     *
+     * The Compact Json representation of the Element. We save it so we don't have to serialize the element
+     * each time.
+     * The compact json is a small array with the basic informations of the element : id, name, coordinates, optionsValues
      * 
      * @MongoDB\Field(type="string") 
      */ 
@@ -210,6 +231,9 @@ class Element
     /** 
      * @var string 
      * 
+     * The complete Json representation of the Element. We save it so we don't have to serialize the element
+     * each time
+     *
      * @MongoDB\Field(type="string") 
      */ 
     private $fullJson; 
