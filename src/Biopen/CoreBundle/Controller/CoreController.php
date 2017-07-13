@@ -13,9 +13,9 @@ class CoreController extends Controller
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get Wrapper List        
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
-        ->findAll();
-        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-        ->findOneByDepth(0);
+        ->findAllOrderedByPosition();
+        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
+        ->findMainCategory();
 
         $mainOptions = $mainCategory->getOptions();
 
@@ -25,11 +25,10 @@ class CoreController extends Controller
     }
 
     public function headerAction($iframe)
-    {
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get About List        
         $listAbouts = $em->getRepository('BiopenCoreBundle:About')
-        ->findAll();
+        ->findAllOrderedByPosition();
         
         return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'iframe' => $iframe));
     }
@@ -41,7 +40,7 @@ class CoreController extends Controller
     	  ->get('doctrine_mongodb')->getManager()
     	  ->getRepository('BiopenCoreBundle:Partner');
 
-        $listPartners = $repository->findAll();
+        $listPartners = $repository->findAllOrderedByPosition();
 
         return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
         

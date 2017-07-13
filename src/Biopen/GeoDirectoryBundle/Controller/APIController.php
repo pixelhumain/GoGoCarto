@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-27 20:23:57
+ * @Last Modified time: 2017-07-13 08:59:37
  */
  
 
@@ -56,7 +56,7 @@ class APIController extends Controller
         }
         else 
         {
-            return new Response("Not valid ajax request");
+            return new Response("Access to the API is restricted and not allowed via the browser");
         }
     }
 
@@ -95,19 +95,26 @@ class APIController extends Controller
         }
         else 
         {
-            return new Response("Not valid ajax request");
+            return new Response("Access to the API is restricted and not allowed via the browser");
         }
     }
 
     public function getTaxonomyAction(Request $request)
     {
-        $em = $this->get('doctrine_mongodb')->getManager();
-        
-        $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
+        if($request->isXmlHttpRequest())
+        {
+            $em = $this->get('doctrine_mongodb')->getManager();
+            
+            $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
 
-        $response = new Response($taxonomy);    
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+            $response = new Response($taxonomy);    
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+        else 
+        {
+            return new Response("Access to the API is restricted and not allowed via the browser");
+        }
     }
 
     public function getElementsFromTextAction(Request $request)
@@ -127,7 +134,7 @@ class APIController extends Controller
         }
         else 
         {
-            return new Response("Not valid ajax request");
+            return new Response("Access to the API is restricted and not allowed via the browser");
         }
     }
 }

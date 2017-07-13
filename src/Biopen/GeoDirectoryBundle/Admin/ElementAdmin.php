@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-06 15:18:10
+ * @Last Modified time: 2017-07-07 12:31:36
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -33,10 +33,11 @@ class ElementAdmin extends AbstractAdmin
 	];
 
 	private $moderationChoices = [
+		'-2'=>'Erreur geolocalisation',
+		'-1'=>'Aucune catégorie renseignée',
 		'0'=>'Pas de modération nécessaire', 
 		'1'=>'Erreurs signalées', 
-		'2'=>'Votes non consensuels',
-		'3'=>'Erreur geolocalisation',
+		'2'=>'Votes non consensuels',	
 	];
 
     protected $datagridValues = array(

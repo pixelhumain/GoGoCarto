@@ -18,7 +18,11 @@ biopen_element_delete:
 
 biopen_element_generate:
     path:     /generate/{nombre}/{generateVotes}
-    defaults: { _controller: BiopenGeoDirectoryBundle:RandomCreation:generate, nombre:'1', generateVotes:'0' }
+    defaults: { _controller: BiopenGeoDirectoryBundle:Import:generateRandom, nombre:'1', generateVotes:'0' }
+
+biopen_element_import_colibris_lmc:
+    path:     /import-colibris-lmc/{fileName}/{geocode}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Import:importColibrisLmc, geocode:'0'}
 
 
 

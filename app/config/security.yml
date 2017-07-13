@@ -52,7 +52,9 @@ security:
                 failure_path:   /login                
                 success_handler: biopen.authentication_handler
                 failure_handler: biopen.authentication_handler
-            logout:             true
+            logout:             
+                path:   /logout
+                success_handler: biopen.authentication_handler
             anonymous: ~
             oauth:
                 resource_owners:
@@ -66,31 +68,6 @@ security:
                     #this is my custom user provider, created from FOSUBUserProvider - will manage the
                     #automatic user registration on your site, with data from the provider (facebook. google, etc.)
                     service: my_user_provider
-            # oauth:
-            #     resource_owners:
-            #         # facebook:           "/login/check-facebook"
-            #         google:             "/login/check-google"
-            #         # my_custom_provider: "/login/check-custom"
-            #         # my_github:          "/login/check-github"
-            #     login_path:        /login
-            #     use_forward:       false
-            #     failure_path:      null
-
-            #     oauth_user_provider:
-            #         service: my_user_provider
-            # switch_user: true
-    
-    # role_hierarchy:
-    #     ROLE_SONATA_FOO_READER:
-    #         - ROLE_ADMIN_ABOUT_LIST
-    #         - ROLE_ADMIN_ABOUT_VIEW
-    #     # those are the roles I will use (less verbose)
-    #     ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
-    #     ROLE_ADMIN:             [ROLE_USER, ROLE_ADMIN_ABOUT_ALL]
-    #     ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-
-    #     # you could alternatively use for an admin who has all rights
-    #     ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
 
     # set access_strategy to unanimous, else you may have unexpected behaviors
     access_decision_manager:

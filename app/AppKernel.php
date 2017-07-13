@@ -18,23 +18,23 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
-            new Biopen\GeoDirectoryBundle\BiopenGeoDirectoryBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
-            new JMS\TwigJsBundle\JMSTwigJsBundle(),            
-            new Biopen\CoreBundle\BiopenCoreBundle(),
+            //new JMS\TwigJsBundle\JMSTwigJsBundle(),            
+            
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new Pix\SortableBehaviorBundle\PixSortableBehaviorBundle(),
 
-            // These are the other bundles the SonataAdminBundle relies on
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Exporter\Bridge\Symfony\Bundle\SonataExporterBundle(),
 
-            // And finally, the storage and SonataAdminBundle
+            new Biopen\GeoDirectoryBundle\BiopenGeoDirectoryBundle(),
+            new Biopen\CoreBundle\BiopenCoreBundle(),
+
             new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
-            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+            //new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
 
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),

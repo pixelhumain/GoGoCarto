@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-25 15:09:22
+ * @Last Modified time: 2017-07-07 12:48:55
  */
  
 
@@ -61,6 +61,7 @@ class ElementRepository extends DocumentRepository
         $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
         $qb->field('status')->gte(-1);
+        $qb->field('moderationState')->gte(0);
 
         if ($optionId && $optionId != "all")
         {
@@ -128,6 +129,21 @@ class ElementRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $qb->field('status')->gt(ElementStatus::PendingAdd);
+    if ($getCount) $qb->count();
+
+    return $qb->getQuery()->execute();
+  }
+
+  public function findVisibles($getCount = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    // fetching pendings and validated
+    $qb->field('status')->gte(ElementStatus::PendingModification);
+
+    // removing element withtout category or withtout geolocation
+    $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
+    
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();

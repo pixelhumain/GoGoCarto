@@ -1,6 +1,5 @@
 <?php
-// Change the namespace!
-namespace Biopen\Corebundle\DataFixtures\ORM;
+namespace Biopen\Corebundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -32,6 +31,18 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         //$user->setPassword('3NCRYPT3D-V3R51ON');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_SUPER_ADMIN','ROLE_ADMIN'));
+
+        // Update the user
+        $userManager->updateUser($user, true);
+
+        // Create our user and set details
+        $user = $userManager->createUser();
+        $user->setUsername('user');
+        $user->setEmail('user@domain.com');
+        $user->setPlainPassword('user');
+        //$user->setPassword('3NCRYPT3D-V3R51ON');
+        $user->setEnabled(true);
+        $user->setRoles(array('ROLE_USER'));
 
         // Update the user
         $userManager->updateUser($user, true);

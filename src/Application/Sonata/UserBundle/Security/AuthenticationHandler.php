@@ -12,9 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
+use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\Security\Core\SecurityContext;
  
-class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
+class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface, LogoutSuccessHandlerInterface
 {
 	private $router;
 	private $session;
@@ -97,5 +98,10 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
  
 			return new RedirectResponse( $this->router->generate( 'login_route' ) );
 		}
+	}
+
+	public function onLogoutSuccess(Request $request) 
+	{
+	  return new Response('{"success": true}');
 	}
 }
