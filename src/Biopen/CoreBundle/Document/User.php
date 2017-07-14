@@ -314,4 +314,56 @@ class User extends BaseUser
     }
 
     
+
+    /**
+     * Get enabled
+     *
+     * @return boolean $enabled
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return $this
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean $locked
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean $expired
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Get credentialsExpired
+     *
+     * @return boolean $credentialsExpired
+     */
+    public function getCredentialsExpired()
+    {
+        return $this->credentialsExpired;
+    }
 }
