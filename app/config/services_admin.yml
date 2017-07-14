@@ -1,0 +1,70 @@
+services:
+    admin.config:
+        class: Biopen\CoreBundle\Admin\ConfigurationAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Configuration Générale }
+
+    admin.tile_layer:
+        class: Biopen\CoreBundle\Admin\TileLayerAdmin
+        arguments: [~, Biopen\CoreBundle\Document\TileLayer, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Fonds de carte }
+
+    admin.about:
+        class: Biopen\CoreBundle\Admin\AboutAdmin
+        arguments: [~, Biopen\CoreBundle\Document\About, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Onglets "A propos" }
+    admin.partner:
+        class: Biopen\CoreBundle\Admin\PartnerAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Partenaires }
+    admin.wrapper:
+        class: Biopen\CoreBundle\Admin\WrapperAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Bandeaux de la page d'accueil }
+
+    admin.element:
+        class: Biopen\GeoDirectoryBundle\Admin\ElementAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:Admin/ElementAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Acteurs }    
+
+    admin.option:
+        class: Biopen\GeoDirectoryBundle\Admin\OptionAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, 'BiopenGeoDirectoryBundle:Admin/OptionAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" } 
+
+    admin.option.lite:
+        class: Biopen\GeoDirectoryBundle\Admin\OptionLiteAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" } 
+
+    admin.category.lite:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryLiteAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
+
+    admin.category:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'BiopenGeoDirectoryBundle:Admin/CategoryAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Catégories }    
+
+    sonata.block.service.monitoring:
+        class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
+        tags:
+            - { name: sonata.block }
+
+    biopen.block.recent_elements:
+        class: Biopen\GeoDirectoryBundle\Block\RecentElementsBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @sonata.admin.pool ]
+        tags:
+            - { name: sonata.block }

@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: services_admin.yml }
     - { resource: config_fosuser.yml }
     - { resource: config_sonata.yml }
     - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services.yml" }
