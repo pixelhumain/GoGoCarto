@@ -102,7 +102,9 @@ sonata_admin:
             - { position: top, class: col-md-12, type: sonata.block.service.monitoring}
         groups:
             Contenus:
-            Annuaire:
+            data:
+                label: "Données"
+            Configuration:
             sonata_user:
                 label: Utilisateurs
                 icon: <i class='fa fa-users'></i>
