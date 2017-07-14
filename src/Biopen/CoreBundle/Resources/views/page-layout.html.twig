@@ -11,7 +11,7 @@
 
 {% block body %}
 
-	<div>{{ render(controller('BiopenCoreBundle:Core:header'))}}</div>
+	<div>{{ render(controller('BiopenCoreBundle:Core:header', {'iframe': app.request.get('iframe') } ))}}</div>
 
 	<div id="page-container">	   
 		
