@@ -19,11 +19,13 @@
   			</div>	
       {% endif %}
 
+      {% if config.addFeature.isAllowed(app.user, iframe) %}
 			<div class="col menu-item">
 				<a href="{{ path('biopen_element_add') }}" {% if iframe %}target="_blank"{% endif %}>
           <span class="icon-menu icon-user-plus"></span><span class="text">Ajouter un acteur</span>
         </a>  
 			</div>
+      {% endif %}
 
 			<div class="col menu-item">
 				<a href="{{ path('biopen_partners') }}" {% if iframe %}target="_blank"{% endif %}>

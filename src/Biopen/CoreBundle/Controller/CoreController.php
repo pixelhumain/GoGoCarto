@@ -30,13 +30,14 @@ class CoreController extends Controller
         // Get About List        
         $listAbouts = $em->getRepository('BiopenCoreBundle:About')
         ->findAllOrderedByPosition();
+
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
         
-        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts));
+        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'config' => $config));
     }
     
     public function partnersAction()
-    {
-        
+    {        
     	$repository = $this
     	  ->get('doctrine_mongodb')->getManager()
     	  ->getRepository('BiopenCoreBundle:Partner');

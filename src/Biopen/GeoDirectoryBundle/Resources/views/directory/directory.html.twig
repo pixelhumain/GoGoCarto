@@ -41,7 +41,8 @@
                 export:   {{ this.getConfigFrom(config.exportIframeFeature) }},
                 pending:  {{ this.getConfigFrom(config.pendingFeature) }},
 
-                add:      { active: false },
+                add:      {{ this.getConfigFrom(config.addFeature, path('biopen_element_add')) }},
+                add:      { active: false }, // force desactivate the feature in GoGoCartoJs cause we treat it directly in the header
                 edit:     {{ this.getConfigFrom(config.editFeature, path('biopen_element_edit', {'id':'fake'}) | replace({'fake':''})) }},
                 delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
 
