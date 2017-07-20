@@ -11,5 +11,9 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class ConfigurationRepository extends DocumentRepository
 {
-	
+	public function findConfiguration()
+	{
+	  $qb = $this->createQueryBuilder('BiopenCoreBundle:Configuration');
+     return $qb->getQuery()->getSingleResult();
+	}
 }

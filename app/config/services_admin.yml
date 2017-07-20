@@ -1,7 +1,7 @@
 services:
     admin.config:
         class: Biopen\CoreBundle\Admin\ConfigurationAdmin
-        arguments: [~, Biopen\CoreBundle\Document\Configuration, '']
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Configuration Générale }
 
