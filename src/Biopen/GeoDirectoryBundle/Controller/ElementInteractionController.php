@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-26 17:33:49
+ * @Last Modified time: 2017-07-20 18:50:30
  */
  
 
@@ -30,15 +30,17 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $securityContext = $this->container->get('security.context');       
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
 
-            // CHECK USER IS LOGGED
-            if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) return $this->returnResponse(false,"Vous devez être loggué pour pouvoir voter");
+            // CHECK USER IS ALLOWED
+            if(!$config->getCollaborativeModerationFeature()->$isAllowed($user, $request->get('iframe')) 
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
 
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('value') === null) return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
+
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
             $resultMessage = $this->get('biopen.element_vote_service')->voteForElement($element, $request->get('value'), $request->get('comment'));
@@ -54,11 +56,12 @@ class ElementInteractionController extends Controller
     public function reportErrorAction(Request $request)
     {
         if($request->isXmlHttpRequest())
-        {
+        {              
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('report', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
+            
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
-
-            $em = $this->get('doctrine_mongodb')->getManager(); 
+            
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
             $report = new UserInteraction();            
@@ -69,7 +72,7 @@ class ElementInteractionController extends Controller
             if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
                 $report->setUserMail($securityContext->getToken()->getUser()->getEmail());
             else 
-                $report->setUserMail($request->get('userMail'));
+                $report->setUserMail($request->has('userMail') ? $request->get('userMail') : "Anonyme");
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);
@@ -91,10 +94,7 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            $securityContext = $this->container->get('security.context');       
-
-            // CHECK USER IS LOGGED
-            if(!$this->isUserAdmin()) return $this->returnResponse(false,"Seuls les admins peuvent supprimer un élément");
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à supprimer un élément !"); 
 
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId')) return $this->returnResponse(false,"Les paramètres sont incomplets");
@@ -129,12 +129,6 @@ class ElementInteractionController extends Controller
         $response = new Response($responseJson);    
         $response->headers->set('Content-Type', 'application/json');
         return $response;
-    }
-
-    private function isUserAdmin()
-    {
-        $securityContext = $this->container->get('security.context');
-        return $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
-    }
+    }    
 }
     
