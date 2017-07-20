@@ -20,6 +20,8 @@
 
   <script>
 
+    {% import _self as this %}
+
     $(document).ready(function()
     {
         carto = goGoCarto('#directory-container', {
@@ -32,14 +34,18 @@
             },
             features:
             {
-                search: { url: "{{ path('biopen_api_elements_from_text') }}" },
-                delete: { url: "{{ path('biopen_delete_element') }}"          , roles: ['admin'], inIframe: false },
-                report: { url: "{{ path('biopen_report_error_for_element') }}", roles: ['anonymous', 'user'] },
-                vote:   { url: "{{ path('biopen_vote_for_element') }}"        , roles: ['user', 'admin'], inIframe: false },
-                edit:   { url: "{{ path('biopen_element_edit', {'id':'fake'}) | replace({'fake':''}) }}" },
-                favorite: { inIframe: false },
-                export:   { inIframe: false },
-                pending:  { inIframe: false, roles: ['user', 'admin'] },
+                search:   { url: "{{ path('biopen_api_elements_from_text') }}" },
+                share:    {{ this.getConfigFrom(config.shareFeature,  path('biopen_report_error_for_element')) }},
+                report:   {{ this.getConfigFrom(config.reportFeature, path('biopen_report_error_for_element')) }},
+                favorite: {{ this.getConfigFrom(config.favoriteFeature) }},
+                export:   {{ this.getConfigFrom(config.exportIframeFeature) }},
+                pending:  {{ this.getConfigFrom(config.pendingFeature) }},
+
+                add:      { active: false },
+                edit:     {{ this.getConfigFrom(config.editFeature, path('biopen_element_edit', {'id':'fake'}) | replace({'fake':''})) }},
+                delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
+
+                vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature) }},     
             },
             security:
             {
@@ -52,4 +58,15 @@
   </script>  
 
 {% endblock %}
+
+{% macro getConfigFrom(feature, path) %}
+    { 
+        active: {{ feature.active ? 'true' : 'false' }}, 
+        inIframe: {{ feature.activeInIframe ? 'true' : 'false' }},
+        url: "{{ path | default('') }}", 
+        roles: {{ feature.getAllowedRoles | json_encode | raw }}
+    }
+{% endmacro %}
+
+
 

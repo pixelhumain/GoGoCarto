@@ -32,6 +32,15 @@ class FeatureConfiguration
         $this->setAllowRoleAdmin($admin);
     }
 
+    public function getAllowedRoles()
+    {
+        $roles = [];
+        if ($this->getAllowRoleAnonymous()) $roles[] = 'anonymous';
+        if ($this->getAllowRoleUser()) $roles[] = 'user';
+        if ($this->getAllowRoleAdmin()) $roles[] = 'admin';
+        return $roles;
+    }
+
     /**
      * Set active
      *

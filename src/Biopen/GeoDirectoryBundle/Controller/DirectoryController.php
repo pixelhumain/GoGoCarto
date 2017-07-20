@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-30 09:15:28
+ * @Last Modified time: 2017-07-20 17:01:20
  */
  
 
@@ -38,11 +38,10 @@ class DirectoryController extends Controller
 
         $taxonomyRep = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy');
 
-        dump($request);
-        dump($request->get('iframe'));
-
         $mainCategoryJson = $taxonomyRep->findMainCategoryJson();
         $openHoursCategoryJson = $taxonomyRep->findOpenHoursCategoryJson();
+
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 
         $securityContext = $this->container->get('security.context');
         $roles = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getRoles() : [];
@@ -50,7 +49,7 @@ class DirectoryController extends Controller
         
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array("mainCategoryJson" => $mainCategoryJson, 'openHoursCategoryJson' => $openHoursCategoryJson,
-                                    'userGogocartoRole' => $userGogocartoRole));
+                                    'userGogocartoRole' => $userGogocartoRole, 'config' => $config));
     }
   
 }
