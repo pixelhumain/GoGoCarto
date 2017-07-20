@@ -19,15 +19,18 @@ class LoadConfiguration implements FixtureInterface
     $configuration = new Configuration();
 
     // FEATURES
-    $configuration->setFavorite(  new FeatureConfiguration(true, false, true, true, true));
-    $configuration->setShare(     new FeatureConfiguration(true, true,  true, true, true));
-    $configuration->setExport(    new FeatureConfiguration(true, false, true, true, true));
-    $configuration->setDirections(new FeatureConfiguration(true, true,  true, true, true));
-    $configuration->setEdit(      new FeatureConfiguration(true, true,  true, true, true));
-    $configuration->setReport(    new FeatureConfiguration(true, false, true, true, false));
-    $configuration->setDelete(    new FeatureConfiguration(true, false, false, false, true));
-    $configuration->setPending(   new FeatureConfiguration(true, false, true, true, true));
-    $configuration->setVote(      new FeatureConfiguration(true, false, false, true, true));
+    $configuration->setFavoriteFeature(  new FeatureConfiguration(true, false, true, true, true));
+    $configuration->setShareFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setExportIframeFeature(    new FeatureConfiguration(true, false, true, true, true));
+    $configuration->setDirectionsFeature(new FeatureConfiguration(true, true,  true, true, true));   
+    $configuration->setReportFeature(    new FeatureConfiguration(true, false, true, true, false));    
+    $configuration->setPendingFeature(   new FeatureConfiguration(true, false, true, true, true));
+
+    $configuration->setAddFeature(       new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setEditFeature(      new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setDeleteFeature(    new FeatureConfiguration(true, false, false, false, true));
+    $configuration->setCollaborativeModerationFeature(      new FeatureConfiguration(true, false, false, true, true));
+    $configuration->setDirectModerationFeature(      new FeatureConfiguration(true, false, false, false, true));
 
     // MAP
     $defaultLayer = LoadTileLayers($manager);

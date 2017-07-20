@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-20 12:26:01
+ * @Last Modified time: 2017-07-20 15:41:37
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -22,31 +22,36 @@ class ConfigurationAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $featureStyle = array('class' => 'col-md-6 col-lg-3');
+        $contributionStyle = array('class' => 'col-md-6 col-lg-4');
         $featureFormOption = ['delete' => false, 'required'=> false, 'label_attr'=> ['style'=> 'display:none']];
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
-            ->tab('Features')
+            ->tab('Fonctionalités')
                 ->with('Favoris', $featureStyle)
-                    ->add('favorite','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('favoriteFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Partage de l\'URL', $featureStyle)
-                    ->add('share','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('shareFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Export Iframe', $featureStyle)
-                    ->add('export','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('exportIframeFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Calcul Itinéraire', $featureStyle)
-                    ->add('directions','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Modification dùn acteur', $featureStyle)
-                    ->add('edit','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('directionsFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Signalement d\'une erreur', $featureStyle)
-                    ->add('report','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Suppression', $featureStyle)
-                    ->add('delete','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('reportFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Affichage des acteurs en attente de validation', $featureStyle)
-                    ->add('pending','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Vote', $featureStyle)
-                    ->add('vote','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                    ->add('pendingFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
-            ->tab('Contribution')
-                ->with('Paramètres')
+            ->tab('Contributions/Modération')
+                ->with('Pouvoir ajouter un acteur', $contributionStyle)
+                    ->add('addFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Pouvoir editer un acteur', $contributionStyle)
+                    ->add('editFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Pouvoir supprimer un acteur', $contributionStyle)
+                    ->add('deleteFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Modération directe', $contributionStyle)
+                    ->add('directModerationFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Modération collaborative (votes)', $contributionStyle)
+                    ->add('collaborativeModerationFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()                
+                ->with('Paramètres pour la modération collaborative' , array('class' => 'col-md-4'))
                     ->add('minVoteToChangeStatus', null, ['required'=>false, 'label' => "Nombre votes pour valider/refuser automatiquement"])
                     ->add('maxOppositeVoteTolerated', null, ['required'=>false, 'label' => "Nombres maximum de vos contradictoires tolérés"])
                     ->add('minDayBetweenContributionAndCollaborativeValidation', null, ['required'=>false, 'label' => "Nombre de jours minimum avant une validation/refus collaboratif"])

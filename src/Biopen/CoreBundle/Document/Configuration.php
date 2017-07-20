@@ -19,35 +19,43 @@ class Configuration
     // ----------------------------
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $favorite;
+    protected $favoriteFeature;
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $share;
+    protected $shareFeature;
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $export;
+    protected $exportIframeFeature;
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $directions;
+    protected $directionsFeature;    
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $edit;
+    protected $reportFeature;   
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $report;
+    protected $pendingFeature;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $delete;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $pending;
-
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $vote;
 
     // ---------------------------------
     // --------- CONTRIBUTIONS ---------
     // ---------------------------------
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $addFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $editFeature;
+
+     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $deleteFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $collaborativeModerationFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $directModerationFeature;
 
     /** @MongoDB\Field(type="int") */
     protected $minVoteToChangeStatus = 5;
@@ -57,6 +65,7 @@ class Configuration
 
     /** @MongoDB\Field(type="int") */
     protected $minDayBetweenContributionAndCollaborativeValidation = 2;
+
 
 
     // -------------------------
@@ -78,6 +87,8 @@ class Configuration
      /** @MongoDB\Field(type="float") */
     protected $defaultSouthWestBoundsLng;
 
+
+
     // -------------------------
     // --------- STYLE ---------
     // -------------------------
@@ -95,7 +106,10 @@ class Configuration
     protected $lightColor;
 
     
-
+    public function __toString() 
+    {
+        return "Configuration Générale";
+    }
 
 
     /**
@@ -109,201 +123,245 @@ class Configuration
     }
 
     /**
-     * Set favorite
+     * Set favoriteFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $favorite
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $favoriteFeature
      * @return $this
      */
-    public function setFavorite(\Biopen\CoreBundle\Document\FeatureConfiguration $favorite)
+    public function setFavoriteFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $favoriteFeature)
     {
-        $this->favorite = $favorite;
+        $this->favoriteFeature = $favoriteFeature;
         return $this;
     }
 
     /**
-     * Get favorite
+     * Get favoriteFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $favorite
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $favoriteFeature
      */
-    public function getFavorite()
+    public function getFavoriteFeature()
     {
-        return $this->favorite;
+        return $this->favoriteFeature;
     }
 
     /**
-     * Set share
+     * Set shareFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $share
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $shareFeature
      * @return $this
      */
-    public function setShare(\Biopen\CoreBundle\Document\FeatureConfiguration $share)
+    public function setShareFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $shareFeature)
     {
-        $this->share = $share;
+        $this->shareFeature = $shareFeature;
         return $this;
     }
 
     /**
-     * Get share
+     * Get shareFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $share
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $shareFeature
      */
-    public function getShare()
+    public function getShareFeature()
     {
-        return $this->share;
+        return $this->shareFeature;
     }
 
     /**
-     * Set export
+     * Set exportIframeFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $export
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $exportIframeFeature
      * @return $this
      */
-    public function setExport(\Biopen\CoreBundle\Document\FeatureConfiguration $export)
+    public function setExportIframeFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $exportIframeFeature)
     {
-        $this->export = $export;
+        $this->exportIframeFeature = $exportIframeFeature;
         return $this;
     }
 
     /**
-     * Get export
+     * Get exportIframeFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $export
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $exportIframeFeature
      */
-    public function getExport()
+    public function getExportIframeFeature()
     {
-        return $this->export;
+        return $this->exportIframeFeature;
     }
 
     /**
-     * Set directions
+     * Set directionsFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $directions
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $directionsFeature
      * @return $this
      */
-    public function setDirections(\Biopen\CoreBundle\Document\FeatureConfiguration $directions)
+    public function setDirectionsFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $directionsFeature)
     {
-        $this->directions = $directions;
+        $this->directionsFeature = $directionsFeature;
         return $this;
     }
 
     /**
-     * Get directions
+     * Get directionsFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $directions
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $directionsFeature
      */
-    public function getDirections()
+    public function getDirectionsFeature()
     {
-        return $this->directions;
+        return $this->directionsFeature;
     }
 
     /**
-     * Set edit
+     * Set reportFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $edit
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $reportFeature
      * @return $this
      */
-    public function setEdit(\Biopen\CoreBundle\Document\FeatureConfiguration $edit)
+    public function setReportFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $reportFeature)
     {
-        $this->edit = $edit;
+        $this->reportFeature = $reportFeature;
         return $this;
     }
 
     /**
-     * Get edit
+     * Get reportFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $edit
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $reportFeature
      */
-    public function getEdit()
+    public function getReportFeature()
     {
-        return $this->edit;
+        return $this->reportFeature;
     }
 
     /**
-     * Set report
+     * Set pendingFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $report
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $pendingFeature
      * @return $this
      */
-    public function setReport(\Biopen\CoreBundle\Document\FeatureConfiguration $report)
+    public function setPendingFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $pendingFeature)
     {
-        $this->report = $report;
+        $this->pendingFeature = $pendingFeature;
         return $this;
     }
 
     /**
-     * Get report
+     * Get pendingFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $report
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $pendingFeature
      */
-    public function getReport()
+    public function getPendingFeature()
     {
-        return $this->report;
+        return $this->pendingFeature;
     }
 
     /**
-     * Set delete
+     * Set addFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $delete
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $addFeature
      * @return $this
      */
-    public function setDelete(\Biopen\CoreBundle\Document\FeatureConfiguration $delete)
+    public function setAddFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $addFeature)
     {
-        $this->delete = $delete;
+        $this->addFeature = $addFeature;
         return $this;
     }
 
     /**
-     * Get delete
+     * Get addFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $delete
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $addFeature
      */
-    public function getDelete()
+    public function getAddFeature()
     {
-        return $this->delete;
+        return $this->addFeature;
     }
 
     /**
-     * Set pending
+     * Set editFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $pending
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $editFeature
      * @return $this
      */
-    public function setPending(\Biopen\CoreBundle\Document\FeatureConfiguration $pending)
+    public function setEditFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $editFeature)
     {
-        $this->pending = $pending;
+        $this->editFeature = $editFeature;
         return $this;
     }
 
     /**
-     * Get pending
+     * Get editFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $pending
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $editFeature
      */
-    public function getPending()
+    public function getEditFeature()
     {
-        return $this->pending;
+        return $this->editFeature;
     }
 
     /**
-     * Set vote
+     * Set deleteFeature
      *
-     * @param Biopen\CoreBundle\Document\FeatureConfiguration $vote
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $deleteFeature
      * @return $this
      */
-    public function setVote(\Biopen\CoreBundle\Document\FeatureConfiguration $vote)
+    public function setDeleteFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $deleteFeature)
     {
-        $this->vote = $vote;
+        $this->deleteFeature = $deleteFeature;
         return $this;
     }
 
     /**
-     * Get vote
+     * Get deleteFeature
      *
-     * @return Biopen\CoreBundle\Document\FeatureConfiguration $vote
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $deleteFeature
      */
-    public function getVote()
+    public function getDeleteFeature()
     {
-        return $this->vote;
+        return $this->deleteFeature;
+    }
+
+    /**
+     * Set collaborativeModeration
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModeration
+     * @return $this
+     */
+    public function setCollaborativeModeration(\Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModeration)
+    {
+        $this->collaborativeModeration = $collaborativeModeration;
+        return $this;
+    }
+
+    /**
+     * Get collaborativeModeration
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModeration
+     */
+    public function getCollaborativeModeration()
+    {
+        return $this->collaborativeModeration;
+    }
+
+    /**
+     * Set directModeration
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $directModeration
+     * @return $this
+     */
+    public function setDirectModeration(\Biopen\CoreBundle\Document\FeatureConfiguration $directModeration)
+    {
+        $this->directModeration = $directModeration;
+        return $this;
+    }
+
+    /**
+     * Get directModeration
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $directModeration
+     */
+    public function getDirectModeration()
+    {
+        return $this->directModeration;
     }
 
     /**
@@ -395,208 +453,6 @@ class Configuration
     }
 
     /**
-     * Set defaultLatitude
-     *
-     * @param float $defaultLatitude
-     * @return $this
-     */
-    public function setDefaultLatitude($defaultLatitude)
-    {
-        $this->defaultLatitude = $defaultLatitude;
-        return $this;
-    }
-
-    /**
-     * Get defaultLatitude
-     *
-     * @return float $defaultLatitude
-     */
-    public function getDefaultLatitude()
-    {
-        return $this->defaultLatitude;
-    }
-
-    /**
-     * Set defaultLongitude
-     *
-     * @param float $defaultLongitude
-     * @return $this
-     */
-    public function setDefaultLongitude($defaultLongitude)
-    {
-        $this->defaultLongitude = $defaultLongitude;
-        return $this;
-    }
-
-    /**
-     * Get defaultLongitude
-     *
-     * @return float $defaultLongitude
-     */
-    public function getDefaultLongitude()
-    {
-        return $this->defaultLongitude;
-    }
-
-    /**
-     * Set defaultZoom
-     *
-     * @param int $defaultZoom
-     * @return $this
-     */
-    public function setDefaultZoom($defaultZoom)
-    {
-        $this->defaultZoom = $defaultZoom;
-        return $this;
-    }
-
-    /**
-     * Get defaultZoom
-     *
-     * @return int $defaultZoom
-     */
-    public function getDefaultZoom()
-    {
-        return $this->defaultZoom;
-    }
-
-    /**
-     * Set primaryColor
-     *
-     * @param string $primaryColor
-     * @return $this
-     */
-    public function setPrimaryColor($color)
-    {
-        if (strlen($color) == 6) $color = '#' . $color;
-        $this->primaryColor = $color;
-        return $this;
-    }
-
-    /**
-     * Get primaryColor
-     *
-     * @return string $primaryColor
-     */
-    public function getPrimaryColor()
-    {
-        return $this->primaryColor;
-    }
-
-    /**
-     * Set secondaryColor
-     *
-     * @param string $secondaryColor
-     * @return $this
-     */
-    public function setSecondaryColor($color)
-    {
-        if (strlen($color) == 6) $color = '#' . $color;
-        $this->secondaryColor = $color;
-        return $this;
-    }
-
-    /**
-     * Get secondaryColor
-     *
-     * @return string $secondaryColor
-     */
-    public function getSecondaryColor()
-    {
-        return $this->secondaryColor;
-    }
-
-    /**
-     * Set darkColor
-     *
-     * @param string $darkColor
-     * @return $this
-     */
-    public function setDarkColor($color)
-    {
-        if (strlen($color) == 6) $color = '#' . $color;
-        $this->darkColor = $color;
-        return $this;
-    }
-
-    /**
-     * Get darkColor
-     *
-     * @return string $darkColor
-     */
-    public function getDarkColor()
-    {
-        return $this->darkColor;
-    }
-
-    /**
-     * Set lightColor
-     *
-     * @param string $lightColor
-     * @return $this
-     */
-    public function setLightColor($color)
-    {
-        if (strlen($color) == 6) $color = '#' . $color;
-        $this->lightColor = $color;
-        return $this;
-    }
-
-    /**
-     * Get lightColor
-     *
-     * @return string $lightColor
-     */
-    public function getLightColor()
-    {
-        return $this->lightColor;
-    }
-
-    /**
-     * Set defaultNorthEastBounds
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds
-     * @return $this
-     */
-    public function setDefaultNorthEastBounds(\Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds)
-    {
-        $this->defaultNorthEastBounds = $defaultNorthEastBounds;
-        return $this;
-    }
-
-    /**
-     * Get defaultNorthEastBounds
-     *
-     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds
-     */
-    public function getDefaultNorthEastBounds()
-    {
-        return $this->defaultNorthEastBounds;
-    }
-
-    /**
-     * Set defaultSouthWestBounds
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds
-     * @return $this
-     */
-    public function setDefaultSouthWestBounds(\Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds)
-    {
-        $this->defaultSouthWestBounds = $defaultSouthWestBounds;
-        return $this;
-    }
-
-    /**
-     * Get defaultSouthWestBounds
-     *
-     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds
-     */
-    public function getDefaultSouthWestBounds()
-    {
-        return $this->defaultSouthWestBounds;
-    }
-
-    /**
      * Set defaultNorthEastBoundsLat
      *
      * @param float $defaultNorthEastBoundsLat
@@ -682,5 +538,137 @@ class Configuration
     public function getDefaultSouthWestBoundsLng()
     {
         return $this->defaultSouthWestBoundsLng;
+    }
+
+    /**
+     * Set primaryColor
+     *
+     * @param string $primaryColor
+     * @return $this
+     */
+    public function setPrimaryColor($primaryColor)
+    {
+        $this->primaryColor = $primaryColor;
+        return $this;
+    }
+
+    /**
+     * Get primaryColor
+     *
+     * @return string $primaryColor
+     */
+    public function getPrimaryColor()
+    {
+        return $this->primaryColor;
+    }
+
+    /**
+     * Set secondaryColor
+     *
+     * @param string $secondaryColor
+     * @return $this
+     */
+    public function setSecondaryColor($secondaryColor)
+    {
+        $this->secondaryColor = $secondaryColor;
+        return $this;
+    }
+
+    /**
+     * Get secondaryColor
+     *
+     * @return string $secondaryColor
+     */
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+
+    /**
+     * Set darkColor
+     *
+     * @param string $darkColor
+     * @return $this
+     */
+    public function setDarkColor($darkColor)
+    {
+        $this->darkColor = $darkColor;
+        return $this;
+    }
+
+    /**
+     * Get darkColor
+     *
+     * @return string $darkColor
+     */
+    public function getDarkColor()
+    {
+        return $this->darkColor;
+    }
+
+    /**
+     * Set lightColor
+     *
+     * @param string $lightColor
+     * @return $this
+     */
+    public function setLightColor($lightColor)
+    {
+        $this->lightColor = $lightColor;
+        return $this;
+    }
+
+    /**
+     * Get lightColor
+     *
+     * @return string $lightColor
+     */
+    public function getLightColor()
+    {
+        return $this->lightColor;
+    }
+
+    /**
+     * Set collaborativeModerationFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModerationFeature
+     * @return $this
+     */
+    public function setCollaborativeModerationFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModerationFeature)
+    {
+        $this->collaborativeModerationFeature = $collaborativeModerationFeature;
+        return $this;
+    }
+
+    /**
+     * Get collaborativeModerationFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModerationFeature
+     */
+    public function getCollaborativeModerationFeature()
+    {
+        return $this->collaborativeModerationFeature;
+    }
+
+    /**
+     * Set directModerationFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $directModerationFeature
+     * @return $this
+     */
+    public function setDirectModerationFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $directModerationFeature)
+    {
+        $this->directModerationFeature = $directModerationFeature;
+        return $this;
+    }
+
+    /**
+     * Get directModerationFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $directModerationFeature
+     */
+    public function getDirectModerationFeature()
+    {
+        return $this->directModerationFeature;
     }
 }
