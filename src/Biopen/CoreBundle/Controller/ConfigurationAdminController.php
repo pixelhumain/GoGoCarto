@@ -18,7 +18,7 @@ class ConfigurationAdminController extends Controller
         $configuration = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 
         if ($configuration) 
-		  	  return $this->redirect($this->admin->generateUrl('edit', ['id' => $configurations[0]->getId()]));
+		  	  return $this->redirect($this->admin->generateUrl('edit', ['id' => $configuration->getId()]));
 		  else 
 		  	  return $this->redirect($this->admin->generateUrl('create'));
     }
