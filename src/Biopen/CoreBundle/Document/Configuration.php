@@ -64,16 +64,19 @@ class Configuration
     // -------------------------
 
     /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\TileLayer") */
-    protected $defaultTileLayer;
+    protected $defaultTileLayer;    
 
     /** @MongoDB\Field(type="float") */
-    protected $defaultLatitude;
+    protected $defaultNorthEastBoundsLat;
 
-    /** @MongoDB\Field(type="float") */
-    protected $defaultLongitude;
+     /** @MongoDB\Field(type="float") */
+    protected $defaultNorthEastBoundsLng;
 
-    /** @MongoDB\Field(type="int") */
-    protected $defaultZoom;
+     /** @MongoDB\Field(type="float") */
+    protected $defaultSouthWestBoundsLat;
+
+     /** @MongoDB\Field(type="float") */
+    protected $defaultSouthWestBoundsLng;
 
     // -------------------------
     // --------- STYLE ---------
@@ -463,9 +466,10 @@ class Configuration
      * @param string $primaryColor
      * @return $this
      */
-    public function setPrimaryColor($primaryColor)
+    public function setPrimaryColor($color)
     {
-        $this->primaryColor = $primaryColor;
+        if (strlen($color) == 6) $color = '#' . $color;
+        $this->primaryColor = $color;
         return $this;
     }
 
@@ -485,9 +489,10 @@ class Configuration
      * @param string $secondaryColor
      * @return $this
      */
-    public function setSecondaryColor($secondaryColor)
+    public function setSecondaryColor($color)
     {
-        $this->secondaryColor = $secondaryColor;
+        if (strlen($color) == 6) $color = '#' . $color;
+        $this->secondaryColor = $color;
         return $this;
     }
 
@@ -507,9 +512,10 @@ class Configuration
      * @param string $darkColor
      * @return $this
      */
-    public function setDarkColor($darkColor)
+    public function setDarkColor($color)
     {
-        $this->darkColor = $darkColor;
+        if (strlen($color) == 6) $color = '#' . $color;
+        $this->darkColor = $color;
         return $this;
     }
 
@@ -529,9 +535,10 @@ class Configuration
      * @param string $lightColor
      * @return $this
      */
-    public function setLightColor($lightColor)
+    public function setLightColor($color)
     {
-        $this->lightColor = $lightColor;
+        if (strlen($color) == 6) $color = '#' . $color;
+        $this->lightColor = $color;
         return $this;
     }
 
@@ -543,5 +550,137 @@ class Configuration
     public function getLightColor()
     {
         return $this->lightColor;
+    }
+
+    /**
+     * Set defaultNorthEastBounds
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds
+     * @return $this
+     */
+    public function setDefaultNorthEastBounds(\Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds)
+    {
+        $this->defaultNorthEastBounds = $defaultNorthEastBounds;
+        return $this;
+    }
+
+    /**
+     * Get defaultNorthEastBounds
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $defaultNorthEastBounds
+     */
+    public function getDefaultNorthEastBounds()
+    {
+        return $this->defaultNorthEastBounds;
+    }
+
+    /**
+     * Set defaultSouthWestBounds
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds
+     * @return $this
+     */
+    public function setDefaultSouthWestBounds(\Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds)
+    {
+        $this->defaultSouthWestBounds = $defaultSouthWestBounds;
+        return $this;
+    }
+
+    /**
+     * Get defaultSouthWestBounds
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $defaultSouthWestBounds
+     */
+    public function getDefaultSouthWestBounds()
+    {
+        return $this->defaultSouthWestBounds;
+    }
+
+    /**
+     * Set defaultNorthEastBoundsLat
+     *
+     * @param float $defaultNorthEastBoundsLat
+     * @return $this
+     */
+    public function setDefaultNorthEastBoundsLat($defaultNorthEastBoundsLat)
+    {
+        $this->defaultNorthEastBoundsLat = $defaultNorthEastBoundsLat;
+        return $this;
+    }
+
+    /**
+     * Get defaultNorthEastBoundsLat
+     *
+     * @return float $defaultNorthEastBoundsLat
+     */
+    public function getDefaultNorthEastBoundsLat()
+    {
+        return $this->defaultNorthEastBoundsLat;
+    }
+
+    /**
+     * Set defaultNorthEastBoundsLng
+     *
+     * @param float $defaultNorthEastBoundsLng
+     * @return $this
+     */
+    public function setDefaultNorthEastBoundsLng($defaultNorthEastBoundsLng)
+    {
+        $this->defaultNorthEastBoundsLng = $defaultNorthEastBoundsLng;
+        return $this;
+    }
+
+    /**
+     * Get defaultNorthEastBoundsLng
+     *
+     * @return float $defaultNorthEastBoundsLng
+     */
+    public function getDefaultNorthEastBoundsLng()
+    {
+        return $this->defaultNorthEastBoundsLng;
+    }
+
+    /**
+     * Set defaultSouthWestBoundsLat
+     *
+     * @param float $defaultSouthWestBoundsLat
+     * @return $this
+     */
+    public function setDefaultSouthWestBoundsLat($defaultSouthWestBoundsLat)
+    {
+        $this->defaultSouthWestBoundsLat = $defaultSouthWestBoundsLat;
+        return $this;
+    }
+
+    /**
+     * Get defaultSouthWestBoundsLat
+     *
+     * @return float $defaultSouthWestBoundsLat
+     */
+    public function getDefaultSouthWestBoundsLat()
+    {
+        return $this->defaultSouthWestBoundsLat;
+    }
+
+    /**
+     * Set defaultSouthWestBoundsLng
+     *
+     * @param float $defaultSouthWestBoundsLng
+     * @return $this
+     */
+    public function setDefaultSouthWestBoundsLng($defaultSouthWestBoundsLng)
+    {
+        $this->defaultSouthWestBoundsLng = $defaultSouthWestBoundsLng;
+        return $this;
+    }
+
+    /**
+     * Get defaultSouthWestBoundsLng
+     *
+     * @return float $defaultSouthWestBoundsLng
+     */
+    public function getDefaultSouthWestBoundsLng()
+    {
+        return $this->defaultSouthWestBoundsLng;
     }
 }

@@ -23,6 +23,15 @@ class FeatureConfiguration
     /** @MongoDB\Field(type="bool") */
     private $allow_role_admin;
 
+    public function __construct($active = false, $iframe = false, $anon = false, $user = false, $admin = false)
+    {
+        $this->setActive($active);
+        $this->setActiveInIframe($iframe);
+        $this->setAllowRoleAnonymous($anon);
+        $this->setAllowRoleUser($user);
+        $this->setAllowRoleAdmin($admin);
+    }
+
     /**
      * Set active
      *
