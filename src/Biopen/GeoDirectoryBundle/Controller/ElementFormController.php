@@ -43,8 +43,8 @@ class ElementFormController extends Controller
 
 		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->isUserAdmin())
 		{
-			// only admin can edited pending, refused and deleted elements
-			return $this->addAction($request);
+			$request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à modifier cet élement !");
+			return $this->redirect($this->generateUrl('biopen_directory'));
 		}
 		else
 		{
