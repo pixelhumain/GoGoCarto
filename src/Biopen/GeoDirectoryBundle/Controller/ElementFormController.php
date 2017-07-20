@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-29 10:32:08
+ * @Last Modified time: 2017-07-20 18:59:00
  */
  
 
@@ -36,7 +36,7 @@ class ElementFormController extends Controller
   	} 
 
 	public function editAction($id, Request $request)
-	{
+	{		
 		$em = $this->get('doctrine_mongodb')->getManager();
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
@@ -50,37 +50,7 @@ class ElementFormController extends Controller
 		{
 			return $this->renderForm($element, true, $request, $em);		
 		}		
-	}
-
-	// when submitting new element, check it's not yet existing
-	public function checkDuplicatesAction(Request $request)
-	{
-		$em = $this->get('doctrine_mongodb')->getManager();
-		$session = $this->getRequest()->getSession();
-
-		// a form with just a submit button
-		$checkDuplicatesForm = $this->get('form.factory')->createNamedBuilder('duplicates', 'form')->getForm();	
-
-		if ($checkDuplicatesForm->handleRequest($request)->isValid()) 
-		{
-			// if user say that it's not a duplicate, we go back to add action with checkDuplicate to true
-			return $this->redirect($this->generateUrl('biopen_element_add', array('checkDuplicate' => true)));
-		}
-		// check that duplicateselement are in session and are not empty
-		else if ($session->has('duplicatesElements') && count($session->get('duplicatesElements') > 0))
-		{
-			$duplicates = $session->get('duplicatesElements');
-			// c'est aucun d'eux, je continue
-			// c'est lui -> redirige vers showElement 
-			return $this->render('@directory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
-																															 'duplicatesElements' => $duplicates));
-		}	
-		// otherwise just redirect ot add action
-		else 
-		{
-			return $this->redirect($this->generateUrl('biopen_element_add'));
-		}			
-	}
+	}	
 
 	// render for both Add and Edit actions
 	private function renderForm($element, $editMode, $request, $em)
@@ -236,13 +206,35 @@ class ElementFormController extends Controller
 						"element" => $element,
 						"user_email" => $user_email,
 					));
-	}	
-
-	private function isUserAdmin()
-	{
-		$securityContext = $this->container->get('security.context');
-		return $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $securityContext->getToken()->getUser()->isAdmin();
 	}
 
-	
+	// when submitting new element, check it's not yet existing
+	public function checkDuplicatesAction(Request $request)
+	{
+		$em = $this->get('doctrine_mongodb')->getManager();
+		$session = $this->getRequest()->getSession();
+
+		// a form with just a submit button
+		$checkDuplicatesForm = $this->get('form.factory')->createNamedBuilder('duplicates', 'form')->getForm();	
+
+		if ($checkDuplicatesForm->handleRequest($request)->isValid()) 
+		{
+			// if user say that it's not a duplicate, we go back to add action with checkDuplicate to true
+			return $this->redirect($this->generateUrl('biopen_element_add', array('checkDuplicate' => true)));
+		}
+		// check that duplicateselement are in session and are not empty
+		else if ($session->has('duplicatesElements') && count($session->get('duplicatesElements') > 0))
+		{
+			$duplicates = $session->get('duplicatesElements');
+			// c'est aucun d'eux, je continue
+			// c'est lui -> redirige vers showElement 
+			return $this->render('@directory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
+																															 'duplicatesElements' => $duplicates));
+		}	
+		// otherwise just redirect ot add action
+		else 
+		{
+			return $this->redirect($this->generateUrl('biopen_element_add'));
+		}			
+	}	
 }
