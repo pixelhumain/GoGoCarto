@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-20 18:50:30
+ * @Last Modified time: 2017-07-21 08:37:37
  */
  
 
@@ -30,11 +30,7 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
-
-            // CHECK USER IS ALLOWED
-            if(!$config->getCollaborativeModerationFeature()->$isAllowed($user, $request->get('iframe')) 
-                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
 
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('value') === null) return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
@@ -57,7 +53,7 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {              
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('report', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('report', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
             
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
@@ -94,7 +90,7 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à supprimer un élément !"); 
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à supprimer un élément !"); 
 
             // CHECK REQUEST IS VALID
             if (!$request->get('elementId')) return $this->returnResponse(false,"Les paramètres sont incomplets");
