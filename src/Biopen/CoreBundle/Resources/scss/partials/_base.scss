@@ -24,7 +24,6 @@ body
 #page-container
 {
 	@include flex(1 auto);
-	@include flexbox();
 }
 
 #page-content

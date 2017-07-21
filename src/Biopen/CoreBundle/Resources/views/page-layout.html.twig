@@ -13,7 +13,7 @@
 
 	<div>{{ render(controller('BiopenCoreBundle:Core:header', {'iframe': app.request.get('iframe') } ))}}</div>
 
-	<div id="page-container">	   
+	<div id="page-container" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>	   
 		
 		<div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
 
