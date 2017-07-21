@@ -1,38 +1,56 @@
 <?php
 namespace Biopen\CoreBundle\Services;
+
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Symfony\Component\Security\Core\SecurityContext;
  
 class ConfigurationService 
 {
-	protected $em;
-   protected $securityContext;
+    protected $em;
+    protected $securityContext;
+    protected $config;
 
 	/**
 	* Constructor
 	*/
 	public function __construct(DocumentManager $documentManager, SecurityContext $securityContext)
 	{
-		$this->em = $documentManager;
+	   $this->em = $documentManager;
 	   $this->securityContext = $securityContext;
+       $this->config = $this->em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 	}
 
-	public isUserAllowed($featureName, $request)
-	{
-     $em = $this->get('doctrine_mongodb')->getManager(); 
+	public function isUserAllowed($featureName, $request, $email = null)
+	{        
+        $user = $this->securityContext->getToken()->getUser(); 
 
-     $config = $this->em->getRepository('BiopenCoreBundle:Configuration')->getConfiguration();
-     $user = $this->securityContext->getToken()->getUser(); 
+        dump( $this->securityContext->getToken());
 
-     switch($featureName)
-     {
-         case 'report': 				$feature = $config->getReportFeature();break;
-         case 'add':    				$feature = $config->getAddFeature();break;
-         case 'edit':   			   $feature = $config->getEditFeature();break;
-         case 'directModeration':   $feature = $config->getDirectModerationFeature();break;
-         case 'delete': 				$feature = $config->getCollaborativeModerationFeature();break;
-         case 'vote':   				$feature = $config->getDeleteFeature();break;
-     }
+        if ($user == 'anon.') $user = null;
 
-     // CHECK USER IS ALLOWED
-     return $feature->isAllowed($user, $request->get('iframe'));
-   }
- }
+        $feature = $this->getFeatureConfig($featureName);
+
+        // CHECK USER IS ALLOWED
+        return $feature->isAllowed($user, $request->get('iframe'), $email);
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    public function getFeatureConfig($featureName)
+    {
+        switch($featureName)
+        {
+            case 'report':              $feature = $this->config->getReportFeature();break;
+            case 'add':                 $feature = $this->config->getAddFeature();break;
+            case 'edit':                $feature = $this->config->getEditFeature();break;
+            case 'directModeration':    $feature = $this->config->getDirectModerationFeature();break;
+            case 'delete':              $feature = $this->config->getCollaborativeModerationFeature();break;
+            case 'vote':                $feature = $this->config->getDeleteFeature();break;
+        }
+
+        return $feature;
+    }
+}
