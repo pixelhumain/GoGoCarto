@@ -21,7 +21,7 @@ class InteractionConfiguration extends FeatureConfiguration
     public function getAllowedRoles()
     {
         $roles = parent::getAllowedRoles();
-        //if ($this->getAllowRoleAnonymousWithMail()) $roles[] = 'anonymous_with_mail';
+        if ($this->getAllowRoleAnonymousWithMail()) $roles[] = 'anonymous_with_mail';
         return $roles;
     }
 
