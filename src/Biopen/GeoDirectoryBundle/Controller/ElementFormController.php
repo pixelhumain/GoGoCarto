@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-20 18:59:00
+ * @Last Modified time: 2017-07-21 11:41:29
  */
  
 
@@ -61,10 +61,13 @@ class ElementFormController extends Controller
 
 		$securityContext = $this->container->get('security.context');
 		$session = $this->getRequest()->getSession();
+		$configService = $this->container->get('biopen.config_service');
+		$addEditName = $editMode ? 'edit' : 'add';
 
 		if ($request->get('logout')) $session->remove('user_email');
-		// we need to be authentificate to access form, with account or just giving email address
-		if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->get('user_email'))
+
+		// is user not allowed, we show the contributor-login page
+		if (!$configService->isUserAllowed($addEditName, $request, $session->get('user_email')))
 		{
 			// creating simple form to let user enter a email address
 			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
@@ -80,13 +83,20 @@ class ElementFormController extends Controller
 			}
 			else
 			{
-				return $this->render('@directory/element-form/contributor-login.html.twig', array('loginForm' => $loginform->createView()));
+				return $this->render('@directory/element-form/contributor-login.html.twig', array(
+					'loginForm' => $loginform->createView(),
+					'featureConfig' => $configService->getFeatureConfig($addEditName)));
 			}		   
 		} 
 		// depending on authentification type (account or just giving email) we fill some variables
 		else 
 		{
-			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+			if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY'))
+			{
+				$user = 'Anonymous';
+				$user_email = 'Anonymous';
+			}
+			else if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
 				$user = $this->get('security.context')->getToken()->getUser();
 				$user_email = $user->getEmail();
@@ -186,8 +196,12 @@ class ElementFormController extends Controller
 			$session->remove('recopyInfo');			
 		}
 
+		if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
+			$flashMessage = "Vous êtes actuellement en mode 'Anonyme'</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
+		else
+			$flashMessage = 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
 
-		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>');
+		if($user) $request->getSession()->getFlashBag()->add('notice', $flashMessage);
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')

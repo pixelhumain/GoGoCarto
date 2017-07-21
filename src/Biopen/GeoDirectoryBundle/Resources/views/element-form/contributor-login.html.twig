@@ -15,50 +15,72 @@
 
 
 {# BODY CONTENT #}
-{% block body_content %}	
- 
-  <h1>Identification</h1> 
+{% block body_content %}
 
-  <div style="text-align:center">
-	  <button 
-						onclick="$('#popup-login').openModal()"
-						class="btn btn-login">
-	         CONNECTEZ VOUS (avec google, facebook, ou créez un compte près de chez vous)
-						
-		</button>
-	</div>
-	<div class="or-label">ou</div>
-	
+	{# NOT ACTIVE #}
+	{% if not featureConfig.getActive() %}
 
- <!--  <div class="input-field col s12">
-		<i class="material-icons icon-mail prefix"></i>	
-		<input id="inputMail" placeholder="" type="email" />
-	</div> -->
-	 {{ form_start(loginForm) }}
-	<div class="input-field col s12">
-		<i class="material-icons icon-mail prefix"></i>	
-		{{ form_widget(loginForm.email, {'id': 'inputMail', 
-  								      		   'attr': {'class': 'validate required',
-  											   		 'placeholder':'Entrez simplement une adresse mail' }}) }}
-	</div>
+		<h1>Erreur</h1> 
+		<p><center>Désolé, cette fonctionnalité n'est pas activée pour le moment</center></p>
 
-	<div class="explanations">
-		Un mail vous sera envoyé pour vous permettre d'annuler votre contribution.
-	</div>
+	{# NOT ACTIVE IN IFRAME #}
+	{% elseif app.request.get('iframe') and not featureConfig.getActiveInIframe() %}
 
-		{{ form_rest(loginForm) }}
+		<h1>Erreur</h1> 
+		<p><center>Désolé, cette fonctionnalité n'est pas disponible à l'intérieur d'une iframe</center></p>
 
-{# Fermeture de la balise <form> du formulaire HTML #}
-{{ form_end(loginForm) }}
+	{% else %}
 
+		<h1>Identification</h1> 
 
-	
+		{# Only Admins warning #}
+		{% if featureConfig.isOnlyAllowedForAdmin() %}
+			<p>Attention ! Cette fonctionalité est reservée aux administrateur</p>
+		{% endif %}
 
-	<center>
-		<button onclick="checkLoginAndSend()" class="btn waves-effect waves-light">Continuer</button>
-	</center>
+		{# Login button #}
+		{% if featureConfig.getAllowRoleUser() or featureConfig.getAllowRoleAdmin() %}
+		  <div style="text-align:center">
+			  <button 
+								onclick="$('#popup-login').openModal()"
+								class="btn btn-login">
+			         CONNECTEZ VOUS (avec google, facebook, ou créez un compte près de chez vous)								
+				</button>
+			</div>
+		{% endif %}
 
+		{# separator #}
+		{% if (featureConfig.getAllowRoleUser() or featureConfig.getAllowRoleAdmin()) and featureConfig.getAllowRoleAnonymousWithMail() %}
+			<div class="or-label">ou</div>
+		{% endif %}
 
+		{% if featureConfig.getAllowRoleAnonymousWithMail() %}
+
+			{{ form_start(loginForm) }}
+
+			<div class="input-field col s12">
+				<i class="material-icons icon-mail prefix"></i>	
+				{{ form_widget(loginForm.email, {'id': 'inputMail', 
+											      		   'attr': {'class': 'validate required',
+														   		 'placeholder':'Entrez simplement une adresse mail' }}) }}
+			</div>
+
+			<div class="explanations">
+				Un mail vous sera envoyé pour vous permettre d'annuler votre contribution.
+			</div>
+
+			{{ form_rest(loginForm) }}
+
+			{# Fermeture de la balise <form> du formulaire HTML #}
+			{{ form_end(loginForm) }}
+
+			<center>
+				<button onclick="checkLoginAndSend()" class="btn waves-effect waves-light">Continuer</button>
+			</center>
+
+		{% endif %}
+
+	{% endif %} {# end isActive #}
 
 {% endblock %}
 
