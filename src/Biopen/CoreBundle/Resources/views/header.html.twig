@@ -19,7 +19,7 @@
   			</div>	
       {% endif %}
 
-      {% if config.addFeature.isAllowed(app.user, iframe) %}
+      {% if not config.addFeature.isOnlyAllowedForAdmin() or is_granted('ROLE_ADMIN') %}
 			<div class="col menu-item">
 				<a href="{{ path('biopen_element_add') }}" {% if iframe %}target="_blank"{% endif %}>
           <span class="icon-menu icon-user-plus"></span><span class="text">Ajouter un acteur</span>
