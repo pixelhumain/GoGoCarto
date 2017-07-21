@@ -11,6 +11,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
 
+    admin.interaction_config:
+        class: Biopen\CoreBundle\Admin\InteractionConfigurationAdmin
+        arguments: [~, Biopen\CoreBundle\Document\InteractionConfiguration, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
+
     admin.tile_layer:
         class: Biopen\CoreBundle\Admin\TileLayerAdmin
         arguments: [~, Biopen\CoreBundle\Document\TileLayer, 'PixSortableBehaviorBundle:SortableAdmin']

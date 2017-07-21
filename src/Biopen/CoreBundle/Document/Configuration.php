@@ -42,13 +42,13 @@ class Configuration
     // --------- CONTRIBUTIONS ---------
     // ---------------------------------
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $addFeature;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $editFeature;
 
-     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $deleteFeature;
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
@@ -260,7 +260,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $addFeature
      * @return $this
      */
-    public function setAddFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $addFeature)
+    public function setAddFeature(\Biopen\CoreBundle\Document\InteractionConfiguration $addFeature)
     {
         $this->addFeature = $addFeature;
         return $this;
@@ -282,7 +282,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $editFeature
      * @return $this
      */
-    public function setEditFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $editFeature)
+    public function setEditFeature(\Biopen\CoreBundle\Document\InteractionConfiguration $editFeature)
     {
         $this->editFeature = $editFeature;
         return $this;
@@ -304,7 +304,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $deleteFeature
      * @return $this
      */
-    public function setDeleteFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $deleteFeature)
+    public function setDeleteFeature(\Biopen\CoreBundle\Document\InteractionConfiguration $deleteFeature)
     {
         $this->deleteFeature = $deleteFeature;
         return $this;
