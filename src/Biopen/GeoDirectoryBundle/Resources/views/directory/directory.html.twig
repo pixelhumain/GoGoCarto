@@ -46,7 +46,7 @@
                 edit:     {{ this.getConfigFrom(config.editFeature, path('biopen_element_edit', {'id':'fake'}) | replace({'fake':''})) }},
                 delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
 
-                vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature) }},     
+                vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }},     
             },
             security:
             {
