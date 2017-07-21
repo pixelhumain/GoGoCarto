@@ -62,6 +62,7 @@ class ElementFormController extends Controller
 		$securityContext = $this->container->get('security.context');
 		$session = $this->getRequest()->getSession();
 
+		if ($request->get('logout')) $session->remove('user_email');
 		// we need to be authentificate to access form, with account or just giving email address
 		if(!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->get('user_email'))
 		{
@@ -186,7 +187,7 @@ class ElementFormController extends Controller
 		}
 
 
-		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="#">Changer d\'utilisateur</a>');
+		if($user) $request->getSession()->getFlashBag()->add('notice', 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>');
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
