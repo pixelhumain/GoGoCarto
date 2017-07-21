@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-21 11:41:29
+ * @Last Modified time: 2017-07-21 14:37:35
  */
  
 
@@ -41,7 +41,7 @@ class ElementFormController extends Controller
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
 
-		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->isUserAdmin())
+		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->container->get('biopen.config_service')->isUserAllowed('directModeration'))
 		{
 			$request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à modifier cet élement !");
 			return $this->redirect($this->generateUrl('biopen_directory'));
@@ -63,6 +63,8 @@ class ElementFormController extends Controller
 		$session = $this->getRequest()->getSession();
 		$configService = $this->container->get('biopen.config_service');
 		$addEditName = $editMode ? 'edit' : 'add';
+
+		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration');
 
 		if ($request->get('logout')) $session->remove('user_email');
 
@@ -140,7 +142,7 @@ class ElementFormController extends Controller
 				else $needToCheckDuplicates = false;
 
 				// custom handling form (to creating OptionValues for example)
-				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode);	
+				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode, $user_email);	
 
 				if ($needToCheckDuplicates)	
 				{				
@@ -156,10 +158,10 @@ class ElementFormController extends Controller
 					$em->persist($element);
 					$em->flush();
 				}			
-			}
+			}			
 
 			// Unless admin ask for not sending mails
-			if (!($this->isUserAdmin() && $request->request->get('dont-send-mail')))
+			if (!($isAllowedDirectModeration && $request->request->get('dont-send-mail')))
 			{
 				// TODO Send email !
 			}			
@@ -182,7 +184,7 @@ class ElementFormController extends Controller
 			// getting the admin option "recopy info" from POST or from session (in case of checkDuplicate process)
 			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
 			// Unless admin ask for recopying the informations
-			if (!($this->isUserAdmin() && $recopyInfo))
+			if (!($isAllowedDirectModeration && $recopyInfo))
 			{
 				// resetting form
 				$editMode = false;
@@ -220,6 +222,7 @@ class ElementFormController extends Controller
 						"optionList" => $optionsList,
 						"element" => $element,
 						"user_email" => $user_email,
+						"isAllowedDirectModeration" => $isAllowedDirectModeration
 					));
 	}
 

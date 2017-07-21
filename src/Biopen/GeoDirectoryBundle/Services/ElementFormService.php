@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-16 16:48:50
+ * @Last Modified time: 2017-07-21 12:41:34
  */
  
 
@@ -17,28 +17,29 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Security\Core\SecurityContext;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\CoreBundle\Services\ConfigurationService;
 
 class ElementFormService
 {	
 	protected $em;
     protected $securityContext;
+    protected $confService;
 
 	/**
      * Constructor
      */
-    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext)
+    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, ConfigurationService $confService)
     {
-    	 $this->em = $documentManager;
-         $this->securityContext = $securityContext;
+    	$this->em = $documentManager;
+        $this->securityContext = $securityContext;
+        $this->confService = $confService;
     }
 
-    public function handleFormSubmission($element, $request, $editMode)
+    public function handleFormSubmission($element, $request, $editMode, $userEmail)
     {
         $optionValuesString = $request->request->get('options-values');
-        //dump($optionValuesString);
 
         $optionValues = json_decode($optionValuesString, true);
-        //dump($optionValues);
 
         $element->resetOptionsValues();
 
@@ -51,7 +52,7 @@ class ElementFormService
             $element->addOptionValue($new_optionValue);
         }
 
-        // ajout HTTP:// aux url si pas inscrit
+        // add HTTP:// to url if needed
         $webSiteUrl = $element->getWebSite();
         if ($webSiteUrl && $webSiteUrl != '')
         {
@@ -61,13 +62,16 @@ class ElementFormService
             }
             $element->setWebSite($webSiteUrl);
         }       
-     
+
+        $element->setContributorMail($userEmail);
         $element->setContributorIsRegisteredUser($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
 
-        // in case of modification, we actually don't change the elements attributes. Instead we save the modifications
-        // in the modifiedElement attributes.
-        // the old element as just his status attribute modified, all the other modifications are saved in modifiedelement attribute
-        if ($editMode && !($this->isUserAdmin() && !$request->request->get('dont-validate')))
+        $isAllowedDirectModeration = $this->confService->isUserAllowed('directModeration');
+
+        // In case of collaborative modification, we actually don't change the elements attributes. 
+        // Instead we save the modifications in the modifiedElement attributes.
+        // The old element as just his status attribute modified, all the other modifications are saved in modifiedelement attribute
+        if ($editMode && !($isAllowedDirectModeration && !$request->request->get('dont-validate')))
         {                   
             $modifiedElement = clone $element;
             $modifiedElement->setId(null);
@@ -78,29 +82,20 @@ class ElementFormService
             $element->setModifiedElement($modifiedElement);
         }
 
-        if($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if($isAllowedDirectModeration)
         {
-            $user = $this->securityContext->getToken()->getUser();
-
-            if ($user->isAdmin())
+            if (!$editMode) $element->setStatus(ElementStatus::AddedByAdmin);
+            else if ($element->isPending())
             {
-                // Admins
-                if (!$editMode) $element->setStatus(ElementStatus::AddedByAdmin);
-                else if ($element->isPending())
-                {
-                    // if editing element who was previously pending
-                    if (!$request->request->get('dont-validate')) $element->setStatus(ElementStatus::AdminValidate);
-                    else $element->setStatus(ElementStatus::PendingModification);
-                }
-                else
-                {
-                    // editing element previously non pending
-                    $element->setStatus(ElementStatus::ModifiedByAdmin);
-                }
-            }                
+                // if editing element who was previously pending
+                if (!$request->request->get('dont-validate')) $element->setStatus(ElementStatus::AdminValidate);
+                else $element->setStatus(ElementStatus::PendingModification);
+            }
             else
-                // logued users
-                $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
+            {
+                // editing element previously non pending
+                $element->setStatus(ElementStatus::ModifiedByAdmin);
+            }              
         }
         else
         {
@@ -113,17 +108,12 @@ class ElementFormService
 
    public function checkForDuplicates($element)
    {
-    $distance = 10; // km
-    $maxResults = 10;
-    $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround($element->getCoordinates()->getLat(), $element->getCoordinates()->getLng(), 
+        $distance = 10; // km
+        $maxResults = 10;
+        $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround($element->getCoordinates()->getLat(), $element->getCoordinates()->getLng(), 
                                                                                         $distance, $maxResults, $element->getName());
-    return $elements;
+        return $elements;
    }
-
-   private function isUserAdmin()
-    {
-        return $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && $this->securityContext->getToken()->getUser()->isAdmin();
-    }
    
 
 }

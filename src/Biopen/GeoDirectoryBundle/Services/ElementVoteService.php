@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 18:28:28
+ * @Last Modified time: 2017-07-21 12:29:13
  */
  
 
@@ -18,26 +18,26 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
 use Biopen\GeoDirectoryBundle\Document\UserInteraction;
 use Symfony\Component\Security\Core\SecurityContext;
+use Biopen\CoreBundle\Services\ConfigurationService;
 
 class ElementVoteService
 {	
 	protected $em;
     protected $user;
-
-    protected $minVoteToChangeStatus = 1;
-    protected $maxOppositeVoteTolerated = 0;
-    protected $minDayBetweenContributionAndCollaborativeValidation = 0;
+    protected $confService;
 
 	/**
      * Constructor
      */
-    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext)
+    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, ConfigurationService $confService)
     {
     	 $this->em = $documentManager;
-         $this->user = $securityContext->getToken() ? $securityContext->getToken()->getUser() : null; 
+         $this->user = $securityContext->getToken() ? $securityContext->getToken()->getUser() : null;
+         $this->confService = $confService; 
+         $this->securityContext = $securityContext;
     }
 
-    public function voteForelement($element, $voteValue, $comment)
+    public function voteForelement($element, $voteValue, $comment, $userMail = null)
     {
         // Check user don't vote for his own creation
         if ($element->getContributorMail() == $this->user->getEmail())
@@ -46,12 +46,16 @@ class ElementVoteService
         // CHECK USER HASN'T ALREADY VOTED
         $currentVotes = $element->getVotes();
         $hasAlreadyVoted = false;
-        foreach ($currentVotes as $key => $vote) 
+        // if user is anonymous no need to check
+        if (!$this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY'))
         {
-            if ($vote->getUserMail() == $this->user->getEmail()) 
+            foreach ($currentVotes as $key => $vote) 
             {
-                $hasAlreadyVoted = true;
-                $oldVote= $vote;
+                if ($vote->getUserMail() == $this->user->getEmail()) 
+                {
+                    $hasAlreadyVoted = true;
+                    $oldVote= $vote;
+                }
             }
         }
 
@@ -60,15 +64,15 @@ class ElementVoteService
         if (!$hasAlreadyVoted) $vote = new UserInteraction();       
         
         $vote->setValue($voteValue);
-        $vote->setUserMail($this->user->getEmail());
+        $vote->setUserMail($userMail ? $userMail : $this->user ? $this->user->getEmail() : 'Anonymous');
 
         if ($comment) $vote->setComment($comment);
 
         $element->addVote($vote);
 
-        if ($this->user->isAdmin())
+        if ($this->confService->isUserAllowed('directModeration'))
         {
-            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'admin', $voteValue);
+            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'direct', $voteValue);
         }
         else $procedureCompleteMessage = $this->checkVotes($element);
 
@@ -92,17 +96,17 @@ class ElementVoteService
            $vote->getValue() >= 0 ? $nbrePositiveVote++ : $nbreNegativeVote++;
         }
 
-        if ($nbrePositiveVote >= $this->minVoteToChangeStatus)
+        if ($nbrePositiveVote >= $this->confService->getConfig()->getMinVoteToChangeStatus())
         {
-            if ($nbreNegativeVote <= $this->maxOppositeVoteTolerated) return $this->handleVoteProcedureComplete($element, 'collaborative', true);
+            if ($nbreNegativeVote <= $this->confService->getConfig()->getMaxOppositeVoteTolerated()) return $this->handleVoteProcedureComplete($element, 'collaborative', true);
             else 
             {
                 $element->setModerationState(ModerationState::VotesConflicts);
             }
         }
-        else if ($nbreNegativeVote >= $this->minVoteToChangeStatus)
+        else if ($nbreNegativeVote >= $this->confService->getConfig()->getMinVoteToChangeStatus())
         {
-            if ($nbrePositiveVote <= $this->maxOppositeVoteTolerated) return $this->handleVoteProcedureComplete($element, 'collaborative', false);
+            if ($nbrePositiveVote <= $this->confService->getConfig()->getMaxOppositeVoteTolerated()) return $this->handleVoteProcedureComplete($element, 'collaborative', false);
             else 
             {
                 $element->setModerationState(ModerationState::VotesConflicts);
@@ -123,7 +127,7 @@ class ElementVoteService
         $daysFromContribution = floor( $diffDate / (60 * 60 * 24));
 
         // we wait at least some days to validate collaboratively a contribution
-        if ($voteType == 'admin' || $daysFromContribution >= $this->minDayBetweenContributionAndCollaborativeValidation)
+        if ($voteType == 'direct' || $daysFromContribution >= $this->confService->getConfig()->getMinDayBetweenContributionAndCollaborativeValidation())
         {
             if ($element->getStatus() == ElementStatus::PendingAdd)
             {
@@ -133,7 +137,7 @@ class ElementVoteService
                     $message = $voteValue ? "Félicitations, cet acteur a reçu assez de vote pour être validé !" : "Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
                                  
                 }
-                else if ($voteType == 'admin')    
+                else if ($voteType == 'direct')    
                 {
                     $element->setStatus($voteValue ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
                     $message = $voteValue ? "L'élement a bien été validé" : "L'élement a bien été refusé";
@@ -157,15 +161,15 @@ class ElementVoteService
                         $element->setModifiedElement(null);
                     }
                     
-                    $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                    $message = $voteType == 'admin' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
+                    $element->setStatus($voteType == 'direct' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                    $message = $voteType == 'direct' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
                 }
                 // if modification are refused
                 else
                 {
                     $element->setModifiedElement(null);
-                    $element->setStatus($voteType == 'admin' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                    $message = $voteType == 'admin' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
+                    $element->setStatus($voteType == 'direct' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
+                    $message = $voteType == 'direct' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
                 }            
             }
         }

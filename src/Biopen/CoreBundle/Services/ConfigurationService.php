@@ -20,18 +20,16 @@ class ConfigurationService
        $this->config = $this->em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 	}
 
-	public function isUserAllowed($featureName, $request, $email = null)
+	public function isUserAllowed($featureName, $request = null, $email = null)
 	{        
         $user = $this->securityContext->getToken()->getUser(); 
-
-        dump( $this->securityContext->getToken());
 
         if ($user == 'anon.') $user = null;
 
         $feature = $this->getFeatureConfig($featureName);
 
         // CHECK USER IS ALLOWED
-        return $feature->isAllowed($user, $request->get('iframe'), $email);
+        return $feature->isAllowed($user, $request ? $request->get('iframe') : false, $email);
     }
 
     public function getConfig()
