@@ -51,10 +51,10 @@ class Configuration
      /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $deleteFeature;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $collaborativeModerationFeature;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $directModerationFeature;
 
     /** @MongoDB\Field(type="int") */
@@ -326,7 +326,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModeration
      * @return $this
      */
-    public function setCollaborativeModeration(\Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModeration)
+    public function setCollaborativeModeration(\Biopen\CoreBundle\Document\InteractionConfiguration $collaborativeModeration)
     {
         $this->collaborativeModeration = $collaborativeModeration;
         return $this;
@@ -348,7 +348,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $directModeration
      * @return $this
      */
-    public function setDirectModeration(\Biopen\CoreBundle\Document\FeatureConfiguration $directModeration)
+    public function setDirectModeration(\Biopen\CoreBundle\Document\InteractionConfiguration $directModeration)
     {
         $this->directModeration = $directModeration;
         return $this;
