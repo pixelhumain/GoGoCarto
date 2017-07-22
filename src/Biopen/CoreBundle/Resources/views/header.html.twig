@@ -1,3 +1,10 @@
+{% block modals %} 
+    {% include '@BiopenCoreBundle/modals/headerModals.html.twig' %}
+    {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
+{% endblock %}
+
+{% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}
+
 {% block body_content %}
 
 <header>
@@ -8,7 +15,7 @@
 
 		<div class="col menu-item" id="menu-home">			
 			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo"><span class="icon-menu icon-home"></span></a> 
-			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo">Près de chez nous</a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo"><img src="{{ asset('assets/img/logo_inline.png') }}" id="logo-inline"/></a> 
 		</div>
     
 		<div id="menu-actions">
@@ -144,7 +151,3 @@ function displayLoginButton(bool)
 
 {% endblock %}
 
-{% block modals %} 
-    {% include '@BiopenCoreBundle/modals/headerModals.html.twig' %}
-    {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
-{% endblock %}

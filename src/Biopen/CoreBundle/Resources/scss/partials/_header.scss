@@ -10,7 +10,6 @@ header
 	{
 		margin: 0 ; 
 	  font-size: .85rem ;
-		background-color: #272626;
 		padding: 0 .5rem;
 
 		@media only screen and (min-width : 601px)
@@ -36,6 +35,13 @@ header
 	    color: #EE6E73;
 			.small-logo { display: inline-block; }
 			.large-logo { display: none; }
+
+			#logo-inline
+			{
+				height: 2.5rem;
+		    position: absolute;
+		    top: .5rem;
+			}
 
 	    .small-logo .icon-menu
 	    {
@@ -174,9 +180,7 @@ header
 	    padding: 0 10px;
 	    font-size: .85rem;
 	    margin-top: -9px;
-	    background-color: #de5a5f;
-			color: white;
-			&:hover{ background-color: #ec787d }
+			border-radius: 2px;
 
 			.text { display: none; }
 			.icon-menu { font-size: 1.1rem }
@@ -195,7 +199,6 @@ header
 
 		.dropdown-content
 		{
-			background-color: #3d3d3d;
 			margin-top:2.3rem;
 			margin-right:2rem;
 
@@ -204,9 +207,8 @@ header
 			
 			.about-title-item 
 			{
-		    color:#d2d2d2;
 		    font-size: .9rem;
-		    &:hover { color: white; background-color: #3d3d3d }
+		    &:hover { color: white; }
 			}  			
 		}					
 	}
