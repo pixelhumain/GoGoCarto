@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-20 15:41:37
+ * @Last Modified time: 2017-07-22 14:41:43
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -71,8 +71,8 @@ class ConfigurationAdmin extends AbstractAdmin
                 ->with('Couleurs', array('class' => 'col-md-6'))
                     ->add('primaryColor', 'xmon_color_picker', array('label' => 'Couleur Principale')) 
                     ->add('secondaryColor', 'xmon_color_picker', array('label' => 'Couleur Secondaire'))   
-                    ->add('darkColor', 'xmon_color_picker', array('label' => 'Couleur Foncée'))   
-                    ->add('lightColor', 'xmon_color_picker', array('label' => 'Couleur Claire'))     
+                    // ->add('neutralColor', 'xmon_color_picker', array('label' => 'Couleur Foncée'))   
+                    // ->add('neutralLightColor', 'xmon_color_picker', array('label' => 'Couleur Claire'))     
                 ->end()
             ->end();          
     }
