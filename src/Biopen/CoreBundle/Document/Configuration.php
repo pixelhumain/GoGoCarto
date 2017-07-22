@@ -93,17 +93,71 @@ class Configuration
     // --------- STYLE ---------
     // -------------------------
 
+    protected $logo;
+
+    protected $homeBackground;
+
+    // MAIN COLORS & FONTS
+
     /** @MongoDB\Field(type="string") */
-    protected $primaryColor;
+    protected $mainFont;
+
+    /** @MongoDB\Field(type="string") */
+    protected $titleFont;
+
+    /** @MongoDB\Field(type="string") */
+    protected $neutralDarkColor;  
+
+    /** @MongoDB\Field(type="string") */
+    protected $neutralSoftDarkColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $neutralColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $neutralLightColor;
 
     /** @MongoDB\Field(type="string") */
     protected $secondaryColor;
 
     /** @MongoDB\Field(type="string") */
-    protected $darkColor;
+    protected $primaryColor;
 
     /** @MongoDB\Field(type="string") */
-    protected $lightColor;
+    protected $backgroundColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $textColor;
+    
+
+    // CUSTOM COLORS & FONTS
+
+    /** @MongoDB\Field(type="string") */
+    protected $headerColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $searchBarColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $disableColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $neutralDarkTransparentColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $listTitleColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $listTitleBackBtnColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $listTitleBackgroundColor; 
+
+    /** @MongoDB\Field(type="string") */
+    protected $taxonomyMainTitleFont;  
+
+    /** @MongoDB\Field(type="string") */
+    protected $customCSS = '';
 
     
     public function __toString() 
@@ -670,5 +724,380 @@ class Configuration
     public function getDirectModerationFeature()
     {
         return $this->directModerationFeature;
+    }
+
+    /**
+     * Set mainFont
+     *
+     * @param string $mainFont
+     * @return $this
+     */
+    public function setMainFont($mainFont)
+    {
+        $this->mainFont = $mainFont;
+        return $this;
+    }
+
+    /**
+     * Get mainFont
+     *
+     * @return string $mainFont
+     */
+    public function getMainFont()
+    {
+        return $this->mainFont;
+    }
+
+    /**
+     * Set titleFont
+     *
+     * @param string $titleFont
+     * @return $this
+     */
+    public function setTitleFont($titleFont)
+    {
+        $this->titleFont = $titleFont;
+        return $this;
+    }
+
+    /**
+     * Get titleFont
+     *
+     * @return string $titleFont
+     */
+    public function getTitleFont()
+    {
+        return $this->titleFont;
+    }
+
+    /**
+     * Set neutralDarkColor
+     *
+     * @param string $neutralDarkColor
+     * @return $this
+     */
+    public function setNeutralDarkColor($neutralDarkColor)
+    {
+        $this->neutralDarkColor = $neutralDarkColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralDarkColor
+     *
+     * @return string $neutralDarkColor
+     */
+    public function getNeutralDarkColor()
+    {
+        return $this->neutralDarkColor;
+    }
+
+    /**
+     * Set neutralSoftDarkColor
+     *
+     * @param string $neutralSoftDarkColor
+     * @return $this
+     */
+    public function setNeutralSoftDarkColor($neutralSoftDarkColor)
+    {
+        $this->neutralSoftDarkColor = $neutralSoftDarkColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralSoftDarkColor
+     *
+     * @return string $neutralSoftDarkColor
+     */
+    public function getNeutralSoftDarkColor()
+    {
+        return $this->neutralSoftDarkColor;
+    }
+
+    /**
+     * Set neutralColor
+     *
+     * @param string $neutralColor
+     * @return $this
+     */
+    public function setNeutralColor($neutralColor)
+    {
+        $this->neutralColor = $neutralColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralColor
+     *
+     * @return string $neutralColor
+     */
+    public function getNeutralColor()
+    {
+        return $this->neutralColor;
+    }
+
+    /**
+     * Set neutralLightColor
+     *
+     * @param string $neutralLightColor
+     * @return $this
+     */
+    public function setNeutralLightColor($neutralLightColor)
+    {
+        $this->neutralLightColor = $neutralLightColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralLightColor
+     *
+     * @return string $neutralLightColor
+     */
+    public function getNeutralLightColor()
+    {
+        return $this->neutralLightColor;
+    }
+
+    /**
+     * Set backgroundColor
+     *
+     * @param string $backgroundColor
+     * @return $this
+     */
+    public function setBackgroundColor($backgroundColor)
+    {
+        $this->backgroundColor = $backgroundColor;
+        return $this;
+    }
+
+    /**
+     * Get backgroundColor
+     *
+     * @return string $backgroundColor
+     */
+    public function getBackgroundColor()
+    {
+        return $this->backgroundColor;
+    }
+  
+
+    /**
+     * Set neutralDarkTransparentColor
+     *
+     * @param string $neutralDarkTransparentColor
+     * @return $this
+     */
+    public function setNeutralDarkTransparentColor($neutralDarkTransparentColor)
+    {
+        $this->neutralDarkTransparentColor = $neutralDarkTransparentColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralDarkTransparentColor
+     *
+     * @return string $neutralDarkTransparentColor
+     */
+    public function getNeutralDarkTransparentColor()
+    {
+        return $this->neutralDarkTransparentColor;
+    }
+
+    /**
+     * Set listTitleColor
+     *
+     * @param string $listTitleColor
+     * @return $this
+     */
+    public function setListTitleColor($listTitleColor)
+    {
+        $this->listTitleColor = $listTitleColor;
+        return $this;
+    }
+
+    /**
+     * Get listTitleColor
+     *
+     * @return string $listTitleColor
+     */
+    public function getListTitleColor()
+    {
+        return $this->listTitleColor;
+    }
+
+    /**
+     * Set listTitleBackBtnColor
+     *
+     * @param string $listTitleBackBtnColor
+     * @return $this
+     */
+    public function setListTitleBackBtnColor($listTitleBackBtnColor)
+    {
+        $this->listTitleBackBtnColor = $listTitleBackBtnColor;
+        return $this;
+    }
+
+    /**
+     * Get listTitleBackBtnColor
+     *
+     * @return string $listTitleBackBtnColor
+     */
+    public function getListTitleBackBtnColor()
+    {
+        return $this->listTitleBackBtnColor;
+    }
+
+    /**
+     * Set listTitleBackgroundColor
+     *
+     * @param string $listTitleBackgroundColor
+     * @return $this
+     */
+    public function setListTitleBackgroundColor($listTitleBackgroundColor)
+    {
+        $this->listTitleBackgroundColor = $listTitleBackgroundColor;
+        return $this;
+    }
+
+    /**
+     * Get listTitleBackgroundColor
+     *
+     * @return string $listTitleBackgroundColor
+     */
+    public function getListTitleBackgroundColor()
+    {
+        return $this->listTitleBackgroundColor;
+    }
+
+    /**
+     * Set taxonomyMainTitleFont
+     *
+     * @param string $taxonomyMainTitleFont
+     * @return $this
+     */
+    public function setTaxonomyMainTitleFont($taxonomyMainTitleFont)
+    {
+        $this->taxonomyMainTitleFont = $taxonomyMainTitleFont;
+        return $this;
+    }
+
+    /**
+     * Get taxonomyMainTitleFont
+     *
+     * @return string $taxonomyMainTitleFont
+     */
+    public function getTaxonomyMainTitleFont()
+    {
+        return $this->taxonomyMainTitleFont;
+    }
+
+    /**
+     * Set customCSS
+     *
+     * @param string $customCSS
+     * @return $this
+     */
+    public function setCustomCSS($customCSS)
+    {
+        $this->customCSS = $customCSS;
+        return $this;
+    }
+
+    /**
+     * Get customCSS
+     *
+     * @return string $customCSS
+     */
+    public function getCustomCSS()
+    {
+        return $this->customCSS;
+    }
+
+    /**
+     * Set textColor
+     *
+     * @param string $textColor
+     * @return $this
+     */
+    public function setTextColor($textColor)
+    {
+        $this->textColor = $textColor;
+        return $this;
+    }
+
+    /**
+     * Get textColor
+     *
+     * @return string $textColor
+     */
+    public function getTextColor()
+    {
+        return $this->textColor;
+    }
+
+    /**
+     * Set headerColor
+     *
+     * @param string $headerColor
+     * @return $this
+     */
+    public function setHeaderColor($headerColor)
+    {
+        $this->headerColor = $headerColor;
+        return $this;
+    }
+
+    /**
+     * Get headerColor
+     *
+     * @return string $headerColor
+     */
+    public function getHeaderColor()
+    {
+        return $this->headerColor;
+    }
+
+    /**
+     * Set disableColor
+     *
+     * @param string $disableColor
+     * @return $this
+     */
+    public function setDisableColor($disableColor)
+    {
+        $this->disableColor = $disableColor;
+        return $this;
+    }
+
+    /**
+     * Get disableColor
+     *
+     * @return string $disableColor
+     */
+    public function getDisableColor()
+    {
+        return $this->disableColor;
+    }
+
+    /**
+     * Set searchBarColor
+     *
+     * @param string $searchBarColor
+     * @return $this
+     */
+    public function setSearchBarColor($searchBarColor)
+    {
+        $this->searchBarColor = $searchBarColor;
+        return $this;
+    }
+
+    /**
+     * Get searchBarColor
+     *
+     * @return string $searchBarColor
+     */
+    public function getSearchBarColor()
+    {
+        return $this->searchBarColor;
     }
 }

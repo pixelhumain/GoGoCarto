@@ -16,7 +16,6 @@ class LoadConfiguration implements FixtureInterface
   
   public function load(ObjectManager $manager)
   {  
-
     $configuration = new Configuration();
 
     // FEATURES
@@ -29,9 +28,9 @@ class LoadConfiguration implements FixtureInterface
 
     $configuration->setAddFeature(       new InteractionConfiguration(true, true,  false, true, true, true));
     $configuration->setEditFeature(      new InteractionConfiguration(true, true,  false, true, true, true));
-    $configuration->setDeleteFeature(    new FeatureConfiguration(true, false, false, false, true));
-    $configuration->setCollaborativeModerationFeature(      new FeatureConfiguration(true, false, false, true, true));
-    $configuration->setDirectModerationFeature(      new FeatureConfiguration(true, false, false, false, true));
+    $configuration->setDeleteFeature(    new InteractionConfiguration(true, false, false, false, false, true));
+    $configuration->setCollaborativeModerationFeature(      new InteractionConfiguration(true, false, false, false, true, true));
+    $configuration->setDirectModerationFeature(             new InteractionConfiguration(true, false, false, false, false, true));
 
     // MAP
     $defaultLayer = LoadTileLayers($manager);
@@ -42,12 +41,56 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setDefaultSouthWestBoundsLat(40);
     $configuration->setDefaultSouthWestBoundsLng(-5);
 
-    // STYLE
-    $configuration->setPrimaryColor('#de5a5f');
-    $configuration->setSecondaryColor('#4a7874');
-    $configuration->setDarkColor('#272626');
-    $configuration->setLightColor('#ffffff');
+    $darkBlue = '#354254' ;
+    $darkBlueTransparent = 'rgba(53, 66, 84, 0.9)' ;
+    $softDarkblue = '#5c6c86' ;
+    $blue = '#6b7e9b' ;
+    $greyLight = '#f4f4f4' ;
+    $blueLight = '#c2c9d4' ;
+    $green = '#bdc900' ;
+    $pink = '#bd2d86' ;
 
+    $neutralDark = $darkBlue ;
+    $neutralDarkTransparent = $darkBlueTransparent ;
+    $neutralSoftDark = $softDarkblue ;
+    $neutral = $blue ;
+    $neutralLight = $greyLight ;
+    $secondary = $green ;
+    $primary = $pink ;
+    $background = $greyLight ;
+
+    $textColor = $neutralDark ;
+    $disableColor = $blueLight ;
+    $listTitle = $neutralDark ;
+    $listTitleBackBtn = $neutralDark;
+    $listTitleBackground = $background ;
+
+    $mainFont = 'Roboto' ;
+    $titleFont = 'Lobster' ;
+    $taxonomyMainTitleFont = $titleFont ;  
+
+    // STYLE
+    $configuration->setMainFont($mainFont);
+    $configuration->setTitleFont($titleFont);
+    $configuration->setNeutralDarkColor($neutralDark); 
+    $configuration->setNeutralSoftDarkColor($neutralSoftDark);
+    $configuration->setNeutralColor($neutral);
+    $configuration->setNeutralLightColor($neutralLight);
+    $configuration->setSecondaryColor($secondary);
+    $configuration->setPrimaryColor($primary);
+    $configuration->setBackgroundColor($background);
+    $configuration->setTextColor($textColor);
+
+    // CUSTOM COLORS & FONTS
+    $configuration->setHeaderColor($neutralDark);
+    $configuration->setSearchBarColor($neutral);
+    $configuration->setDisableColor($disableColor);
+    $configuration->setNeutralDarkTransparentColor($neutralDarkTransparent);
+    $configuration->setListTitleColor($listTitle);
+    $configuration->setListTitleBackBtnColor($listTitleBackBtn);
+    $configuration->setListTitleBackgroundColor($listTitleBackground); 
+    $configuration->setTaxonomyMainTitleFont($taxonomyMainTitleFont);  
+    $configuration->setCustomCSS('');
     
     $manager->persist($configuration);  
     $manager->flush();
