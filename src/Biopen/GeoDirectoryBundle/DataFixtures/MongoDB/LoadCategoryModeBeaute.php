@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:10:46
+ * @Last Modified time: 2017-07-22 16:38:28
  */
  
 
@@ -34,11 +34,11 @@ function loadModeBeauté($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Fripperie'      				, 'icon-friperie-1'     		, 'red',''				, true),
-			array('Pharamacie'      			, 'icon-pharmacie-1'     	, 'green',''				, true),
-			array('Coiffeur'      				, 'icon-001-scissors-1'     , 'lightblue',''				, true),
-			array('Institut Beauté'      		, 'icon-beaute'     			, 'blue',''				, true),			
-			array('Boutique'   					,''      					, 'darkblue',''        , false)
+			array('Fripperie'      				, 'icon-friperie-1'     		, 'brown',''				, true),
+			array('Pharamacie'      			, 'icon-pharmacie-1'     	 , 'green',''				, true),
+			array('Coiffeur'      				, 'icon-001-scissors-1'     , 'blue',''				, true),
+			array('Institut Beauté'      		, 'icon-beaute'     			, 'pink',''				, true),			
+			array('Boutique'   					,''      					  , 'purple',''        , false)
 		);
 
 		foreach ($types as $key => $type) 
@@ -76,10 +76,10 @@ function loadModeBeauté($mainOption, $c, $s)
 
 		// Liste des names de catégorie à ajouter
 		$produits = array(
-			array('Vêtement'             , 'icon-vetement-4'      	, 'darkblue', ''        , ''),
-			array('Accessoire'            , 'icon-accessoire-2'   , 'darkblue',''        , ''),
-			array('Décoration'  				, 'icon-decoration-2'     		, 'darkblue',''         , ''),
-			array('Cosmétique'             , 'icon-cosmetique'      , 'darkblue',''        , '')
+			array('Vêtement'             , 'icon-vetement-4'      	, 'purple', ''        , ''),
+			array('Accessoire'            , 'icon-accessoire-2'   , 'purple',''        , ''),
+			array('Décoration'  				, 'icon-decoration-2'     		, 'purple',''         , ''),
+			array('Cosmétique'             , 'icon-cosmetique'      , 'purple',''        , '')
 		);
 
 		foreach ($produits as $key => $produit) 

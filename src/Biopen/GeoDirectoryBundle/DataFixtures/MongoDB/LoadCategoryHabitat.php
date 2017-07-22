@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:11:27
+ * @Last Modified time: 2017-07-22 16:39:41
  */
  
 
@@ -34,9 +34,9 @@ function loadHabitat($mainOption, $c, $s)
 	// Liste des noms de catégorie à ajouter
 	$types = array(			
 		array('Matériaux'   				,'icon-materiaux'      		, 'brown'		,	'Vente de matériaux pour la construction'        , true),
-		array('Ressourcerie'      		, 'icon-ressourcerie'     		, 'blue'			,''				, true),
-		array('Artisan/Installateur' 	,''      							, 'red'			,'Charpentier, production d\'énergie...'          , false),
-		array('Conception'   			,''      						, 'darkblue'		,'Architecte, designer...'      , false),
+		array('Ressourcerie'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
+		array('Artisan/Installateur' 	,''      						, 'lightblue'			,'Charpentier, production d\'énergie...'          , false),
+		array('Conception'   			,''      						, 'blue'		,'Architecte, designer...'      , false),
 		array('Jardin'   					,''      						, 'green'		,''        , false)
 	);
 
@@ -74,12 +74,12 @@ function loadHabitat($mainOption, $c, $s)
 
 	// Liste des names de catégorie à ajouter
 	$artisanType = array(
-		array('Charpente/Menuiserie'  , 'icon-charpentier'    , 'red', ''        , ''),
-		array('Chauffage/Isolation'   , 'icon-temperature-1'    , 'red',''        , ''),
-		array('Maconnerie'            , 'icon-maconnerie'       , 'red',''        , ''),
-		array('Energie renouvelable'  , 'icon-renouvelable-1'     , 'red',''        , ''),
-		array('Electricité'           , 'icon-electricite'    , 'red',''        , ''),
-		array('Autre'                 , 'icon-autre'    			, 'red',''        , '')
+		array('Charpente/Menuiserie'  , 'icon-charpentier'    , 'lightblue', ''        , ''),
+		array('Chauffage/Isolation'   , 'icon-temperature-1'    , 'lightblue',''        , ''),
+		array('Maconnerie'            , 'icon-maconnerie'       , 'lightblue',''        , ''),
+		array('Energie renouvelable'  , 'icon-renouvelable-1'     , 'lightblue',''        , ''),
+		array('Electricité'           , 'icon-electricite'    , 'lightblue',''        , ''),
+		array('Autre'                 , 'icon-autre'    			, 'lightblue',''        , '')
 
 	);
 
@@ -117,9 +117,9 @@ function loadHabitat($mainOption, $c, $s)
 
 	// Liste des names de catégorie à ajouter
 	$conceptions = array(
-		array('Conseil énergétique'    , 'icon-co2-1'     , 'darkblue', ''        , ''),
-		array('Architecte'             , 'icon-architecte'   , 'darkblue',''        , ''),
-		array('Paygasiste/Déco'  , 'icon-design'     		, 'darkblue',''         , '')
+		array('Conseil énergétique'    , 'icon-co2-1'     , 'blue', ''        , ''),
+		array('Architecte'             , 'icon-architecte'   , 'blue',''        , ''),
+		array('Paygasiste/Déco'  , 'icon-design'     		, 'blue',''         , '')
 	);
 
 	foreach ($conceptions as $key => $conception) 

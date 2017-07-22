@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:11:41
+ * @Last Modified time: 2017-07-22 16:40:06
  */
  
 
@@ -34,8 +34,8 @@ function loadEducation($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Ecole'      				, 'icon-school'     		, 'brown',''				, true),
-			array('Association'   			,''      						, 'darkblue',''        , false)
+			array('Ecole'      				, 'icon-school'     		, 'yellow',''				, true),
+			array('Association'   			,''      						, 'brown',''        , false)
 		);
 
 		foreach ($types as $key => $type) 
@@ -114,10 +114,10 @@ function loadEducation($mainOption, $c, $s)
 
 		// Liste des names de catégorie à ajouter
 		$services = array(
-			array('Animation'             , 'icon-echange-1'      , 'darkblue', ''        , ''),
-			array('Formation'             , 'icon-formation-2'   , 'darkblue',''        , ''),
-			array('Conférence'  				, 'icon-conf'     		, 'darkblue',''         , ''),
-			array('Ateliers'              , 'icon-atelier-1'      , 'darkblue',''        , '')
+			array('Animation'             , 'icon-echange-1'      , 'brown', ''        , ''),
+			array('Formation'             , 'icon-formation-2'   , 'brown',''        , ''),
+			array('Conférence'  				, 'icon-conf'     		, 'brown',''         , ''),
+			array('Ateliers'              , 'icon-atelier-1'      , 'brown',''        , '')
 		);
 
 		foreach ($services as $key => $service) 

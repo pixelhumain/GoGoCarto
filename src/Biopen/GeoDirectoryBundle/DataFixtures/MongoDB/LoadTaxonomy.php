@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:09:56
+ * @Last Modified time: 2017-07-22 16:51:21
  */
  
 
@@ -37,26 +37,34 @@ class LoadTaxonomy implements FixtureInterface
 
 		$c[''] = '';						$s[''] = '';
 
-		$c['yellowbrown'] = '#b77b03';$s['yellowbrown'] = '#b77b03';
-		$c['brown'] = '#8e5440';		$s['brown'] = '#8e5440';
+		// $c['yellowbrown'] = '#b77b03';$s['yellowbrown'] = '#b77b03';
+		// $c['brown'] = '#8e5440';		$s['brown'] = '#8e5440';
 
-		$c['orange'] = '#c36c2e';		$s['orange'] = '#c36c2e';
+		// $c['orange'] = '#c36c2e';		$s['orange'] = '#c36c2e';
 		
-		$c['red'] = '#b33738';			$s['red'] = 'rgba(179, 55, 56, 0.89)';
-		$c['softred'] = 'rgba(179, 55, 56, 0.89)';			$s['softred'] = 'rgba(179, 55, 56, 0.89)';
-		$c['pink'] = '#d23f71';			$s['pink'] = '#d23f71';
-		$c['lightpink'] = '#de5a5f';	$s['lightpink'] = '#de5a5f';
+		// $c['red'] = '#b33738';			$s['red'] = 'rgba(179, 55, 56, 0.89)';
+		// $c['softred'] = 'rgba(179, 55, 56, 0.89)';			$s['softred'] = 'rgba(179, 55, 56, 0.89)';
+		// $c['pink'] = '#d23f71';			$s['pink'] = '#d23f71';
+		// $c['lightpink'] = '#de5a5f';	$s['lightpink'] = '#de5a5f';
 		
 		
-		$c['lightblue'] = '#258bb9';	$s['lightblue'] = '#258bb9';
-		$c['blue'] = '#5262b7';			$s['blue'] = 'rgba(82, 98, 183, 0.93)';
-		$c['darkblue'] = '#383D5A';	$s['darkblue'] = 'rgba(56, 61, 90, 0.93)';
-		$c['purple'] = '#985389';		$s['purple'] = '#985389';		
-		$c['darkpurple'] = '#6a45ab';	$s['darkpurple'] = '#6a45ab';
-		$c['bluegreen'] = '#1b8a7f';	$s['bluegreen'] = '#1b8a7f';
+		// $c['lightblue'] = '#258bb9';	$s['lightblue'] = '#258bb9';
+		// $c['blue'] = '#5262b7';			$s['blue'] = 'rgba(82, 98, 183, 0.93)';
+		// $c['darkblue'] = '#383D5A';	$s['darkblue'] = 'rgba(56, 61, 90, 0.93)';
+		// $c['purple'] = '#985389';		$s['purple'] = '#985389';		
+		// $c['darkpurple'] = '#6a45ab';	$s['darkpurple'] = '#6a45ab';
+		// $c['bluegreen'] = '#1b8a7f';	$s['bluegreen'] = '#1b8a7f';
 
-		$c['lightgreen'] = '#4a7874';	$s['lightgreen'] = '#4a7874';
-		$c['green'] = '#48843a';		$s['green'] = 'rgba(78, 136, 65, 0.92)';
+		// $c['lightgreen'] = '#4a7874';	$s['lightgreen'] = '#4a7874';
+		// $c['green'] = '#48843a';		$s['green'] = 'rgba(78, 136, 65, 0.92)';
+
+		$c['green'] = '#98a100';		$s['green'] = '#98a100';
+		$c['brown'] = '#7e3200';		$s['brown'] = '#7e3200';
+		$c['yellow'] = '#ab7100';		$s['yellow'] = '#ab7100';
+		$c['lightblue'] = '#009fa1';	$s['lightblue'] = '#009fa1';
+		$c['blue'] = '#00537e';			$s['blue'] = '#00537e';
+		$c['purple'] = '#65007e';		$s['purple'] = '#65007e';
+		$c['pink'] = '#ab0061';			$s['pink'] = '#ab0061';
 		
 		$taxonomy = new Taxonomy();
 		$manager->persist($taxonomy);
@@ -80,11 +88,11 @@ class LoadTaxonomy implements FixtureInterface
 		$mains = array(
 			array('Agriculture & Alimentation'  , 'leaf-1'     , 'green'		, ''	, 'Agriculture'        , true),
 			array('Habitat'    						, 'home'      	, 'brown'		, ''	,''        				, false),			
-			array('Education & Formation'    , 'education'     , 'darkblue'	   , ''	,'Education'        , false),
+			array('Education & Formation'    , 'education'     , 'yellow'	   , ''	,'Education'        , false),
 			array('Mobilité'        			, 'mobilite-2'    , 'lightblue'		, ''	,''       				 , false),
 			array('Sortie & Culture'   		 , 'coffee'      	, 'blue'				, ''	,'Sortie'        , false),	
 			array('Mode & Beauté'   		 	, 'clothe'      	, 'purple'		, ''	,'Mode/Beauté'        , false),			
-			array('Voyages'      				, 'voyage-1'     		, 'softred'		, ''	,''					, false),			
+			array('Voyages'      				, 'voyage-1'     	, 'pink'		, ''	,''					, false),			
 		);
 
 		foreach ($mains as $key => $main) 

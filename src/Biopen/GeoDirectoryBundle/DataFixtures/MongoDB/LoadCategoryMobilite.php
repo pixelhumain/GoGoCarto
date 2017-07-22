@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:11:04
+ * @Last Modified time: 2017-07-22 16:13:34
  */
  
 
@@ -33,10 +33,10 @@ function loadMobilite($mainOption)
 
 		// Liste des noms de catégorie à ajouter
 		$services = array(			
-			array('Atelier/Réparation'    , ''     		, '#b33738',''				, true),
-			array('Location'   				,''      , '#8e5440',''        , true),
-			array('Vente/Boutique'    		, ''      , '','#3F51B5'        , true),
-			array('Nettoyage'     			, ''     	, '#258bb9',''				, true),
+			array('Atelier/Réparation'    , ''     		, 'lightblue',''				, true),
+			array('Location'   				,''      , 'pink',''        , true),
+			array('Vente/Boutique'    		, ''      , 'purple'        , true),
+			array('Nettoyage'     			, ''     	, 'blue',''				, true),
 		);
 
 		foreach ($services as $key => $service) 

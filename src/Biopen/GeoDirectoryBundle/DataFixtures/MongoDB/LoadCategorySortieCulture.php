@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-19 11:10:34
+ * @Last Modified time: 2017-07-22 16:38:28
  */
  
 
@@ -69,10 +69,10 @@ function loadSortieCulture($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$sorties = array(			
-			array('Bar/Café'     , 'icon-cafe'     		, 'red'	,''				, true),
-			array('Restaurant'   ,'icon-restaurant'     , 'brown'	,''        , true),
+			array('Bar/Café'     , 'icon-cafe'     		, 'blue'	,''				, true),
+			array('Restaurant'   ,'icon-restaurant'     , 'lightblue'	,''        , true),
 			array('Parc'     		, 'icon-park'     		, 'green',''				, true),
-			array('Autre'     	, 'icon-autre'     		, 'darkblue',''				, true)			
+			array('Autre'     	, 'icon-autre'     		, 'brown',''				, true)			
 		);
 
 		foreach ($sorties as $key => $sortie) 
@@ -106,11 +106,11 @@ function loadSortieCulture($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$cultures = array(			
-			array('Cinéma'    	, 'icon-cinema'      , 'lightblue'	,''        , true),
-			array('Musique'     , 'icon-musique'     	, 'darkpurple',''				, true),
-			array('Théâtre'  		, 'icon-theatre'     	, 'bluegreen'		, ''        	, false),
-			array('Papier'  		, 'icon-paper'     , 'blue',''				, true),
-			array('Photographie' , 'icon-photo'     		, 'darkblue',''				, true),		
+			array('Cinéma'    	, 'icon-cinema'      , 'pink'	,''        , true),
+			array('Musique'     , 'icon-musique'     	, 'pink',''				, true),
+			array('Théâtre'  		, 'icon-theatre'     	, 'pink'		, ''        	, false),
+			array('Papier'  		, 'icon-paper'     	, 'pink',''				, true),
+			array('Photographie' , 'icon-photo'     			, 'pink',''				, true),		
 		);
 
 		foreach ($cultures as $key => $culture) 
