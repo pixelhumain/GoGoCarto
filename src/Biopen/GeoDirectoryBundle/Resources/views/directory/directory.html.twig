@@ -24,35 +24,6 @@
 
     $(document).ready(function()
     {
-        // temporary manual colors
-        var darkBlue = '#354254' ;
-        var darkBlueTransparent = 'rgba(53, 66, 84, 0.9)' ;
-        var softDarkblue = '#5c6c86' ;
-        var blue = '#6b7e9b' ;
-        var greyLight = '#f4f4f4' ;
-        var blueLight = '#c2c9d4' ;
-        var green = '#bdc900' ;
-        var pink = '#bd2d86' ;
-
-        var neutralDark = darkBlue ;
-        var neutralDarkTransparent = darkBlueTransparent ;
-        var neutralSoftDark = softDarkblue ;
-        var neutral = blue ;
-        var neutralLight = greyLight ;
-        var secondary = green ;
-        var primary = pink ;
-        var background = greyLight ;
-
-        var textColor = neutralDark ;
-        var disableColor = blueLight ;
-        var listTitle = neutralDark ;
-        var listTitleBackBtn = neutralDark;
-        var listTitleBackground = background ;
-
-        var mainFont = 'Roboto' ;
-        var titleFont = 'Lobster' ;
-        var taxonomyMainTitleFont = titleFont ;  
-
         carto = goGoCarto('#directory-container', {
             data:
             {
@@ -89,25 +60,25 @@
             },
             colors:
             {
-                neutralDark: darkBlue ,
-                neutralDarkTransparent: darkBlueTransparent ,
-                neutralSoftDark: softDarkblue ,
-                neutral: blue ,
-                neutralLight: greyLight ,
-                secondary: green ,
-                primary: pink ,
-                background: greyLight ,
+                neutralDark: '{{ config.neutralDarkColor }}' ,
+                neutralDarkTransparent: '{{ config.neutralDarkTransparentColor }}',
+                neutralSoftDark: '{{ config.neutralSoftDarkColor }}',
+                neutral: '{{ config.neutralColor }}',
+                neutralLight: '{{ config.neutralLightColor }}',
+                secondary: '{{ config.secondaryColor }}',
+                primary: '{{ config.primaryColor }}',
+                background: '{{ config.backgroundColor }}',
 
-                textColor: neutralDark,
-                searchBar: neutral,
-                disableColor: blueLight ,
-                listTitle: neutralDark ,
-                listTitleBackBtn: listTitleBackBtn,
-                listTitleBackground: background ,
+                textColor: '{{ config.textColor }}',
+                searchBar: '{{ config.searchBarColor }}',
+                disableColor: '{{ config.disableColor }}',
+                listTitle: '{{ config.listTitleColor }}',
+                listTitleBackBtn: '{{ config.listTitleBackBtnColor }}',
+                listTitleBackground: '{{ config.listTitleBackgroundColor }}',
 
-                mainFont: 'Roboto' ,
-                titleFont: 'Lobster' ,
-                taxonomyMainTitleFont: titleFont ,  
+                mainFont: '{{ config.mainFont }}',
+                titleFont: '{{ config.titleFont }}',
+                taxonomyMainTitleFont: '{{ config.taxonomyMainTitleFont }}',  
             }     
         }); 
     });   
