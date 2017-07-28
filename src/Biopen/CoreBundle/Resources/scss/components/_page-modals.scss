@@ -2,12 +2,10 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-05 15:04:49
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-20 15:45:39
+* @Last Modified time: 2017-07-28 12:34:23
 */
 .modal.page-modal
 {
-	background-color: #444 !important; 		
-
   @media only screen and (max-width: 600px)
   {
   	h1 { text-align: center !important; }
@@ -47,9 +45,7 @@
 	   min-width: 800px;
 	   width: 55%;
 	   max-height: 80%;
-	}
-	
-	
+	}	
 
 	.modal-content.page-modal-content
 	{		
@@ -59,13 +55,6 @@
 		{
 			text-align: right;
 			margin-top: 2rem;
-
-			button
-			{
-				background-color: #de5a5f;
-				color: white;
-				&:hover{ background-color: #ec787d }
-			}
 		}
 	}	
 }

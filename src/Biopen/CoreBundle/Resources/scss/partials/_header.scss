@@ -79,7 +79,6 @@ header
 		#menu-actions
 		{
 			float : right;
-			color: white;
 		}
 		
 		.menu-item 
@@ -113,11 +112,6 @@ header
 
 			&:hover
 			{
-				color: #EE6E73;
-				.arrow-after
-				{
-					border-color: #EE6E73 transparent transparent transparent;
-				}
 				cursor: pointer;
 			}
 
@@ -202,13 +196,18 @@ header
 			margin-top:2.3rem;
 			margin-right:2rem;
 
+			li { color: inherit !important; }
+
+			li:hover { background-color: transparent;}
+
 	    @media screen and (max-width: 500px) { margin-top: 2.5rem; }
 	    @media only screen and (min-width : 601px) { margin-top: 3.4rem; }
 			
 			.about-title-item 
 			{
 		    font-size: .9rem;
-		    &:hover { color: white; }
+		    color: inherit;
+		    &:hover { color: white; background-color: transparent; }
 			}  			
 		}					
 	}

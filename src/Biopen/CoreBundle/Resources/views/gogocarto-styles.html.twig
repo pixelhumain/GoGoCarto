@@ -1,14 +1,28 @@
 <style>
-	#menu { background-color: {{ config.headerColor }}; }
+	#menu { background-color: {{ config.headerColor }}; color: white; }
 
-	#btn-login { background-color: {{ config.secondaryColor }}; color: {{ config.neutralDarkColor }} }
+	#menu #btn-login { background-color: {{ config.secondaryColor }}; color: {{ config.neutralDarkColor }} }
+
+  #menu #listAbout { background-color: {{ config.headerColor }}; }
+
+  #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
+
+  #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
+
+  h1, h2 { font-family: {{ config.titleFont }}; }
+
+  .btn { background-color: {{ config.secondaryColor }}; }
+  .btn:hover { background-color: {{ config.secondaryColor }}; }
+
+  {{ config.customCSS }}
 
 	.gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1px; }
 
+  .modal.page-modal { background-color: {{ config.neutralDarkColor }} !important; }  
+
 	.btn
   {
-    color: #fff;
-    background-color: {{ config.secondaryColor }};
+    color: {{ config.neutralDarkColor }};
     font-weight: bold;
     box-shadow: none;
     padding: 0 3rem;
@@ -16,9 +30,21 @@
 
   .btn:hover
   {
-    background-color: {{ config.secondaryColor }};
     box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0), 0 3px 11px 0 rgba(0, 0, 0, 0.15);
-  }  
+  } 
 
-	{{ config.customCSS }}
+  #menu { color: #a9b2c1; }
+
+  #menu .menu-item
+  {
+    font-weight: bold;    
+    text-transform: uppercase;
+    font-size: .85rem !important; 
+  }
+
+  #menu .menu-item .arrow-after { border-color: #a9b2c1 transparent transparent transparent !important; }
+
+  #menu .menu-item:hover { color: {{ config.neutralLightColor }}; }
+
+  #menu .menu-item:hover .arrow-after { border-color:  {{ config.neutralLightColor }} transparent transparent transparent !important; }	
 </style>
