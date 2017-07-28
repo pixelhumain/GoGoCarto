@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-22 14:41:43
+ * @Last Modified time: 2017-07-28 10:46:05
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -57,7 +57,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('minDayBetweenContributionAndCollaborativeValidation', null, ['required'=>false, 'label' => "Nombre de jours minimum avant une validation/refus collaboratif"])
                 ->end()
             ->end()
-            ->tab('Style')  
+            ->tab('Carte')  
                 ->with('Map', array('class' => 'col-md-6'))
                     ->add('defaultTileLayer', 'sonata_type_model', array(
                             'class'=> 'Biopen\CoreBundle\Document\TileLayer', 
@@ -68,13 +68,38 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('defaultSouthWestBoundsLat')
                     ->add('defaultSouthWestBoundsLng')
                 ->end()
-                ->with('Couleurs', array('class' => 'col-md-6'))
-                    ->add('primaryColor', 'xmon_color_picker', array('label' => 'Couleur Principale')) 
-                    ->add('secondaryColor', 'xmon_color_picker', array('label' => 'Couleur Secondaire'))   
-                    // ->add('neutralColor', 'xmon_color_picker', array('label' => 'Couleur Foncée'))   
-                    // ->add('neutralLightColor', 'xmon_color_picker', array('label' => 'Couleur Claire'))     
+            ->end()
+            ->tab('Style')     
+                ->with('Style principal', array('class' => 'col-md-6'))
+                    ->add('mainFont', null, array('label' => 'Police principale'))  
+                    ->add('titleFont', null, array('label' => 'Police de titre')) 
+
+                    ->add('neutralDarkColor', 'xmon_color_picker', array('label' => 'Couleur Neutre sombre'))  
+                    ->add('neutralSoftDarkColor', 'xmon_color_picker', array('label' => 'Couleur Neutre sombre adoucie'))  
+                    ->add('neutralColor', 'xmon_color_picker', array('label' => 'Couleur Neutre'))  
+                    ->add('neutralLightColor', 'xmon_color_picker', array('label' => 'Couleur Neutre claire'))  
+                    ->add('secondaryColor', 'xmon_color_picker', array('label' => 'Couleur Secondaire'))  
+                    ->add('primaryColor', 'xmon_color_picker', array('label' => 'Couleur Primaire'))  
+                    ->add('backgroundColor', 'xmon_color_picker', array('label' => 'Couleur de fond de page'))  
+                    ->add('textColor', 'xmon_color_picker', array('label' => 'Couleur de texte'))      
                 ->end()
-            ->end();          
+                    // CUSTOM COLORS & FONTS
+                ->with('Style avancé', array('class' => 'col-md-6'))
+                    ->add('headerColor', 'xmon_color_picker', array('label' => 'Couleur header'))  
+                    ->add('searchBarColor', 'xmon_color_picker', array('label' => 'Couleur search bar'))  
+                    ->add('disableColor', 'xmon_color_picker', array('label' => 'Couleur désactivé'))  
+                    ->add('neutralDarkTransparentColor', 'xmon_color_picker', array('label' => 'Couleur neutre sombre semi transparente')) 
+                    ->add('listTitleColor', 'xmon_color_picker', array('label' => 'Couleur titre liste'))  
+                    ->add('listTitleBackBtnColor', 'xmon_color_picker', array('label' => 'Couleur titre liste bouton retour'))  
+                    ->add('listTitleBackgroundColor', 'xmon_color_picker', array('label' => 'Couleur fond titre liste'))  
+                    ->add('pendingColor', 'xmon_color_picker', array('label' => 'Couleur pending'))  
+                    ->add('interactiveSectionColor', 'xmon_color_picker', array('label' => 'Couleur Interactive section'))  
+                    
+                    ->add('taxonomyMainTitleFont', null, array('label' => 'Police titre taxonomie'))    
+
+                    ->add('customCSS', 'textarea', array('label' => 'Custom CSS')) 
+                ->end()
+            ->end();
     }
 
     protected function configureListFields(ListMapper $listMapper)
