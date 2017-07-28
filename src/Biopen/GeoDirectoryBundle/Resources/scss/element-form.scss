@@ -8,12 +8,15 @@
 #page-content.element-form
 {
   max-width: 700px !important;
+  background-color: transparent !important;
 } 
 
 body
 {
   height: auto;
 }
+
+label { color: inherit; }
 
 i.material-icons {
     top: 4px;
@@ -43,10 +46,8 @@ i.material-icons {
 
 .input-field .prefix 
 { 
-  color: #585858 ;
-
-  &.valid { color: $secondary-color }
-  &.invalid { color: $error-color }
+  //&.valid { color: $secondary-color }
+  //&.invalid { color: $error-color }
 }
 
 #input-description { padding-bottom: 0 !important;}
@@ -54,7 +55,6 @@ i.material-icons {
 
 #section-validate-and-send
 {
-  padding: 0 2.5rem;
   margin-bottom: 2rem;
 }
 
@@ -63,11 +63,16 @@ i.material-icons {
   padding-bottom: 1rem;
 }
 
+.element-form-submit-btn
+{
+  margin-top: 1.5rem;
+}
 
 #element-form-title
 {
-   
-   margin-bottom: 5px !important;
+  padding-top: 2rem;
+  background-color: #fafafa;
+  margin-bottom: 5px !important;
   @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
 }
 

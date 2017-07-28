@@ -16,6 +16,8 @@
 	  }
   }
 
+  h1 { margin-bottom: 2.5rem; }
+
   .input-field.error .prefix { color: $error-color; }
 
   .explanations
@@ -28,24 +30,21 @@
   } 
 
   .btn-login
-		{			
-			text-transform: none !important;
-	    height: auto;
-	    line-height: 2rem;
-	    padding: 0 10px;
-	    font-size: .85rem;
-	    margin-top: -9px;
-	    background-color: #de5a5f;
-			color: white;
-			&:hover{ background-color: #ec787d }
+	{			
+		text-transform: none !important;
+    height: auto;
+    line-height: 2rem;
+    padding: 0 10px;
+    font-size: .85rem;
+    margin-top: -9px;
 
 
-			@media only screen and (min-width : 801px) 
-			{ 
-				padding: 0 1.5rem;
-				line-height: 2.5rem;
-			}
+		@media only screen and (min-width : 801px) 
+		{ 
+			padding: 0 1.5rem;
+			line-height: 2.5rem;
 		}
+	}
 
   .or-label
   {

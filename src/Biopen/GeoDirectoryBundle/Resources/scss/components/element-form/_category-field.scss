@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 11:57:15
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-29 12:09:36
+* @Last Modified time: 2017-07-28 17:35:35
 */
 .categories-info
 {
@@ -56,11 +56,14 @@
 		@include order(0);
 		margin: 0;	
 
-    .select-dropdown li.disabled 
+    .select-dropdown li
     {
-		    text-transform: uppercase;
-		    font-size: .8rem;
-		    font-weight: bold;
+	    &.disabled 
+	    {
+			    text-transform: uppercase;
+			    font-size: .8rem;
+			    font-weight: bold;
+			}
 		}
 
 		.caret 
@@ -73,13 +76,6 @@
 
 		.select-wrapper 
 		{
-			background-color: $primary-color;
-			&:hover { background-color: $primary-color-light }
-		  &.depth-1 { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
-		  &.depth-2 { background-color:  #636363; &:hover { background-color: #737373 } }
-		  &.depth-3 { background-color:  #636363; &:hover { background-color: #737373 } }
-		  &.depth-4 { background-color:  #636363; &:hover { background-color: #737373 } }
-
 		  padding-left: 1rem;
 		  @include border-radius(3px);
 	    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
@@ -108,13 +104,6 @@
 		&.inline 
 		{ 
 			display: inline-block;
-			//background-color: grey;
-			
-			&.depth-0 { background-color:  #f38286; }
-		  &.depth-1 { background-color:  #8aadaa; }
-		  &.depth-2 { background-color:  #868686; }
-		  &.depth-3 { background-color:  #868686; }
-		  &.depth-4 { background-color:  #868686; }
 
 			@include border-radius(5px);
 			margin-right: .5rem;
@@ -160,33 +149,6 @@
 			//font-weight: 600;
     	color: inherit;
     	display: inline-block;
-
-    	.icon
-    	{
-				&.depth-0 { color: $primary-color }
-			  &.depth-1 { color:  $secondary-color;}
-			  &.depth-2 { color:  #636363;}
-			  &.depth-3 { color:  #636363;}
-			  &.depth-4 { color:  #636363;  }
-
-				// &.depth-0 { background-color: $primary-color }
-			 //  &.depth-1 { background-color:  $secondary-color;}
-			 //  &.depth-2 { background-color:  #636363;}
-			 //  &.depth-3 { background-color:  #636363;}
-			 //  &.depth-4 { background-color:  #636363;  }
-
-			 //  border-radius: 50%;
-		  //   margin-top: -3px;
-		  //   width: 30px;
-		  //   color: #e8e8e8;
-
-			 //  &:before
-			 //  {
-			 //  	padding-left: 5px;
-			 //    line-height: 1.7rem;
-			 //    margin-top: 5px;
-			 //  }
-    	}
 		}
 
 		.option-field-delete
@@ -201,7 +163,7 @@
    			margin-left: 1rem;
 
    			color: #5f5f5f;			
-				&:hover { cursor: pointer; color: $primary-color;}
+				&:hover { cursor: pointer;}
 			}
 		}		
 	}

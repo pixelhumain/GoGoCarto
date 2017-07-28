@@ -12,7 +12,6 @@
 
 body
 {
-  background-color: $secondary-color;
   height: auto;
   min-height: 100%;
   @include flexbox();
@@ -42,8 +41,8 @@ header
   margin-top: 0;
 	margin-left: auto;
   margin-right: auto; 
-	width:100%;	
   background-color : #fafafa;
+	width:100%;	  
   padding: 0rem; 
 
   @media screen and (min-width: 600px)
@@ -57,28 +56,29 @@ header
 section
 {
   padding: 1rem;
+  background-color : #fafafa;
 
   @media screen and (min-width: 600px)
   {
     padding: 2rem 3.5rem 2rem 2.5rem;
+    margin-bottom: 1rem;
   }
 }
 
 .divider 
-{
-    
+{    
     overflow: hidden;
-    border-bottom: 2px dashed $secondary-color;
+    border-bottom: 2px dashed;
     overflow: hidden;
     background-color: transparent;
     margin-bottom: 1rem;
 
     @media screen and (min-width: 600px)
     {
-      height: 1rem;
-      border-bottom: none;
-      background-color: $secondary-color;
-      margin: 0
+      display:none,
+      // height: 1rem;
+      // border-bottom: none;
+      // margin: 0
     }
 }
 
@@ -89,7 +89,8 @@ h1
 {
   font-size: 2.5rem;
   text-align: center;
-  margin-top: .5rem;
+  padding-top: .5rem;
+  margin-top: 0;
 
    @media screen and (min-width: 600px) { font-size: 3.5rem; }
 }
@@ -126,19 +127,4 @@ h2.no-margin-bottom
   }
 
   height: auto
-}
-
-.btn-primary
-{
-  color : white;
-  background-color: $primary-color;
-  &:hover { background-color : $primary-color-light}
-}
-
-
-.btn-secondary
-{
-  color : white;
-  background-color: #56948f;
-  &:hover { background-color : $secondary-color-light}
 }

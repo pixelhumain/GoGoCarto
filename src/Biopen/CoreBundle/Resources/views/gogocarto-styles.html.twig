@@ -1,50 +1,129 @@
 <style>
 	#menu { background-color: {{ config.headerColor }}; color: white; }
 
-	#menu #btn-login { background-color: {{ config.secondaryColor }}; color: {{ config.neutralDarkColor }} }
-
   #menu #listAbout { background-color: {{ config.headerColor }}; }
 
   #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
 
   #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
 
+  #menu-home .small-logo .icon-menu { background-color: {{ config.secondaryColor }}; }
+
   h1, h2 { font-family: {{ config.titleFont }}; }
 
-  .btn { background-color: {{ config.secondaryColor }}; }
-  .btn:hover { background-color: {{ config.secondaryColor }}; }
+  .btn { background-color: {{ config.primaryColor }}; color: white; }
+  .btn:hover { background-color: {{ config.primaryColor }}; }
 
-  {{ config.customCSS }}
-
-	.gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1px; }
+  .btn.btn-secondary { background-color: {{ config.secondaryColor }}; }
+  .btn.btn-secondary:hover { background-color: {{ config.secondaryColor }}; }
 
   .modal.page-modal { background-color: {{ config.neutralDarkColor }} !important; }  
 
+  body { background-color: {{ config.backgroundColor }}; color: {{ config.neutralColor }} }
+
+  {% set focusColor = config.secondaryColor %}
+
+  .option-field .option-field-delete i:hover { color: {{ config.primaryColor }} !important; }
+
+  #element-form-content .category-field-select .select-wrapper { background-color: {{ config.primaryColor }}; }
+  #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ config.secondaryColor }}; }
+  #element-form-content .category-field-select .select-wrapper.depth-2 { background-color: {{ config.neutralColor }}; }
+  #element-form-content .category-field-select .select-wrapper.depth-3 { background-color: {{ config.neutralColor }}; }
+  #element-form-content .category-field-select .select-wrapper.depth-4 { background-color: {{ config.neutralColor }}; }
+
+  .option-field-name .icon.depth-0 { color: {{ config.primaryColor }}; }
+  .option-field-name .icon.depth-1 { color: {{ config.secondaryColor }}; }
+  .option-field-name .icon.depth-2 { color: {{ config.neutralColor }}; }
+  .option-field-name .icon.depth-3 { color: {{ config.neutralColor }}; }
+  .option-field-name .icon.depth-4 { color: {{ config.neutralColor }}; }
+
+  #element-form-content .option-field.inline { background-color:  {{ config.neutralSoftColor }}; }
+
+  .dropdown-content li>span { color: {{ config.neutralColor }}; }
+
+  {# CUSTOM #}
+
+  {{ config.customCSS }}
+
+  .option-field .option-field-delete i:hover { color: {{ config.secondaryColor }} !important; }
+
+  #element-form-content .category-field-select .select-wrapper { background-color: {{ config.secondaryColor }}; box-shadow: none; }
+  #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ config.primaryColor }}; }
+
+  .option-field-name .icon.depth-0 { color: {{ config.secondaryColor }}; }
+  .option-field-name .icon.depth-1 { color: {{ config.primaryColor }}; }
+
+	.gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1px; }   
+
 	.btn
   {
-    color: {{ config.neutralDarkColor }};
     font-weight: bold;
+    border-radius: 5px;
     box-shadow: none;
     padding: 0 3rem;
   }
+  .btn:hover { box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0), 0 3px 11px 0 rgba(0, 0, 0, 0.15); } 
 
-  .btn:hover
+  #page-content { background-color: white; }
+  h2 { font-family: 'Roboto', sans-serif; letter-spacing: 2px; line-height: 2rem;}
+
+  #page-content.element-form section { background-color: white; border-radius: 5px; }
+  #page-content.element-form .categories-info { font-weight: bold; text-align: center; }
+  #page-content.element-form input[type=checkbox] + label:before 
+  { 
+    width: 16px;
+    height: 16px;
+    border: 2px solid #5a5a5a;
+    border-radius: 3px;
+    margin-top: 4px;
+  }  
+  #page-content.element-form #element-form-title
   {
-    box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0), 0 3px 11px 0 rgba(0, 0, 0, 0.15);
-  } 
+    background-color: transparent;
+    margin-bottom: 2rem !important;
+    padding-top: 1.5rem;
+  }
+
+  .flash-message
+  {
+    background-color: transparent !important;    
+    font-weight: bold;
+    padding-bottom: 1.5rem;
+    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    margin-bottom: .5rem;
+    color: {{ config.neutralColor }};
+  }
+
+  .flash-message a { color: {{ config.secondaryColor }}; }
+  .flash-message a:hover { color: #a01e6e; }
+
+  #page-container .flash-messages-container:last-child { margin-bottom: 1rem; }
+
+  .divider { border-color: {{ config.backgroundColor }}; }
+
+  h1, h2 { color: {{ config.neutralColor }}; }
+  .modal.page-modal h1 { color: white !important; }
+  .modal.page-modal .btn {  color: {{ config.neutralDarkColor }}; }
+
+ 
+  
 
   #menu { color: #a9b2c1; }
-
   #menu .menu-item
   {
     font-weight: bold;    
     text-transform: uppercase;
     font-size: .85rem !important; 
   }
-
   #menu .menu-item .arrow-after { border-color: #a9b2c1 transparent transparent transparent !important; }
-
   #menu .menu-item:hover { color: {{ config.neutralLightColor }}; }
-
   #menu .menu-item:hover .arrow-after { border-color:  {{ config.neutralLightColor }} transparent transparent transparent !important; }	
+  #menu #btn-login {  color: {{ config.neutralDarkColor }}; }
+  #menu #btn-logout { background-color: transparent; }
+
+
+
 </style>
