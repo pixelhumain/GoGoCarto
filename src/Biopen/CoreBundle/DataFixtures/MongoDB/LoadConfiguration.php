@@ -56,6 +56,8 @@ class LoadConfiguration implements FixtureInterface
     $neutral = $blue ;
     $neutralLight = $greyLight ;
     $secondary = $green ;
+    $secondarySoft = '#adb700';
+    $pendingColor = '#5b5b5b';
     $primary = $pink ;
     $background = $greyLight ;
 
@@ -89,7 +91,9 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setListTitleColor($listTitle);
     $configuration->setListTitleBackBtnColor($listTitleBackBtn);
     $configuration->setListTitleBackgroundColor($listTitleBackground); 
-    $configuration->setTaxonomyMainTitleFont($taxonomyMainTitleFont);  
+    $configuration->setTaxonomyMainTitleFont($taxonomyMainTitleFont); 
+    $configuration->setPendingColor($pendingColor);
+    $configuration->setInteractiveSectionColor($secondarySoft); 
     $configuration->setCustomCSS('');
     
     $manager->persist($configuration);  

@@ -154,7 +154,13 @@ class Configuration
     protected $listTitleBackgroundColor; 
 
     /** @MongoDB\Field(type="string") */
-    protected $taxonomyMainTitleFont;  
+    protected $taxonomyMainTitleFont; 
+
+    /** @MongoDB\Field(type="string") */
+    protected $pendingColor; 
+
+    /** @MongoDB\Field(type="string") */
+    protected $interactiveSectionColor; 
 
     /** @MongoDB\Field(type="string") */
     protected $customCSS = '';
@@ -1099,5 +1105,49 @@ class Configuration
     public function getSearchBarColor()
     {
         return $this->searchBarColor;
+    }
+
+    /**
+     * Set pendingColor
+     *
+     * @param string $pendingColor
+     * @return $this
+     */
+    public function setPendingColor($pendingColor)
+    {
+        $this->pendingColor = $pendingColor;
+        return $this;
+    }
+
+    /**
+     * Get pendingColor
+     *
+     * @return string $pendingColor
+     */
+    public function getPendingColor()
+    {
+        return $this->pendingColor;
+    }
+
+    /**
+     * Set interactiveSectionColor
+     *
+     * @param string $interactiveSectionColor
+     * @return $this
+     */
+    public function setInteractiveSectionColor($interactiveSectionColor)
+    {
+        $this->interactiveSectionColor = $interactiveSectionColor;
+        return $this;
+    }
+
+    /**
+     * Get interactiveSectionColor
+     *
+     * @return string $interactiveSectionColor
+     */
+    public function getInteractiveSectionColor()
+    {
+        return $this->interactiveSectionColor;
     }
 }
