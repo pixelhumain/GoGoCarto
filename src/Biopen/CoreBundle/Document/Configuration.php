@@ -115,6 +115,9 @@ class Configuration
     protected $neutralColor;
 
     /** @MongoDB\Field(type="string") */
+    protected $neutralSoftColor;
+
+    /** @MongoDB\Field(type="string") */
     protected $neutralLightColor;
 
     /** @MongoDB\Field(type="string") */
@@ -1149,5 +1152,27 @@ class Configuration
     public function getInteractiveSectionColor()
     {
         return $this->interactiveSectionColor;
+    }
+
+    /**
+     * Set neutralSoftColor
+     *
+     * @param string $neutralSoftColor
+     * @return $this
+     */
+    public function setNeutralSoftColor($neutralSoftColor)
+    {
+        $this->neutralSoftColor = $neutralSoftColor;
+        return $this;
+    }
+
+    /**
+     * Get neutralSoftColor
+     *
+     * @return string $neutralSoftColor
+     */
+    public function getNeutralSoftColor()
+    {
+        return $this->neutralSoftColor;
     }
 }
