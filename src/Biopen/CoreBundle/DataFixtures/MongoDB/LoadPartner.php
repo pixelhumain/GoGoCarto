@@ -30,9 +30,10 @@ class LoadPartner implements FixtureInterface
     $new_partner = new Partner();
 
     $new_partner->setName("Colibris"); 
-    $new_partner->setContent($lipsum->words(rand(30,100)));
+    $new_partner->setContent("Créé en 2007 sous l’impulsion de Pierre Rabhi, Colibris se mobilise pour la construction d’une société écologique et humaine. Colibris a pour mission d’inspirer, relier et soutenir les citoyen.ne.s engagé.e.s dans une démarche de transition écologique et solidaire.
+L’association cartographie depuis sa création en 2007, en partenariat avec Le Marché Citoyen, les acteurs de la transition.");
     $new_partner->setLogoUrl("colibris.png");
-    $new_partner->setWebsiteUrl("www.mouvement-colibris.com");
+    $new_partner->setWebsiteUrl("colibris-lemouvement.org");
     $manager->persist($new_partner);
 
     $new_partner = new Partner();
@@ -40,7 +41,7 @@ class LoadPartner implements FixtureInterface
     $new_partner->setName("Le Mlarché Citoyen"); 
     $new_partner->setContent($lipsum->words(rand(30,100)));
     $new_partner->setLogoUrl("marchecitoyen.png");
-    $new_partner->setWebsiteUrl("www.machercitoyen.net");
+    $new_partner->setWebsiteUrl("www.lemarchecitoyen.net");
     $manager->persist($new_partner);     
 
     // we trigger saving of all partners
