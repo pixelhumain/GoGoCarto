@@ -130,6 +130,9 @@ class Configuration
     protected $backgroundColor;
 
     /** @MongoDB\Field(type="string") */
+    protected $contentBackgroundColor;
+
+    /** @MongoDB\Field(type="string") */
     protected $textColor;
     
 
@@ -1174,5 +1177,27 @@ class Configuration
     public function getNeutralSoftColor()
     {
         return $this->neutralSoftColor;
+    }
+
+    /**
+     * Set contentBackgroundColor
+     *
+     * @param string $contentBackgroundColor
+     * @return $this
+     */
+    public function setContentBackgroundColor($contentBackgroundColor)
+    {
+        $this->contentBackgroundColor = $contentBackgroundColor;
+        return $this;
+    }
+
+    /**
+     * Get contentBackgroundColor
+     *
+     * @return string $contentBackgroundColor
+     */
+    public function getContentBackgroundColor()
+    {
+        return $this->contentBackgroundColor;
     }
 }

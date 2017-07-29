@@ -83,6 +83,7 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setSecondaryColor($secondary);
     $configuration->setPrimaryColor($primary);
     $configuration->setBackgroundColor($background);
+    $configuration->setContentBackgroundColor('white'); // #fafafa
     $configuration->setTextColor($textColor);
 
     // CUSTOM COLORS & FONTS

@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-28 17:23:34
+ * @Last Modified time: 2017-07-29 08:20:15
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -81,7 +81,8 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('neutralLightColor', 'xmon_color_picker', array('label' => 'Couleur Neutre claire'))  
                     ->add('secondaryColor', 'xmon_color_picker', array('label' => 'Couleur Secondaire'))  
                     ->add('primaryColor', 'xmon_color_picker', array('label' => 'Couleur Primaire'))  
-                    ->add('backgroundColor', 'xmon_color_picker', array('label' => 'Couleur de fond de page'))  
+                    ->add('backgroundColor', 'xmon_color_picker', array('label' => 'Couleur de fond de page')) 
+                    ->add('contentBackgroundColor', 'xmon_color_picker', array('label' => 'Couleur content background'))   
                     ->add('textColor', 'xmon_color_picker', array('label' => 'Couleur de texte'))      
                 ->end()
                     // CUSTOM COLORS & FONTS
