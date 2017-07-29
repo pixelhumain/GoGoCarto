@@ -25,18 +25,20 @@ i.material-icons {
 
 #input-address {  width: calc(100% - 13rem); }
 
-#input-address ~ .prefix.error
+#input-address-icon-prefix.error:after
 {
-  &:before
-  {
-    content: "Impossible de localiser cette adresse";
-  }
+  content: "Impossible de localiser cette adresse";
+  position: absolute;
+  width: 600px;
+  top: 85%;
+  left: 3rem;
+  font-size: 1rem;
 }
 
 .input-field .prefix 
 { 
   //&.valid { color: $secondary-color }
-  //&.invalid { color: $error-color }
+  &.invalid { color: $error-color !important }
 }
 
 #input-description { padding-bottom: 0 !important;}

@@ -2,13 +2,13 @@ var geocoding_processing = false;
 // trouve le lat lng correspondant ? une adresse donn?e
 function geocodeAddress( address ) {
 
-	if (geocoding_processing) return null;
+	if (geocoding_processing || !address) return null;
 
 	$('#geocode-spinner-loader').show();
 
 	geocoding_processing = true;
 
-	geocoder.geocode( address, function(results, status) 
+	geocoderJS.geocode( address, function(results, status) 
 	{
 		if (results !== null && results.length > 0) 
 		{

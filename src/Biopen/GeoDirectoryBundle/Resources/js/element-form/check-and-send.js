@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 12:56:25
+ * @Last Modified time: 2017-07-29 17:00:37
  */
 
 
@@ -154,18 +154,7 @@ function checkOpenHours()
 
 function checkAddressGeolocalisation()
 {
-	if( !$('#input-latitude').val() )	
-	{
-		$('#input-address').addClass("invalid").focus();
-		$('#modal-title').text("Erreur");
-		$('#popup-content').text("Impossible de localiser cette adresse, veuillez la préciser");
-		$('#popup').openModal({
-		      dismissible: true, 
-		      opacity: 0.5, 
-		      in_duration: 300, 
-		      out_duration: 200
-    		});		
-	}
+	$('#input-address').addClass("invalid");
 }
 
 function checkRequiredFields()
