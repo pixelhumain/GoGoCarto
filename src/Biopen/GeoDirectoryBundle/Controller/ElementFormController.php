@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-21 14:37:35
+ * @Last Modified time: 2017-07-29 16:39:01
  */
  
 
@@ -59,6 +59,8 @@ class ElementFormController extends Controller
 		  throw new NotFoundHttpException("Cet élément n'existe pas.");
 		}
 
+		$addOrEditComplete = false;
+
 		$securityContext = $this->container->get('security.context');
 		$session = $this->getRequest()->getSession();
 		$configService = $this->container->get('biopen.config_service');
@@ -93,20 +95,20 @@ class ElementFormController extends Controller
 		// depending on authentification type (account or just giving email) we fill some variables
 		else 
 		{
-			if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY'))
-			{
-				$user = 'Anonymous';
-				$user_email = 'Anonymous';
-			}
-			else if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
 				$user = $this->get('security.context')->getToken()->getUser();
 				$user_email = $user->getEmail();
 			}
-			else
+			else if ($session->has('user_email'))
 			{
 				$user = $session->get('user_email');
 				$user_email = $session->get('user_email');
+			}
+			else
+			{
+				$user = 'Anonymous';
+				$user_email = 'Anonymous';
 			}
 		}		
 		
@@ -195,15 +197,17 @@ class ElementFormController extends Controller
 			// clear session
 			$session->remove('elementWaitingForDuplicateCheck');
 			$session->remove('duplicatesElements');
-			$session->remove('recopyInfo');			
+			$session->remove('recopyInfo');
+
+			$addOrEditComplete = true;			
 		}
 
-		if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
-			$flashMessage = "Vous êtes actuellement en mode 'Anonyme'</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
-		else
-			$flashMessage = 'Vous êtes connecté en tant que  ' . $user .'</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
+		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') || $session->has('user_email')) 
+			$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
+		else			
+			$flashMessage = "Vous êtes actuellement en mode \"Anonyme\"</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
 
-		if($user) $request->getSession()->getFlashBag()->add('notice', $flashMessage);
+		if(!$addOrEditComplete) $request->getSession()->getFlashBag()->add('notice', $flashMessage);
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
