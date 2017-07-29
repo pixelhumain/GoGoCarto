@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-04-07 18:09:07
+ * @Last Modified time: 2017-07-29 15:31:32
  */
 jQuery(document).ready(function()
 {	
@@ -16,37 +16,12 @@ jQuery(document).ready(function()
 	$('.timepicker_2').timepicki({start_time: ["12", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	$('.timepicker_3').timepicki({start_time: ["14", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 	$('.timepicker_4').timepicki({start_time: ["18", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
-	
-	// EDIT MODE
-	if ($('#element-type').val() > 0)
-	{
-		updateFormWithType(false);
-		updateFormWithMainProduct($("#main-product-selection").val());
-	}
-
-	// CHECK si un type de element est d?j? donn? dans l'url
-	var GET = getQueryParams(document.location.search);
-	if (GET.type) 
-	{
-		$('#element-type > option[value="'+GET.type+'"]').prop('selected',true);
-		updateFormWithType(false);
-	}	
-	
-	
-
- //  $('#select-test').select2({
-	//   minimumResultsForSearch: Infinity,
-	//   tags: true,
-	// });
 
 	$('.tooltipped').tooltip();
 
 	// ---------------
 	// AJOUT LISTENERS
 	// ---------------
-	$('#element-type').change( updateFormWithType );
-	
-	$("#main-product-selection").change(function() { updateFormWithMainProduct($(this).val()); });
 
 	// entrée d'une adresse on geocode
 	$('#input-address').change(function () { handleInputAdressChange(); });
@@ -59,8 +34,6 @@ jQuery(document).ready(function()
 	});
 	$('.btn-geolocalize').click(function () { handleInputAdressChange(); });
 	
-	$('#search-bar').on("place_changed",handleInputAdressChange);
-
 	// quand on check un product l'input de pr?cision apparait ou disparait
 	$('.checkbox-products').click(function() { return !$(this).hasClass('readonly'); });
 	$('.checkbox-products').change(function()
