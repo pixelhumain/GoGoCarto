@@ -17,11 +17,13 @@ class CoreController extends Controller
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
         ->findMainCategory();
 
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+
         $mainOptions = $mainCategory->getOptions();
 
         $this->get('session')->clear();
         
-        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions));
+        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions, 'config' => $config));
     }
 
     public function headerAction()

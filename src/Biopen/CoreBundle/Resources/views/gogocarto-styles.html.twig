@@ -9,6 +9,7 @@
 
   .btn { background-color: {{ config.primaryColor }}; color: white; }
   .btn:hover { background-color: {{ config.primaryColor }}; }
+  .btn:focus { background-color: {{ config.primaryColor }}; }
 
   .btn.btn-secondary { background-color: {{ config.secondaryColor }}; }
   .btn.btn-secondary:hover { background-color: {{ config.secondaryColor }}; }
@@ -39,6 +40,26 @@
   #element-form-content .option-field.inline { background-color:  {{ config.neutralSoftColor }}; }
 
   .dropdown-content li>span { color: {{ config.neutralColor }}; }
+
+
+  .main-options-container label.main-option-radio-label:after
+  {
+    border: 2px solid {{ config.primaryColor }};
+    background-color: {{ config.primaryColor }};
+  }
+  .main-options-container label.main-option-radio-label:before 
+  {
+    border: 2px solid {{ config.neutralColor }};
+  }
+
+  #section-credits { background-color: {{ config.headerColor }}; color: {{ config.neutralSoftColor }}; }  
+
+
+
+
+
+
+
 
   {# CUSTOM #}
 
@@ -105,10 +126,88 @@
 
   h1, h2 { color: {{ config.neutralColor }}; }
   .modal.page-modal h1 { color: white !important; }
-  .modal.page-modal .btn {  color: {{ config.neutralDarkColor }}; }
+  .modal.page-modal .btn {  color: {{ config.neutralDarkColor }}; } 
 
- 
-  
+  #home-main-wrapper #bottom-more-info 
+  { 
+    background-color: transparent; 
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    bottom: .5rem !important;
+  }
+  #home-main-wrapper #bottom-more-info:hover { background-color: transparent; }
+  #home-main-wrapper #bottom-more-info:after {
+    content: "";
+    position: absolute;
+    top: 130%;
+    background-color: white;
+    border-radius: 50% 50% 0 0;
+    height: 100px;
+    width: 100%;
+    left: 0;
+    right: 0;
+
+  } 
+   #home-main-wrapper #bottom-more-info:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    background-color: {{ config.primaryColor }};
+    height: 100px;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+  #home-main-container { background-color: white !important; box-shadow: 0 0 14px 0px #6b7e9b; font-size: 1.1rem;}
+  #home-main-wrapper label { color: inherit !important; font-weight: bold; font-size: inherit; }
+  #home-main-wrapper h2 { text-transform: uppercase; font-weight: bold; font-size: 1.1rem !important; margin-top: 0 !important; line-height: 3.5rem; }
+  #home-main-wrapper .btn { font-size: 1rem !important;  width: 350px !important; padding: 4px 3rem; height: auto;}
+  #home-main-wrapper .contribution-text { font-weight: bold; font-size: 1.2rem !important;}
+  #home-main-wrapper .divider {
+    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    margin: 0 3rem;
+    height: 2px;
+    background-color: transparent;
+  }
+  #home-main-wrapper #search-bar { text-transform: uppercase; font-weight: bold; color: {{ config.neutralDarkColor }} !important;}
+  {% set placeholderColor = config.neutralDarkColor ~ '!important' %}
+  #home-main-wrapper #search-bar::-webkit-input-placeholder { color: {{ placeholderColor }}; }
+  #home-main-wrapper #search-bar::-moz-placeholder { color: {{ placeholderColor }}; }
+  #home-main-wrapper #search-bar:-ms-input-placeholder { color: {{ placeholderColor }}; }
+  #home-main-wrapper #search-bar:-moz-placeholder { color: {{ placeholderColor }}; }
+
+  #home-main-wrapper #search-bar::selection { color: {{ placeholderColor }}; }
+  #home-main-wrapper #search-bar::-moz-selection { background-color: {{ placeholderColor }}; }
+      
+  #home-main-wrapper #search-bar:focus { background-color: rgba(107, 126, 155, 0.6) !important; color: white !important; }
+
+  #home-main-wrapper #search-bar-icon {
+    right: 0;
+    left: initial !important;
+    width: 8rem;
+    background-color: {{ config.secondaryColor }};
+    color: white !important;
+    height: 3rem;
+    border-radius: 0 10px 10px 0;
+  }
+  section.bottom-section .content
+  {
+    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    padding: 3rem 5rem 4rem 5rem;
+  }
+  section.bottom-section h2 { font-family: 'Lobster';font-size: 3.5rem !important; }
+  section.bottom-section:last-child .content { background: none; }
+  section.bottom-section:first-child .content {padding-top: 5rem; }
+  #section-credits { text-transform: uppercase; color: {{ config.neutralColor }}; font-size: 1.4rem; letter-spacing: 1.5px; }
+  #section-credits strong { color: {{ config.neutralSoftColor }}; }
+
 
   #menu { color: #a9b2c1; }
   #menu .menu-item
