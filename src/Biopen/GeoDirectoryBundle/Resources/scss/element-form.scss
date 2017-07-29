@@ -9,7 +9,7 @@ label { color: inherit; }
 
 i.material-icons {
     top: 4px;
-    &.openhours-icons { line-height: 3.5rem; }
+    &.openhours-icons { line-height: 3.2rem; }
 }
 
 .input-field.error .prefix.active
@@ -248,8 +248,7 @@ a.leaflet-control-zoom-out {
 
 .open-hours-container
 {
-  padding-bottom:0.8rem;  
-  padding-left: .5rem;
+  padding: .2rem 0 .6rem .5rem;
 }
 
 .open-hours-container.impair
@@ -277,6 +276,8 @@ a.leaflet-control-zoom-out {
   color: $secondary-color;
   @include transition(color 0.5s);
 }
+.redo-time-slot-button { line-height: 3rem; }
+    
 
 
 

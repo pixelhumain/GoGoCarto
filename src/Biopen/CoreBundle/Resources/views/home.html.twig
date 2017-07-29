@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">   
 
   <style>
-	  body { background-image: url({{ asset('assets/img/' ~ 'home.png') }}); }
+	  body { background-color: {{ config.headerColor }} !important; background-image: url({{ asset('assets/img/' ~ 'home.png') }}); }
 	</style>
 
 	{% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}
@@ -66,10 +66,9 @@
 	</section>
 
 	<div id="bottom-more-info">
-		<!-- <div class="arrow-down"></div> -->
-		<span class="icon icon-expand"></span>
+		<span class="icon icon-arrow-circle-down"></span>
 		<span class="text">En savoir plus</span>
-		<span class="icon icon-expand"></span>
+		<span class="icon icon-arrow-circle-down"></span>
 	</div>
 </div>
 

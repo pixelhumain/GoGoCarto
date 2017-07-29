@@ -34,13 +34,13 @@
 		{% endif %}
 		
 		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-			<div id="captcha-error-message">Vous devez valider le captcha ci-dessous</div>
+			<div id="captcha-error-message">Vous devez cocher la case ci-dessous</div>
 			<div id="captcha" class="col s12"></div>
 		{% endif %}
 
 		<input type="hidden" id="submit-option" name="submit-option" />
 		<center>
-			<button onclick="checkAndSend('default')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
+			<button onclick="checkAndSend('default')" id="element-form-submit-btn" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
 			{% if is_granted('ROLE_ADMIN') %}
 				<button onclick="checkAndSend('backtomap')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et retourner à la carte</button>
 			{% endif %}
