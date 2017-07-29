@@ -5,17 +5,6 @@
 
 @import "components/element-form/category-field";
 
-#page-content.element-form
-{
-  max-width: 700px !important;
-  background-color: transparent !important;
-} 
-
-body
-{
-  height: auto;
-}
-
 label { color: inherit; }
 
 i.material-icons {

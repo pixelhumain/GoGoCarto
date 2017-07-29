@@ -5,6 +5,7 @@
 
 @import 'pages/partner';
 @import 'pages/contributor-login';
+@import 'pages/element-form';
 @import 'pages/check-for-duplicates';
 @import 'pages/register';
 @import 'pages/error';
@@ -41,7 +42,6 @@ header
   margin-top: 0;
 	margin-left: auto;
   margin-right: auto; 
-  background-color : #fafafa;
 	width:100%;	  
   padding: 0rem; 
 
@@ -56,7 +56,7 @@ header
 section
 {
   padding: 1rem;
-  background-color : #fafafa;
+  background-color : transparent;
 
   @media screen and (min-width: 600px)
   {

@@ -1,12 +1,8 @@
 <style>
 	#menu { background-color: {{ config.headerColor }}; color: white; }
-
   #menu #listAbout { background-color: {{ config.headerColor }}; }
-
   #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
-
   #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
-
   #menu-home .small-logo .icon-menu { background-color: {{ config.secondaryColor }}; }
 
   h1, h2 { font-family: {{ config.titleFont }}; }
@@ -19,7 +15,10 @@
 
   .modal.page-modal { background-color: {{ config.neutralDarkColor }} !important; }  
 
-  body { background-color: {{ config.backgroundColor }}; color: {{ config.neutralColor }} }
+  body, html { background-color: {{ config.backgroundColor }}; color: {{ config.neutralColor }} }
+
+  #page-content { background-color : {{ config.contentBackgroundColor }}; }
+  #page-content.element-form section { background-color: {{ config.contentBackgroundColor }}; }
 
   {% set focusColor = config.secondaryColor %}
 
@@ -64,10 +63,10 @@
   }
   .btn:hover { box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0), 0 3px 11px 0 rgba(0, 0, 0, 0.15); } 
 
-  #page-content { background-color: white; }
   h2 { font-family: 'Roboto', sans-serif; letter-spacing: 2px; line-height: 2rem;}
 
-  #page-content.element-form section { background-color: white; border-radius: 5px; }
+  #page-content { box-shadow: none !important; border-radius: 5px; }
+  #page-content.element-form section { border-radius: 5px; }
   #page-content.element-form .categories-info { font-weight: bold; text-align: center; }
   #page-content.element-form input[type=checkbox] + label:before 
   { 
@@ -123,6 +122,32 @@
   #menu .menu-item:hover .arrow-after { border-color:  {{ config.neutralLightColor }} transparent transparent transparent !important; }	
   #menu #btn-login {  color: {{ config.neutralDarkColor }}; }
   #menu #btn-logout { background-color: transparent; }
+
+  #page-content.partners { background-color: transparent !important; }
+  #page-content.partners h1 { margin-bottom: 3rem; }
+  @media screen and (max-width: 600px) { #page-content.partners h1 { margin-bottom: 2rem;margin-top: 1rem; } }
+  #page-content.partners section { padding-top: 0; }
+  #page-content.partners .image-container { width: 100%; float:none; padding: 0; text-align: center;}
+  #page-content.partners .partner-text { width: 100%; float:none; text-align: center; margin-top: -3.5rem;}
+  #page-content.partners .partner-logo { max-width: 300px; margin-top: -.5rem;}
+  #page-content.partners .partner-title { display:none; }
+  #page-content.partners .partner-description { text-align: justify; margin-bottom: 1.7rem;}
+  #page-content.partners .partner-url {
+    background-color: #bdc900;
+    color: white;
+    padding: .4rem 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  #page-content.partners .partner-item
+  {
+    background-image: linear-gradient(to right, #a6b5cc 33%, rgba(255,255,255,0) 0%);
+    background-position: top;
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    padding-bottom: 1.5rem;
+    margin-bottom: 0;
+  }
 
 
 

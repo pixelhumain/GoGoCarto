@@ -1,5 +1,7 @@
 {% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
+{% set pageName = 'partners' %}
+
 {% block title %}Partenaires{% endblock %}
 
 {# BODY CONTENT #}
@@ -12,13 +14,13 @@
 {% for partner in listPartners %}
 
   <div class="partner-item row">
-    <div class="image-container col s4 m3">
-      <img src={{ partner.logoUrl }} alt="logo" class=""/>
+    <div class="image-container">
+      <img src={{ asset('assets/img/partners/' ~ partner.logoUrl) }} alt="logo" class="partner-logo"/>
     </div>
-    <div class="partner-text col s8 m9">
-      <h2>{{ partner.name|capitalize }}</h2>
-      <p>{{ partner.content |raw }} </p>
-      <a href="{{ partner.websiteUrl }}" target="_blank">{{ partner.websiteUrl }}</a>
+    <div class="partner-text">
+      <h2 class="partner-title">{{ partner.name|capitalize }}</h2>
+      <p class="partner-description">{{ partner.content |raw }} </p>
+      <a class="partner-url" href="{{ partner.websiteUrl }}" target="_blank">{{ partner.websiteUrl }}</a>
     </div>
   </div>
 
