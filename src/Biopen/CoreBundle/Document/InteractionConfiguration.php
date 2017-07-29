@@ -27,7 +27,6 @@ class InteractionConfiguration extends FeatureConfiguration
 
     public function isAllowed($user, $iframe, $userMail = null)
     {        
-        dump($user);
         if (!$this->getActive() || !$this->getActiveInIframe() && $iframe) return false;
         return parent::isAllowed($user, $iframe) ||
                 !$user && $userMail && $this->getAllowRoleAnonymousWithMail();
