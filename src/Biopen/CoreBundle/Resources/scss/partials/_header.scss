@@ -11,12 +11,14 @@ header
 		margin: 0 ; 
 	  font-size: .85rem ;
 		padding: 0 .5rem;
+		height: 3rem;
 
 		@media only screen and (min-width : 601px)
 		{
 			font-size:1rem;
 			margin-bottom: 0px ;
 			padding: 0;	
+			height: 3.5rem;
 		}
 
 		#menu-home
@@ -40,7 +42,7 @@ header
 			{
 				height: 2.5rem;
 		    position: absolute;
-		    top: .5rem;
+		    top: .3rem;
 			}
 
 	    .small-logo .icon-menu
@@ -69,7 +71,8 @@ header
 			{
 				margin-left: .7rem;
 		    font-size: 1.6rem;
-		    line-height: 3.2rem;
+		    line-height: 3.5rem;
+		    #logo-inline { top: .5rem; }
 		  }
 
 	    @media screen and (max-width: 600px) { line-height: 3rem; height: 3rem; padding: 0;}
@@ -78,12 +81,15 @@ header
 		#menu-actions
 		{
 			float : right;
+			line-height: 2.5rem; 
+			@media screen and (min-width: 601px) { line-height: 3rem; }
+			@media screen and (min-width: 801px) { line-height: 3.5rem; }
 		}
 		
 		.menu-item 
 		{ 
 			text-align:center ;
-			line-height: 2.5rem;
+			//line-height: 2.5rem;
 			float: none;
 			display:inline-block;			
 				
@@ -95,13 +101,8 @@ header
 			@media only screen and (min-width : 601px)
 			{
 				margin-right: .5rem;
-				line-height: 2.8rem;
+				//line-height: 2.8rem;
 				width: auto;	
-			}
-
-			@media only screen and (min-width : 801px)
-			{
-				line-height: 3.4rem;
 			}
 
 			@media only screen and (min-width : 1000px)
