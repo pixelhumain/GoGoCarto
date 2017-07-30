@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:39:41
+ * @Last Modified time: 2017-07-30 16:43:59
  */
  
 
@@ -35,6 +35,8 @@ function loadHabitat($mainOption, $c, $s)
 	$types = array(			
 		array('Matériaux'   				,'icon-materiaux'      		, 'brown'		,	'Vente de matériaux pour la construction'        , true),
 		array('Ressourcerie'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
+		array('Eco-construction'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
+		array('Animaux'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
 		array('Artisan/Installateur' 	,''      						, 'lightblue'			,'Charpentier, production d\'énergie...'          , false),
 		array('Conception'   			,''      						, 'blue'		,'Architecte, designer...'      , false),
 		array('Jardin'   					,''      						, 'green'		,''        , false)
@@ -75,9 +77,10 @@ function loadHabitat($mainOption, $c, $s)
 	// Liste des names de catégorie à ajouter
 	$artisanType = array(
 		array('Charpente/Menuiserie'  , 'icon-charpentier'    , 'lightblue', ''        , ''),
-		array('Chauffage/Isolation'   , 'icon-temperature-1'    , 'lightblue',''        , ''),
+		array('Chauffage/Isolation'   , 'icon-temperature-1'    , 'lightblue',''        , ''),		
 		array('Maconnerie'            , 'icon-maconnerie'       , 'lightblue',''        , ''),
 		array('Energie renouvelable'  , 'icon-renouvelable-1'     , 'lightblue',''        , ''),
+		array('Habitat intérieur'     , 'icon-maconnerie'       , 'lightblue',''        , ''),
 		array('Electricité'           , 'icon-electricite'    , 'lightblue',''        , ''),
 		array('Autre'                 , 'icon-autre'    			, 'lightblue',''        , '')
 
@@ -184,8 +187,8 @@ function loadHabitat($mainOption, $c, $s)
 	}
 
 	// COMPILE
-	$typeCategory->getOptions()[2]->addSubcategory($artisanCategory);
-	$typeCategory->getOptions()[3]->addSubcategory($conceptionCategory);
-	$typeCategory->getOptions()[4]->addSubcategory($jardinCategory);
+	$typeCategory->getOptions()[4]->addSubcategory($artisanCategory);
+	$typeCategory->getOptions()[5]->addSubcategory($conceptionCategory);
+	$typeCategory->getOptions()[6]->addSubcategory($jardinCategory);
 	$mainOption->addSubcategory($typeCategory);
 }

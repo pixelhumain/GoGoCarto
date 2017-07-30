@@ -18,6 +18,7 @@ class ImportColibrisLmcService
 	private $converter;
 	private $geocoder;
 	private $mainsCategories;
+	private $optionsMissing = [];
 
 	/**
      * Constructor
@@ -51,76 +52,82 @@ class ImportColibrisLmcService
 
 	  foreach($data as $row) 
 	  {
-	      $new_element = new Element();
-
-	      $new_element->setName($row['Nom']);	      
-
-		   $address = $row['Address'] ? $row['Address'] . ', ' : '';
-		   $address .= $row['Code postal'] ? $row['Code postal'] . ' ' : '';
-		   $address .= $row['Ville']; 
-
-	      $new_element->setAddress($address);
-	      $new_element->setPostalCode($row['Code postal']);         
-	      $new_element->setDescription($row['Description']);
-	      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
-	      
-	      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebSite($row['Site web']);
-	      
-	      $new_element->setMail($row['Email de contact (export uniquement)']);
-	      $new_element->setOpenHoursMoreInfos($row['Horaires']);
-	      $new_element->setStatus(ElementStatus::AddedByAdmin);
-	      $new_element->setSourceKey($row['Source']);
-
-	      $lat = 0;
-			$lng = 0;
-
-	      if (strlen($row['Lattitude']) > 2 && strlen($row['Longitude']) > 2)
+	      if ($row['A Supprimer'] == '')
 	      {
-		      $lat = $row['Lattitude'];
-		      $lng = $row['Longitude'];
-		   }
-		   else
-		   {		      
-		      if ($geocode)
+		      $new_element = new Element();
+
+		      $new_element->setName($row['Nom']);	      
+
+			   $address = $row['Address'] ? $row['Address'] . ', ' : '';
+			   $address .= $row['Code postal'] ? $row['Code postal'] . ' ' : '';
+			   $address .= $row['Ville']; 
+
+		      $new_element->setAddress($address);
+		      $new_element->setPostalCode($row['Code postal']); 
+		      $new_element->setCommitment($row['Engagement']);    
+		      $new_element->setDescription($row['Description']);
+		      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
+		      
+		      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebSite($row['Site web']);
+		      
+		      $new_element->setMail($row['Email']);
+		      $new_element->setOpenHoursMoreInfos($row['Horaires']);
+		      $new_element->setStatus(ElementStatus::AddedByAdmin);
+		      $new_element->setSourceKey($row['Source']);
+
+		      $lat = 0;
+				$lng = 0;
+
+		      if (strlen($row['Lattitude']) > 2 && strlen($row['Longitude']) > 2)
 		      {
-		      	try 
+			      $lat = $row['Lattitude'];
+			      $lng = $row['Longitude'];
+			   }
+			   else
+			   {		      
+			      if ($geocode)
 			      {
-			      	$result = $this->geocoder->geocode($address)->first();
-			      	$lat = $result->getLatitude();
-			      	$lng = $result->getLongitude();	
+			      	try 
+				      {
+				      	$result = $this->geocoder->geocode($address)->first();
+				      	$lat = $result->getLatitude();
+				      	$lng = $result->getLongitude();	
+				      }
+				      catch (\Exception $error) { }      
 			      }
-			      catch (\Exception $error) { }      
+			   } 
+
+			   if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
+
+			   $new_element->setCoordinates(new Coordinates((float)$lat, (float)$lng));
+		      
+		      $this->parseOptionValues($new_element, $row);
+
+				// Persisting the current user
+		      $this->em->persist($new_element);
+		      
+				// Each 20 users persisted we flush everything
+		      if (($i % $batchSize) === 0) {
+
+		          $this->em->flush();
+					 // Detaches all objects from Doctrine for memory save
+		          $this->em->clear();
+		          
+		          if ($output) 
+		          {
+						 // Advancing for progress display on console
+			          $progress->advance($batchSize);
+					
+			          $now = new \DateTime();
+			          $output->writeln(' of users imported ... | ' . $now->format('d-m-Y G:i:s'));
+			       }
 		      }
-		   } 
 
-		   if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
-
-		   $new_element->setCoordinates(new Coordinates((float)$lat, (float)$lng));
-	      
-	      $this->parseOptionValues($new_element, $row);
-
-			// Persisting the current user
-	      $this->em->persist($new_element);
-	      
-			// Each 20 users persisted we flush everything
-	      if (($i % $batchSize) === 0) {
-
-	          $this->em->flush();
-				 // Detaches all objects from Doctrine for memory save
-	          $this->em->clear();
-	          
-	          if ($output) 
-	          {
-					 // Advancing for progress display on console
-		          $progress->advance($batchSize);
-				
-		          $now = new \DateTime();
-		          $output->writeln(' of users imported ... | ' . $now->format('d-m-Y G:i:s'));
-		       }
-	      }
-
-	      $i++;
+		      $i++;
+	   	}
 	  }
+
+	  dump($this->optionsMissing);
 
 	  dump($new_element);
 
@@ -139,101 +146,105 @@ class ImportColibrisLmcService
 			
 			// AGRICULTURE
 			'Agriculture et Alimentation' => 'Agriculture & Alimentation',
-			'Epicerie et superette' => 'Epicerie & Supérette',
-			'Marché' => 'Marché',
-			'Restauration' => 'Restauration',
-			'RucheQuiDitOui' => 'Ruche qui dit oui',
-			'ProducteurArtisan' => 'Producteur/Artisan',
-			'AMAP&Paniers' => 'AMAP/Paniers',
-			'Fruits' => 'Fruits',
-			'Legumes' => 'Légumes',
-			'Viande' => 'Viande',
-			'Produits Laitiers' => 'Produits laitiers',
-			'Boissons' => 'Boissons',
-			'pain' => 'Pain, farine',
-			'poisson' => 'Poisson',
-			'miel' => 'Miel',
-			'œufs' => 'Oeufs',
-			'huile' => 'Huiles',
-			'Légumineuses' => 'Légumineuses',
-			'transformes' => 'Produits transformés',
-			'Autres' => 'Autre@Circuit courts',                         
+			'Agriculture et Alimentation@Epicerie et superette' => 'Epicerie & Supérette',
+			'Agriculture et Alimentation@Marché' => 'Marché',
+			'Agriculture et Alimentation@Restauration' => 'Restauration',
+			'Agriculture et Alimentation@RucheQuiDitOui' => 'Ruche qui dit oui',
+			'Agriculture et Alimentation@ProducteurArtisan' => 'Producteur/Artisan',
+			'Agriculture et Alimentation@AMAP&Paniers' => 'AMAP/Paniers',
+			'Agriculture et Alimentation@Fruits' => 'Fruits',
+			'Agriculture et Alimentation@Legumes' => 'Légumes',
+			'Agriculture et Alimentation@Viande' => 'Viande',
+			'Agriculture et Alimentation@Produits Laitiers' => 'Produits laitiers',
+			'Agriculture et Alimentation@Boissons' => 'Boissons',
+			'Agriculture et Alimentation@pain' => 'Pain, farine',
+			'Agriculture et Alimentation@poisson' => 'Poisson',
+			'Agriculture et Alimentation@miel' => 'Miel',
+			'Agriculture et Alimentation@œufs' => 'Oeufs',
+			'Agriculture et Alimentation@huile' => 'Huiles',
+			'Agriculture et Alimentation@Légumineuses' => 'Légumineuses',
+			'Agriculture et Alimentation@transformes' => 'Produits transformés',
+			'Agriculture et Alimentation@Autres' => 'Autre@Circuit courts',                         
 			
 			// SORTIE CULTURE
 			'Sortie/loisirs' => 'Sortie & Culture',
-			'Bars/cafés' => 'Bar/Café',
-			'Restaurant' => 'Restaurant',
-			'Parcs' => 'Parc',
-			'Nature' => 'Parc',
-			'Musique' => 'Musique',
-			'Cinéma' => 'Cinéma',
-			'Papier' => 'Papier',
-			'Spectacle' => 'Théâtre',              // CHECK
-			'Expos' => 'Photographie',               // CHECK
-			'Autres' => 'Autre@Lieu pour sortir',              
+			'Sortie/loisirs@Bars/cafés' => 'Bar/Café',
+			'Sortie/loisirs@Restaurant' => 'Restaurant',
+			'Sortie/loisirs@Parcs' => 'Parc',
+			'Sortie/loisirs@Nature' => 'Parc',
+			'Sortie/loisirs@Musique' => 'Musique',
+			'Sortie/loisirs@Cinéma' => 'Cinéma',
+			'Sortie/loisirs@Papier' => 'Papier',
+			'Sortie/loisirs@Théâtre' => 'Théâtre', 
+			'Sortie/loisirs@Spectacle' => 'Spectacle',              // CHECK
+			'Sortie/loisirs@Expos' => 'Expos',               // CHECK
+			'Sortie/loisirs@Autres' => 'Autre@Lieu pour sortir',              
 
 			// MOBILITE
 			'Mobilité' => 'Mobilité',
-			'Autos' => 'Auto',
-			'Motos' => 'Moto',
-			'Vélos' => 'Vélo',
-			'Bateaux' => 'Bateau',
-			'Autres' => 'Autre@Mobilité',                     
-			'Reparation' => 'Atelier/Réparation',
-			'Nettoyage' => 'Nettoyage',
-			'Location' => 'Location',
-			'Achat' => 'Vente/Boutique',
+			'Mobilité@Autos' => 'Auto',
+			'Mobilité@Motos' => 'Moto',
+			'Mobilité@Vélos' => 'Vélo',
+			'Mobilité@Bateaux' => 'Bateau',
+			'Mobilité@Autres' => 'Autre@Mobilité',                     
+			'Mobilité@Reparation' => 'Atelier/Réparation',
+			'Mobilité@Nettoyage' => 'Nettoyage',
+			'Mobilité@Location' => 'Location',
+			'Mobilité@Achat' => 'Vente/Boutique',
 
 			// EDUCATION
 			'Education et Formation' => 'Education & Formation',
-			'ecole' => 'Ecole',
-			'Maternelle' => 'Maternelle',
-			'Elementaire' => 'Elementaire',
-			'Collège' => 'Collège',
-			'Lycée' => 'Lycée',
-			'Animation' => 'Animation',
-			'Formation' => 'Formation',
-			'Conférence' => 'Conférence',
-			'Atelier' => 'Ateliers',
+			'Education et Formation@ecole' => 'Ecole',
+			'Education et Formation@Maternelle' => 'Maternelle',
+			'Education et Formation@Elementaire' => 'Elementaire',
+			'Education et Formation@Collège' => 'Collège',
+			'Education et Formation@Lycée' => 'Lycée',
+			'Education et Formation@Animation' => 'Animation',
+			'Education et Formation@Formation' => 'Formation',
+			'Education et Formation@Conférence' => 'Conférence',
+			'Education et Formation@Atelier' => 'Ateliers',
+			'Education et Formation@Autre' => 'Autre',
 
 			// MODE BEAUTÉ
 			'Mode et beauté' => 'Mode & Beauté',
-			'Vêtements' => 'Vêtement',
-			'Accessoires' => 'Accessoire',
-			'Décoration' => 'Décoration',
-			'Cosmétiques' => 'Cosmétique',
-			'Frippe' => 'Fripperie',
-			'Salon de coiffure' => 'Coiffeur',
-			'Institut de beauté' => 'Institut Beauté',
-			'Pharmacie alternative' => 'Pharamacie',
+			'Mode et beauté@Vêtements' => 'Vêtement',
+			'Mode et beauté@Accessoires' => 'Accessoire',
+			'Mode et beauté@Décoration' => 'Décoration',
+			'Mode et beauté@Cosmétiques' => 'Cosmétique',
+			'Mode et beauté@Fripe' => 'Fripperie',
+			'Mode et beauté@Salon de coiffure' => 'Coiffeur',
+			'Mode et beauté@Institut de beauté' => 'Institut Beauté',
+			'Mode et beauté@Pharmacie alternative' => 'Pharamacie',
 
 			// HABITAT
 			'Habitat' => 'Habitat',
-			'Ressourcerie' => 'Ressourcerie',
-			'Matériaux écologique' => 'Matériaux',
-			'Charpentier menuisier' => 'Charpente/Menuiserie',
-			'Chauffage&Isolation' => 'Chauffage/Isolation',
-			'Energie renouvelable' => 'Energie renouvelable',
-			'electricité' => 'Electricité',
-			'Maçonnerie' => 'Maconnerie',
-			'Habitat intérieur' => 'Autre@Artisan/installateur',                 
-			'Autres' => 'Autre@Artisan/Installateur',                           
-			'Conseil energétique' => 'Conseil énergétique',
-			'Paysagiste/décorateur' => 'Paygasiste/Déco',
-			'Architecte' => 'Architecte',
-			'Horticulture' => 'Horticulture',
-			'jardinage' => 'Jardin partagé',
-			'Grainothèque' => 'Grainothèque',
-			//'Animaux' => '',                               // CHECK
-			//'Eco-construction' => '',	                   // CHECK		
+			'Habitat@Ressourcerie' => 'Ressourcerie',
+			'Habitat@Matériaux écologique' => 'Matériaux',
+			'Habitat@Charpentier menuisier' => 'Charpente/Menuiserie',
+			'Habitat@Chauffage&Isolation' => 'Chauffage/Isolation',
+			'Habitat@Energie renouvelable' => 'Energie renouvelable',
+			'Habitat@electricité' => 'Electricité',
+			'Habitat@Maçonnerie' => 'Maconnerie',
+			'Habitat@Habitat intérieur' => 'Habitat intérieur',                 
+			'Habitat@Autres' => 'Autre@Artisan/Installateur',                           
+			'Habitat@Conseil energétique' => 'Conseil énergétique',
+			'Habitat@Paysagiste/décorateur' => 'Paygasiste/Déco',
+			'Habitat@Architecte' => 'Architecte',
+			'Habitat@Horticulture' => 'Horticulture',
+			'Habitat@jardinage' => 'Jardin partagé',
+			'Habitat@Grainothèque' => 'Grainothèque',
+			'Habitat@Animaux' => 'Animaux',                               // CHECK
+			'Habitat@Eco-construction' => 'Eco-construction',	                   // CHECK		
 
 			// VOYAGE
 			'Voyages' => 'Voyages',
-			'Camping' => 'Camping',
-			"Chambre d'hôtes" => 'Accueil Paysan',             // CHECK
-			'Gites' => 'Gite',
-			'Hôtels' => 'Hotel',
-			'Chalet' => 'Refuge',                               // CHECK
+			'Voyages@Camping' => 'Camping',
+			"Voyages@Chambre d'hôtes" => 'Accueil Paysan',             // CHECK
+			'Voyages@Gites' => 'Gite',
+			'Voyages@Hôtels' => 'Hotel',
+			'Voyages@Chalet' => 'Refuge', 
+			'Voyages@Agence' => 'Agence',  
+			'Voyages@Autre' => 'Autre',                             
 
 		];
 
@@ -241,6 +252,7 @@ class ImportColibrisLmcService
 
 		$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
+		//dump($mappingTableName);
 		
 		foreach($mappingTableName as $excelValue => $optionName)
 		{
@@ -248,17 +260,29 @@ class ImportColibrisLmcService
 			// this allow to distinct options who got same name (like "Autre" who is common name)
 			$values = explode('@', $optionName);
 
+			$optionNameToFindSlug = $this->slugify($values[0]);
+			if (count($values) == 2) $parentOptionNameToFindSlug = $this->slugify($values[1]);
+			$excelValueSlug = $this->slugify($excelValue);
+
+			//if (count($values) == 2) dump('Check for :  ' . $optionName);
+
 			foreach($options as $option)
 			{		
-				if ( (count($values) == 1 && $option->getName() == $optionName)
-					|| (count($values) == 2 && $option->getName() == $values[0] && $option->getParentOption() && $option->getParentOption()->getName() == $values[1]) )
+				$optionNameSlug = $this->slugify($option->getName());
+
+				//if (count($values) == 2 && $optionNameSlug == $optionNameToFindSlug && $option->getParentOption()) dump('   look into parent ' . $option->getParentOption()->getName());
+
+				if ( (count($values) == 1 && $optionNameSlug == $optionNameToFindSlug)
+					|| (count($values) == 2 && $optionNameSlug == $optionNameToFindSlug && $option->getParentOption() && $option->getParentOption()->getName() == $values[1]) )
 				{
-					$mappingTableIds[$excelValue] = [
+					$mappingTableIds[$excelValueSlug] = [
 						'id' => $option->getId(), 
 						'parentId' => $option->getParentOption() ? $option->getParentOption()->getId() : null
 					];
 				}
 			}
+
+			if (!array_key_exists($excelValueSlug, $mappingTableIds)) dump('Not option found for excel value : ' . $excelValueSlug);
 		}
 
 		dump($mappingTableIds);
@@ -284,13 +308,52 @@ class ImportColibrisLmcService
 
 			if ($row[$mainCategorie])
 			{
-				$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$mainCategorie]['id']);
+				$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$this->slugify($mainCategorie)]['id']);
 
 				$optionsExcel = explode(',', $row[$mainCategorie]);			
 				foreach($optionsExcel as $optionExcel)
 				{
 					if ($optionExcel)
 					{
+						$optionExcel = $this->slugify($mainCategorie . '@' . $optionExcel);
+						if ($optionExcel == 'sortie-loisirs-restauration') $optionExcel = 'sortie-loisirs-restaurant';
+						else if ($optionExcel == 'sortie-loisirs-restauration') $optionExcel = 'sortie-loisirs-restaurant';
+						else if ($optionExcel == 'voyages-animaux') $optionExcel = 'habitat-animaux';
+						else if ($optionExcel == 'mobilite-reparer') $optionExcel = 'mobilite-reparation';
+						else if ($optionExcel == 'education-et-formation-cole') $optionExcel = 'education-et-formation-ecole';
+						else if ($optionExcel == 'agriculture-et-alimentation-peuf') $optionExcel = 'agriculture-et-alimentation-oeuf';
+						else if ($optionExcel ==  "agriculture-et-alimentation-flegume") $optionExcel =  "agriculture-et-alimentation-legume";
+						else if ($optionExcel ==  "agriculture-et-alimentation-producteur-artisan") $optionExcel =  "agriculture-et-alimentation-producteurartisan";
+						else if ($optionExcel == 'mode-et-beaute-jeux') $optionExcel = 'sortie-loisirs-autre';
+						else if ($optionExcel == 'sortie-loisirs-bar-cafe') $optionExcel = 'sortie-loisirs-bars-cafe';
+						else if ($optionExcel == 'sortie-loisirs-bar') $optionExcel = 'sortie-loisirs-bars-cafe';
+						else if ($optionExcel == 'agriculture-et-alimentation-restaurant') $optionExcel = 'agriculture-et-alimentation-restauration';
+						else if ($optionExcel == 'agriculture-et-alimentation-producteur') $optionExcel = 'agriculture-et-alimentation-producteurartisan';
+
+						else if ($optionExcel == 'habitat-paysagiste') $optionExcel = 'habitat-paysagiste-decorateur';
+						else if ($optionExcel == 'sortie-loisirs-animaux') $optionExcel = 'habitat-animaux';
+						else if ($optionExcel == 'mobilite-atelier') $optionExcel = 'mobilite-reparation';
+						else if ($optionExcel == 'habitat-jardin-partage') $optionExcel = 'habitat-jardinage';
+						else if ($optionExcel == 'habitat-pepinieriste') $optionExcel = 'habitat-horticulture';
+						else if ($optionExcel == 'habitat-recyclerie') $optionExcel = 'habitat-ressourcerie';
+						else if ($optionExcel == 'habitat-decoration') $optionExcel = 'mode-et-beaute-decoration';
+						else if ($optionExcel == 'voyages-chambres-d-hote') $optionExcel = 'voyages-chambre-d-hote';
+						else if ($optionExcel == 'habitat-habitat-d-interieur') $optionExcel = 'habitat-habitat-interieur';
+						else if ($optionExcel == 'mobilite-voiture') $optionExcel = 'mobilite-auto';
+
+						else if ($optionExcel == 'education-et-formation-jeux') $optionExcel = 'education-et-formation-autre';
+						else if ($optionExcel == 'habitat-energies-renouvelable') $optionExcel = 'habitat-energie-renouvelable';
+						else if ($optionExcel == 'agriculture-et-alimentation-oisson') $optionExcel = 'agriculture-et-alimentation-boisson';
+						else if ($optionExcel == 'mode-et-beaute-ressourcerie') $optionExcel = 'habitat-ressourcerie';
+
+						else if ($optionExcel == 'habitat-institut-de-beaute') $optionExcel = 'mode-et-beaute-institut-de-beaute';
+						else if ($optionExcel == 'habitat-cosmetique') $optionExcel = 'mode-et-beaute-cosmetique';
+						else if ($optionExcel == 'agriculture-et-alimentation-au') $optionExcel = 'agriculture-et-alimentation-autre';
+
+						else if ($optionExcel == '') $optionExcel = '';
+
+
+						
 						if (array_key_exists($optionExcel, $this->mappingTableIds))
 						{
 							$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);					
@@ -303,7 +366,8 @@ class ImportColibrisLmcService
 						}
 						else
 						{
-							dump("Option from excel '" . $optionExcel . "' don't exist in the web site");
+							//dump("Option from excel '" . $optionExcel . "' don't exist in the web site");
+							if(!in_array($optionExcel, $this->optionsMissing)) $this->optionsMissing[] = $optionExcel;
 						}						
 					}			
 				}
@@ -328,6 +392,43 @@ class ImportColibrisLmcService
    	$optionValue->setIndex(0); 
    	$element->addOptionValue($optionValue);
    	return $id;
+	}
+
+	private function slugify($text)
+	{
+	  // replace non letter or digits by -
+	  $text = str_replace('é', 'e', $text);
+	  $text = str_replace('è', 'e', $text);
+	  $text = str_replace('ê', 'e', $text);
+	  $text = str_replace('ô', 'o', $text);
+	  $text = str_replace('ç', 'c', $text);
+	  $text = str_replace('à', 'a', $text);
+	  $text = str_replace('â', 'a', $text);
+	  $text = str_replace('î', 'i', $text);
+	  $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+	  // transliterate
+	  $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+	  // remove unwanted characters
+	  $text = preg_replace('~[^-\w]+~', '', $text);
+
+	  // trim
+	  $text = trim($text, '-');
+	  // remove final "s" for plural
+	  $text = rtrim($text, 's');
+
+	  // remove duplicate -
+	  $text = preg_replace('~-+~', '-', $text);
+
+	  // lowercase
+	  $text = strtolower($text);
+
+	  if (empty($text)) {
+	    return '';
+	  }
+
+	  return $text;
 	}
 
 	

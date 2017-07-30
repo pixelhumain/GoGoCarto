@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:40:06
+ * @Last Modified time: 2017-07-30 17:55:09
  */
  
 
@@ -117,7 +117,8 @@ function loadEducation($mainOption, $c, $s)
 			array('Animation'             , 'icon-echange-1'      , 'brown', ''        , ''),
 			array('Formation'             , 'icon-formation-2'   , 'brown',''        , ''),
 			array('Conférence'  				, 'icon-conf'     		, 'brown',''         , ''),
-			array('Ateliers'              , 'icon-atelier-1'      , 'brown',''        , '')
+			array('Ateliers'              , 'icon-atelier-1'      , 'brown',''        , ''),
+			array('Autre'        			, 'icon-autre'        , 'brown',''        , '')
 		);
 
 		foreach ($services as $key => $service) 

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:37:39
+ * @Last Modified time: 2017-07-30 17:55:38
  */
  
 
@@ -38,7 +38,9 @@ function loadVoyage($mainOption, $c, $s)
 			array('Accueil Paysan'   ,'icon-ferme-1'     	 , 'green',''        , true),
 			array('Hotel'    			, 'icon-hotel-1'     	 	, 'blue',''        , true),
 			array('Gite'     			, 'icon-gite'     		, 'lightblue',''				, true),
-			array('Refuge'  			, 'icon-chalet'     		, 'purple', ''        , false)
+			array('Refuge'  			, 'icon-chalet'     		, 'purple', ''        , false),
+			array('Agence'  			, 'icon-chalet'     		, 'purple', ''        , false),
+			array('Autre'  			, 'icon-autre'     		, 'purple', ''        , false)
 		);
 
 		foreach ($types as $key => $type) 

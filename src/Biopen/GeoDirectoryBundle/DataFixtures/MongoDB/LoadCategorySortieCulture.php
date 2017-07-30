@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:38:28
+ * @Last Modified time: 2017-07-30 15:33:58
  */
  
 
@@ -109,8 +109,9 @@ function loadSortieCulture($mainOption, $c, $s)
 			array('Cinéma'    	, 'icon-cinema'      , 'pink'	,''        , true),
 			array('Musique'     , 'icon-musique'     	, 'pink',''				, true),
 			array('Théâtre'  		, 'icon-theatre'     	, 'pink'		, ''        	, false),
+			array('Spectacle'  	, 'icon-theatre'     	, 'pink'		, ''        	, false),
 			array('Papier'  		, 'icon-paper'     	, 'pink',''				, true),
-			array('Photographie' , 'icon-photo'     			, 'pink',''				, true),		
+			array('Expos' 			, 'icon-photo'     			, 'pink',''				, true),		
 		);
 
 		foreach ($cultures as $key => $culture) 
