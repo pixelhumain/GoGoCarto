@@ -16,12 +16,15 @@
 
   .modal.page-modal { background-color: {{ config.neutralDarkColor }} !important; }  
 
-  body, html { background-color: {{ config.backgroundColor }}; color: {{ config.neutralColor }} }
+  body, html { background-color: {{ config.backgroundColor }}; color: {{ config.neutralDarkColor }} }
+  .neutral-color { color: {{ config.neutralColor }}; }  
 
   #page-content { background-color : {{ config.contentBackgroundColor }}; }
   #page-content.element-form section { background-color: {{ config.contentBackgroundColor }}; }
 
   {% set focusColor = config.secondaryColor %}
+  i.prefix { color: {{ config.neutralColor }}; }
+  label { color: {{ config.neutralColor }}; }
 
   .option-field .option-field-delete i:hover { color: {{ config.primaryColor }} !important; }
 
