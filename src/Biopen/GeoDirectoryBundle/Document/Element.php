@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-13 10:04:56
+ * @Last Modified time: 2017-07-30 18:10:30
  */
  
 
@@ -132,6 +132,15 @@ class Element
      * @MongoDB\Field(type="string")
      */
     private $postalCode;
+
+     /**
+     * @var string
+     *
+     * Commitment
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $commitment;
 
     /**
      * @var string
@@ -878,6 +887,29 @@ class Element
     {
         return $this->createdAt;
     }
+
+    /**
+     * Set created
+     *
+     * @param date $created
+     * @return $this
+     */
+    public function setCommitment($commitment)
+    {
+        $this->commitment = $commitment;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return date $created
+     */
+    public function getCommitment()
+    {
+        return $this->commitment;
+    }
+    
 
     /**
      * Set updated
