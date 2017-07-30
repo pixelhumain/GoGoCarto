@@ -86,18 +86,64 @@
   }
   .btn:hover { box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0), 0 3px 11px 0 rgba(0, 0, 0, 0.15); } 
 
-  h2 { font-family: 'Roboto', sans-serif; letter-spacing: 2px; line-height: 2rem;}
-
-  .gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1px; }   
+  h2 { font-family: 'Roboto', sans-serif; letter-spacing: 1px; line-height: 2rem;}  
 
   #page-content { box-shadow: none !important; border-radius: 5px; }
 
   h1, h2 { color: {{ config.neutralColor }}; }
+
   .modal.page-modal h1 { color: white !important; }
   .modal.page-modal .btn {  color: {{ config.neutralDarkColor }}; } 
+  
 
 
+  {# --------------------#}
+  {#     DIRECTORY       #}
+  {# ------------------- #}
+  .gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1.5px;font-size: 1.1rem; }   
+  .gogocarto-container #search-bar
+  {
+    height: 2.5rem;
+    padding-left: 4rem;
+  }
+  .gogocarto-container #search-bar-icon {
+    position: absolute;
+    font-size: 1.2rem;
+    left: initial;
+    color: #fff;    
+    height: 2.5rem;
+    padding: 0 1.1rem;
+    border-radius: 5px 0px 0 5px;
+    line-height: 2.8rem;
+    background-color: {{ config.neutralDarkColor }};
+  }
+  @media (min-width: 850px) { .gogocarto-container #search-bar-container {
+    padding-left: 6px;
 
+  } }
+  .gogocarto-container #search-bar-container { padding-top: 7px; }
+
+  .gogocarto-container .element-item .info-bar-divider {   
+    background-color: transparent !important; 
+    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-position: bottom;
+    background-size: 6px 2px;
+    background-repeat: repeat-x;
+    margin: 0 1rem 0 0rem; 
+  }
+
+  .gogocarto-container #directory-menu .main-categories { width: 3.8rem; }
+  .gogocarto-container #directory-menu .main-categories .main-icon-background {
+    position: absolute;
+    top: .6rem;
+    border-radius: 5px 0 0 5px;
+    left: 5px;
+    height: 3rem;
+    margin-top: 4px;
+    width: calc(3.8rem - 5px);
+  }
+  .gogocarto-container #directory-menu .main-categories .icon:before { left: 1.1rem; }
+  .gogocarto-container #directory-menu .main-categories .icon.active:before { left: 1.3rem; }
 
 
 
