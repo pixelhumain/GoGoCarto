@@ -176,8 +176,8 @@ class ImportColibrisLmcService
 			'Sortie/loisirs@Cinéma' => 'Cinéma',
 			'Sortie/loisirs@Papier' => 'Papier',
 			'Sortie/loisirs@Théâtre' => 'Théâtre', 
-			'Sortie/loisirs@Spectacle' => 'Spectacle',              // CHECK
-			'Sortie/loisirs@Expos' => 'Expos',               // CHECK
+			'Sortie/loisirs@Spectacle' => 'Sortie & Culture',           
+			'Sortie/loisirs@Expos' => 'Expos',               
 			'Sortie/loisirs@Autres' => 'Autre@Lieu pour sortir',              
 
 			// MOBILITE
@@ -356,13 +356,14 @@ class ImportColibrisLmcService
 						else if ($optionExcel == 'agriculture-et-alimentation-au') $optionExcel = 'agriculture-et-alimentation-autre';
 
 						else if ($optionExcel == '') $optionExcel = '';
-
-
 						
 						if (array_key_exists($optionExcel, $this->mappingTableIds))
 						{
-							$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);					
-
+							if (!in_array($this->mappingTableIds[$optionExcel]['id'], $optionsIdAdded))
+							{
+								$optionsIdAdded[] = $this->AddOptionValue($element, $this->mappingTableIds[$optionExcel]['id']);		
+							}
+							
 							// we add parent option if not already added (because excel import works only with the lower level of options)
 					   	if (!in_array($this->mappingTableIds[$optionExcel]['parentId'], $optionsIdAdded))
 					   	{
