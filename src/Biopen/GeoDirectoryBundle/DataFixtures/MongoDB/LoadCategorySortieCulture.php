@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-30 15:33:58
+ * @Last Modified time: 2017-07-31 14:44:09
  */
  
 
@@ -71,7 +71,7 @@ function loadSortieCulture($mainOption, $c, $s)
 		$sorties = array(			
 			array('Bar/Café'     , 'icon-cafe'     		, 'blue'	,''				, true),
 			array('Restaurant'   ,'icon-restaurant'     , 'lightblue'	,''        , true),
-			array('Parc'     		, 'icon-park'     		, 'green',''				, true),
+			array('Nature'     	, 'icon-voyage-1'     		, 'green',''				, true),
 			array('Autre'     	, 'icon-autre'     		, 'brown',''				, true)			
 		);
 
@@ -109,9 +109,8 @@ function loadSortieCulture($mainOption, $c, $s)
 			array('Cinéma'    	, 'icon-cinema'      , 'pink'	,''        , true),
 			array('Musique'     , 'icon-musique'     	, 'pink',''				, true),
 			array('Théâtre'  		, 'icon-theatre'     	, 'pink'		, ''        	, false),
-			array('Spectacle'  	, 'icon-theatre'     	, 'pink'		, ''        	, false),
 			array('Papier'  		, 'icon-paper'     	, 'pink',''				, true),
-			array('Expos' 			, 'icon-photo'     			, 'pink',''				, true),		
+			array('Expos' 			, 'icon-expo'     			, 'pink',''				, true),		
 		);
 
 		foreach ($cultures as $key => $culture) 

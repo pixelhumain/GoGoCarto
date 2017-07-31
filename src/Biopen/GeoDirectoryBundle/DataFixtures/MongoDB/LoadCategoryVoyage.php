@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-30 17:55:38
+ * @Last Modified time: 2017-07-31 14:33:06
  */
  
 
@@ -34,12 +34,12 @@ function loadVoyage($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Camping'      	, 'icon-camping'     		, 'brown',''				, true),
-			array('Accueil Paysan'   ,'icon-ferme-1'     	 , 'green',''        , true),
+			array('Agence'  			, 'icon-tags'     		, 'pink', ''        , false),
+			array('Camping'      	, 'icon-camping'     		, 'green',''				, true),
+			array('Refuge'  			, 'icon-chalet'     		, 'darkgreen', ''        , false),
+			array('Accueil Paysan'   ,'icon-ferme-1'     	 , 'yellow',''        , true),
 			array('Hotel'    			, 'icon-hotel-1'     	 	, 'blue',''        , true),
-			array('Gite'     			, 'icon-gite'     		, 'lightblue',''				, true),
-			array('Refuge'  			, 'icon-chalet'     		, 'purple', ''        , false),
-			array('Agence'  			, 'icon-chalet'     		, 'purple', ''        , false),
+			array('Gite'     			, 'icon-gite'     		, 'lightblue',''				, true),				
 			array('Autre'  			, 'icon-autre'     		, 'purple', ''        , false)
 		);
 

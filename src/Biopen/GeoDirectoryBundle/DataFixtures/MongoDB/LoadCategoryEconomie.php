@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-31 08:58:20
+ * @Last Modified time: 2017-07-31 14:35:06
  */
  
 
@@ -34,8 +34,8 @@ function loadEconomie($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Banque Ethique'      	, ''     , 'brown',''				, true),
-			array('Assurance'    			,''     	 , 'green',''        , true),
+			array('Banque Ethique'      	, 'icon-euro'     , 'brown',''				, true),
+			array('Assurance'    			,'icon-euro'     	 , 'green',''        , true),
 		);
 
 		foreach ($types as $key => $type) 

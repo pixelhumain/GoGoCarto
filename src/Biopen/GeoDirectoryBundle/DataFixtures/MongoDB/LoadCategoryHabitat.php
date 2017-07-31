@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-30 16:43:59
+ * @Last Modified time: 2017-07-31 13:04:21
  */
  
 
@@ -35,8 +35,8 @@ function loadHabitat($mainOption, $c, $s)
 	$types = array(			
 		array('Matériaux'   				,'icon-materiaux'      		, 'brown'		,	'Vente de matériaux pour la construction'        , true),
 		array('Ressourcerie'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
-		array('Eco-construction'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
-		array('Animaux'      		, 'icon-ressourcerie'     	, 'yellow'			,''				, true),
+		array('Eco-construction'      , 'icon-construction'     	, 'purple'			,''				, true),
+		array('Animaux'      			, 'icon-paw'     				, 'pink'			,''				, true),
 		array('Artisan/Installateur' 	,''      						, 'lightblue'			,'Charpentier, production d\'énergie...'          , false),
 		array('Conception'   			,''      						, 'blue'		,'Architecte, designer...'      , false),
 		array('Jardin'   					,''      						, 'green'		,''        , false)

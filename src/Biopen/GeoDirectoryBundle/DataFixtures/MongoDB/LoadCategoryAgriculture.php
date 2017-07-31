@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:11:17
+ * @Last Modified time: 2017-07-31 15:06:06
  */
  
 
@@ -35,10 +35,10 @@ function loadAgriculture($mainOption, $c, $s)
 
 		// Liste des noms de catégorie à ajouter
 		$types = array(			
-			array('Marché'      				, 'icon-marche'     		, 'purple',''				, true),
-			array('Epicerie & Supérette'   ,'icon-epicerie'       , 'green',''        , true),
-			array('Restauration'    		, 'icon-restaurant'      , 'brown',''        , true),
-			array('Ruche qui dit oui'     , 'icon-flower'     	    , 'yellow',''				, true),
+			array('Marché'      				, 'icon-marche'     		, 'blue',''				, true),
+			array('Epicerie & Supérette'   ,'icon-epicerie'       , 'brown',''        , true),
+			array('Restauration'    		, 'icon-restaurant'      , 'lightblue',''        , true),
+			array('Ruche qui dit oui'     , 'icon-ruche'     	    , 'yellow',''				, true),
 			array('Circuit courts'  		, ''     				    , ''		, 'producteur, artisan, paniers'        , false)
 		);
 
@@ -80,8 +80,8 @@ function loadAgriculture($mainOption, $c, $s)
 
 		// Liste des names de catégorie à ajouter
 		$circuitCourtType = array(
-			array('Producteur/Artisan'     , ''    , 'blue', ''        , ''),
-			array('AMAP/Paniers'             		 , ''    , 'lightblue',''        , '')
+			array('Producteur/Artisan'     , ''    , 'pink', ''        , ''),
+			array('AMAP/Paniers'           , ''    , 'purple',''        , '')
 		);
 
 		foreach ($circuitCourtType as $key => $circuit) 

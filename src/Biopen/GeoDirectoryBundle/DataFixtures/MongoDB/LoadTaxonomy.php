@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:51:21
+ * @Last Modified time: 2017-07-31 17:28:08
  */
  
 
@@ -26,7 +26,9 @@ use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryEducation;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryMobilite;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategorySortieCulture;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryVoyages;
+use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadCategoryEconomie;
 use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadOpenHoursCategory;
+
 
 class LoadTaxonomy implements FixtureInterface
 {
@@ -40,7 +42,7 @@ class LoadTaxonomy implements FixtureInterface
 		// $c['yellowbrown'] = '#b77b03';$s['yellowbrown'] = '#b77b03';
 		// $c['brown'] = '#8e5440';		$s['brown'] = '#8e5440';
 
-		// $c['orange'] = '#c36c2e';		$s['orange'] = '#c36c2e';
+		// $c['orange'] = '#c36c2e';#d67129		$s['orange'] = '#c36c2e';
 		
 		// $c['red'] = '#b33738';			$s['red'] = 'rgba(179, 55, 56, 0.89)';
 		// $c['softred'] = 'rgba(179, 55, 56, 0.89)';			$s['softred'] = 'rgba(179, 55, 56, 0.89)';
@@ -58,13 +60,16 @@ class LoadTaxonomy implements FixtureInterface
 		// $c['lightgreen'] = '#4a7874';	$s['lightgreen'] = '#4a7874';
 		// $c['green'] = '#48843a';		$s['green'] = 'rgba(78, 136, 65, 0.92)';
 
-		$c['green'] = '#98a100';		$s['green'] = '#98a100';
-		$c['brown'] = '#7e3200';		$s['brown'] = '#7e3200';
-		$c['yellow'] = '#ab7100';		$s['yellow'] = '#ab7100';
-		$c['lightblue'] = '#009fa1';	$s['lightblue'] = '#009fa1';
-		$c['blue'] = '#00537e';			$s['blue'] = '#00537e';
-		$c['purple'] = '#65007e';		$s['purple'] = '#65007e';
-		$c['pink'] = '#ab0061';			$s['pink'] = '#ab0061';
+		$c['green'] = '#98a100';		$s['green'] = '#8c9221';
+		$c['brown'] = '#7e3200';		$s['brown'] = '#864c26';
+		$c['yellow'] = '#ab7100';		$s['yellow'] = '#9d7424';
+		$c['lightblue'] = '#009a9c';	$s['lightblue'] = '#138c8e';
+		$c['blue'] = '#00537e';			$s['blue'] = '#22698e';
+		$c['purple'] = '#8e36a5';/*#6d1a82*/		$s['purple'] = '#7d398d';
+		$c['pink'] = '#ab0061';			$s['pink'] = '#a4307c';
+		$c['red'] = '#cc3125';			$s['red'] = '#ce3a2f';
+		$c['darkgreen'] = '#1e8065';			$s['darkgreen'] = '#1e8065';
+		
 		
 		$taxonomy = new Taxonomy();
 		$manager->persist($taxonomy);
@@ -88,11 +93,12 @@ class LoadTaxonomy implements FixtureInterface
 		$mains = array(
 			array('Agriculture & Alimentation'  , 'leaf-1'     , 'green'		, ''	, 'Agriculture'        , true),
 			array('Habitat'    						, 'home'      	, 'brown'		, ''	,''        				, false),			
-			array('Education & Formation'    , 'education'     , 'yellow'	   , ''	,'Education'        , false),
+			array('Education & Formation'    , 'education-1'     , 'blue'	   , ''	,'Education'        , false),
 			array('Mobilité'        			, 'mobilite-2'    , 'lightblue'		, ''	,''       				 , false),
-			array('Sortie & Culture'   		 , 'coffee'      	, 'blue'				, ''	,'Sortie'        , false),	
-			array('Mode & Beauté'   		 	, 'clothe'      	, 'purple'		, ''	,'Mode/Beauté'        , false),			
-			array('Voyages'      				, 'voyage-1'     	, 'pink'		, ''	,''					, false),			
+			array('Sortie & Culture'   		 , 'coffee'      	, 'pink'				, ''	,'Sorties'        , false),	
+			array('Mode & Beauté'   		 	, 'vetement-4'      	, 'purple'		, ''	,'Mode/Beauté'        , false),			
+			array('Voyages'      				, 'case'     	, 'darkgreen'		, ''	,''					, false),	
+			array('Economie & Finance'      		, 'euro'   , 'yellow'		, ''	,'Economie/Finance'					, false),			
 		);
 
 		foreach ($mains as $key => $main) 
@@ -125,7 +131,8 @@ class LoadTaxonomy implements FixtureInterface
 		loadMobilite($mainCategory->getOptions()[3], $c, $s);
 		loadSortieCulture($mainCategory->getOptions()[4], $c, $s);
 		loadModeBeauté($mainCategory->getOptions()[5], $c, $s);
-		loadVoyage($mainCategory->getOptions()[6], $c, $s);		
+		loadVoyage($mainCategory->getOptions()[6], $c, $s);
+		loadEconomie($mainCategory->getOptions()[7], $c, $s);		
 
 		$openhoursCategory = loadOpenHoursCategory();
 

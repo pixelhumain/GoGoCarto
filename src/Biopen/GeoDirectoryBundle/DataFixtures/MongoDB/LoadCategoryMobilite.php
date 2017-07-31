@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-22 16:13:34
+ * @Last Modified time: 2017-07-31 09:29:08
  */
  
 
@@ -18,7 +18,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
 
-function loadMobilite($mainOption)
+function loadMobilite($mainOption, $c, $s)
 {
 	// AGRICULTURE
 		$serviceCategory = new Category();
@@ -45,8 +45,8 @@ function loadMobilite($mainOption)
 			$new_service->setName($service[0]);
 
 			$new_service->setIcon($service[1]);
-			$new_service->setColor($service[2]);
-			$new_service->setSoftColor($service[2]);
+			$new_service->setColor($c[$service[2]]);
+			$new_service->setSoftColor($s[$service[2]]);
 			$new_service->setTextHelper($service[3]);
 
 			$new_service->setNameShort($service[0]);
