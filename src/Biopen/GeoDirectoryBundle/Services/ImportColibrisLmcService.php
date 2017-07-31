@@ -170,8 +170,8 @@ class ImportColibrisLmcService
 			'Sortie/loisirs' => 'Sortie & Culture',
 			'Sortie/loisirs@Bars/cafés' => 'Bar/Café',
 			'Sortie/loisirs@Restaurant' => 'Restaurant',
-			'Sortie/loisirs@Parcs' => 'Parc',
-			'Sortie/loisirs@Nature' => 'Parc',
+			'Sortie/loisirs@Parcs' => 'Nature',
+			'Sortie/loisirs@Nature' => 'Nature',
 			'Sortie/loisirs@Musique' => 'Musique',
 			'Sortie/loisirs@Cinéma' => 'Cinéma',
 			'Sortie/loisirs@Papier' => 'Papier',
@@ -231,7 +231,8 @@ class ImportColibrisLmcService
 			'Habitat@Paysagiste/décorateur' => 'Paygasiste/Déco',
 			'Habitat@Architecte' => 'Architecte',
 			'Habitat@Horticulture' => 'Horticulture',
-			'Habitat@jardinage' => 'Jardin partagé',
+			'Habitat@jardinage' => 'Jardin',
+			'Habitat@jardin partagé' => 'Jardin partagé',
 			'Habitat@Grainothèque' => 'Grainothèque',
 			'Habitat@Animaux' => 'Animaux',                               // CHECK
 			'Habitat@Eco-construction' => 'Eco-construction',	                   // CHECK		
@@ -244,7 +245,12 @@ class ImportColibrisLmcService
 			'Voyages@Hôtels' => 'Hotel',
 			'Voyages@Chalet' => 'Refuge', 
 			'Voyages@Agence' => 'Agence',  
-			'Voyages@Autre' => 'Autre',                             
+			'Voyages@Autre' => 'Autre', 
+
+			// ECONOMIE
+			'Economie et Finance' => 'Economie & Finance',
+			'Economie et Finance@Banque éthique' => 'Banque éthique',
+			"Economie et Finance@Assurance" => 'Assurance',                              
 
 		];
 
@@ -297,6 +303,7 @@ class ImportColibrisLmcService
 			'Sortie/loisirs',
 			'Mode et beauté',
 			'Voyages',
+			'Economie et Finance',
 		];
 	}
 
@@ -324,7 +331,6 @@ class ImportColibrisLmcService
 						else if ($optionExcel == 'agriculture-et-alimentation-peuf') $optionExcel = 'agriculture-et-alimentation-oeuf';
 						else if ($optionExcel ==  "agriculture-et-alimentation-flegume") $optionExcel =  "agriculture-et-alimentation-legume";
 						else if ($optionExcel ==  "agriculture-et-alimentation-producteur-artisan") $optionExcel =  "agriculture-et-alimentation-producteurartisan";
-						else if ($optionExcel == 'mode-et-beaute-jeux') $optionExcel = 'sortie-loisirs-autre';
 						else if ($optionExcel == 'sortie-loisirs-bar-cafe') $optionExcel = 'sortie-loisirs-bars-cafe';
 						else if ($optionExcel == 'sortie-loisirs-bar') $optionExcel = 'sortie-loisirs-bars-cafe';
 						else if ($optionExcel == 'agriculture-et-alimentation-restaurant') $optionExcel = 'agriculture-et-alimentation-restauration';
@@ -333,7 +339,6 @@ class ImportColibrisLmcService
 						else if ($optionExcel == 'habitat-paysagiste') $optionExcel = 'habitat-paysagiste-decorateur';
 						else if ($optionExcel == 'sortie-loisirs-animaux') $optionExcel = 'habitat-animaux';
 						else if ($optionExcel == 'mobilite-atelier') $optionExcel = 'mobilite-reparation';
-						else if ($optionExcel == 'habitat-jardin-partage') $optionExcel = 'habitat-jardinage';
 						else if ($optionExcel == 'habitat-pepinieriste') $optionExcel = 'habitat-horticulture';
 						else if ($optionExcel == 'habitat-recyclerie') $optionExcel = 'habitat-ressourcerie';
 						else if ($optionExcel == 'habitat-decoration') $optionExcel = 'mode-et-beaute-decoration';
