@@ -32,7 +32,7 @@
   #menu #listAbout { background-color: {{ config.headerColor }}; }
   #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
   #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
-  #menu-home .small-logo .icon-menu { background-color: {{ config.secondaryColor }}; }
+  #menu-home .small-logo .gogo-icon-menu { background-color: {{ config.secondaryColor }}; }
 
 
   {# --------------------#}
@@ -124,7 +124,7 @@
   .gogocarto-container #search-bar
   {
     height: 2.5rem;
-    padding-left: 3rem;
+    padding-left: 3.2rem;
     transition: padding .3s;
     -webkit-transition: padding .3s;
     -moz-transition: padding .3s;
@@ -146,10 +146,9 @@
     background-color: {{ config.neutralDarkColor }};
   }
   .gogocarto-container .directory-menu-header.expanded #search-bar-icon { padding: 0 1.1rem; }
-  .gogocarto-container .directory-menu-header.expanded #search-bar { padding-left: 4rem; }
+  .gogocarto-container .directory-menu-header.expanded #search-bar { padding-left: 4.2rem; }
   @media (min-width: 850px) { .gogocarto-container #search-bar-container {
     padding-left: 6px;
-
   } }
   .gogocarto-container #search-bar-container { padding-top: 7px; }
 
@@ -163,7 +162,7 @@
   }
 
   .gogocarto-container #directory-menu .main-categories { width: 3.8rem; }
-  .gogocarto-container #directory-menu .main-categories .main-icon-background {
+  .gogocarto-container #directory-menu .main-categories .main-gogo-icon-background {
     position: absolute;
     top: .6rem;
     border-radius: 5px 0 0 5px;
@@ -178,6 +177,8 @@
   .iconInsideMarker.icon-ruche { line-height: 22px !important; }
   .icon-ruche {padding-top: 0 !important; }
 
+  .icon.gogo-icon-star-full { padding-top: 2px !important; }
+  .icon.gogo-icon-star-full:before { color: #cc8901; background-color: transparent }
 
   {# --------------------#}
   {#     ELEMENT FORM    #}
