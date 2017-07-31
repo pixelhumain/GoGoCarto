@@ -124,7 +124,11 @@
   .gogocarto-container #search-bar
   {
     height: 2.5rem;
-    padding-left: 4rem;
+    padding-left: 3rem;
+    transition: padding .3s;
+    -webkit-transition: padding .3s;
+    -moz-transition: padding .3s;
+    -o-transition: padding .3s;
   }
   .gogocarto-container #search-bar-icon {
     position: absolute;
@@ -132,11 +136,17 @@
     left: initial;
     color: #fff;    
     height: 2.5rem;
-    padding: 0 1.1rem;
+    transition: padding .3s;
+    -webkit-transition: padding .3s;
+    -moz-transition: padding .3s;
+    -o-transition: padding .3s;
+    padding: 0 .6rem;    
     border-radius: 5px 0px 0 5px;
     line-height: 2.8rem;
     background-color: {{ config.neutralDarkColor }};
   }
+  .gogocarto-container .directory-menu-header.expanded #search-bar-icon { padding: 0 1.1rem; }
+  .gogocarto-container .directory-menu-header.expanded #search-bar { padding-left: 4rem; }
   @media (min-width: 850px) { .gogocarto-container #search-bar-container {
     padding-left: 6px;
 
@@ -165,6 +175,8 @@
   .gogocarto-container #directory-menu .main-categories .icon:before { left: 1.1rem; }
   .gogocarto-container #directory-menu .main-categories .icon.active:before { left: 1.3rem; }
 
+  .iconInsideMarker.icon-ruche { line-height: 22px !important; }
+  .icon-ruche {padding-top: 0 !important; }
 
 
   {# --------------------#}
