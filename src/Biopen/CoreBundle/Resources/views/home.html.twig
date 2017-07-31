@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">   
 
   <style>
-	  body { background-color: {{ config.primaryColor }} !important; background-image: url({{ asset('assets/img/' ~ 'home.png') }}); }
+	  body { background-color: {{ config.primaryColor }} !important; background-image: url({{ asset('assets/img/' ~ 'home-big.png') }}); }
 	</style>
 
 	{% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}
@@ -27,7 +27,7 @@
 		<h2>L'annuaire collaboratif des alternatives près de chez soi</h2>
 
 		<div class="input-field" id="search-bar-container" >
-			<a class="icon-search waves-effect waves-light" id="search-bar-icon"></a> 
+			<a class="gogo-icon-search waves-effect waves-light" id="search-bar-icon"></a> 
 			<input class="validate" placeholder="Entrez une addresse, une ville..." type="text" id="search-bar" name="adresse"/>
 		</div>
 
@@ -66,9 +66,9 @@
 	</section>
 
 	<div id="bottom-more-info">
-		<span class="icon icon-arrow-circle-down"></span>
+		<span class="icon gogo-icon-arrow-circle-down"></span>
 		<span class="text">En savoir plus</span>
-		<span class="icon icon-arrow-circle-down"></span>
+		<span class="icon gogo-icon-arrow-circle-down"></span>
 	</div>
 </div>
 
