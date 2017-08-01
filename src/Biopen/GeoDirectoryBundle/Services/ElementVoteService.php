@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-21 12:29:13
+ * @Last Modified time: 2017-08-01 09:37:46
  */
  
 
@@ -72,7 +72,7 @@ class ElementVoteService
 
         if ($this->confService->isUserAllowed('directModeration'))
         {
-            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'direct', $voteValue);
+            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'direct', $voteValue == 1);
         }
         else $procedureCompleteMessage = $this->checkVotes($element);
 
