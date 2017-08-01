@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-29 08:20:15
+ * @Last Modified time: 2017-08-01 12:03:52
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -99,7 +99,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     
                     ->add('taxonomyMainTitleFont', null, array('label' => 'Police titre taxonomie'))    
 
-                    ->add('customCSS', 'textarea', array('label' => 'Custom CSS')) 
+                    ->add('customCSS', 'textarea', array('label' => 'Custom CSS', 'required' => false)) 
                 ->end()
             ->end();
     }
