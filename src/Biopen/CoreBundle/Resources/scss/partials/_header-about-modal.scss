@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-22 16:36:09
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-04-05 15:30:30
+* @Last Modified time: 2017-08-01 15:30:32
 */
 
 #listAbout
@@ -22,4 +22,14 @@
   	padding: 2rem 2.5rem;
   }
 	h1 { text-align: left; }
+
+
+  ul li 
+  {
+    list-style-type: none;
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+
+  strong { font-weight: bold; }
 }
