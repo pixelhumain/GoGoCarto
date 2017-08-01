@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 16:42:51
+ * @Last Modified time: 2017-08-01 11:01:45
  */
  
 
@@ -22,19 +22,19 @@ class DailyTimeSlot
 	/** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    protected $slot1start;
+    public $slot1start;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    protected $slot1end;
+    public $slot1end;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-	protected $slot2start;
+	public $slot2start;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    protected $slot2end;
+    public $slot2end;
 
 	public function __construct()
 	{

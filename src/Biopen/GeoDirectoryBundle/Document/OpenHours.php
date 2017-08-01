@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-01 16:42:47
+ * @Last Modified time: 2017-08-01 11:01:38
  */
  
 
@@ -22,31 +22,31 @@ class OpenHours
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Monday;
+	public $Monday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Tuesday;
+	public $Tuesday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Wednesday;
+	public $Wednesday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Thursday;
+	public $Thursday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Friday;
+	public $Friday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Saturday;
+	public $Saturday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	protected $Sunday;
+	public $Sunday;
 
 	public function getMonday()
 	{
