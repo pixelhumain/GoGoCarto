@@ -133,6 +133,7 @@ swiftmailer:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+    bundles:        [ 'XmonColorPickerTypeBundle' ]
     filters:
         cssrewrite: ~
         #     formatter: 'Leafo\ScssPhp\Formatter\Compressed'
