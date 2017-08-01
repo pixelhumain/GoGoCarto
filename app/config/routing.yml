@@ -71,7 +71,3 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
-biopen_wrong_route:
-    path: /{other}/{other2}
-    defaults: { _controller: BiopenCoreBundle:Core:home, 'other2':'' }
-
