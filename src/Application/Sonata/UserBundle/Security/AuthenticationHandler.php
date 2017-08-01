@@ -46,8 +46,8 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 	{
 		// if AJAX login
 		if ( $request->isXmlHttpRequest() ) {
-			$user = $this->securityContext->getToken() ? $this->securityContext->getToken()->getUser() : null; 
-			$array = array( 'success' => true, 'role' => $user->getRoles()); // data to return via JSON
+			$user = $this->securityContext->getToken()->getUser(); 
+			$array = array( 'success' => true, 'role' => $user->getRoles(), 'name' => $user->getUsername()); // data to return via JSON
 			$response = new Response( json_encode( $array ) );
 			$response->headers->set( 'Content-Type', 'application/json' );
  

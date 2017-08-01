@@ -57,6 +57,7 @@
         <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
   				onclick="logout()" id="btn-logout"
   				class="waves-effect waves-light btn btn-login">
+          <span class="username"></span>
           <span class="gogo-icon-menu gogo-icon-lock"></span><span class="text">Se déconnecter</span>				
   			</button>
 
@@ -105,6 +106,7 @@ function submitAjaxLogin()
           {
             $('#popup-login').closeModal();
             handleLogin(true, data.role);
+            //$('#btn-logout .username').text(data.name);
             displayLoginButton(false);       
           }  
           else
