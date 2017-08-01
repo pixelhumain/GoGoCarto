@@ -38,8 +38,8 @@ L’association cartographie depuis sa création en 2007, en partenariat avec Le
 
     $new_partner = new Partner();
 
-    $new_partner->setName("Le Mlarché Citoyen"); 
-    $new_partner->setContent($lipsum->words(rand(30,100)));
+    $new_partner->setName("Le Marché Citoyen"); 
+    $new_partner->setContent("Référencant depuis plus de 10 ans des commerces engagés vers la transition écologique et sociale, \"Le Marché Citoyen\" fusionne avec la carte \"PrèsDeChezNous\" pour mettre sa base de données en commun!");
     $new_partner->setLogoUrl("marchecitoyen.png");
     $new_partner->setWebsiteUrl("www.lemarchecitoyen.net");
     $manager->persist($new_partner);     
