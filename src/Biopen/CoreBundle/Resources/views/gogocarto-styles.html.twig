@@ -22,6 +22,7 @@
   #section-credits { background-color: {{ config.headerColor }}; color: {{ config.neutralSoftColor }}; }  
 
   .flash-message a:hover { color: {{ config.primaryColor }}; }
+  #page-content.directory .flash-messages-container .flash-message { background-color: {{ config.secondaryColor }}; }
 
 
   {# --------------------#}
@@ -160,6 +161,7 @@
     background-repeat: repeat-x;
     margin: 0 1rem 0 0rem; 
   }
+  .gogocarto-container .element-item .sectionOpenHours .openHours { font-size: .95rem; }
 
   .gogocarto-container #directory-menu .main-categories { width: 3.8rem; }
   .gogocarto-container #directory-menu .main-categories .main-gogo-icon-background {
@@ -179,6 +181,8 @@
 
   .icon.gogo-icon-star-full { padding-top: 2px !important; }
   .icon.gogo-icon-star-full:before { color: #cc8901; background-color: transparent }
+
+  #page-content.directory .flash-messages-container .flash-message { background: none; background-color: {{ config.secondaryColor }} !important;}
 
   {# --------------------#}
   {#     ELEMENT FORM    #}
@@ -234,7 +238,6 @@
     background-color: #f4f4f4 !important;
     margin-bottom: 8px;
     border-radius: 5px;
-    height: 3rem;
     position: relative;
   }
   .open-hours-container .day-col,.open-hours-container .copy-hours-col, .open-hours-container .new-slot-col, .open-hours-container .clear-slot-col{ color: white !important; z-index:2; }

@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-06-22 18:43:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-07-28 16:24:20
+* @Last Modified time: 2017-08-01 09:28:02
 */
 
 #page-container.directory
@@ -16,6 +16,8 @@
 	height: 100%;
 	margin: 0;
 	max-width: 100%;	
+	@include flexbox();
+  @include flex-flow(column);
 
 	section 
 	{
@@ -60,4 +62,7 @@
 #directory-container
 {
 	height: 100%;
+	@include flexbox();
+  @include flex(1 auto);
+  position: relative;
 }
