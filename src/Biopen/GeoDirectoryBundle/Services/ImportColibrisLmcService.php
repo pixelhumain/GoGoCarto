@@ -72,7 +72,7 @@ class ImportColibrisLmcService
 		      
 		      $new_element->setMail($row['Email']);
 		      $new_element->setOpenHoursMoreInfos($row['Horaires']);
-		      $new_element->setStatus(ElementStatus::AddedByAdmin);
+		      $new_element->setStatus(ElementStatus::PendingAdd);
 		      $new_element->setSourceKey($row['Source']);
 
 		      $lat = 0;
