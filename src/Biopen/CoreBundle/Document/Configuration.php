@@ -614,6 +614,7 @@ class Configuration
      */
     public function setPrimaryColor($primaryColor)
     {
+        if (strlen($primaryColor) == 6) $primaryColor = '#' . $primaryColor;
         $this->primaryColor = $primaryColor;
         return $this;
     }
@@ -636,6 +637,7 @@ class Configuration
      */
     public function setSecondaryColor($secondaryColor)
     {
+        if (strlen($secondaryColor) == 6) $secondaryColor = '#' . $secondaryColor;
         $this->secondaryColor = $secondaryColor;
         return $this;
     }
@@ -658,6 +660,7 @@ class Configuration
      */
     public function setDarkColor($darkColor)
     {
+        if (strlen($darkColor) == 6) $darkColor = '#' . $darkColor;
         $this->darkColor = $darkColor;
         return $this;
     }
@@ -680,6 +683,7 @@ class Configuration
      */
     public function setLightColor($lightColor)
     {
+        if (strlen($lightColor) == 6) $lightColor = '#' . $lightColor;
         $this->lightColor = $lightColor;
         return $this;
     }
@@ -790,6 +794,7 @@ class Configuration
      */
     public function setNeutralDarkColor($neutralDarkColor)
     {
+        if (strlen($neutralDarkColor) == 6) $neutralDarkColor = '#' . $neutralDarkColor;
         $this->neutralDarkColor = $neutralDarkColor;
         return $this;
     }
@@ -812,6 +817,7 @@ class Configuration
      */
     public function setNeutralSoftDarkColor($neutralSoftDarkColor)
     {
+        if (strlen($neutralSoftDarkColor) == 6) $neutralSoftDarkColor = '#' . $neutralSoftDarkColor;
         $this->neutralSoftDarkColor = $neutralSoftDarkColor;
         return $this;
     }
@@ -834,6 +840,7 @@ class Configuration
      */
     public function setNeutralColor($neutralColor)
     {
+        if (strlen($neutralColor) == 6) $neutralColor = '#' . $neutralColor;
         $this->neutralColor = $neutralColor;
         return $this;
     }
@@ -856,6 +863,7 @@ class Configuration
      */
     public function setNeutralLightColor($neutralLightColor)
     {
+        if (strlen($neutralLightColor) == 6) $neutralLightColor = '#' . $neutralLightColor;
         $this->neutralLightColor = $neutralLightColor;
         return $this;
     }
@@ -878,6 +886,7 @@ class Configuration
      */
     public function setBackgroundColor($backgroundColor)
     {
+        if (strlen($backgroundColor) == 6) $backgroundColor = '#' . $backgroundColor;
         $this->backgroundColor = $backgroundColor;
         return $this;
     }
@@ -901,6 +910,7 @@ class Configuration
      */
     public function setNeutralDarkTransparentColor($neutralDarkTransparentColor)
     {
+        if (strlen($neutralDarkTransparentColor) == 6) $neutralDarkTransparentColor = '#' . $neutralDarkTransparentColor;
         $this->neutralDarkTransparentColor = $neutralDarkTransparentColor;
         return $this;
     }
@@ -923,6 +933,7 @@ class Configuration
      */
     public function setListTitleColor($listTitleColor)
     {
+        if (strlen($listTitleColor) == 6) $listTitleColor = '#' . $listTitleColor;
         $this->listTitleColor = $listTitleColor;
         return $this;
     }
@@ -945,6 +956,7 @@ class Configuration
      */
     public function setListTitleBackBtnColor($listTitleBackBtnColor)
     {
+        if (strlen($listTitleBackBtnColor) == 6) $listTitleBackBtnColor = '#' . $listTitleBackBtnColor;
         $this->listTitleBackBtnColor = $listTitleBackBtnColor;
         return $this;
     }
@@ -967,6 +979,7 @@ class Configuration
      */
     public function setListTitleBackgroundColor($listTitleBackgroundColor)
     {
+        if (strlen($listTitleBackgroundColor) == 6) $listTitleBackgroundColor = '#' . $listTitleBackgroundColor;
         $this->listTitleBackgroundColor = $listTitleBackgroundColor;
         return $this;
     }
@@ -989,6 +1002,7 @@ class Configuration
      */
     public function setTaxonomyMainTitleFont($taxonomyMainTitleFont)
     {
+        if (strlen($taxonomyMainTitleFont) == 6) $taxonomyMainTitleFont = '#' . $taxonomyMainTitleFont;
         $this->taxonomyMainTitleFont = $taxonomyMainTitleFont;
         return $this;
     }
@@ -1033,6 +1047,7 @@ class Configuration
      */
     public function setTextColor($textColor)
     {
+        if (strlen($textColor) == 6) $textColor = '#' . $textColor;
         $this->textColor = $textColor;
         return $this;
     }
@@ -1055,6 +1070,7 @@ class Configuration
      */
     public function setHeaderColor($headerColor)
     {
+        if (strlen($headerColor) == 6) $headerColor = '#' . $headerColor;
         $this->headerColor = $headerColor;
         return $this;
     }
@@ -1077,6 +1093,7 @@ class Configuration
      */
     public function setDisableColor($disableColor)
     {
+        if (strlen($disableColor) == 6) $disableColor = '#' . $disableColor;
         $this->disableColor = $disableColor;
         return $this;
     }
@@ -1099,6 +1116,7 @@ class Configuration
      */
     public function setSearchBarColor($searchBarColor)
     {
+        if (strlen($searchBarColor) == 6) $searchBarColor = '#' . $searchBarColor;
         $this->searchBarColor = $searchBarColor;
         return $this;
     }
@@ -1121,6 +1139,7 @@ class Configuration
      */
     public function setPendingColor($pendingColor)
     {
+        if (strlen($pendingColor) == 6) $pendingColor = '#' . $pendingColor;
         $this->pendingColor = $pendingColor;
         return $this;
     }
@@ -1143,6 +1162,7 @@ class Configuration
      */
     public function setInteractiveSectionColor($interactiveSectionColor)
     {
+        if (strlen($interactiveSectionColor) == 6) $interactiveSectionColor = '#' . $interactiveSectionColor;
         $this->interactiveSectionColor = $interactiveSectionColor;
         return $this;
     }
@@ -1165,6 +1185,7 @@ class Configuration
      */
     public function setNeutralSoftColor($neutralSoftColor)
     {
+        if (strlen($neutralSoftColor) == 6) $neutralSoftColor = '#' . $neutralSoftColor;
         $this->neutralSoftColor = $neutralSoftColor;
         return $this;
     }
@@ -1187,6 +1208,7 @@ class Configuration
      */
     public function setContentBackgroundColor($contentBackgroundColor)
     {
+        if (strlen($contentBackgroundColor) == 6) $contentBackgroundColor = '#' . $contentBackgroundColor;
         $this->contentBackgroundColor = $contentBackgroundColor;
         return $this;
     }
