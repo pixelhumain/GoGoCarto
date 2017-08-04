@@ -54,14 +54,18 @@
 
       {# no loggin in iframe #}
       {% if not iframe %}
-        <button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'style="display:none"' }}
-  				onclick="logout()" id="btn-logout"
-  				class="waves-effect waves-light btn btn-login">
-          <span class="username"></span>
-          <span class="gogo-icon-menu gogo-icon-lock"></span><span class="text">Se déconnecter</span>				
-  			</button>
+        {% set userName =  app.user ? app.user.username : app.session.get('user_email') ?  app.session.get('user_email') : null %}
+        <div {{ userName ? '' : 'style="display:none"' }} class="col menu-item btn-login dropdown-button" data-activates='listUserActions' id="btn-logout">
+          <span class="text username">{{ userName }}</span>
+          <span class="gogo-icon-menu gogo-icon-lock"></span> 
+          <div class="arrow-after"></div>  
+        </div>
+        <ul id='listUserActions' class='dropdown-content'>      
+            <li class="item-divider"></li>
+            <li class="name"><a class="about-title-item waves-effect waves-light" onclick="logout()">Se Déconnecter</a></li>       
+        </ul>
 
-      	<button {{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'style="display:none"' : '' }}
+      	<button {{ userName ? 'style="display:none"' : '' }}
   				onclick="$('#popup-login').openModal()" id="btn-login"
   				class="btn btn-login">
           <span class="gogo-icon-menu gogo-icon-unlock"></span><span class="text">Connexion</span>				
@@ -106,7 +110,7 @@ function submitAjaxLogin()
           {
             $('#popup-login').closeModal();
             handleLogin(true, data.role);
-            //$('#btn-logout .username').text(data.name);
+            $('#btn-logout .username').text(data.name);
             displayLoginButton(false);       
           }  
           else
@@ -127,7 +131,7 @@ function handleLogin(bool, roles)
   else $('#btn-login').trigger('logout');
 
   // carto is the GoGoCartoJs instance, defined in GeoDirectory/directoy.html.twig
-  if (carto)
+  if (typeof carto !== 'undefined')
   {
     // in GoGoCartoJs there are 3 roles : anonymous (0), user (1), admin (2)
     if ($.inArray('ROLE_ADMIN', roles) > -1) carto.setUserRole('admin');
@@ -141,6 +145,7 @@ function displayLoginButton(bool)
 	if (bool)
 	{
 		$('#btn-logout').hide();
+    $('#listUserActions').hide();
 		$('#btn-login').show();
 	}
 	else

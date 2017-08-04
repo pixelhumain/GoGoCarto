@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-16 09:32:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-07-29 16:38:31
+* @Last Modified time: 2017-08-04 12:15:52
 */
 
 jQuery(document).ready(function()
@@ -17,7 +17,7 @@ jQuery(document).ready(function()
 	});
 
 	$('#btn-login').on( "logout", function() {
-  	window.location.reload();
+  	window.location.href = '?logout=1';
 	});
 });
 

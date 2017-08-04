@@ -30,7 +30,7 @@
   {# ------------------- #}
 
   #menu { background-color: {{ config.headerColor }}; color: white; }
-  #menu #listAbout { background-color: {{ config.headerColor }}; }
+  #menu .dropdown-content { background-color: {{ config.headerColor }}; }
   #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
   #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
   #menu-home .small-logo .gogo-icon-menu { background-color: {{ config.secondaryColor }}; }
@@ -409,7 +409,8 @@
   #menu .menu-item:hover { color: {{ config.neutralLightColor }}; }
   #menu .menu-item:hover .arrow-after { border-color:  {{ config.neutralLightColor }} transparent transparent transparent !important; }	
   #menu #btn-login {  color: {{ config.neutralDarkColor }}; }
-  #menu #btn-logout { background-color: transparent; }
+  #menu #btn-logout { background-color: transparent; color: white;}
+  #menu #btn-logout .arrow-after { border-color: white transparent transparent transparent !important;}
 
 
 

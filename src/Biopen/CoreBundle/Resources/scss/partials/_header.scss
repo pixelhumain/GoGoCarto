@@ -113,25 +113,7 @@ header
 			&:hover
 			{
 				cursor: pointer;
-			}
-
-			.arrow-after
-			{
-				display: inline-block;
-		    
-		    border: solid 5px;
-		    border-color: #eaeaea transparent transparent transparent;
-
-    		margin-right: 10px;
-
-    		@media only screen and (min-width : 801px) 
-	    	{ 
-	    	 	margin-left: 5px;
-		    	margin-bottom: -3px;
-		    	margin-right: 0px;
-		    	border-color: white transparent transparent transparent;
-	    	}
-		  }
+			}			
 
 			a 
 			{ 
@@ -165,13 +147,31 @@ header
 			}			
 		}
 
+		.arrow-after
+			{
+				display: inline-block;
+		    
+		    border: solid 5px;
+		    border-color: #eaeaea transparent transparent transparent;
+
+    		margin-right: 10px;
+
+    		@media only screen and (min-width : 801px) 
+	    	{ 
+	    	 	margin-left: 5px;
+		    	margin-bottom: -3px;
+		    	margin-right: 0px;
+		    	border-color: white transparent transparent transparent;
+	    	}
+		  }
+
 		.btn-login
 		{
 			
 			margin-right: 1rem;
 	    height: 2rem;
 	    line-height: 2.5rem;
-	    padding: 0 10px;
+	    padding: 0 10px !important;
 	    font-size: .85rem;
 	    margin-top: -9px;
 			border-radius: 2px;
@@ -185,10 +185,31 @@ header
 				.gogo-icon-menu { display: none; } 
 				.text { display: inline; } 
 				padding: 0 1.5rem;
+				margin-right: 2rem;
 				margin-top: 0px;
 				line-height: 2rem;
 
 			}
+		}
+
+		#btn-logout
+		{
+			padding: 0 1rem 0 0rem !important;
+			@media only screen and (min-width : 801px) { padding: 0 3rem 0 1rem !important; }			
+    	margin-right: 0;
+    	font-weight: bold;
+		}
+
+		ul#listUserActions 
+		{
+	    top: 100% !important;
+	    right: 0 !important;
+	    min-width: 140px !important;
+	    left: initial !important;
+	    opacity: 1;
+	    margin: 0 !important;
+
+	    .about-title-item { text-align: center; }
 		}
 
 		.dropdown-content
@@ -208,8 +229,15 @@ header
 		    font-size: .9rem;
 		    color: inherit;
 		    &:hover { color: white; background-color: transparent; }
-			}  			
-		}					
+			}  
+
+			.item-divider
+			{
+				height: 1px;
+		    overflow: hidden;
+		    background-color: #717171;
+			}			
+		}			
 	}
 
 	
