@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-29 16:39:01
+ * @Last Modified time: 2017-08-04 12:11:56
  */
  
 
@@ -202,12 +202,16 @@ class ElementFormController extends Controller
 			$addOrEditComplete = true;			
 		}
 
-		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') || $session->has('user_email')) 
-			$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
-		else			
+		if (!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->has('user_email') && !$addOrEditComplete) 
+		{		
 			$flashMessage = "Vous êtes actuellement en mode \"Anonyme\"</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
-
-		if(!$addOrEditComplete) $request->getSession()->getFlashBag()->add('notice', $flashMessage);
+			$request->getSession()->getFlashBag()->add('notice', $flashMessage);
+		}	
+		// else if ($session->has('user_email') && !$addOrEditComplete)	
+		// {
+		// 	$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
+		// 	$request->getSession()->getFlashBag()->add('notice', $flashMessage);
+		// }
 
 		// Get categories      
 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
