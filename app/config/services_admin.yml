@@ -80,3 +80,9 @@ services:
         arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @sonata.admin.pool ]
         tags:
             - { name: sonata.block }
+
+    sonata.block.service.special_actions:
+        class: Biopen\GeoDirectoryBundle\Block\SpecialActionsBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
+        tags:
+            - { name: sonata.block }
