@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-13 08:59:37
+ * @Last Modified time: 2017-08-09 12:41:20
  */
  
 
@@ -47,7 +47,7 @@ class APIController extends Controller
             //dump('fullRepresentation' . $request->get('fullRepresentation'));
             $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation')); 
     
-            $responseJson = $this->encoreArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'));  
+            $responseJson = $this->encodeArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'));  
             //dump($responseJson);
             $result = new Response($responseJson);   
 
@@ -60,7 +60,7 @@ class APIController extends Controller
         }
     }
 
-    private function encoreArrayToJsonArray($array, $fullRepresentation)
+    private function encodeArrayToJsonArray($array, $fullRepresentation)
     {
         $elementsJson = '['; 
 
@@ -126,7 +126,7 @@ class APIController extends Controller
             $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findElementsWithText($request->get('text'));
 
-            $responseJson = $this->encoreArrayToJsonArray($elements, true);
+            $responseJson = $this->encodeArrayToJsonArray($elements, true);
             
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
