@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-09 12:41:13
+ * @Last Modified time: 2017-08-09 16:25:57
  */
  
 
@@ -144,6 +144,17 @@ class ElementRepository extends DocumentRepository
     // removing element withtout category or withtout geolocation
     $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
     
+    if ($getCount) $qb->count();
+
+    return $qb->getQuery()->execute();
+  }
+
+  public function findAllElements($limit = null, $skip = null, $getCount = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    
+    if ($limit) $qb->limit($limit);
+    if ($skip) $qb->skip($skip);
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();
