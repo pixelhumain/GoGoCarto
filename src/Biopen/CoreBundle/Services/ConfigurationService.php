@@ -22,6 +22,8 @@ class ConfigurationService
 
 	public function isUserAllowed($featureName, $request = null, $email = null)
 	{        
+        if ($email === null && $request !== null) $email = $request->get('userMail');
+
         $user = $this->securityContext->getToken()->getUser(); 
 
         if ($user == 'anon.') $user = null;
