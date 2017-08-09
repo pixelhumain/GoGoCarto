@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-21 12:23:13
+ * @Last Modified time: 2017-08-09 15:20:35
  */
  
 
@@ -30,16 +30,19 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request)) 
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à voter !");
 
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || $request->get('value') === null) return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
+            if (!$request->get('elementId') || $request->get('value') === null) 
+                return $this->returnResponse(false,"Les paramètres du vote sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
-            $resultMessage = $this->get('biopen.element_vote_service')->voteForElement($element, $request->get('value'), $request->get('comment'), $request->get('userMail'));
+            $resultMessage = $this->get('biopen.element_vote_service')
+                             ->voteForElement($element, $request->get('value'), $request->get('comment'), $request->get('userMail'));
          
             return $this->returnResponse(true, $resultMessage, $element->getstatus());     
         }
@@ -53,10 +56,12 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {              
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('report', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('report', $request)) 
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
             
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
+            if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) 
+                return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
             
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
@@ -65,6 +70,7 @@ class ElementInteractionController extends Controller
             $report->setValue($request->get('value'));
 
             $securityContext = $this->container->get('security.context');
+
             if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
                 $report->setUserMail($securityContext->getToken()->getUser()->getEmail());
             else 
@@ -90,10 +96,12 @@ class ElementInteractionController extends Controller
     {
         if($request->isXmlHttpRequest())
         {
-            if (!$this->container->get('biopen.config_service')->isUserAllowed('vote', $request)) $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à supprimer un élément !"); 
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('delete', $request)) 
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à supprimer un élément !"); 
 
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId')) return $this->returnResponse(false,"Les paramètres sont incomplets");
+            if (!$request->get('elementId')) 
+                return $this->returnResponse(false,"Les paramètres sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
