@@ -47,6 +47,7 @@ class ConfigurationService
             case 'directModeration':    $feature = $this->config->getDirectModerationFeature();break;
             case 'delete':              $feature = $this->config->getCollaborativeModerationFeature();break;
             case 'vote':                $feature = $this->config->getDeleteFeature();break;
+            case 'sendMail':            $feature = $this->config->getSendMailFeature();break;
         }
 
         return $feature;

@@ -113,6 +113,35 @@ class ElementInteractionController extends Controller
         }
     }
 
+    public function sendMailAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('sendMail', $request))
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à envoyer des mails !"); 
+
+            // CHECK REQUEST IS VALID
+            if (!$request->get('elementId') || !$request->get('emailObject') || !$request->get('emailContent') || !$request->get('userMail')) 
+                return $this->returnResponse(false,"Les paramètres sont incomplets");
+
+            $em = $this->get('doctrine_mongodb')->getManager(); 
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
+
+            // TODO send mail
+
+            dump("sending mail");
+
+            $em->persist($element);
+            $em->flush();            
+         
+            return $this->returnResponse(true, "L'email a bien été envoyé");        
+        }
+        else 
+        {
+            return new JsonResponse("Not valid ajax request");
+        }
+    }
+
     private function returnResponse($success, $message, $data = null)
     {
         $response['success'] = $success;

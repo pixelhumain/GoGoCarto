@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-01 12:03:52
+ * @Last Modified time: 2017-08-09 15:22:08
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -39,6 +39,8 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('reportFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Affichage des acteurs en attente de validation', $featureStyle)
                     ->add('pendingFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Envoyer un mail à un élement', $featureStyle)
+                    ->add('sendMailFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
             ->tab('Contributions/Modération')
                 ->with('Pouvoir ajouter un acteur', $contributionStyle)

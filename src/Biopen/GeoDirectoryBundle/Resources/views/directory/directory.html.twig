@@ -52,7 +52,8 @@
                            ) }},
                 delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
 
-                vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }},     
+                vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }}, 
+                sendMail:     {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }},    
             },
             security:
             {

@@ -36,6 +36,8 @@ class Configuration
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
     protected $pendingFeature;
 
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
+    protected $sendMailFeature;
 
 
     // ---------------------------------
@@ -1221,5 +1223,27 @@ class Configuration
     public function getContentBackgroundColor()
     {
         return $this->contentBackgroundColor;
+    }
+
+    /**
+     * Set sendMailFeature
+     *
+     * @param Biopen\CoreBundle\Document\InteractionConfiguration $sendMailFeature
+     * @return $this
+     */
+    public function setSendMailFeature(\Biopen\CoreBundle\Document\InteractionConfiguration $sendMailFeature)
+    {
+        $this->sendMailFeature = $sendMailFeature;
+        return $this;
+    }
+
+    /**
+     * Get sendMailFeature
+     *
+     * @return Biopen\CoreBundle\Document\InteractionConfiguration $sendMailFeature
+     */
+    public function getSendMailFeature()
+    {
+        return $this->sendMailFeature;
     }
 }

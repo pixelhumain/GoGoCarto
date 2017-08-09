@@ -22,3 +22,11 @@ biopen_delete_element:
     options:
         expose: true
 
+biopen_element_send_mail:
+    path:     /sendMail
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:sendMail }
+    requirements:
+        _method: POST
+    options:
+        expose: true
+
