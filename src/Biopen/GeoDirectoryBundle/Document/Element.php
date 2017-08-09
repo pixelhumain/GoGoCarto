@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-30 18:10:30
+ * @Last Modified time: 2017-08-09 16:39:58
  */
  
 
@@ -170,7 +170,7 @@ class Element
      * @Expose
      * @MongoDB\Field(type="string")
      */
-    public $mail;
+    private $mail;
 
     /**
      * @var string
@@ -302,6 +302,7 @@ class Element
 
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
+        $fullJson .= ', "mail": ' . ($this->getMail() ? 'hide' : '');
         $fullJson .= ', "optionValues": [';
 
         if ($this->optionValues)
