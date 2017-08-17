@@ -61,12 +61,24 @@ class ElementAdminController extends Controller
         $modelManager = $this->admin->getModelManager();
 
         $selectedModels = $selectedModelQuery->execute();
+        $nbreModelsToProceed = $selectedModels->count();
+        $selectedModels->limit(5000);
 
         try {
+            $documentManager = $modelManager->getDocumentManager($selectedModels->getNext());
+
+            $i = 0;
             foreach ($selectedModels as $selectedModel) {
                 $selectedModel->setStatus($status);
-                $modelManager->update($selectedModel);
+
+                if ((++$i % 20) == 0) {
+                    $documentManager->flush();
+                    $documentManager->clear();
+                }
             }
+
+            $documentManager->flush();
+            $documentManager->clear();
             
         } catch (\Exception $e) {
             $this->addFlash('sonata_flash_error', 'Une erreur est survenue');
@@ -80,9 +92,12 @@ class ElementAdminController extends Controller
             '-4'=>'Supprimés', 
             '-2'=>'Réfusés', 
             '1' => 'Validés (admin)'
-        ];
+        ];       
+        
+        $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,5000]) .' élements ont bien été ' . $statusMessage[$status]);
 
-        $this->addFlash('sonata_flash_success', 'Les élements ont bien été ' . $statusMessage[$status]);
+        if ($nbreModelsToProceed >= 5000)
+            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement 5000 seront traités");
 
         return new RedirectResponse(
             $this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters()))
