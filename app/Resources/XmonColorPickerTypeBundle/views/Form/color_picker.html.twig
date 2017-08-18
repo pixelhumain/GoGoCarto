@@ -1,0 +1,13 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block xmon_color_picker_widget %}
+    <div {{ block('widget_container_attributes') }}>
+
+        {% block xmon_color_picker_javascripts %}
+
+        {% endblock %}
+        
+        {{ block('form_widget') }}
+
+    </div>
+{% endblock %}
