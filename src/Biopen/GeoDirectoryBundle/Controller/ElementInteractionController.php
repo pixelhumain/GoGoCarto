@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-09 15:20:35
+ * @Last Modified time: 2017-08-18 10:21:26
  */
  
 
@@ -129,7 +129,7 @@ class ElementInteractionController extends Controller
                 return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à envoyer des mails !"); 
 
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || !$request->get('emailObject') || !$request->get('emailContent') || !$request->get('userMail')) 
+            if (!$request->get('elementId') || !$request->get('subject') || !$request->get('content') || !$request->get('userMail')) 
                 return $this->returnResponse(false,"Les paramètres sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
