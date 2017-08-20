@@ -48,6 +48,7 @@ twig:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views/admin": BiopenAdmin
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
         "%kernel.root_dir%/../src/Application/Sonata/UserBundle/Resources/views": UserBundle
+        "%kernel.root_dir%/../web": RootDir
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
     form:
