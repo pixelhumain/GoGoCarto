@@ -62,7 +62,7 @@
 				{# ALL CATEGORIES MENU #}
 				<div id="main-option-all" class="main-option-subcategories-container" style="display:none">		
 
-				{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+				{% include '@BiopenGeoDirectory/directory/components/directory-menu/category-item.html.twig'  
             						with {'category': mainCategory, 'recursive': false } %}
 
 				</div>
@@ -74,7 +74,7 @@
 
 						{% for key, category in mainOption.subcategories %}
 
-						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+						{% include '@BiopenGeoDirectory/directory/components/directory-menu/category-item.html.twig'  
               						with {'category': category, 'recursive': true } %}
 
 					{% endfor %} 
@@ -86,7 +86,7 @@
 				{# OPEN HOURS FILTER #}
 				<div id="open-hours-filter" class="" style="display:none">		
 
-					{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+					{% include '@BiopenGeoDirectory/directory/components/directory-menu/category-item.html.twig'  
             						with {'category': openHoursCategory, 'recursive': false } %}
 
 				</div>

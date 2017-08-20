@@ -30,7 +30,7 @@
                 {{ flash_message | raw }}
             </div>
         {% endfor %}
-        {% include '@directory/directory/components/search-bar.html.twig'  %} 
+        {% include '@BiopenGeoDirectory/directory/components/search-bar.html.twig'  %} 
       </div> 
     </div>  
   {% endif %}
@@ -39,9 +39,9 @@
   {# La Carte et les infos element #} 
   <section id="directory-content">
     
-    {% include '@directory/directory/components/pick-address-for-directions.html.twig'  %}  
+    {% include '@BiopenGeoDirectory/directory/components/pick-address-for-directions.html.twig'  %}  
     {#  PRELOADER #}
-    {% include '@directory/directory/components/directory-spinner-loader.html.twig'  %}  
+    {% include '@BiopenGeoDirectory/directory/components/directory-spinner-loader.html.twig'  %}  
 
     <div id="map"></div>    
 
@@ -53,7 +53,7 @@
         
       </div> 
       <div id="element-info"></div>
-      {% include '@directory/directory/components/element-menu.html.twig'  %}
+      {% include '@BiopenGeoDirectory/directory/components/element-menu.html.twig'  %}
     </section>
 
     <div id="menu-button"><i class='icon-menu'></i></div> 
@@ -138,7 +138,7 @@
 
 {% block modals %} 
 
-  {% include '@directory/directory/components/delete-element.html.twig'  %}
+  {% include '@BiopenGeoDirectory/directory/components/delete-element.html.twig'  %}
 
 {% endblock %}
 

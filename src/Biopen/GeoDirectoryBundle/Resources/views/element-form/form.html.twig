@@ -15,22 +15,22 @@
 
 	<section id="section-categories-options">
 		<div class="categories-info neutral-color">Choississez la ou les catégories par ordre d'importance</div>
-		{% include '@directory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
+		{% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
 		<input id="options-values" name="options-values" type="hidden"/>
 	</section>
 	<div class="divider"></div>
 
-	{% include "@directory/element-form/form-partials/generals-info.html.twig" %}	
+	{% include "@BiopenGeoDirectory/element-form/form-partials/generals-info.html.twig" %}	
 
-	{% include "@directory/element-form/form-partials/open-hours.html.twig" %}
+	{% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
 
 	<section id="section-validate-and-send">
 		{% if not is_granted('ROLE_ADMIN') %}
-			{% include "@directory/element-form/form-partials/user.html.twig" %}	
+			{% include "@BiopenGeoDirectory/element-form/form-partials/user.html.twig" %}	
 		{% endif %}
 
 		{% if is_granted('ROLE_ADMIN') %}
-			{% include "@directory/element-form/form-partials/admin.html.twig" %}	
+			{% include "@BiopenGeoDirectory/element-form/form-partials/admin.html.twig" %}	
 		{% endif %}
 		
 		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}

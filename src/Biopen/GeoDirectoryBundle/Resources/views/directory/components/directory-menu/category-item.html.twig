@@ -71,7 +71,7 @@
 	    	<div class="subcategories-wrapper" {% if option.showExpanded is defined and not option.showExpanded%} style="display:none"{% endif %}>
 		    {% for subkey, subcategory in option.subcategories %}
 
-						{% include '@directory/directory/components/directory-menu/category-item.html.twig'  
+						{% include '@BiopenGeoDirectory/directory/components/directory-menu/category-item.html.twig'  
 		        						with {'category': subcategory, 'recursive': true } %}
 
 				{% endfor %} 

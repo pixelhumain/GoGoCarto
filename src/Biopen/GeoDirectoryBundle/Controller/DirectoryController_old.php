@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-12-13
+ * @Last Modified time: 2017-08-20 15:18:48
  */
  
 
@@ -91,7 +91,7 @@ class DirectoryController extends Controller
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                             array("listProducts" => $listProducts, "slug" => $slug, "searchRange" => 50));      
 
-        // return $this->render('@directory/directory/directory.html.twig', array("elementList" => $elementList, 
+        // return $this->render('@BiopenGeoDirectory/directory/directory.html.twig', array("elementList" => $elementList, 
         //                                                        "geocodeResponse" => $geocodeResponse, 
         //                                                        "listProducts" => $listProducts, 
         //                                                        "slug" => $slug));        

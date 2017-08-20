@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-04 12:11:56
+ * @Last Modified time: 2017-08-20 15:18:48
  */
  
 
@@ -87,7 +87,7 @@ class ElementFormController extends Controller
 			}
 			else
 			{
-				return $this->render('@directory/element-form/contributor-login.html.twig', array(
+				return $this->render('@BiopenGeoDirectory/element-form/contributor-login.html.twig', array(
 					'loginForm' => $loginform->createView(),
 					'featureConfig' => $configService->getFeatureConfig($addEditName)));
 			}		   
@@ -222,7 +222,7 @@ class ElementFormController extends Controller
         ->findAll(); 
 
 
-		return $this->render('@directory/element-form/element-form.html.twig', 
+		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,
 						'form' => $elementForm->createView(),
@@ -254,7 +254,7 @@ class ElementFormController extends Controller
 			$duplicates = $session->get('duplicatesElements');
 			// c'est aucun d'eux, je continue
 			// c'est lui -> redirige vers showElement 
-			return $this->render('@directory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
+			return $this->render('@BiopenGeoDirectory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
 																															 'duplicatesElements' => $duplicates));
 		}	
 		// otherwise just redirect ot add action
