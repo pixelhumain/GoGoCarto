@@ -113,6 +113,7 @@ stof_doctrine_extensions:
         default:
             sortable: true
             loggable: true
+            sluggable: true
             timestampable: true
 
 pix_sortable_behavior:
