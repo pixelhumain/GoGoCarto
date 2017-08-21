@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-21 15:18:22
+ * @Last Modified time: 2017-08-21 18:48:50
  */
  
 
@@ -126,7 +126,7 @@ class ElementVoteService
         $diffDate = time() - $element->getStatusChangedAt()->getTimestamp();
         $daysFromContribution = floor( $diffDate / (60 * 60 * 24));
 
-        $elDisplayName = $config->getElementDisplayNameDefinite();
+        $elDisplayName = $this->confService->getConfig()->getElementDisplayNameDefinite();
 
         // we wait at least some days to validate collaboratively a contribution
         if ($voteType == 'direct' || $daysFromContribution >= $this->confService->getConfig()->getMinDayBetweenContributionAndCollaborativeValidation())
