@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-21 16:32:27
+ * @Last Modified time: 2017-08-21 18:39:50
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -39,8 +39,11 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('elementDisplayNamePlural', null, array('label' => 'Nom pluriel '))  
                 ->end()
                 ->with('Autres textes')
-                    ->add('collaborativeModerationExplanations', 'textarea', array('label' => 'Explications au sujet de la modération collaborative', 
-                                                                                   'attr' => ['rows' => '4'], 'required' => false))
+                    ->add('collaborativeModerationExplanations', 'sonata_simple_formatter_type', array(
+                            'format' => 'richhtml',
+                            'label' => 'Explications au sujet de la modération collaborative', 
+                            'required' => false
+                    ))                                                           'attr' => ['rows' => '4'], 'required' => false))
                 ->end()
                 ->with('Autres textes')
                     ->add('fontImport', null, array('label' => 'Lien pour le CDN des polices', 'required' => false))
