@@ -9,13 +9,13 @@
 <meta name="keywords" content="{{ config.appTags }}" />
 
 {# custom javascript code #}
-<script>{{ config.customJavascript }}</script>
+<script>{{ config.customJavascript | raw }}</script>
 
 {# general gogocarto styles depending on configuration style (colors, font...) #}
 {% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}
 
 {# custom CSS written from configuration admin #}
-<style>{{ config.customCSS }}</style>
+<style>{{ config.customCSS | raw }}</style>
 
 {# custom css written on a file, so it can use the config variable #}
 {% include '@RootDir/assets/' ~ config.appSlug ~ '-styles.html.twig' ignore missing %}  
