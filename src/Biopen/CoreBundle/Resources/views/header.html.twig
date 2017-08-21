@@ -17,7 +17,7 @@
     {% set iframe = app.request.get('iframe') %}
 
 		<div class="col menu-item" id="menu-home">			
-			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo"><span class="gogo-icon-menu gogo-icon-home"></span></a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo"><span class="header-icon gogo-icon-home"></span></a> 
 			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo"><img src="{{ asset('assets/img/logo_inline.png') }}" id="logo-inline"/></a> 
 		</div>
     
@@ -25,26 +25,26 @@
     
       {% if not iframe %}
   			<div class="col menu-item">
-  			  <a href="{{ path('biopen_directory') }}"><span class="gogo-icon-menu gogo-icon-map"></span><span class="text">Annuaire</span></a> 
+  			  <a href="{{ path('biopen_directory') }}"><span class="header-icon gogo-icon-map"></span><span class="text">Annuaire</span></a> 
   			</div>	
       {% endif %}
 
       {% if not config.addFeature.isOnlyAllowedForAdmin() or is_granted('ROLE_ADMIN') %}
 			<div class="col menu-item">
 				<a href="{{ path('biopen_element_add') }}" {% if iframe %}target="_blank"{% endif %}>
-          <span class="gogo-icon-menu gogo-icon-user-plus"></span><span class="text">Ajouter {{ config.elementDisplayNameIndefinite }}</span>
+          <span class="header-icon gogo-icon-user-plus"></span><span class="text">Ajouter {{ config.elementDisplayNameIndefinite }}</span>
         </a>  
 			</div>
       {% endif %}
 
 			<div class="col menu-item">
 				<a href="{{ path('biopen_partners') }}" {% if iframe %}target="_blank"{% endif %}>
-          <span class="gogo-icon-menu gogo-icon-partner-3"></span><span class="text">Partenaires</span>
+          <span class="header-icon gogo-icon-partner-3"></span><span class="text">Partenaires</span>
         </a>  
 			</div>	
                        
       <div class="col menu-item dropdown-button" data-activates='listAbout'>
-        <a id='btn-about'><span class="gogo-icon-menu gogo-icon-info"></span><span class="text">A propos</span></a> 
+        <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">A propos</span></a> 
         <div class="arrow-after"></div>                
       </div>
       <ul id='listAbout' class='dropdown-content'>        	
@@ -60,7 +60,7 @@
         {% set userName =  app.user ? app.user.username : app.session.get('user_email') ?  app.session.get('user_email') : null %}
         <div {{ userName ? '' : 'style="display:none"' }} class="col menu-item btn-login dropdown-button" data-activates='listUserActions' id="btn-logout">
           <span class="text username">{{ userName }}</span>
-          <span class="gogo-icon-menu gogo-icon-lock"></span> 
+          <span class="header-icon gogo-icon-lock"></span> 
           <div class="arrow-after"></div>  
         </div>
         <ul id='listUserActions' class='dropdown-content'>      
@@ -71,7 +71,7 @@
       	<button {{ userName ? 'style="display:none"' : '' }}
   				onclick="$('#popup-login').openModal()" id="btn-login"
   				class="btn btn-login">
-          <span class="gogo-icon-menu gogo-icon-unlock"></span><span class="text">Connexion</span>				
+          <span class="header-icon gogo-icon-unlock"></span><span class="text">Connexion</span>				
   			</button>		
       {% endif %}
 

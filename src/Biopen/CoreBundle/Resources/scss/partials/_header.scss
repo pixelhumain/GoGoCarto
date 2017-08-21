@@ -45,7 +45,7 @@ header
 		    top: .3rem;
 			}
 
-	    .small-logo .gogo-icon-menu
+	    .small-logo .header-icon
 	    {
 	    	font-size: 1.8rem;
 		    padding-top: 3px;
@@ -128,7 +128,7 @@ header
 
 	    	.text {display:none}
 
-	    	.gogo-icon-menu
+	    	.header-icon
 	    	{
 	    		font-size: 1.2rem;
 	    		margin-left: .5rem;
@@ -139,7 +139,7 @@ header
 
 	    	 @media only screen and (min-width : 801px) 
 	    	 { 
-	    	 	.gogo-icon-menu {display:none}
+	    	 	.header-icon {display:none}
 	    	 	.text {display:inline}
 	    	 }
 
@@ -177,12 +177,12 @@ header
 			border-radius: 2px;
 
 			.text { display: none; }
-			.gogo-icon-menu { font-size: 1.1rem }
+			.header-icon { font-size: 1.1rem }
 
 
 			@media only screen and (min-width : 801px) 
 			{ 
-				.gogo-icon-menu { display: none; } 
+				.header-icon { display: none; } 
 				.text { display: inline; } 
 				padding: 0 1.5rem;
 				margin-right: 2rem;
