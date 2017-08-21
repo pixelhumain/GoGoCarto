@@ -2,12 +2,13 @@
 * @Author: Sebastian Castro
 * @Date:   2017-06-22 18:43:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-08-01 09:28:02
+* @Last Modified time: 2017-08-21 17:20:18
 */
 
 #page-container.directory
 {
 	@include flexbox();
+	width: 100%;
 }
 
 #page-content.directory
