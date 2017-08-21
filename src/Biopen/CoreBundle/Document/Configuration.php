@@ -3,6 +3,7 @@
 namespace Biopen\CoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Main Configuration
@@ -13,6 +14,60 @@ class Configuration
 {
     /** @MongoDB\Id(strategy="INCREMENT") */
     private $id;
+
+    // ----------------------------
+    // --------- BASICS -----------
+    // ----------------------------
+
+    /** @MongoDB\Field(type="string") */
+    protected $appName;
+    
+    /** 
+    * @MongoDB\Field(type="string") 
+    * @Gedmo\Slug(fields={"appName"}, updatable=false)
+    */
+    protected $appSlug;
+
+    /** @MongoDB\Field(type="string") */
+    protected $appBaseline;
+
+    /** @MongoDB\Field(type="string") */
+    // For meta keywords header
+    protected $appTags;
+
+    // TODO Logo, LogoInline, HomeBackground, favicon
+
+    // The strings to describe an element of the directory (it can be a "point" an "organization" ...)
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $elementDisplayName = "élément"; // element
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $elementDisplayNameDefinite = "l'élément"; // the element
+
+    /** @MongoDB\Field(type="string") */    
+    protected $elementDisplayNameIndefinite = "un élément"; // an element 
+
+    /** @MongoDB\Field(type="string") */    
+    protected $elementDisplayNamePlural = "éléments"; // elements 
+
+    /** @MongoDB\Field(type="string") */    
+    protected $collaborativeModerationExplanations;
+    
+
+
+    // ----------------------------
+    // -------- IMPORTS -----------
+    // ----------------------------
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $fontImport;
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $iconImport;
+
+
+
 
     // ----------------------------
     // --------- FEATURES ---------
@@ -170,8 +225,17 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $interactiveSectionColor; 
 
+
+
+    // -------------------------
+    // ---- CUSTOM ASSETS ------
+    // ------------------------- 
+
     /** @MongoDB\Field(type="string") */
     protected $customCSS = '';
+
+    /** @MongoDB\Field(type="string") */
+    protected $customJavascript = '';
 
     
     public function __toString() 
@@ -1245,5 +1309,269 @@ class Configuration
     public function getSendMailFeature()
     {
         return $this->sendMailFeature;
+    }
+
+    /**
+     * Set customJavascript
+     *
+     * @param string $customJavascript
+     * @return $this
+     */
+    public function setCustomJavascript($customJavascript)
+    {
+        $this->customJavascript = $customJavascript;
+        return $this;
+    }
+
+    /**
+     * Get customJavascript
+     *
+     * @return string $customJavascript
+     */
+    public function getCustomJavascript()
+    {
+        return $this->customJavascript;
+    }
+
+    /**
+     * Set appName
+     *
+     * @param string $appName
+     * @return $this
+     */
+    public function setAppName($appName)
+    {
+        $this->appName = $appName;
+        return $this;
+    }
+
+    /**
+     * Get appName
+     *
+     * @return string $appName
+     */
+    public function getAppName()
+    {
+        return $this->appName;
+    }
+
+    /**
+     * Set appBaseline
+     *
+     * @param string $appBaseline
+     * @return $this
+     */
+    public function setAppBaseline($appBaseline)
+    {
+        $this->appBaseline = $appBaseline;
+        return $this;
+    }
+
+    /**
+     * Get appBaseline
+     *
+     * @return string $appBaseline
+     */
+    public function getAppBaseline()
+    {
+        return $this->appBaseline;
+    }
+
+    /**
+     * Set appTags
+     *
+     * @param string $appTags
+     * @return $this
+     */
+    public function setAppTags($appTags)
+    {
+        $this->appTags = $appTags;
+        return $this;
+    }
+
+    /**
+     * Get appTags
+     *
+     * @return string $appTags
+     */
+    public function getAppTags()
+    {
+        return $this->appTags;
+    }
+
+    /**
+     * Set elementDisplayNameDefinite
+     *
+     * @param string $elementDisplayNameDefinite
+     * @return $this
+     */
+    public function setElementDisplayNameDefinite($elementDisplayNameDefinite)
+    {
+        $this->elementDisplayNameDefinite = $elementDisplayNameDefinite;
+        return $this;
+    }
+
+    /**
+     * Get elementDisplayNameDefinite
+     *
+     * @return string $elementDisplayNameDefinite
+     */
+    public function getElementDisplayNameDefinite()
+    {
+        return $this->elementDisplayNameDefinite;
+    }
+
+    /**
+     * Set elementDisplayNameIndefinite
+     *
+     * @param string $elementDisplayNameIndefinite
+     * @return $this
+     */
+    public function setElementDisplayNameIndefinite($elementDisplayNameIndefinite)
+    {
+        $this->elementDisplayNameIndefinite = $elementDisplayNameIndefinite;
+        return $this;
+    }
+
+    /**
+     * Get elementDisplayNameIndefinite
+     *
+     * @return string $elementDisplayNameIndefinite
+     */
+    public function getElementDisplayNameIndefinite()
+    {
+        return $this->elementDisplayNameIndefinite;
+    }
+
+    /**
+     * Set elementDisplayNamePlural
+     *
+     * @param string $elementDisplayNamePlural
+     * @return $this
+     */
+    public function setElementDisplayNamePlural($elementDisplayNamePlural)
+    {
+        $this->elementDisplayNamePlural = $elementDisplayNamePlural;
+        return $this;
+    }
+
+    /**
+     * Get elementDisplayNamePlural
+     *
+     * @return string $elementDisplayNamePlural
+     */
+    public function getElementDisplayNamePlural()
+    {
+        return $this->elementDisplayNamePlural;
+    }
+
+    /**
+     * Set fontImport
+     *
+     * @param string $fontImport
+     * @return $this
+     */
+    public function setFontImport($fontImport)
+    {
+        $this->fontImport = $fontImport;
+        return $this;
+    }
+
+    /**
+     * Get fontImport
+     *
+     * @return string $fontImport
+     */
+    public function getFontImport()
+    {
+        return $this->fontImport;
+    }
+
+    /**
+     * Set iconImport
+     *
+     * @param string $iconImport
+     * @return $this
+     */
+    public function setIconImport($iconImport)
+    {
+        $this->iconImport = $iconImport;
+        return $this;
+    }
+
+    /**
+     * Get iconImport
+     *
+     * @return string $iconImport
+     */
+    public function getIconImport()
+    {
+        return $this->iconImport;
+    }
+
+    /**
+     * Set elementDisplayName
+     *
+     * @param string $elementDisplayName
+     * @return $this
+     */
+    public function setElementDisplayName($elementDisplayName)
+    {
+        $this->elementDisplayName = $elementDisplayName;
+        return $this;
+    }
+
+    /**
+     * Get elementDisplayName
+     *
+     * @return string $elementDisplayName
+     */
+    public function getElementDisplayName()
+    {
+        return $this->elementDisplayName;
+    }
+
+    /**
+     * Set collaborativeModerationExplanations
+     *
+     * @param string $collaborativeModerationExplanations
+     * @return $this
+     */
+    public function setCollaborativeModerationExplanations($collaborativeModerationExplanations)
+    {
+        $this->collaborativeModerationExplanations = $collaborativeModerationExplanations;
+        return $this;
+    }
+
+    /**
+     * Get collaborativeModerationExplanations
+     *
+     * @return string $collaborativeModerationExplanations
+     */
+    public function getCollaborativeModerationExplanations()
+    {
+        return $this->collaborativeModerationExplanations;
+    }
+
+    /**
+     * Set appSlug
+     *
+     * @param string $appSlug
+     * @return $this
+     */
+    public function setAppSlug($appSlug)
+    {
+        $this->appSlug = $appSlug;
+        return $this;
+    }
+
+    /**
+     * Get appSlug
+     *
+     * @return string $appSlug
+     */
+    public function getAppSlug()
+    {
+        return $this->appSlug;
     }
 }

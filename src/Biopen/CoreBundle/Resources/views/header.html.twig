@@ -3,8 +3,10 @@
     {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
 {% endblock %}
 
-{# include gogo carto style here cause the config is available #}
-{% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}
+{% block customHeader %}
+  {# include custom-head here cause the config is available #}
+  {% include '@BiopenCoreBundle/custom-head.html.twig' %}
+{% endblock %}
 
 {% block body_content %}
 
@@ -30,7 +32,7 @@
       {% if not config.addFeature.isOnlyAllowedForAdmin() or is_granted('ROLE_ADMIN') %}
 			<div class="col menu-item">
 				<a href="{{ path('biopen_element_add') }}" {% if iframe %}target="_blank"{% endif %}>
-          <span class="gogo-icon-menu gogo-icon-user-plus"></span><span class="text">Ajouter un acteur</span>
+          <span class="gogo-icon-menu gogo-icon-user-plus"></span><span class="text">Ajouter {{ config.elementDisplayNameIndefinite }}</span>
         </a>  
 			</div>
       {% endif %}

@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-18 10:21:26
+ * @Last Modified time: 2017-08-21 15:03:50
  */
  
 
@@ -113,7 +113,7 @@ class ElementInteractionController extends Controller
 
             // TODO send mail
          
-            return $this->returnResponse(true, "L'acteur a bien été supprimé");        
+            return $this->returnResponse(true, "L'élément a bien été supprimé");        
         }
         else 
         {

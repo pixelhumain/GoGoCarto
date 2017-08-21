@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-09 15:22:08
+ * @Last Modified time: 2017-08-21 16:32:27
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -26,6 +26,27 @@ class ConfigurationAdmin extends AbstractAdmin
         $featureFormOption = ['delete' => false, 'required'=> false, 'label_attr'=> ['style'=> 'display:none']];
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
+            ->tab('Principal')
+                ->with('Le site', array('class' => 'col-md-6'))
+                    ->add('appName', null, array('label' => 'Nom du site'))  
+                    ->add('appBaseline', null, array('label' => 'Description du site (baseline)'))  
+                    ->add('appTags', null, array('label' => 'Mot clés pour le référencement (séparés par une virgule)', 'required' => false))  
+                ->end()
+                ->with('Nom des entités référencées', array('class' => 'col-md-6'))
+                    ->add('elementDisplayName', null, array('label' => "Nom"))
+                    ->add('elementDisplayNameDefinite', null, array('label' => 'Nom avec article défini'))  
+                    ->add('elementDisplayNameIndefinite', null, array('label' => 'Nom avec artcile indéfini'))  
+                    ->add('elementDisplayNamePlural', null, array('label' => 'Nom pluriel '))  
+                ->end()
+                ->with('Autres textes')
+                    ->add('collaborativeModerationExplanations', 'textarea', array('label' => 'Explications au sujet de la modération collaborative', 
+                                                                                   'attr' => ['rows' => '4'], 'required' => false))
+                ->end()
+                ->with('Autres textes')
+                    ->add('fontImport', null, array('label' => 'Lien pour le CDN des polices', 'required' => false))
+                    ->add('iconImport', null, array('label' => 'Lien pour le CDN des icones', 'required' => false))
+                ->end()
+            ->end()
             ->tab('Fonctionalités')
                 ->with('Favoris', $featureStyle)
                     ->add('favoriteFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
@@ -37,17 +58,17 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('directionsFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Signalement d\'une erreur', $featureStyle)
                     ->add('reportFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Affichage des acteurs en attente de validation', $featureStyle)
+                ->with('Affichage des éléments en attente de validation', $featureStyle)
                     ->add('pendingFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Envoyer un mail à un élement', $featureStyle)
                     ->add('sendMailFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
             ->tab('Contributions/Modération')
-                ->with('Pouvoir ajouter un acteur', $contributionStyle)
+                ->with('Pouvoir ajouter un élément', $contributionStyle)
                     ->add('addFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Pouvoir editer un acteur', $contributionStyle)
+                ->with('Pouvoir editer un élément', $contributionStyle)
                     ->add('editFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
-                ->with('Pouvoir supprimer un acteur', $contributionStyle)
+                ->with('Pouvoir supprimer un élément', $contributionStyle)
                     ->add('deleteFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Modération directe', $contributionStyle)
                     ->add('directModerationFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
@@ -97,11 +118,14 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('listTitleBackBtnColor', 'xmon_color_picker', array('label' => 'Couleur titre liste bouton retour'))  
                     ->add('listTitleBackgroundColor', 'xmon_color_picker', array('label' => 'Couleur fond titre liste'))  
                     ->add('pendingColor', 'xmon_color_picker', array('label' => 'Couleur pending'))  
-                    ->add('interactiveSectionColor', 'xmon_color_picker', array('label' => 'Couleur Interactive section'))  
-                    
-                    ->add('taxonomyMainTitleFont', null, array('label' => 'Police titre taxonomie'))    
-
-                    ->add('customCSS', 'textarea', array('label' => 'Custom CSS', 'required' => false)) 
+                    ->add('interactiveSectionColor', 'xmon_color_picker', array('label' => 'Couleur Interactive section'))                     
+                    ->add('taxonomyMainTitleFont', null, array('label' => 'Police titre taxonomie'))                       
+                ->end()
+            ->end()
+            ->tab('Custom CSS & JS')
+                ->with('Entrez du code JCSS ou Javascript qui sera chargé sur toutes les pages publiques')
+                    ->add('customCSS', 'textarea', array('label' => 'Custom CSS', 'attr' => ['rows' => '6'], 'required' => false)) 
+                    ->add('customJavascript', 'textarea', array('label' => 'Custom Javascript', 'attr' => ['rows' => '6'], 'required' => false)) 
                 ->end()
             ->end();
     }

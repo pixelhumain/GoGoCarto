@@ -10,7 +10,7 @@
 
 {% block title %}
 	{% if editMode %} Edition
-	{% else %}  Ajout d'un Acteur
+	{% else %}  Ajouter {{ config.elementDisplayNameIndefinite }}
 	{% endif %}
 {% endblock %}
 
@@ -18,7 +18,7 @@
 {# BODY CONTENT #}
 {% block body_content %}	
   
-  <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajout d'un acteur"}}</h1> 
+  <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajouter " ~ config.elementDisplayNameIndefinite }}</h1> 
 
   {% include "@BiopenGeoDirectory/element-form/form.html.twig" with {'editMode': editMode } %}
 

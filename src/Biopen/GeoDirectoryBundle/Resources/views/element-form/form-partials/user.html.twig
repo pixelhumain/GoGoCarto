@@ -1,11 +1,9 @@
-<!-- SECTION INFOS UTILISATEUR -->
 <div id="section_vos_infos">
 	<h2 id="informations-title">Validation</h2>
 
-	<!-- S'engager à bla bla bla -->
 	<div class="col s12">			
 		<input type="checkbox" name="agree" id="agree"/>
-		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que cet acteur respecte la charte de "Près de chez nous"</label>
+		<label id="label-agree" for="agree">Vous vous engagez à fournir des informations exactes, et certifiez que {{ config.elementDisplayNameDefinite }} respecte la charte de "{{ config.appName }}"</label>
 	</div>
 
 	{# Hidden usermail input #}

@@ -43,7 +43,7 @@ services:
         class: Biopen\GeoDirectoryBundle\Admin\ElementAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:Admin/ElementAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Acteurs }    
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Éléments }    
 
     admin.option:
         class: Biopen\GeoDirectoryBundle\Admin\OptionAdmin

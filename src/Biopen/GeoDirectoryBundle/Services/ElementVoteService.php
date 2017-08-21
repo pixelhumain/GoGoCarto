@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-01 09:37:46
+ * @Last Modified time: 2017-08-21 15:18:22
  */
  
 
@@ -126,6 +126,8 @@ class ElementVoteService
         $diffDate = time() - $element->getStatusChangedAt()->getTimestamp();
         $daysFromContribution = floor( $diffDate / (60 * 60 * 24));
 
+        $elDisplayName = $config->getElementDisplayNameDefinite();
+
         // we wait at least some days to validate collaboratively a contribution
         if ($voteType == 'direct' || $daysFromContribution >= $this->confService->getConfig()->getMinDayBetweenContributionAndCollaborativeValidation())
         {
@@ -134,13 +136,14 @@ class ElementVoteService
                 if ($voteType == 'collaborative') 
                 {
                     $element->setStatus($voteValue ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
-                    $message = $voteValue ? "Félicitations, cet acteur a reçu assez de vote pour être validé !" : "Cet acteur a reçu suffisamment de votes négatifs, il va être supprimé.";
+                    $message = $voteValue ? "Félicitations, " . $elDisplayName . " a reçu assez de vote pour être validé !" 
+                                          : $elDisplayName . " a reçu suffisamment de votes négatifs, il va être supprimé.";
                                  
                 }
                 else if ($voteType == 'direct')    
                 {
                     $element->setStatus($voteValue ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
-                    $message = $voteValue ? "L'élement a bien été validé" : "L'élement a bien été refusé";
+                    $message = $voteValue ? $elDisplayName . " a bien été validé" : $elDisplayName . " a bien été refusé";
                 }
             }
             else if ($element->getStatus() == ElementStatus::PendingModification)

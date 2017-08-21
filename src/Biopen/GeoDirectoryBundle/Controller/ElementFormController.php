@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-20 15:18:48
+ * @Last Modified time: 2017-08-21 15:02:09
  */
  
 
@@ -173,7 +173,7 @@ class ElementFormController extends Controller
 
 			$noticeText = 'Merci de votre contribution ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
-			else $noticeText .=  'L\'acteur a bien été ajouté';
+			else $noticeText .=  $configService->getConfig()->getElementDisplayNameDefinite() . " a bien été ajouté";
 
 			$submitOption = $request->request->get('submit-option');
 
@@ -219,8 +219,7 @@ class ElementFormController extends Controller
 
 		// options list for dynamic styles generation
 		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
-        ->findAll(); 
-
+        ->findAll();       
 
 		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(
@@ -230,7 +229,8 @@ class ElementFormController extends Controller
 						"optionList" => $optionsList,
 						"element" => $element,
 						"user_email" => $user_email,
-						"isAllowedDirectModeration" => $isAllowedDirectModeration
+						"isAllowedDirectModeration" => $isAllowedDirectModeration,
+						"config" => $configService->getConfig()
 					));
 	}
 

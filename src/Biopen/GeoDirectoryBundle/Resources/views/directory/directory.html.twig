@@ -25,6 +25,14 @@
     $(document).ready(function()
     {
         carto = goGoCarto('#directory-container', {
+            text:
+            {
+                element: '{{ config.elementDisplayName }}' ,
+                elementDefinite: '{{ config.elementDisplayNameDefinite }}' ,
+                elementIndefinite: '{{ config.elementDisplayNameIndefinite }}' ,
+                elementPlural: '{{ config.elementDisplayNamePlural }}' ,
+                collaborativeModeration: '{{ config.collaborativeModerationExplanations }}' ,
+            },
             data:
             {
                 taxonomy: {{ mainCategoryJson | raw }},

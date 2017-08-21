@@ -1,17 +1,17 @@
-<!-- SECTION INFOS UTILISATEUR -->
+{# Admin section #}
 <div id="section_admin">
 	<h2 id="admin-title">Admin</h2>
 	
 	<div class="col s12">
 		<input type="checkbox" name="dont-send-mail" id="dont-send-mail"/>
-		<label for="dont-send-mail">Ne pas prévenir l'acteur des modifications</label> 	
+		<label for="dont-send-mail">Ne pas prévenir {{ config.elementDisplayNameDefinite }} des modifications</label> 	
 	</div>
 
 	{# if element is pending #}
 	{% if element.status is defined and element.status == 0 %}
 	<div class="col s12">
 		<input type="checkbox" name="dont-validate" id="dont-validate"/>
-		<label for="dont-validate">Ne pas valider l'acteur, je modifie simplement la mise en forme</label> 	
+		<label for="dont-validate">Ne pas valider {{ config.elementDisplayNameDefinite }}, je modifie simplement la mise en forme</label> 	
 	</div>
 	{% endif %}
 

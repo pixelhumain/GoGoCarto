@@ -7,52 +7,27 @@
 <!--[if gt IE 8]> <html class="no-js ie9 ie" lang="fr"> <![endif]-->
 <!--[if !(IE)]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
 <head>
-  <title>{% block title %}Près de chez vous{% endblock %}</title>
+  <title>{% block title %}GoGoCarto{% endblock %}</title>
   <!-- TODO --><meta name="google-site-verification" content="" />  
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   
-   <!--[if IE]>
-     <link rel="stylesheet" href="http://localhost/PagesVertes/web/assets/css/ie_polyfill.css"> 
-   <![endif]-->   
-  
-  
-  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400|Yellowtail" rel="stylesheet">  -->
-  <!-- <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">  
-  <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto:400,700" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
+ 
 
   {# gogocarto conatins materializeCss lib, so we load it for all files #}
-  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css') }}">
-  {# the icons as SVG font #}
-  <link href="https://file.myfontastic.com/p9QtVQwDCkDvVq6VJesnxg/icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css') }}">  
 
   {% block stylesheets %}
   {% endblock %}
-  
-  <!-- TODO --> <meta name="description" content="" /> 
-  <!-- TODO --> <meta name="keywords" content="" />
-  <meta name="robots" content="index, follow, all" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
 
-  <!-- Piwik -->
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(["setCookieDomain", "*.presdecheznous.fr"]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      _paq.push(['setTrackerUrl',  'https://api-d57481af4d643acf289bdd8f8c8c0471.oasis.sandstorm.io']);
-      _paq.push(['setSiteId', 1]);
-      _paq.push(['setApiToken', 'sKcxbcQPyzvKpWsViS9vWaiR30VIwFBlQ6a51P590U2']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src='https://2cfm3kso65p8dc6mvo3g.oasis.sandstorm.io/embed.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <!-- End Piwik Code -->
+  {# part of the head need to be created depending on configuration #}
+  {% block customHeader %}
+  {% endblock %}  
   
+  <meta name="robots" content="index, follow, all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
 </head>
+
 <body>
+
   {% block body %}
   {% endblock %} 
 
