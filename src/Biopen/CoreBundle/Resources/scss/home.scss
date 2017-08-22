@@ -1,11 +1,5 @@
 @import 'partials/base';
 
-// TODO import minimilize materialize framework just for home page
-// or deal without it !
-// TODO 
-//@import '../../../GeoDirectoryBundle/Resources/scss/modules/color';
-
-
 body
 {
 	text-align: center;
@@ -49,8 +43,6 @@ body
     //border-bottom: 1px solid #4a4a4a;
     @media #{$medium-and-up} { font-size: 1.1rem; } 
     @media #{$large-only} { padding-bottom: .5rem;  }
-    
-
 
     &:hover
     {
@@ -95,13 +87,6 @@ body
 
 	.row { margin-bottom : 0 ;}
 }
-
-//on accentue l'effet box shadow car on est sur du sombre
-// .btn:hover
-// {
-// 	box-shadow: none;
-// 	&:hover { box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.30), 0 6px 17px 0 rgba(0, 0, 0, 0.30); }
-// }
 
 .row { margin-bottom: 1rem; }
 
