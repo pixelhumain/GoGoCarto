@@ -27,10 +27,10 @@
         carto = goGoCarto('#directory-container', {
             text:
             {
-                element: "{{ config.elementDisplayName }}" ,
-                elementDefinite: "{{ config.elementDisplayNameDefinite }}" ,
-                elementIndefinite: "{{ config.elementDisplayNameIndefinite }}" ,
-                elementPlural: "{{ config.elementDisplayNamePlural }}",
+                element: "{{ config.elementDisplayName | raw }}" ,
+                elementDefinite: "{{ config.elementDisplayNameDefinite | raw }}" ,
+                elementIndefinite: "{{ config.elementDisplayNameIndefinite | raw }}" ,
+                elementPlural: "{{ config.elementDisplayNamePlural | raw }}",
                 collaborativeModeration: {{ config.collaborativeModerationExplanations | json_encode | raw }},
             },
             data:
