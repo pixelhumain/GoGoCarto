@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-21 15:03:50
+ * @Last Modified time: 2017-08-22 15:53:19
  */
  
 
@@ -111,7 +111,8 @@ class ElementInteractionController extends Controller
             $em->persist($element);
             $em->flush();
 
-            // TODO send mail
+            $mailService = $this->container->get('biopen.mail_service');
+            $mailService->sendAutomatedMail('delete', $element, $request->get('message'));
          
             return $this->returnResponse(true, "L'élément a bien été supprimé");        
         }
@@ -135,9 +136,8 @@ class ElementInteractionController extends Controller
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
-            // TODO send mail
-
-            dump("sending mail");
+            $mailService = $this->container->get('biopen.mail_service');
+            $mailService->sendMail($request->get('userMail'), $element->getMail(), $request->get('subject'), $request->get('content'));
 
             $em->persist($element);
             $em->flush();            
