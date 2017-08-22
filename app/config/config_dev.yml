@@ -11,6 +11,13 @@ web_profiler:
     toolbar: true
     intercept_redirects: false
 
+swiftmailer:
+    delivery_address: sebastian.castro@protonmail.com
+    disable_delivery:  true
+
+bazinga_geocoder:
+    fake_ip:    123.345.643.133
+
 monolog:
     handlers:
         main:
@@ -31,8 +38,3 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-#swiftmailer:
-#    delivery_address: me@example.com
-
-bazinga_geocoder:
-    fake_ip:    123.345.643.133
