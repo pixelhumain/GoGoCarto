@@ -112,7 +112,7 @@ function submitAjaxLogin()
           if (data.success)
           {
             $('#popup-login').closeModal();
-            handleLogin(true, data.role);
+            handleLogin(true, data.role, data.mail);
             $('#btn-logout .username').text(data.name);
             displayLoginButton(false);       
           }  
@@ -127,7 +127,7 @@ function submitAjaxLogin()
   });
 }
 
-function handleLogin(bool, roles)
+function handleLogin(bool, roles, mail)
 {
   console.log("handle login", bool);
   if (bool) $('#btn-login').trigger('login');
@@ -140,6 +140,8 @@ function handleLogin(bool, roles)
     if ($.inArray('ROLE_ADMIN', roles) > -1) carto.setUserRole('admin');
     else if ($.inArray('ROLE_USER', roles) > -1) carto.setUserRole('user');
     else carto.setUserRole('anonymous');
+
+    carto.setUserMail(mail);
   }  
 }
 
