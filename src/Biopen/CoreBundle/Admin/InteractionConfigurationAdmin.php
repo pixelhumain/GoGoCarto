@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-21 09:01:41
+ * @Last Modified time: 2017-08-22 11:54:45
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -16,12 +16,6 @@ use Biopen\CoreBundle\Admin\FeatureConfigurationAdmin;
 
 class InteractionConfigurationAdmin extends FeatureConfigurationAdmin
 {
-    protected $datagridValues = array(
-        '_page' => 1,
-        '_sort_order' => 'ASC',
-        '_sort_by' => 'position',
-    );
-
     protected function configureFormFields(FormMapper $formMapper)
     {
         parent::configureFormFields($formMapper);
