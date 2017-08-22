@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-21 18:42:33
+ * @Last Modified time: 2017-08-22 11:59:31
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -23,6 +23,7 @@ class ConfigurationAdmin extends AbstractAdmin
     {
         $featureStyle = array('class' => 'col-md-6 col-lg-3');
         $contributionStyle = array('class' => 'col-md-6 col-lg-4');
+        $mailStyle = array('class' => 'col-md-12 col-lg-6');
         $featureFormOption = ['delete' => false, 'required'=> false, 'label_attr'=> ['style'=> 'display:none']];
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
@@ -82,6 +83,18 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('maxOppositeVoteTolerated', null, ['required'=>false, 'label' => "Nombres maximum de vos contradictoires tolérés"])
                     ->add('minDayBetweenContributionAndCollaborativeValidation', null, ['required'=>false, 'label' => "Nombre de jours minimum avant une validation/refus collaboratif"])
                 ->end()
+            ->end()
+            ->tab('Mails automatiques')
+                ->with("Lors d'un ajout", $mailStyle)
+                    ->add('addMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with("Lors d'une modification", $mailStyle)
+                    ->add('editMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with("Lors d'une suppression", $mailStyle)
+                    ->add('deleteMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with("Lors d'une validation", $mailStyle)
+                    ->add('validationMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with("Lors d'un refus", $mailStyle)
+                    ->add('refusalMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
             ->tab('Carte')  
                 ->with('Map', array('class' => 'col-md-6'))

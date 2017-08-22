@@ -145,6 +145,26 @@ class Configuration
     protected $defaultSouthWestBoundsLng;
 
 
+    // ----------------------------
+    // ---------- MAILS -----------
+    // ----------------------------
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $addMail;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $editMail;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $deleteMail;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $validationMail;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $refusalMail;
+
+
 
     // -------------------------
     // --------- STYLE ---------
@@ -1573,5 +1593,137 @@ class Configuration
     public function getAppSlug()
     {
         return $this->appSlug;
+    }
+
+    /**
+     * Set addMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $addMail
+     * @return $this
+     */
+    public function setAddMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $addMail)
+    {
+        $this->addMail = $addMail;
+        return $this;
+    }
+
+    /**
+     * Get addMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $addMail
+     */
+    public function getAddMail()
+    {
+        return $this->addMail;
+    }
+
+    /**
+     * Set editMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $editMail
+     * @return $this
+     */
+    public function setEditMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $editMail)
+    {
+        $this->editMail = $editMail;
+        return $this;
+    }
+
+    /**
+     * Get editMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $editMail
+     */
+    public function getEditMail()
+    {
+        return $this->editMail;
+    }
+
+    /**
+     * Set deleteMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $deleteMail
+     * @return $this
+     */
+    public function setDeleteMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $deleteMail)
+    {
+        $this->deleteMail = $deleteMail;
+        return $this;
+    }
+
+    /**
+     * Get deleteMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $deleteMail
+     */
+    public function getDeleteMail()
+    {
+        return $this->deleteMail;
+    }
+
+    /**
+     * Set validationMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $validationMail
+     * @return $this
+     */
+    public function setValidationMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $validationMail)
+    {
+        $this->validationMail = $validationMail;
+        return $this;
+    }
+
+    /**
+     * Get validationMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $validationMail
+     */
+    public function getValidationMail()
+    {
+        return $this->validationMail;
+    }
+
+    /**
+     * Set refusedMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusedMail
+     * @return $this
+     */
+    public function setRefusedMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusedMail)
+    {
+        $this->refusedMail = $refusedMail;
+        return $this;
+    }
+
+    /**
+     * Get refusedMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusedMail
+     */
+    public function getRefusedMail()
+    {
+        return $this->refusedMail;
+    }
+
+    /**
+     * Set refusalMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusalMail
+     * @return $this
+     */
+    public function setRefusalMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusalMail)
+    {
+        $this->refusalMail = $refusalMail;
+        return $this;
+    }
+
+    /**
+     * Get refusalMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $refusalMail
+     */
+    public function getRefusalMail()
+    {
+        return $this->refusalMail;
     }
 }
