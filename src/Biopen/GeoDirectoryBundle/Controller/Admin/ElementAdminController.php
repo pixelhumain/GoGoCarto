@@ -97,11 +97,63 @@ class ElementAdminController extends Controller
         $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,5000]) .' élements ont bien été ' . $statusMessage[$status]);
 
         if ($nbreModelsToProceed >= 5000)
-            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement 5000 seront traités");
+            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement 5000 ont été traités");
 
         return new RedirectResponse(
             $this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters()))
         );
+    }
+
+    public function batchActionSendMail(ProxyQueryInterface $selectedModelQuery) 
+    {        
+        $selectedModels = $selectedModelQuery->execute();
+        $nbreModelsToProceed = $selectedModels->count();
+        $selectedModels->limit(5000);
+
+        $request = $this->get('request')->request;
+        $mailer = $this->container->get('mailer');
+
+        $mailsSent = 0;
+        $elementWithoutEmail = 0;
+            
+        try {
+            foreach ($selectedModels as $element) {
+                $mail = $element->getMail();
+                if ($mail) 
+                {
+                    $mails[] = $mail;
+                }
+                else 
+                {
+                    $elementWithoutEmail++;
+                }
+                
+            }
+        } catch (\Exception $e) {
+            $this->addFlash('sonata_flash_error', 'ERROR : ' . $e->getMessage());
+            return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
+        }
+
+        $message = (new \Swift_Message())
+            ->setFrom($request->get('from'))
+            ->setBcc($mails)
+            ->setSubject($request->get('mail-subject'))
+            ->setBody($request->get('mail-content'),'text/html'
+        );
+
+        $mailer->send($message);
+
+        $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
+        
+        if ($elementWithoutEmail > 0)
+            $this->addFlash('sonata_flash_error', $elementWithoutEmail . " mails n'ont pas pu être envoyé car aucune addresse n'était renseignée");
+
+        if ($nbreModelsToProceed >= 5000)
+        {
+            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement 5000 ont été traités");
+        }
+
+        return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
     }
 
     public function showEditAction($id = null)
