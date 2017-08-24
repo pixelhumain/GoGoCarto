@@ -38,38 +38,47 @@ class ElementAdminController extends Controller
         return $this->redirect($this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters())));
     }
 
-    public function batchActionDelete(ProxyQueryInterface $selectedModelQuery, Request $request = null)
+    public function batchActionDelete(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::Deleted, $selectedModelQuery, $request);
+        return $this->batchStatus(ElementStatus::Deleted, $selectedModelQuery);
     }
 
-    public function batchActionValidate(ProxyQueryInterface $selectedModelQuery, Request $request = null)
+    public function batchActionValidation(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::AdminValidate, $selectedModelQuery, $request);
+        return $this->batchStatus(ElementStatus::AdminValidate, $selectedModelQuery);
     }
 
-    public function batchActionRefuse(ProxyQueryInterface $selectedModelQuery, Request $request = null)
+    public function batchActionRefusal(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::AdminRefused, $selectedModelQuery, $request);
+        return $this->batchStatus(ElementStatus::AdminRefused, $selectedModelQuery);
     }
 
-    private function batchStatus($status, ProxyQueryInterface $selectedModelQuery, $request )
+    private function batchStatus($status, ProxyQueryInterface $selectedModelQuery)
     {
         $this->admin->checkAccess('edit');
         $this->admin->checkAccess('delete');
 
+        $request = $this->get('request')->request;
         $modelManager = $this->admin->getModelManager();
 
         $selectedModels = $selectedModelQuery->execute();
-        $nbreModelsToProceed = $selectedModels->count();
+        $nbreModelsToProceed = $selectedModels->count();        
         $selectedModels->limit(5000);
 
+        $mailService = $this->container->get('biopen.mail_service');
+        $sendMails = !($request->has('dont-send-mail') && $request->get('dont-send-mail'));            
+
         try {
+            // getting the document manager (quite ugly way) so we can control better the flush and clear
             $documentManager = $modelManager->getDocumentManager($selectedModels->getNext());
 
             $i = 0;
             foreach ($selectedModels as $selectedModel) {
                 $selectedModel->setStatus($status);
+                if ($sendMails) 
+                {
+                    $mailService->sendAutomatedMail($request->get('action'), $selectedModel, $request->get('comment'));
+                }
 
                 if ((++$i % 20) == 0) {
                     $documentManager->flush();
@@ -79,9 +88,8 @@ class ElementAdminController extends Controller
 
             $documentManager->flush();
             $documentManager->clear();
-            
         } catch (\Exception $e) {
-            $this->addFlash('sonata_flash_error', 'Une erreur est survenue');
+            $this->addFlash('sonata_flash_error', 'Une erreur est survenue :' . $e->getMessage());
 
             return new RedirectResponse(
                 $this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters()))
@@ -241,5 +249,4 @@ class ElementAdminController extends Controller
             'object' => $object,
             'elements' => $this->admin->getShow(),
         ), null);
-    }
-}
+    }}
