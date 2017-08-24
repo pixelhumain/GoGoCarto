@@ -1,7 +1,7 @@
 {
   "name": "GoGoCarto",
   "version": "2.0.0",
-  "homepage": "https://github.com/Biopen/GoGoCarto",
+  "homepage": "https://github.com/pixelhumain/GoGoCarto",
   "description": "Collaborative mapping directory",
   "keywords": [
     "map",
@@ -12,13 +12,13 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Biopen/GoGoCarto.git"
+    "url": "https://github.com/pixelhumain/GoGoCarto.git"
   },
   "engines": {
     "node": "6.5.0"
   },
   "dependencies": {
-    "GoGoCartoJs": "github:biopen/gogocartojs"
+    "GoGoCartoJs": "github:pixelhumain/gogocartojs"
   },
   "devDependencies": {
     "del": "^2.2.2",
