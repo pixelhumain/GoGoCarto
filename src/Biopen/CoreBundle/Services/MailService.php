@@ -30,12 +30,18 @@ class MailService
             'text/html'
         );
 
-        $this->mailer->send($message);
+        try {
+            $this->mailer->send($message);
+        }
+        catch (\Swift_RfcComplianceException $e) {
+            $this->addFlash('sonata_flash_error', 'Une erreur est survenue : ' . $e->getMessage());
+        }
+        
     }
 
     public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier')
     {
-        if (!$element->getMail()) 
+        if (!$element || !$element->getMail()) 
             return [ 'success' => false, 'message' => 'Element don\'t have a mail' ];
         
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
@@ -48,6 +54,7 @@ class MailService
         $subject = $this->replaceMailsVariables($mailConfig->getSubject(), $element, $customMessage);
         $content = $this->replaceMailsVariables($mailConfig->getContent(), $element, $customMessage);
 
+        // TODO config an admin email for automated message
         $this->sendMail('admin@presdecheznous.fr', $element->getMail(), $subject, $content);
 
         return [ 'success' => true, 'message' => 'The message has been send' ];
