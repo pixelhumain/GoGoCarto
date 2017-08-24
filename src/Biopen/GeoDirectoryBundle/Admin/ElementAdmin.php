@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-07 12:31:36
+ * @Last Modified time: 2017-08-24 18:20:52
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -216,17 +216,37 @@ class ElementAdmin extends AbstractAdmin
 	public function configureBatchActions($actions)
 	{
 	    	$actions = [];
-	    	$actions['validate'] = array(
+	    	$actions['validation'] = array(
             'label' => 'Valider',
-            'ask_confirmation' => false
+            'ask_confirmation' => false,
+            'modal' => [
+            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail', 				'id' => 'dont-send-mail'],
+            ]
         	);
         	$actions['delete'] = array(
             'label' => 'Supprimer',
-            'ask_confirmation' => false
+            'ask_confirmation' => false,
+            'modal' => [
+            	['type' => 'textarea',  'label' => 'Motif de la (ou des) suppressions', 'id' => 'comment'],
+            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail', 				'id' => 'dont-send-mail'],
+            ]
         	);
-        	$actions['refuse'] = array(
+        	$actions['refusal'] = array(
             'label' => 'Refuser',
-            'ask_confirmation' => false
+            'ask_confirmation' => false,
+            'modal' => [
+            	['type' => 'textarea',  'label' => 'Motif du (ou des) refus', 'id' => 'comment'],
+            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail',  'id' => 'dont-send-mail'],
+            ]
+        	);
+        	$actions['sendMail'] = array(
+            'label' => 'Envoyer un mail',
+            'ask_confirmation' => false,
+            'modal' => [
+            	['type' => 'text', 		'label' => 'Votre addresse mail',  'id' => 'from'],
+            	['type' => 'text', 		'label' => 'Object',  'id' => 'mail-subject'],
+            	['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
+            ]
         	);
 
 	    return $actions;
@@ -238,4 +258,13 @@ class ElementAdmin extends AbstractAdmin
 		$collection->add('redirectEdit', $this->getRouterIdParameter().'/redirectEdit');
 		$collection->add('showEdit', $this->getRouterIdParameter().'/show-edit');
 	}
+
+	public function getTemplate($name) {
+        switch ($name) {
+            case 'list': return 'BiopenGeoDirectoryBundle:admin:base_list_custom_batch.html.twig';
+                break;
+            default : return parent::getTemplate($name);
+                break;
+        }
+    }
 }
