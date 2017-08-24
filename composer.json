@@ -1,7 +1,7 @@
 {
-    "name": "biopenlandes/pages-vertes",
-    "description": "annuaire interactif de l'alimentation locale",
-    "license": "proprietary",
+    "name": "GoGoCarto",
+    "description": "Collaborative geo directory",
+    "license": "GPL-3",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -56,7 +56,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/Biopen/mongodb-odm.git"
+            "url": "https://github.com/pixelhumain/mongodb-odm.git"
         }
     ],
     "scripts": {
