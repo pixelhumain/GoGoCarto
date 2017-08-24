@@ -10,14 +10,12 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 
 class SpecialActionsController extends Controller
 {
-    public function updateJsonAction()
+    private function elementsBulkAction($functionToExecute)
     {
         $em = $this->get('doctrine_mongodb')->getManager();
         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
-        $count = $elementRepo->findAllElements(null, null, true);       
-
-        //dump("nombre elements = " . $count);
+        $count = $elementRepo->findAllElements(null, null, true);      
 
         $batchSize = 50;
         $i = 0;
@@ -27,26 +25,43 @@ class SpecialActionsController extends Controller
 
         $maxBatchStep = floor($count/$batchSize);
 
-        //dump($maxBatchStep);
-
         for($batchStep = 0; $batchStep <= $maxBatchStep; $batchStep++)
         {
             $elements = $elementRepo->findAllElements($batchSize, $batchStep * $batchSize);
 
-            //dump("from " . ($batchStep * $batchSize) . " to " . ($batchStep * $batchSize + $batchSize));
-
             foreach ($elements as $key => $element) 
             {
-                $element->updateJsonRepresentation();            
+               $this->$functionToExecute($element);            
             }
 
             $em->flush();
-            // Detaches all objects from Doctrine for memory save
             $em->clear();           
-        }   
+        }  
 
-        //dump($element);     
+        return new Response(count($elements) . " éléments mis à jours avec succès.");         
+    }
 
-        return new Response(count($elements) . " éléments mis à jours avec succès.");
+    public function updateJsonAction()
+    {
+        return $this->elementsBulkAction('updateJson');        
+    }
+
+    public function updateJson($element)
+    {
+        $element->updateJsonRepresentation(); 
+    }
+
+    public function fixsEmailAddressesAction()
+    {
+        return $this->elementsBulkAction('fixsEmailAddresses');
+    }
+
+    public function fixsEmailAddresses($element)
+    {
+        $actualMail = $element->getMail();
+        if ($actualMail)
+        {
+            $element->setMail(str_replace('.@', '@', $actualMail));
+        }
     }
 }
