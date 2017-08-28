@@ -35,7 +35,13 @@ header
 	    margin-right: 0;
 
 	    color: #EE6E73;
-			.small-logo { display: inline-block; }
+			.small-logo { 
+				display: inline-block; 
+				height: 100%;
+		    padding: 6px 0;
+		    margin-left: -5px;
+		    img { height: 100% }
+			}
 			.large-logo { display: none; }
 
 			#logo-inline

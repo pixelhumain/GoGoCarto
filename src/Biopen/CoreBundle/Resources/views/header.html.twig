@@ -17,7 +17,8 @@
     {% set iframe = app.request.get('iframe') %}
 
 		<div class="col menu-item" id="menu-home">			
-			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo"><span class="header-icon gogo-icon-home"></span></a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo">
+        <img src="{{ asset('assets/img/favicon.png') }}"/></a> 
 			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo"><img src="{{ asset('assets/img/logo_inline.png') }}" id="logo-inline"/></a> 
 		</div>
     
