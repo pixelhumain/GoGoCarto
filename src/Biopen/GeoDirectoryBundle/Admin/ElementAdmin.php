@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-24 18:20:52
+ * @Last Modified time: 2017-08-28 20:01:08
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -194,6 +194,7 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updatedAt','date', array("format" => "d/m/Y"))
+         ->add('contributorMail')
          ->add('moderationState', 'choice', [
                'label' => "Modération",
                'choices'=> $this->moderationChoices,
