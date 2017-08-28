@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2016-08-31
+ * @Last Modified time: 2017-08-28 13:06:58
  */
 function addTimeSlot( day )
 {
@@ -36,3 +36,13 @@ function redoTimeSlot( day )
 		addTimeSlot(day);
 	}		
 }
+
+function locationHashChanged() 
+{
+    if (location.hash.includes('#popup') ) {
+        $(location.hash).openModal();
+        location.hash = '';
+    }
+}
+
+window.onhashchange = locationHashChanged;
