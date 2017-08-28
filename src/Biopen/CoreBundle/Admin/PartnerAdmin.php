@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-28 10:28:06
+ * @Last Modified time: 2017-08-28 19:46:28
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -28,7 +28,7 @@ class PartnerAdmin extends AbstractAdmin
 			    'format' => 'richhtml',
 			));
         $formMapper->add('logoUrl', 'url', ['required' => false]);
-        $formMapper->add('websiteUrl', 'url');
+        $formMapper->add('websiteUrl', 'url', ['required' => false]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
