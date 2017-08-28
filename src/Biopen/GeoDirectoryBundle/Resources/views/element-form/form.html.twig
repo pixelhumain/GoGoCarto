@@ -16,8 +16,10 @@
 
 	<section id="section-validate-and-send">
 		{% if not is_granted('ROLE_ADMIN') %}
-			{% include "@BiopenGeoDirectory/element-form/form-partials/user.html.twig" %}	
+			{% include "@BiopenGeoDirectory/element-form/form-partials/user-validation.html.twig" %}	
 		{% endif %}
+
+		{% include "@BiopenGeoDirectory/element-form/form-partials/user-validation.html.twig" %}	
 
 		{% if is_granted('ROLE_ADMIN') %}
 			{% include "@BiopenGeoDirectory/element-form/form-partials/admin.html.twig" %}	

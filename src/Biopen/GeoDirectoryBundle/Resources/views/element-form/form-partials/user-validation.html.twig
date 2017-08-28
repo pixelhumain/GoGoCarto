@@ -1,0 +1,12 @@
+<div id="section_vos_infos">
+	<h2 id="informations-title">Validation</h2>
+
+	<div class="col s12" {{ config.elementFormValidationText ? '' : 'style="display:none"'}}>			
+		<input type="checkbox" name="agree" id="agree" {{ config.elementFormValidationText ? '' : 'checked'}}/>
+		<label id="label-agree" for="agree">{{ config.elementFormValidationText | raw }}</label>
+	</div>
+
+	{# Hidden usermail input #}
+	{{ form_widget(form.contributorMail, {'id': 'inputMail', 'value' : user_email }) }}		
+
+</div>

@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-22 11:59:31
+ * @Last Modified time: 2017-08-28 11:26:20
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -106,6 +106,16 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('defaultNorthEastBoundsLng')
                     ->add('defaultSouthWestBoundsLat')
                     ->add('defaultSouthWestBoundsLng')
+                ->end()
+            ->end()
+            ->tab('Formulaire dajout')  
+                ->with('Contenus', array('class' => 'col-md-12'))                    
+                    ->add('elementFormIntroText', 'textarea'  , 
+                        array('required' => false,
+                              'label' => "Texte d'introduction qui apparait en haut du formulaire"))
+                    ->add('elementFormValidationText', 'textarea' , 
+                        array('required' => false,
+                              'label' => "Label de la checkbox de validation du formulaire"))
                 ->end()
             ->end()
             ->tab('Style')     

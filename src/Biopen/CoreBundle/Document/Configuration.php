@@ -165,6 +165,14 @@ class Configuration
     protected $refusalMail;
 
 
+    // ----------------------------
+    // -------- CONTENUS ----------
+    // ----------------------------
+    /** @MongoDB\Field(type="string") */
+    protected $elementFormIntroText;
+
+    /** @MongoDB\Field(type="string") */
+    protected $elementFormValidationText;
 
     // -------------------------
     // --------- STYLE ---------
@@ -1725,5 +1733,49 @@ class Configuration
     public function getRefusalMail()
     {
         return $this->refusalMail;
+    }
+
+    /**
+     * Set elementFormIntroText
+     *
+     * @param string $elementFormIntroText
+     * @return $this
+     */
+    public function setElementFormIntroText($elementFormIntroText)
+    {
+        $this->elementFormIntroText = $elementFormIntroText;
+        return $this;
+    }
+
+    /**
+     * Get elementFormIntroText
+     *
+     * @return string $elementFormIntroText
+     */
+    public function getElementFormIntroText()
+    {
+        return $this->elementFormIntroText;
+    }
+
+    /**
+     * Set elementFormValidationText
+     *
+     * @param string $elementFormValidationText
+     * @return $this
+     */
+    public function setElementFormValidationText($elementFormValidationText)
+    {
+        $this->elementFormValidationText = $elementFormValidationText;
+        return $this;
+    }
+
+    /**
+     * Get elementFormValidationText
+     *
+     * @return string $elementFormValidationText
+     */
+    public function getElementFormValidationText()
+    {
+        return $this->elementFormValidationText;
     }
 }
