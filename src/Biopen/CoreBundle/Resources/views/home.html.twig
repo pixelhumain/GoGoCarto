@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
   
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}"> 
   <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">   
 
   <style>
@@ -12,13 +13,9 @@
 
 {% endblock %}
 
-{% block customHeader %}
-	{# in home header is not loaded so we need to include the custom-head here #}
-	{% include '@BiopenCoreBundle/custom-head.html.twig' %}
-{% endblock %}
-
 {# BODY CONTENT #}
 {% block body %}
+<div>{{ render(controller('BiopenCoreBundle:Core:header', {'iframe': app.request.get('iframe') } ))}}</div>
 <div id="home-main-wrapper" class="valign-wrapper">
 	<section id="home-main-container" class="valign">	
 
@@ -88,7 +85,7 @@
 
 
 <section id="section-credits" class="">
-		Propulsed by <a href="https://gogocarto.fr" style=\"font-weight:bold;color: #bdc900;" target="_blank"><strong>GoGoCarto</strong></a>
+		Propulsed by <a href="https://github.com/pixelhumain/GoGoCarto" style=\"font-weight:bold;color: #bdc900;" target="_blank"><strong>GoGoCarto</strong></a>
 </section>
 
 {% endblock %}

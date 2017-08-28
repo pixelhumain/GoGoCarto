@@ -4,15 +4,33 @@ body
 {
 	text-align: center;
 	background-color: #2f2f2f;
-	height: 100%;	
+	height: 100% !important;	
 	background: 50% no-repeat fixed;
 	background-size: cover;
 	color:white;
+  display: block !important;  
 
 	@media #{$medium-and-up}
 	{
 		background-attachment: initial;
 	}
+}
+
+html
+{
+	padding-top: 2rem !important;
+}
+
+header
+{
+	position: absolute;
+
+	#menu
+	{		
+	  width: 100% !important;
+
+		#menu-home { display:none !important }
+	}	
 }
 
 #home-logo
@@ -308,7 +326,7 @@ section#home-main-container
 		}
 	}
 
-	@media #{$medium-and-up}
+	@media #{$large-only}
 	{
 		.main-options-container { display:block; }
 		.category-field-select { display: none; }
@@ -378,6 +396,7 @@ section#home-main-container
 section.bottom-section
 {
 	width:100%;
+	margin: 0;
 
 	.content
 	{
@@ -388,6 +407,9 @@ section.bottom-section
 		{
 			font-size: 4rem;
     	margin-bottom: 3rem;
+    	margin-top: 2rem;
+    	text-transform: none;
+    	font-weight: normal;
 		}
 
 		font-size: 1.5rem;
