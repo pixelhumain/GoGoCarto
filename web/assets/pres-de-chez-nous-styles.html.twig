@@ -107,7 +107,7 @@
   #element-form-submit-btn { width: 100%; }
   
   #page-content.element-form section { border-radius: 5px; }
-  #page-content.element-form .categories-info { font-weight: bold; text-align: center; }
+  #page-content.element-form .categories-info { font-weight: bold; }
   #page-content.element-form input[type=checkbox] + label:before 
   { 
     width: 16px;
@@ -257,7 +257,10 @@
     background-repeat: repeat-x;    
     height: 2px;
     background-color: transparent;
+    border: none;
+    display: block;
   }
+  section#home-main-container .category-field-select .select-wrapper {  background-color: #6b7e9b; max-width: 500px; border-radius: 5px;}
   @media screen and (min-width: 700px) { #home-main-wrapper .divider { margin: 0 3rem; } }
   #home-main-wrapper #search-bar { text-transform: uppercase; font-weight: bold; color: {{ config.neutralDarkColor }} !important;}
   {% set placeholderColor = config.neutralDarkColor ~ '!important' %}
