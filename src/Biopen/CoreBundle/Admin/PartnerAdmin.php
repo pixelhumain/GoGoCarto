@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-29 08:43:35
+ * @Last Modified time: 2017-08-28 10:28:06
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -27,7 +27,7 @@ class PartnerAdmin extends AbstractAdmin
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
 			    'format' => 'richhtml',
 			));
-        $formMapper->add('logoUrl', 'url');
+        $formMapper->add('logoUrl', 'url', ['required' => false]);
         $formMapper->add('websiteUrl', 'url');
     }
 

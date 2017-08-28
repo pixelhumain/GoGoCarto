@@ -9,17 +9,19 @@
 
 <section>
 
-<h1>Nos amis et partenaires</h1>    
+<h1>Partenaires</h1>    
 
 {% for partner in listPartners %}
 
   <div class="partner-item row">
-    <div class="image-container">
-      <img src={{ asset('assets/img/partners/' ~ partner.logoUrl) }} alt="logo" class="partner-logo"/>
-    </div>
+    {% if partner.logoUrl %}
+      <div class="image-container">
+        <img src={{ partner.logoUrl }} alt="logo" class="partner-logo"/>
+      </div>
+    {% endif %}
     <div class="partner-text">
-      <h2 class="partner-title">{{ partner.name|capitalize }}</h2>
-      <p class="partner-description">{{ partner.content |raw }} </p>
+      <h2 class="partner-title {{ partner.logoUrl ? "with-logo" : 'no-logo' }}">{{ partner.name|capitalize }}</h2>
+      <div class="partner-description">{{ partner.content | raw }} </div>
       <a class="partner-url" href="{{ partner.websiteUrl }}" target="_blank">{{ partner.websiteUrl }}</a>
     </div>
   </div>

@@ -120,15 +120,7 @@ class Partner
      */
     public function setWebsiteUrl($webSiteUrl)
     {
-        if ($webSiteUrl && $webSiteUrl != '')
-        {
-            $parsed = parse_url($webSiteUrl);
-            if (empty($parsed['scheme'])) {
-                $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
-            }
-            $this->websiteUrl = $webSiteUrl;
-        }   
-
+        $this->websiteUrl = $webSiteUrl;  
         return $this;
     }
 
