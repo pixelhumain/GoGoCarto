@@ -19,6 +19,7 @@ body
 html
 {
 	padding-top: 2rem !important;
+  background-color: #354253 !important;
 }
 
 header
@@ -28,6 +29,7 @@ header
 	#menu
 	{		
 	  width: 100% !important;
+	  @media #{$medium-and-up} { background-color: transparent; }
 
 		#menu-home { display:none !important }
 	}	
@@ -35,7 +37,7 @@ header
 
 #home-logo
 {
-	width: 80%;
+	@media #{$small-only} { width: 80% !important; }
 	@media #{$medium-and-up} { width: 50%; }
 	@media #{$large-only} { width: 60%; }
 }
@@ -60,7 +62,7 @@ header
     background-color: #525252;
     //border-bottom: 1px solid #4a4a4a;
     @media #{$medium-and-up} { font-size: 1.1rem; } 
-    @media #{$large-only} { padding-bottom: .5rem;  }
+    @media (min-height: 800px) { padding-bottom: .5rem;  }
 
     &:hover
     {
@@ -391,6 +393,68 @@ section#home-main-container
 	}
 
 	.divider { margin-bottom : 1.5rem; }
+
+	@media (max-height:800px)
+  {
+  	padding-top: 1rem;
+
+  	label.main-option-radio-label {
+  		margin-bottom: .5rem !important;
+  		font-size: 1rem;
+  	}
+
+  	#home-logo
+  	{
+  		width: auto;
+    	max-height: 130px;
+  	}
+
+  	#search-bar-container
+  	{
+  		margin-top: 1rem;
+    	margin-bottom: 0;
+  	}
+
+  	h2 { 
+  		font-size: 1rem !important; 
+  		margin-bottom: .5rem;
+  	}
+
+  	#search-bar { height: 2.5rem }
+
+  	#search-bar-icon {
+  		height: 2.5rem;
+  		line-height: 3rem;
+  	}
+
+  	.btn {
+  		line-height: 2rem;
+  	}
+
+  	.contribution-text {
+  		font-size: 1rem !important;
+  	}
+
+  	.divider
+  	{
+  		margin-top: -.5rem;
+    	margin-bottom: 1rem;
+  	}
+
+  	.select-wrapper  {
+  		margin-bottom: .5rem !important;
+  	}
+
+  	input.select-dropdown { margin-bottom: 0;}
+
+
+  }
+
+  @media #{$small-only}
+  {
+  	.contribution-text { display:none;}
+  	.category-field-select { display:none;}
+  }
 }
 
 section.bottom-section
