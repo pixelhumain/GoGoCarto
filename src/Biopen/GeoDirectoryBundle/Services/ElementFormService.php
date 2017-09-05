@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-21 12:41:34
+ * @Last Modified time: 2017-09-05 11:36:55
  */
  
 
@@ -110,8 +110,13 @@ class ElementFormService
    {
         $distance = 10; // km
         $maxResults = 10;
-        $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround($element->getCoordinates()->getLat(), $element->getCoordinates()->getLng(), 
-                                                                                        $distance, $maxResults, $element->getName());
+        $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround(
+            $element->getCoordinates()->getLat(), 
+            $element->getCoordinates()->getLng(), 
+            $distance, 
+            $maxResults, 
+            $element->getName()
+        );
         return $elements;
    }
    
