@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="{{ asset('bundles/sonataformatter/markitup/sets/html/style.css') }}" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ asset('bundles/sonataformatter/markitup/sets/textile/style.css') }}" type="text/css" media="all" />
 
+    <style>
+        .side-bar-links {
+            margin-left: 30px;
+            margin-top: 10px;
+            color: white;
+        }
+        .side-bar-links > a {
+            margin: 0 8px;
+            text-transform: uppercase;
+        }
+        .side-bar-links > a:hover { text-decoration: underline; }
+    </style>
+    
+
 {% endblock %}
 
 {% block javascripts %}
@@ -26,5 +40,9 @@
 {% endblock %}
 
 {% block sonata_sidebar_search %}
-</br>
+    <p class="side-bar-links">
+        <a href={{ path('biopen_homepage') }} target='_blank'>Le site</a>
+        <span> | </span> 
+        <a href={{ path('biopen_directory') }} target='_blank'>La carte</a>
+    </p>
 {% endblock %}
