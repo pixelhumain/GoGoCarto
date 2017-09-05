@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-28 14:31:19
+ * @Last Modified time: 2017-09-05 13:12:14
  */
 function addTimeSlot( day )
 {
@@ -37,12 +37,17 @@ function redoTimeSlot( day )
 	}		
 }
 
-function locationHashChanged() 
-{
-    if (location.hash.includes('#popup') ) {
-        $(location.hash).openModal();
-        location.hash = '_';
+$(document).ready(function()
+{	
+   // Gets history state from browser
+   window.onpopstate = function(event)
+   {
+	   if (location.hash.includes('#popup') ) {
+	   		$(location.hash).openModal();
+    		history.replaceState(null, '', location.origin + location.pathname);
     }
-}
-
-window.onhashchange = locationHashChanged;
+    else if (location.hash == '' ) {
+    	$('.modal').closeModal();
+    }
+	 };
+});
