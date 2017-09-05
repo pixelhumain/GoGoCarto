@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-28 20:01:08
+ * @Last Modified time: 2017-09-05 12:36:43
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -244,7 +244,7 @@ class ElementAdmin extends AbstractAdmin
             'label' => 'Envoyer un mail',
             'ask_confirmation' => false,
             'modal' => [
-            	['type' => 'text', 		'label' => 'Votre addresse mail',  'id' => 'from'],
+            	['type' => 'text', 		'label' => 'Votre adresse mail',  'id' => 'from'],
             	['type' => 'text', 		'label' => 'Object',  'id' => 'mail-subject'],
             	['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
             ]

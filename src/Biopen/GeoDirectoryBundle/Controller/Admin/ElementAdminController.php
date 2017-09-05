@@ -154,7 +154,7 @@ class ElementAdminController extends Controller
         $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
         
         if ($elementWithoutEmail > 0)
-            $this->addFlash('sonata_flash_error', $elementWithoutEmail . " mails n'ont pas pu être envoyé car aucune addresse n'était renseignée");
+            $this->addFlash('sonata_flash_error', $elementWithoutEmail . " mails n'ont pas pu être envoyé car aucune adresse n'était renseignée");
 
         if ($nbreModelsToProceed >= 5000)
         {
