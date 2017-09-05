@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-09 17:02:44
+ * @Last Modified time: 2017-09-05 11:52:31
  */
  
 
@@ -302,7 +302,10 @@ class Element
 
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
-        $fullJson .= ', "mail": ' . ($this->getMail() ? '"hidden"' : 'null');
+        if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
+            $fullJson .= ', "mail": "' . $this->getMail(). '"';
+        else
+            $fullJson .= ', "mail": ' . ($this->getMail() ? '"hidden"' : 'null');
         $fullJson .= ', "optionValues": [';
 
         if ($this->optionValues)
