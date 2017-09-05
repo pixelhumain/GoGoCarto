@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-22 15:53:19
+ * @Last Modified time: 2017-09-05 10:45:26
  */
  
 
@@ -63,6 +63,8 @@ class ElementInteractionController extends Controller
             if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) 
                 return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
             
+            $em = $this->get('doctrine_mongodb')->getManager(); 
+
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
             $report = new UserInteraction();            
@@ -74,7 +76,7 @@ class ElementInteractionController extends Controller
             if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
                 $report->setUserMail($securityContext->getToken()->getUser()->getEmail());
             else 
-                $report->setUserMail($request->has('userMail') ? $request->get('userMail') : "Anonyme");
+                $report->setUserMail($request->get('userMail') ? $request->get('userMail') : "Anonyme");
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);
