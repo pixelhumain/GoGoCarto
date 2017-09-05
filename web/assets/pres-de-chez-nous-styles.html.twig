@@ -211,6 +211,16 @@
   {#        HOME         #}
   {# ------------------- #}
 
+  #home-main-wrapper { background-color: white; }
+
+  @media screen and (max-width: 600px)
+  {
+    #bottom-more-info { color: {{ config.neutralColor }} !important; }
+    section#home-main-container { box-shadow: none !important; }
+    #home-main-wrapper #bottom-more-info:before { background-color: transparent !important; }
+    .bottom-section .content { padding-top: 0 !important; }
+    #section-credits { font-size: 1rem !important; }
+  }
   @media screen and (max-height: 450px) { body { background-image: none !important; } }
   #home-main-wrapper #bottom-more-info 
   { 

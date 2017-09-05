@@ -18,7 +18,6 @@ body
 
 html
 {
-	padding-top: 2rem !important;
   background-color: #354253 !important;
 }
 
@@ -37,7 +36,7 @@ header
 
 #home-logo
 {
-	@media #{$small-only} { width: 80% !important; }
+	@media #{$small-only} { width: 90% !important; }
 	@media #{$medium-and-up} { width: 50%; }
 	@media #{$large-only} { width: 60%; }
 }
@@ -48,7 +47,8 @@ header
 	width: 100%;
 	position: relative;
 	background-color: rgba(20, 20, 20, 0.8);
-	@media #{$medium-and-up} { background-color: initial; }
+	@media #{$medium-and-up} { background-color: initial !important; }
+
 
 	#bottom-more-info
 	{
@@ -114,7 +114,7 @@ section#home-main-container, section .content
 {
 	position: relative;
   width: 100%; 
-  padding: .5rem; 
+  padding: 1rem; 
 
   @media #{$medium-and-up}
 	{
@@ -501,6 +501,7 @@ section.bottom-section
 	{
 		font-size: 1.5rem;
 		margin: 0;
+    padding : 1rem;
 	}
 }
 
