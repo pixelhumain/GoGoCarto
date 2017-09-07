@@ -28,6 +28,7 @@ security:
         admin:
             pattern:            /admin(.*)
             context:            user
+            access_denied_url: /
             form_login:
                 provider:       fos_userbundle
                 login_path:     /admin/login
