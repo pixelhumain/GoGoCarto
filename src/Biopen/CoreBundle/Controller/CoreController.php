@@ -26,7 +26,7 @@ class CoreController extends Controller
         return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions, 'config' => $config));
     }
 
-    public function headerAction()
+    public function headerAction($title = "GoGoCarto")
     {
         $em = $this->get('doctrine_mongodb')->getManager();
         // Get About List        
@@ -35,7 +35,7 @@ class CoreController extends Controller
 
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
         
-        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'config' => $config));
+        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'config' => $config, "title" => $title));
     }
     
     public function partnersAction()

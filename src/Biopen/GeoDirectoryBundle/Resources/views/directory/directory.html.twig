@@ -1,6 +1,7 @@
 {% extends "@BiopenCoreBundle/page-layout.html.twig" %}
 
 {% set pageName = 'directory' %}
+{% set navTitle = "La carte" %}
 
 {% block title %}{% endblock %}
 
@@ -24,6 +25,8 @@
 
     $(document).ready(function()
     {
+        $('#btn-nav-open-menu').show();
+
         carto = goGoCarto('#directory-container', {
             text:
             {

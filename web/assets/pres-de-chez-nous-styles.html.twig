@@ -201,7 +201,16 @@
 
   #page-container .flash-messages-container:last-child { margin-bottom: 1rem; }
   
-
+  @media screen and (max-width: 600px)
+  {
+    #element-form-content .divider { border: none; }
+    #element-form-content .section { border-radius: 0; }
+    #element-form-content .categories-info {
+      font-size: .9rem;
+      text-align: center;
+      margin-top: 5px;
+    }
+  }
 
 
 
@@ -220,6 +229,9 @@
     #home-main-wrapper #bottom-more-info:before { background-color: transparent !important; }
     .bottom-section .content { padding-top: 0 !important; }
     #section-credits { font-size: 1rem !important; }
+    #show-directory-menu-button { display:none; }
+    .show-as-list-button { left: 15px !important; }
+    header #menu { display:none; }
   }
   @media screen and (max-height: 450px) { body { background-image: none !important; } }
   #home-main-wrapper #bottom-more-info 
