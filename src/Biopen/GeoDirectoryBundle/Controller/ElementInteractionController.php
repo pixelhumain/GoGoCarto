@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-05 10:45:26
+ * @Last Modified time: 2017-09-12 17:30:23
  */
  
 
@@ -138,12 +138,23 @@ class ElementInteractionController extends Controller
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
-            $mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendMail($request->get('userMail'), $element->getMail(), $request->get('subject'), $request->get('content'));
+            $securityContext = $this->container->get('security.context');
+            $user = $securityContext->getToken()->getUser(); 
 
-            $em->persist($element);
-            $em->flush();            
-         
+            $senderMail = $request->get('userMail');
+            if ($user && $user->isAdmin()) $senderMail = "contact@presdecheznous.fr"; // TODO replace by gogoconfig contactMail field
+
+            // TODO make it configurable
+            $mailSubject = 'Message reçu depuis la plateform "Près de Chez Nous"';
+            $mailContent = 
+                "Bonjour <i>" . $element->getName() . '</i>,</br></br>
+                Vous avez reçu un message de la part de <a href="mailto:' . $senderMail . '">' . $senderMail . "</a></br>
+                </br><b>Titre du message :</b> " . $request->get('subject') . "</br>
+                <b>Contenu :</b> " . $request->get('content');
+
+            $mailService = $this->container->get('biopen.mail_service');
+            $mailService->sendMail($element->getMail(), $mailSubject, $mailContent);
+
             return $this->returnResponse(true, "L'email a bien été envoyé");        
         }
         else 
