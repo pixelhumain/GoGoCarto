@@ -19,8 +19,11 @@ class MailService
        $this->mailer = $mailer;
 	}
 
-    public function sendMail($from, $to, $subject, $content)
+    public function sendMail($to, $subject, $content, $from = null)
     {
+        // TODO config an admin email for automated message
+        if (!$from) $from = 'nepasrepondre@presdecheznous.fr';
+
         $message = (new \Swift_Message())
         ->setFrom($from)
         ->setTo($to)
@@ -54,8 +57,8 @@ class MailService
         $subject = $this->replaceMailsVariables($mailConfig->getSubject(), $element, $customMessage);
         $content = $this->replaceMailsVariables($mailConfig->getContent(), $element, $customMessage);
 
-        // TODO config an admin email for automated message
-        $this->sendMail('admin@presdecheznous.fr', $element->getMail(), $subject, $content);
+        
+        $this->sendMail($element->getMail(), $subject, $content);
 
         return [ 'success' => true, 'message' => 'The message has been send' ];
     }
