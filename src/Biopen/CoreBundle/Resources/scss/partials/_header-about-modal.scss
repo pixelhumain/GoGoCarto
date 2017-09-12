@@ -2,17 +2,21 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-22 16:36:09
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-08-04 10:32:26
+* @Last Modified time: 2017-09-08 16:01:54
 */
 
 .modal.about-modal
 {
 	.modal-content {
 		text-align: justify;
-  	padding: 2rem 2.5rem;
-  }
-	h1 { text-align: left; }
+    padding: 1rem 1.5rem;  	
 
+    @media screen and (min-width:601px) {
+      padding: 2rem 2.5rem;
+    }
+  }
+
+	h1 { text-align: left; }
 
   ul li 
   {
