@@ -4,11 +4,11 @@
 	
 	<div class="col s12">
 		<input type="checkbox" name="dont-send-mail" id="dont-send-mail"/>
-		<label for="dont-send-mail">Ne pas prévenir {{ config.elementDisplayNameDefinite }} des modifications</label> 	
+		<label for="dont-send-mail">Ne pas prévenir {{ config.elementDisplayNameDefinite }} {{ editMode ? 'des modifications' : "de l'ajout" }}</label> 	
 	</div>
 
-	{# if element is pending #}
-	{% if element.status is defined and element.status == 0 %}
+	{# if element is PendingModification #}
+	{% if element.status is defined and element.status == -1 %}
 	<div class="col s12">
 		<input type="checkbox" name="dont-validate" id="dont-validate"/>
 		<label for="dont-validate">Ne pas valider {{ config.elementDisplayNameDefinite }}, je modifie simplement la mise en forme</label> 	
