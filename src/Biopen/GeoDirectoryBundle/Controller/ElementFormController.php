@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-12 17:49:59
+ * @Last Modified time: 2017-09-12 18:32:48
  */
  
 
@@ -217,19 +217,21 @@ class ElementFormController extends Controller
 		// }
 
 		// Get categories      
-		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-		->findOneByDepth(0);
+		// $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
+		// ->findMainCategory();   
 
-		// options list for dynamic styles generation
-		$optionsList = $em->getRepository('BiopenGeoDirectoryBundle:Option')
-        ->findAll();       
+		// retrieve mainCategory as Json and unserialized it because if no it need a lot of query to
+		// retrieve all the taxonomy tree
+		$mainCategoryJson = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
+		->findMainCategoryJson();
+
+ 		$mainCategory = json_decode($mainCategoryJson);
 
 		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,
 						'form' => $elementForm->createView(),
 						'mainCategory'=> $mainCategory,
-						"optionList" => $optionsList,
 						"element" => $element,
 						"user_email" => $user_email,
 						"isAllowedDirectModeration" => $isAllowedDirectModeration,
