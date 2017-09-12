@@ -177,8 +177,10 @@ class ElementFormController extends Controller
 			else $noticeText .=  $configService->getConfig()->getElementDisplayNameDefinite() . " a bien été ajouté";
 
 			$submitOption = $request->request->get('submit-option');
+			$isAllowedPending = $configService->isUserAllowed('pending');
 
-			if ($submitOption != 'backtomap') $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
+			$showResultLink = $submitOption != 'backtomap' && ($isAllowedDirectModeration || $isAllowedPending);
+			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);
 
