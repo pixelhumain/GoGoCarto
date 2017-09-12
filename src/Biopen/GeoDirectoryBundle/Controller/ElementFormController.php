@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-22 15:56:21
+ * @Last Modified time: 2017-09-12 17:49:59
  */
  
 
@@ -166,7 +166,7 @@ class ElementFormController extends Controller
 			if (!($isAllowedDirectModeration && $request->request->get('dont-send-mail')))
 			{
 				$mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendAutomatedMail('edit', $element);
+            $mailService->sendAutomatedMail($editMode ? 'edit' : 'add', $element);
 			}			
 
 			// Add flashBags succeess
