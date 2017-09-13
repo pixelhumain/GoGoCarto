@@ -13,7 +13,7 @@
  
 
   {# gogocarto conatins materializeCss lib, so we load it for all files #}
-  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css') }}">  
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=1.0') }}">  
 
   {% block stylesheets %}
   {% endblock %}
@@ -32,7 +32,7 @@
   {% endblock %} 
 
   {# Mains javascripts libs #}
-  <script src="{{ asset('js/gogocarto.js') }}"></script> 
+  <script src="{{ asset('js/gogocarto.js?ver=1.0') }}"></script> 
   <script src="{{ asset('js/libs.js') }}"></script>      
 
   {# Block to add custom javascript to each page #}
