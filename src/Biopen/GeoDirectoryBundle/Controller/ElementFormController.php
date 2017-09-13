@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-12 18:32:48
+ * @Last Modified time: 2017-09-13 16:19:05
  */
  
 
@@ -215,10 +215,6 @@ class ElementFormController extends Controller
 		// 	$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
 		// 	$request->getSession()->getFlashBag()->add('notice', $flashMessage);
 		// }
-
-		// Get categories      
-		// $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
-		// ->findMainCategory();   
 
 		// retrieve mainCategory as Json and unserialized it because if no it need a lot of query to
 		// retrieve all the taxonomy tree
