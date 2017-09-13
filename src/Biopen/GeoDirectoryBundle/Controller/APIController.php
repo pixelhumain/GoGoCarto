@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-09 12:41:20
+ * @Last Modified time: 2017-09-13 14:54:02
  */
  
 
@@ -66,8 +66,20 @@ class APIController extends Controller
 
         foreach ($array as $key => $value) 
         { 
-           if ($fullRepresentation == 'true') $elementsJson .= $value['fullJson'] . ',';  
-           else $elementsJson .= $value['compactJson'] .  ','; 
+            if ($fullRepresentation == 'true') 
+            {
+                $elementJson = $value['fullJson']; 
+                if (key_exists('score', $value)) {
+                  $elementJson = rtrim($elementJson,"}");
+                  $elementJson .= ', "searchScore" : ' . $value['score'] . '}';
+                }
+            } 
+            else 
+            {
+                $elementJson = $value['compactJson']; 
+            }
+           
+           $elementsJson .=  $elementJson .  ',';
         }   
 
         $elementsJson = rtrim($elementsJson,",") . ']';    
