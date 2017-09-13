@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-09 16:25:57
+ * @Last Modified time: 2017-09-13 16:17:47
  */
  
 
@@ -60,8 +60,7 @@ class ElementRepository extends DocumentRepository
       {
         $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-        $qb->field('status')->gte(-1);
-        $qb->field('moderationState')->gte(0);
+        $this->filterVisibles($qb);
 
         if ($optionId && $optionId != "all")
         {
@@ -83,7 +82,7 @@ class ElementRepository extends DocumentRepository
         } 
 
         // execute request   
-        $array = $qb->hydrate(false)->getQuery()->execute()->toArray(); 
+        $array = $this->queryToArray($qb);
         $results = array_merge($results, $array);  
       }
     }
@@ -97,10 +96,13 @@ class ElementRepository extends DocumentRepository
 
     $expr = $qb->expr()->operator('$text', array('$search' => (string) $text));
     
-    return $qb  //->limit($maxResults)
+    $qb  ->limit(50)
                 ->equals($expr->getQuery())        
-                ->sortMeta('score', 'textScore')
-                ->hydrate(false)->getQuery()->execute()->toArray();
+                ->sortMeta('score', 'textScore');
+    
+    $this->filterVisibles($qb);
+                
+    return $this->queryToArray($qb);
     
   }
 
@@ -138,11 +140,7 @@ class ElementRepository extends DocumentRepository
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    // fetching pendings and validated
-    $qb->field('status')->gte(ElementStatus::PendingModification);
-
-    // removing element withtout category or withtout geolocation
-    $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
+    $qb = $this->filterVisibles($qb);
     
     if ($getCount) $qb->count();
 
@@ -158,6 +156,20 @@ class ElementRepository extends DocumentRepository
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();
+  }
+
+  private function queryToArray($qb)
+  {
+    return $qb->hydrate(false)->getQuery()->execute()->toArray();
+  }
+
+  private function filterVisibles($qb)
+  {
+    // fetching pendings and validated
+    $qb->field('status')->gte(ElementStatus::PendingModification);
+    // removing element withtout category or withtout geolocation
+    $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
+    return $qb;
   }
 }
 
