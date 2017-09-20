@@ -16,10 +16,10 @@ class TileLayer
     private $id;
 
     /** @MongoDB\Field(type="string") */
-    private $name;
+    public $name;
 
     /** @MongoDB\Field(type="string") */
-    private $url;    
+    public $url;    
 
     /**
      * @Gedmo\Mapping\Annotation\SortablePosition

@@ -282,6 +282,11 @@ class Configuration
         return $this->id;
     }
 
+    public function getDefaultBounds()
+    {
+        return [ [$this->defaultNorthEastBoundsLat, $this->defaultNorthEastBoundsLng], [$this->defaultSouthWestBoundsLat, $this->defaultSouthWestBoundsLng] ];
+    }
+
     /**
      * Set favoriteFeature
      *

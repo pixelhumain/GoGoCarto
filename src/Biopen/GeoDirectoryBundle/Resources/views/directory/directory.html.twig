@@ -71,6 +71,12 @@
                 userRole: '{{ userGogocartoRole }}',
                 loginAction: function() { $("#popup-login").openModal(); }
             },
+            map:
+            {
+                defaultBounds: {{ config.getDefaultBounds | json_encode | raw }},
+                defaultTileLayer: "{{ config.defaultTileLayer.name }}",
+                tileLayers : {{ tileLayers | json_encode | raw }},
+            },
             colors:
             {
                 neutralDark: '{{ config.neutralDarkColor }}' ,
