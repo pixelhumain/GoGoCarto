@@ -31,32 +31,34 @@
 			<input class="validate" placeholder="Entrez une adresse, une ville..." type="text" id="search-bar" name="adresse"/>
 		</div>
 
-		<div class="main-options-container">
-			<input class="main-option-radio-btn" data-name="all" name="mainOption" type="radio" id="option-all" checked/>
-	    <label class="main-option-radio-label" for="option-all">Toutes</label>
+		{% set showCategoriesOptions = false %}
+		{% if showCategoriesOptions %}
+			<div class="main-options-container">
+				<input class="main-option-radio-btn" data-name="all" name="mainOption" type="radio" id="option-all" checked/>
+		    <label class="main-option-radio-label" for="option-all">Toutes</label>
 
-			{% for option in mainOptions %}
-				<input class="main-option-radio-btn" data-name="{{ option.nameShort ? option.nameShort : option.name }}" name="mainOption" type="radio" id="option-{{option.id}}" />
-	      <label class="main-option-radio-label" for="option-{{option.id}}">{{ option.name }}</label>
-			{% endfor %}
-		</div>
+				{% for option in mainOptions %}
+					<input class="main-option-radio-btn" data-name="{{ option.nameShort ? option.nameShort : option.name }}" name="mainOption" type="radio" id="option-{{option.id}}" />
+		      <label class="main-option-radio-label" for="option-{{option.id}}">{{ option.name }}</label>
+				{% endfor %}
+			</div>
 
-		<span class="category-field-select input-field">
-	    <select  class="category-select" id="category-select">	   	  
-	   	  <option disabled selected value="all">Choisissez une catégorie (par défaut : toutes)</option>
-	   	   
-	     {% for option in mainOptions %}
-	      	<option value="{{ option.nameShort ? option.nameShort : option.name }}">{{ option.name }}</option>
-	      {% endfor %}
-	    </select>
-  	
-  	</span>
+			<span class="category-field-select input-field">
+		    <select  class="category-select" id="category-select">	   	  
+		   	  <option disabled selected value="all">Choisissez une catégorie (par défaut : toutes)</option>
+		   	   
+		     {% for option in mainOptions %}
+		      	<option value="{{ option.nameShort ? option.nameShort : option.name }}">{{ option.name }}</option>
+		      {% endfor %}
+		    </select>  	
+	  	</span>
+  	{% endif %}
 
 		<button id="btn-directory" class="primary-button btn waves-effect waves-light">Rechercher</button>
 
 		<div class="divider"></div>
 
-		<div class="row">
+		<div>
 			<p class="contribution-text">Aidez-nous à agrandir notre base de donnée collaborative en ajoutant {{ config.elementDisplayNameIndefinite }} !</p>
 			<a href="{{ path('biopen_element_add') }}">
 				<button class="btn-secondary btn waves-effect waves-light">Ajouter {{ config.elementDisplayNameIndefinite }}</button>
@@ -67,7 +69,7 @@
 
 	<div id="bottom-more-info">
 		<span class="icon gogo-icon-arrow-circle-down"></span>
-		<span class="text">En savoir plus</span>
+		<span class="text">Un projet libre propulsé par Colibris</span>
 		<span class="icon gogo-icon-arrow-circle-down"></span>
 	</div>
 </div>
