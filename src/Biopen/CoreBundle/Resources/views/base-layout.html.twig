@@ -11,9 +11,10 @@
   <!-- TODO --><meta name="google-site-verification" content="" />  
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
  
+  {% set version = '1.1' %}
 
   {# gogocarto conatins materializeCss lib, so we load it for all files #}
-  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=1.0') }}">  
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=' ~ version) }}">  
 
   {% block stylesheets %}
   {% endblock %}
@@ -32,8 +33,8 @@
   {% endblock %} 
 
   {# Mains javascripts libs #}
-  <script src="{{ asset('js/gogocarto.js?ver=1.0') }}"></script> 
-  <script src="{{ asset('js/libs.js') }}"></script>      
+  <script src="{{ asset('js/gogocarto.js?ver=' ~ version) }}"></script> 
+  <script src="{{ asset('js/libs.js?ver=' ~ version) }}"></script>      
 
   {# Block to add custom javascript to each page #}
   {% block javascripts %}           

@@ -4,8 +4,8 @@
 
 {% block stylesheets %}
   
-  <link rel="stylesheet" href="{{ asset('assets/css/pages.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">   
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css?ver=' ~ version) }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/home.css?ver=' ~ version) }}">   
 
   <style>
 	  body { background-color: {{ config.primaryColor }} !important; background-image: url(); }
