@@ -8,6 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * Option
  *
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\OptionRepository")
+ * @MongoDB\Index(keys={"name"="text"})
  */
 class Option
 {

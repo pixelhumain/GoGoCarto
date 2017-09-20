@@ -12,4 +12,14 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class OptionRepository extends DocumentRepository
 {
+   public function findOptionsIdsWithText($text) 
+   {
+      $qbOption = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Option');
+      $expr = $qbOption->expr()->operator('$text', array('$search' => (string) $text));
+      $qbOption  //->limit(50)
+        ->equals($expr->getQuery())
+        ->select('id');
+
+      return $qbOption->hydrate(false)->getQuery()->execute()->toArray();   
+   }
 }
