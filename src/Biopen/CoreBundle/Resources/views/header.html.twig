@@ -68,7 +68,7 @@
           <div class="arrow-after"></div>  
         </div>
         <ul id='listUserActions' class='dropdown-content'> 
-            <li class="name only-for-admin">
+            <li class="name only-for-admin" {{ app.user and app.user.isAdmin ? '' : 'style="display:none"' }}>
               <a class="about-title-item waves-effect waves-light" href="{{ path('sonata_admin_dashboard') }}">Interface admin</a></li> 
             <li class="item-divider"></li>
             <li class="name">
