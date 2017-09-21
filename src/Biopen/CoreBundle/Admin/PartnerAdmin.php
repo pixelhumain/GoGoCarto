@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-28 19:46:28
+ * @Last Modified time: 2017-09-21 10:19:50
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -23,9 +23,9 @@ class PartnerAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('name', 'text');
+        $formMapper->add('name', 'text', ['required' => false]);
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
-			    'format' => 'richhtml',
+			    'format' => 'richhtml', 'required' => false
 			));
         $formMapper->add('logoUrl', 'url', ['required' => false]);
         $formMapper->add('websiteUrl', 'url', ['required' => false]);
