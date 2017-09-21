@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-24 20:07:40
+ * @Last Modified time: 2017-09-21 08:37:39
  */
 
 $(document).ready(function()
@@ -57,10 +57,10 @@ function redirectTodirectory()
 		mainOption = $('.main-option-radio-btn:checked').attr('data-name');			
 	}		
 
-	var route = 'annuaire#/carte/' + address;
-	route += '?cat=' + mainOption;
+	var route = '/annuaire#/carte/' + address;
+	if (mainOption) route += '?cat=' + mainOption;
 
-	window.location.href = route;
+	window.location.href = window.location.origin + window.location.pathname + route;
 }
 
 function createCookie(name,value) 
