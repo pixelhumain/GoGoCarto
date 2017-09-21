@@ -11,15 +11,14 @@
 
     <style>
         .side-bar-links {
-            margin-left: 30px;
-            margin-top: 10px;
-            color: white;
+            margin-left: 15px;
+            margin-top: 15px;
+            margin-bottom: 5px;
         }
-        .side-bar-links > a {
-            margin: 0 8px;
-            text-transform: uppercase;
+        .side-bar-links > a { color:white !important; }
+        .side-bar-links .dropdown-menu>li>a {
+            color: #777;
         }
-        .side-bar-links > a:hover { text-decoration: underline; }
     </style>
     
 
@@ -40,9 +39,16 @@
 {% endblock %}
 
 {% block sonata_sidebar_search %}
-    <p class="side-bar-links">
-        <a href={{ path('biopen_homepage') }} target='_blank'>Le site</a>
-        <span> | </span> 
-        <a href={{ path('biopen_directory') }} target='_blank'>La carte</a>
-    </p>
+    <div class="btn-group side-bar-links">
+      <a type="button" href={{ path('biopen_homepage') }} target='_blank' class="btn btn-primary">Retour au site</a>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href={{ path('biopen_directory') }} target='_blank'>La Carte</a></li>
+        <li><a href={{ path('biopen_element_add') }} target='_blank'>Formulaire</a></li>
+        <li><a href={{ path('biopen_partners') }} target='_blank'>Qui sommes nous</a></li>
+      </ul>
+    </div>
 {% endblock %}
