@@ -22,7 +22,7 @@
     {% endif %}
     <div class="partner-text">
       <h2 class="partner-title {{ partner.logoUrl ? "with-logo" : 'no-logo' }}">{{ partner.name|capitalize }}</h2>
-      <div class="partner-description">{{ partner.content | raw }} </div>
+      <div class="partner-description wysiwyg-content">{{ partner.content | raw }} </div>
       {% if partner.websiteUrl %}<a class="partner-url" href="{{ partner.websiteUrl }}" target="_blank">{{ partner.websiteUrl }}</a>{% endif %}
     </div>
   </div>

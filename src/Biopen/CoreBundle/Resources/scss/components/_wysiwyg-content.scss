@@ -1,0 +1,22 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2017-09-21 08:51:56
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2017-09-21 09:14:57
+*/
+
+.wysiwyg-content
+{
+  ul li 
+  {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+
+  strong { font-weight: bold; }
+
+  a {
+    font-style: normal;
+    text-decoration: none !important;
+  }
+}

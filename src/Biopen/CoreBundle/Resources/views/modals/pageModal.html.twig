@@ -2,7 +2,7 @@
     <div class="modal-content page-modal-content">
         <span class="icon btn-back gogo-icon-material-design-icons-1" onclick="$('#popup-{{id}}').closeModal()"></span>
         <h1>{{ title | raw}}</h1>
-	    	<p>{{ content | raw }}</p>  
+	    	<div class="wysiwyg-content background-dark">{{ content | raw }}</div>  
 		
 		<div class="page-modal-footer">
 		<button type="button"
