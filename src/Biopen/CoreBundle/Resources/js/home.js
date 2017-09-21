@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-21 08:37:39
+ * @Last Modified time: 2017-09-21 11:12:26
  */
 
 $(document).ready(function()
@@ -57,7 +57,7 @@ function redirectTodirectory()
 		mainOption = $('.main-option-radio-btn:checked').attr('data-name');			
 	}		
 
-	var route = '/annuaire#/carte/' + address;
+	var route = 'annuaire#/carte/' + address;
 	if (mainOption) route += '?cat=' + mainOption;
 
 	window.location.href = window.location.origin + window.location.pathname + route;
