@@ -38,7 +38,7 @@ services:
         class: Biopen\CoreBundle\Admin\PartnerAdmin
         arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Partenaires }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Qui sommes nous }
     admin.wrapper:
         class: Biopen\CoreBundle\Admin\WrapperAdmin
         arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
