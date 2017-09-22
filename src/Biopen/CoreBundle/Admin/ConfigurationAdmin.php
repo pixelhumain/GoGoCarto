@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-28 11:26:20
+ * @Last Modified time: 2017-09-22 10:31:20
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -43,6 +43,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('collaborativeModerationExplanations', 'sonata_simple_formatter_type', array(
                             'format' => 'richhtml',
                             'label' => 'Explications au sujet de la modération collaborative', 
+                            'ckeditor_context' => 'full',
                             'required' => false
                     ))
                 ->end()

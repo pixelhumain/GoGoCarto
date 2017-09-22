@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-08-22 11:52:50
+ * @Last Modified time: 2017-09-22 10:30:12
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -22,6 +22,7 @@ class AutomatedMailConfigurationAdmin extends AbstractAdmin
             ->add('subject', null, ['required'=>false, 'label' => "Objet du message"])
             ->add('content', 'sonata_simple_formatter_type', array(
                 'format' => 'richhtml',
+                'ckeditor_context' => 'full',
                 'required'=>false, 
                 'label' => "Contenu du message"
             ));

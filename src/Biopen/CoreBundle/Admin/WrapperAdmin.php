@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-03-29 10:01:02
+ * @Last Modified time: 2017-09-22 10:31:02
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -24,24 +24,11 @@ class WrapperAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('title', 'text');
-    //      $formMapper->add('content', 'sonata_formatter_type', array(
-    //     'event_dispatcher' => $formMapper->getFormBuilder()->getEventDispatcher(),
-    //     'format_field'   => 'contentFormatter',
-    //     'format_field_options' => array(
-    //         'choices' => array('richhtml', 'rawhtml', 'text'),
-    //         'data' => 'richhtml',
-    //     ),
-    //     'source_field'   => 'rawContent',
-    //     'source_field_options'      => array(
-    //         'attr' => array('class' => 'span10', 'rows' => 20)
-    //     ),
-    //     'listener'       => true,
-    //     'target_field'   => 'content'
-    // ));
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
                 'format' => 'richhtml',
                 'label' => 'Contenu du bandeau',
                 'required' => false,
+                'ckeditor_context' => 'full',
             ));
         $formMapper->add('rawContent', 'textarea', array(
                 'label' => 'Contenu en raw html (optionel)',
