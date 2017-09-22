@@ -25,6 +25,13 @@ fos_user:
     registration:
         form:
             type: biopen_user_registration
+        confirmation:
+            enabled: true
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address:        nepasrepondre@presdecheznous.fr
+        sender_name:    Près de chez nous
 
     group:
         group_class:   Application\Sonata\UserBundle\Document\Group
