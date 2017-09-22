@@ -15,7 +15,7 @@
    	   
       {% for key, option in category.options %} 
       	<option value="{{option.id}}">
-      		{{ option.name }} {% if option.textHelper %} ({{ option.textHelper }}) {% endif %}
+      		{{ option.name }} {% if (option.textHelper is defined and option.textHelper) %} ({{ option.textHelper }}) {% endif %}
       	</option>
       {% endfor %}
     </select>
