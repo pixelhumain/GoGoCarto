@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-12 17:30:23
+ * @Last Modified time: 2017-09-22 13:52:10
  */
  
 
@@ -149,8 +149,9 @@ class ElementInteractionController extends Controller
             $mailContent = 
                 "Bonjour <i>" . $element->getName() . '</i>,</br></br>
                 Vous avez reçu un message de la part de <a href="mailto:' . $senderMail . '">' . $senderMail . "</a></br>
-                </br><b>Titre du message :</b> " . $request->get('subject') . "</br>
-                <b>Contenu :</b> " . $request->get('content');
+                </br>
+                <b>Titre du message</b></br> " . $request->get('subject') . "</br></br>
+                <b>Contenu :</b></br> " . $request->get('content');
 
             $mailService = $this->container->get('biopen.mail_service');
             $mailService->sendMail($element->getMail(), $mailSubject, $mailContent);
