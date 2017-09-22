@@ -285,14 +285,14 @@ header
 		.dropdown-content
 		{
 			margin-top:2.3rem;
-			margin-right:2rem;
+			margin-right:2rem;			
 
 			li { color: inherit !important; }
 
 			li:hover { background-color: transparent;}
 
 	    @media screen and (max-width: 500px) { margin-top: 2.5rem; }
-	    @media only screen and (min-width : 701px) { margin-top: 3.4rem; }
+	    @media only screen and (min-width : 701px) { margin-top: 3.4rem;width: auto !important; }
 			
 			.about-title-item 
 			{
