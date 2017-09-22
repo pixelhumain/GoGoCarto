@@ -25,7 +25,7 @@ class MailTestController extends Controller
      else
      {
         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
-        return $this->redirect($this->generateUrl('sonata_admin_dashboard'));    
+        return $this->redirect($this->generateUrl('admin_biopen_core_configuration_list'));    
      }   
      
    }
@@ -39,7 +39,11 @@ class MailTestController extends Controller
 
     $draftResponse = $this->draftTest($mailType);
 
-    if ($draftResponse == null) return new Response('No visible elements in database, please create an element');
+    if ($draftResponse == null) 
+    {
+      $request->getSession()->getFlashBag()->add('error', 'No visible elements in database, please create an element for email texting');
+      return $this->redirect($this->generateUrl('admin_biopen_core_configuration_list'));    
+    }
 
     if ($draftResponse['success'])
     {
