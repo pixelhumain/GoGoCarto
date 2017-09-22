@@ -1,0 +1,20 @@
+<div style="background-color: {{ config.neutralDarkColor }};
+            height: 100%;
+            padding: 2rem;">
+  <div style="background-color : {{ config.backgroundColor }};
+              max-width: 500px;
+              padding: 2rem;
+              color: {{ config.neutralDarkColor }};
+              padding-top: 1rem;
+              margin: 0 auto;
+              border-radius: 5px;
+              font-weight: normal;
+              font-family: Georgia, 'Times New Roman', Times, serif;
+              font-size: 18px;">
+    <center><img src="{{ absolute_url(asset('assets/img/logo.png')) }}"
+                 style="max-height: 150px;
+                        max-width: 100%;"/></center>
+    {{ content | raw }}
+  </div>
+</div>
+
