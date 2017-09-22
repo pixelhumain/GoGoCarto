@@ -24,19 +24,21 @@ class MailService
        $this->twig = $twig;
 	}
 
-    public function sendMail($to, $subject, $content, $from = null)
+    public function sendMail($to, $subject, $content, $from = null, $toBCC = null)
     {
         // TODO config an admin email for automated message
-        if (!$from) $from = 'nepasrepondre@presdecheznous.fr';
+        if (!$from) $from = array('nepasrepondre@presdecheznous.fr' => 'Près de chez Nous');
 
         $message = (new \Swift_Message())
-        ->setFrom($from)
-        ->setTo($to)
+        ->setFrom($from)       
         ->setSubject($subject)
         ->setBody(
             $this->draftTemplate($content),
             'text/html'
         );
+
+        if ($to) $message->setTo($to);
+        if ($toBCC) $message->setBcc($toBCC);
 
         try {
             $this->mailer->send($message);
