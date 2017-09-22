@@ -29,11 +29,13 @@ class MailService
         // TODO config an admin email for automated message
         if (!$from) $from = array('nepasrepondre@presdecheznous.fr' => 'Près de chez Nous');
 
+        $draftedContent = $this->draftTemplate($content);
+
         $message = (new \Swift_Message())
         ->setFrom($from)       
         ->setSubject($subject)
         ->setBody(
-            $this->draftTemplate($content),
+            $draftedContent,
             'text/html'
         );
 
@@ -47,6 +49,7 @@ class MailService
             $this->addFlash('sonata_flash_error', 'Une erreur est survenue : ' . $e->getMessage());
         }
         
+        return $draftedContent;
     }
 
     public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier')

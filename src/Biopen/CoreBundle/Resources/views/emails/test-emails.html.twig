@@ -1,14 +1,20 @@
-</!DOCTYPE html>
-<html>
-<head>
-  <title>Email testing</title>
-</head>
-<body>
-  <h1>Test du rendu du mail {{ mailType | upper }}<h1>
-  <form method="post" action="{{ path('biopen_mail_send_test_automated', { 'mailType' : mailType }) }}">
-    <input type="email" name="email"/><button type="submit">Envoyer un test à cette adresse</button>
+{% extends 'SonataAdminBundle::layout.html.twig' %}
+{% block sonata_admin_content %}
+
+  {% block notice %}
+      {% include 'SonataCoreBundle:FlashMessage:render.html.twig' %}
+  {% endblock notice %}
+
+  <h2 style="text-align:center; font-weight:bold;">Test du rendu du mail {{ mailType | upper }}</h2>
+
+  <form method="post" action="{{ path('biopen_mail_send_test_automated', { 'mailType' : mailType }) }}" style="text-align:center; margin-bottom:40px;">
+    <input type="email" name="email" class="form-control" placeholder="Entrez une adresse mail"
+            style="display: inline-block;
+            width: auto;
+            margin-right: 20px;
+            vertical-align: middle;"/>
+    <button type="submit" class="btn btn-primary">Envoyer un test à cette adresse</button>
   </form>
-  <center><h5>Objet du mail : {{ subject }}</h5></center>
-  <div style="max-width: 800px;margin:0 auto;margin-top:2rem;padding:2rem;border: 1px solid grey">{{ content | raw }}</div>
-</body>
-</html>
+  <center><h3>Objet du mail : <em>{{ subject }}</em></h5></center>
+  <div style="max-width: 800px;background-color:white;margin:0 auto;margin-top:2rem;padding:2rem;border: 1px solid grey">{{ content | raw }}</div>
+{% endblock %}

@@ -24,7 +24,8 @@ class MailTestController extends Controller
      }
      else
      {
-      return new Reponse('Error : ' . $draftResponse['message']);
+        $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
+        return $this->redirect($this->generateUrl('sonata_admin_dashboard'));    
      }   
      
    }
@@ -43,12 +44,14 @@ class MailTestController extends Controller
     if ($draftResponse['success'])
     {
        $mailContent = $mailService->sendMail($mail,$draftResponse['subject'], $draftResponse['content']); 
-       return new Response('Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
+       $request->getSession()->getFlashBag()->add('success', 'Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
     }
     else 
     {
-      return new Reponse('Error : ' . $draftResponse['message']);
+       $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
     }
+
+    return $this->render('@BiopenCoreBundle/emails/test-emails.html.twig', array('subject' => $draftResponse['subject'], 'content' => $mailContent, 'mailType' => $mailType));
     
    }
 
