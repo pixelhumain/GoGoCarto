@@ -56,6 +56,11 @@ class MailService
     {
         if (!$element || !$element->getMail()) 
             return [ 'success' => false, 'message' => 'Element don\'t have a mail' ];
+
+        $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
+
+        if (!$mailConfig->getActive())
+            return [ 'success' => false, 'message' => $mailType . ' automated mail disabled' ];
         
         $draftResponse = $this->draftEmail($mailType,$element,$customMessage);
         
@@ -75,9 +80,7 @@ class MailService
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
         if ($mailConfig == null)
-            return [ 'success' => false, 'message' => $mailType . ' automated mail does not exist' ];
-        if (!$mailConfig->getActive()) 
-            return [ 'success' => false, 'message' => $mailType . ' automated mail disabled' ];
+            return [ 'success' => false, 'message' => $mailType . ' automated mail does not exist' ];        
         if (!$mailConfig->getSubject() || !$mailConfig->getContent()) 
             return [ 'success' => false, 'message' => $mailType . ' automated mail missing subject or content' ];
 
