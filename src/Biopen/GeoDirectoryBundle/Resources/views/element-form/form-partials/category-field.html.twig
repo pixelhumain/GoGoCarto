@@ -42,7 +42,7 @@
 			<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
 
 				<span class="option-field-name">
-							{% set iconClass = option.icon ?  option.icon : 'icon-angle-right' %}	
+							{% set iconClass = (option.icon is defined and option.icon) ?  option.icon : 'icon-angle-right' %}	
 							{% set iconColorId = '' %}	
 							{% if iconClass %}    
 								<span class="icon {{ iconClass }} colorAs depth-{{ category.depth }}" option-id='{{ iconColorId }}' ></span>
