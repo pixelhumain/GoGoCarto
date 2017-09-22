@@ -119,7 +119,7 @@ class ElementAdminController extends Controller
         $selectedModels->limit(5000);
 
         $request = $this->get('request')->request;
-        $mailer = $this->container->get('mailer');
+        
 
         $mailsSent = 0;
         $elementWithoutEmail = 0;
@@ -142,16 +142,16 @@ class ElementAdminController extends Controller
             return new RedirectResponse($this->admin->generateUrl('list', $this->admin->getFilterParameters()));
         }
 
-        $message = (new \Swift_Message())
-            ->setFrom($request->get('from'))
-            ->setBcc($mails)
-            ->setSubject($request->get('mail-subject'))
-            ->setBody($request->get('mail-content'),'text/html'
-        );
-
-        $mailer->send($message);
-
-        $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
+        if (!$request->get('mail-subject') || !$request->get('mail-content'))
+        {
+            $this->addFlash('sonata_flash_error', "Vous devez renseigner un objet et un contenu. Veuillez recommencer");
+        }
+        else if (count($mails) > 0)
+        {
+            $mailService = $this->container->get('biopen.mail_service');
+            $mailService->sendMail(null, $request->get('mail-subject'), $request->get('mail-content'), $request->get('from'), $mails);
+            $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
+        } 
         
         if ($elementWithoutEmail > 0)
             $this->addFlash('sonata_flash_error', $elementWithoutEmail . " mails n'ont pas pu être envoyé car aucune adresse n'était renseignée");
