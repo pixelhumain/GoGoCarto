@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MailTestController extends Controller
 {
-   public function draftAutomatedAction($mailType)
+   public function draftAutomatedAction(Request $request, $mailType)
    {
      $mailService = $this->container->get('biopen.mail_service');
      $draftResponse = $this->draftTest($mailType);
