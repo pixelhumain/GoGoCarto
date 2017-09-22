@@ -5,3 +5,11 @@ biopen_homepage:
 biopen_partners:
     path: /qui-sommes-nous
     defaults: { _controller: BiopenCoreBundle:Core:partners }
+
+biopen_mail_draft_automated:
+    path: /test-emails/automated/{mailType}
+    defaults: { _controller: BiopenCoreBundle:MailTest:draftAutomated }
+
+biopen_mail_send_test_automated:
+    path: /test-emails/automated/send/{mailType}
+    defaults: { _controller: BiopenCoreBundle:MailTest:sentTestAutomated }

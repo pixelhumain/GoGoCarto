@@ -1,0 +1,14 @@
+</!DOCTYPE html>
+<html>
+<head>
+  <title>Email testing</title>
+</head>
+<body>
+  <h1>Test du rendu du mail {{ mailType | upper }}<h1>
+  <form method="post" action="{{ path('biopen_mail_send_test_automated', { 'mailType' : mailType }) }}">
+    <input type="email" name="email"/><button type="submit">Envoyer un test à cette adresse</button>
+  </form>
+  <center><h5>Objet du mail : {{ subject }}</h5></center>
+  <div style="max-width: 800px;margin:0 auto;margin-top:2rem;padding:2rem;border: 1px solid grey">{{ content | raw }}</div>
+</body>
+</html>
