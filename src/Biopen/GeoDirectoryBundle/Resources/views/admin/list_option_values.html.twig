@@ -1,0 +1,14 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+  {% spaceless %}
+      {% if field_description.options.choices is defined %}
+        <div style="font-style: italic;font-size: .9em;">
+          {% for key, optionValue in value %}
+              {{ field_description.options.choices[optionValue.optionId].nameShort }}
+              {% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+  {% endspaceless %}
+{% endblock %}

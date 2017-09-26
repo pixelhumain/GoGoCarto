@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-05 12:36:43
+ * @Last Modified time: 2017-09-26 12:34:29
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -40,35 +40,42 @@ class ElementAdmin extends AbstractAdmin
 		'2'=>'Votes non consensuels',	
 	];
 
-    protected $datagridValues = array(
-        '_page' => 1,            // display the first page (default = 1)
-        '_sort_order' => 'DESC', // reverse order (default = 'ASC')
-        '_sort_by' => 'updatedAt'  // name of the ordered field
-                                 // (default = the model's id field, if any)
-    );
+  protected $datagridValues = array(
+    '_page' => 1,            // display the first page (default = 1)
+    '_sort_order' => 'DESC', // reverse order (default = 'ASC')
+    '_sort_by' => 'updatedAt'  // name of the ordered field
+                               // (default = the model's id field, if any)
+  );
 
-   public function createQuery($context = 'list')
+  protected $optionList;
+
+
+  public function initialize()
+  {
+    parent::initialize();
+
+    $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
+    $this->optionList = $repo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
+  }
+
+  public function createQuery($context = 'list')
 	{
 	    $query = parent::createQuery($context);
-	    // not display the modified version whos status is -5
+	    // not display the modified version 
 	    $query->field('status')->notEqual(ElementStatus::ModifiedPendingVersion);
 	    return $query;
 	}
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{
-	  $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
-	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-	  $optionList = $qb->select('name')->hydrate(false)->getQuery()->execute()->toArray();
-
 	  $formMapper
 	  ->with('Informations générales', array())
 		  	->add('name', 'text')
-		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
 		  	->add('status', 'choice', [
 	               'choices'=> $this->statusChoices,
 	               ])
 			->add('description', 'textarea')
+         ->add('commitment', 'textarea', array('required' => false)) 
 			->add('tel', 'text', array('required' => false)) 
 			->add('webSite', 'text', array('required' => false)) 
 			->add('mail', 'text', array('required' => false))
@@ -83,7 +90,12 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
 	{
-	  $datagridMapper
+     $optionsChoices = [];
+     foreach ($this->optionList as $key => $value) {
+        $optionsChoices[$key] = $value['name'];
+     }
+
+     $datagridMapper
 	  	->add('name')
 	  	->add('status', 'doctrine_mongo_choice', array(), 
         'choice', 
@@ -130,7 +142,55 @@ class ElementAdmin extends AbstractAdmin
 		         'expanded' => false,    
 		         'multiple' => false
 		        )
-	        )  	
+	        )   	
+      ->add('optionValuesAll', 'doctrine_mongo_callback', array(
+               'label' => 'Catégories (contient toutes)',
+               'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+                    $queryBuilder->field('optionValues.optionId')->all($value['value']);
+                    return true;
+                },
+                'field_type' => 'choice',                
+                'field_options' =>
+                 array(             
+                     'choices' => $optionsChoices, 
+                     'expanded' => false,    
+                     'multiple' => true
+                    )
+               )
+            ) 
+      ->add('optionValuesIn', 'doctrine_mongo_callback', array(
+               'label' => 'Catégories (contient une parmis)',
+               'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+                    $queryBuilder->field('optionValues.optionId')->in($value['value']);
+                    return true;
+                },
+                'field_type' => 'choice',                
+                'field_options' =>
+                 array(             
+                     'choices' => $optionsChoices, 
+                     'expanded' => false,    
+                     'multiple' => true
+                    )
+               )
+            ) 
+      ->add('optionValuesNotIn', 'doctrine_mongo_callback', array(
+               'label' => 'Catégories (ne contient pas)',
+               'callback' => function($queryBuilder, $alias, $field, $value) {
+                    if (!$value || !$value['value']) { return; }
+                    $queryBuilder->field('optionValues.optionId')->notIn($value['value']);
+                    return true;
+                },
+                'field_type' => 'choice',                
+                'field_options' =>
+                 array(             
+                     'choices' => $optionsChoices, 
+                     'expanded' => false,    
+                     'multiple' => true
+                    )
+               )
+            ) 
 	  	->add('postalCode', null, array('label' => 'Code postal'))
 	  	->add('departementCode', null, array('label'=>'Numéro de département'))
 	  	->add('mail')
@@ -145,10 +205,6 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureShowFields(ShowMapper $show)
 	{
-	  $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
-	  $qb = $repo->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-	  $optionList = $qb->hydrate(false)->getQuery()->execute()->toArray();
-
 	  $show	      
        ->with('Modération', array())         
 	      ->add('moderationState', 'choice', [
@@ -163,7 +219,7 @@ class ElementAdmin extends AbstractAdmin
        ->with('Catégorisation', array())
 	       ->add('optionValues', null, [
 		      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
-		      	'choices' => $optionList,
+		      	'choices' => $this->optionList,
 		      	'label' => 'Catégories'
 		      ])
        ->end()
@@ -186,7 +242,8 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureListFields(ListMapper $listMapper)
 	{
-	  $listMapper
+
+     $listMapper
 	      ->add('name', null,  array('editable' => false, 'template' => 'BiopenGeoDirectoryBundle:admin:list_name.html.twig'))	      
          ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
@@ -194,7 +251,14 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updatedAt','date', array("format" => "d/m/Y"))
-         ->add('contributorMail')
+         //->add('contributorMail')
+         ->add('optionValues', null, [
+               'template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig', 
+               'header_style' => 'width: 250px',
+               'collapse' => true,
+               'choices' => $this->optionList,
+               'label' => 'Catégories'
+            ])
          ->add('moderationState', 'choice', [
                'label' => "Modération",
                'choices'=> $this->moderationChoices,
