@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-05-01 16:43:00
+ * @Last Modified time: 2017-09-26 17:09:42
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -33,7 +33,7 @@ class OptionValue
     * @Expose
     * @MongoDB\Field(type="int") 
     */
-	public $index;
+	public $index = 0;
 
     /**
      * Get id
