@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-26 12:34:29
+ * @Last Modified time: 2017-09-26 13:09:02
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -48,6 +48,7 @@ class ElementAdmin extends AbstractAdmin
   );
 
   protected $optionList;
+  protected $optionsChoices = [];
 
 
   public function initialize()
@@ -56,6 +57,10 @@ class ElementAdmin extends AbstractAdmin
 
     $repo = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb')->getRepository('BiopenGeoDirectoryBundle:Option');
     $this->optionList = $repo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
+
+    foreach ($this->optionList as $key => $value) {
+      $this->optionsChoices[$key] = $value['name'];
+    }
   }
 
   public function createQuery($context = 'list')
@@ -90,10 +95,7 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
 	{
-     $optionsChoices = [];
-     foreach ($this->optionList as $key => $value) {
-        $optionsChoices[$key] = $value['name'];
-     }
+     
 
      $datagridMapper
 	  	->add('name')
@@ -153,7 +155,7 @@ class ElementAdmin extends AbstractAdmin
                 'field_type' => 'choice',                
                 'field_options' =>
                  array(             
-                     'choices' => $optionsChoices, 
+                     'choices' => $this->optionsChoices, 
                      'expanded' => false,    
                      'multiple' => true
                     )
@@ -169,7 +171,7 @@ class ElementAdmin extends AbstractAdmin
                 'field_type' => 'choice',                
                 'field_options' =>
                  array(             
-                     'choices' => $optionsChoices, 
+                     'choices' => $this->optionsChoices, 
                      'expanded' => false,    
                      'multiple' => true
                     )
@@ -185,7 +187,7 @@ class ElementAdmin extends AbstractAdmin
                 'field_type' => 'choice',                
                 'field_options' =>
                  array(             
-                     'choices' => $optionsChoices, 
+                     'choices' => $this->optionsChoices, 
                      'expanded' => false,    
                      'multiple' => true
                     )
@@ -313,6 +315,14 @@ class ElementAdmin extends AbstractAdmin
             	['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
             ]
         	);
+          $actions['editOptions'] = array(
+            'label' => 'Modifier les catégories',
+            'ask_confirmation' => false,
+            'modal' => [
+              ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToRemove', 'label' => 'Catégories à supprimer'],
+              ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToAdd', 'label' => 'Catégories à ajouter'],
+            ]
+          );
 
 	    return $actions;
 	}
