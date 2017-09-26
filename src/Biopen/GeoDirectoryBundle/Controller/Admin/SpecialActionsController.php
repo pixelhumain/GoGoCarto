@@ -11,40 +11,70 @@ use Biopen\GeoDirectoryBundle\Document\OptionValue;
 
 class SpecialActionsController extends Controller
 {
-    private function elementsBulkAction($functionToExecute)
+    private function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000)
     {
+        $batchSize = 50;
+        
+        $elementsLeft = null;
+        $elementLeftCount = 0;
+        $isStillElementsToProceed = false;
+
+        $session = $this->getRequest()->getSession();
+        $session->remove('bulks_elements_left_to_proceed');
+
         $em = $this->get('doctrine_mongodb')->getManager();
         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
-        $count = $elementRepo->findAllElements(null, null, true);      
-
-        $batchSize = 50;
-        $i = 0;
-        $batchStep = 0;
-
-        $stillElementsToUpdate = true;
-
-        $maxBatchStep = floor($count/$batchSize);
-
-        for($batchStep = 0; $batchStep <= $maxBatchStep; $batchStep++)
+        if (!$fromBeginning && $session->has('batch_lastStep'))
+            $batchStep = $session->get('batch_lastStep');
+        else
         {
-            $elements = $elementRepo->findAllElements($batchSize, $batchStep * $batchSize);
+            $session->remove('batch_lastStep');
+            $batchStep = 0;    
+        }
 
-            foreach ($elements as $key => $element) 
-            {
-               $this->$functionToExecute($element);            
+        $count = $elementRepo->findAllElements(null, $batchStep, true); 
+
+        if ($count > $maxElementsCount)
+        {            
+            $session->set('batch_lastStep', $batchStep + $maxElementsCount - 1);
+            $isStillElementsToProceed = true;
+        }   
+        else
+        {
+            $session->remove('batch_lastStep');
+        }
+
+        $elements = $elementRepo->findAllElements($maxElementsCount, $batchStep);
+
+        $i = 0;
+        foreach ($elements as $key => $element) 
+        {
+           $this->$functionToExecute($element);  
+
+           if ((++$i % 20) == 0) {
+                $em->flush();
+                $em->clear();
             }
+        }
 
-            $em->flush();
-            $em->clear();           
-        }  
+        $em->flush();
+        $em->clear(); 
 
-        return new Response(count($elements) . " éléments mis à jours avec succès.");         
+        if ($isStillElementsToProceed)
+        {
+            $routeName = $this->getRequest()->get('_route'); 
+            return $this->redirect($this->generateUrl($routeName));
+        }
+        else
+        {
+            return new Response("Les éléments ont été mis à jours avec succès.");
+        }         
     }
 
-    public function updateJsonAction()
+    public function updateJsonAction($fromBeginning)
     {
-        return $this->elementsBulkAction('updateJson');        
+        return $this->elementsBulkAction('updateJson', $fromBeginning, 1000);        
     }
 
     public function updateJson($element)

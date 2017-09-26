@@ -1,6 +1,6 @@
 biopen_special_actions_update_json:
-    path:     /updateJson
-    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::updateJsonAction }
+    path:     /updateJson/{fromBeginning}
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::updateJsonAction, fromBeginning: false }
     requirements:
         _method: GET
 
