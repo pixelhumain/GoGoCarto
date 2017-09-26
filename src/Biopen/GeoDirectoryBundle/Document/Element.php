@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-05 11:52:31
+ * @Last Modified time: 2017-09-26 15:19:00
  */
  
 
@@ -140,7 +140,7 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $commitment;
+    public $commitment;
 
     /**
      * @var string
