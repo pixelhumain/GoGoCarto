@@ -123,6 +123,9 @@ class Configuration
     /** @MongoDB\Field(type="int") */
     protected $minDayBetweenContributionAndCollaborativeValidation = 2;
 
+    /** @MongoDB\Field(type="int") */
+    protected $maxDaysLeavingAnElementPending = 15;
+
 
 
     // -------------------------
@@ -1782,5 +1785,27 @@ class Configuration
     public function getElementFormValidationText()
     {
         return $this->elementFormValidationText;
+    }
+
+    /**
+     * Set maxDaysLeavingAnElementPending
+     *
+     * @param int $maxDaysLeavingAnElementPending
+     * @return $this
+     */
+    public function setMaxDaysLeavingAnElementPending($maxDaysLeavingAnElementPending)
+    {
+        $this->maxDaysLeavingAnElementPending = $maxDaysLeavingAnElementPending;
+        return $this;
+    }
+
+    /**
+     * Get maxDaysLeavingAnElementPending
+     *
+     * @return int $maxDaysLeavingAnElementPending
+     */
+    public function getMaxDaysLeavingAnElementPending()
+    {
+        return $this->maxDaysLeavingAnElementPending;
     }
 }

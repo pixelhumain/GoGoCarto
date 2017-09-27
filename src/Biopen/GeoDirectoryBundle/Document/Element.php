@@ -37,7 +37,8 @@ abstract class ModerationState
     const NoOptionProvided = -1;     
     const NotNeeded = 0;
     const ReportsSubmitted = 1;
-    const VotesConflicts = 2;     
+    const VotesConflicts = 2; 
+    const PendingForTooLong = 3;     
 }
 
 /**

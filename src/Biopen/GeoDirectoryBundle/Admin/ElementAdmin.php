@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-26 13:09:02
+ * @Last Modified time: 2017-09-27 11:31:11
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -38,6 +38,7 @@ class ElementAdmin extends AbstractAdmin
 		'0'=>'Pas de modération nécessaire', 
 		'1'=>'Erreurs signalées', 
 		'2'=>'Votes non consensuels',	
+    '3'=>'En attente depuis trop longtemps', 
 	];
 
   protected $datagridValues = array(

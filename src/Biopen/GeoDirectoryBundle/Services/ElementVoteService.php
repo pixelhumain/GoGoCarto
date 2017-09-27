@@ -112,6 +112,10 @@ class ElementVoteService
                 $element->setModerationState(ModerationState::VotesConflicts);
             }
         }
+        else if ($daysFromContribution > $this->confService->getConfig()->getMaxDaysLeavingAnElementPending())
+        {
+            $element->setModerationState(ModerationState::PendingForTooLong);
+        }
     }
 
     private function handleVoteProcedureComplete($element, $voteType, $voteValue)
