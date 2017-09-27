@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-26 15:19:00
+ * @Last Modified time: 2017-09-27 10:20:14
  */
  
 
@@ -75,21 +75,20 @@ class Element
     /**
      * @var \stdClass
      *
-     * When user propose a new element, or a modification, the element status became "pending", and other
-     * users can vote to validate or not the add/modification
+     * Users can report some problem related to the Element (no more existing, wrong informations...)
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionReport", cascade={"persist"})
      */
-    private $votes;
+    private $reports;
 
     /**
      * @var \stdClass
      *
-     * Users can report some problem related to the Element (no more existing, wrong informations...)
+     * Hisotry of users contributions (add, edit, by whom, how many votes etc...)
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteraction", cascade={"all"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionContribution", cascade={"persist"})
      */
-    private $reports;
+    private $contributions;
 
     /**
      * @var \stdClass
@@ -219,23 +218,6 @@ class Element
      */
     public $sourceKey = 'gogocarto';
 
-    /**
-     * @var string
-     * 
-     * Email of the last person who created or modificated this element
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $contributorMail;
-
-    /**
-     * if last contributor was a registered User or a anonymous who just provided an email address
-     * because wo don't need to be logged to make some contribution
-     *
-     * @MongoDB\Field(type="bool")
-     */
-    private $contributorIsRegisteredUser;
-
     /** 
      * @var string 
      *
@@ -274,7 +256,7 @@ class Element
     private $updatedAt;
 
     /**
-     * @var date $createdAt
+     * @var date $statusChangedAt
      *
      * @MongoDB\Date
      * @Gedmo\Timestampable(on="update", field={"status"})
@@ -614,29 +596,6 @@ class Element
         return $this->openHoursMoreInfos;
     }
 
-
-    /**
-     * Set contributorMail
-     *
-     * @param string $contributorMail
-     * @return $this
-     */
-    public function setContributorMail($contributorMail)
-    {
-        $this->contributorMail = $contributorMail;
-        return $this;
-    }
-
-    /**
-     * Get contributorMail
-     *
-     * @return string $contributorMail
-     */
-    public function getContributorMail()
-    {
-        return $this->contributorMail;
-    }
-
     /**
      * Set validationCode
      *
@@ -719,59 +678,6 @@ class Element
     }
 
     /**
-     * Add vote
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
-     */
-    public function addVote(\Biopen\GeoDirectoryBundle\Document\UserInteraction $vote)
-    {
-        $this->votes[] = $vote;
-    }
-
-    /**
-     * Remove vote
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Vote $vote
-     */
-    public function removeVote(\Biopen\GeoDirectoryBundle\Document\UserInteraction $vote)
-    {
-        $this->votes->removeElement($vote);
-    }
-
-    /**
-     * Get votes
-     *
-     * @return \Doctrine\Common\Collections\Collection $votes
-     */
-    public function getVotes()
-    {
-        return $this->votes;
-    }
-
-    /**
-     * Set contributorIsRegisteredUser
-     *
-     * @param bool $contributorIsRegisteredUser
-     * @return $this
-     */
-    public function setContributorIsRegisteredUser($contributorIsRegisteredUser)
-    {
-        $this->contributorIsRegisteredUser = $contributorIsRegisteredUser;
-        return $this;
-    }
-
-    /**
-     * Get contributorIsRegisteredUser
-     *
-     * @return bool $contributorIsRegisteredUser
-     */
-    public function getContributorIsRegisteredUser()
-    {
-        return $this->contributorIsRegisteredUser;
-    }
-
-
-    /**
      * Set coordinates
      *
      * @param Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates
@@ -844,7 +750,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Report $report
      */
-    public function addReport(\Biopen\GeoDirectoryBundle\Document\UserInteraction $report)
+    public function addReport(\Biopen\GeoDirectoryBundle\Document\UserInteractionReport $report)
     {
         $this->reports[] = $report;
         $this->setModerationState(ModerationState::ReportsSubmitted);
@@ -855,7 +761,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\Report $report
      */
-    public function removeReport(\Biopen\GeoDirectoryBundle\Document\UserInteraction $report)
+    public function removeReport(\Biopen\GeoDirectoryBundle\Document\UserInteractionReport $report)
     {
         $this->reports->removeElement($report);
     }
@@ -1023,5 +929,35 @@ class Element
     public function getSourceKey()
     {
         return $this->sourceKey;
+    }
+
+    /**
+     * Add contribution
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution
+     */
+    public function addContribution(\Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution)
+    {
+        $this->contributions[] = $contribution;
+    }
+
+    /**
+     * Remove contribution
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution
+     */
+    public function removeContribution(\Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution)
+    {
+        $this->contributions->removeElement($contribution);
+    }
+
+    /**
+     * Get contributions
+     *
+     * @return \Doctrine\Common\Collections\Collection $contributions
+     */
+    public function getContributions()
+    {
+        return $this->contributions;
     }
 }

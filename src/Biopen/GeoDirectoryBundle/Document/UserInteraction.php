@@ -5,20 +5,21 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-abstract class VoteValue
+
+abstract class InteractionType
 {
-    const DontRespectChart = -2;
-    const DontExist = -1;
-    const ExistButWrongInformations = 0;
-    const Exist = 1;
-    const ExistAndGoodInformations = 2;    
+    const Add = 0;
+    const Edit = 1;
+    const Vote = 2;  
+    const Report = 3;  
 }
 
-abstract class ReporteValue
+abstract class UserRoles
 {
-    const DontExist = 0;
-    const WrongInformations = 1;
-    const DontRespectChart = 2;   
+    const Anonymous = 0;
+    const AnonymousWithEmail = 1;
+    const Loggued = 2;  
+    const Admin = 3;  
 }
 
 /** @MongoDB\Document */
@@ -32,27 +33,58 @@ class UserInteraction
      *
      * @MongoDB\Field(type="int")
      */
-    private $value;
+    private $type;      
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
+    private $userRole;
+
+    /**
+     * @var string
+     *
+     * UserMail if the role is AnonymousWithEmail
+     *
+     * @MongoDB\Field(type="string")
+     */
     private $userMail;
 
     /**
-    * @MongoDB\Field(type="string")
-    */
-    private $comment; 
+     * @var \stdClass
+     *
+     * The user if userRole is loggued or admin
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Application\Sonata\UserBundle\Document\User")
+     */
+    private $user;
 
     /**
-     * @var date $updated
+     * @var \stdClass
+     *
+     * The element related to this interaction
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
+     */
+    private $element;
+
+
+    /**
+     * @var date $createdAt
+     *
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $createdAt;
+
+    /**
+     * @var date $updatedAt
      *
      * @MongoDB\Date
      * @Gedmo\Timestampable
      */
-    private $updated;  
+    private $updatedAt;    
 
     /**
      * Get id
@@ -65,25 +97,47 @@ class UserInteraction
     }
 
     /**
-     * Set value
+     * Set type
      *
-     * @param int $value
+     * @param int $type
      * @return $this
      */
-    public function setValue($value)
+    public function setType($type)
     {
-        $this->value = $value;
+        $this->type = $type;
         return $this;
     }
 
     /**
-     * Get value
+     * Get type
      *
-     * @return int $value
+     * @return int $type
      */
-    public function getValue()
+    public function getType()
     {
-        return $this->value;
+        return $this->type;
+    }
+
+    /**
+     * Set userRole
+     *
+     * @param string $userRole
+     * @return $this
+     */
+    public function setUserRole($userRole)
+    {
+        $this->userRole = $userRole;
+        return $this;
+    }
+
+    /**
+     * Get userRole
+     *
+     * @return string $userRole
+     */
+    public function getUserRole()
+    {
+        return $this->userRole;
     }
 
     /**
@@ -109,29 +163,90 @@ class UserInteraction
     }
 
     /**
-     * Set comment
+     * Set user
      *
-     * @param string $comment
+     * @param Application\Sonata\UserBundle\Document\User $user
      * @return $this
      */
-    public function setComment($comment)
+    public function setUser(\Application\Sonata\UserBundle\Document\User $user)
     {
-        $this->comment = $comment;
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * Get comment
+     * Get user
      *
-     * @return string $comment
+     * @return Application\Sonata\UserBundle\Document\User $user
      */
-    public function getComment()
+    public function getUser()
     {
-        return $this->comment;
+        return $this->user;
     }
 
-    public function getUpdated()
+    /**
+     * Set element
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Element $element
+     * @return $this
+     */
+    public function setElement(\Biopen\GeoDirectoryBundle\Document\Element $element)
     {
-        return $this->updated;
+        $this->element = $element;
+        return $this;
+    }
+
+    /**
+     * Get element
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Element $element
+     */
+    public function getElement()
+    {
+        return $this->element;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param date $createdAt
+     * @return $this
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return date $createdAt
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param date $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return date $updatedAt
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
