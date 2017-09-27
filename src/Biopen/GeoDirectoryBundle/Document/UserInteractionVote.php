@@ -3,6 +3,7 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 abstract class VoteValue
 {
@@ -16,6 +17,8 @@ abstract class VoteValue
 /** @MongoDB\Document */
 class UserInteractionVote extends UserInteraction
 {
+    protected $type = InteractionType::Vote;
+
     /**
      * @var int
      *

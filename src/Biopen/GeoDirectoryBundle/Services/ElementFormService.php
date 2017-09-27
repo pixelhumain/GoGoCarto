@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-05 11:36:55
+ * @Last Modified time: 2017-09-27 14:27:25
  */
  
 
@@ -16,6 +16,8 @@ namespace Biopen\GeoDirectoryBundle\Services;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Security\Core\SecurityContext;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\CoreBundle\Services\ConfigurationService;
 
@@ -63,9 +65,6 @@ class ElementFormService
             $element->setWebSite($webSiteUrl);
         }       
 
-        $element->setContributorMail($userEmail);
-        $element->setContributorIsRegisteredUser($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'));
-
         $isAllowedDirectModeration = $this->confService->isUserAllowed('directModeration');
 
         // In case of collaborative modification, we actually don't change the elements attributes. 
@@ -81,6 +80,16 @@ class ElementFormService
             $this->em->persist($modifiedElement);
             $element->setModifiedElement($modifiedElement);
         }
+
+        $contribution = new UserInteractionContribution();
+        $contribution->updateUserInformation($this->securityContext, $userEmail);
+        $contribution->setType($editMode ? InteractionType::Edit : InteractionType::Add);
+
+        dump($contribution);
+
+        $element->addContribution($contribution);
+
+        dump($element);
 
         if($isAllowedDirectModeration)
         {

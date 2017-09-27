@@ -3,6 +3,7 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 abstract class ReporteValue
 {
@@ -14,6 +15,8 @@ abstract class ReporteValue
 /** @MongoDB\Document */
 class UserInteractionReport extends UserInteraction
 {
+    protected $type = InteractionType::Report;
+
     /**
      * @var int
      *

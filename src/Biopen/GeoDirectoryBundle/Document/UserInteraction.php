@@ -11,7 +11,8 @@ abstract class InteractionType
     const Add = 0;
     const Edit = 1;
     const Vote = 2;  
-    const Report = 3;  
+    const Report = 3;
+    const Import = 4;   
 }
 
 abstract class UserRoles
@@ -25,22 +26,22 @@ abstract class UserRoles
 /** @MongoDB\Document */
 class UserInteraction
 {
-    /** @MongoDB\Id */
-    private $id;
+    /** @MongoDB\Id(strategy="ALNUM") */
+    protected $id;
 
     /**
      * @var int
      *
      * @MongoDB\Field(type="int")
      */
-    private $type;      
+    protected $type;      
 
     /**
      * @var string
      *
      * @MongoDB\Field(type="string")
      */
-    private $userRole;
+    protected $userRole = 0;
 
     /**
      * @var string
@@ -49,16 +50,7 @@ class UserInteraction
      *
      * @MongoDB\Field(type="string")
      */
-    private $userMail;
-
-    /**
-     * @var \stdClass
-     *
-     * The user if userRole is loggued or admin
-     *
-     * @MongoDB\ReferenceOne(targetDocument="Application\Sonata\UserBundle\Document\User")
-     */
-    private $user;
+    protected $userMail = "no email";
 
     /**
      * @var \stdClass
@@ -67,7 +59,7 @@ class UserInteraction
      *
      * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element")
      */
-    private $element;
+    protected $element;
 
 
     /**
@@ -76,7 +68,7 @@ class UserInteraction
      * @MongoDB\Date
      * @Gedmo\Timestampable(on="create")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var date $updatedAt
@@ -84,7 +76,7 @@ class UserInteraction
      * @MongoDB\Date
      * @Gedmo\Timestampable
      */
-    private $updatedAt;    
+    protected $updatedAt;    
 
     /**
      * Get id
@@ -94,6 +86,41 @@ class UserInteraction
     public function getId()
     {
         return $this->id;
+    }
+
+    public function updateUserInformation($securityContext, $email = null)
+    {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $user = $securityContext->getToken()->getUser();
+            $this->setUserMail($user->getEmail());
+            $this->setUserRole($user->isAdmin() ? UserRoles::Admin : UserRoles::Loggued);
+        }
+        else 
+        {
+            if ($email)
+            {
+                $this->setUserMail($email);
+                $this->setUserRole(UserRoles::AnonymousWithEmail);
+            }
+            else
+            {
+                $this->setUserRole(UserRoles::Anonymous);
+            }
+        }
+    }
+
+    public function isMadeBy($user, $userMail)
+    {
+        if ($user)
+            return $this->getUserMail() == $user->getEmail();
+        else
+            return ($userMail && $this->getUserMail() == $userMail);
+    }
+
+    public function getUserDisplayName()
+    {
+        return $this->getUserRole() == UserRoles::Anonymous ? "" : $this->getUserMail();
     }
 
     /**
@@ -160,28 +187,6 @@ class UserInteraction
     public function getUserMail()
     {
         return $this->userMail;
-    }
-
-    /**
-     * Set user
-     *
-     * @param Application\Sonata\UserBundle\Document\User $user
-     * @return $this
-     */
-    public function setUser(\Application\Sonata\UserBundle\Document\User $user)
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return Application\Sonata\UserBundle\Document\User $user
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**

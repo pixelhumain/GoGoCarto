@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-22 13:52:10
+ * @Last Modified time: 2017-09-27 10:34:42
  */
  
 
@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
-use Biopen\GeoDirectoryBundle\Document\UserInteraction;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -67,16 +67,13 @@ class ElementInteractionController extends Controller
 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
-            $report = new UserInteraction();            
+            $report = new UserInteractionReport();            
         
             $report->setValue($request->get('value'));
 
             $securityContext = $this->container->get('security.context');
 
-            if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
-                $report->setUserMail($securityContext->getToken()->getUser()->getEmail());
-            else 
-                $report->setUserMail($request->get('userMail') ? $request->get('userMail') : "Anonyme");
+            $report->updateUserInformation($securityContext, $request->get('userMail'));
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);

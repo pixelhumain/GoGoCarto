@@ -5,13 +5,18 @@
 	{% set positiveVotes = 0 %}
 	{% set negativeVotes = 0 %}
 
-	{% for key, vote in value %}
-		{% if vote.value < 0  %} {% set negativeVotes = negativeVotes + 1 %}
-		{% else %} {% set positiveVotes = positiveVotes + 1 %}
-		{% endif %}
-	{% endfor %}
+  {% if value|length > 0 %}
+    {% set lastContrib = (value|last) %}
+    {% if not lastContrib.isResolved %}
+    	{% for key, vote in lastContrib.votes %}
+    		{% if vote.value < 0  %} {% set negativeVotes = negativeVotes + 1 %}
+    		{% else %} {% set positiveVotes = positiveVotes + 1 %}
+    		{% endif %}
+    	{% endfor %}
 
-	{% if negativeVotes > 0 %}<span class="label label-danger"><i class="fa fa-thumbs-down"></i> {{ negativeVotes }}</span> {% endif %}
-	{% if positiveVotes > 0 %}<span class="label label-success"><i class="fa fa-thumbs-up"></i> {{ positiveVotes }}</span> {% endif %}
+    	{% if negativeVotes > 0 %}<span class="label label-danger"><i class="fa fa-thumbs-down"></i> {{ negativeVotes }}</span> {% endif %}
+    	{% if positiveVotes > 0 %}<span class="label label-success"><i class="fa fa-thumbs-up"></i> {{ positiveVotes }}</span> {% endif %}
+    {% endif %}
+  {% endif %}
 {% endspaceless %}
 {% endblock %}

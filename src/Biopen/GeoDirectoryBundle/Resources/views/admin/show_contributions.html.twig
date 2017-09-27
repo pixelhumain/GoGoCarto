@@ -1,0 +1,12 @@
+{% if value|length > 0 %}
+
+  {% set contributions = (value|last).isResolved ? value|reverse : value|reverse|slice(1) %}
+
+  {% for key, contribution in contributions %}
+  	<div style="border-top: 10px solid #ecf0f5;">
+  		{% include "@BiopenAdmin/show_one_contribution.html.twig" with {'value': contribution, 'showUnresolved': true} %}
+  	</div>
+  {% endfor %}
+
+{% endif %}
+

@@ -83,39 +83,3 @@
 
  </section>
  <div class="divider"></div>
-
-{#  <section id="amap-section" style="display:none">
- 	<h2 id="title-amap">Contact dans l'AMAP (renseignez un téléphone et/ou un e-mail)</h2>
-		<div class="row ">
-	 	<!-- input-name du contact de l'AMAP -->
-		<div class="input-field col s12" id="amap-contact">
-		  	<i class="material-icons prefix">account_circle</i>	
-		  	{{ form_widget(form.contactAmap.children.name, 
-				  				{ 'id' : 'input-nameContactAMAP',									
-			  					  'attr': {'placeholder':'Nom du Contact de l\'AMAP',
-			  							   'name' : 'nameAMAP',
-			  					}}) }}
-		</div>
-		<!-- input telephone contact de l'AMAP -->
-		<div class="input-field col s12">
-			<i class="material-icons prefix">phone</i>
-		  	{{ form_widget(form.contactAmap.children.tel, 
-				  				{ 'id' : 'input-tel-amap',									
-			  					  'attr': {'placeholder':'Téléphone du contact',
-			  							   'name' : 'telAMAP',
-			  							   'pattern': '-?[0-9]*(\.[0-9]+)?'
-			  					}}) }}
-		</div>			
-		<!-- input Mail du contact de l'AMAP -->
-	  	<div class="input-field col s12"  id="AMAP_mail">
-			<i class="material-icons prefix">mail</i>	
-			{{ form_widget(form.contactAmap.children.mail, 
-				  				{ 'id' : 'inputMailAMAP',									
-			  					  'attr': {'type' : 'email',
-			  					  		   'placeholder':'Adresse mail du contact',
-			  							   'name' : 'mailAMAP'
-			  					}}) }}
-		</div>
-	</div>
-</section>
-<div class="divider" style="display:none"></div> #}

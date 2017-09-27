@@ -1,8 +1,22 @@
+{% set userRoles = {
+  0: "Anonyme",
+  1: 'Anonyme avec mail',
+  2: "Utilisateur loggué",
+  3: "Admin",
+  }
+%} 
+
+
 <div {% if not loop.last %}class="item-container"{% endif %}>
-	<div style="margin-bottom:5px"><span class="label {{ labelClass }}">{{ itemValues[item.value] }}</span> <div style="float:right">{{ item.updated|date("d/m/Y à H:i")}}</div> </div>			
-	<div><i>{{ item.comment|capitalize }}</i> </div> 			
-	<div><u>Par : {{ item.userMail ? item.userMail : 'Anonyme'}}</u></div>
+	<div style="margin-bottom:5px">
+    <span class="label {{ labelClass }}">{{ itemValues[item.value] }}</span> 
+    <span style="margin:0 5px">Par : <u>{{ item.userMail ? item.userMail : 'Anonyme'}}</u></span> <span class="label label-default">{{ userRoles[item.userRole] }}</span> 
+    <div style="float:right">{{ item.updatedAt|date("d/m/Y à H:i")}}</div> </div>			
+	<div>
+    <i>{{ item.comment|capitalize }}</i>	  
+  </div>
 </div>
+
 	
 <style>
 .item-container

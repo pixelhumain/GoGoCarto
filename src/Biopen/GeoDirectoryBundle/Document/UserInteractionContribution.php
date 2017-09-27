@@ -5,24 +5,15 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-abstract class ContributionStatus
-{
-    const CollaborativeRefused = -2;
-    const AdminRefused = -1;    
-    const Pending = 0;
-    const AdminValidate = 1;
-    const CollaborativeValidate = 2;  
-}
-
 /** @MongoDB\Document */
 class UserInteractionContribution extends UserInteraction
 {
     /**
      * @var int
-     *
+     * ElementStatus
      * @MongoDB\Field(type="int")
      */
-    private $status = 0;
+    private $status = null;
 
     /**
      * @var \stdClass
@@ -30,9 +21,9 @@ class UserInteractionContribution extends UserInteraction
      * When user propose a new element, or a modification, the element status became "pending", and other
      * users can vote to validate or not the add/modification
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionVote", cascade={"persist, refresh"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionVote", cascade={"persist", "refresh"})
      */
-    private $votes; 
+    private $votes = []; 
 
     /**
      * @var date $statusChangedAt
@@ -41,6 +32,13 @@ class UserInteractionContribution extends UserInteraction
      * @Gedmo\Timestampable(on="update", field={"status"})
      */
     private $statusChangedAt;   
+
+    /* if a contribution has been accepted or refused, but is not still pending */
+    public function isResolved()
+    {
+        return !in_array($this->status, [null, ElementStatus::PendingModification, ElementStatus::PendingAdd]);
+    }
+
     public function __construct()
     {
         $this->votes = new \Doctrine\Common\Collections\ArrayCollection();

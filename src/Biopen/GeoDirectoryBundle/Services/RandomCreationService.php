@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-06-18 13:38:32
+ * @Last Modified time: 2017-09-27 12:49:20
  */
  
 
@@ -125,7 +125,8 @@ class RandomCreationService
 
 	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
 
-	      $new_element->setContributorMail('contributor@gmail.com');
+         // TODO create a contribution with type "import"
+	      //$new_element->setContributorMail('contributor@gmail.com');
 		   
 	      $this->em->persist($new_element);      
 	    }	    

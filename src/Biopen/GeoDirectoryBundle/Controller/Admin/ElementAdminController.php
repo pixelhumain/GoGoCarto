@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
 
 class ElementAdminController extends Controller
 {
@@ -268,6 +269,12 @@ class ElementAdminController extends Controller
             // persist if the form was valid and if in preview mode the preview was approved
             if ($isFormValid) {
                 try {
+                    $contribution = new UserInteractionContribution();
+                    $contribution->updateUserInformation($this->container->get('security.context'));
+                    $contribution->setType(InteractionType::Edit);
+                    $contribution->setStatus(ElementStatus::ModifiedByAdmin);
+                    $object->addContribution($contribution);
+
                     $object = $this->admin->update($object);
 
                     $this->addFlash(

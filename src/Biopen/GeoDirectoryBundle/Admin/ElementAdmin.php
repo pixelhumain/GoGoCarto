@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-27 11:31:11
+ * @Last Modified time: 2017-09-27 17:09:28
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -96,8 +96,6 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
 	{
-     
-
      $datagridMapper
 	  	->add('name')
 	  	->add('status', 'doctrine_mongo_choice', array(), 
@@ -196,8 +194,8 @@ class ElementAdmin extends AbstractAdmin
             ) 
 	  	->add('postalCode', null, array('label' => 'Code postal'))
 	  	->add('departementCode', null, array('label'=>'Numéro de département'))
-	  	->add('mail')
-	  	->add('contributorMail');
+	  	->add('mail');
+	  	//->add('contributorMail');
 	}
 
 	public function buildDatagrid() 
@@ -208,18 +206,30 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureShowFields(ShowMapper $show)
 	{
-	  $show	      
-       ->with('Modération', array())         
-	      ->add('moderationState', 'choice', [
-	      		'label' => 'Moderation',
+    // TODO show the En attente panel only for pendings elements
+    if ($this->subject->isPending())
+    {
+      $show       
+       ->with('En attente', array('class' => 'col-md-6 col-sm-12'))
+         ->add('currContribution', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_one_contribution.html.twig'))
+       ->end();
+    }
+
+    if ($this->subject->getModerationState() != 0)
+    {
+      $show 
+       ->with('Modération', array('class' => 'col-md-6 col-sm-12'))         
+        ->add('moderationState', 'choice', [
+            'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
-               ])	      
-	      ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_votes.html.twig'))
-	      ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig', 'label' => 'Signalements',))
-       ->end()
-
-       ->with('Catégorisation', array())
+               ])       
+        ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig', 'label' => 'Signalements',))
+       ->end();
+    }    
+    
+    $show
+       ->with('Catégorisation', array('class' => 'col-md-6 col-sm-12'))
 	       ->add('optionValues', null, [
 		      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
 		      	'choices' => $this->optionList,
@@ -227,20 +237,22 @@ class ElementAdmin extends AbstractAdmin
 		      ])
        ->end()
 
-       ->with('Localisation', array())
+       ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
          ->add('address')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
 	      ->add('coordinates.lng')
        ->end()   
 
-       ->with('Autre infos', array())
+       ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
-         ->add('contributorMail')
-	      ->add('contributorIsRegisteredUser')
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))
 	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:i"))
-       ->end();  
+       ->end()
+
+      ->with('Hitorique des contributions', array('class' => 'col-sm-12'))
+        ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_contributions.html.twig'))
+      ->end(); 
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
@@ -254,7 +266,6 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updatedAt','date', array("format" => "d/m/Y"))
-         //->add('contributorMail')
          ->add('optionValues', null, [
                'template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig', 
                'header_style' => 'width: 250px',
@@ -268,7 +279,7 @@ class ElementAdmin extends AbstractAdmin
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_moderation.html.twig'
                ])
-         ->add('votes', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig'))
+         ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig'))
          
 	      ->add('_action', 'actions', array(
 	          'actions' => array(

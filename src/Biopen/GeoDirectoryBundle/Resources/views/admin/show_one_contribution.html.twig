@@ -1,0 +1,68 @@
+
+
+{% set contributionType = {
+	0: "Ajouté",
+	1: 'Modifié',
+	2: "Vote",
+	3: "Signalement",
+	4: "Import",
+	}
+%} 
+
+{% set elementStatus = {
+	'' : 'Pending',
+	'-5': "modified pending",
+	'-4': 'Supprimé', 
+	'-3': 'Refusé (votes) ', 
+	'-2': 'Réfusé (admin)', 
+	'-1': 'En attente (modifs)', 
+	 0: 'En attente (ajout)',
+	 1: 'Validé (admin)',
+	 2: 'Validé (votes)',
+	 3: 'Ajouté par admin',
+	 4: 'Modifié par admin',
+	}
+%} 
+
+{% set userRoles = {
+	0: "Anonyme",
+	1: 'Anonyme avec mail',
+	2: "Utilisateur loggué",
+	3: "Admin",
+	}
+%} 
+
+{% set itemValues = {
+	'-2': 'Ne respecte pas la charte',
+	'-1': "N'existe pas",
+	'0': 'Existe mais infos mauvaises',
+	'1': 'Existe',
+	'2': 'Existe et valide info'
+	}
+%} 
+
+{% if value and (not value.isResolved or showUnresolved|default(false))%}
+	<div style="padding:10px">
+		<div class="small-margin"><b>{{ contributionType[value.type] | upper }}</b> le {{ value.createdAt|date("d/m/Y à H:i")}}		</div>					
+		<div class="small-margin">Par : <u>{{ value.getUserDisplayName }}</u> <span class="label label-default">{{ userRoles[value.userRole] }}</span> </div>
+		{% if value.isResolved %}
+			<div class="small-margin">Résolu le {{ value.updatedAt|date("d/m/Y à H:i")}} en <span class="label label-default">{{ elementStatus[value.status] }}</span></div> 
+		{% endif %}	
+		{% if value.votes|length > 0 %}
+			<div class="small-margin"><b>Votes</b></div>
+			{% for key, vote in value.votes %}
+					{% if vote.value is defined %}
+						{% set labelClass = vote.value >= 0 ? 'label-success' : 'label-danger' %}
+						{% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'item': vote} %}
+					{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endif %}
+
+<style>
+
+div.small-margin { margin-bottom:5px; }
+
+</style>
+

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-27 10:20:14
+ * @Last Modified time: 2017-09-27 14:55:19
  */
  
 
@@ -89,7 +89,7 @@ class Element
      *
      * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionContribution", cascade={"persist"})
      */
-    private $contributions;
+    private $contributions = [];
 
     /**
      * @var \stdClass
@@ -325,6 +325,39 @@ class Element
     public function isPending()
     {
         return $this->status == ElementStatus::PendingAdd || $this->status == ElementStatus::PendingModification;
+    }
+
+    public function getCurrContribution()
+    {
+        return $this->getContributions()->last();
+    }
+
+    public function getVotes()
+    {
+        return $this->getCurrContribution() ? $this->getCurrContribution()->getVotes() : [];
+    }
+
+    public function isLastContributorEqualsTo($user, $userMail)
+    {
+        return $this->getCurrContribution() ? $this->getCurrContribution()->isMadeBy($user, $userMail) : false;
+    }
+
+    /**
+     * Set status
+     *
+     * @param int $status
+     * @return $this
+     */
+    public function setStatus($newStatus)
+    { 
+        if ($newStatus != ElementStatus::PendingModification && $newStatus != ElementStatus::PendingAdd)
+        {
+            $currContribution = $this->getCurrContribution();
+            if ($currContribution) $currContribution->setStatus($newStatus);
+        }
+        
+        $this->status = $newStatus;
+        return $this;
     }
 
     public function __toString() 
@@ -656,17 +689,6 @@ class Element
         return $this;
     }
 
-    /**
-     * Set status
-     *
-     * @param int $status
-     * @return $this
-     */
-    public function setStatus($newStatus)
-    {
-        $this->status = $newStatus;
-        return $this;
-    }
 
     /**
      * Get status
@@ -753,6 +775,7 @@ class Element
      */
     public function addReport(\Biopen\GeoDirectoryBundle\Document\UserInteractionReport $report)
     {
+        $report->setElement($this);
         $this->reports[] = $report;
         $this->setModerationState(ModerationState::ReportsSubmitted);
     }
@@ -939,6 +962,7 @@ class Element
      */
     public function addContribution(\Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution)
     {
+        $contribution->setelement($this);
         $this->contributions[] = $contribution;
     }
 

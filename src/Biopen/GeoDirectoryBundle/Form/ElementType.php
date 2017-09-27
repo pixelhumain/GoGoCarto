@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-05-10 15:20:36
+ * @Last Modified time: 2017-09-27 14:18:49
  */
  
 
@@ -64,8 +64,7 @@ class ElementType extends AbstractType
           ->add('postalCode', HiddenType::class)
           ->add('coordinates', CoordinatesType::class)
           ->add('openHours', OpenHoursType::class, array('required' => false))
-          ->add('openHoursMoreInfos', TextType::class, array('required' => false))        
-          ->add('contributorMail', HiddenType::class, array('required' => false));        
+          ->add('openHoursMoreInfos', TextType::class, array('required' => false));   
   }
 
   
