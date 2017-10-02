@@ -18,12 +18,22 @@
 	
 	<!-- input description element -->
 	<div class="input-field col s12">
-		<i class="material-icons gogo-icon-description prefix"></i>
+		<i class="required material-icons gogo-icon-description prefix"></i>
 	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'validate materialize-textarea',
   											   'placeholder':"Description générale",
-  											   'length':'600'   }}) }}
+  											   'length':'600' }}) }}
 	</div>
+
+  <!-- input commitmen -->
+  {#<div class="input-field col s12">
+    <i class="material-icons gogo-icon-description prefix"></i>
+      {{ form_widget(form.commitment, {'id': 'input-commitment',
+                            'attr': {'class': 'validate materialize-textarea',
+                           'placeholder':"Engagement citoyen",
+                           'length':'300'  }}) }}
+  </div>#}
+
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
