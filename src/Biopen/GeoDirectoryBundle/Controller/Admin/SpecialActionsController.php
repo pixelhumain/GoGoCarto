@@ -7,7 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 class SpecialActionsController extends Controller
 {
@@ -26,18 +29,18 @@ class SpecialActionsController extends Controller
         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
         if (!$fromBeginning && $session->has('batch_lastStep'))
-            $batchStep = $session->get('batch_lastStep');
+            $batchFromStep = $session->get('batch_lastStep');
         else
         {
             $session->remove('batch_lastStep');
-            $batchStep = 0;    
+            $batchFromStep = 0;    
         }
 
-        $count = $elementRepo->findAllElements(null, $batchStep, true); 
+        $count = $elementRepo->findAllElements(null, $batchFromStep, true); 
 
         if ($count > $maxElementsCount)
         {            
-            $session->set('batch_lastStep', $batchStep + $maxElementsCount - 1);
+            $session->set('batch_lastStep', $batchFromStep + $maxElementsCount - 1);
             $isStillElementsToProceed = true;
         }   
         else
@@ -45,7 +48,7 @@ class SpecialActionsController extends Controller
             $session->remove('batch_lastStep');
         }
 
-        $elements = $elementRepo->findAllElements($maxElementsCount, $batchStep);
+        $elements = $elementRepo->findAllElements($maxElementsCount, $batchFromStep);
 
         $i = 0;
         foreach ($elements as $key => $element) 
@@ -94,6 +97,24 @@ class SpecialActionsController extends Controller
         {
             $element->setMail(str_replace('.@', '@', $actualMail));
         }
+    }
+
+    public function addImportContributionAction()
+    {
+        return $this->elementsBulkAction('addImportContribution');
+    }
+
+    public function addImportContribution($element)
+    {
+        $contribution = new UserInteractionContribution();
+        $contribution->setUserRole(UserRoles::Admin);
+        $contribution->setUserMail('admin@presdecheznous.fr');
+        $contribution->setType(InteractionType::Import);
+
+        $element->resetContributions();
+        $element->addContribution($contribution);
+        $element->resetReports();
+        $element->setStatus(ElementStatus::AdminValidate, false);        
     }
 
     public function fixsCircuitsCourtAction()

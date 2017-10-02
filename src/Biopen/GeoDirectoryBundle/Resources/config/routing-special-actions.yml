@@ -15,3 +15,9 @@ biopen_special_actions_fixs_cicuits_court:
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::fixsCircuitsCourtAction }
     requirements:
         _method: GET
+
+biopen_special_actions_add_import_contribution:
+    path:     /addImportContribution
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::addImportContributionAction }
+    requirements:
+        _method: GET
