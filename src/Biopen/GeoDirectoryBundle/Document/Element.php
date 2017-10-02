@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-27 14:55:19
+ * @Last Modified time: 2017-10-02 16:00:38
  */
  
 
@@ -278,7 +278,67 @@ class Element
         $this->optionValues = [];
     }
 
+    public function resetContributions()
+    {
+        $this->contributions = [];
+    }
+
+    public function resetReports()
+    {
+        $this->reports = [];
+    }
+
+    public function getUnresolvedReports()
+    {
+       $result = array_filter($this->getReports()->toArray(), function($e) { return !$e->getIsResolved(); });
+       dump($result);
+       return $result;
+    }
+
+    public function getContributionsAndResolvedReports()
+    {
+        $resolvedReports = array_filter($this->getReports()->toArray(), function($e) { return $e->getIsResolved(); });
+        $contributions = array_filter($this->getContributions()->toArray(), function($e) { return $e->getStatus() > ElementStatus::ModifiedPendingVersion; });
+        if ($this->isPending() && count($contributions) > 0)
+        {
+            array_pop($contributions);
+        }
+        $result = array_merge($resolvedReports, $contributions);
+        usort( $result, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
+        return $result;
+    }
+
     /** @MongoDB\PreFlush */
+    public function onPreFlush()
+    {
+        $this->checkForModerationNeeded();
+        $this->updateJsonRepresentation();
+    }
+
+    // aatomatically resolve moderation error
+    public function checkForModerationNeeded()
+    { 
+        if ($this->getModerationState() == ModerationState::NotNeeded) return;
+
+        $needed = true;
+
+        switch ($this->getModerationState()) {
+            case ModerationState::VotesConflicts:
+            case ModerationState::PendingForTooLong:
+                if (!$this->isPending()) $needed = false;
+                break;
+            case ModerationState::NoOptionProvided:
+                if (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0) $needed = false;
+                break;
+            case ModerationState::GeolocError:
+                if ($this->getCoordinates()->getLat() != 0 && $this->getCoordinates()->getLng() != 0) $needed = false;
+                break;
+        }
+
+        if (!$needed) $this->setModerationState(ModerationState::NotNeeded);
+    }
+
+
     public function updateJsonRepresentation()
     {
         if (!$this->coordinates) { dump('no coordinates'); return;}
@@ -327,9 +387,25 @@ class Element
         return $this->status == ElementStatus::PendingAdd || $this->status == ElementStatus::PendingModification;
     }
 
+    public function isVisible()
+    {
+        return $this->status >= -1;
+    }
+
+    public function havePendingReports()
+    {
+        return $this->moderationState == ModerationState::ReportsSubmitted;
+    }
+
     public function getCurrContribution()
     {
-        return $this->getContributions()->last();
+        $contributions = $this->getContributions();
+        if (is_array($contributions))
+        {
+            return (count($contributions) > 0) ? array_pop((array_slice($contributions, -1))) : null;
+        } 
+        else 
+            return $contributions->last();
     }
 
     public function getVotes()
@@ -340,6 +416,14 @@ class Element
     public function isLastContributorEqualsTo($user, $userMail)
     {
         return $this->getCurrContribution() ? $this->getCurrContribution()->isMadeBy($user, $userMail) : false;
+    }
+
+    public function resolveAllReports()
+    {
+        foreach ($this->getReports() as $key => $report) 
+        {
+            if (!$report->getIsResolved()) $report->setIsResolved(true);
+        }
     }
 
     /**
@@ -354,6 +438,11 @@ class Element
         {
             $currContribution = $this->getCurrContribution();
             if ($currContribution) $currContribution->setStatus($newStatus);
+        }
+
+        if (in_array($newStatus, [ElementStatus::Deleted,ElementStatus::AdminValidate,ElementStatus::AdminRefused]) && $this->getModerationState() == ModerationState::ReportsSubmitted)
+        {
+            $this->resolveAllReports();
         }
         
         $this->status = $newStatus;
@@ -875,6 +964,10 @@ class Element
      */
     public function setModerationState($moderationState)
     {
+        if ($this->moderationState == ModerationState::ReportsSubmitted && $moderationState == ModerationState::NotNeeded)
+        {
+           $this->resolveAllReports();
+        }
         $this->moderationState = $moderationState;
         return $this;
     }
@@ -962,7 +1055,13 @@ class Element
      */
     public function addContribution(\Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution)
     {
-        $contribution->setelement($this);
+        $contribution->setElement($this);
+        if ($contribution->isAdminContribution() && $this->moderationState == ModerationState::ReportsSubmitted)
+        {            
+            // we guess that admin modification will solve any report issue
+            $this->setModerationState(ModerationState::NotNeeded);
+        }
+        
         $this->contributions[] = $contribution;
     }
 

@@ -1,8 +1,8 @@
 
 
 {% set contributionType = {
-	0: "Ajouté",
-	1: 'Modifié',
+	0: "Ajout",
+	1: 'Modification',
 	2: "Vote",
 	3: "Signalement",
 	4: "Import",
@@ -10,7 +10,7 @@
 %} 
 
 {% set elementStatus = {
-	'' : 'Pending',
+	'' : 'En attente',
 	'-5': "modified pending",
 	'-4': 'Supprimé', 
 	'-3': 'Refusé (votes) ', 
@@ -41,23 +41,48 @@
 	}
 %} 
 
-{% if value and (not value.isResolved or showUnresolved|default(false))%}
-	<div style="padding:10px">
-		<div class="small-margin"><b>{{ contributionType[value.type] | upper }}</b> le {{ value.createdAt|date("d/m/Y à H:i")}}		</div>					
-		<div class="small-margin">Par : <u>{{ value.getUserDisplayName }}</u> <span class="label label-default">{{ userRoles[value.userRole] }}</span> </div>
-		{% if value.isResolved %}
-			<div class="small-margin">Résolu le {{ value.updatedAt|date("d/m/Y à H:i")}} en <span class="label label-default">{{ elementStatus[value.status] }}</span></div> 
-		{% endif %}	
-		{% if value.votes|length > 0 %}
-			<div class="small-margin"><b>Votes</b></div>
-			{% for key, vote in value.votes %}
-					{% if vote.value is defined %}
-						{% set labelClass = vote.value >= 0 ? 'label-success' : 'label-danger' %}
-						{% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'item': vote} %}
-					{% endif %}
-			{% endfor %}
+ 
+
+{% if value and (not value.isResolved or showResolved|default(false))%}
+	<div class="panel-heading {{ value.votes|length > 0 ? 'body-content' : ''}}" role="tab" id="heading{{value.id}}" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{value.id}}" aria-expanded="true" aria-controls="collapse{{value.id}}">
+		{% if value.isAdminContribution %}
+			<div class="small-margin"> 
+					<b>{{ elementStatus[value.status] | upper }}</b> 
+					par <u>{{ value.getUserDisplayName }}</u> 
+					<span class="label label-default">{{ userRoles[value.userRole] }}</span> 
+					<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>
+			</div>
+		{% else %}		
+			<div class="small-margin"> 
+					<b>{{ contributionType[value.type] | upper }}</b> 
+					<span class="label {{ value.status > 0 ? 'label-success' : value.status == 0 ? 'label-warning' : 'label-danger' }}">{{ elementStatus[value.status] }}</span>
+					Proposé par <u>{{ value.getUserDisplayName }}</u> 
+					<span class="label label-default">{{ userRoles[value.userRole] }}</span> 
+					
+					{% if showResolved|default(false) %}<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>{% endif %}
+			</div>
+
+			<div class="small-margin"> 
+				Proposé le {{ value.createdAt|date("d/m/Y à H:i")}}
+			</div>
 		{% endif %}
 	</div>
+
+  
+	  {% if value.votes|length > 0 %}
+	    <div id="collapse{{value.id}}" class="panel-collapse collapse {{ showResolved|default(false) ? '' : 'in'}}" role="tabpanel" aria-labelledby="heading{{value.id}}">
+    		<div class="panel-body" {% if not showResolved|default(false) %}style="border-top: 1px solid #c4c9cc;padding-top: 5px;"{% endif %}>
+					<b style="line-height: 3.5rem;">Votes</b>
+					{% for key, vote in value.votes %}
+							{% if vote.value is defined %}
+								{% set labelClass = vote.value >= 0 ? 'label-success' : 'label-danger' %}
+								{% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'item': vote} %}
+							{% endif %}
+					{% endfor %}
+				</div>
+  		</div>
+		{% endif %}
+    
 {% endif %}
 
 <style>

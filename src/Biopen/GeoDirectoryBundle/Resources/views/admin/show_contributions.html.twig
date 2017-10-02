@@ -1,12 +1,31 @@
-{% if value|length > 0 %}
+{% set itemValues = {
+  0: "L'élément n'existe plus",
+  1: 'Les informations sont incorrectes',
+  2: "L'élément ne respecte pas la charte"
+  }
+%} 
 
-  {% set contributions = (value|last).isResolved ? value|reverse : value|reverse|slice(1) %}
+{% set labelClass = 'label-danger' %}
 
-  {% for key, contribution in contributions %}
-  	<div style="border-top: 10px solid #ecf0f5;">
-  		{% include "@BiopenAdmin/show_one_contribution.html.twig" with {'value': contribution, 'showUnresolved': true} %}
-  	</div>
-  {% endfor %}
+<div class="panel-group" style="margin:0" id="accordion" role="tablist" aria-multiselectable="true">
+  {% for key, item in admin.subject.getContributionsAndResolvedReports() %}
+    {% if item.type ==  3 %}    
+      <div style="border-top: 10px solid #ecf0f5;padding: 10px;">
+        {% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'itemContainer' : false} %}
+      </div>
+    {% else %}
+      {#<div >#}
+      <div class="panel panel-default" style="border-top: 10px solid #ecf0f5;margin-top:0">
+        {% include "@BiopenAdmin/show_one_contribution.html.twig" with {'value': item, 'showResolved': true} %}
+      </div>
+    {% endif %}
+  {% endfor %}   
+</div>
 
-{% endif %}
+
+<style>
+.panel-default>.panel-heading { background-color:white}
+.panel-default>.panel-heading.body-content:hover { background-color:#f5f5f5; cursor:pointer;}
+</style>
+
 

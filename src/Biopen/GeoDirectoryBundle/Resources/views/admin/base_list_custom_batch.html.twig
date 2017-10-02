@@ -62,6 +62,11 @@
                             <label for="{{ field.id }}" class="width-100">{{ field.label }}</label>
                             {% if field.type == 'textarea' %}
                                 <textarea class="width-100" rows="8" id="{{ field.id }}" name="{{ field.id }}"></textarea>
+                                <script>
+                                    // Replace the <textarea id="editor1"> with a CKEditor
+                                    // instance, using default configuration.
+                                    CKEDITOR.replace( '{{ field.id }}' );
+                                </script>
                             {% elseif field.type == 'choice' %}
                                 <select class="select2-input" id="{{ field.id }}" name="{{ field.id }}[]" multiple="multiple">
                                   {% for key, value in field.choices %}
@@ -91,6 +96,7 @@
         $('.select2-input').select2({
           placeholder: 'Choississez une ou plusieurs catégories'
         });
+
         $('#submit-batch-action').click(function (e) {
             e.preventDefault();
             batchSelected = $('#batch-select option:selected');

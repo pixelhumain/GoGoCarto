@@ -2,9 +2,36 @@
     {% block sonata_form_actions %}                    
            
             {% if admin.id(object) is not null %}
-                <button type="submit" class="btn btn-success" name="submit"><i class="fa fa-save" aria-hidden="true"></i> Sauvegarder</button>
 
-                <button type="submit" class="btn btn-success" name="submit_redirect" value="submit_redirect"><i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> Sauvegarder et fermer</button>
+                {% if not object.isPending %}
+                    <div>
+                        <input type="checkbox" name="send_mail" id="send_mail" checked/>
+                        <label for="send_mail">Prévenir l'acteur de la modification</label>
+                    </div>
+                {% endif %}
+
+                {% if object.isPending %}
+                    <button type="submit" class="btn btn-success" name="submit_accept" value="submit_accept"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                     Valider</button>
+
+                    <button type="submit" class="btn btn-danger" name="submit_refuse" value="submit_refuse"><i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                     Refuser</button>
+                {% elseif not object.isVisible %}
+
+                    <button type="submit" class="btn btn-success" name="submit_restore" value="submit_restore"><i class="fa fa-save" aria-hidden="true"></i>
+                     Restaurer</button>
+
+                {% else %}
+                    <button type="submit" class="btn btn-success" name="submit"><i class="fa fa-save" aria-hidden="true"></i>
+                     Sauvegarder {% if object.havePendingReports %} et résoudre les signalements{% endif %}</button>
+
+                    {% if not object.havePendingReports %} 
+                    <button type="submit" class="btn btn-success" name="submit_redirect" value="submit_redirect"><i class="fa fa-save"></i> <i class="fa fa-list" aria-hidden="true"></i> Sauvegarder et fermer</button>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-danger" name="submit_delete" value="submit_delete"><i class="fa fa-trash"></i>
+                     Supprimer</button>
+                {% endif %}                
 
                 <a href="{{ admin.generateObjectUrl('redirectShow', object) }}" class="btn btn-warning" target="_blank" title="Voir sur le site">
                     <i class="fa fa-external-link" aria-hidden="true"></i><i class="fa fa-eye" aria-hidden="true"></i>

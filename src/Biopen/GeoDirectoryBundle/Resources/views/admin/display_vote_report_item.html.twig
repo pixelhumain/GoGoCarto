@@ -7,14 +7,25 @@
 %} 
 
 
-<div {% if not loop.last %}class="item-container"{% endif %}>
+<div {% if not loop.last and not itemContainer|default(true) %}class="item-container"{% endif %}>
 	<div style="margin-bottom:5px">
     <span class="label {{ labelClass }}">{{ itemValues[item.value] }}</span> 
-    <span style="margin:0 5px">Par : <u>{{ item.userMail ? item.userMail : 'Anonyme'}}</u></span> <span class="label label-default">{{ userRoles[item.userRole] }}</span> 
-    <div style="float:right">{{ item.updatedAt|date("d/m/Y à H:i")}}</div> </div>			
+    <div style="float:right">{{ item.createdAt|date("d/m/Y à H:i")}}</div> 
+    {% if smallWidth|default(false) %}
+      </br>
+      <span style="display:block;padding-top: 5px;">
+    {% else %}
+      <span style="margin:0 5px">
+    {% endif %}    
+      Par : <u>{{ item.userMail ? item.userMail : 'Anonyme'}}</u>
+      <span class="label label-default" style="margin-left:5px">{{ userRoles[item.userRole] }}</span> 
+    </span> 
+    
+  </div>   	
 	<div>
     <i>{{ item.comment|capitalize }}</i>	  
   </div>
+
 </div>
 
 	

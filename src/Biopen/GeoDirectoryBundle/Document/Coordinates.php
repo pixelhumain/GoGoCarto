@@ -13,14 +13,14 @@ class Coordinates
      * @Expose
      * @MongoDB\Field(type="float")
      */
-    public $lat;
+    public $lat = 0;
 
     /**
      * 
      * @Expose
      * @MongoDB\Field(type="float")
      */
-    public $lng;
+    public $lng = 0;
 
     public function __construct($lat = null, $lng = null)
     {

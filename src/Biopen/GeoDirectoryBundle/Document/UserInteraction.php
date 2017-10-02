@@ -88,6 +88,16 @@ class UserInteraction
         return $this->id;
     }
 
+    function getTimestamp()
+    {
+        return in_array($this->type, [InteractionType::Report,InteractionType::Vote]) ? $this->createdAt->getTimestamp() : $this->updatedAt->getTimestamp();
+    }
+
+    public function isAdminContribution()
+    {
+        return $this->getUserRole() == UserRoles::Admin;
+    }
+
     public function updateUserInformation($securityContext, $email = null)
     {
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))

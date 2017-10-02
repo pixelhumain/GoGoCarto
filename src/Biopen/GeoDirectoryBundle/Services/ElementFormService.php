@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-27 14:27:25
+ * @Last Modified time: 2017-10-02 10:35:55
  */
  
 
@@ -85,11 +85,7 @@ class ElementFormService
         $contribution->updateUserInformation($this->securityContext, $userEmail);
         $contribution->setType($editMode ? InteractionType::Edit : InteractionType::Add);
 
-        dump($contribution);
-
         $element->addContribution($contribution);
-
-        dump($element);
 
         if($isAllowedDirectModeration)
         {
@@ -103,7 +99,7 @@ class ElementFormService
             else
             {
                 // editing element previously non pending
-                $element->setStatus(ElementStatus::ModifiedByAdmin);
+                $element->setStatus(ElementStatus::ModifiedByAdmin);               
             }              
         }
         else

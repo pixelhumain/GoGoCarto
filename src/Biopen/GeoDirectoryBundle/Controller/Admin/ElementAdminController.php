@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 class ElementAdminController extends Controller
 {
@@ -55,7 +56,7 @@ class ElementAdminController extends Controller
         return $this->batchStatus(ElementStatus::AdminRefused, $selectedModelQuery);
     }
 
-    private function batchStatus($status, ProxyQueryInterface $selectedModelQuery)
+    private function batchStatus($status, ProxyQueryInterface $selectedModelQuery, $limit = 3000)
     {
         $this->admin->checkAccess('edit');
         $this->admin->checkAccess('delete');
@@ -65,7 +66,7 @@ class ElementAdminController extends Controller
 
         $selectedModels = $selectedModelQuery->execute();
         $nbreModelsToProceed = $selectedModels->count();        
-        $selectedModels->limit(5000);
+        $selectedModels->limit($limit);
 
         $mailService = $this->container->get('biopen.mail_service');
         $sendMails = !($request->has('dont-send-mail') && $request->get('dont-send-mail'));            
@@ -104,10 +105,10 @@ class ElementAdminController extends Controller
             '1' => 'Validés (admin)'
         ];       
         
-        $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,5000]) .' élements ont bien été ' . $statusMessage[$status]);
+        $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,$limit]) .' élements ont bien été ' . $statusMessage[$status]);
 
-        if ($nbreModelsToProceed >= 5000)
-            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement 5000 ont été traités");
+        if ($nbreModelsToProceed >= $limit)
+            $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement " . $limit . " ont été traités");
 
         return new RedirectResponse(
             $this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters()))
@@ -269,11 +270,29 @@ class ElementAdminController extends Controller
             // persist if the form was valid and if in preview mode the preview was approved
             if ($isFormValid) {
                 try {
-                    $contribution = new UserInteractionContribution();
-                    $contribution->updateUserInformation($this->container->get('security.context'));
-                    $contribution->setType(InteractionType::Edit);
-                    $contribution->setStatus(ElementStatus::ModifiedByAdmin);
-                    $object->addContribution($contribution);
+                    $contributionType = 'edit';
+                    if ($object->isPending())
+                    {
+                       if ($request->get('submit_accept')) { $object->setStatus(ElementStatus::AdminValidate);$contributionType = 'validation'; }
+                       if ($request->get('submit_refuse')) { $object->setStatus(ElementStatus::AdminRefused); $contributionType = 'refusal'; }
+                    }                    
+                    else
+                    {
+                        $contribution = new UserInteractionContribution();
+                        $contribution->updateUserInformation($this->get('security.context'));
+                        $contribution->setType(InteractionType::Edit);
+                        $contribution->setStatus(ElementStatus::ModifiedByAdmin);
+                        $object->addContribution($contribution);
+                    }                         
+                    
+                    if ($request->get('submit_delete'))  { $object->setStatus(ElementStatus::Deleted); $contributionType = 'delete'; }
+                    if ($request->get('submit_restore')) { $object->setStatus(ElementStatus::AdminValidate); $contributionType = 'add'; }
+
+                    if ($request->get('send_mail')) 
+                    {
+                        $mailService = $this->container->get('biopen.mail_service');
+                        $mailService->sendAutomatedMail($contributionType, $object);
+                    }                        
 
                     $object = $this->admin->update($object);
 
@@ -330,4 +349,5 @@ class ElementAdminController extends Controller
             'object' => $object,
             'elements' => $this->admin->getShow(),
         ), null);
-    }}
+    }
+}

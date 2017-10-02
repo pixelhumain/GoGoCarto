@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-27 17:09:28
+ * @Last Modified time: 2017-10-02 16:28:37
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -21,6 +21,7 @@ use Knp\Menu\ItemInterface;
 class ElementAdmin extends AbstractAdmin
 {
 	private $statusChoices = [
+    '' => 'Inconnu',
 		'-4'=>'Supprimé', 
 		'-3'=>'Refusé (votes) ', 
 		'-2'=>'Réfusé (admin)', 
@@ -76,10 +77,7 @@ class ElementAdmin extends AbstractAdmin
 	{
 	  $formMapper
 	  ->with('Informations générales', array())
-		  	->add('name', 'text')
-		  	->add('status', 'choice', [
-	               'choices'=> $this->statusChoices,
-	               ])
+		  	->add('name', 'text')		  	
 			->add('description', 'textarea')
          ->add('commitment', 'textarea', array('required' => false)) 
 			->add('tel', 'text', array('required' => false)) 
@@ -205,14 +203,21 @@ class ElementAdmin extends AbstractAdmin
 	 }
 
 	protected function configureShowFields(ShowMapper $show)
-	{
-    // TODO show the En attente panel only for pendings elements
+	{    
     if ($this->subject->isPending())
     {
       $show       
        ->with('En attente', array('class' => 'col-md-6 col-sm-12'))
          ->add('currContribution', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_one_contribution.html.twig'))
        ->end();
+    }
+    else
+    {
+      $show->with('Status', array('class' => 'col-md-6 col-sm-12'))
+         ->add('status', 'choice', [
+                 'choices'=> $this->statusChoices,
+                 ])
+       ->end(); 
     }
 
     if ($this->subject->getModerationState() != 0)
@@ -224,7 +229,7 @@ class ElementAdmin extends AbstractAdmin
                'choices'=> $this->moderationChoices,
                'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
                ])       
-        ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_reports.html.twig', 'label' => 'Signalements',))
+        ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_pending_reports.html.twig', 'label' => 'Signalements'))
        ->end();
     }    
     
@@ -279,7 +284,7 @@ class ElementAdmin extends AbstractAdmin
                'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_moderation.html.twig'
                ])
-         ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig'))
+         ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_votes.html.twig', 'label' => 'Votes'))
          
 	      ->add('_action', 'actions', array(
 	          'actions' => array(

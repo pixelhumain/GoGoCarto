@@ -5,7 +5,7 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
-abstract class ReporteValue
+abstract class ReportValue
 {
     const DontExist = 0;
     const WrongInformations = 1;
@@ -27,7 +27,12 @@ class UserInteractionReport extends UserInteraction
     /**
     * @MongoDB\Field(type="string")
     */
-    private $comment; 
+    private $comment;
+
+    /**
+    * @MongoDB\Field(type="bool")
+    */
+    private $isResolved;
    
 
     /**
@@ -72,5 +77,27 @@ class UserInteractionReport extends UserInteraction
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * Set isResolved
+     *
+     * @param bool $isResolved
+     * @return $this
+     */
+    public function setIsResolved($isResolved)
+    {
+        $this->isResolved = $isResolved;
+        return $this;
+    }
+
+    /**
+     * Get isResolved
+     *
+     * @return bool $isResolved
+     */
+    public function getIsResolved()
+    {
+        return $this->isResolved;
     }
 }
