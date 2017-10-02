@@ -12,10 +12,16 @@ i.material-icons {
     &.openhours-icons { line-height: 3.2rem; }
 }
 
-.input-field.error .prefix.active
+.input-field.error .prefix
 {
   color: $error-color !important;
 }
+.input-field.error textarea:not(:focus)
+{
+  border-color: $error-color;
+  border-width: 2px;
+}
+
 
 .input-field label
 {
