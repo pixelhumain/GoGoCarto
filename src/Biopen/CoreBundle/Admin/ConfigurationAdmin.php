@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-22 11:46:14
+ * @Last Modified time: 2017-10-03 20:48:28
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -87,6 +87,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('minVoteToChangeStatus', null, ['required'=>false, 'label' => "Nombre votes pour valider/refuser automatiquement"])
                     ->add('maxOppositeVoteTolerated', null, ['required'=>false, 'label' => "Nombres maximum de vos contradictoires tolérés"])
                     ->add('minDayBetweenContributionAndCollaborativeValidation', null, ['required'=>false, 'label' => "Nombre de jours minimum avant une validation/refus collaboratif"])
+                    ->add('maxDaysLeavingAnElementPending', null, ['required'=>false, 'label' => "Nombre de jours au bout desquels un élément toujours en attente apparaîtra à modérer"])
                 ->end()
             ->end()
             ->tab('Mails automatiques pour les ' . $config->getElementDisplayNamePlural())
