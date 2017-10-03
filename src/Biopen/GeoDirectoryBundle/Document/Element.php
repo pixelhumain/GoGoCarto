@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-02 16:00:38
+ * @Last Modified time: 2017-10-03 21:52:13
  */
  
 
@@ -291,7 +291,6 @@ class Element
     public function getUnresolvedReports()
     {
        $result = array_filter($this->getReports()->toArray(), function($e) { return !$e->getIsResolved(); });
-       dump($result);
        return $result;
     }
 
