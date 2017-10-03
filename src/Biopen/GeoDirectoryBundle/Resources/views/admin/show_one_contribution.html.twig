@@ -47,7 +47,8 @@
 	<div class="panel-heading {{ value.votes|length > 0 ? 'body-content' : ''}}" role="tab" id="heading{{value.id}}" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{value.id}}" aria-expanded="true" aria-controls="collapse{{value.id}}">
 		{% if value.isAdminContribution %}
 			<div class="small-margin"> 
-					<b>{{ elementStatus[value.status] | upper }}</b> 
+					{% set title = (value.type == 4) ? contributionType[value.type] : elementStatus[value.status] %}
+					<b>{{ title | upper }}</b> 
 					par <u>{{ value.getUserDisplayName }}</u> 
 					<span class="label label-default">{{ userRoles[value.userRole] }}</span> 
 					<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>
