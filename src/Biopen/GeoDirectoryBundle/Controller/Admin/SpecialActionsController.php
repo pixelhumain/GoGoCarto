@@ -112,8 +112,8 @@ class SpecialActionsController extends Controller
         $contribution->setType(InteractionType::Import);
 
         $element->resetContributions();
-        $element->addContribution($contribution);
         $element->resetReports();
+        $element->addContribution($contribution);        
         $element->setStatus(ElementStatus::AdminValidate, false);        
     }
 
