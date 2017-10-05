@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-10-03 20:48:28
+ * @Last Modified time: 2017-10-05 08:35:26
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -90,13 +90,14 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('maxDaysLeavingAnElementPending', null, ['required'=>false, 'label' => "Nombre de jours au bout desquels un élément toujours en attente apparaîtra à modérer"])
                 ->end()
             ->end()
-            ->tab('Mails automatiques pour les ' . $config->getElementDisplayNamePlural())
+            ->tab('Mails auto pour les ' . $config->getElementDisplayNamePlural())
                 ->with("Informations concernant les mails automatiques", array('box_class' => 'box box-danger', 
-                    'description' => 'Ces mails sont envoyés automatiquement aux ' . $config->getElementDisplayNamePlural() . " lorsque leur fiche est ajoutée, modifiée etc....</br>
+                    'description' => 'Ces mails sont envoyés automatiquement aux ' . $config->getElementDisplayNamePlural() . " lorsque leur fiche est ajoutée, modifiée ou supprimée.</br>
                     Il est possible d'inclure les variables suivantes dans les messages (en conservant les '{{}}' ) : </br>
-                    <li>{{ name }} le nom de " . $config->getElementDisplayNameDefinite() . "</li>
+                    <li>{{ element }} le nom de " . $config->getElementDisplayNameDefinite() . "</li>
                     <li>{{ showUrl }} l'adresse qui renvoie à la visualisation de la fiche</li>
                     <li>{{ editUrl }} l'adresse qui renvoie à la modification de la fiche</li>
+                    <li>{{ homeUrl }} l'adresse de la page d'accueil du site</li>
                     <li>{{ customMessage }} le message personnel qui a été rédigé par les admins (uniquement lors de la suppression)</li></br>
                     Vous pouvez également utiliser ces variables dans les contenus spéciaux de l'éditeur de texte. Par example dans le champs URL de la popup 
                     qui s'ouvre lorsqu'on clique sur d'ajouter un lien.</br>
@@ -107,10 +108,26 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('editMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with("Lors d'une suppression" . $this->getEmailTestLink($router, 'delete'), $mailStyle)
                     ->add('deleteMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+            ->end()
+            ->tab('Mails auto pour les contributeurs')
+                ->with("Informations concernant les mails automatiques", array('box_class' => 'box box-danger', 
+                    'description' => "Ces mails sont envoyés automatiquement aux contributeurs lorsque leurs contributions sont acceptées, refusées etc...</br>
+                    Il est possible d'inclure les variables suivantes dans les messages (en conservant les '{{}}' ) : </br>
+                    <li>{{ element }} le nom de " . $config->getElementDisplayNameDefinite() . "</li>
+                    <li>{{ user }} le nom ou l'adresse mail du contributeur</li>
+                    <li>{{ showUrl }} l'adresse qui renvoie à la visualisation de la fiche</li>
+                    <li>{{ editUrl }} l'adresse qui renvoie à la modification de la fiche</li>
+                    <li>{{ homeUrl }} l'adresse de la page d'accueil du site</li>
+                    <li>{{ customMessage }} le message personnel qui a été rédigé par les admins (uniquement lors d'un refus')</li></br>
+                    Vous pouvez également utiliser ces variables dans les contenus spéciaux de l'éditeur de texte. Par example dans le champs URL de la popup 
+                    qui s'ouvre lorsqu'on clique sur d'ajouter un lien.</br>
+                    <b>Une fois le mail sauvegardé</b>, vous pouvez cliquer sur les boutons <b>TESTER</b> pour visualiser le rendu"))->end()                
                 ->with("Lors d'une validation" . $this->getEmailTestLink($router, 'validation'), $mailStyle)
                     ->add('validationMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with("Lors d'un refus" . $this->getEmailTestLink($router, 'refusal'), $mailStyle)
                     ->add('refusalMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with("Lors d'un signalement pris en compte" . $this->getEmailTestLink($router, 'refusal'), $mailStyle)
+                    ->add('reportResolvedMail','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
             ->tab('Carte')  
                 ->with('Map', array('class' => 'col-md-6'))

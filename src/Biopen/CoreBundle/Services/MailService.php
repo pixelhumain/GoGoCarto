@@ -2,6 +2,7 @@
 namespace Biopen\CoreBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  
 class MailService 
@@ -52,7 +53,7 @@ class MailService
         return $draftedContent;
     }
 
-    public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier')
+    public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier', $option = null)
     {
         if (!$element || !$element->getMail()) 
             return [ 'success' => false, 'message' => 'Element don\'t have a mail' ];
@@ -62,12 +63,24 @@ class MailService
         if (!$mailConfig->getActive())
             return [ 'success' => false, 'message' => $mailType . ' automated mail disabled' ];
         
-        $draftResponse = $this->draftEmail($mailType,$element,$customMessage);
+        $draftResponse = $this->draftEmail($mailType,$element,$customMessage, $option);
         
         if ($draftResponse['success'])
         {
-            $this->sendMail($element->getMail(), $draftResponse['subject'], $draftResponse['content']);
-            return [ 'success' => true, 'message' => 'The message has been send' ];
+            if (in_array($mailType, ['validation', 'refusal'])) 
+                $mailTo = $element->getCurrContribution() ? $element->getCurrContribution()->getUserMail() : null;
+            else if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
+                $mailTo = $option->getUserMail();
+            else 
+                $mailTo =  $element->getMail();
+
+            if ($mailTo)
+            {
+                $this->sendMail($mailTo, $draftResponse['subject'], $draftResponse['content']);
+                return [ 'success' => true, 'message' => 'The message has been send' ];
+            }
+            else
+                return [ 'success' => false, 'message' => 'No email address to deliver to' ];            
         }
         else 
         {
@@ -75,7 +88,7 @@ class MailService
         }        
     }
 
-    public function draftEmail($mailType, $element, $customMessage)
+    public function draftEmail($mailType, $element, $customMessage, $option)
     {
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
@@ -84,8 +97,8 @@ class MailService
         if (!$mailConfig->getSubject() || !$mailConfig->getContent()) 
             return [ 'success' => false, 'message' => $mailType . ' automated mail missing subject or content' ];
 
-        $subject = $this->replaceMailsVariables($mailConfig->getSubject(), $element, $customMessage);
-        $content = $this->replaceMailsVariables($mailConfig->getContent(), $element, $customMessage);
+        $subject = $this->replaceMailsVariables($mailConfig->getSubject(), $element, $customMessage, $mailType, $option);
+        $content = $this->replaceMailsVariables($mailConfig->getContent(), $element, $customMessage, $mailType, $option);
 
         return [ 'success' => true, 'subject' => $subject, 'content' => $content];
     }
@@ -114,12 +127,13 @@ class MailService
             case 'delete':         $mailConfig = $this->config->getDeleteMail();break;
             case 'validation':     $mailConfig = $this->config->getValidationMail();break;
             case 'refusal':        $mailConfig = $this->config->getRefusalMail();break;
+            case 'report':         $mailConfig = $this->config->getReportResolvedMail();break;
         }
 
         return $mailConfig;
     }
 
-    private function replaceMailsVariables($string, $element = null, $customMessage = '')
+    private function replaceMailsVariables($string, $element = null, $customMessage, $mailType, $option)
     {
         if ($element !== null)
         {
@@ -127,8 +141,15 @@ class MailService
             $showElementUrl = str_replace('%23', '#', $showElementUrl);
             $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);
             $elementName = $element->getName();
+            $contribution = $element->getCurrContribution(); 
+            
+            if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
+                $user = $option->getUserDisplayName();
+            else
+                $user = $contribution ? $contribution->getUserDisplayName() : 'Inconnu';
 
-            $string = preg_replace('/({{((?:\s)+)?name((?:\s)+)?}})/i', $elementName, $string);
+            $string = preg_replace('/({{((?:\s)+)?element((?:\s)+)?}})/i', $elementName, $string);
+            $string = preg_replace('/({{((?:\s)+)?user((?:\s)+)?}})/i',    $user, $string);
             $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
             $string = preg_replace('/({{((?:\s)+)?showUrl((?:\s)+)?}})/i', $showElementUrl, $string);
             $string = preg_replace('/({{((?:\s)+)?editUrl((?:\s)+)?}})/i', $editElementUrl, $string);
@@ -137,6 +158,8 @@ class MailService
             $string = str_replace('http://', 'https://', $string);
         }
 
+        $homeUrl = $this->router->generate('biopen_homepage',UrlGeneratorInterface::ABSOLUTE_URL);
+        $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
 
         return $string;

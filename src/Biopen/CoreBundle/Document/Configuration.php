@@ -152,6 +152,8 @@ class Configuration
     // ---------- MAILS -----------
     // ----------------------------
 
+    // for elements
+
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
     protected $addMail;
 
@@ -161,11 +163,17 @@ class Configuration
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
     protected $deleteMail;
 
+    // for contributors
+
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
     protected $validationMail;
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
     protected $refusalMail;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\AutomatedMailConfiguration") */
+    protected $reportResolvedMail;
+
 
 
     // ----------------------------
@@ -1807,5 +1815,27 @@ class Configuration
     public function getMaxDaysLeavingAnElementPending()
     {
         return $this->maxDaysLeavingAnElementPending;
+    }
+
+    /**
+     * Set reportResolvedMail
+     *
+     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $reportResolvedMail
+     * @return $this
+     */
+    public function setReportResolvedMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $reportResolvedMail)
+    {
+        $this->reportResolvedMail = $reportResolvedMail;
+        return $this;
+    }
+
+    /**
+     * Get reportResolvedMail
+     *
+     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $reportResolvedMail
+     */
+    public function getReportResolvedMail()
+    {
+        return $this->reportResolvedMail;
     }
 }
