@@ -6,7 +6,7 @@ services:
             - { name: form.type }
     biopen.element_vote_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementVoteService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.config_service" ]
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.config_service", "@biopen.mail_service" ]
 
     biopen.element_form_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementFormService
