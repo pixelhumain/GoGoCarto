@@ -2,13 +2,21 @@
     {% block sonata_form_actions %}                    
            
             {% if admin.id(object) is not null %}
-
-                {% if not object.isPending %}
-                    <div>
-                        <input type="checkbox" name="send_mail" id="send_mail" checked/>
-                        <label for="send_mail">Prévenir l'acteur de la modification</label>
-                    </div>
-                {% endif %}
+                
+                <div style="position:relative;margin-top: -10px;">
+                    {% if not object.isPending %}
+                        <span style="width:30%; margin-right: 15px;">
+                            <input type="checkbox" name="send_mail" id="send_mail" checked/>
+                            <label for="send_mail">Prévenir l'acteur de la modification</label>
+                        </span>
+                    {% endif %}
+                    {% set placeholder = object.isPending() ? "Message particulier si refus" : 
+                                         object.havePendingReports ? "Message à envoyer aux contributeurs qui ont emis le signalement" : 
+                                         "Détail de la modification, raison de la suppression..." %}
+                    <input type="text" name="custom_message" id="custom_message" class="form-control" 
+                           style="display:inline-block;width:55%"
+                           placeholder="{{placeholder}}"/>                       
+                </div>                
 
                 {% if object.isPending %}
                     <button type="submit" class="btn btn-success" name="submit_accept" value="submit_accept"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
