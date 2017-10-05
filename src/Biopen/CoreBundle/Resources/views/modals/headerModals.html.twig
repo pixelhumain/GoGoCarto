@@ -6,3 +6,6 @@
             						with {'id' : about.id, 'title': about.name, 'content': about.content } %}
 
 {% endfor %}
+
+{% include '@BiopenCoreBundle/modals/pageModal.html.twig'  
+                        with {'id' : 'collaborative-explanation', 'title': 'Modération collaborative', 'content': config.collaborativeModerationExplanations | raw } %}

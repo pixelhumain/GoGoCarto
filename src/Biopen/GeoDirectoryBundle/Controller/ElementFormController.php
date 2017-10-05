@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-04 17:40:01
+ * @Last Modified time: 2017-10-05 16:20:32
  */
  
 
@@ -179,11 +179,16 @@ class ElementFormController extends Controller
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
 			else $noticeText .=  $configService->getConfig()->getElementDisplayNameDefinite() . " a bien été ajouté";
 
+			if ($element->isPending())
+			{
+				$noticeText .= "</br><a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">Cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
+			}
+
 			$submitOption = $request->request->get('submit-option');
 			$isAllowedPending = $configService->isUserAllowed('pending');
 
 			$showResultLink = $submitOption != 'backtomap' && ($isAllowedDirectModeration || $isAllowedPending);
-			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat</a>';
+			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat sur la carte</a>';
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);
 

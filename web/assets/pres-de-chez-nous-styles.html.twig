@@ -205,11 +205,18 @@
     color: white;
   }
   
-  .flash-message.success a
+  .flash-message.success a:not(.validation-process)
   {
     color: #354254;
     text-transform: uppercase;
     font-size: .9rem;
+  }
+
+  .flash-message.success a.validation-process
+  {    
+    text-decoration: none;
+    cursor: help;
+    color: {{ config.secondaryColor }};
   }
 
   .flash-message a, #label-agree a { color: {{ config.secondaryColor }}; text-decoration: underline; }
