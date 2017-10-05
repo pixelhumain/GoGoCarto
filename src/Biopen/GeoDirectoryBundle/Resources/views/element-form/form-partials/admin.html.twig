@@ -3,8 +3,8 @@
 	<h2 id="admin-title">Admin</h2>
 	
 	<div class="col s12">
-		<input type="checkbox" name="dont-send-mail" id="dont-send-mail"/>
-		<label for="dont-send-mail">Ne pas prévenir {{ config.elementDisplayNameDefinite }} {{ editMode ? 'des modifications' : "de l'ajout" }}</label> 	
+		<input type="checkbox" name="send_mail" id="send_mail" checked/>
+		<label for="send_mail">Prévenir {{ config.elementDisplayNameDefinite }} {{ editMode ? 'des modifications' : "de l'ajout" }}</label> 	
 	</div>
 
 	{# if element is PendingModification #}
