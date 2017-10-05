@@ -295,6 +295,22 @@ section#home-main-container
     color: dimgrey;
 	}
 
+  #search-geolocalize
+  {
+    font-size: 1.8rem;
+    line-height: 3.5rem;
+    position: absolute;
+    right: 13.5rem;
+    height:3rem;
+    &:hover { cursor: pointer }
+
+    @media #{$small-only} { display: none}
+  }
+
+  #btn-geolocation {
+    @media #{$medium-and-up} { display: none}
+  }
+
 
 	.ui-effects-wrapper 
 	{    
