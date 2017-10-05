@@ -61,6 +61,24 @@ class UserInteraction
      */
     protected $element;
 
+    /**
+     * @var string
+     *
+     * User who resolved the contribution (can also be a collaborative resolved)
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $resolvedBy;
+
+    /**
+     * @var string
+     *
+     * Message filled by the admin when resolving the contribution (explaination about delete, edit etc...)
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $resolvedMessage;
+
 
     /**
      * @var date $createdAt
@@ -116,6 +134,26 @@ class UserInteraction
             else
             {
                 $this->setUserRole(UserRoles::Anonymous);
+            }
+        }
+    }
+
+    public function updateResolvedBy($securityContext, $email = null)
+    {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $user = $securityContext->getToken()->getUser();
+            $this->setResolvedBy($user->getEmail());
+        }
+        else 
+        {
+            if ($email)
+            {
+                $this->setResolvedBy($email);
+            }
+            else
+            {
+                $this->setResolvedBy('Anonymous');
             }
         }
     }
@@ -263,5 +301,49 @@ class UserInteraction
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set resolvedBy
+     *
+     * @param string $resolvedBy
+     * @return $this
+     */
+    public function setResolvedBy($resolvedBy)
+    {
+        $this->resolvedBy = $resolvedBy;
+        return $this;
+    }
+
+    /**
+     * Get resolvedBy
+     *
+     * @return string $resolvedBy
+     */
+    public function getResolvedBy()
+    {
+        return $this->resolvedBy;
+    }
+
+    /**
+     * Set resolvedMessage
+     *
+     * @param string $resolvedMessage
+     * @return $this
+     */
+    public function setResolvedMessage($resolvedMessage)
+    {
+        $this->resolvedMessage = $resolvedMessage;
+        return $this;
+    }
+
+    /**
+     * Get resolvedMessage
+     *
+     * @return string $resolvedMessage
+     */
+    public function getResolvedMessage()
+    {
+        return $this->resolvedMessage;
     }
 }
