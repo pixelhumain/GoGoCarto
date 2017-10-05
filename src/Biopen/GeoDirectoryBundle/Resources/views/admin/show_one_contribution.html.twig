@@ -51,25 +51,29 @@
 					<b>{{ title | upper }}</b> 
 					par <u>{{ value.getUserDisplayName }}</u> 
 					<span class="label label-default">{{ userRoles[value.userRole] }}</span> 
+					<span><i>{{ value.resolvedMessage}}</i><span>
 					<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>
 			</div>
 		{% else %}		
 			<div class="small-margin"> 
 					<b>{{ contributionType[value.type] | upper }}</b> 
 					<span class="label {{ value.status > 0 ? 'label-success' : value.status == 0 ? 'label-warning' : 'label-danger' }}">{{ elementStatus[value.status] }}</span>
-					Proposé par <u>{{ value.getUserDisplayName }}</u> 
-					<span class="label label-default">{{ userRoles[value.userRole] }}</span> 
+					{% if value.resolvedMessage %}<span style="padding:0 10px"><i> {{ value.resolvedMessage}} </i></span>{% endif %}
+					{% if value.resolvedBy %}<span>(<u>{{value.resolvedBy }}</u>)</span>{% endif %}								
 					
-					{% if showResolved|default(false) %}<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>{% endif %}
+					{% if showResolved|default(false) %}
+						<div style="float:right">{{ value.updatedAt|date("d/m/Y à H:i")}}</div>
+					{% endif %}
 			</div>
 
 			<div class="small-margin"> 
-				Proposé le {{ value.createdAt|date("d/m/Y à H:i")}}
+				Proposé par <u>{{ value.getUserDisplayName }}</u> 
+				<span class="label label-default">{{ userRoles[value.userRole] }}</span> 		
+				le {{ value.createdAt|date("d/m/Y à H:i")}}
 			</div>
 		{% endif %}
 	</div>
 
-  
 	  {% if value.votes|length > 0 %}
 	    <div id="collapse{{value.id}}" class="panel-collapse collapse {{ showResolved|default(false) ? '' : 'in'}}" role="tabpanel" aria-labelledby="heading{{value.id}}">
     		<div class="panel-body" {% if not showResolved|default(false) %}style="border-top: 1px solid #c4c9cc;padding-top: 5px;"{% endif %}>

@@ -20,7 +20,7 @@
       Par : <u>{{ item.userMail ? item.userMail : 'Anonyme'}}</u>
       <span class="label label-default" style="margin-left:5px">{{ userRoles[item.userRole] }}</span> 
     </span> 
-    
+    {{ item.resolvedMessage }}
   </div>   	
 	<div>
     <i>{{ item.comment|capitalize }}</i>	  
