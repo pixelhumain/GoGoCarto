@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-13 16:19:05
+ * @Last Modified time: 2017-10-04 17:40:01
  */
  
 
@@ -152,6 +152,7 @@ class ElementFormController extends Controller
 					$session->set('elementWaitingForDuplicateCheck', $element);
 					$session->set('duplicatesElements', $duplicates);	
 					$session->set('recopyInfo', $request->request->get('recopyInfo'));
+					$session->set('sendMail', $request->request->get('send_mail'));
 					// redirect to check duplicate
 					return $this->redirect($this->generateUrl('biopen_element_check_duplicate'));			
 				}
@@ -160,10 +161,12 @@ class ElementFormController extends Controller
 					$em->persist($element);
 					$em->flush();
 				}			
-			}			
+			}
+			
+			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
 
 			// Unless admin ask for not sending mails
-			if (!($isAllowedDirectModeration && $request->request->get('dont-send-mail')))
+			if ($isAllowedDirectModeration && $sendMail)
 			{
 				$mailService = $this->container->get('biopen.mail_service');
             $mailService->sendAutomatedMail($editMode ? 'edit' : 'add', $element);
@@ -201,6 +204,7 @@ class ElementFormController extends Controller
 			$session->remove('elementWaitingForDuplicateCheck');
 			$session->remove('duplicatesElements');
 			$session->remove('recopyInfo');
+			$session->remove('send_mail');
 
 			$addOrEditComplete = true;			
 		}

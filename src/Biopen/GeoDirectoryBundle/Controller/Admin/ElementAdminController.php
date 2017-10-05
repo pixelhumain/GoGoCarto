@@ -270,29 +270,53 @@ class ElementAdminController extends Controller
             // persist if the form was valid and if in preview mode the preview was approved
             if ($isFormValid) {
                 try {
-                    $contributionType = 'edit';
+                    $mailType = null;
+                    $message = $request->get('custom_message') ? $request->get('custom_message') : '';
+                    $mailService = $this->container->get('biopen.mail_service');
+
                     if ($object->isPending())
                     {
-                       if ($request->get('submit_accept')) { $object->setStatus(ElementStatus::AdminValidate);$contributionType = 'validation'; }
-                       if ($request->get('submit_refuse')) { $object->setStatus(ElementStatus::AdminRefused); $contributionType = 'refusal'; }
+                        $type = null;
+
+                        $object->getCurrContribution()->setResolvedMessage($message);
+                        $object->getCurrContribution()->updateResolvedBy($this->get('security.context'));
+                        if ($request->get('submit_accept')) 
+                        { 
+                            $object->setStatus(ElementStatus::AdminValidate); 
+                            $type = 'validation'; 
+                            $contribType = ($object->getCurrContribution()->getType() == InteractionType::Add) ? 'add' : 'edit';
+                            $mailService->sendAutomatedMail($contribType, $object, $message);
+                        }
+                        if ($request->get('submit_refuse')) { $object->setStatus(ElementStatus::AdminRefused); $type = 'refusal';} 
+
+                        if ($type) $mailService->sendAutomatedMail($type, $object, $object->getCurrContribution()->getResolvedMessage());                      
                     }                    
                     else
                     {
+                        foreach ($object->getUnresolvedReports() as $key => $report) 
+                        {
+                            $report->setResolvedMessage($message);
+                            $report->updateResolvedBy($this->get('security.context'));
+                            $mailService->sendAutomatedMail('report', $object, $message, $report);
+                        }
+
                         $contribution = new UserInteractionContribution();
                         $contribution->updateUserInformation($this->get('security.context'));
+                        $contribution->setResolvedMessage($message);
+                        $contribution->updateResolvedBy($this->get('security.context'));
                         $contribution->setType(InteractionType::Edit);
                         $contribution->setStatus(ElementStatus::ModifiedByAdmin);
                         $object->addContribution($contribution);
-                    }                         
-                    
-                    if ($request->get('submit_delete'))  { $object->setStatus(ElementStatus::Deleted); $contributionType = 'delete'; }
-                    if ($request->get('submit_restore')) { $object->setStatus(ElementStatus::AdminValidate); $contributionType = 'add'; }
 
-                    if ($request->get('send_mail')) 
-                    {
-                        $mailService = $this->container->get('biopen.mail_service');
-                        $mailService->sendAutomatedMail($contributionType, $object);
-                    }                        
+                        if ($request->get('submit_delete'))  { $object->setStatus(ElementStatus::Deleted); $mailType = 'delete'; }
+                        else if ($request->get('submit_restore')) { $object->setStatus(ElementStatus::AdminValidate); $mailType = 'add'; }
+                        else { $mailType = 'edit'; }
+
+                        if ($request->get('send_mail') && $mailType) 
+                        {                            
+                            $mailService->sendAutomatedMail($mailType, $object, $message);
+                        }    
+                    }                    
 
                     $object = $this->admin->update($object);
 
