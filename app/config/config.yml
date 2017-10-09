@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: version.yml }
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: services_admin.yml }
@@ -42,6 +43,8 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
+    globals:
+        version: '%app.version%'
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": BiopenGeoDirectory
