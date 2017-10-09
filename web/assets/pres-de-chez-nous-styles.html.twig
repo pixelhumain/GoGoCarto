@@ -38,7 +38,7 @@
   .gogocarto-container #search-bar-icon {
     position: absolute;
     font-size: 1.2rem;
-    left: initial;
+    left: auto;
     color: #fff;    
     height: 2.5rem;
     transition: padding .3s;
@@ -49,6 +49,9 @@
     border-radius: 5px 0px 0 5px;
     line-height: 2.8rem;
     background-color: {{ config.neutralDarkColor }};
+  }
+  .gogocarto-container #search-geolocalize {
+    line-height: 2.8rem;
   }
   .gogocarto-container .directory-menu-header.expanded #search-bar-icon { padding: 0 1.1rem; }
   .gogocarto-container .directory-menu-header.expanded #search-bar { padding-left: 4.2rem; }
@@ -328,7 +331,7 @@
 
   #home-main-wrapper #search-bar-icon {
     right: 0;
-    left: initial !important;
+    left: auto !important;
     padding: 0 1.8rem 0 2.8rem;
     background-color: {{ config.secondaryColor }};
     color: white !important;

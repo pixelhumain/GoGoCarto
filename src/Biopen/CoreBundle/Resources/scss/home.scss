@@ -300,8 +300,8 @@ section#home-main-container
     font-size: 1.8rem;
     line-height: 3.5rem;
     position: absolute;
-    right: 13.5rem;
-    height:3rem;
+    right: 14.5rem;
+    height: 3rem;
     &:hover { cursor: pointer }
 
     @media #{$small-only} { display: none}
@@ -436,13 +436,6 @@ section#home-main-container
   		margin-bottom: .5rem;
   	}
 
-  	#search-bar { height: 2.5rem }
-
-  	#search-bar-icon {
-  		height: 2.5rem;
-  		line-height: 3rem;
-  	}
-
   	.btn {
   		line-height: 2rem;
   	}
@@ -462,8 +455,6 @@ section#home-main-container
   	}
 
   	input.select-dropdown { margin-bottom: 0;}
-
-
   }
 
   @media #{$small-only}
