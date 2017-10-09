@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-13 14:54:02
+ * @Last Modified time: 2017-10-09 17:48:16
  */
  
 
@@ -70,8 +70,9 @@ class APIController extends Controller
             {
                 $elementJson = $value['fullJson']; 
                 if (key_exists('score', $value)) {
-                  $elementJson = rtrim($elementJson,"}");
-                  $elementJson .= ', "searchScore" : ' . $value['score'] . '}';
+                  // remove first '{'
+                  $elementJson = substr($elementJson, 1);
+                  $elementJson = '{"searchScore" : ' . $value['score'] . ',' . $elementJson;
                 }
             } 
             else 
