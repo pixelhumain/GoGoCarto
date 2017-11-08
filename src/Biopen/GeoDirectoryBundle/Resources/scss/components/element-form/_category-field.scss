@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-27 11:57:15
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-07-28 17:35:35
+* @Last Modified time: 2017-11-08 15:41:54
 */
 .categories-info
 {
@@ -89,7 +89,7 @@
 		    text-transform: uppercase;
 		    font-size: .8rem;
 		    font-weight: bold;
-	      border: none;		    
+	      border: none !important;		    
 		    background-color: transparent;
 		    color: white;
 	  	}

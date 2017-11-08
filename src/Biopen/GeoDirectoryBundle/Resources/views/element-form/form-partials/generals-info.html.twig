@@ -1,17 +1,13 @@
 <!-- SECTION INFO FOURNISSEUR -->
 <section>
 
-	{#{% if not editMode %}
-		<h2 class="no-margin-bottom">Informations</h2>
-	{% else %}
-		<h2 class="no-margin-bottom">Modification des données</h2>
-	{% endif %}#}
 	<h2 class="no-margin-bottom">Informations</h2>
   <!-- Input name element -->
   <div class="input-field col s12">
   		<i class="material-icons gogo-icon-account-circle prefix"></i>	
   		{{ form_widget(form.name, {'id': 'input-name', 
-  							      'attr': {'class': 'validate required','placeholder':'Nom', 'length':'200'}}) }}
+  							      'attr': {'class': 'validate required', 'length':'200'}}) }}
+      <label for="input-name" class="gogo-form-label">Nom</label>
 	</div>
 
 		
@@ -21,27 +17,26 @@
 		<i class="material-icons gogo-icon-description prefix"></i>
 	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'required validate materialize-textarea',
-  											   'placeholder':"Description générale",
-  											   'length':'600' }}) }}
+  											   'length':'350' }}) }}
+    <label for="input-description" class="gogo-form-label">Description générale</label>
 	</div>
 
-  <!-- input commitmen -->
-  {#<div class="input-field col s12">
+  <!-- input commitment -->
+  <div class="input-field col s12">
     <i class="material-icons gogo-icon-description prefix"></i>
       {{ form_widget(form.commitment, {'id': 'input-commitment',
                             'attr': {'class': 'validate materialize-textarea',
-                           'placeholder':"Engagement citoyen",
-                           'length':'300'  }}) }}
-  </div>#}
+                           'length':'600'  }}) }}
+      <label for="input-commitment" class="gogo-form-label">Points de la charte valorisés par l'acteur et précisions</label>
+  </div>
 
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
 	<i class="material-icons gogo-icon-marker-symbol prefix" id="input-address-icon-prefix"></i>	
   	{{ form_widget(form.address, {'id': 'input-address',
-  								  'attr': {'class': 'validate required',
-  								           'placeholder':'Adresse complète' 
-  								  		   }}) }}
+  								  'attr': {'class': 'validate required'  }}) }}
+    <label for="input-address" class="gogo-form-label">Adresse complète</label>
   	<div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>
 	
 	</div>	

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-04 09:12:04
+ * @Last Modified time: 2017-11-08 11:04:18
  */
  
 
@@ -58,7 +58,7 @@ class ElementType extends AbstractType
           ->add('name', TextType::class, array('required' => false))
           ->add('address', TextType::class, array('required' => false))
           ->add('description', TextareaType::class, array('required' => false))
-          //->add('commitment', TextareaType::class, array('required' => false))
+          ->add('commitment', TextareaType::class, array('required' => false))
           ->add('tel', TextType::class, array('required' => false)) 
           ->add('webSite', TextType::class, array('required' => false)) 
           ->add('mail', EmailType::class, array('required' => false))
