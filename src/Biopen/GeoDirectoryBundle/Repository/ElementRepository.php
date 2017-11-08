@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-13 16:17:47
+ * @Last Modified time: 2017-11-08 16:55:23
  */
  
 
@@ -96,7 +96,7 @@ class ElementRepository extends DocumentRepository
 
     $expr = $qb->expr()->operator('$text', array('$search' => (string) $text));
     
-    $qb  ->limit(50)
+    $qb  //->limit(50)
                 ->equals($expr->getQuery())        
                 ->sortMeta('score', 'textScore');
     
