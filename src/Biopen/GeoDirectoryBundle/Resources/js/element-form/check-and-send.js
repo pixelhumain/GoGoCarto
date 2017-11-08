@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-29 17:00:37
+ * @Last Modified time: 2017-11-08 17:22:01
  */
 
 
@@ -32,24 +32,6 @@ function checkAndSend(submitOption)
 	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
 	// par une input text invalide avec materialize
 	var errorCount = $('.error:visible, .invalid:visible').length;
-
-	// // CHECK contact or open hours provided
-	// if ($('.open-day').length === 0 &&
-	// 	!$('#input-tel').val() &&
-	// 	($('#element-type').val() != "3") &&
-	// 	errorCount === 0)
-	// {
-	// 	$('#modal-title').text("Erreur");
-	// 	$('#popup-content').text("Veuillez renseignez soit les horaires d'ouvertures" +
-	// 		 " soit un numéro de téléphone pour pouvoir les connaitre !");
-	// 	$('#popup').openModal({
-	// 	      dismissible: true, 
-	// 	      opacity: 0.5, 
-	// 	      in_duration: 300, 
-	// 	      out_duration: 200
- //    		});
-	// 	errorCount+= 1;
-	// }
 
 	// Si tout est OK
 	if (errorCount === 0) 
@@ -162,6 +144,8 @@ function checkRequiredFields()
 	// CHECK les "required" sont bien remplis
 	$('.required').each(function ()
 	{ 
+		if ($(this).hasClass('required-only-add') && editMode) return;
+		
 		if(!$(this).val()) 
 		{
 			$(this).addClass('invalid');			
