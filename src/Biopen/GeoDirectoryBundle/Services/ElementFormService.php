@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-02 10:35:55
+ * @Last Modified time: 2017-11-08 09:29:16
  */
  
 
@@ -102,9 +102,8 @@ class ElementFormService
                 $element->setStatus(ElementStatus::ModifiedByAdmin);               
             }              
         }
-        else
-        {
-            // non logued users
+        else // non direct moderation
+        {            
             $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
         }           
 

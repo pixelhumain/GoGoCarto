@@ -158,7 +158,7 @@ class MailService
             $string = str_replace('http://', 'https://', $string);
         }
 
-        $homeUrl = $this->router->generate('biopen_homepage',UrlGeneratorInterface::ABSOLUTE_URL);
+        $homeUrl = $this->router->generate('biopen_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
         $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
 

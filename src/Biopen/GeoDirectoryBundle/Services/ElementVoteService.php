@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-04 18:46:16
+ * @Last Modified time: 2017-11-08 09:05:22
  */
  
 
@@ -51,14 +51,13 @@ class ElementVoteService
         if ($this->confService->isUserAllowed('directModeration'))
         {
             $element->getCurrContribution()->setResolvedMessage($comment);
-            $element->getCurrContribution()->setResolvedby($this->securityContext);
+            $element->getCurrContribution()->updateResolvedby($this->securityContext);
             $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'direct', $voteValue >= 1);
         }
         else 
         {
             // CHECK USER HASN'T ALREADY VOTED
-            $currentVotes = $element->getVotes();
-            
+            $currentVotes = $element->getVotes();            
             // if user is anonymous no need to check
             if ($userMail || $this->user)
             {
