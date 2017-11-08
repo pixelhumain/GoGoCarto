@@ -55,9 +55,6 @@ class MailService
 
     public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier', $option = null)
     {
-        if (!$element || !$element->getMail()) 
-            return [ 'success' => false, 'message' => 'Element don\'t have a mail' ];
-
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
         if (!$mailConfig->getActive())
@@ -135,7 +132,7 @@ class MailService
 
     private function replaceMailsVariables($string, $element = null, $customMessage, $mailType, $option)
     {
-        if ($element !== null)
+        if ($element !== null && $element)
         {
             $showElementUrl = $this->router->generate('biopen_directory_showElement', array('name' => $element->getName(), 'id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
             $showElementUrl = str_replace('%23', '#', $showElementUrl);
