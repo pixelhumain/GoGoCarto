@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-06-22 18:43:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-10-14 14:34:59
+* @Last Modified time: 2017-11-08 15:59:54
 */
 
 body 
@@ -47,6 +47,13 @@ body
 		    color: #fff;
 
 		    border-bottom: 2px solid #37504e;
+		    border-radius: 0 !important;
+
+		    a.validation-process {
+				    text-decoration: underline;
+				    cursor: help;
+				    color: #354254;
+				}
 
 		    .btn-close
 		    {

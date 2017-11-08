@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-05 16:20:32
+ * @Last Modified time: 2017-11-08 16:09:12
  */
  
 
@@ -177,25 +177,32 @@ class ElementFormController extends Controller
 
 			$noticeText = 'Merci de votre contribution ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
-			else $noticeText .=  $configService->getConfig()->getElementDisplayNameDefinite() . " a bien été ajouté";
+			else $noticeText .=  ucwords($configService->getConfig()->getElementDisplayNameDefinite()) . " a bien été ajouté :)";
 
 			if ($element->isPending())
 			{
-				$noticeText .= "</br><a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">Cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
+				$noticeText .= "</br>Il est pour l'instant en attente de validation, <a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
 			}
 
 			$submitOption = $request->request->get('submit-option');
 			$isAllowedPending = $configService->isUserAllowed('pending');
 
-			$showResultLink = $submitOption != 'backtomap' && ($isAllowedDirectModeration || $isAllowedPending);
+			$showResultLink = $submitOption == 'stayonform' && ($isAllowedDirectModeration || $isAllowedPending);
 			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat sur la carte</a>';
 
-			$request->getSession()->getFlashBag()->add('success', $noticeText);
-
-			if ($submitOption == 'backtomap') return $this->redirect($url_new_element);	
+			$request->getSession()->getFlashBag()->add('success', $noticeText);			
 
 			// getting the admin option "recopy info" from POST or from session (in case of checkDuplicate process)
 			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
+
+			// clear session
+			$session->remove('elementWaitingForDuplicateCheck');
+			$session->remove('duplicatesElements');
+			$session->remove('recopyInfo');
+			$session->remove('send_mail');
+
+			if ($submitOption != 'stayonform' && !$recopyInfo) return $this->redirect($url_new_element);	
+
 			// Unless admin ask for recopying the informations
 			if (!($isAllowedDirectModeration && $recopyInfo))
 			{
@@ -203,13 +210,7 @@ class ElementFormController extends Controller
 				$editMode = false;
 				$elementForm = $this->get('form.factory')->create(ElementType::class, new Element());
 				$element = new Element();
-			}
-
-			// clear session
-			$session->remove('elementWaitingForDuplicateCheck');
-			$session->remove('duplicatesElements');
-			$session->remove('recopyInfo');
-			$session->remove('send_mail');
+			}			
 
 			$addOrEditComplete = true;			
 		}

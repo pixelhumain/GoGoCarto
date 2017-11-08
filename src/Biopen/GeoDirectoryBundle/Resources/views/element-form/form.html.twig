@@ -30,9 +30,9 @@
 
 		<input type="hidden" id="submit-option" name="submit-option" />
 		<center>
-			<button onclick="checkAndSend('default')" id="element-form-submit-btn" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
+			<button onclick="checkAndSend('backtomap')" id="element-form-submit-btn" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
 			{% if is_granted('ROLE_ADMIN') %}
-				<button onclick="checkAndSend('backtomap')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et retourner à la carte</button>
+				<button onclick="checkAndSend('stayonform')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et rester sur le formulaire</button>
 			{% endif %}
 		</center>
   </section>
