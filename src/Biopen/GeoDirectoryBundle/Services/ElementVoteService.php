@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 09:05:22
+ * @Last Modified time: 2017-11-08 16:39:41
  */
  
 
@@ -160,13 +160,13 @@ class ElementVoteService
             {
                 $element->setStatus($positiveVote ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
                 $message = $positiveVote ? "Félicitations, " . $elDisplayName . " a reçu assez de vote pour être validé !" 
-                                      : $elDisplayName . " a reçu suffisamment de votes négatifs, il va être supprimé.";
+                                      : ucwords($elDisplayName) . " a reçu suffisamment de votes négatifs, il va être supprimé.";
                              
             }
             else if ($voteType == 'direct')    
             {
                 $element->setStatus($positiveVote ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
-                $message = $positiveVote ? $elDisplayName . " a bien été validé" : $elDisplayName . " a bien été refusé";
+                $message = $positiveVote ? ucwords($elDisplayName) . " a bien été validé" : ucwords($elDisplayName) . " a bien été refusé";
             }            
 
             if ($positiveVote) $this->mailService->sendAutomatedMail('add', $element);
