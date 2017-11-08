@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-03 21:52:13
+ * @Last Modified time: 2017-11-08 17:40:42
  */
  
 
@@ -314,7 +314,7 @@ class Element
         $this->updateJsonRepresentation();
     }
 
-    // aatomatically resolve moderation error
+    // automatically resolve moderation error
     public function checkForModerationNeeded()
     { 
         if ($this->getModerationState() == ModerationState::NotNeeded) return;
@@ -327,10 +327,13 @@ class Element
                 if (!$this->isPending()) $needed = false;
                 break;
             case ModerationState::NoOptionProvided:
-                if (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0) $needed = false;
+                if (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0 ||
+                     is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0)
+                    $needed = false;
                 break;
             case ModerationState::GeolocError:
-                if ($this->getCoordinates()->getLat() != 0 && $this->getCoordinates()->getLng() != 0) $needed = false;
+                if ($this->getCoordinates()->getLat() != 0 && $this->getCoordinates()->getLng() != 0) 
+                    $needed = false;
                 break;
         }
 
