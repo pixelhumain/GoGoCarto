@@ -16,11 +16,12 @@ function geocodeAddress( address ) {
 			map.setView(results[0].getCoordinates(), 15);
 			createMarker(results[0].getCoordinates());
 
-			console.log("Geocode result :", results[0].postal_code);
+			console.log("Geocode result :", results[0]);
 
 			$('#input-latitude').val(marker.getLatLng().lat);
 			$('#input-longitude').val(marker.getLatLng().lng);
-			$('#input-postal-code').val(results[0].postal_code);	
+			$('#input-postal-code').val(results[0].postal_code);
+			$('#input-city').val(results[0].city);		
 			$('#input-address').siblings('i').removeClass("error");	
 		} 	
 		else
@@ -30,11 +31,12 @@ function geocodeAddress( address ) {
 
 			if (marker) marker.remove();
 
-			$('#input-latitude').val();
-			$('#input-longitude').val();
-			$('#input-postal-code').val();		
+			$('#input-latitude').val('');
+			$('#input-longitude').val('');
+			$('#input-postal-code').val('');
+			$('#input-city').val('');		
 
-			console.log("errur geocoding");
+			console.log("erreur geocoding");
 		}	
 		$('#geocode-spinner-loader').hide();
 		geocoding_processing = false;
