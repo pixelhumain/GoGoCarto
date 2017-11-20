@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-10-02 16:28:37
+ * @Last Modified time: 2017-11-19 18:41:45
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -77,9 +77,10 @@ class ElementAdmin extends AbstractAdmin
 	{
 	  $formMapper
 	  ->with('Informations générales', array())
-		  	->add('name', 'text')		  	
+		  ->add('name', 'text')		  	
 			->add('description', 'textarea')
-         ->add('commitment', 'textarea', array('required' => false)) 
+      ->add('descriptionMore', 'textarea', array('label' => 'Précisions', 'required' => false))
+      ->add('commitment', 'textarea', array('required' => false)) 
 			->add('tel', 'text', array('required' => false)) 
 			->add('webSite', 'text', array('required' => false)) 
 			->add('mail', 'text', array('required' => false))
@@ -192,8 +193,8 @@ class ElementAdmin extends AbstractAdmin
             ) 
 	  	->add('postalCode', null, array('label' => 'Code postal'))
 	  	->add('departementCode', null, array('label'=>'Numéro de département'))
-	  	->add('mail');
-	  	//->add('contributorMail');
+	  	->add('mail')
+      ->add('sourceKey', null, array('label' => 'Source'));
 	}
 
 	public function buildDatagrid() 
@@ -243,7 +244,8 @@ class ElementAdmin extends AbstractAdmin
        ->end()
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
-         ->add('address')
+        ->add('address')
+        ->add('city')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')
 	      ->add('coordinates.lng')
@@ -262,7 +264,6 @@ class ElementAdmin extends AbstractAdmin
 
 	protected function configureListFields(ListMapper $listMapper)
 	{
-
      $listMapper
 	      ->add('name', null,  array('editable' => false, 'template' => 'BiopenGeoDirectoryBundle:admin:list_name.html.twig'))	      
          ->add('status', 'choice', [
@@ -271,6 +272,7 @@ class ElementAdmin extends AbstractAdmin
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updatedAt','date', array("format" => "d/m/Y"))
+         ->add('sourceKey', null, array('label' => 'Source'))
          ->add('optionValues', null, [
                'template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig', 
                'header_style' => 'width: 250px',
