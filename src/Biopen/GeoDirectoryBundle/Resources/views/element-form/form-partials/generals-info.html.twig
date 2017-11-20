@@ -18,16 +18,16 @@
 	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'required validate materialize-textarea',
   											   'length':'250' }}) }}
-    <label for="input-description" data-error="Le texte est trop long" class="gogo-form-label">Description générale</label>
+    <label for="input-description" data-error="Oups, ce texte est un peu long ! Donne des précisions dans le champs suivant ;)" class="gogo-form-label">Description générale</label>
 	</div>
 
   <!-- input description more element -->
-  <div class="input-field col s12">
+  <div class="input-field col s12" style="display:none">
     <i class="material-icons gogo-icon-description prefix"></i>
       {{ form_widget(form.descriptionMore, {'id': 'input-description-more',
                             'attr': {'class': 'validate materialize-textarea',
                            'length':'600' }}) }}
-    <label for="input-description" data-error="Le texte est trop long" class="gogo-form-label">Précisions (si nécessaire)</label>
+    <label for="input-description" data-error="Désolé, mais ce texte est un peu trop long !" class="gogo-form-label">Précisions</label>
   </div>
 
   <!-- input commitment -->
@@ -36,7 +36,7 @@
       {{ form_widget(form.commitment, {'id': 'input-commitment',
                             'attr': {'class': 'required required-only-add validate materialize-textarea',
                            'length':'400'  }}) }}
-      <label for="input-commitment" data-error="Le texte est trop long" class="gogo-form-label">Points de la charte valorisés par l'acteur</label>
+      <label for="input-commitment" data-error="Désolé, mais ce texte est un peu trop long !" class="gogo-form-label">Points de la charte valorisés par l'acteur</label>
   </div>
 
 	<!-- Input adresse element -->
