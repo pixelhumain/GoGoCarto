@@ -1,0 +1,8 @@
+localhost/GoGoCarto/web/app_dev.php/elements/import-colibris-lmc/export.csv
+ou import:colibris_lmc web/export_lmc.csv false 
+
+http://localhost/GoGoCarto/web/app_dev.php/elements/update-colibris-lmc/export_lmc_1.csv
+
+use gogocarto_default
+db.Element.deleteMany({"sourceKey":"LMC"})
+db.Element.updateMany({"sourceKey":"gogocarto"}, {$set: {"sourceKey":"PDCN"}})
