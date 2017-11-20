@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-20 08:14:46
+ * @Last Modified time: 2017-11-20 11:44:55
  */
  
 
@@ -131,7 +131,7 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $postalCode;
+    public $postalCode;
 
     /**
      * @var string
@@ -140,7 +140,7 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    private $city;
+    public $city;
 
      /**
      * @var string
