@@ -10,6 +10,9 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
+use Biopen\GeoDirectoryBundle\Document\InteractionType;
+use Biopen\GeoDirectoryBundle\Document\UserRoles;
 
 class ImportColibrisLmcService
 {    
@@ -63,17 +66,19 @@ class ImportColibrisLmcService
 			   $address .= $row['Ville']; 
 
 		      $new_element->setAddress($address);
+		      //$new_element->setCity($row['Ville']);
 		      $new_element->setPostalCode($row['Code postal']); 
 		      $new_element->setCommitment($row['Engagement']);    
 		      $new_element->setDescription($row['Description']);
+		      //$new_element->setDescriptionMore($row['Produits et services']);
+
 		      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
 		      
 		      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebSite($row['Site web']);
 		      
 		      $new_element->setMail($row['Email']);
 		      $new_element->setOpenHoursMoreInfos($row['Horaires']);
-		      $new_element->setStatus(ElementStatus::AdminValidate);
-		      $new_element->setSourceKey($row['Source']);
+		      $new_element->setSourceKey($row['Source']);		      
 
 		      $lat = 0;
 				$lng = 0;
@@ -102,6 +107,14 @@ class ImportColibrisLmcService
 			   $new_element->setCoordinates(new Coordinates((float)$lat, (float)$lng));
 		      
 		      $this->parseOptionValues($new_element, $row);
+
+		      $contribution = new UserInteractionContribution();
+				$contribution->setUserRole(UserRoles::Admin);
+				$contribution->setUserMail('admin@presdecheznous.fr');
+				$contribution->setType(InteractionType::Import);
+
+				$new_element->addContribution($contribution);        
+				$new_element->setStatus(ElementStatus::AdminValidate);        
 
 				// Persisting the current user
 		      $this->em->persist($new_element);
@@ -291,7 +304,7 @@ class ImportColibrisLmcService
 			if (!array_key_exists($excelValueSlug, $mappingTableIds)) dump('Not option found for excel value : ' . $excelValueSlug);
 		}
 
-		dump($mappingTableIds);
+		//dump($mappingTableIds);
 
 		$this->mappingTableIds = $mappingTableIds;
 
