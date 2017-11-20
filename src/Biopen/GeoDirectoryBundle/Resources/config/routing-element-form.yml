@@ -24,5 +24,9 @@ biopen_element_import_colibris_lmc:
     path:     /import-colibris-lmc/{fileName}/{geocode}
     defaults: { _controller: BiopenGeoDirectoryBundle:Import:importColibrisLmc, geocode:'0'}
 
+biopen_element_update_colibris_lmc:
+    path:     /update-colibris-lmc/{fileName}
+    defaults: { _controller: BiopenGeoDirectoryBundle:Import:updateColibrisLmc }
+
 
 

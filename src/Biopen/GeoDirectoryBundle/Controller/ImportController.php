@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-07-06 14:53:40
+ * @Last Modified time: 2017-11-19 19:08:06
  */
  
 
@@ -40,4 +40,13 @@ class ImportController extends Controller
 
 	   return new Response('Elements importés');
   	} 
+
+   public function updateColibrisLmcAction($fileName)
+   {
+      $this->get('biopen.update_colibris_lmc')->updateMissingFields($fileName);
+
+      return new Response('Elements updated');
+   } 
+
+   
 }

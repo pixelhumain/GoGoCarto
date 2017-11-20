@@ -31,4 +31,8 @@ services:
        class: Biopen\GeoDirectoryBundle\Services\ImportColibrisLmcService
        arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.csvtoarray", '@bazinga_geocoder.geocoder' ]
 
+    biopen.update_colibris_lmc:
+       class: Biopen\GeoDirectoryBundle\Services\UpdateColibrisLmcService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.csvtoarray"]
+
 
