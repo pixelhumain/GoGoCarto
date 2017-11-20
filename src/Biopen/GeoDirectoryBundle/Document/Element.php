@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 17:40:42
+ * @Last Modified time: 2017-11-20 08:14:46
  */
  
 
@@ -133,6 +133,15 @@ class Element
      */
     private $postalCode;
 
+    /**
+     * @var string
+     *
+     * City by geocoding the address
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $city;
+
      /**
      * @var string
      *
@@ -157,6 +166,13 @@ class Element
      * @MongoDB\Field(type="string", nullable=false)
      */
     public $description;
+
+    /**
+     * @var string
+     * @Expose
+     * @MongoDB\Field(type="string", nullable=false)
+     */
+    public $descriptionMore;
 
     /**
      * @var string
@@ -217,7 +233,16 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    public $sourceKey = 'gogocarto';
+    public $sourceKey = 'PDCN';
+
+    /**
+     * @var string
+     *
+     * If element has been imported, this is the Id of the element in the previous database
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $oldId;
 
     /** 
      * @var string 
@@ -544,6 +569,28 @@ class Element
     {
         return $this->postalCode;
     }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return $this
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string $city
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
     
     /**
      * Set postalCode
@@ -587,6 +634,28 @@ class Element
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return $this
+     */
+    public function setDescriptionMore($description)
+    {
+        $this->descriptionMore = $description;
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescriptionMore()
+    {
+        return $this->descriptionMore;
     }
 
     /**
@@ -1085,5 +1154,27 @@ class Element
     public function getContributions()
     {
         return $this->contributions;
+    }
+
+    /**
+     * Set oldId
+     *
+     * @param string $oldId
+     * @return $this
+     */
+    public function setOldId($oldId)
+    {
+        $this->oldId = $oldId;
+        return $this;
+    }
+
+    /**
+     * Get oldId
+     *
+     * @return string $oldId
+     */
+    public function getOldId()
+    {
+        return $this->oldId;
     }
 }
