@@ -7,6 +7,24 @@
 
 label { color: inherit; }
 
+label.gogo-form-label {  
+  width: 100%;
+
+  &.active { font-weight: bold; }
+
+  &:after {
+    font-weight: normal;
+    top: 2.5rem !important;
+  }
+}
+
+textarea.materialize-textarea.invalid+label:after, textarea.materialize-textarea:focus.invalid+label:after {
+  display: inline;
+  position: initial;
+  margin-left: .5rem;
+  font-weight: bold;
+}
+
 i.material-icons {
     top: 4px;
     &.openhours-icons { line-height: 3.2rem; }
@@ -21,12 +39,10 @@ i.material-icons {
   border-color: $error-color;
 }
 
-
 .input-field label
 {
   left: 0 !important;
 }
-
 
 #input-address {  width: calc(100% - 13rem); }
 
@@ -181,13 +197,6 @@ a.leaflet-control-zoom-out {
   line-height: 2rem !important;
   padding: 0 1.3rem !important;
 }
-
-// .gmnoprint a, .gmnoprint span, .gm-style-cc {
-//     display:none;
-// }
-// .gmnoprint div {
-//     //background:none !important;
-// }
 
 
 // ---------------------------------------
