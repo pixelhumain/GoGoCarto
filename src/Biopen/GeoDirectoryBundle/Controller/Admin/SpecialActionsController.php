@@ -185,4 +185,27 @@ class SpecialActionsController extends Controller
         return new Response(count($elementsWithoutCircuitCourtType) . " éléments sans type de CircuitCourt ont été réparés.</br>" .
             count($elementsWithoutProducts) . " éléments sans produits ont été réparés.");       
     }
+
+    public function fixsMissingCitiesAction()
+    {
+        $em = $this->get('doctrine_mongodb')->getManager();
+        $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+        $elements = $qb
+            ->addOr($qb->expr()->field('city')->equals(''))
+            ->addOr($qb->expr()->field('sourceKey')->equals('GoGoCarto'))
+            ->getQuery()
+            ->execute();
+       
+        $geocoder = $this->get('bazinga_geocoder.geocoder')->using('google_maps');
+        try 
+        {
+            foreach($elements as $element) $element->setCity($geocoder->geocode($element->getAddress())->first()->getLocality());           
+        }
+        catch (\Exception $error) { }  
+        
+        $em->flush(); 
+        dump($element);
+
+        return new Response(count($elements) . " éléments  ont été réparés.</br>"); 
+    }
 }

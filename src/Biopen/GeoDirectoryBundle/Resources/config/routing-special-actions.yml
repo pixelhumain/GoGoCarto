@@ -21,3 +21,9 @@ biopen_special_actions_add_import_contribution:
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::addImportContributionAction }
     requirements:
         _method: GET
+
+biopen_special_actions_fix_cities:
+    path:     /fixsMissingCities
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::fixsMissingCitiesAction }
+    requirements:
+        _method: GET
