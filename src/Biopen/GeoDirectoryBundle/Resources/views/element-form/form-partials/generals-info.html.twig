@@ -17,17 +17,26 @@
 		<i class="material-icons gogo-icon-description prefix"></i>
 	  	{{ form_widget(form.description, {'id': 'input-description',
   								          'attr': {'class': 'required validate materialize-textarea',
-  											   'length':'350' }}) }}
+  											   'length':'250' }}) }}
     <label for="input-description" class="gogo-form-label">Description générale</label>
 	</div>
+
+  <!-- input description element -->
+  <div class="input-field col s12">
+    <i class="material-icons gogo-icon-description prefix"></i>
+      {{ form_widget(form.descriptionMore, {'id': 'input-description-more',
+                            'attr': {'class': 'validate materialize-textarea',
+                           'length':'600' }}) }}
+    <label for="input-description" class="gogo-form-label">Précisions (si nécessaire)</label>
+  </div>
 
   <!-- input commitment -->
   <div class="input-field col s12">
     <i class="material-icons gogo-icon-description prefix"></i>
       {{ form_widget(form.commitment, {'id': 'input-commitment',
                             'attr': {'class': 'required required-only-add validate materialize-textarea',
-                           'length':'600'  }}) }}
-      <label for="input-commitment" class="gogo-form-label">Points de la charte valorisés par l'acteur et précisions</label>
+                           'length':'400'  }}) }}
+      <label for="input-commitment" class="gogo-form-label">Points de la charte valorisés par l'acteur</label>
   </div>
 
 	<!-- Input adresse element -->
