@@ -5,7 +5,7 @@
 
 {% block page_stylesheets %}
   
-  <link rel="stylesheet" href="{{ asset('assets/css/element-form.css') }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/element-form.css?ver=' ~ version) }}"> 
 
 {% endblock %}
 
@@ -29,7 +29,7 @@
 
 {% block page_javascripts %}
 
-  <script src="{{ asset('js/element-form.js') }}"></script> 
+  <script src="{{ asset('js/element-form.js?ver=' ~ version) }}"></script> 
 
   {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 	 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
