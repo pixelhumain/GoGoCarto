@@ -352,8 +352,10 @@ class Element
                 if (!$this->isPending()) $needed = false;
                 break;
             case ModerationState::NoOptionProvided:
-                if (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0 ||
-                     is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0)
+                if ( $this->getOptionValues() == null ||
+                     is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0 ||
+                    !is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0
+                    )
                     $needed = false;
                 break;
             case ModerationState::GeolocError:
