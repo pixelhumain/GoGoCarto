@@ -192,18 +192,22 @@ class SpecialActionsController extends Controller
         $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
         $elements = $qb
             ->addOr($qb->expr()->field('city')->equals(''))
-            ->addOr($qb->expr()->field('sourceKey')->equals('GoGoCarto'))
+            ->addOr($qb->expr()->field('sourceKey')->equals('PDCN'))
             ->getQuery()
             ->execute();
        
         $geocoder = $this->get('bazinga_geocoder.geocoder')->using('google_maps');
         try 
         {
-            foreach($elements as $element) $element->setCity($geocoder->geocode($element->getAddress())->first()->getLocality());           
+            foreach($elements as $element) {
+                $result = $geocoder->geocode($element->getAddress())->first();
+                $element->setCity($result->getLocality());
+                $element->setStreetAddress($result->getStreetNumber() . ' ' . $result->getStreetName());  
+            }       
         }
         catch (\Exception $error) { }  
         
-        $em->flush(); 
+        //$em->flush(); 
         dump($element);
 
         return new Response(count($elements) . " éléments  ont été réparés.</br>"); 
