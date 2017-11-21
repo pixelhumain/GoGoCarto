@@ -57,22 +57,20 @@ class UpdateColibrisLmcService
 		      else
 		      	$element = $repo->findOneBy(array('name' => $row['Nom'], 'sourceKey' => $row['Source']));
 
+		      if (!$element)
+		      	$element = $repo->findOneBy(array('mail' => $row['Email'], 'postalCode' => $row['Code postal'], 'sourceKey' => $row['Source']));
+
 		      if ($element) {
 		      	$city = ucfirst(strtolower($row['Ville']));
 		      	if (strlen($row['Code postal']) == 4)
 		      	{
 		      		$postalCode = "0" . $row['Code postal'];
 		      		$element->setPostalCode($postalCode);
-
-		      		$address = $row['Address'] ? $row['Address'] . ', ' : '';
-					   $address .= $postalCode . ' ';
-					   $address .= $row['Ville']; 
-					   $element->setAddress($address);
 		      	}
-		      	
+		      	$element->setStreetAddress($row['Address']);
 			      $element->setCity($city);
 			      if ($row['Produits et services']) $element->setDescriptionMore($row['Produits et services']); 
-			      $element->setOldId($row['(ID)']); 
+			      $element->setOldId(array_key_exists('Id', $row) ? $row['Id'] : $row['(ID)']); 
 
 					// Persisting the current user
 			      $this->em->persist($element);			      
