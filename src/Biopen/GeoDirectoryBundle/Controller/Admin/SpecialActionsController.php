@@ -207,7 +207,7 @@ class SpecialActionsController extends Controller
         }
         catch (\Exception $error) { }  
         
-        //$em->flush(); 
+        $em->flush(); 
         dump($element);
 
         return new Response(count($elements) . " éléments  ont été réparés.</br>"); 
