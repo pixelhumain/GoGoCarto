@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 09:23:42
+ * @Last Modified time: 2017-11-21 10:46:25
  */
  
 
@@ -56,7 +56,7 @@ class ElementType extends AbstractType
   {
       $builder
           ->add('name', TextType::class, array('required' => false))
-          ->add('address', TextType::class, array('required' => false))
+          ->add('address', TextType::class, array('mapped' => false))
           ->add('description', TextareaType::class, array('required' => false))
           ->add('descriptionMore', TextareaType::class, array('required' => false))
           ->add('commitment', TextareaType::class, array('required' => false))

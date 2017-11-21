@@ -42,7 +42,7 @@
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
 	<i class="material-icons gogo-icon-marker-symbol prefix" id="input-address-icon-prefix"></i>	
-  	{{ form_widget(form.address, {'id': 'input-address',
+  	{{ form_widget(form.address, {'id': 'input-address', 'value': element.getFormatedAddress(),
   								  'attr': {'class': 'validate required'  }}) }}
     <label for="input-address" class="gogo-form-label">Adresse complète</label>
   	<div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>

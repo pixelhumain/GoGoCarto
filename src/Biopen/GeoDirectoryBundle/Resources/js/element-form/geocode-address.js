@@ -22,8 +22,12 @@ function geocodeAddress( address ) {
 			$('#input-longitude').val(marker.getLatLng().lng);
 			$('#input-postal-code').val(results[0].postal_code);
 			$('#input-city').val(results[0].city);
-			$('#input-streetAddress').val(results[0].streetNumber + ' ' + results[0].streetName);	
-			// country : results[0].getCountryCode()
+			streetAddress = '';
+			if (results[0].streetNumber) streetAddress +=  results[0].streetNumber + ' ';
+			if (results[0].streetName) streetAddress +=  results[0].streetName;
+			$('#input-streetAddress').val(streetAddress);	
+			//$('#input-addressCountry').val(results[0].getCountryCode());
+			$('#input-address').val(results[0].formattedAddress);
 			$('#input-address').siblings('i').removeClass("error");	
 		} 	
 		else
@@ -39,7 +43,7 @@ function geocodeAddress( address ) {
 			$('#input-city').val('');		
 			$('#input-streetAddress').val('');
 
-			console.log("erreur geocoding");
+			console.log("erreur geocoding", status);
 		}	
 		$('#geocode-spinner-loader').hide();
 		geocoding_processing = false;

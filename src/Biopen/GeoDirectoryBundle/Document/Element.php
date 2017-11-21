@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 08:05:52
+ * @Last Modified time: 2017-11-21 10:21:23
  */
  
 
@@ -462,6 +462,15 @@ class Element
         {
             if (!$report->getIsResolved()) $report->setIsResolved(true);
         }
+    }
+
+    public function getFormatedAddress()
+    {
+        $result = "";
+        if ($this->streetAddress) $result .= $this->streetAddress . ', ';
+        if ($this->postalCode) $result .= $this->postalCode . ' ';
+        if ($this->city) $result .= $this->city;
+        return $result;
     }
 
     /**
