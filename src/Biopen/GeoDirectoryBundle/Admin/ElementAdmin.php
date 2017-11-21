@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-11-19 18:41:45
+ * @Last Modified time: 2017-11-21 09:31:58
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -245,6 +245,7 @@ class ElementAdmin extends AbstractAdmin
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
         ->add('address')
+        ->add('streetAddress')
         ->add('city')
 	      ->add('postalCode')
 	      ->add('coordinates.lat')

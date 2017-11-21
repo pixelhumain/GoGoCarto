@@ -21,7 +21,9 @@ function geocodeAddress( address ) {
 			$('#input-latitude').val(marker.getLatLng().lat);
 			$('#input-longitude').val(marker.getLatLng().lng);
 			$('#input-postal-code').val(results[0].postal_code);
-			$('#input-city').val(results[0].city);		
+			$('#input-city').val(results[0].city);
+			$('#input-streetAddress').val(results[0].streetNumber + ' ' + results[0].streetName);	
+			// country : results[0].getCountryCode()
 			$('#input-address').siblings('i').removeClass("error");	
 		} 	
 		else
@@ -35,6 +37,7 @@ function geocodeAddress( address ) {
 			$('#input-longitude').val('');
 			$('#input-postal-code').val('');
 			$('#input-city').val('');		
+			$('#input-streetAddress').val('');
 
 			console.log("erreur geocoding");
 		}	
