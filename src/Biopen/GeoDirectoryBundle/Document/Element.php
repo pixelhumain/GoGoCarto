@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-20 11:44:55
+ * @Last Modified time: 2017-11-21 08:05:52
  */
  
 
@@ -141,6 +141,15 @@ class Element
      * @MongoDB\Field(type="string")
      */
     public $city;
+
+    /**
+     * @var string
+     *
+     * streetAddress by geocoding the address
+     *
+     * @MongoDB\Field(type="string")
+     */
+    public $streetAddress;
 
      /**
      * @var string
@@ -1178,5 +1187,27 @@ class Element
     public function getOldId()
     {
         return $this->oldId;
+    }
+
+    /**
+     * Set streetAddress
+     *
+     * @param string $streetAddress
+     * @return $this
+     */
+    public function setStreetAddress($streetAddress)
+    {
+        $this->streetAddress = $streetAddress;
+        return $this;
+    }
+
+    /**
+     * Get streetAddress
+     *
+     * @return string $streetAddress
+     */
+    public function getStreetAddress()
+    {
+        return $this->streetAddress;
     }
 }
