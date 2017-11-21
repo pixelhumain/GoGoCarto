@@ -59,18 +59,14 @@ class ImportColibrisLmcService
 	      {
 		      $new_element = new Element();
 
-		      $new_element->setName($row['Nom']);	      
+		      $new_element->setName($row['Nom']);	 
 
-			   $address = $row['Address'] ? $row['Address'] . ', ' : '';
-			   $address .= $row['Code postal'] ? $row['Code postal'] . ' ' : '';
-			   $address .= $row['Ville']; 
-
-		      $new_element->setAddress($address);
-		      //$new_element->setCity($row['Ville']);
+		      $new_element->setAddress($row['Address']);
+		      $new_element->setCity($row['Ville']);
 		      $new_element->setPostalCode($row['Code postal']); 
 		      $new_element->setCommitment($row['Engagement']);    
 		      $new_element->setDescription($row['Description']);
-		      //$new_element->setDescriptionMore($row['Produits et services']);
+		      $new_element->setDescriptionMore($row['Produits et services']);
 
 		      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
 		      
