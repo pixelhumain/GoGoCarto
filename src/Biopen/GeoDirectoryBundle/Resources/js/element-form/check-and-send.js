@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 17:22:01
+ * @Last Modified time: 2017-11-21 10:30:04
  */
 
 
@@ -24,7 +24,7 @@ function checkAndSend(submitOption)
 		$(this).closest('.input-field').addClass('error');
 	});
 
-	$('.valid').each(function ()
+	$('.valid, .validate:not(.invalid)').each(function ()
 	{ 		
 		$(this).closest('.input-field').removeClass('error');
 	});
