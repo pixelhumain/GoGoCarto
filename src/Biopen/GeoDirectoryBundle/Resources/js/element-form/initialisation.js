@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-20 10:35:33
+ * @Last Modified time: 2017-11-23 12:03:52
  */
 jQuery(document).ready(function()
 {	
@@ -25,12 +25,11 @@ jQuery(document).ready(function()
 
   var inputDescription = $('#input-description');
   var inputDescriptionMore = $('#input-description-more');
-  console.log(inputDescriptionMore.val().length);
+  
   if (inputDescriptionMore.val().length > 0) inputDescriptionMore.parent('.input-field').show();
 
   inputDescription.on('input', function() {
     if ($(this).hasClass('invalid')) inputDescriptionMore.parent('.input-field').slideDown(800);
-    else if (inputDescriptionMore.val().length == 0) inputDescriptionMore.parent('.input-field').slideUp(500);
   })
 
 	// entrée d'une adresse on geocode
