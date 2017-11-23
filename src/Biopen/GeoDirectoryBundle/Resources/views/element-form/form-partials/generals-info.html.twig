@@ -4,10 +4,10 @@
 	<h2 class="no-margin-bottom">Informations</h2>
   <!-- Input name element -->
   <div class="input-field col s12">
-  		<i class="material-icons gogo-icon-account-circle prefix"></i>	
-  		{{ form_widget(form.name, {'id': 'input-name', 
-  							      'attr': {'class': 'validate required', 'length':'80'}}) }}
-      <label for="input-name" class="gogo-form-label">Nom</label>
+		<i class="material-icons gogo-icon-account-circle prefix"></i>	
+		{{ form_widget(form.name, {'id': 'input-name', 
+							      'attr': {'class': 'validate required', 'length':'80'}}) }}
+    <label for="input-name" class="gogo-form-label">Nom</label>
 	</div>
 
 		
@@ -15,33 +15,33 @@
 	<!-- input description element -->
 	<div class="input-field col s12">
 		<i class="material-icons gogo-icon-description prefix"></i>
-	  	{{ form_widget(form.description, {'id': 'input-description',
-  								          'attr': {'class': 'required validate materialize-textarea',
-  											   'length':'250' }}) }}
+  	{{ form_widget(form.description, {'id': 'input-description',
+								          'attr': {'class': 'required validate materialize-textarea',
+											   'length':'250' }}) }}
     <label for="input-description" data-error="Oups, ce texte est un peu long ! Donne des précisions dans le champs suivant ;)" class="gogo-form-label">Description générale</label>
 	</div>
 
   <!-- input description more element -->
   <div class="input-field col s12" style="display:none">
     <i class="material-icons gogo-icon-description prefix"></i>
-      {{ form_widget(form.descriptionMore, {'id': 'input-description-more',
-                            'attr': {'class': 'validate materialize-textarea',
-                           'length':'600' }}) }}
+    {{ form_widget(form.descriptionMore, {'id': 'input-description-more', 'placeholder':'salut',
+                          'attr': {'class': 'validate materialize-textarea',
+                         'length':'600' }}) }}
     <label for="input-description" data-error="Désolé, mais ce texte est un peu trop long !" class="gogo-form-label">Précisions</label>
   </div>
 
   <!-- input commitment -->
   <div class="input-field col s12">
     <i class="material-icons gogo-icon-description prefix"></i>
-      {{ form_widget(form.commitment, {'id': 'input-commitment',
-                            'attr': {'class': 'required required-only-add validate materialize-textarea',
-                           'length':'400'  }}) }}
-      <label for="input-commitment" data-error="Désolé, mais ce texte est un peu trop long !" class="gogo-form-label">Points de la charte valorisés par l'acteur</label>
+    {{ form_widget(form.commitment, {'id': 'input-commitment',
+                          'attr': {'class': 'required required-only-add validate materialize-textarea',
+                         'length':'400'  }}) }}
+    <label for="input-commitment" data-error="Désolé, mais ce texte est un peu trop long !" class="gogo-form-label">Engagements citoyen <span class="more">(exemples : activité d’utilité sociale, gouvernance coopérative, pratiques respectueuses de l’environnement... VOIR LA CHARTE!) </span></label>
   </div>
 
 	<!-- Input adresse element -->
 	<div class="input-field col s12">
-	<i class="material-icons gogo-icon-marker-symbol prefix" id="input-address-icon-prefix"></i>	
+	  <i class="material-icons gogo-icon-marker-symbol prefix" id="input-address-icon-prefix"></i>	
   	{{ form_widget(form.fullAddress, {'id': 'input-address', 'value': element.getFormatedAddress(),
   								  'attr': {'class': 'validate required'  }}) }}
     <label for="input-address" class="gogo-form-label">Adresse complète</label>

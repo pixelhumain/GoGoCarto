@@ -7,14 +7,21 @@
 
 label { color: inherit; }
 
-label.gogo-form-label {  
-  width: 100%;
+label.gogo-form-label { 
 
-  &.active { font-weight: bold; }
+  &.active { 
+    font-weight: bold;
+    .more { display: none; }
+  }
 
   &:after {
     font-weight: normal;
     top: 2.5rem !important;
+  }
+
+  .more {
+    font-size: .9rem;
+    font-style: italic;
   }
 }
 
