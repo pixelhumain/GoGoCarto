@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 16:09:12
+ * @Last Modified time: 2017-11-23 20:01:30
  */
  
 
@@ -175,13 +175,13 @@ class ElementFormController extends Controller
 			// Add flashBags succeess
 			$url_new_element = str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId())));				
 
-			$noticeText = 'Merci de votre contribution ! ';
-			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte';
+			$noticeText = 'Merci de votre aide ! ';
+			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte !';
 			else $noticeText .=  ucwords($configService->getConfig()->getElementDisplayNameDefinite()) . " a bien été ajouté :)";
 
 			if ($element->isPending())
 			{
-				$noticeText .= "</br>Il est pour l'instant en attente de validation, <a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
+				$noticeText .= "</br>Votre contribution est pour l'instant en attente de validation, <a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
 			}
 
 			$submitOption = $request->request->get('submit-option');
