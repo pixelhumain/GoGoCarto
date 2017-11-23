@@ -4,7 +4,11 @@
 {{ config.fontImport | raw }}
 
 <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
-<link rel="image_src" type="image/png" href="{{ asset('assets/img/presdecheznous-screen.png') }}">
+<link rel="image_src" type="image/png" href="{{ asset('assets/img/pdcn-social-share.jpg') }}">
+
+<meta property="og:title" content="{{ config.appName }}" />
+<meta property="og:description" content="{{ config.appBaseline }}" />
+<meta property="og:image" content="{{ asset('assets/img/pdcn-social-share.jpg') }}" />
 
 <meta name="description" content="{{ config.appBaseline }}" /> 
 <meta name="keywords" content="{{ config.appTags }}" />
