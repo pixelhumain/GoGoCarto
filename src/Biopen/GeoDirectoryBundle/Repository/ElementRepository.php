@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 16:55:23
+ * @Last Modified time: 2017-11-21 11:08:38
  */
  
 
@@ -39,8 +39,7 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     return $qb  //->limit($maxResults)
                 ->equals($expr->getQuery())
-                ->field('coordinates')->withinCenter((float)$lat, (float)$lng, $radius)
-                
+                ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)                
                 ->sortMeta('score', 'textScore')
                 ->hydrate(false)->getQuery()->execute()->toArray();
     
@@ -69,7 +68,7 @@ class ElementRepository extends DocumentRepository
         }
 
         // get elements within box
-        $qb->field('coordinates')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
+        $qb->field('geo')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
 
         // get json representation
         if ($getFullRepresentation == 'true') 

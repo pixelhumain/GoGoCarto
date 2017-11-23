@@ -13,62 +13,62 @@ class Coordinates
      * @Expose
      * @MongoDB\Field(type="float")
      */
-    public $lat = 0;
+    public $latitude = 0;
 
     /**
      * 
      * @Expose
      * @MongoDB\Field(type="float")
      */
-    public $lng = 0;
+    public $longitude = 0;
 
     public function __construct($lat = null, $lng = null)
     {
-        $this->setLat($lat);
-        $this->setLng($lng);
-    }
+        $this->setLatitude($lat);
+        $this->setLongitude($lng);
+    }  
 
     /**
-     * Set lat
+     * Set latitude
      *
-     * @param float $lat
+     * @param float $latitude
      * @return $this
      */
-    public function setLat($lat)
+    public function setLatitude($latitude)
     {
-        $this->lat = number_format($lat,5);
+        $this->latitude = $latitude;
         return $this;
     }
 
     /**
-     * Get lat
+     * Get latitude
      *
-     * @return float $lat
+     * @return float $latitude
      */
-    public function getLat()
+    public function getLatitude()
     {
-        return $this->lat;
+        return $this->latitude;
     }
 
     /**
-     * Set lng
+     * Set longitude
      *
-     * @param float $lng
+     * @param float $longitude
      * @return $this
      */
-    public function setLng($lng)
+    public function setLongitude($longitude)
     {
-        $this->lng = number_format($lng,5);
+        $this->longitude = $longitude;
         return $this;
     }
 
     /**
-     * Get lng
+     * Get longitude
      *
-     * @return float $lng
+     * @return float $longitude
      */
-    public function getLng()
+    public function getLongitude()
     {
-        return $this->lng;
+        return $this->longitude;
     }
 }

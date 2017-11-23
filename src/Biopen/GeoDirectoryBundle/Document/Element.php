@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 10:21:23
+ * @Last Modified time: 2017-11-23 09:52:42
  */
  
 
@@ -46,7 +46,7 @@ abstract class ModerationState
  *
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
  * @MongoDB\HasLifecycleCallbacks 
- * @MongoDB\Index(keys={"coordinates"="2d"})
+ * @MongoDB\Index(keys={"geo"="2d"})
  * @MongoDB\Index(keys={"name"="text"})
  * @Gedmo\Loggable
  */
@@ -112,44 +112,17 @@ class Element
     * @Expose
     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
     */
-    public $coordinates;
+    public $geo;
 
     /**
      * @var string
      *
-     * Complete address with street/city/region or wathever needed to localize the element
+     * Complete address
      *
      * @Expose     
-     * @MongoDB\Field(type="string")
+     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\PostalAddress") 
      */
     public $address;
-
-    /**
-     * @var string
-     *
-     * Postal code returned by geocoding the address
-     *
-     * @MongoDB\Field(type="string")
-     */
-    public $postalCode;
-
-    /**
-     * @var string
-     *
-     * City by geocoding the address
-     *
-     * @MongoDB\Field(type="string")
-     */
-    public $city;
-
-    /**
-     * @var string
-     *
-     * streetAddress by geocoding the address
-     *
-     * @MongoDB\Field(type="string")
-     */
-    public $streetAddress;
 
      /**
      * @var string
@@ -159,15 +132,6 @@ class Element
      * @MongoDB\Field(type="string")
      */
     public $commitment;
-
-    /**
-     * @var string
-     *
-     * Departement code (two first number of postal code) needed in back office to fitler element by departement
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $departementCode;
 
     /**
      * @var string
@@ -188,21 +152,21 @@ class Element
      * @Expose
      * @MongoDB\Field(type="string")
      */
-    public $tel;
+    public $telephone;
 
     /**
      * @var string
      * @Expose
      * @MongoDB\Field(type="string")
      */
-    private $mail;
+    private $email;
 
     /**
      * @var string
      * @Expose
      * @MongoDB\Field(type="string")
      */
-    public $webSite;
+    public $website;
     
     /**
      * @var \stdClass
@@ -368,7 +332,7 @@ class Element
                     $needed = false;
                 break;
             case ModerationState::GeolocError:
-                if ($this->getCoordinates()->getLat() != 0 && $this->getCoordinates()->getLng() != 0) 
+                if ($this->getGeo()->getLatitude() != 0 && $this->getGeo()->getLongitude() != 0) 
                     $needed = false;
                 break;
         }
@@ -379,14 +343,14 @@ class Element
 
     public function updateJsonRepresentation()
     {
-        if (!$this->coordinates) { dump('no coordinates'); return;}
+        if (!$this->geo) { dump('no coordinates'); return;}
 
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
         if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
-            $fullJson .= ', "mail": "' . $this->getMail(). '"';
+            $fullJson .= ', "email": "' . $this->getEmail(). '"';
         else
-            $fullJson .= ', "mail": ' . ($this->getMail() ? '"hidden"' : 'null');
+            $fullJson .= ', "email": ' . ($this->getEmail() ? '"hidden"' : 'null');
         $fullJson .= ', "optionValues": [';
 
         if ($this->optionValues)
@@ -405,7 +369,7 @@ class Element
         
         $this->setFullJson($fullJson);  
 
-        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",'. $this->coordinates->getLat() .','. $this->coordinates->getLng().', [';
+        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",'. $this->geo->getLatitude() .','. $this->geo->getLongitude().', [';
         if ($this->optionValues)
         {
             foreach ($this->optionValues as $key => $value) {
@@ -466,11 +430,7 @@ class Element
 
     public function getFormatedAddress()
     {
-        $result = "";
-        if ($this->streetAddress) $result .= $this->streetAddress . ', ';
-        if ($this->postalCode) $result .= $this->postalCode . ' ';
-        if ($this->city) $result .= $this->city;
-        return $result;
+        return $this->address ? $this->address->getFormatedAddress() : '';
     }
 
     /**
@@ -546,95 +506,6 @@ class Element
 
 
     /**
-     * Set address
-     *
-     * @param string $address
-     * @return $this
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string $address
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
-     * Set postalCode
-     *
-     * @param string $postalCode
-     * @return $this
-     */
-    public function setPostalCode($postalCode)
-    {
-        $this->postalCode = $postalCode;
-        $this->setDepartementCode(substr($postalCode, 0, 2));
-        return $this;
-    }
-
-    /**
-     * Get postalCode
-     *
-     * @return string $postalCode
-     */
-    public function getPostalCode()
-    {
-        return $this->postalCode;
-    }
-
-    /**
-     * Set city
-     *
-     * @param string $city
-     * @return $this
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return string $city
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-    
-    /**
-     * Set postalCode
-     *
-     * @param string $postalCode
-     * @return $this
-     */
-    public function setDepartementCode($code)
-    {
-        $this->departementCode = $code;
-        return $this;
-    }
-
-    /**
-     * Get postalCode
-     *
-     * @return string $postalCode
-     */
-    public function getDepartementCode()
-    {
-        return $this->departementCode;
-    }
-
-    /**
      * Set description
      *
      * @param string $description
@@ -676,72 +547,6 @@ class Element
     public function getDescriptionMore()
     {
         return $this->descriptionMore;
-    }
-
-    /**
-     * Set tel
-     *
-     * @param string $tel
-     * @return $this
-     */
-    public function setTel($tel)
-    {
-        $this->tel = $tel;
-        return $this;
-    }
-
-    /**
-     * Get tel
-     *
-     * @return string $tel
-     */
-    public function getTel()
-    {
-        return $this->tel;
-    }
-
-    /**
-     * Set mail
-     *
-     * @param string $mail
-     * @return $this
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-        return $this;
-    }
-
-    /**
-     * Get mail
-     *
-     * @return string $mail
-     */
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    /**
-     * Set webSite
-     *
-     * @param string $webSite
-     * @return $this
-     */
-    public function setWebSite($webSite)
-    {
-        $this->webSite = $webSite;
-        return $this;
-    }
-
-    /**
-     * Get webSite
-     *
-     * @return string $webSite
-     */
-    public function getWebSite()
-    {
-        return $this->webSite;
     }
 
     /**
@@ -879,30 +684,6 @@ class Element
     {
         return $this->status;
     }
-
-    /**
-     * Set coordinates
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates
-     * @return $this
-     */
-    public function setCoordinates(\Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates)
-    {
-        $this->coordinates = $coordinates;
-        return $this;
-    }
-
-    /**
-     * Get coordinates
-     *
-     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $coordinates
-     */
-    public function getCoordinates()
-    {
-        return $this->coordinates;
-    }
-
-
 
     /**
      * Set compactJson
@@ -1199,24 +980,112 @@ class Element
     }
 
     /**
-     * Set streetAddress
+     * Set geo
      *
-     * @param string $streetAddress
+     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $geo
      * @return $this
      */
-    public function setStreetAddress($streetAddress)
+    public function setGeo(\Biopen\GeoDirectoryBundle\Document\Coordinates $geo)
     {
-        $this->streetAddress = $streetAddress;
+        $this->geo = $geo;
         return $this;
     }
 
     /**
-     * Get streetAddress
+     * Get geo
      *
-     * @return string $streetAddress
+     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $geo
      */
-    public function getStreetAddress()
+    public function getGeo()
     {
-        return $this->streetAddress;
+        return $this->geo;
+    }
+
+    /**
+     * Set address
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\PostalAddress $address
+     * @return $this
+     */
+    public function setAddress(\Biopen\GeoDirectoryBundle\Document\PostalAddress $address)
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\PostalAddress $address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     * @return $this
+     */
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+        return $this;
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string $telephone
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string $email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     * @return $this
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string $website
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

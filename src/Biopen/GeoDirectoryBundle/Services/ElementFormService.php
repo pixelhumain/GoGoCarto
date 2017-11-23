@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-08 09:29:16
+ * @Last Modified time: 2017-11-21 11:22:41
  */
  
 
@@ -55,14 +55,14 @@ class ElementFormService
         }
 
         // add HTTP:// to url if needed
-        $webSiteUrl = $element->getWebSite();
+        $webSiteUrl = $element->getWebsite();
         if ($webSiteUrl && $webSiteUrl != '')
         {
             $parsed = parse_url($webSiteUrl);
             if (empty($parsed['scheme'])) {
                 $webSiteUrl = 'http://' . ltrim($webSiteUrl, '/');
             }
-            $element->setWebSite($webSiteUrl);
+            $element->setWebsite($webSiteUrl);
         }       
 
         $isAllowedDirectModeration = $this->confService->isUserAllowed('directModeration');
@@ -115,8 +115,8 @@ class ElementFormService
         $distance = 10; // km
         $maxResults = 10;
         $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround(
-            $element->getCoordinates()->getLat(), 
-            $element->getCoordinates()->getLng(), 
+            $element->getGeo()->getLatitude(), 
+            $element->getGeo()->getLongitude(), 
             $distance, 
             $maxResults, 
             $element->getName()

@@ -61,18 +61,17 @@ class ImportColibrisLmcService
 
 		      $new_element->setName($row['Nom']);	 
 
-		      $new_element->setAddress($row['Address']);
-		      $new_element->setCity($row['Ville']);
-		      $new_element->setPostalCode($row['Code postal']); 
+		      $address = new PostalAddress($row['Address'], $row['Ville'], $row['Code postal'])
+		      $new_element->setAddress($address);
 		      $new_element->setCommitment($row['Engagement']);    
 		      $new_element->setDescription($row['Description']);
 		      $new_element->setDescriptionMore($row['Produits et services']);
 
-		      if (strlen($row['Téléphone']) >= 9) $new_element->setTel($row['Téléphone']);
+		      if (strlen($row['Téléphone']) >= 9) $new_element->setTelephone($row['Téléphone']);
 		      
-		      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebSite($row['Site web']);
+		      if ($row['Site web'] != 'http://' && $row['Site web'] != "https://") $new_element->setWebsite($row['Site web']);
 		      
-		      $new_element->setMail($row['Email']);
+		      $new_element->setEmail($row['Email']);
 		      $new_element->setOpenHoursMoreInfos($row['Horaires']);
 		      $new_element->setSourceKey($row['Source']);		      
 
@@ -100,7 +99,7 @@ class ImportColibrisLmcService
 
 			   if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 
-			   $new_element->setCoordinates(new Coordinates((float)$lat, (float)$lng));
+			   $new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 		      
 		      $this->parseOptionValues($new_element, $row);
 

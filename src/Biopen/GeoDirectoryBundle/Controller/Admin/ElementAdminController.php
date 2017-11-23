@@ -129,7 +129,7 @@ class ElementAdminController extends Controller
             
         try {
             foreach ($selectedModels as $element) {
-                $mail = $element->getMail();
+                $mail = $element->getEmail();
                 if ($mail) 
                 {
                     $mails[] = $mail;

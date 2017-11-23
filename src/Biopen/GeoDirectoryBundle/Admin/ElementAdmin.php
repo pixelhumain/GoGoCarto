@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-11-21 09:31:58
+ * @Last Modified time: 2017-11-21 11:46:54
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -81,16 +81,16 @@ class ElementAdmin extends AbstractAdmin
 			->add('description', 'textarea')
       ->add('descriptionMore', 'textarea', array('label' => 'Précisions', 'required' => false))
       ->add('commitment', 'textarea', array('required' => false)) 
-			->add('tel', 'text', array('required' => false)) 
-			->add('webSite', 'text', array('required' => false)) 
-			->add('mail', 'text', array('required' => false))
+			->add('telephone', 'text', array('required' => false)) 
+			->add('website', 'text', array('required' => false)) 
+			->add('email', 'text', array('required' => false))
 			->add('openHoursMoreInfos', 'text', array('required' => false)) 
 		->end();      
 	}
 
 	public function getExportFields()
 	{
-	    return array('name', 'coordinates.lat', 'coordinates.lng', 'address', 'postalCode', 'description', 'tel', 'mail', 'webSite');
+	    return array('name', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'telephone', 'email', 'website');
 	}
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -191,8 +191,8 @@ class ElementAdmin extends AbstractAdmin
                     )
                )
             ) 
-	  	->add('postalCode', null, array('label' => 'Code postal'))
-	  	->add('departementCode', null, array('label'=>'Numéro de département'))
+	  	->add('address.postalCode', null, array('label' => 'Code postal'))
+	  	//->add('departementCode', null, array('label'=>'Numéro de département'))
 	  	->add('mail')
       ->add('sourceKey', null, array('label' => 'Source'));
 	}
@@ -244,12 +244,12 @@ class ElementAdmin extends AbstractAdmin
        ->end()
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
-        ->add('address')
-        ->add('streetAddress')
-        ->add('city')
-	      ->add('postalCode')
-	      ->add('coordinates.lat')
-	      ->add('coordinates.lng')
+        ->add('address.streetAddress', null, array('label' => 'Adresse'))
+        ->add('address.addressLocality', null, array('label' => 'Ville'))
+	      ->add('address.postalCode', null, array('label' => 'Code postal'))
+        ->add('address.addressCountry', null, array('label' => 'Pays'))
+	      ->add('geo.latitude')
+	      ->add('geo.longitude')
        ->end()   
 
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))

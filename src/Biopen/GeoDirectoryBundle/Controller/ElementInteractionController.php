@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-27 10:34:42
+ * @Last Modified time: 2017-11-21 11:23:09
  */
  
 
@@ -151,7 +151,7 @@ class ElementInteractionController extends Controller
                 <b>Contenu :</b></br> " . $request->get('content');
 
             $mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendMail($element->getMail(), $mailSubject, $mailContent);
+            $mailService->sendMail($element->getEmail(), $mailSubject, $mailContent);
 
             return $this->returnResponse(true, "L'email a bien été envoyé");        
         }

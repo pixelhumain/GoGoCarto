@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 10:46:25
+ * @Last Modified time: 2017-11-21 11:07:34
  */
  
 
@@ -33,6 +33,7 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 
 use Biopen\GeoDirectoryBundle\Form\OpenHoursType;
+use Biopen\GeoDirectoryBundle\Form\PostalAddressType;
 use Biopen\GeoDirectoryBundle\Form\CoordinatesType;
 
 
@@ -56,21 +57,18 @@ class ElementType extends AbstractType
   {
       $builder
           ->add('name', TextType::class, array('required' => false))
-          ->add('address', TextType::class, array('mapped' => false))
+          ->add('fullAddress', TextType::class, array('mapped' => false))
+          ->add('address', PostalAddressType::class)
           ->add('description', TextareaType::class, array('required' => false))
           ->add('descriptionMore', TextareaType::class, array('required' => false))
           ->add('commitment', TextareaType::class, array('required' => false))
-          ->add('tel', TextType::class, array('required' => false)) 
-          ->add('webSite', TextType::class, array('required' => false)) 
-          ->add('mail', EmailType::class, array('required' => false))
-          ->add('postalCode', HiddenType::class)
-          ->add('streetAddress', HiddenType::class)
-          ->add('city', HiddenType::class)
-          ->add('coordinates', CoordinatesType::class)
+          ->add('telephone', TextType::class, array('required' => false)) 
+          ->add('website', TextType::class, array('required' => false)) 
+          ->add('email', EmailType::class, array('required' => false))
+          ->add('geo', CoordinatesType::class)
           ->add('openHours', OpenHoursType::class, array('required' => false))
           ->add('openHoursMoreInfos', TextType::class, array('required' => false));   
   }
-
   
   /**
    * @param OptionsResolver $resolver

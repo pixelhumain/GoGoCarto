@@ -92,10 +92,10 @@ class SpecialActionsController extends Controller
 
     public function fixsEmailAddresses($element)
     {
-        $actualMail = $element->getMail();
+        $actualMail = $element->getEmail();
         if ($actualMail)
         {
-            $element->setMail(str_replace('.@', '@', $actualMail));
+            $element->setEmail(str_replace('.@', '@', $actualMail));
         }
     }
 

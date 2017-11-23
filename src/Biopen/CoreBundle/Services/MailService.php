@@ -69,7 +69,7 @@ class MailService
             else if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
                 $mailTo = $option->getUserMail();
             else 
-                $mailTo =  $element->getMail();
+                $mailTo =  $element->getEmail();
 
             if ($mailTo)
             {
