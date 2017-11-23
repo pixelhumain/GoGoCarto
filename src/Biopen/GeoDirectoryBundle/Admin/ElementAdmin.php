@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-11-21 11:46:54
+ * @Last Modified time: 2017-11-23 14:45:05
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -131,6 +131,7 @@ class ElementAdmin extends AbstractAdmin
                 {
                     if (!$value || !$value['value']) { return; }
                     $queryBuilder->field('moderationState')->notEqual(ModerationState::NotNeeded);
+                    $queryBuilder->field('status')->gte(ElementStatus::PendingModification);
                     return true;
                 },
                 'field_type' => 'checkbox'
@@ -193,7 +194,7 @@ class ElementAdmin extends AbstractAdmin
             ) 
 	  	->add('address.postalCode', null, array('label' => 'Code postal'))
 	  	//->add('departementCode', null, array('label'=>'Numéro de département'))
-	  	->add('mail')
+	  	->add('email')
       ->add('sourceKey', null, array('label' => 'Source'));
 	}
 
