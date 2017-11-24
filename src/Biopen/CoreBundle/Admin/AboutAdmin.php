@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-04-25 10:03:53
+ * @Last Modified time: 2017-11-24 17:57:11
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -25,7 +25,7 @@ class AboutAdmin extends AbstractAdmin
     {
         $formMapper->add('name', 'text');
         $formMapper->add('content', 'sonata_simple_formatter_type', array(
-			    'format' => 'richhtml',
+			    'format' => 'richhtml', 'ckeditor_context' => 'full'
 			));
     }
 
