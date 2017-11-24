@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-23 20:02:02
+ * @Last Modified time: 2017-11-24 10:46:50
  */
  
 
@@ -40,11 +40,12 @@ class ElementVoteService
          $this->mailService = $mailService;
     }
 
-    public function voteForelement($element, $voteValue, $comment, $userMail = null)
+    public function voteForElement($element, $voteValue, $comment, $userMail = null)
     {
         // Check user don't vote for his own creation
         if ($element->isLastContributorEqualsTo($this->user, $userMail))
-                return "Voter pour votre propre contribution? Et puis quoi encore !";       
+                return "Voyons voyons, vous ne comptiez quand même pas voter pour votre propre contribution si ? Laissez en un peu pour les autres !";  
+
 
         $hasAlreadyVoted = false;
 
