@@ -9,6 +9,8 @@ label { color: inherit; }
 
 label.gogo-form-label { 
 
+  background-color: white;
+
   &.active { 
     font-weight: bold;
     .more { display: none; }
@@ -25,11 +27,19 @@ label.gogo-form-label {
   }
 }
 
-textarea.materialize-textarea.invalid+label:after, textarea.materialize-textarea:focus.invalid+label:after {
-  display: inline;
-  position: initial;
-  margin-left: .5rem;
-  font-weight: bold;
+.invalid-required {
+  @extend .invalid;
+}
+
+i.prefix.invalid {
+  color: $error-color !important;
+}
+
+.invalid + label:after, .invalid:focus + label:after {
+  display: inline !important;
+  position: initial !important;
+  margin-left: .5rem !important;
+  font-weight: bold !important;
 }
 
 i.material-icons {
@@ -46,6 +56,10 @@ i.material-icons {
   border-color: $error-color;
 }
 
+.invalid-required + label.gogo-form-label {
+  &:after, .more { display:none !important; }
+}
+
 .input-field label
 {
   left: 0 !important;
@@ -53,25 +67,24 @@ i.material-icons {
 
 #input-address {  width: calc(100% - 13rem); }
 
-#input-address-icon-prefix.error:after
+#input-address-field.error:after
 {
   content: "Impossible de localiser cette adresse";
   position: absolute;
   width: 600px;
-  top: 33px;
+  top: 3.5rem;
+  color: $error-color;
+  font-weight:bold;
   left: 3rem;
   font-size: .8rem;
   font-style: normal;
 }
 
-.input-field .prefix 
-{ 
-  //&.valid { color: $secondary-color }
-  &.invalid { color: $error-color !important }
+h1, h2, label {
+  &.error { color: $error-color; }
 }
 
-.input-field textarea { padding-bottom: 12px !important;}
-
+.input-field textarea { padding-bottom: 12px !important; }
 
 #section-validate-and-send
 {
@@ -99,11 +112,6 @@ i.material-icons {
 #input-website
 {
   margin-bottom: 2rem;
-}
-
-#type-element-label.error, .error
-{
-  color: $error-color !important;
 }
 
 #section_element

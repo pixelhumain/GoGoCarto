@@ -7,10 +7,8 @@
 		<i class="material-icons gogo-icon-account-circle prefix"></i>	
 		{{ form_widget(form.name, {'id': 'input-name', 
 							      'attr': {'class': 'validate required', 'length':'80'}}) }}
-    <label for="input-name" class="gogo-form-label">Nom</label>
-	</div>
-
-		
+    <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom</label>
+	</div>		
 	
 	<!-- input description element -->
 	<div class="input-field col s12">
@@ -40,8 +38,8 @@
   </div>
 
 	<!-- Input adresse element -->
-	<div class="input-field col s12">
-	  <i class="material-icons gogo-icon-marker-symbol prefix" id="input-address-icon-prefix"></i>	
+	<div class="input-field col s12" id="input-address-field">
+	  <i class="material-icons gogo-icon-marker-symbol prefix"></i>	
   	{{ form_widget(form.fullAddress, {'id': 'input-address', 'value': element.getFormatedAddress(),
   								  'attr': {'class': 'validate required'  }}) }}
     <label for="input-address" class="gogo-form-label">Adresse complète</label>

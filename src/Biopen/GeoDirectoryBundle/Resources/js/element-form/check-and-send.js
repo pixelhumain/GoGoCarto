@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 10:30:04
+ * @Last Modified time: 2017-11-24 12:49:11
  */
 
 
@@ -18,8 +18,8 @@ function checkAndSend(submitOption)
 	checkRequiredFields();
 	checkCaptcha();
 
-	// Dealing with error class
-	$('.invalid').each(function ()
+	// // Dealing with error class
+	$('.invalid, .invalid-required').each(function ()
 	{ 		
 		$(this).closest('.input-field').addClass('error');
 	});
@@ -27,6 +27,15 @@ function checkAndSend(submitOption)
 	$('.valid, .validate:not(.invalid)').each(function ()
 	{ 		
 		$(this).closest('.input-field').removeClass('error');
+	});
+
+	$('.input-field.error input, .input-field.error textarea').focusout(function() 
+	{
+		if ($(this).hasClass('valid') || ($(this).hasClass('validate') && !$(this).hasClass('invalid')))
+		{
+			$(this).closest('.input-field').removeClass('error');
+		}
+		checkRequiredFields();
 	});
 
 	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
@@ -53,7 +62,7 @@ function checkCaptcha()
         exists = true;
 	} catch(e) { exists = false; }
 
-	console.log("checkCaptcha", exists);
+	// console.log("checkCaptcha", exists);
 
 	if (exists && grecaptcha.getResponse().length === 0)
 	{
@@ -136,7 +145,7 @@ function checkOpenHours()
 
 function checkAddressGeolocalisation()
 {
-	$('#input-address').addClass("invalid");
+	//$('#input-address').addClass("invalid");
 }
 
 function checkRequiredFields()
@@ -148,12 +157,11 @@ function checkRequiredFields()
 		
 		if(!$(this).val()) 
 		{
-			$(this).addClass('invalid');			
+			$(this).addClass('invalid invalid-required');	
 		}
 		else
 		{
-			$(this).removeClass('invalid');
-			$(this).closest('.input-field').removeClass('error');
+			$(this).removeClass('invalid-required');
 		}
 	});
 }
