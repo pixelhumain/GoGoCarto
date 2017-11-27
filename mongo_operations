@@ -10,3 +10,6 @@ db.Element.updateMany( { } , { $rename: { 'address': 'fullAddress' } } )
 db.Element.updateMany( { } , { $rename: { 'city': 'address.addressLocality', 'postalCode': 'address.postalCode', 'streetAddress':'address.streetAddress' } } )
 db.Element.updateMany( { } , { $rename: { 'geo.lat': 'geo.latitude', 'geo.lng': 'geo.longitude' } } )
 db.Element.updateMany({}, {$set: {"address.addressCountry":"FR"}})
+
+// doublons
+db.Element.updateMany({'address.addressLocality':null, 'status': { $gte: -3}}, {$set: {"status":-6}})
