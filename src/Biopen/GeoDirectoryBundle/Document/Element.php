@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-23 09:52:42
+ * @Last Modified time: 2017-11-27 10:31:12
  */
  
 
@@ -19,6 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 abstract class ElementStatus
 {
+    const Duplicate = -6;
     const ModifiedPendingVersion = -5;
     const Deleted = -4;
     const CollaborativeRefused = -3;

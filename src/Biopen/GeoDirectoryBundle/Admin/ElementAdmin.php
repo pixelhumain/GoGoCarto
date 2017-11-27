@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-11-23 14:45:05
+ * @Last Modified time: 2017-11-27 10:32:55
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -22,6 +22,7 @@ class ElementAdmin extends AbstractAdmin
 {
 	private $statusChoices = [
     '' => 'Inconnu',
+    '-6'=>'Doublon supprimé',
 		'-4'=>'Supprimé', 
 		'-3'=>'Refusé (votes) ', 
 		'-2'=>'Réfusé (admin)', 
@@ -255,6 +256,7 @@ class ElementAdmin extends AbstractAdmin
 
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
+        ->add('sourceKey', null, array('label' => 'Source'))
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))
 	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:i"))
        ->end()
