@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-24 12:49:11
+ * @Last Modified time: 2017-11-28 21:17:40
  */
 
 
@@ -40,7 +40,7 @@ function checkAndSend(submitOption)
 
 	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
 	// par une input text invalide avec materialize
-	var errorCount = $('.error:visible, .invalid:visible').length;
+	var errorCount = $('.error:visible:not(.flash-message), .invalid:visible').length;
 
 	// Si tout est OK
 	if (errorCount === 0) 
