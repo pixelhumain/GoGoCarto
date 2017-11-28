@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-23 20:01:30
+ * @Last Modified time: 2017-11-28 18:23:10
  */
  
 
@@ -15,7 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Biopen\CoreBundle\Controller\GoGoController;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use joshtronic\LoremIpsum;
 
-class ElementFormController extends Controller
+class ElementFormController extends GoGoController
 {
 	public function addAction(Request $request)
 	{

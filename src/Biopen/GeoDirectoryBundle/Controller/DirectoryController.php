@@ -7,13 +7,13 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-09-20 15:16:46
+ * @Last Modified time: 2017-11-28 18:23:01
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Biopen\CoreBundle\Controller\GoGoController;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -28,7 +28,7 @@ use Biopen\GeoDirectoryBundle\Document\Element;
 
 use Wantlet\ORM\Point;
 
-class DirectoryController extends Controller
+class DirectoryController extends GoGoController
 {
     private $callnumber = 0;    
 

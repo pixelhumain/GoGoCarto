@@ -10,8 +10,6 @@
 {% endblock %}
 
 {% block body %}
-	
-	<div>{{ render(controller('BiopenCoreBundle:Core:header', {'title': navTitle|default(''), 'iframe': app.request.get('iframe') } ))}}</div>
 
 	<div id="page-container" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>	   
 		

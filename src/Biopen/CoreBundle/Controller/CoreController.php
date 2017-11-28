@@ -2,11 +2,11 @@
 
 namespace Biopen\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Biopen\CoreBundle\Controller\GoGoController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 
-class CoreController extends Controller
+class CoreController extends GoGoController
 {
     public function homeAction()
     {
@@ -17,25 +17,16 @@ class CoreController extends Controller
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
         ->findMainCategory();
 
-        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
-
         $mainOptions = $mainCategory->getOptions();
 
         $this->get('session')->clear();
         
-        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions, 'config' => $config));
+        return $this->render('@BiopenCoreBundle/home.html.twig', array('listWrappers' => $listWrappers, 'mainOptions' => $mainOptions));
     }
 
-    public function headerAction($title = "GoGoCarto")
-    {
-        $em = $this->get('doctrine_mongodb')->getManager();
-        // Get About List        
-        $listAbouts = $em->getRepository('BiopenCoreBundle:About')
-        ->findAllOrderedByPosition();
-
-        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
-        
-        return $this->render('@BiopenCoreBundle/header.html.twig', array('listAbouts' => $listAbouts, 'config' => $config, "title" => $title));
+    public function headerAction($title = "GoGoCarto") 
+    {          
+        return $this->render('@BiopenCoreBundle/header.html.twig', array("title" => $title, "renderedFromController" => true)); 
     }
     
     public function partnersAction()

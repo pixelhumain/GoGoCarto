@@ -1,14 +1,12 @@
-{% block modals %} 
+{# If the view isn't created by one of GoGoController, then we need to include here, a bit durty, the following templates #}
+{% if renderedFromController is defined %}
+  {% include '@BiopenCoreBundle/custom-head.html.twig' %}
+
+  {% block modals %} 
     {% include '@BiopenCoreBundle/modals/headerModals.html.twig' %}
     {% include '@BiopenCoreBundle/modals/loginModal.html.twig' %}
-{% endblock %}
-
-{% block customHeader %}
-  {# include custom-head here cause the config is available #}
-  {% include '@BiopenCoreBundle/custom-head.html.twig' %}
-{% endblock %}
-
-{% block body_content %}
+  {% endblock %}
+{% endif %}
 
 <header>
 <nav>
@@ -23,7 +21,7 @@
 		</div>
 
     <span id="btn-nav-open-menu" class="gogo-icon-menu" onclick="toggleMenu()" style="display:none"></span>
-    <h1 id="nav-page-title">{{ title }}</h1>
+    <h1 id="nav-page-title">{{ navTitle|default(config.appName) }}</h1>
     <span id="nav-btn-dropdown" onclick="toggleNavDropdown()"><i class="gogo-icon-ellipsis"></i></span>
 
 		<div id="menu-actions"> 
@@ -194,6 +192,4 @@ function displayLoginButton(bool)
 	}
 }
 </script>
-
-{% endblock %}
 
