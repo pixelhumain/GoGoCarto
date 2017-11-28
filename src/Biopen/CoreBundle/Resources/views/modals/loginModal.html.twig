@@ -18,7 +18,7 @@
       {# FORM LOGIN #}
       <div class="col s12 m6 form-section section">
 
-        <form id="login-form" role="form">
+        <div id="login-form" role="form">
 
           <div class="error-message" style="display:none"></div>
 
@@ -37,7 +37,7 @@
             <label id="remember-me-checkbox" for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
           </p>
 
-          </form>
+          </div>
 
         <button id="submit-login" class="btn waves-effect waves-light" onclick="submitAjaxLogin()">Connexion</button>
         <a class="forgotten-password" href="{{ path('fos_user_resetting_request') }}">{{ 'forgotten_password'|trans({}, 'SonataUserBundle') }}</a>

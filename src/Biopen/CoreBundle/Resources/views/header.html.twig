@@ -129,13 +129,14 @@ function logout()
 }
 
 function submitAjaxLogin()
-{
-  console.log("submit");
+{  
   $('.error-message').hide();
+  var datatSerialized = "_username=" + $('#username').val() + "&_password=" + $('#password').val();
+  console.log("submit", datatSerialized);
   $.ajax({
       method : 'post',
       url         : '{{ path("fos_user_security_check") }}',
-      data        : $('#login-form').serialize(),
+      data        : datatSerialized,
       dataType    : "json",
       success     : function(data, status, object) {
           if (data.success)

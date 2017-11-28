@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-07-28 12:27:44
+* @Last Modified time: 2017-11-28 21:11:01
 */
 #popup-login
 {
@@ -62,7 +62,7 @@
 		border-left: 1px solid #909090;
 		text-align: left;
 
-		form { margin-bottom: 1rem; }
+		#login-form { margin-bottom: 1rem; }
 
 		.error-message
 		{
