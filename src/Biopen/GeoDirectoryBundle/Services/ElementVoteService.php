@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 15:19:44
+ * @Last Modified time: 2017-11-29 16:47:25
  */
  
 
@@ -145,7 +145,7 @@ class ElementVoteService
         }
     }
 
-    private function handleVoteProcedureComplete($element, $voteType, $positiveVote, $customMessage)
+    private function handleVoteProcedureComplete($element, $voteType, $positiveVote, $customMessage = '')
     {        
         // in case of procedure complete directly after a userInteraction, we send a message back to the user
         $flashMessage = '';
