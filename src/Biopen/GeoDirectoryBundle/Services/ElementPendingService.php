@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 17:00:35
+ * @Last Modified time: 2017-11-29 17:12:49
  */
  
 
@@ -111,11 +111,13 @@ class ElementPendingService
       $modifiedElement = $element->getModifiedElement();
       if ($modifiedElement)
       {
+         // copying public attributes
          foreach ($element as $key => $value) 
          {
            if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
          }
-         // optionValue is private so it's not in element $keys
+         // copying private attribute (they are not in $keys)
+         $element->setEmail($modifiedElement->getEmail());         
          $element->setOptionValues($modifiedElement->getOptionValues());
          $element->setModifiedElement(null);
       }
