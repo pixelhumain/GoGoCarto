@@ -13,6 +13,6 @@ class OptionAdminController extends Controller
 {
     public function listAction()
     {
-        return $this->redirect($this->generateUrl('admin_biopen_geodirectory_category_list'));
+        return $this->redirectToRoute('admin_biopen_geodirectory_category_list');
     }
 }

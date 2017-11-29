@@ -29,7 +29,10 @@
 	  		<div class="col s9 m10">
 		  		<div class="name">{{ element.name | capitalize }}</div>
 		  		{% if element.description is defined %}<div class="description">{{ element.description | capitalize }}</div>{% endif %}
-		  		<div class="address">{{ element.address | capitalize }}</div>
+		  		{% set address = element.address.streetAddress is defined ? element.address.streetAddress ~ ', ' : '' %}
+		      {% set postalCode = element.address.postalCode is defined ? (element.address.postalCode ~ ' ') : '' %}
+		      {% set city = element.address.addressLocality is defined ? element.address.addressLocality : '' %}
+		  		<div class="address">{{ address ~ postalCode ~ city | capitalize }}</div>
 		  	</div>
 		  	<div class="col s3 m2 right-align">
 	  			<a href="{{ path('biopen_directory_showElement', {'id': element._id, 'name': element.name}) | replace({"%23":'#'}) }}"><button class="btn-biopen btn-secondary small waves-light waves-effect btn">c'est lui !</button></a>

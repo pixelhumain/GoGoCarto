@@ -47,11 +47,11 @@ class PostalAddress
 
     public function getFormatedAddress()
     {
-        $result = "";
-        if ($this->streetAddress) $result .= $this->streetAddress . ', ';
-        if ($this->postalCode) $result .= $this->postalCode . ' ';
-        if ($this->addressLocality) $result .= $this->addressLocality;
-        return $result;
+      $result = "";
+      if ($this->streetAddress) $result .= $this->streetAddress . ', ';
+      if ($this->postalCode) $result .= $this->postalCode . ' ';
+      if ($this->addressLocality) $result .= $this->addressLocality;
+      return $result;
     }
 
    /**

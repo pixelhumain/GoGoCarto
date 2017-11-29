@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 11:23:09
+ * @Last Modified time: 2017-11-29 13:41:32
  */
  
 
@@ -67,13 +67,9 @@ class ElementInteractionController extends Controller
 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId')); 
 
-            $report = new UserInteractionReport();            
-        
+            $report = new UserInteractionReport();    
             $report->setValue($request->get('value'));
-
-            $securityContext = $this->container->get('security.context');
-
-            $report->updateUserInformation($securityContext, $request->get('userMail'));
+            $report->updateUserInformation($this->container->get('security.context'), $request->get('userMail'));
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);
@@ -105,13 +101,11 @@ class ElementInteractionController extends Controller
             $em = $this->get('doctrine_mongodb')->getManager(); 
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
-            $element->setStatus(Elementstatus::Deleted);
+            $elementActionService = $this->container->get('biopen.element_action_service');
+            $elementActionService->delete($element, true, $request->get('message'));
 
             $em->persist($element);
             $em->flush();
-
-            $mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendAutomatedMail('delete', $element, $request->get('message'));
          
             return $this->returnResponse(true, "L'élément a bien été supprimé");        
         }

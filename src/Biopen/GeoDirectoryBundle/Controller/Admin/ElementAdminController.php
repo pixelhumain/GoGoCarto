@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
-use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
-use Biopen\GeoDirectoryBundle\Document\InteractionType;
+use Biopen\GeoDirectoryBundle\Services\ValidationType;
 
 class ElementAdminController extends Controller
 {
@@ -22,7 +21,7 @@ class ElementAdminController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
-        return $this->redirect($this->generateUrl('biopen_element_edit', array('id' => $object->getId())));
+        return $this->redirectToRoute('biopen_element_edit', ['id' => $object->getId()]);
     }
 
     public function redirectShowAction()
@@ -270,52 +269,21 @@ class ElementAdminController extends Controller
             // persist if the form was valid and if in preview mode the preview was approved
             if ($isFormValid) {
                 try {
-                    $mailType = null;
                     $message = $request->get('custom_message') ? $request->get('custom_message') : '';
-                    $mailService = $this->container->get('biopen.mail_service');
 
-                    if ($object->isPending())
-                    {
-                        $type = null;
+                    $elementActionService = $this->container->get('biopen.element_action_service');
 
-                        $object->getCurrContribution()->setResolvedMessage($message);
-                        $object->getCurrContribution()->updateResolvedBy($this->get('security.context'));
-                        if ($request->get('submit_accept')) 
-                        { 
-                            $object->setStatus(ElementStatus::AdminValidate); 
-                            $type = 'validation'; 
-                            $contribType = ($object->getCurrContribution()->getType() == InteractionType::Add) ? 'add' : 'edit';
-                            $mailService->sendAutomatedMail($contribType, $object, $message);
-                        }
-                        if ($request->get('submit_refuse')) { $object->setStatus(ElementStatus::AdminRefused); $type = 'refusal';} 
-
-                        if ($type) $mailService->sendAutomatedMail($type, $object, $object->getCurrContribution()->getResolvedMessage());                      
+                    if ($object->isPending() && ($request->get('submit_accept') || $request->get('submit_refuse')))
+                    {                        
+                        $elementActionService->resolve($object, $request->get('submit_accept'), ValidationType::Admin, $message);                    
                     }                    
                     else
-                    {
-                        foreach ($object->getUnresolvedReports() as $key => $report) 
-                        {
-                            $report->setResolvedMessage($message);
-                            $report->updateResolvedBy($this->get('security.context'));
-                            $mailService->sendAutomatedMail('report', $object, $message, $report);
-                        }
+                    {      
+                        $sendMail = $request->get('send_mail');
 
-                        $contribution = new UserInteractionContribution();
-                        $contribution->updateUserInformation($this->get('security.context'));
-                        $contribution->setResolvedMessage($message);
-                        $contribution->updateResolvedBy($this->get('security.context'));
-                        $contribution->setType(InteractionType::Edit);
-                        $contribution->setStatus(ElementStatus::ModifiedByAdmin);
-                        $object->addContribution($contribution);
-
-                        if ($request->get('submit_delete'))  { $object->setStatus(ElementStatus::Deleted); $mailType = 'delete'; }
-                        else if ($request->get('submit_restore')) { $object->setStatus(ElementStatus::AdminValidate); $mailType = 'add'; }
-                        else { $mailType = 'edit'; }
-
-                        if ($request->get('send_mail') && $mailType) 
-                        {                            
-                            $mailService->sendAutomatedMail($mailType, $object, $message);
-                        }    
+                        if ($request->get('submit_delete'))  { $elementActionService->delete($object, $sendMail, $message); }
+                        else if ($request->get('submit_restore')) { $elementActionService->restore($object, $sendMail, $message); }
+                        else { $elementActionService->edit($object, $sendMail, $message); }
                     }                    
 
                     $object = $this->admin->update($object);

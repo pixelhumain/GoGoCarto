@@ -25,7 +25,7 @@ class MailTestController extends Controller
      else
      {
         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
-        return $this->redirect($this->generateUrl('admin_biopen_core_configuration_list'));    
+        return $this->redirecttoRoute('admin_biopen_core_configuration_list');    
      }   
      
    }
@@ -42,7 +42,7 @@ class MailTestController extends Controller
     if ($draftResponse == null) 
     {
       $request->getSession()->getFlashBag()->add('error', 'No visible elements in database, please create an element for email texting');
-      return $this->redirect($this->generateUrl('admin_biopen_core_configuration_list'));    
+      return $this->redirectToRoute('admin_biopen_core_configuration_list');    
     }
 
     if ($draftResponse['success'])

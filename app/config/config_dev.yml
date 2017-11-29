@@ -13,7 +13,7 @@ web_profiler:
 
 swiftmailer:
     delivery_address: sebastian.castro@protonmail.com
-    disable_delivery:  false
+    disable_delivery:  true
 
 bazinga_geocoder:
     fake_ip:    123.345.643.133

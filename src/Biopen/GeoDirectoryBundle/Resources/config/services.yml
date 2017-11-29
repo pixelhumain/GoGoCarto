@@ -4,13 +4,26 @@ services:
         arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
         tags:
             - { name: form.type }
+
     biopen.element_vote_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementVoteService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.config_service", "@biopen.mail_service" ]
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.config_service", "@biopen.element_pending_service" ]
+
+    biopen.element_action_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementActionService
+       arguments: [ "@security.context", "@biopen.mail_service", "@biopen.element_pending_service" ]
+
+    biopen.element_pending_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementPendingService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.mail_service" ]
 
     biopen.element_form_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementFormService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.config_service" ]
+       arguments: [ "@biopen.element_action_service" ]
+
+    biopen.element_duplicates_service:
+       class: Biopen\GeoDirectoryBundle\Services\ElementDuplicatesService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
 
     biopen.random_creation_service:
        class: Biopen\GeoDirectoryBundle\Services\RandomCreationService

@@ -53,8 +53,9 @@ class MailService
         return $draftedContent;
     }
 
-    public function sendAutomatedMail($mailType, $element, $customMessage = 'Pas de message particulier', $option = null)
+    public function sendAutomatedMail($mailType, $element, $customMessage = null, $option = null)
     {
+        if (!$customMessage) $customMessage = 'Pas de message particulier';
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
         if (!$mailConfig->getActive())

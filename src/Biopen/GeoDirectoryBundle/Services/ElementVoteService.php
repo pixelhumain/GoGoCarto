@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-24 10:46:50
+ * @Last Modified time: 2017-11-29 15:19:44
  */
  
 
@@ -20,40 +20,35 @@ use Biopen\GeoDirectoryBundle\Document\UserInteractionVote;
 use Biopen\GeoDirectoryBundle\Document\VoteValue;
 use Symfony\Component\Security\Core\SecurityContext;
 use Biopen\CoreBundle\Services\ConfigurationService;
-use Biopen\CoreBundle\Services\MailService;
+use Biopen\GeoDirectoryBundle\Services\ElementPendingService;
+use Biopen\GeoDirectoryBundle\Services\ValidationType;
 
 class ElementVoteService
 {	
-	protected $em;
-    protected $user;
-    protected $confService;
-
 	/**
      * Constructor
      */
-    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, ConfigurationService $confService, MailService $mailService)
+    public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, ConfigurationService $confService, ElementPendingService $elementPendingService)
     {
-    	 $this->em = $documentManager;
-         $this->user = $securityContext->getToken() ? $securityContext->getToken()->getUser() : null;
-         $this->confService = $confService; 
-         $this->securityContext = $securityContext;
-         $this->mailService = $mailService;
+        $this->em = $documentManager;
+        $this->user = $securityContext->getToken() ? $securityContext->getToken()->getUser() : null;
+        $this->confService = $confService; 
+        $this->securityContext = $securityContext;
+        $this->elementPendingService = $elementPendingService;
     }
 
+    // Handle a vote (positive or negative) for pending elements
     public function voteForElement($element, $voteValue, $comment, $userMail = null)
     {
         // Check user don't vote for his own creation
         if ($element->isLastContributorEqualsTo($this->user, $userMail))
                 return "Voyons voyons, vous ne comptiez quand même pas voter pour votre propre contribution si ? Laissez en un peu pour les autres !";  
 
-
         $hasAlreadyVoted = false;
 
         if ($this->confService->isUserAllowed('directModeration'))
         {
-            $element->getCurrContribution()->setResolvedMessage($comment);
-            $element->getCurrContribution()->updateResolvedby($this->securityContext);
-            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, 'direct', $voteValue >= 1);
+            $procedureCompleteMessage = $this->handleVoteProcedureComplete($element, ValidationType::Admin, $voteValue >= 1, $comment);
         }
         else 
         {
@@ -101,6 +96,8 @@ class ElementVoteService
     *   - Waiting for minimum days after contribution to validate or invalidate
     * 
     * If an element is pending for too long, it's set in Moderation
+    *
+    * This action is called when user vote, and with a CRON job every days
     */
     public function checkVotes($element)
     {
@@ -124,7 +121,7 @@ class ElementVoteService
         {
             if ($nbreNegativeVote <= $maxOppositeVoteTolerated) 
             {
-                 if ($enoughDays) return $this->handleVoteProcedureComplete($element, 'collaborative', true);
+                if ($enoughDays) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, true);
             }
             else 
             {
@@ -135,7 +132,7 @@ class ElementVoteService
         {
             if ($nbrePositiveVote <= $maxOppositeVoteTolerated) 
             {
-                if ($enoughDays) return $this->handleVoteProcedureComplete($element, 'collaborative', false);
+                if ($enoughDays) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, false);
             }
             else 
             {
@@ -148,65 +145,31 @@ class ElementVoteService
         }
     }
 
-    private function handleVoteProcedureComplete($element, $voteType, $positiveVote)
+    private function handleVoteProcedureComplete($element, $voteType, $positiveVote, $customMessage)
     {        
         // in case of procedure complete directly after a userInteraction, we send a message back to the user
-        $message = '';
-
+        $flashMessage = '';
         $elDisplayName = $this->confService->getConfig()->getElementDisplayNameDefinite();
 
         if ($element->getStatus() == ElementStatus::PendingAdd)
         {
-            if ($voteType == 'collaborative') 
-            {
-                $element->setStatus($positiveVote ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
-                $message = $positiveVote ? "Félicitations, " . $elDisplayName . " a reçu assez de vote pour être validé !" 
+            if ($voteType == ValidationType::Collaborative) 
+                $flashMessage = $positiveVote ? "Félicitations, " . $elDisplayName . " a reçu assez de vote pour être validé !" 
                                       : ucwords($elDisplayName) . " a reçu suffisamment de votes négatifs, il va être supprimé.";
-                             
-            }
-            else if ($voteType == 'direct')    
-            {
-                $element->setStatus($positiveVote ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
-                $message = $positiveVote ? ucwords($elDisplayName) . " a bien été validé" : ucwords($elDisplayName) . " a bien été refusé";
-            }            
-
-            if ($positiveVote) $this->mailService->sendAutomatedMail('add', $element);
+            else if ($voteType == ValidationType::Admin)    
+                $flashMessage = $positiveVote ? ucwords($elDisplayName) . " a bien été validé" : ucwords($elDisplayName) . " a bien été refusé";           
         }
         else if ($element->getStatus() == ElementStatus::PendingModification)
         {            
-            // if we validate modifications
             if ($positiveVote)
-            {
-                $modifiedElement = $element->getModifiedElement();
-               
-                if ($modifiedElement)
-                {
-                    foreach ($element as $key => $value) 
-                    {
-                       if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
-                    }
-                    // optionValue is pruivate so it's not in element $keys
-                    $element->setOptionValues($modifiedElement->getOptionValues());
-                    $element->setModifiedElement(null);
-                }
-                
-                $element->setStatus($voteType == 'direct' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                $message = $voteType == 'direct' ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
-            }
-            // if modification are refused
+                $flashMessage = $voteType == ValidationType::Admin ? "Les modifications ont bien été acceptées" : "Félicitations, les modifications ont reçues assez de vote pour être validées !";
             else
-            {
-                $element->setModifiedElement(null);
-                $element->setStatus($voteType == 'direct' ? ElementStatus::AdminValidate : ElementStatus::CollaborativeValidate);
-                $message = $voteType == 'direct' ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";
-            }  
+                $flashMessage = $voteType == ValidationType::Admin ? "Les modifications ont bien été refusées" : "La proposition de modification a reçu suffisamment de votes négatifs, elle est annulée.";      
+        }      
 
-            if ($positiveVote) $this->mailService->sendAutomatedMail('edit', $element);          
-        }
+        // Handle validation or refusal with dedicate service
+        $this->elementPendingService->resolve($element, $positiveVote, $voteType, $customMessage);  
 
-        $type = $positiveVote ? 'validation' : 'refusal';
-        $this->mailService->sendAutomatedMail($type, $element, $element->getCurrContribution()->getResolvedMessage());
-
-        return $message;
+        return $flashMessage;
     }
 }

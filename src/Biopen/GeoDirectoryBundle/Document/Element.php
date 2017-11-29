@@ -7,10 +7,9 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-27 10:31:12
+ * @Last Modified time: 2017-11-29 14:57:35
  */
  
-
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
@@ -421,17 +420,24 @@ class Element
         return $this->getCurrContribution() ? $this->getCurrContribution()->isMadeBy($user, $userMail) : false;
     }
 
-    public function resolveAllReports()
-    {
-        foreach ($this->getReports() as $key => $report) 
-        {
-            if (!$report->getIsResolved()) $report->setIsResolved(true);
-        }
-    }
-
     public function getFormatedAddress()
     {
         return $this->address ? $this->address->getFormatedAddress() : '';
+    }
+
+    public function reset()
+    {             
+        $this->name = null;
+        $this->description = null;
+        $this->descriptionMore = null;
+        $this->address = null;
+        $this->commitment = '';
+        $this->telephone = null;
+        $this->email = null;
+        $this->website = null;
+        $this->resetOptionsValues();
+        $this->openHours = null;
+        $this->openHoursMoreInfos = null;
     }
 
     /**
@@ -446,11 +452,6 @@ class Element
         {
             $currContribution = $this->getCurrContribution();
             if ($currContribution) $currContribution->setStatus($newStatus);
-        }
-
-        if (in_array($newStatus, [ElementStatus::Deleted,ElementStatus::AdminValidate,ElementStatus::AdminRefused]) && $this->getModerationState() == ModerationState::ReportsSubmitted)
-        {
-            $this->resolveAllReports();
         }
         
         $this->status = $newStatus;
@@ -837,10 +838,6 @@ class Element
      */
     public function setModerationState($moderationState)
     {
-        if ($this->moderationState == ModerationState::ReportsSubmitted && $moderationState == ModerationState::NotNeeded)
-        {
-           $this->resolveAllReports();
-        }
         $this->moderationState = $moderationState;
         return $this;
     }
@@ -928,13 +925,7 @@ class Element
      */
     public function addContribution(\Biopen\GeoDirectoryBundle\Document\UserInteractionContribution $contribution)
     {
-        $contribution->setElement($this);
-        if ($contribution->isAdminContribution() && $this->moderationState == ModerationState::ReportsSubmitted)
-        {            
-            // we guess that admin modification will solve any report issue
-            $this->setModerationState(ModerationState::NotNeeded);
-        }
-        
+        $contribution->setElement($this);        
         $this->contributions[] = $contribution;
     }
 

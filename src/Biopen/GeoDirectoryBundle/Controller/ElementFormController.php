@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-28 18:23:10
+ * @Last Modified time: 2017-11-29 14:13:13
  */
  
 
@@ -44,7 +44,7 @@ class ElementFormController extends GoGoController
 		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->container->get('biopen.config_service')->isUserAllowed('directModeration'))
 		{
 			$request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à modifier cet élement !");
-			return $this->redirect($this->generateUrl('biopen_directory'));
+			return $this->redirectToRoute('biopen_directory');
 		}
 		else
 		{
@@ -68,10 +68,10 @@ class ElementFormController extends GoGoController
 
 		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration');
 
-		if ($request->get('logout')) $session->remove('user_email');
+		if ($request->get('logout')) $session->remove('userEmail');
 
 		// is user not allowed, we show the contributor-login page
-		if (!$configService->isUserAllowed($addEditName, $request, $session->get('user_email')))
+		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')))
 		{
 			// creating simple form to let user enter a email address
 			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
@@ -81,9 +81,9 @@ class ElementFormController extends GoGoController
 			if ($loginform->handleRequest($request)->isValid()) 
 			{
 				$user = $request->request->get('user')['email'];
-				$user_email = $user;
+				$userEmail = $user;
 				
-				$session->set('user_email', $user_email);
+				$session->set('userEmail', $userEmail);
 			}
 			else
 			{
@@ -98,17 +98,17 @@ class ElementFormController extends GoGoController
 			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
 				$user = $this->get('security.context')->getToken()->getUser();
-				$user_email = $user->getEmail();
+				$userEmail = $user->getEmail();
 			}
-			else if ($session->has('user_email'))
+			else if ($session->has('userEmail'))
 			{
-				$user = $session->get('user_email');
-				$user_email = $session->get('user_email');
+				$user = $session->get('userEmail');
+				$userEmail = $session->get('userEmail');
 			}
 			else
 			{
 				$user = 'Anonymous';
-				$user_email = 'Anonymous';
+				$userEmail = 'Anonymous';
 			}
 		}		
 		
@@ -127,10 +127,15 @@ class ElementFormController extends GoGoController
 			if ($checkDuplicateOk)
 			{			
 				$element = $session->get('elementWaitingForDuplicateCheck');
-				$em->persist($element);
-				$em->flush();
+				
 				// filling the form with the previous element created in case we want to recopy its informations (only for admins)
-				$elementForm = $this->get('form.factory')->create(ElementType::class, $element);				
+				$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
+
+				$session->remove('user_id');
+				$session->remove('elementWaitingForDuplicateCheck');
+				$session->remove('duplicatesElements');
+				$session->remove('recopyInfo');
+				$session->remove('sendMail');		
 			}
 			// if we just submit the form
 			else
@@ -138,13 +143,13 @@ class ElementFormController extends GoGoController
 				// check for duplicates in Add action
 				if (!$editMode)
 				{					
-					$duplicates = $this->get("biopen.element_form_service")->checkForDuplicates($element);
+					$duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element);					
 					$needToCheckDuplicates = count($duplicates) > 0;
 				}
 				else $needToCheckDuplicates = false;
 
 				// custom handling form (to creating OptionValues for example)
-				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode, $user_email);	
+				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration);	
 
 				if ($needToCheckDuplicates)	
 				{				
@@ -154,23 +159,29 @@ class ElementFormController extends GoGoController
 					$session->set('recopyInfo', $request->request->get('recopyInfo'));
 					$session->set('sendMail', $request->request->get('send_mail'));
 					// redirect to check duplicate
-					return $this->redirect($this->generateUrl('biopen_element_check_duplicate'));			
-				}
-				else 
-				{
-					$em->persist($element);
-					$em->flush();
-				}			
+					return $this->redirectToRoute('biopen_element_check_duplicate');			
+				}		
 			}
 			
 			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
 
-			// Unless admin ask for not sending mails
-			if ($isAllowedDirectModeration && $sendMail)
-			{
-				$mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendAutomatedMail($editMode ? 'edit' : 'add', $element);
-			}			
+			if($this->isRealModification($element, $request))
+         {
+            $elementActionService = $this->container->get('biopen.element_action_service');
+
+            if($isAllowedDirectModeration)
+            {
+               if (!$editMode) $elementActionService->add($element, $sendMail);
+               else $elementActionService->edit($element, $sendMail);           
+            }
+            else // non direct moderation
+            {            
+               $elementActionService->createPending($element, $editMode, $userEmail);
+            }  
+         }  
+
+         $em->persist($element);
+			$em->flush();     		
 
 			// Add flashBags succeess
 			$url_new_element = str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId())));				
@@ -215,12 +226,12 @@ class ElementFormController extends GoGoController
 			$addOrEditComplete = true;			
 		}
 
-		if (!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->has('user_email') && !$addOrEditComplete) 
+		if (!$securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') && !$session->has('userEmail') && !$addOrEditComplete) 
 		{		
 			$flashMessage = "Vous êtes actuellement en mode \"Anonyme\"</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
 			$request->getSession()->getFlashBag()->add('notice', $flashMessage);
 		}	
-		// else if ($session->has('user_email') && !$addOrEditComplete)	
+		// else if ($session->has('userEmail') && !$addOrEditComplete)	
 		// {
 		// 	$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
 		// 	$request->getSession()->getFlashBag()->add('notice', $flashMessage);
@@ -239,11 +250,18 @@ class ElementFormController extends GoGoController
 						'form' => $elementForm->createView(),
 						'mainCategory'=> $mainCategory,
 						"element" => $element,
-						"user_email" => $user_email,
+						"userEmail" => $userEmail,
 						"isAllowedDirectModeration" => $isAllowedDirectModeration,
 						"config" => $configService->getConfig()
 					));
 	}
+
+	// If user check "do not validate" on pending element, it means we just want to
+    // modify some few things, but staying on the same state. So that's not a "Real" modification
+    private function isRealModification($element, $request)
+    {
+        return !$element->isPending() || !$request->request->get('dont-validate');
+    }
 
 	// when submitting new element, check it's not yet existing
 	public function checkDuplicatesAction(Request $request)
@@ -257,21 +275,19 @@ class ElementFormController extends GoGoController
 		if ($checkDuplicatesForm->handleRequest($request)->isValid()) 
 		{
 			// if user say that it's not a duplicate, we go back to add action with checkDuplicate to true
-			return $this->redirect($this->generateUrl('biopen_element_add', array('checkDuplicate' => true)));
+			return $this->redirectToRoute('biopen_element_add', array('checkDuplicate' => true));
 		}
 		// check that duplicateselement are in session and are not empty
 		else if ($session->has('duplicatesElements') && count($session->get('duplicatesElements') > 0))
 		{
 			$duplicates = $session->get('duplicatesElements');
-			// c'est aucun d'eux, je continue
-			// c'est lui -> redirige vers showElement 
 			return $this->render('@BiopenGeoDirectory/element-form/check-for-duplicates.html.twig', array('duplicateForm' => $checkDuplicatesForm->createView(), 
-																															 'duplicatesElements' => $duplicates));
+																															    'duplicatesElements' => $duplicates));
 		}	
 		// otherwise just redirect ot add action
 		else 
 		{
-			return $this->redirect($this->generateUrl('biopen_element_add'));
+			return $this->redirectToRoute('biopen_element_add');
 		}			
 	}	
 }

@@ -5,14 +5,15 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 abstract class InteractionType
 {
+    const Deleted = -1;   
     const Add = 0;
     const Edit = 1;
     const Vote = 2;  
     const Report = 3;
-    const Import = 4;   
+    const Import = 4; 
+    const Restored = 5;   
 }
 
 abstract class UserRoles
