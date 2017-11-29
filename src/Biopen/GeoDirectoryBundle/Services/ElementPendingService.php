@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 17:12:49
+ * @Last Modified time: 2017-11-29 17:58:07
  */
  
 
@@ -90,7 +90,7 @@ class ElementPendingService
          else $this->refuseModifiedElement($element);
       }     
 
-      $this->resolveContribution($element, $validationType, $message);
+      $this->resolveContribution($element, $isAccepted, $validationType, $message);
 
       $this->updateStatusAfterValidationOrRefusal($element, $isAccepted, $validationType);
 
@@ -142,7 +142,7 @@ class ElementPendingService
       $this->mailService->sendAutomatedMail($isAccepted ? 'validation' : 'refusal', $element, $message);
    }
 
-   private function resolveContribution($element, $validationType, $message)
+   private function resolveContribution($element, $isAccepted, $validationType, $message)
    {
       if ($validationType == ValidationType::Admin)
       {
@@ -151,7 +151,8 @@ class ElementPendingService
       }
       else
       {
-         $element->getCurrContribution()->setResolvedMessage("Cette contribution a été approuvée ou refusée par le processus de modération collaborative");
+         $text = $isAccepted ? 'Cette contribution a été approuvée le processus de modération collaborative' : 'Cette contribution a été refusée par le processus de modération collaborative';
+         $element->getCurrContribution()->setResolvedMessage($text);
          $element->getCurrContribution()->setResolvedby("Collaborative process");
       }
    }
