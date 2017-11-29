@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 15:21:02
+ * @Last Modified time: 2017-11-29 17:00:35
  */
  
 
@@ -149,8 +149,8 @@ class ElementPendingService
       }
       else
       {
-         $element->getCurrContribution()->setResolvedMessage("Cette contribution a été approuvée ou refusée par lme processus de modération collaborative");
-         $element->getCurrContribution()->updateResolvedby("Collaborative process");
+         $element->getCurrContribution()->setResolvedMessage("Cette contribution a été approuvée ou refusée par le processus de modération collaborative");
+         $element->getCurrContribution()->setResolvedby("Collaborative process");
       }
    }
 
