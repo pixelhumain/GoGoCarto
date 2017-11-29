@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 11:22:41
+ * @Last Modified time: 2017-11-29 07:43:19
  */
  
 
@@ -76,38 +76,42 @@ class ElementFormService
             $modifiedElement->setId(null);
             $modifiedElement->setStatus(ElementStatus::ModifiedPendingVersion);
 
+            // making a real refresh, calling refresh and getting again the element from DB (otherwise there were conflicts)
             $this->em->refresh($element);
+            $id = $element->getId();
+            $oldElement = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
+            
             $this->em->persist($modifiedElement);
-            $element->setModifiedElement($modifiedElement);
+            $oldElement->setModifiedElement($modifiedElement);
         }
 
         $contribution = new UserInteractionContribution();
         $contribution->updateUserInformation($this->securityContext, $userEmail);
         $contribution->setType($editMode ? InteractionType::Edit : InteractionType::Add);
 
-        $element->addContribution($contribution);
+        $oldElement->addContribution($contribution);
 
         if($isAllowedDirectModeration)
         {
-            if (!$editMode) $element->setStatus(ElementStatus::AddedByAdmin);
-            else if ($element->isPending())
+            if (!$editMode) $oldElement->setStatus(ElementStatus::AddedByAdmin);
+            else if ($oldElement->isPending())
             {
                 // if editing element who was previously pending
-                if (!$request->request->get('dont-validate')) $element->setStatus(ElementStatus::AdminValidate);
-                else $element->setStatus(ElementStatus::PendingModification);
+                if (!$request->request->get('dont-validate')) $oldElement->setStatus(ElementStatus::AdminValidate);
+                else $oldElement->setStatus(ElementStatus::PendingModification);
             }
             else
             {
                 // editing element previously non pending
-                $element->setStatus(ElementStatus::ModifiedByAdmin);               
+                $oldElement->setStatus(ElementStatus::ModifiedByAdmin);               
             }              
         }
         else // non direct moderation
         {            
-            $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
+            $oldElement->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);
         }           
 
-        return $element;
+        return $oldElement;
    }
 
    public function checkForDuplicates($element)
