@@ -106,7 +106,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 
 	public function onLogoutSuccess(Request $request) 
 	{
-	  $this->session->remove("user_email");
+	  $this->session->remove("userEmail");
 	  return new Response('{"success": true}');
 	}
 }

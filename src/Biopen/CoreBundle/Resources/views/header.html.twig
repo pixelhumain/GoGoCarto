@@ -50,8 +50,7 @@
         <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">A propos</span></a> 
         <div class="arrow-after"></div>                
       </div>
-      <ul id='listAbout' class='dropdown-content'>        	
-        
+      <ul id='listAbout' class='dropdown-content'>    	
         {% for about in listAbouts %}
         	<li class="item-divider"></li>
           <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
@@ -60,7 +59,7 @@
 
       {# no loggin in iframe #}
       {% if not iframe %}
-        {% set userName =  app.user ? app.user.username : app.session.get('user_email') ?  app.session.get('user_email') : null %}
+        {% set userName =  app.user ? app.user.username : app.session.get('userEmail') ?  app.session.get('userEmail') : null %}
         <div {{ userName ? '' : 'style="display:none"' }} class="col menu-item btn-login dropdown-button" data-activates='listUserActions' id="btn-logout">
           <span class="text username">{{ userName }}</span>
           <div class="arrow-after"></div>  
