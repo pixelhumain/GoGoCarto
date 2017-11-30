@@ -120,7 +120,7 @@ function logout()
       success     : function(data, status, object) {
           console.log("success logout");
           displayLoginButton(true);
-          handleLogin(false, []);
+          handleLogin(false, [], '');
       },
       error: function(data, status, object){
           console.log(data.message);

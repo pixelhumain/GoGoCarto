@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-28 18:23:01
+ * @Last Modified time: 2017-11-30 08:30:53
  */
  
 
@@ -48,11 +48,12 @@ class DirectoryController extends GoGoController
         $securityContext = $this->container->get('security.context');
         $roles = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getRoles() : [];
         $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
-        
+        $userEmail = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getEmail() : $this->session->get('user_mail');
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array('mainCategoryJson'      => $mainCategoryJson, 
                                     'openHoursCategoryJson' => $openHoursCategoryJson,
-                                    'userGogocartoRole'     => $userGogocartoRole, 
+                                    'userGogocartoRole'     => $userGogocartoRole,
+                                    'userEmail'             => $userEmail,
                                     'config'                => $config, 
                                     'tileLayers'            => $tileLayers));
     }
