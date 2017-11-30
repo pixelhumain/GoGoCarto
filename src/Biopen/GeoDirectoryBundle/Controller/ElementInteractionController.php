@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-30 13:32:44
+ * @Last Modified time: 2017-11-30 13:44:02
  */
  
 
@@ -138,11 +138,11 @@ class ElementInteractionController extends Controller
             // TODO make it configurable
             $mailSubject = 'Message reçu depuis la plateforme "Près de Chez Nous"';
             $mailContent = 
-                "Bonjour <i>" . $element->getName() . '</i>,</br></br>
-                Vous avez reçu un message de la part de <a href="mailto:' . $senderMail . '">' . $senderMail . "</a></br>
-                </br>
-                <b>Titre du message</b></br> " . $request->get('subject') . "</br></br>
-                <b>Contenu :</b></br> " . $request->get('content');
+                "<p>Bonjour <i>" . $element->getName() . '</i>,</p>
+                <p>Vous avez reçu un message de la part de <a href="mailto:' . $senderMail . '">' . $senderMail . "</a></br>
+                </p>
+                <p><b>Titre du message</b></p><p> " . $request->get('subject') . "</p>
+                <p><b>Contenu</b></p><p> " . $request->get('content') . "</p>";
 
             $mailService = $this->container->get('biopen.mail_service');
             $mailService->sendMail($element->getEmail(), $mailSubject, $mailContent);
