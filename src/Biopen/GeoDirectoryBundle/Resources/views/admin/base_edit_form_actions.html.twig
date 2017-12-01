@@ -11,8 +11,7 @@
                         </span>
                     {% endif %}
                     {% set placeholder = object.isPending() ? "Message particulier si refus" : 
-                                         object.havePendingReports ? "Message à envoyer aux contributeurs qui ont emis le signalement" : 
-                                         "Détail de la modification, raison de la suppression..." %}
+                                         object.havePendingReports ? "Détail de la modification, raison de la suppression... ce texte remplacera {{ customMessage }} dans les mails automatiques" %}
                     <input type="text" name="custom_message" id="custom_message" class="form-control" 
                            style="display:inline-block;width:55%"
                            placeholder="{{placeholder}}"/>                       
