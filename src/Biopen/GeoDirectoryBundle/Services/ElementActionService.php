@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 15:27:59
+ * @Last Modified time: 2017-12-04 21:26:49
  */
  
 
@@ -93,7 +93,7 @@ class ElementActionService
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
    }
 
-   public function resolveReports($element, $message)
+   public function resolveReports($element, $message = '')
    {    
       foreach ($element->getUnresolvedReports() as $key => $report) 
       {

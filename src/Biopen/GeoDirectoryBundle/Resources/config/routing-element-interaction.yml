@@ -22,6 +22,14 @@ biopen_delete_element:
     options:
         expose: true
 
+biopen_resolve_reports_element:
+    path:     /resolve-reports
+    defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:resolveReports }
+    requirements:
+        _method: POST
+    options:
+        expose: true
+
 biopen_element_send_mail:
     path:     /sendMail
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:sendMail }

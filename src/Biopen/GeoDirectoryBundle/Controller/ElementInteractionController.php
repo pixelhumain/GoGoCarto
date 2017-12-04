@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-30 13:44:02
+ * @Last Modified time: 2017-12-04 21:30:06
  */
  
 
@@ -108,6 +108,34 @@ class ElementInteractionController extends Controller
             $em->flush();
          
             return $this->returnResponse(true, "L'élément a bien été supprimé");        
+        }
+        else 
+        {
+            return new JsonResponse("Not valid ajax request");
+        }
+    }
+
+    public function resolveReportsAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            if (!$this->container->get('biopen.config_service')->isUserAllowed('directModeration', $request)) 
+                return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à modérer cet élément !"); 
+
+            // CHECK REQUEST IS VALID
+            if (!$request->get('elementId')) 
+                return $this->returnResponse(false,"Les paramètres sont incomplets");
+
+            $em = $this->get('doctrine_mongodb')->getManager(); 
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
+
+            $elementActionService = $this->container->get('biopen.element_action_service');
+            $elementActionService->resolveReports($element);
+
+            $em->persist($element);
+            $em->flush();
+         
+            return $this->returnResponse(true, "L'élément a bien été modéré");        
         }
         else 
         {
