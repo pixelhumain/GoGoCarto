@@ -172,6 +172,20 @@ class UserInteraction
         return $this->getUserRole() == UserRoles::Anonymous ? "" : $this->getUserMail();
     }
 
+    // used for Report and Vote children class. Overwrite this function like in UserInteractionContribution
+    public function toJson()
+    {
+        $result = "{";
+        $result .=  '"type":'      . $this->getType();
+        $result .=', "value":'     . $this->getValue();
+        $result .=', "comment":"'  . $this->getComment() . '"';
+        $result .=', "userMail":"' . $this->getUserMail() . '"';
+        $result .=', "userRole" :' . $this->getUserRole();
+        $result .=', "createdAt" :"'. date_format($this->getCreatedAt(),"d/m/Y à H:i") . '"';
+        $result .= "}";
+        return $result;
+    }
+
     /**
      * Set type
      *

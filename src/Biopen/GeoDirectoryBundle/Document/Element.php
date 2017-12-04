@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 14:57:35
+ * @Last Modified time: 2017-12-04 19:59:09
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -71,7 +71,7 @@ class Element
      * If element need moderation we write here the type of modification needed
      * @MongoDB\Field(type="int")
      */
-    private $moderationState = 0;
+    public $moderationState = 0;
 
     /**
      * @var \stdClass
@@ -351,8 +351,9 @@ class Element
             $fullJson .= ', "email": "' . $this->getEmail(). '"';
         else
             $fullJson .= ', "email": ' . ($this->getEmail() ? '"hidden"' : 'null');
-        $fullJson .= ', "optionValues": [';
 
+        // OPTIONS VALUES
+        $fullJson .= ', "optionValues": [';
         if ($this->optionValues)
         {
             foreach ($this->optionValues as $key => $value) {
@@ -362,14 +363,23 @@ class Element
                 if ($key != count($this->optionValues) -1) $fullJson .= ',';
             }
         }
-
         $fullJson .= ']';
+
+        // REPORTS & CONTRIBUTIONS
+        if ($this->status != ElementStatus::ModifiedPendingVersion)
+        {
+            $fullJson .= $this->encodeArrayObjectToJson('reports', $this->getUnresolvedReports());
+            $fullJson .= $this->encodeArrayObjectToJson('contributions', $this->getContributionsAndResolvedReports());
+            if ($this->isPending()) $fullJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
+        }
+
         if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
         $fullJson .= '}';
         
         $this->setFullJson($fullJson);  
 
-        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",'. $this->geo->getLatitude() .','. $this->geo->getLongitude().', [';
+        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",';
+        $compactJson.= $this->geo->getLatitude() .','. $this->geo->getLongitude().','. $this->moderationState.', [';
         if ($this->optionValues)
         {
             foreach ($this->optionValues as $key => $value) {
@@ -381,7 +391,17 @@ class Element
         }
         $compactJson .= ']]';
         $this->setCompactJson($compactJson);
-        //$this->json = 'changed from prePersist callback! ID = ' . $this->id;
+    }
+
+    private function encodeArrayObjectToJson($propertyName, $array)
+    {
+        $result = ', "'. $propertyName .'": [';
+        foreach ($array as $key => $value) {
+            $result .= $value->toJson();
+            if ($key != count($array) -1) $result .= ',';
+        }
+        $result .= ']';
+        return $result;
     }
 
     public function isPending()
@@ -413,6 +433,11 @@ class Element
     public function getVotes()
     {
         return $this->getCurrContribution() ? $this->getCurrContribution()->getVotes() : [];
+    }
+
+    public function getVotesArray()
+    {
+        return $this->getCurrContribution() ? $this->getCurrContribution()->getVotes()->toArray() : [];
     }
 
     public function isLastContributorEqualsTo($user, $userMail)
