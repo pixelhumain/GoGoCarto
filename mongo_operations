@@ -13,3 +13,6 @@ db.Element.updateMany({}, {$set: {"address.addressCountry":"FR"}})
 
 // doublons
 db.Element.updateMany({'address.addressLocality':null, 'status': { $gte: -3}}, {$set: {"status":-6}})
+
+// votes depuis ouverture
+db.UserInteractionVote.find({'createdAt': { $gte: ISODate("2017-11-28T00:00:00.000Z")}})
