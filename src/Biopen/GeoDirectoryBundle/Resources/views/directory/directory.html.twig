@@ -52,6 +52,8 @@
                 export:   {{ this.getConfigFrom(config.exportIframeFeature) }},
                 pending:  {{ this.getConfigFrom(config.pendingFeature) }},
                 directModeration:  {{ this.getConfigFrom(config.directModerationFeature) }},
+                moderation:  {{ this.getConfigFrom(config.directModerationFeature) }},
+                elementHistory: {{ this.getConfigFrom(config.directModerationFeature) }},
                 // desactivate add feature because we handle it in GoGoCarto Header
                 add:      {active: false},
                 // overide roles so even if edit is just allowed to user or admin, an anonymous will see
