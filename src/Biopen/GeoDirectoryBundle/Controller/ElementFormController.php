@@ -222,11 +222,12 @@ class ElementFormController extends GoGoController
 
 			if ($submitOption != 'stayonform' && !$recopyInfo) return $this->redirect($url_new_element);	
 
+			if ($editMode) return $this->redirectToRoute('biopen_element_add');
+
 			// Unless admin ask for recopying the informations
 			if (!($isAllowedDirectModeration && $recopyInfo))
 			{
-				// resetting form
-				$editMode = false;
+				// resetting form				
 				$elementForm = $this->get('form.factory')->create(ElementType::class, new Element());
 				$element = new Element();
 			}			
