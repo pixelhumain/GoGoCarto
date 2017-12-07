@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-04 19:59:09
+ * @Last Modified time: 2017-12-07 08:38:42
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -90,7 +90,7 @@ class Element
      *
      * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionContribution", cascade={"persist"})
      */
-    private $contributions = [];
+    private $contributions;
 
     /**
      * @var \stdClass
@@ -289,14 +289,19 @@ class Element
 
     public function getUnresolvedReports()
     {
-       $result = array_filter($this->getReports()->toArray(), function($e) { return !$e->getIsResolved(); });
+       if ($this->getReports() == null) return;
+       $reports = $this->getArrayFromCollection($this->getReports());
+       $result = array_filter($reports, function($e) { return !$e->getIsResolved(); });
        return $result;
     }
 
     public function getContributionsAndResolvedReports()
     {
-        $resolvedReports = array_filter($this->getReports()->toArray(), function($e) { return $e->getIsResolved(); });
-        $contributions = array_filter($this->getContributions()->toArray(), function($e) { return $e->getStatus() > ElementStatus::ModifiedPendingVersion; });
+        if ($this->getReports() == null || $this->getContributions() == null) return;
+        $reports = $this->getArrayFromCollection($this->getReports());
+        $contributions = $this->getArrayFromCollection($this->getContributions());
+        $resolvedReports = array_filter($reports, function($e) { return $e->getIsResolved(); });
+        $contributions = array_filter($contributions, function($e) { return $e->getStatus() > ElementStatus::ModifiedPendingVersion; });
         if ($this->isPending() && count($contributions) > 0)
         {
             array_pop($contributions);
@@ -396,6 +401,7 @@ class Element
 
     private function encodeArrayObjectToJson($propertyName, $array)
     {
+        if (!$array || count($array) == 0) return '';
         $result = ', "'. $propertyName .'": [';
         foreach ($array as $key => $value) {
             $result .= $value->toJson();
@@ -787,6 +793,13 @@ class Element
     public function getReports()
     {
         return $this->reports;
+    }
+
+    private function getArrayFromCollection($collection)
+    {
+        if ($collection == null) return [];
+        else if (is_array($collection)) return [];
+        else return $collection->toArray();
     }
 
     /**

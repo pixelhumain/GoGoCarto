@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 14:13:13
+ * @Last Modified time: 2017-12-07 08:38:16
  */
  
 
@@ -165,6 +165,8 @@ class ElementFormController extends GoGoController
 			
 			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
 
+			$em->persist($element);
+
 			if($this->isRealModification($element, $request))
          {
             $elementActionService = $this->container->get('biopen.element_action_service');
@@ -178,11 +180,17 @@ class ElementFormController extends GoGoController
             {            
                $elementActionService->createPending($element, $editMode, $userEmail);
             }  
-         }  
+         }         
+			$em->persist($element);
+			$em->flush(); 
 
-         $em->persist($element);
-			$em->flush();     		
-
+			// for new elements, we need to flush again for the json representation to be complete
+			if (!$editMode)
+			{
+				$em->refresh($element);
+				$em->flush();       		
+			}
+			
 			// Add flashBags succeess
 			$url_new_element = str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId())));				
 
