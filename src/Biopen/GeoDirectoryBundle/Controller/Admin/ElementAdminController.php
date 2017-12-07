@@ -40,25 +40,61 @@ class ElementAdminController extends Controller
         return $this->redirect($this->admin->generateUrl('list', array('filter' => $this->admin->getFilterParameters())));
     }
 
+    // ------------ BATCH ACTIONS ---------------
+
     public function batchActionDelete(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::Deleted, $selectedModelQuery);
+        return $this->batchStatus('batchDeleteFunction', $selectedModelQuery);
+    }
+
+    public function batchDeleteFunction($elementActionService, $selectedModel, $sendMail, $comment)
+    {
+        $elementActionService->delete($selectedModel, $sendMail, $comment);
+    }
+
+    public function batchActionRestore(ProxyQueryInterface $selectedModelQuery)
+    {
+        return $this->batchStatus('batchRestoreFunction', $selectedModelQuery);
+    }
+
+    public function batchRestoreFunction($elementActionService, $selectedModel, $sendMail, $comment)
+    {
+        $elementActionService->restore($selectedModel, $sendMail, $comment);
+    }
+
+    public function batchActionResolveReports(ProxyQueryInterface $selectedModelQuery)
+    {
+        return $this->batchStatus('batchResolveReportsFunction', $selectedModelQuery);
+    }
+
+    public function batchResolveReportsFunction($elementActionService, $selectedModel, $sendMail, $comment)
+    {
+        $elementActionService->resolveReports($selectedModel, $comment);
     }
 
     public function batchActionValidation(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::AdminValidate, $selectedModelQuery);
+        return $this->batchStatus('batchValidationFunction', $selectedModelQuery);
+    }
+
+    public function batchValidationFunction($elementActionService, $selectedModel, $sendMail, $comment)
+    {
+        $elementActionService->resolve($selectedModel, true, ValidationType::Admin, $comment);
     }
 
     public function batchActionRefusal(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus(ElementStatus::AdminRefused, $selectedModelQuery);
+        return $this->batchStatus('batchRefusalFunction', $selectedModelQuery);
     }
 
-    private function batchStatus($status, ProxyQueryInterface $selectedModelQuery, $limit = 3000)
+    public function batchRefusalFunction($elementActionService, $selectedModel, $sendMail, $comment)
+    {
+        $elementActionService->resolve($selectedModel, $isAccepted, ValidationType::Admin, $comment);
+    }
+
+    private function batchStatus($functionToExecute, ProxyQueryInterface $selectedModelQuery, $limit = 3000)
     {
         $this->admin->checkAccess('edit');
-        $this->admin->checkAccess('delete');
 
         $request = $this->get('request')->request;
         $modelManager = $this->admin->getModelManager();
@@ -67,21 +103,19 @@ class ElementAdminController extends Controller
         $nbreModelsToProceed = $selectedModels->count();        
         $selectedModels->limit($limit);
 
-        $mailService = $this->container->get('biopen.mail_service');
-        $sendMails = !($request->has('dont-send-mail') && $request->get('dont-send-mail'));            
+        $elementActionService = $this->container->get('biopen.element_action_service');
+        $sendMail = !($request->has('dont-send-mail') && $request->get('dont-send-mail'));            
+        $comment = $request->get('comment');
 
         try {
             // getting the document manager (quite ugly way) so we can control better the flush and clear
             $documentManager = $modelManager->getDocumentManager($selectedModels->getNext());
 
             $i = 0;
-            foreach ($selectedModels as $selectedModel) {
-                $selectedModel->setStatus($status);
-                if ($sendMails) 
-                {
-                    $mailService->sendAutomatedMail($request->get('action'), $selectedModel, $request->get('comment'));
-                }
-
+            foreach ($selectedModels as $selectedModel) 
+            {
+                $this->$functionToExecute($elementActionService, $selectedModel, $sendMail, $comment);               
+                
                 if ((++$i % 20) == 0) {
                     $documentManager->flush();
                     $documentManager->clear();
@@ -99,12 +133,12 @@ class ElementAdminController extends Controller
         }
 
         $statusMessage = [
-            '-4'=>'Supprimés', 
-            '-2'=>'Réfusés', 
+            '-4'=> 'Supprimés', 
+            '-2'=> 'Réfusés', 
             '1' => 'Validés (admin)'
         ];       
         
-        $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,$limit]) .' élements ont bien été ' . $statusMessage[$status]);
+        $this->addFlash('sonata_flash_success', 'Les '. min([$nbreModelsToProceed,$limit]) .' élements ont bien été traités');
 
         if ($nbreModelsToProceed >= $limit)
             $this->addFlash('sonata_flash_info', "Trop d'éléments à traiter ! Seulement " . $limit . " ont été traités");

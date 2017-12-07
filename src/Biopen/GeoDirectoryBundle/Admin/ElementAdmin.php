@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-07 07:36:24
+ * @Last Modified time: 2017-12-07 12:26:37
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -306,50 +306,44 @@ class ElementAdmin extends AbstractAdmin
 
 	public function configureBatchActions($actions)
 	{
-	    	$actions = [];
-	    	$actions['validation'] = array(
-            'label' => 'Valider',
-            'ask_confirmation' => false,
-            'modal' => [
-            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail', 				'id' => 'dont-send-mail'],
-            ]
-        	);
-        	$actions['delete'] = array(
-            'label' => 'Supprimer',
-            'ask_confirmation' => false,
-            'modal' => [
-            	['type' => 'textarea',  'label' => 'Motif de la (ou des) suppressions', 'id' => 'comment'],
-            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail', 				'id' => 'dont-send-mail'],
-            ]
-        	);
-        	$actions['refusal'] = array(
-            'label' => 'Refuser',
-            'ask_confirmation' => false,
-            'modal' => [
-            	['type' => 'textarea',  'label' => 'Motif du (ou des) refus', 'id' => 'comment'],
-            	['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail',  'id' => 'dont-send-mail'],
-            ]
-        	);
-        	$actions['sendMail'] = array(
-            'label' => 'Envoyer un mail',
-            'ask_confirmation' => false,
-            'modal' => [
-            	['type' => 'text', 		'label' => 'Votre adresse mail',  'id' => 'from'],
-            	['type' => 'text', 		'label' => 'Object',  'id' => 'mail-subject'],
-            	['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
-            ]
-        	);
-          $actions['editOptions'] = array(
-            'label' => 'Modifier les catégories',
-            'ask_confirmation' => false,
-            'modal' => [
-              ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToRemove', 'label' => 'Catégories à supprimer'],
-              ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToAdd', 'label' => 'Catégories à ajouter'],
-            ]
-          );
+  	$actions = [];
+  	$actions['validation'] = $this->createBatchConfig('Valider');  	
+  	$actions['refusal'] = $this->createBatchConfig('Refuser');
+    $actions['delete'] = $this->createBatchConfig('Supprimer');
+    $actions['restore'] = $this->createBatchConfig('Restaurer');
+    $actions['resolveReports'] = $this->createBatchConfig('Résoudre la modération');
+  	$actions['sendMail'] = array(
+      'label' => 'Envoyer un mail',
+      'ask_confirmation' => false,
+      'modal' => [
+      	['type' => 'text', 		'label' => 'Votre adresse mail',  'id' => 'from'],
+      	['type' => 'text', 		'label' => 'Object',  'id' => 'mail-subject'],
+      	['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
+      ]
+  	);
+    $actions['editOptions'] = array(
+      'label' => 'Modifier les catégories',
+      'ask_confirmation' => false,
+      'modal' => [
+        ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToRemove', 'label' => 'Catégories à supprimer'],
+        ['type' => 'choice',  'choices' => $this->optionsChoices, 'id' => 'optionsToAdd', 'label' => 'Catégories à ajouter'],
+      ]
+    );
 
-	    return $actions;
+	   return $actions;
 	}
+
+  protected function createBatchConfig($name)
+  {
+    return array(
+      'label' => $name,
+      'ask_confirmation' => false,
+      'modal' => [
+        ['type' => 'text',  'label' => "Détail de la modification, raison de la suppression... ce texte remplacera {{ customMessage }} dans les mails automatiques", 'id' => 'comment' ],
+        ['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail',  'id' => 'dont-send-mail'],
+      ]
+    );
+  }
 
 	protected function configureRoutes(RouteCollection $collection)
 	{
