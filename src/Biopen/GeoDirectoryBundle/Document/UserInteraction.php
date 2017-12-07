@@ -109,7 +109,8 @@ class UserInteraction
 
     function getTimestamp()
     {
-        return in_array($this->type, [InteractionType::Report,InteractionType::Vote]) ? $this->createdAt->getTimestamp() : $this->updatedAt->getTimestamp();
+        $date = in_array($this->type, [InteractionType::Report,InteractionType::Vote]) ? $this->createdAt : $this->updatedAt;
+        return $date == null ? 0 : $date->getTimestamp();
     }
 
     public function isAdminContribution()
@@ -181,9 +182,15 @@ class UserInteraction
         $result .=', "comment":"'  . str_replace('"', '\"', $this->getComment()) . '"';
         $result .=', "userMail":"' . $this->getUserMail() . '"';
         $result .=', "userRole" :' . $this->getUserRole();
-        $result .=', "createdAt" :"'. date_format($this->getCreatedAt(),"d/m/Y à H:i") . '"';
+        $result .=', "createdAt" :"'. $this->formatDate($this->getCreatedAt()) . '"';
         $result .= "}";
         return $result;
+    }
+
+    protected function formatDate($date)
+    {
+        if (!$this->getCreatedAt()) return "";
+        return date_format($this->getCreatedAt(),"d/m/Y à H:i");
     }
 
     /**

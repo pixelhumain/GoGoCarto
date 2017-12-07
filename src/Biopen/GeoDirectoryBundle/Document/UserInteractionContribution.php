@@ -53,8 +53,8 @@ class UserInteractionContribution extends UserInteraction
         $result .=', "userRole":'          . $this->getUserRole();
         $result .=', "resolvedMessage" :"' . str_replace('"', '\"', $this->getResolvedMessage()) . '"';
         $result .=', "resolvedBy" :"'      . $this->getResolvedBy() . '"';
-        $result .=', "updatedAt" :"'       . date_format($this->getCreatedAt(),"d/m/Y à H:i") . '"';
-        $result .=', "createdAt" :"'       . date_format($this->getUpdatedAt(),"d/m/Y à H:i") . '"';
+        $result .=', "updatedAt" :"'       . $this->formatDate($this->getCreatedAt()) . '"';
+        $result .=', "createdAt" :"'       . $this->formatDate($this->getUpdatedAt()) . '"';
         $result .= "}";
         return $result;
     }
