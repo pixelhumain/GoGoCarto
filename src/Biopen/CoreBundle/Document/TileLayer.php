@@ -21,6 +21,9 @@ class TileLayer
     /** @MongoDB\Field(type="string") */
     public $url;    
 
+    /** @MongoDB\Field(type="string") */
+    public $attribution;  
+
     /**
      * @Gedmo\Mapping\Annotation\SortablePosition
      * @MongoDB\Field(type="int")
@@ -106,5 +109,27 @@ class TileLayer
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set attribution
+     *
+     * @param string $attribution
+     * @return $this
+     */
+    public function setAttribution($attribution)
+    {
+        $this->attribution = $attribution;
+        return $this;
+    }
+
+    /**
+     * Get attribution
+     *
+     * @return string $attribution
+     */
+    public function getAttribution()
+    {
+        return $this->attribution;
     }
 }

@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-07-14 15:56:17
+ * @Last Modified time: 2017-12-08 17:15:48
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -25,7 +25,8 @@ class TileLayerAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('name', 'text')
-            ->add('url', 'text');
+            ->add('url', 'text')
+            ->add('attribution', 'text');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
