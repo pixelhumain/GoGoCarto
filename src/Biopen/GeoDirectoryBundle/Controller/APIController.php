@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-10-09 17:48:16
+ * @Last Modified time: 2017-12-08 13:37:42
  */
  
 
@@ -89,11 +89,11 @@ class APIController extends Controller
         return $responseJson;
     }
 
-    public function getElementByIdAction(Request $request)
+    public function getElementByIdAction(Request $request, $id = null)
     {
         if($request->isXmlHttpRequest())
         {
-            $elementId = $request->get('elementId');
+            $elementId = $id ? $id : $request->get('id');
 
             $em = $this->get('doctrine_mongodb')->getManager();
             

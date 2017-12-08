@@ -7,8 +7,8 @@ biopen_api_taxonomy:
         expose: true
 
 biopen_api_element_by_id:
-    path:     /element
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementById }
+    path:     /element/{id}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementById, id: null }
     requirements:
         _method: GET
     options:
