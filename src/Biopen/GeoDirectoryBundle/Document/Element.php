@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-07 08:38:42
+ * @Last Modified time: 2017-12-08 18:19:03
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -239,6 +239,15 @@ class Element
      */ 
     private $fullJson; 
 
+    /** 
+     * @var string 
+     * 
+     * Somes special field returned only for admins. this adminJson is concatenated to the fullJson
+     *
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $adminJson; 
+
     /**
      * @var date $createdAt
      *
@@ -351,6 +360,7 @@ class Element
     {
         if (!$this->geo) { dump('no coordinates'); return;}
 
+        // -------------------- FULL JSON ----------------
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
         if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
@@ -358,56 +368,81 @@ class Element
         else
             $fullJson .= ', "email": ' . ($this->getEmail() ? '"hidden"' : 'null');
 
-        // OPTIONS VALUES
-        $fullJson .= ', "optionValues": [';
         if ($this->optionValues)
         {
-            foreach ($this->optionValues as $key => $value) {
-                $fullJson .= '{ "optionId" :'.$value->getOptionId().', "index" :'.$value->getIndex();
-                if ($value->getDescription()) $fullJson .=  ', "description" : "' . $value->getDescription() . '"';
-                $fullJson .= '}';
-                if ($key != count($this->optionValues) -1) $fullJson .= ',';
+            $sortedOptionsValues = is_array($this->optionValues) ? $this->optionValues : $this->optionValues->toArray();
+            usort( $sortedOptionsValues , function ($a, $b) { return $a->getIndex() - $b->getIndex(); });
+        } else { $sortedOptionsValues = []; }
+
+        $optValuesLength = count($sortedOptionsValues);
+
+        // OPTIONS VALUES
+        $fullJson .= ', "optionValues": [';
+        if ($sortedOptionsValues)
+        {            
+            for ($i=0; $i < $optValuesLength; $i++) { 
+                $value = $sortedOptionsValues[$i];
+
+                if ($value->getDescription()) 
+                    $optionValueJson =  '[' . $value->getOptionId() . ',' . $value->getDescription() . ']';
+                else 
+                    $optionValueJson =  $value->getOptionId();  
+
+                $fullJson .= $optionValueJson;
+                if ($i != $optValuesLength -1) $fullJson .= ',';
             }
         }
         $fullJson .= ']';
 
-        // REPORTS & CONTRIBUTIONS
-        if ($this->status != ElementStatus::ModifiedPendingVersion)
-        {
-            $fullJson .= $this->encodeArrayObjectToJson('reports', $this->getUnresolvedReports());
-            $fullJson .= $this->encodeArrayObjectToJson('contributions', $this->getContributionsAndResolvedReports());
-            if ($this->isPending()) $fullJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
-        }
-
         if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
         $fullJson .= '}';
-        
+
         $this->setFullJson($fullJson);  
 
-        $compactJson = '["'.$this->id . '",' .$this->status . ',"' . str_replace('"', '\"', $this->name) . '",';
-        $compactJson.= $this->geo->getLatitude() .','. $this->geo->getLongitude().','. $this->moderationState.', [';
-        if ($this->optionValues)
+        // -------------------- REPORTS & CONTRIBUTIONS -------------------------
+        $adminJson = '{';
+        if ($this->status != ElementStatus::ModifiedPendingVersion)
         {
-            foreach ($this->optionValues as $key => $value) {
-                $compactJson .= '['.$value->getOptionId().','.$value->getIndex();
-                //if ($value->getDescription()) $responseJson .=  ',' . $value->getDescription();
-                $compactJson .= ']';
-                if ($key != count($this->optionValues) -1) $compactJson .= ',';
+            $adminJson .= $this->encodeArrayObjectToJson('reports', $this->getUnresolvedReports());
+            $adminJson .= $this->encodeArrayObjectToJson('contributions', $this->getContributionsAndResolvedReports());
+            if ($this->isPending()) $fullJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
+            $adminJson = rtrim($adminJson, ',');
+        }
+        $adminJson .= '}';
+        $this->setAdminJson($adminJson);         
+
+        // -------------------- COMPACT JSON ----------------
+        $compactJson = '["'.$this->id . '","' . str_replace('"', '\"', $this->name) . '",';
+        $compactJson.= $this->geo->getLatitude() .','. $this->geo->getLongitude() .', [';
+        if ($sortedOptionsValues)
+        {
+            for ($i=0; $i < $optValuesLength; $i++) { 
+                $value = $sortedOptionsValues[$i];
+                $compactJson .= $value->getOptionId();
+                if ($i != $optValuesLength -1) $compactJson .= ',';
             }
         }
-        $compactJson .= ']]';
+        $compactJson .= ']';
+        if ($this->status <= 0 || $this->moderationState != 0) $compactJson .= ','. $this->status;
+        if ($this->moderationState != 0) $compactJson .= ','. $this->moderationState;
+        $compactJson .= ']';
         $this->setCompactJson($compactJson);
+    }
+
+    public function getFullAdminJson()
+    {
+        return rtrim($this->fullJson,'}') . ',' . substr($this->adminJson,1);
     }
 
     private function encodeArrayObjectToJson($propertyName, $array)
     {
         if (!$array || count($array) == 0) return '';
-        $result = ', "'. $propertyName .'": [';
+        $result = '"'. $propertyName .'": [';
         foreach ($array as $key => $value) {
             $result .= $value->toJson();
             if ($key != count($array) -1) $result .= ',';
         }
-        $result .= ']';
+        $result .= '],';
         return $result;
     }
 
@@ -1118,5 +1153,27 @@ class Element
     public function getWebsite()
     {
         return $this->website;
+    }
+
+    /**
+     * Set adminJson
+     *
+     * @param string $adminJson
+     * @return $this
+     */
+    public function setAdminJson($adminJson)
+    {
+        $this->adminJson = $adminJson;
+        return $this;
+    }
+
+    /**
+     * Get adminJson
+     *
+     * @return string $adminJson
+     */
+    public function getAdminJson()
+    {
+        return $this->adminJson;
     }
 }

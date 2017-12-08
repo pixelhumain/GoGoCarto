@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-08 13:37:42
+ * @Last Modified time: 2017-12-08 18:27:46
  */
  
 
@@ -43,11 +43,13 @@ class APIController extends Controller
             {
               $boxes[] = explode( ',' , $bound);
             }
+            $isAdmin = $this->isUserAdmin();
+
             $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
             //dump('fullRepresentation' . $request->get('fullRepresentation'));
-            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation')); 
+            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation'), $isAdmin); 
     
-            $responseJson = $this->encodeArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'));  
+            $responseJson = $this->encodeArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'), $isAdmin);  
             //dump($responseJson);
             $result = new Response($responseJson);   
 
@@ -60,7 +62,7 @@ class APIController extends Controller
         }
     }
 
-    private function encodeArrayToJsonArray($array, $fullRepresentation)
+    private function encodeArrayToJsonArray($array, $fullRepresentation, $isAdmin = false)
     {
         $elementsJson = '['; 
 
@@ -69,6 +71,7 @@ class APIController extends Controller
             if ($fullRepresentation == 'true') 
             {
                 $elementJson = $value['fullJson']; 
+                if ($isAdmin) $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
                 if (key_exists('score', $value)) {
                   // remove first '{'
                   $elementJson = substr($elementJson, 1);
@@ -99,8 +102,8 @@ class APIController extends Controller
             
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findOneBy(array('id' => $elementId));
-
-            $elementJson = $element->getFullJson();
+            
+            $elementJson = $this->isUserAdmin() ? $element->getFullAdminJson() : $element->getFullJson();
             
             $response = new Response($elementJson);    
             $response->headers->set('Content-Type', 'application/json');
@@ -136,10 +139,12 @@ class APIController extends Controller
         {
             $em = $this->get('doctrine_mongodb')->getManager();
             
+            $isAdmin = $this->isUserAdmin();
+
             $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findElementsWithText($request->get('text'));
 
-            $responseJson = $this->encodeArrayToJsonArray($elements, true);
+            $responseJson = $this->encodeArrayToJsonArray($elements, true, $isAdmin);
             
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
@@ -149,6 +154,19 @@ class APIController extends Controller
         {
             return new Response("Access to the API is restricted and not allowed via the browser");
         }
+    }
+
+    private function isUserAdmin() 
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        {
+            $user = $securityContext->getToken()->getUser(); 
+            $isAdmin = $user && $user->isAdmin();
+            return $isAdmin;
+        }
+        return false;
+        
     }
 }
     

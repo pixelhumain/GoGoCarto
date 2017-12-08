@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-23 14:22:20
+ * @Last Modified time: 2017-12-08 18:22:25
  */
  
 
@@ -45,7 +45,7 @@ class ElementRepository extends DocumentRepository
     
   }
 
-  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation)
+  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation, $isAdmin = false)
   {
     $results = [];
 
@@ -74,6 +74,7 @@ class ElementRepository extends DocumentRepository
         if ($getFullRepresentation == 'true') 
         {
           $qb->select('fullJson'); 
+          if ($isAdmin) $qb->select('adminJson');
         }
         else
         {
