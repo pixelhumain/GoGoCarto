@@ -99,6 +99,18 @@ class SpecialActionsController extends Controller
         }
     }
 
+    public function fixsCoordinatesDigitsAction()
+    {
+        return $this->elementsBulkAction('fixsCoordinatesDigits');
+    }
+
+    public function fixsCoordinatesDigits($element)
+    {
+        $geo = $element->getGeo();
+        $geo->setLatitude( $geo->getLatitude());
+        $geo->setLongitude( $geo->getLongitude());
+    }
+
     public function addImportContributionAction()
     {
         return $this->elementsBulkAction('addImportContribution');

@@ -10,6 +10,12 @@ biopen_special_actions_fixs_mail_address:
     requirements:
         _method: GET
 
+biopen_special_actions_fixs_coordinates_digits:
+    path:     /fixsCoordinatesDigits
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::fixsCoordinatesDigitsAction }
+    requirements:
+        _method: GET
+
 biopen_special_actions_fixs_cicuits_court:
     path:     /fixsCircuitsCourts
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::fixsCircuitsCourtAction }

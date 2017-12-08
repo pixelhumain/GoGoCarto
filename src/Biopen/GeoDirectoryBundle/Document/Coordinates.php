@@ -24,7 +24,7 @@ class Coordinates
 
     public function __construct($lat = null, $lng = null)
     {
-        $this->setLatitude($lat);
+        $this->setLatitude($lat); 
         $this->setLongitude($lng);
     }  
 
@@ -36,7 +36,7 @@ class Coordinates
      */
     public function setLatitude($latitude)
     {
-        $this->latitude = $latitude;
+        $this->latitude = number_format($latitude,5);
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Coordinates
      */
     public function setLongitude($longitude)
     {
-        $this->longitude = $longitude;
+        $this->longitude = number_format($longitude,5);
         return $this;
     }
 
