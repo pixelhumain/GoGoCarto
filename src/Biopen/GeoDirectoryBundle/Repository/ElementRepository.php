@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-08 18:22:25
+ * @Last Modified time: 2017-12-09 12:29:28
  */
  
 
@@ -45,7 +45,7 @@ class ElementRepository extends DocumentRepository
     
   }
 
-  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation, $isAdmin = false)
+  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation, $isAdmin = false, $limit = null)
   {
     $results = [];
 
@@ -70,16 +70,7 @@ class ElementRepository extends DocumentRepository
         // get elements within box
         $qb->field('geo')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
 
-        // get json representation
-        if ($getFullRepresentation == 'true') 
-        {
-          $qb->select('fullJson'); 
-          if ($isAdmin) $qb->select('adminJson');
-        }
-        else
-        {
-          $qb->select('compactJson');   
-        } 
+        $this->selectJson($qb, $getFullRepresentation, $isAdmin);
 
         // execute request   
         $array = $this->queryToArray($qb);
@@ -142,11 +133,24 @@ class ElementRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $qb = $this->filterVisibles($qb);
-    
+    if ($limit) $qb->limit($limit);
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();
   }
+
+  public function findAllPublics($getFullRepresentation, $isAdmin, $limit = null)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    $qb = $this->filterVisibles($qb);
+    $qb->field('moderationState')->equals(ModerationState::NotNeeded);
+    if ($limit) $qb->limit($limit);  
+
+    $this->selectJson($qb, $getFullRepresentation, $isAdmin);  
+    
+    return $this->queryToArray($qb);
+  }  
 
   public function findAllElements($limit = null, $skip = null, $getCount = false)
   {
@@ -171,6 +175,20 @@ class ElementRepository extends DocumentRepository
     // removing element withtout category or withtout geolocation
     $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
     return $qb;
+  }
+
+  private function selectJson($qb, $getFullRepresentation, $isAdmin)
+  {
+    // get json representation
+    if ($getFullRepresentation == 'true') 
+    {
+      $qb->select('fullJson'); 
+      if ($isAdmin) $qb->select('adminJson');
+    }
+    else
+    {
+      $qb->select('compactJson');   
+    } 
   }
 }
 

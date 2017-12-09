@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-08 18:27:46
+ * @Last Modified time: 2017-12-09 13:01:33
  */
  
 
@@ -31,26 +31,54 @@ use MongoClient;
 
 class APIController extends Controller
 {
-    public function getElementsInBoundsAction(Request $request)
+    /* Retrieve elements via API, allow params are
+    * @id
+    * @limit
+    * @bounds
+    * @ontology ( gogofull or gogocompact )
+    **/
+    public function getElementsAction(Request $request, $id = null)
     {
         if($request->isXmlHttpRequest())
         {
             $em = $this->get('doctrine_mongodb')->getManager();
+            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
-            $boxes = [];
-            $bounds = explode( ';' , $request->get('bounds'));
-            foreach ($bounds as $key => $bound) 
-            {
-              $boxes[] = explode( ',' , $bound);
-            }
             $isAdmin = $this->isUserAdmin();
 
-            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-            //dump('fullRepresentation' . $request->get('fullRepresentation'));
-            $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request->get('mainOptionId'), $request->get('fullRepresentation'), $isAdmin); 
-    
-            $responseJson = $this->encodeArrayToJsonArray($elementsFromDB, $request->get('fullRepresentation'), $isAdmin);  
-            //dump($responseJson);
+            $limit = $request->get('limit');
+            $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
+            $fullRepresentation =  $ontology == "gogofull";
+            $elementId = $id ? $id : $request->get('id');
+            $mainOptionId = $request->get('mainOptionId');
+
+            if ($elementId) 
+            {
+                $element = $elementRepo->findOneBy(array('id' => $elementId));
+                $elementsJson = $this->isUserAdmin() ? $element->getFullAdminJson() : $element->getFullJson();
+            }
+            else 
+            {
+                if ($request->get('bounds'))
+                {
+                    $boxes = [];
+                    $bounds = explode( ';' , $request->get('bounds'));
+                    foreach ($bounds as $key => $bound) 
+                    {
+                      $boxes[] = explode( ',' , $bound);
+                    }
+
+                    $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $mainOptionId, $fullRepresentation, $isAdmin, $limit);                    
+                } 
+                else
+                {
+                    $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $limit);
+                }    
+                $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);              
+            }    
+            
+            
+            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "'. $ontology .'"}';
             $result = new Response($responseJson);   
 
             $result->headers->set('Content-Type', 'application/json');
@@ -60,60 +88,7 @@ class APIController extends Controller
         {
             return new Response("Access to the API is restricted and not allowed via the browser");
         }
-    }
-
-    private function encodeArrayToJsonArray($array, $fullRepresentation, $isAdmin = false)
-    {
-        $elementsJson = '['; 
-
-        foreach ($array as $key => $value) 
-        { 
-            if ($fullRepresentation == 'true') 
-            {
-                $elementJson = $value['fullJson']; 
-                if ($isAdmin) $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
-                if (key_exists('score', $value)) {
-                  // remove first '{'
-                  $elementJson = substr($elementJson, 1);
-                  $elementJson = '{"searchScore" : ' . $value['score'] . ',' . $elementJson;
-                }
-            } 
-            else 
-            {
-                $elementJson = $value['compactJson']; 
-            }
-           
-           $elementsJson .=  $elementJson .  ',';
-        }   
-
-        $elementsJson = rtrim($elementsJson,",") . ']';    
-        $responseJson = '{ "data":'. $elementsJson . ', "fullRepresentation" : '. $fullRepresentation .'}';
-
-        return $responseJson;
-    }
-
-    public function getElementByIdAction(Request $request, $id = null)
-    {
-        if($request->isXmlHttpRequest())
-        {
-            $elementId = $id ? $id : $request->get('id');
-
-            $em = $this->get('doctrine_mongodb')->getManager();
-            
-            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-            ->findOneBy(array('id' => $elementId));
-            
-            $elementJson = $this->isUserAdmin() ? $element->getFullAdminJson() : $element->getFullJson();
-            
-            $response = new Response($elementJson);    
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-        else 
-        {
-            return new Response("Access to the API is restricted and not allowed via the browser");
-        }
-    }
+    }  
 
     public function getTaxonomyAction(Request $request)
     {
@@ -167,6 +142,30 @@ class APIController extends Controller
         }
         return false;
         
+    }
+
+    private function encodeElementArrayToJsonArray($array, $fullRepresentation, $isAdmin = false)
+    {
+        $elementsJson = '['; 
+
+        foreach ($array as $key => $value) 
+        { 
+            if ($fullRepresentation == 'true') 
+            {
+                $elementJson = $value['fullJson']; 
+                if ($isAdmin) $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
+                if (key_exists('score', $value)) {
+                  // remove first '{'
+                  $elementJson = substr($elementJson, 1);
+                  $elementJson = '{"searchScore" : ' . $value['score'] . ',' . $elementJson;
+                }
+            } 
+            else $elementJson = $value['compactJson'];            
+            $elementsJson .=  $elementJson .  ',';
+        }   
+
+        $elementsJson = rtrim($elementsJson,",") . ']'; 
+        return $elementsJson;
     }
 }
     

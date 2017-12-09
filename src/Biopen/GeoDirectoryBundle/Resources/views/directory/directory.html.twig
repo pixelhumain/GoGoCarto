@@ -40,8 +40,7 @@
             {
                 taxonomy: {{ mainCategoryJson | raw }},
                 openHours: {{ openHoursCategoryJson | raw }},
-                elementApiUrl: "{{ path('biopen_api_element_by_id') }}",
-                elementInBoundsApiUrl: "{{ path('biopen_api_elements_in_bounds') }}",
+                elementsApiUrl: "{{ path('biopen_api_elements') }}",
             },
             features:
             {

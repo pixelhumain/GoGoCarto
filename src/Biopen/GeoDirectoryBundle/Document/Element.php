@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-08 18:19:03
+ * @Last Modified time: 2017-12-09 12:54:18
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -384,7 +384,7 @@ class Element
                 $value = $sortedOptionsValues[$i];
 
                 if ($value->getDescription()) 
-                    $optionValueJson =  '[' . $value->getOptionId() . ',' . $value->getDescription() . ']';
+                    $optionValueJson =  '[' . $value->getOptionId() . ',"' . str_replace('"', '\"', $value->getDescription()) . '"]';
                 else 
                     $optionValueJson =  $value->getOptionId();  
 

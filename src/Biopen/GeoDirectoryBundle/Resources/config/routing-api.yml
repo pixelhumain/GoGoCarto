@@ -6,40 +6,20 @@ biopen_api_taxonomy:
     options:
         expose: true
 
-biopen_api_element_by_id:
-    path:     /element/{id}
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementById, id: null }
-    requirements:
-        _method: GET
-    options:
-        expose: true
-
-biopen_api_element_all:
-    path:     /elements
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getAllElements }
-    options:
-        expose: true
-
-biopen_api_elements_around_location:
-    path:     /elementsAround
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsAroundLocation }
-    requirements:
-        _method: GET
-    options:
-        expose: true
-
-biopen_api_elements_in_bounds:
-    path:     /elementsInBounds
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsInBounds }
-    requirements:
-        _method: GET
-    options:
-        expose: true
-
 biopen_api_elements_from_text:
-    path:     /search
+    path:     /elements/search
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsFromText }
     requirements:
         _method: GET
     options:
         expose: true
+
+biopen_api_elements:
+    path:     /elements/{id}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null }
+    requirements:
+        _method: GET
+    options:
+        expose: true
+
+
