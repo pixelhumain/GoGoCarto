@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-11 10:19:26
+ * @Last Modified time: 2017-12-11 11:03:25
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -266,7 +266,7 @@ class ElementAdmin extends AbstractAdmin
         ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_contributions.html.twig'))
       ->end(); 
 
-    $show->with('JSON', array('class' => 'col-md-6 col-sm-12'))         
+    $show->with('JSON', array('class' => 'col-md-12'))         
           ->add('compactJson')
           ->add('fullJson')
           ->add('adminJson')
@@ -313,11 +313,11 @@ class ElementAdmin extends AbstractAdmin
 	public function configureBatchActions($actions)
 	{
   	$actions = [];
-  	$actions['validation'] = $this->createBatchConfig('Valider');  	
-  	$actions['refusal'] = $this->createBatchConfig('Refuser');
-    $actions['delete'] = $this->createBatchConfig('Supprimer');
-    $actions['restore'] = $this->createBatchConfig('Restaurer');
-    $actions['resolveReports'] = $this->createBatchConfig('Résoudre la modération');
+  	$actions['validation'] = $this->createBatchConfig('Valider', 'validation');  	
+  	$actions['refusal'] = $this->createBatchConfig('Refuser', 'refusal');
+    $actions['delete'] = $this->createBatchConfig('Supprimer', 'delete');
+    $actions['restore'] = $this->createBatchConfig('Restaurer', 'restore');
+    $actions['resolveReports'] = $this->createBatchConfig('Résoudre la modération', 'resolveReports');
   	$actions['sendMail'] = array(
       'label' => 'Envoyer un mail',
       'ask_confirmation' => false,
@@ -339,14 +339,14 @@ class ElementAdmin extends AbstractAdmin
 	   return $actions;
 	}
 
-  protected function createBatchConfig($name)
+  protected function createBatchConfig($name, $id)
   {
     return array(
       'label' => $name,
       'ask_confirmation' => false,
       'modal' => [
-        ['type' => 'text',  'label' => "Détail de la modification, raison de la suppression... ce texte remplacera {{ customMessage }} dans les mails automatiques", 'id' => 'comment' ],
-        ['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail',  'id' => 'dont-send-mail'],
+        ['type' => 'text',  'label' => "Détail de la modification, raison de la suppression... ce texte remplacera {{ customMessage }} dans les mails automatiques", 'id' => 'comment-' . $id ],
+        ['type' => 'checkbox',  'label' => 'Ne pas envoyer de mail',  'id' => 'dont-send-mail-' . $id],
       ]
     );
   }

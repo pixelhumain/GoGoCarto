@@ -44,7 +44,7 @@ class ElementAdminController extends Controller
 
     public function batchActionDelete(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus('batchDeleteFunction', $selectedModelQuery);
+        return $this->batchStatus('batchDeleteFunction', $selectedModelQuery, 'delete');
     }
 
     public function batchDeleteFunction($elementActionService, $selectedModel, $sendMail, $comment)
@@ -54,7 +54,7 @@ class ElementAdminController extends Controller
 
     public function batchActionRestore(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus('batchRestoreFunction', $selectedModelQuery);
+        return $this->batchStatus('batchRestoreFunction', $selectedModelQuery, 'restore');
     }
 
     public function batchRestoreFunction($elementActionService, $selectedModel, $sendMail, $comment)
@@ -64,7 +64,7 @@ class ElementAdminController extends Controller
 
     public function batchActionResolveReports(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus('batchResolveReportsFunction', $selectedModelQuery);
+        return $this->batchStatus('batchResolveReportsFunction', $selectedModelQuery, 'resolveReports');
     }
 
     public function batchResolveReportsFunction($elementActionService, $selectedModel, $sendMail, $comment)
@@ -74,7 +74,7 @@ class ElementAdminController extends Controller
 
     public function batchActionValidation(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus('batchValidationFunction', $selectedModelQuery);
+        return $this->batchStatus('batchValidationFunction', $selectedModelQuery, 'validation');
     }
 
     public function batchValidationFunction($elementActionService, $selectedModel, $sendMail, $comment)
@@ -84,28 +84,30 @@ class ElementAdminController extends Controller
 
     public function batchActionRefusal(ProxyQueryInterface $selectedModelQuery)
     {
-        return $this->batchStatus('batchRefusalFunction', $selectedModelQuery);
+        return $this->batchStatus('batchRefusalFunction', $selectedModelQuery, 'refusal');
     }
 
     public function batchRefusalFunction($elementActionService, $selectedModel, $sendMail, $comment)
     {
-        $elementActionService->resolve($selectedModel, $isAccepted, ValidationType::Admin, $comment);
+        $elementActionService->resolve($selectedModel, false, ValidationType::Admin, $comment);
     }
 
-    private function batchStatus($functionToExecute, ProxyQueryInterface $selectedModelQuery, $limit = 3000)
+    private function batchStatus($functionToExecute, ProxyQueryInterface $selectedModelQuery, $id = '')
     {
         $this->admin->checkAccess('edit');
 
         $request = $this->get('request')->request;
         $modelManager = $this->admin->getModelManager();
 
+        $limit = 3000;
+
         $selectedModels = $selectedModelQuery->execute();
         $nbreModelsToProceed = $selectedModels->count();        
         $selectedModels->limit($limit);
 
         $elementActionService = $this->container->get('biopen.element_action_service');
-        $sendMail = !($request->has('dont-send-mail') && $request->get('dont-send-mail'));            
-        $comment = $request->get('comment');
+        $sendMail = !($request->has('dont-send-mail-' . $id) && $request->get('dont-send-mail-' . $id));            
+        $comment = $request->get('comment-' . $id);
 
         try {
             // getting the document manager (quite ugly way) so we can control better the flush and clear
