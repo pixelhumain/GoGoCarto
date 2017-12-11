@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-09 13:01:33
+ * @Last Modified time: 2017-12-11 16:37:03
  */
  
 
@@ -119,7 +119,11 @@ class APIController extends Controller
             $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
             ->findElementsWithText($request->get('text'));
 
-            $responseJson = $this->encodeArrayToJsonArray($elements, true, $isAdmin);
+            $elements = array_filter($elements, function($value) {
+                return (float) $value['score'] >= 1.5;
+            });
+
+            $responseJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin);
             
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
