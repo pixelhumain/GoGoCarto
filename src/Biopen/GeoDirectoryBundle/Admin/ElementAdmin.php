@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-07 12:26:37
+ * @Last Modified time: 2017-12-11 10:19:26
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -265,6 +265,12 @@ class ElementAdmin extends AbstractAdmin
       ->with('Hitorique des contributions', array('class' => 'col-sm-12'))
         ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_contributions.html.twig'))
       ->end(); 
+
+    $show->with('JSON', array('class' => 'col-md-6 col-sm-12'))         
+          ->add('compactJson')
+          ->add('fullJson')
+          ->add('adminJson')
+         ->end();
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
