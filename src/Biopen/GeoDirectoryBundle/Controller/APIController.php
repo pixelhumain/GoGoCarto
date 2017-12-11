@@ -153,7 +153,7 @@ class APIController extends Controller
             if ($fullRepresentation == 'true') 
             {
                 $elementJson = $value['fullJson']; 
-                if ($isAdmin) $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
+                if ($isAdmin && $value['adminJson'] != '{}') $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
                 if (key_exists('score', $value)) {
                   // remove first '{'
                   $elementJson = substr($elementJson, 1);

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 14:48:29
+ * @Last Modified time: 2017-12-11 16:12:59
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -390,9 +390,10 @@ class Element
                     $optionValueJson =  $value->getOptionId();  
 
                 $fullJson .= $optionValueJson;
-                if ($i != $optValuesLength -1) $fullJson .= ',';
+                $fullJson .= ',';
             }
         }
+        $fullJson = rtrim($fullJson, ',');
         $fullJson .= ']';
 
         if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
@@ -420,8 +421,9 @@ class Element
             for ($i=0; $i < $optValuesLength; $i++) { 
                 $value = $sortedOptionsValues[$i];
                 $compactJson .= $value->getOptionId();
-                if ($i != $optValuesLength -1) $compactJson .= ',';
+                $compactJson .= ',';
             }
+            $compactJson = rtrim($compactJson, ',');
         }
         $compactJson .= ']';
         if ($this->status <= 0 || $this->moderationState != 0) $compactJson .= ','. $this->status;
@@ -441,8 +443,9 @@ class Element
         $result = '"'. $propertyName .'": [';
         foreach ($array as $key => $value) {
             $result .= $value->toJson();
-            if ($key != count($array) -1) $result .= ',';
+            $result .= ',';
         }
+        $result = rtrim($result, ',');
         $result .= '],';
         return $result;
     }
