@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-11 11:03:25
+ * @Last Modified time: 2017-12-11 16:05:01
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -43,6 +43,13 @@ class ElementAdmin extends AbstractAdmin
     '3'=>'En attente depuis trop longtemps', 
     '4'=>'Doublon potentiel', 
 	];
+
+  private $reportsValuesChoice = [
+    '0'=> "L'élément n'existe plus",
+    '1'=>'Les informations sont incorrectes',
+    '2'=>"L'élément ne respecte pas la charte",
+    '4'=>"L'élément est référencé plusieurs fois"
+  ];
 
   protected $datagridValues = array(
     '_page' => 1,            // display the first page (default = 1)
@@ -145,7 +152,25 @@ class ElementAdmin extends AbstractAdmin
 		         'expanded' => false,    
 		         'multiple' => false
 		        )
-	        )   	
+	        )   
+      // ->add('reportsIn', 'doctrine_mongo_callback', array(
+      //          'label' => "Type d'erreurs signalées",
+      //          'callback' => function($queryBuilder, $alias, $field, $value) {
+      //               if (!$value || !$value['value']) { return; }
+      //               dump($value['value']);
+      //               $queryBuilder->field('moderationState')->equals(ModerationState::ReportsSubmitted);
+      //               $queryBuilder->where("function() { return (this.reports.filter( function(r) { return (r.value != 4); }).length > 0); }");
+      //               return true;
+      //           },
+      //           'field_type' => 'choice',                
+      //           'field_options' =>
+      //            array(             
+      //                'choices' => $this->reportsValuesChoice, 
+      //                'expanded' => false,    
+      //                'multiple' => true
+      //               )
+      //          )
+      //       )  	
       ->add('optionValuesAll', 'doctrine_mongo_callback', array(
                'label' => 'Catégories (contient toutes)',
                'callback' => function($queryBuilder, $alias, $field, $value) {
