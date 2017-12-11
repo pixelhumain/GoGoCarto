@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 10:33:20
+ * @Last Modified time: 2017-12-11 10:46:11
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -363,7 +363,7 @@ class Element
         // -------------------- FULL JSON ----------------
         $fullJson = json_encode($this);
         $fullJson = rtrim($fullJson,'}');
-        $fullJson .= ', "openHours": ' . $this->openHours->toJson();
+        if ($this->openHours) $fullJson .= ', "openHours": ' . $this->openHours->toJson();
         if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
             $fullJson .= ', "email": "' . $this->getEmail(). '"';
         else
