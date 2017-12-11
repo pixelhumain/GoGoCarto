@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 14:49:59
+ * @Last Modified time: 2017-12-11 16:44:40
  */
  
 
@@ -17,7 +17,6 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Security\Core\SecurityContext;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
-use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\CoreBundle\Services\MailService;
 
 abstract class ValidationType
@@ -48,7 +47,7 @@ class ElementPendingService
    {
       $contribution = new UserInteractionContribution();
       $contribution->updateUserInformation($this->securityContext, $userEmail);
-      $contribution->setType($editMode ? InteractionType::Edit : InteractionType::Add);
+      $contribution->setType($editMode ? 1 : 0);
       $element->addContribution($contribution);
 
       $element->setStatus($editMode ? ElementStatus::PendingModification : ElementStatus::PendingAdd);  

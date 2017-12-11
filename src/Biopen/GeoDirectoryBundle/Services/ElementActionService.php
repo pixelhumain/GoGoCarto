@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 14:51:17
+ * @Last Modified time: 2017-12-11 16:45:26
  */
  
 
@@ -21,7 +21,7 @@ use Biopen\GeoDirectoryBundle\Services\ElementPendingService;
 use Biopen\GeoDirectoryBundle\Services\ValidationType;
 use Biopen\CoreBundle\Services\MailService;  
 
-abstract class InteractionType
+abstract class InteractType
 {
     const Deleted = -1;   
     const Add = 0;
@@ -49,14 +49,14 @@ class ElementActionService
 
    public function add($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Add, ElementStatus::AddedByAdmin);
+      $this->addContribution($element, $message, InteractType::Add, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin); 
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
    }
 
    public function edit($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Edit, ElementStatus::ModifiedByAdmin);
+      $this->addContribution($element, $message, InteractType::Edit, ElementStatus::ModifiedByAdmin);
       $element->setStatus(ElementStatus::ModifiedByAdmin); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
@@ -79,7 +79,7 @@ class ElementActionService
 
    public function delete($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Deleted, ElementStatus::Deleted);
+      $this->addContribution($element, $message, InteractType::Deleted, ElementStatus::Deleted);
       $element->setStatus(ElementStatus::Deleted); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('delete', $element, $message);
@@ -87,7 +87,7 @@ class ElementActionService
 
    public function restore($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Restored, ElementStatus::AddedByAdmin);
+      $this->addContribution($element, $message, InteractType::Restored, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin);
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
@@ -105,14 +105,14 @@ class ElementActionService
       $element->setModerationState(ModerationState::NotNeeded);
    }
 
-   private function addContribution($element, $message, $interactionType, $status)
+   private function addContribution($element, $message, $InteractType, $status)
    {
       $contribution = new UserInteractionContribution();
       $contribution->updateUserInformation($this->securityContext);
       $contribution->setResolvedMessage($message);
       $contribution->updateResolvedBy($this->securityContext);
-      $contribution->setType($interactionType);
-      $contribution->setType($interactionType);
+      $contribution->setType($InteractType);
+      $contribution->setType($InteractType);
       $contribution->setStatus($status);
       $element->addContribution($contribution);
    }
