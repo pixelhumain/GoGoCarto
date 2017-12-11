@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 16:12:59
+ * @Last Modified time: 2017-12-11 18:27:42
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -434,6 +434,7 @@ class Element
 
     public function getFullAdminJson()
     {
+        if (!$this->adminJson || $this->adminJson == '{}') return $this->fullJson;
         return rtrim($this->fullJson,'}') . ',' . substr($this->adminJson,1);
     }
 
