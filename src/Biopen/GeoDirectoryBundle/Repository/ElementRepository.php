@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 10:59:38
+ * @Last Modified time: 2017-12-11 12:39:05
  */
  
 
@@ -39,8 +39,21 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     return $qb  //->limit($maxResults)
                 ->equals($expr->getQuery())
+                ->field('status')->gt(ElementStatus::Duplicate)
                 ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)                
                 ->sortMeta('score', 'textScore')
+                ->hydrate(false)->getQuery()->execute()->toArray();
+    
+  }
+
+  public function findPerfectDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+
+    // convert kilometre in degrees
+    $radius = $distance / 110;
+    return $qb  ->field('name')->equals($text)
+                ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)           
                 ->hydrate(false)->getQuery()->execute()->toArray();
     
   }

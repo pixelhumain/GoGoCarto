@@ -33,3 +33,15 @@ biopen_special_actions_fix_cities:
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::fixsMissingCitiesAction }
     requirements:
         _method: GET
+
+biopen_special_actions_verify_duplicates:
+    path:     /verifyDuplicates
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::verifyDuplicatesAction }
+    requirements:
+        _method: GET
+
+biopen_special_actions_detect_duplicates:
+    path:     /detectDuplicates
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::detectDuplicatesAction }
+    requirements:
+        _method: GET

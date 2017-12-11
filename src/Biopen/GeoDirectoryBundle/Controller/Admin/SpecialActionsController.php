@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\ModerationState;
 use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
@@ -109,6 +110,62 @@ class SpecialActionsController extends Controller
         $geo = $element->getGeo();
         $geo->setLatitude( $geo->getLatitude());
         $geo->setLongitude( $geo->getLongitude());
+    }
+
+    public function verifyDuplicatesAction()
+    {
+        return $this->elementsBulkAction('verifyDuplicates');
+    }
+
+    public function verifyDuplicates($element)
+    {
+        if ($element->getStatus() == ElementStatus::Duplicate)
+        {
+            
+            $em = $this->get('doctrine_mongodb')->getManager();
+
+            $em = $this->get('doctrine_mongodb')->getManager();
+            $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+            $elements = $qb
+                ->field('name')->equals($element->getName())     
+                ->hydrate(false)->getQuery()->execute()->toArray();
+
+            if (count($elements) == 1)
+            {
+                dump($element->getName());
+                dump("no siblings found, retoring it");
+                $element->setModerationState(ModerationState::PossibleDuplicate);
+                $element->setStatus(ElementStatus::AddedByAdmin);
+            }
+        }
+    }
+
+    public function detetctDuplicatesAction()
+    {
+        return $this->elementsBulkAction('detectDuplicates');
+    }
+
+    public function detectDuplicates($element)
+    {
+        if ($element->getStatus() >= ElementStatus::PendingModification)
+        {
+            // dump($element->getName());
+            $radius = 10 / 110; // km
+
+            $em = $this->get('doctrine_mongodb')->getManager();
+            $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+            $elements = $qb
+                ->field('name')->equals($element->getName()) 
+                ->field('status')->gte(ElementStatus::PendingModification) 
+                ->field('geo')->withinCenter((float)$element->getGeo()->getLatitude(), (float)$element->getGeo()->getLongitude(), $radius)      
+                ->hydrate(false)->getQuery()->execute()->toArray();
+
+            if (count($elements) > 1)
+            {
+                dump("DUPLICATES");
+                dump($elements);
+            }
+        }
     }
 
     public function addImportContributionAction()
