@@ -16,3 +16,9 @@ db.Element.updateMany({'address.addressLocality':null, 'status': { $gte: -3}}, {
 
 // votes depuis ouverture
 db.UserInteractionVote.find({'createdAt': { $gte: ISODate("2017-11-28T00:00:00.000Z")}})
+
+db.Element.aggregate(
+    {"$group" : { "_id": "$name", uniqueIds: { $addToSet: "$_id" },"count": { "$sum": 1 } } },
+    {"$match": { "_id" :{ "$ne" : null } , "count" : {"$gt": 1} } }, 
+    {"$project": {"name" : "$_id", "_id" : 0, "uniqueIds" : "$uniqueIds", "status": "$status"} }
+)
