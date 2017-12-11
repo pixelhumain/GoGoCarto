@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="assets/css/gogocarto.min.css"">  
    <link rel="stylesheet" href="assets/css/pages.css"> 
   <meta name="robots" content="index, follow, all" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>   
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto:400,700" rel="stylesheet"> 
 </head>
 
 <body>
@@ -21,14 +22,14 @@
     
     <div id="page-content" >
       <section>
-        <h1>Oops! Une erreur s'est produite</h1>
+        <h1>Halte aux travaux !</h1>
 
         <div>
-          Oula, mais il y a bien trop de monde qui tente de se connecter, ça fait planter le serveur !</br></br>      
+          Oups, on est en train de mettre à jour le site !</br></br>      
 
           <img src="https://media.giphy.com/media/P8WZZ0NYdbXAA/giphy.gif" width="200" height="200" /></br></br>
 
-          Quoiqu'il en soit, revenez d'ici quelques heure ça devrait être mieux :)</br>
+          Revenez d'ici une heure ça devrait être mieux :)</br>
           
           <!-- Le serveur à répondu "{{ status_code }} {{ status_text }}".</br> -->
         </div>
