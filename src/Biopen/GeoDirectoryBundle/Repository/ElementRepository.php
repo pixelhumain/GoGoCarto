@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-09 12:29:28
+ * @Last Modified time: 2017-12-11 10:59:38
  */
  
 
@@ -133,7 +133,6 @@ class ElementRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $qb = $this->filterVisibles($qb);
-    if ($limit) $qb->limit($limit);
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();
