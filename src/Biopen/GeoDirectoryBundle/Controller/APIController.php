@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 17:04:48
+ * @Last Modified time: 2017-12-11 17:12:36
  */
  
 
@@ -123,7 +123,8 @@ class APIController extends Controller
             //     return (float) $value['score'] >= 0;
             // });
 
-            $responseJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin);
+            $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin);
+            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
             
             $response = new Response($responseJson);    
             $response->headers->set('Content-Type', 'application/json');
