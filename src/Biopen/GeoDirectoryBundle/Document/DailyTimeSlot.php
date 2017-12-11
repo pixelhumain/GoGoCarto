@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-01 11:01:45
+ * @Last Modified time: 2017-12-11 10:37:10
  */
  
 
@@ -22,24 +22,33 @@ class DailyTimeSlot
 	/** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    public $slot1start;
+    private $slot1start;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    public $slot1end;
+    private $slot1end;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-	public $slot2start;
+	private $slot2start;
     /** 
     * @Expose
     * @MongoDB\Field(type="date") */
-    public $slot2end;
+    private $slot2end;
 
 	public function __construct()
 	{
 		
 	}
+
+    public function toJson()
+    {
+        $result = '"';
+        if ($this->slot1start && $this->slot1end) $result .= date_format($this->slot1start, 'H:i') .'-' . date_format($this->slot1end, 'H:i');
+        if ($this->slot2start && $this->slot2end) $result .= ',' . date_format($this->slot2start, 'H:i') .'-' . date_format($this->slot2end, 'H:i');
+        $result .= '"';
+        return $result;
+    }
 
     public function getSlot1Start()
     {

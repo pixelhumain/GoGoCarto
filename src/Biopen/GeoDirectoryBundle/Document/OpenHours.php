@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-08-01 11:01:38
+ * @Last Modified time: 2017-12-11 10:44:48
  */
  
 
@@ -22,31 +22,45 @@ class OpenHours
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Monday;
+	private $Monday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Tuesday;
+	private $Tuesday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Wednesday;
+	private $Wednesday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Thursday;
+	private $Thursday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Friday;
+	private $Friday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Saturday;
+	private $Saturday;
 	/** 
 	* @Expose
 	* @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\DailyTimeSlot") */
-	public $Sunday;
+	private $Sunday;
+
+	public function toJson() {
+		$result = '{';
+		if ($this->Monday) $result .= '"Mo":' . $this->Monday->toJson() . ',';
+		if ($this->Tuesday) $result .= '"Tu":' . $this->Tuesday->toJson() . ',';
+		if ($this->Wednesday) $result .= '"We":' . $this->Wednesday->toJson() . ',';
+		if ($this->Thursday) $result .= '"Th":' . $this->Thursday->toJson() . ',';
+		if ($this->Friday) $result .= '"Fr":' . $this->Friday->toJson() . ',';
+		if ($this->Saturday) $result .= '"Sa":' . $this->Saturday->toJson() . ',';
+		if ($this->Sunday) $result .= '"Su":' . $this->Sunday->toJson() . ',';
+		$result = rtrim($result, ',');
+		$result .= '}';
+		return $result;
+	}
 
 	public function getMonday()
 	{
