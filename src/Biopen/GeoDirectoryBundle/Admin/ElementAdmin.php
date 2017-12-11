@@ -279,7 +279,7 @@ class ElementAdmin extends AbstractAdmin
 	      ->add('name', null,  array('editable' => false, 'template' => 'BiopenGeoDirectoryBundle:admin:list_name.html.twig'))	      
          ->add('status', 'choice', [
                'choices'=> $this->statusChoices,
-               'editable'=>false,
+               'editable'=>true,
                'template' => 'BiopenGeoDirectoryBundle:admin:list_choice_status.html.twig'
                ])
          ->add('updatedAt','date', array("format" => "d/m/Y"))
