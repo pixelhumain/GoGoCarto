@@ -9,7 +9,8 @@ abstract class ReportValue
 {
     const DontExist = 0;
     const WrongInformations = 1;
-    const DontRespectChart = 2;   
+    const DontRespectChart = 2; 
+    const Duplicate = 4; 
 }
 
 /** @MongoDB\Document */

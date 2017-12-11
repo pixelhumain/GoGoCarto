@@ -1,5 +1,17 @@
 {% if real_value != 0 %}
     <span class="label label-danger">{{ value }}</span>
+    {% if object.reports %}
+      {% set reportValues = {
+        '0': "existe plus",
+        '1': 'info incorrecte',
+        '2': "charte",
+        '4': "doublon"
+        }
+      %} 
+      {% for report in object.reports %}
+          <span class="label label-danger" style="margin-left: 5px">{{ reportValues[report.value] }}</span>
+      {% endfor %}
+    {% endif %}
 {% else %}
     <span style="display:none">{{ value }}</span>
 {% endif %}  
