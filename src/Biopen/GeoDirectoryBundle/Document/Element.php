@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 10:46:11
+ * @Last Modified time: 2017-12-11 14:48:29
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -515,13 +515,7 @@ class Element
      * @return $this
      */
     public function setStatus($newStatus)
-    { 
-        if ($newStatus != ElementStatus::PendingModification && $newStatus != ElementStatus::PendingAdd)
-        {
-            $currContribution = $this->getCurrContribution();
-            if ($currContribution) $currContribution->setStatus($newStatus);
-        }
-        
+    {         
         $this->status = $newStatus;
         return $this;
     }

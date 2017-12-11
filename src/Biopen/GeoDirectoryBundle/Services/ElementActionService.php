@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-04 21:26:49
+ * @Last Modified time: 2017-12-11 14:51:17
  */
  
 
@@ -49,14 +49,14 @@ class ElementActionService
 
    public function add($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Add);
+      $this->addContribution($element, $message, InteractionType::Add, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin); 
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
    }
 
    public function edit($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Edit);
+      $this->addContribution($element, $message, InteractionType::Edit, ElementStatus::ModifiedByAdmin);
       $element->setStatus(ElementStatus::ModifiedByAdmin); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
@@ -79,7 +79,7 @@ class ElementActionService
 
    public function delete($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Deleted);
+      $this->addContribution($element, $message, InteractionType::Deleted, ElementStatus::Deleted);
       $element->setStatus(ElementStatus::Deleted); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('delete', $element, $message);
@@ -87,7 +87,7 @@ class ElementActionService
 
    public function restore($element, $sendMail = true, $message = null)
    {
-      $this->addContribution($element, $message, InteractionType::Restored);
+      $this->addContribution($element, $message, InteractionType::Restored, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin);
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
@@ -105,13 +105,15 @@ class ElementActionService
       $element->setModerationState(ModerationState::NotNeeded);
    }
 
-   private function addContribution($element, $message, $interactionType)
+   private function addContribution($element, $message, $interactionType, $status)
    {
       $contribution = new UserInteractionContribution();
       $contribution->updateUserInformation($this->securityContext);
       $contribution->setResolvedMessage($message);
       $contribution->updateResolvedBy($this->securityContext);
       $contribution->setType($interactionType);
+      $contribution->setType($interactionType);
+      $contribution->setStatus($status);
       $element->addContribution($contribution);
    }
 

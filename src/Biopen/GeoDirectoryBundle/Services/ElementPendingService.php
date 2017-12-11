@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 11:12:00
+ * @Last Modified time: 2017-12-11 14:49:59
  */
  
 
@@ -83,16 +83,19 @@ class ElementPendingService
       {
          if ($isAccepted) $this->acceptNewElement($element, $message);
          else $this->refuseNewElement($element);
+
+         $this->updateStatusAfterValidationOrRefusal($element, $isAccepted, $validationType);
       }
       else if ($element->getStatus() == ElementStatus::PendingModification) 
       {
          if ($isAccepted) $this->acceptModifiedElement($element, $message);
          else $this->refuseModifiedElement($element);
+
+         // For pending modification, both validation or refusal ends with validation status
+         $element->setStatus($validationType == ValidationType::Collaborative ? ElementStatus::CollaborativeValidate : ElementStatus::AdminValidate);
       }     
 
-      $this->resolveContribution($element, $isAccepted, $validationType, $message);
-
-      $this->updateStatusAfterValidationOrRefusal($element, $isAccepted, $validationType);
+      $this->resolveContribution($element, $isAccepted, $validationType, $message);      
 
       if ($element->isPending())
          $this->sendMailToContributorAfterValidationOrRefusal($element, $isAccepted, $validationType, $message);
@@ -149,12 +152,14 @@ class ElementPendingService
       {
          $element->getCurrContribution()->setResolvedMessage($message);
          $element->getCurrContribution()->updateResolvedby($this->securityContext);
+         $element->getCurrContribution()->setStatus($isAccepted ? ElementStatus::AdminValidate : ElementStatus::AdminRefused);
       }
       else
       {
          $text = $isAccepted ? 'Cette contribution a été approuvée le processus de modération collaborative' : 'Cette contribution a été refusée par le processus de modération collaborative';
          $element->getCurrContribution()->setResolvedMessage($text);
          $element->getCurrContribution()->setResolvedby("Collaborative process");
+         $element->getCurrContribution()->setStatus($isAccepted ? ElementStatus::CollaborativeValidate : ElementStatus::CollaborativeRefused);
       }
    }
 
