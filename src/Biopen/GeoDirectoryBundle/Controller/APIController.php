@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 17:12:36
+ * @Last Modified time: 2017-12-12 15:32:58
  */
  
 
@@ -55,7 +55,7 @@ class APIController extends Controller
             if ($elementId) 
             {
                 $element = $elementRepo->findOneBy(array('id' => $elementId));
-                $elementsJson = $this->isUserAdmin() ? $element->getFullAdminJson() : $element->getFullJson();
+                $elementsJson = $isAdmin ? $element->getFullAdminJson() : $element->getFullJson();
             }
             else 
             {
@@ -158,7 +158,9 @@ class APIController extends Controller
             if ($fullRepresentation == 'true') 
             {
                 $elementJson = $value['fullJson']; 
-                if ($isAdmin && $value['adminJson'] != '{}') $elementJson = rtrim($elementJson ,'}') . ',' . substr($value['adminJson'],1);
+                if ($isAdmin && $value['adminJson'] != '{}') {
+                    $elementJson = substr($elementJson , 0, -1) . ',' . substr($value['adminJson'],1);
+                }
                 if (key_exists('score', $value)) {
                   // remove first '{'
                   $elementJson = substr($elementJson, 1);

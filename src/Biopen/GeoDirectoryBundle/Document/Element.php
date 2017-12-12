@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 18:27:42
+ * @Last Modified time: 2017-12-12 15:26:32
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -362,7 +362,7 @@ class Element
 
         // -------------------- FULL JSON ----------------
         $fullJson = json_encode($this);
-        $fullJson = rtrim($fullJson,'}');
+        $fullJson = substr($fullJson , 0, -1);
         if ($this->openHours) $fullJson .= ', "openHours": ' . $this->openHours->toJson();
         if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
             $fullJson .= ', "email": "' . $this->getEmail(). '"';
@@ -435,7 +435,7 @@ class Element
     public function getFullAdminJson()
     {
         if (!$this->adminJson || $this->adminJson == '{}') return $this->fullJson;
-        return rtrim($this->fullJson,'}') . ',' . substr($this->adminJson,1);
+        return substr($this->fullJson , 0, -1) . ',' . substr($this->adminJson,1);
     }
 
     private function encodeArrayObjectToJson($propertyName, $array)
