@@ -51,7 +51,7 @@
                 export:   {{ this.getConfigFrom(config.exportIframeFeature) }},
                 pending:  {{ this.getConfigFrom(config.pendingFeature) }},
                 directModeration:  {{ this.getConfigFrom(config.directModerationFeature) }},
-                moderation:  {{ this.getConfigFrom(config.directModerationFeature) }},
+                moderation:  {{ this.getConfigFrom(config.directModerationFeature, path('biopen_resolve_reports_element')) }},
                 elementHistory: {{ this.getConfigFrom(config.directModerationFeature) }},
                 // desactivate add feature because we handle it in GoGoCarto Header
                 add:      {active: false},
