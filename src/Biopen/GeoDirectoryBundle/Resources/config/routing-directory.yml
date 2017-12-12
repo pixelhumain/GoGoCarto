@@ -5,5 +5,5 @@ biopen_directory:
       expose: true
 
 biopen_directory_showElement:
-    path:     /annuaire#/fiche/{name}/{id}
+    path:     /annuaire#/fiche/element/{id}
     defaults: { _controller: BiopenGeoDirectoryBundle:Directory:render }
