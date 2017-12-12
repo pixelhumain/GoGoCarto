@@ -45,3 +45,9 @@ biopen_special_actions_detect_duplicates:
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::detectDuplicatesAction }
     requirements:
         _method: GET
+
+biopen_special_actions_delete_element_reported:
+    path:     /deleteElementReportedAsNoMoreExisting
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::deleteElementReportedAsNoMoreExistingAction }
+    requirements:
+        _method: GET
