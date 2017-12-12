@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 16:45:26
+ * @Last Modified time: 2017-12-12 16:19:11
  */
  
 
@@ -95,7 +95,8 @@ class ElementActionService
 
    public function resolveReports($element, $message = '')
    {    
-      foreach ($element->getUnresolvedReports() as $key => $report) 
+      $elements = $element->getUnresolvedReports();
+      foreach ($elements as $key => $report) 
       {
          $report->setResolvedMessage($message);
          $report->updateResolvedBy($this->securityContext);

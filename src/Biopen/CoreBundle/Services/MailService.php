@@ -29,21 +29,21 @@ class MailService
     {
         // TODO config an admin email for automated message
         if (!$from) $from = array('nepasrepondre@presdecheznous.fr' => 'Près de chez Nous');
-
-        $draftedContent = $this->draftTemplate($content);
-
-        $message = (new \Swift_Message())
-        ->setFrom($from)       
-        ->setSubject($subject)
-        ->setBody(
-            $draftedContent,
-            'text/html'
-        );
-
-        if ($to) $message->setTo($to);
-        if ($toBCC) $message->setBcc($toBCC);
-
         try {
+
+            $draftedContent = $this->draftTemplate($content);
+
+            $message = (new \Swift_Message())
+            ->setFrom($from)       
+            ->setSubject($subject)
+            ->setBody(
+                $draftedContent,
+                'text/html'
+            );
+
+            if ($to) $message->setTo($to);
+            if ($toBCC) $message->setBcc($toBCC);
+        
             $this->mailer->send($message);
         }
         catch (\Swift_RfcComplianceException $e) {
@@ -72,7 +72,7 @@ class MailService
             else 
                 $mailTo =  $element->getEmail();
 
-            if ($mailTo)
+            if ($mailTo && $mailTo != "no email")
             {
                 $this->sendMail($mailTo, $draftResponse['subject'], $draftResponse['content']);
                 return [ 'success' => true, 'message' => 'The message has been send' ];
