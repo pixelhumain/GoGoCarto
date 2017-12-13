@@ -115,6 +115,9 @@ class Configuration
     protected $directModerationFeature;
 
     /** @MongoDB\Field(type="int") */
+    protected $minVoteToForceChangeStatus = 10;
+
+    /** @MongoDB\Field(type="int") */
     protected $minVoteToChangeStatus = 5;
 
     /** @MongoDB\Field(type="int") */
@@ -1837,5 +1840,27 @@ class Configuration
     public function getReportResolvedMail()
     {
         return $this->reportResolvedMail;
+    }
+
+    /**
+     * Set minVoteToForceChangeStatus
+     *
+     * @param int $minVoteToForceChangeStatus
+     * @return $this
+     */
+    public function setMinVoteToForceChangeStatus($minVoteToForceChangeStatus)
+    {
+        $this->minVoteToForceChangeStatus = $minVoteToForceChangeStatus;
+        return $this;
+    }
+
+    /**
+     * Get minVoteToForceChangeStatus
+     *
+     * @return int $minVoteToForceChangeStatus
+     */
+    public function getMinVoteToForceChangeStatus()
+    {
+        return $this->minVoteToForceChangeStatus;
     }
 }

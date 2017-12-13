@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-29 16:47:25
+ * @Last Modified time: 2017-12-13 07:59:45
  */
  
 
@@ -116,12 +116,13 @@ class ElementVoteService
         $enoughDays = $daysFromContribution >= $this->confService->getConfig()->getMinDayBetweenContributionAndCollaborativeValidation();
         $maxOppositeVoteTolerated = $this->confService->getConfig()->getMaxOppositeVoteTolerated();
         $minVotesToChangeStatus = $this->confService->getConfig()->getMinVoteToChangeStatus();
+        $minVotesToForceChangeStatus = $this->confService->getConfig()->getMinVoteToForceChangeStatus();
 
         if ($nbrePositiveVote >= $minVotesToChangeStatus)
         {
             if ($nbreNegativeVote <= $maxOppositeVoteTolerated) 
             {
-                if ($enoughDays) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, true);
+                if ($enoughDays || $nbrePositiveVote >= $minVotesToForceChangeStatus) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, true);
             }
             else 
             {
@@ -132,7 +133,7 @@ class ElementVoteService
         {
             if ($nbrePositiveVote <= $maxOppositeVoteTolerated) 
             {
-                if ($enoughDays) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, false);
+                if ($enoughDays || $nbreNegativeVote >= $minVotesToForceChangeStatus) return $this->handleVoteProcedureComplete($element, ValidationType::Collaborative, false);
             }
             else 
             {
