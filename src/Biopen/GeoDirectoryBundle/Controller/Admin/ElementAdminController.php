@@ -309,7 +309,11 @@ class ElementAdminController extends Controller
 
                     $elementActionService = $this->container->get('biopen.element_action_service');
 
-                    if ($object->isPending() && ($request->get('submit_accept') || $request->get('submit_refuse')))
+                    if ($request->get('submit_update_json'))
+                    {
+                        $object->updateJsonRepresentation();
+                    }
+                    elseif ($object->isPending() && ($request->get('submit_accept') || $request->get('submit_refuse')))
                     {                        
                         $elementActionService->resolve($object, $request->get('submit_accept'), ValidationType::Admin, $message);                    
                     }                    
