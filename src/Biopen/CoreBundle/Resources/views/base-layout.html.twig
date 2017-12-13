@@ -8,17 +8,17 @@
 <!--[if !(IE)]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
 <head>
   <title>{% block title %}GoGoCarto{% endblock %}</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+ 
+  {# gogocarto contains materializeCss lib, so we load it for all files #}
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=' ~ version) }}">    
+
+  {% block stylesheets %}
+  {% endblock %}  
 
   {% if config is defined %}
     {% include '@BiopenCoreBundle/custom-head.html.twig' %}
   {% endif %} 
- 
-  {# gogocarto contains materializeCss lib, so we load it for all files #}
-  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=' ~ version) }}">  
-
-  {% block stylesheets %}
-  {% endblock %}  
 
   <meta name="robots" content="index, follow, all" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
