@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-11-28 21:11:01
+* @Last Modified time: 2017-12-13 11:56:23
 */
 #popup-login
 {
@@ -19,9 +19,7 @@
 	{
 		font-weight: bold;
     margin-top: 3rem;
-    margin-bottom: 1rem;
-
-    
+    margin-bottom: 1rem;    
 	}	    
 
 	.oauth-section
@@ -54,6 +52,15 @@
 	    	padding: 0;
 	    }
 		}
+	}
+
+	p.facebook-alert
+	{
+		font-style: italic;
+    color: #b5b4b7;
+    font-size: .95rem;
+    margin: 0;
+    margin-bottom:1rem;
 	}
 
 	.form-section
