@@ -15,12 +15,53 @@ db.Element.updateMany({}, {$set: {"address.addressCountry":"FR"}})
 db.Element.updateMany({'address.addressLocality':null, 'status': { $gte: -3}}, {$set: {"status":-6}})
 
 db.Element.updateMany({'geo.latitude':0}, {$set: {"moderationState":-2}})
+db.UserInteractionContribution.deleteMany({"status":-2, "statusChangedAt": { $gte: ISODate("2017-12-12T00:00:00.000Z")}})
 
 // votes depuis ouverture
 db.UserInteractionVote.find({'createdAt': { $gte: ISODate("2017-11-28T00:00:00.000Z")}})
+
+db.UserInteractionContribution.find({"status":-2, "statusChangedAt": { $gte: ISODate("2017-12-12T00:00:00.000Z")}}).count()
+
+ db.Element.find({"moderationState":-2, "status":-2})
 
 db.Element.aggregate(
     {"$group" : { "_id": "$name", uniqueIds: { $addToSet: "$_id" },"count": { "$sum": 1 } } },
     {"$match": { "_id" :{ "$ne" : null } , "count" : {"$gt": 1} } }, 
     {"$project": {"name" : "$_id", "_id" : 0, "uniqueIds" : "$uniqueIds", "status": "$status"} }
 )
+
+db.Element.aggregate([
+   {
+      $unwind: "$contributions"
+   },
+   {
+     $lookup:
+       {
+         from: "UserInteractionContribution",
+         localField: "contributions",
+         foreignField: "_id",
+         as: "contribs"
+       }
+  },
+  {"$match": { "moderationState" :-2 } },
+  {"$project": {"name" : 1, "contribs": 1} }
+])
+
+db.Element.aggregate([
+   {
+     $lookup:
+       {
+         from: "UserInteractionContribution",
+         localField: "contributions",
+         foreignField: "id",
+         as: "contribs"
+       }
+  },
+  {"$match": { "moderationState" :-2 } },
+  {"$project": {"name" : 1, "contribs": "$contribs"} }
+])
+
+db.Element.find({'moderationState':-2}).forEach(function(x){
+  x.fetch();
+  print(x.contributions.userMail+",");
+});
