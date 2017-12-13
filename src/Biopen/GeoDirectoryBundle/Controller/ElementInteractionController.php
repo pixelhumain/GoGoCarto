@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-04 21:30:06
+ * @Last Modified time: 2017-12-13 09:01:35
  */
  
 
@@ -130,7 +130,7 @@ class ElementInteractionController extends Controller
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
             $elementActionService = $this->container->get('biopen.element_action_service');
-            $elementActionService->resolveReports($element);
+            $elementActionService->resolveReports($element, $request->get('comment'));
 
             $em->persist($element);
             $em->flush();

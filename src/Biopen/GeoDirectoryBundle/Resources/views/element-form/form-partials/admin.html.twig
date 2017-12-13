@@ -8,7 +8,7 @@
 	</div>
 
 	{# if element is PendingModification #}
-	{% if element.status is defined and element.status == -1 %}
+	{% if editMode and element.isPending() %}
 	<div class="col s12">
 		<input type="checkbox" name="dont-validate" id="dont-validate"/>
 		<label for="dont-validate">Ne pas valider {{ config.elementDisplayNameDefinite }}, je modifie simplement la mise en forme</label> 	
@@ -20,6 +20,12 @@
 		<input type="checkbox" name="recopyInfo" id="recopy-info"/>
 		<label for="recopy-info">Recopier les informations dans un nouveau formulaire</label> 	
 	</div>
+	{% endif %}
+
+	{% if editMode %}
+		<div class="col s12">
+			<input type="text" name="admin-message" id="admin-message" placeholder="Détail de la modification, ce texte remplacera 'customMessage' dans les mails automatiques"/>
+		</div>
 	{% endif %}
 
 </div>
