@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 12:40:33
+ * @Last Modified time: 2017-12-13 12:54:21
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -405,7 +405,7 @@ class Element
             $adminJson .= $this->encodeArrayObjectToJson('contributions', $this->getContributionsAndResolvedReports());
             if ($this->isPending()) {
                 $adminJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
-                $adminJson .= '"pendingContribution":' . $this->getCurrContribution()->toJson();
+                if ($this->getCurrContribution()) $adminJson .= '"pendingContribution":' . $this->getCurrContribution()->toJson();
             }
             $adminJson = rtrim($adminJson, ',');
         }
