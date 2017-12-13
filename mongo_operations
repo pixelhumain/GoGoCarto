@@ -22,7 +22,8 @@ db.UserInteractionVote.find({'createdAt': { $gte: ISODate("2017-11-28T00:00:00.0
 
 db.UserInteractionContribution.find({"status":-2, "statusChangedAt": { $gte: ISODate("2017-12-12T00:00:00.000Z")}}).count()
 
- db.Element.find({"moderationState":-2, "status":-2})
+db.User.find({'email':null}).count()
+db.User.find({'facebookUid': { $ne: null}}).count()
 
 db.Element.aggregate(
     {"$group" : { "_id": "$name", uniqueIds: { $addToSet: "$_id" },"count": { "$sum": 1 } } },
