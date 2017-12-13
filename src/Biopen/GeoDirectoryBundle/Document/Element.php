@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 11:49:08
+ * @Last Modified time: 2017-12-13 12:40:33
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -310,11 +310,7 @@ class Element
         $reports = $this->getArrayFromCollection($this->getReports());
         $contributions = $this->getArrayFromCollection($this->getContributions());
         $resolvedReports = array_filter($reports, function($e) { return $e->getIsResolved(); });
-        $contributions = array_filter($contributions, function($e) { return $e->getStatus() > ElementStatus::ModifiedPendingVersion; });
-        if ($this->isPending() && count($contributions) > 0)
-        {
-            array_pop($contributions);
-        }
+        $contributions = array_filter($contributions, function($e) { return $e->getStatus() ? $e->getStatus() > ElementStatus::ModifiedPendingVersion : false; });
         $result = array_merge($resolvedReports, $contributions);
         usort( $result, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
         return $result;
@@ -407,7 +403,10 @@ class Element
         {
             $adminJson .= $this->encodeArrayObjectToJson('reports', $this->getUnresolvedReports());
             $adminJson .= $this->encodeArrayObjectToJson('contributions', $this->getContributionsAndResolvedReports());
-            if ($this->isPending()) $adminJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
+            if ($this->isPending()) {
+                $adminJson .= $this->encodeArrayObjectToJson('votes', $this->getVotesArray());
+                $adminJson .= '"pendingContribution":' . $this->getCurrContribution()->toJson();
+            }
             $adminJson = rtrim($adminJson, ',');
         }
         $adminJson .= '}';
@@ -469,7 +468,7 @@ class Element
     public function getCurrContribution()
     {
         $contributions = $this->getContributions();
-        if (is_array($contributions))
+        if (is_array($contributions))   
         {
             return (count($contributions) > 0) ? array_pop((array_slice($contributions, -1))) : null;
         } 

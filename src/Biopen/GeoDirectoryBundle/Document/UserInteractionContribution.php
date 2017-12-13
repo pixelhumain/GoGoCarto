@@ -48,7 +48,7 @@ class UserInteractionContribution extends UserInteraction
     {
         $result = "{";
         $result .=  '"type":'              . $this->getType();
-        $result .=', "status":'            . $this->getStatus();
+        if ($this->getStatus()) $result .=', "status":'            . $this->getStatus();
         $result .=', "user":'             . json_encode($this->getUserDisplayName());
         $result .=', "userRole":'          . $this->getUserRole();
         $result .=', "resolvedMessage" :' . json_encode($this->getResolvedMessage());
