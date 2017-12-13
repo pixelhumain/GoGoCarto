@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-12 15:26:32
+ * @Last Modified time: 2017-12-13 08:34:29
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -385,7 +385,7 @@ class Element
                 $value = $sortedOptionsValues[$i];
 
                 if ($value->getDescription()) 
-                    $optionValueJson =  '[' . $value->getOptionId() . ',"' . str_replace('"', '\"', $value->getDescription()) . '"]';
+                    $optionValueJson =  '[' . $value->getOptionId() . ',' . json_encode($value->getDescription()) . ']';
                 else 
                     $optionValueJson =  $value->getOptionId();  
 
@@ -414,7 +414,7 @@ class Element
         $this->setAdminJson($adminJson);         
 
         // -------------------- COMPACT JSON ----------------
-        $compactJson = '["'.$this->id . '","' . str_replace('"', '\"', $this->name) . '",';
+        $compactJson = '["'.$this->id . '",' . json_encode($this->name) . ',';
         $compactJson.= $this->geo->getLatitude() .','. $this->geo->getLongitude() .', [';
         if ($sortedOptionsValues)
         {

@@ -179,7 +179,7 @@ class UserInteraction
         $result = "{";
         $result .=  '"type":'      . $this->getType();
         $result .=', "value":'     . $this->getValue();
-        $result .=', "comment":"'  . str_replace('"', '\"', $this->getComment()) . '"';
+        $result .=', "comment":'  . json_encode($this->getComment());
         $result .=', "userMail":"' . $this->getUserMail() . '"';
         $result .=', "userRole" :' . $this->getUserRole();
         $result .=', "createdAt" :"'. $this->formatDate($this->getCreatedAt()) . '"';
