@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-11 16:05:01
+ * @Last Modified time: 2017-12-13 07:49:12
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -219,8 +219,24 @@ class ElementAdmin extends AbstractAdmin
                     )
                )
             ) 
-	  	->add('address.postalCode', null, array('label' => 'Code postal'))
-	  	//->add('departementCode', null, array('label'=>'Numéro de département'))
+      ->add('postalCode', 'doctrine_mongo_callback', array(
+                'label' => 'Code Postal',
+                'callback' => function($queryBuilder, $alias, $field, $value) 
+                {
+                    if (!$value || !$value['value']) { return; }
+                    $queryBuilder->field('address.postalCode')->equals($value['value']);
+                    return true;
+                }
+            ))
+      ->add('departementCode', 'doctrine_mongo_callback', array(
+                'label' => 'Numéro de département',
+                'callback' => function($queryBuilder, $alias, $field, $value) 
+                {
+                    if (!$value || !$value['value']) { return; }
+                    $queryBuilder->field('address.postalCode')->equals(new \MongoRegex('/^'. $value['value'] .'/'));
+                    return true;
+                }
+            ))
 	  	->add('email')
       ->add('sourceKey', null, array('label' => 'Source'));
 	}
