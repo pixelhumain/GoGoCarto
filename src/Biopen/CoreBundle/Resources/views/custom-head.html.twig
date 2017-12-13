@@ -1,7 +1,5 @@
-{# the icons as SVG font #}
-{{ config.iconImport | raw }}
-
-{{ config.fontImport | raw }}
+<meta name="description" content="{{ config.appBaseline }}" /> 
+<meta name="keywords" content="{{ config.appTags }}" />
 
 <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
 <link rel="image_src" type="image/png" href="{{ asset('assets/img/pdcn-social-share.jpg') }}">
@@ -9,9 +7,6 @@
 <meta property="og:title" content="{{ config.appName }}" />
 <meta property="og:description" content="{{ config.appBaseline }}" />
 <meta property="og:image" content="{{ asset('assets/img/pdcn-social-share.jpg') }}" />
-
-<meta name="description" content="{{ config.appBaseline }}" /> 
-<meta name="keywords" content="{{ config.appTags }}" />
 
 {# custom javascript code #}
 <script>{{ config.customJavascript | raw }}</script>
@@ -24,3 +19,8 @@
 
 {# custom css written on a file, so it can use the config variable #}
 {% include '@RootDir/assets/' ~ config.appSlug ~ '-styles.html.twig' ignore missing %}  
+
+{# the icons as SVG font #}
+{{ config.iconImport | raw }}
+
+{{ config.fontImport | raw }}
