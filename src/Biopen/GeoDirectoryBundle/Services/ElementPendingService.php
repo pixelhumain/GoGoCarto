@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-11 16:44:40
+ * @Last Modified time: 2017-12-13 17:06:06
  */
  
 
@@ -96,8 +96,7 @@ class ElementPendingService
 
       $this->resolveContribution($element, $isAccepted, $validationType, $message);      
 
-      if ($element->isPending())
-         $this->sendMailToContributorAfterValidationOrRefusal($element, $isAccepted, $validationType, $message);
+      $this->sendMailToContributorAfterValidationOrRefusal($element, $isAccepted, $validationType, $message);
    }
 
    private function acceptNewElement($element, $message) 
