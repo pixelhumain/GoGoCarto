@@ -12,6 +12,8 @@
 		{# // div englobante pour un day donnée, on la marque paire ou impaire pour 
 		// changer la couleur de fond #}
 		{% set isPair = dayKey%2 == 0 ? 'pair' : 'impair' %}
+		{% set isSecondTimeSlot = day.children.slot2start.vars.value %}
+
 		<div id="{{ dayKey }}-open-hours" class="open-hours-container {{ isPair }}">
 		
 
@@ -38,19 +40,16 @@
 	  		
 	  		<div class="col s1 center-align">De</div>
 	  		<div class="col s3 center-align">
-	  			{{ form_widget(day.children.slot1start, { 'id' : dayKey ~'-input-1',
-	  														
-  							  'attr': {'class': 'timepicker_1',
-  							  		   'type': 'time',
-  									   'placeholder':'',
-  									   'name' : dayKey ~ '-open-hours-1',
-  									     }}) }}
+	  			{{ form_widget(day.children.slot1start, { 'id' : dayKey ~'-input-1',	  														
+  							  'attr': {'class': 'timepicker_1 timepicker',
+	  									   'data-slot-number' : 1,
+	  									   'name' : dayKey ~ '-open-hours-1', }}) }}
 	  		</div>
 			<div class="col s1 center-align">à</div>
 			<div class="col s3 center-align">
 				{{ form_widget(day.children.slot1end, {'id': dayKey ~'-input-2',
-  							  'attr': {'class': 'timepicker_2',
-  									   'placeholder':'',
+  							  'attr': {'class': 'timepicker_2 timepicker',
+  									   'data-slot-number' : 2,
   									   'name':'{{ dayKey }}-open-hours-2'   }}) }}
 			</div>
 
@@ -61,27 +60,27 @@
 				   data-position="right" 
 				   data-delay="0" 
 				   data-tooltip="Ajouter plage horaire" 
-				   style="padding:0;">
+				   style="padding:0;{{ isSecondTimeSlot ? 'visibility: hidden;' : ''}}">
 				   	<i class="material-icons gogo-icon-add-circle openhours-icons"></i>
 				</a>
 			</div>
 		</div>	
-
 		
 		{# // deuxième ligne de plagehoraire (cachée) #}
-		<div id="{{ dayKey }}-open-hours-second-line" class="horaire_2 valign-wrapper second-line-slot">	
+		<div id="{{ dayKey }}-open-hours-second-line" 
+				 class="valign-wrapper second-line-slot {{ isSecondTimeSlot ? 'active' : ''}}">	
 			<div class="col s1 offset-s3 center-align">Et</div>
 	  		<div class="col s3 center-align">
 	  			{{ form_widget(day.children.slot2start, {'id': dayKey ~'-input-3',
-  							  'attr': {'class': 'timepicker_3',
-  									   'placeholder':'',
+  							  'attr': {'class': 'timepicker_3 timepicker',
+  									   'data-slot-number' : 3,
   									   'name':'{{ dayKey }}-open-hours-3'   }}) }}
   			</div>
 			<div class="col s1 center-align">à</div>
 			<div class="col s3 center-align">
 				{{ form_widget(day.children.slot2end, {'id': dayKey ~'-input-4',
-  							  'attr': {'class': 'timepicker_4',
-  									   'placeholder':'',
+  							  'attr': {'class': 'timepicker_4 timepicker',
+  									   'data-slot-number' : 4,
   									   'name':'{{ dayKey }}-open-hours-4'   }}) }}
   			</div>
 			
@@ -104,8 +103,7 @@
 		<i class="material-icons prefix gogo-icon-description"></i>
 	  	{{ form_widget(form.openHoursMoreInfos, {'id': 'input-open-hours-more-infos',
   								          'attr': {'class': 'validate',
-  											   	'placeholder':"D'autres précisions si nécessaire",
-  											   	'length':'80'   }}) }}
+  											   	'placeholder':"D'autres précisions si nécessaire"   }}) }}
 	</div>
 
 </div>

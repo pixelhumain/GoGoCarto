@@ -5,24 +5,36 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-23 12:03:52
+ * @Last Modified time: 2017-12-14 11:00:01
  */
 jQuery(document).ready(function()
 {	
 	// ---------------
 	// INITIALISATIONS
 	// ---------------
-	$('.timepicker_1').timepicki({start_time: ["9", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
-	$('.timepicker_2').timepicki({start_time: ["12", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
-	$('.timepicker_3').timepicki({start_time: ["14", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
-	$('.timepicker_4').timepicki({start_time: ["18", "00"],increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
 
+  // TIMEPICKERS
+  $('.timepicker').each(function(e) {
+    var start_time;
+    switch ($(this).data('slot-number'))
+    {
+      case 1: start_time = ["09", "00"];break;
+      case 2: start_time = ["12", "00"];break;
+      case 3: start_time = ["14", "00"];break;
+      case 4: start_time = ["18", "00"];break;
+    }
+    if ($(this).val()) { start_time = $(this).val().split(':'); }
+    $(this).timepicki({start_time: start_time, increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
+  });
+
+  // TOOLTIPS
 	$('.tooltipped').tooltip();
 
 	// ---------------
-	// AJOUT LISTENERS
+	// LISTENERS
 	// ---------------
-
+  
+  // add description more field if description is too long
   var inputDescription = $('#input-description');
   var inputDescriptionMore = $('#input-description-more');
   
@@ -32,7 +44,7 @@ jQuery(document).ready(function()
     if ($(this).hasClass('invalid')) inputDescriptionMore.parent('.input-field').slideDown(800);
   })
 
-	// entrée d'une adresse on geocode
+	// Geocoding address
 	$('#input-address').change(function () { handleInputAdressChange(); });
 	$('#input-address').keyup(function(e) 
 	{    
@@ -43,28 +55,12 @@ jQuery(document).ready(function()
 	});
 	$('.btn-geolocalize').click(function () { handleInputAdressChange(); });
 	
-	// quand on check un product l'input de pr?cision apparait ou disparait
-	$('.checkbox-products').click(function() { return !$(this).hasClass('readonly'); });
-	$('.checkbox-products').change(function()
-	{
-        if ($(this).is(':checked')) 
-        {
-            $('#div_precision_' + $(this).attr('value')).css('display','block');	
-    	}
-        else
-        {
-        	$('#div_precision_' + $(this).attr('value')).css('display','none');	
-        }
-    });    
-
-	// HORAIRES
-	// gestion d'une seconde plage horaire pour les petits ?crans
+	// OPEN HOURS
+	// 2nd time slot
 	$('.add-time-slot-button').click(function() { addTimeSlot($(this).attr('id').split("_")[0]); });
   $('.clear-time-slot-button').click(function() { clearTimeSlot($(this).attr('id').split("_")[0]); });
-	// copie des openHours du day pr?c?dent
+	// recopy info
 	$('.redo-time-slot-button').click(function() { redoTimeSlot($(this).attr('id').split("_")[0]); });
-
-
 });
 
 function handleInputAdressChange()

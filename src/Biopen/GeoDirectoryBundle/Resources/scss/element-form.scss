@@ -258,14 +258,14 @@ a.leaflet-control-zoom-out {
 // ---------------------------------------
 //               HORAIRES
 // ---------------------------------------
-.horaire_2 {
+.second-line-slot {
     display: none !important;
     @include transition(all 1s);
     opacity: 0; 
     height: 0;
 }
 
-.horaire_2.active {
+.second-line-slot.active {
     opacity: 1;
     display: flex !important;
     height: 100%;
