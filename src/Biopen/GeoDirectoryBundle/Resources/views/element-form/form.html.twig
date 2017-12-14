@@ -35,6 +35,10 @@
 			{% if is_granted('ROLE_ADMIN') %}
 				<button onclick="checkAndSend('stayonform')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et rester sur le formulaire</button>
 			{% endif %}
+
+			{% if editMode %}
+				<button onclick="history.back()" id="element-form-cancel-btn" type="button" class="btn btn-neutral element-form-cancel-btn waves-effect waves-light">Annuler</button>
+			{% endif %}
 		</center>
   </section>
 
