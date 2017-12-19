@@ -20,7 +20,6 @@
 			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo"><img src="{{ asset('assets/img/logo_inline.png') }}" id="logo-inline"/></a> 
 		</div>
 
-    <span id="btn-nav-open-menu" class="gogo-icon-menu" onclick="toggleMenu()" style="display:none"></span>
     <h1 id="nav-page-title">{{ navTitle|default(config.appName) }}</h1>
     <span id="nav-btn-dropdown" onclick="toggleNavDropdown()"><i class="gogo-icon-ellipsis"></i></span>
 
