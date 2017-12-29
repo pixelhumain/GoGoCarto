@@ -23,15 +23,7 @@ class UserInteractionContribution extends UserInteraction
      *
      * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionVote", cascade={"persist", "refresh"})
      */
-    private $votes = []; 
-
-    /**
-     * @var date $statusChangedAt
-     *
-     * @MongoDB\Date
-     * @Gedmo\Timestampable(on="update", field={"status"})
-     */
-    private $statusChangedAt;   
+    private $votes = [];  
 
     /* if a contribution has been accepted or refused, but is not still pending */
     public function isResolved()
@@ -109,27 +101,5 @@ class UserInteractionContribution extends UserInteraction
     public function getVotes()
     {
         return $this->votes;
-    }
-
-    /**
-     * Set statusChangedAt
-     *
-     * @param date $statusChangedAt
-     * @return $this
-     */
-    public function setStatusChangedAt($statusChangedAt)
-    {
-        $this->statusChangedAt = $statusChangedAt;
-        return $this;
-    }
-
-    /**
-     * Get statusChangedAt
-     *
-     * @return date $statusChangedAt
-     */
-    public function getStatusChangedAt()
-    {
-        return $this->statusChangedAt;
     }
 }

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-29 14:27:32
+ * @Last Modified time: 2017-12-29 20:04:25
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -270,14 +270,6 @@ class Element
      * @Gedmo\Timestampable
      */
     private $updatedAt;
-
-    /**
-     * @var date $statusChangedAt
-     *
-     * @MongoDB\Date
-     * @Gedmo\Timestampable(on="update", field={"status"})
-     */
-    private $statusChangedAt;
 
 
     /**
@@ -952,29 +944,7 @@ class Element
     {
         return $this->modifiedElement;
     }
-
-    /**
-     * Set statusChangedAt
-     *
-     * @param date $statusChangedAt
-     * @return $this
-     */
-    public function setStatusChangedAt($statusChangedAt)
-    {
-        $this->statusChangedAt = $statusChangedAt;
-        return $this;
-    }
-
-    /**
-     * Get statusChangedAt
-     *
-     * @return date $statusChangedAt
-     */
-    public function getStatusChangedAt()
-    {
-        return $this->statusChangedAt;
-    }
-
+    
     /**
      * Set sourceKey
      *
