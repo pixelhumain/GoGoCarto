@@ -15,6 +15,8 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 class SpecialActionsController extends Controller
 {
+    public $optionList = [];
+
     private function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000)
     {
         $batchSize = 50;
@@ -28,6 +30,9 @@ class SpecialActionsController extends Controller
 
         $em = $this->get('doctrine_mongodb')->getManager();
         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+
+        $optionsRepo = $em->getRepository('BiopenGeoDirectoryBundle:Option');
+        $this->optionList = $optionsRepo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
 
         if (!$fromBeginning && $session->has('batch_lastStep'))
             $batchFromStep = $session->get('batch_lastStep');
@@ -76,9 +81,9 @@ class SpecialActionsController extends Controller
         }         
     }
 
-    public function updateJsonAction($fromBeginning)
+    public function updateJsonAction()
     {
-        return $this->elementsBulkAction('updateJson', $fromBeginning, 1000);        
+        return $this->elementsBulkAction('updateJson');        
     }
 
     public function updateJson($element)
@@ -98,6 +103,18 @@ class SpecialActionsController extends Controller
         {
             $element->setEmail(str_replace('.@', '@', $actualMail));
         }
+    }
+
+    public function updateElementOptionsStringAction()
+    {
+        return $this->elementsBulkAction('updateElementOptionsString');
+    }
+
+    public function updateElementOptionsString($element)
+    {
+        $optionsArray = array_map( function($ov) { return $this->optionList[$ov->getOptionId()]['name']; }, $element->getOptionValues()->toArray());   
+        $optionsString = join(',', $optionsArray);
+        $element->setOptionsString($optionsString);
     }
 
     public function fixsCoordinatesDigitsAction()

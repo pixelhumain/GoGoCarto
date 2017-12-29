@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 12:54:21
+ * @Last Modified time: 2017-12-29 14:27:32
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -178,6 +178,13 @@ class Element
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
     private $optionValues;
+
+    /**
+     * @var string
+     * @Expose
+     * @MongoDB\Field(type="string")
+     */
+    private $optionsString;
 
     /**
      * @var \stdClass
@@ -1173,5 +1180,27 @@ class Element
     public function getAdminJson()
     {
         return $this->adminJson;
+    }
+
+    /**
+     * Set optionsString
+     *
+     * @param string $optionsString
+     * @return $this
+     */
+    public function setOptionsString($optionsString)
+    {
+        $this->optionsString = $optionsString;
+        return $this;
+    }
+
+    /**
+     * Get optionsString
+     *
+     * @return string $optionsString
+     */
+    public function getOptionsString()
+    {
+        return $this->optionsString;
     }
 }

@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-13 07:49:12
+ * @Last Modified time: 2017-12-29 14:50:53
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -99,7 +99,7 @@ class ElementAdmin extends AbstractAdmin
 
 	public function getExportFields()
 	{
-	    return array('name', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'telephone', 'email', 'website');
+	    return array('name', 'optionsString', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'telephone', 'email', 'website');
 	}
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -285,6 +285,7 @@ class ElementAdmin extends AbstractAdmin
 		      	'choices' => $this->optionList,
 		      	'label' => 'Catégories'
 		      ])
+         // ->add('optionsString')
        ->end()
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
