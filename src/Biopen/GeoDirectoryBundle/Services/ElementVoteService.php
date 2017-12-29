@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 07:59:45
+ * @Last Modified time: 2017-12-29 20:06:22
  */
  
 
@@ -105,7 +105,7 @@ class ElementVoteService
         $nbrePositiveVote = 0;
         $nbreNegativeVote = 0;
 
-        $diffDate = time() - $element->getStatusChangedAt()->getTimestamp();
+        $diffDate = time() - $element->getCurrContribution()->getCreatedAt()->getTimestamp();
         $daysFromContribution = floor( $diffDate / (60 * 60 * 24));
 
         foreach ($currentVotes as $key => $vote) 
