@@ -234,7 +234,7 @@ section#home-main-container
 		box-shadow: none !important;
 		@include border-radius(10px);
 		width: 100%;	    
-    border: none;
+    border: none !important;
     background-color: #ececec;
     color:black;
     height: 2.5rem;	  
