@@ -40,14 +40,18 @@
   #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
   #menu-home .small-logo .header-icon { background-color: {{ config.secondaryColor }}; }
 
+  {# --------------------#}
+  {#      DIRECTORY      #}
+  {# ------------------- #}
+
+  #gogo-controls-mobile.map { padding-right: 15px; }
+
 
   {# --------------------#}
   {#     ELEMENT FORM    #}
   {# ------------------- #}
 
-  #page-content.element-form section { background-color: {{ config.contentBackgroundColor }}; }
-
-  
+  #page-content.element-form section { background-color: {{ config.contentBackgroundColor }}; }  
 
   .option-field .option-field-delete i:hover { color: {{ config.primaryColor }} !important; }
 
@@ -77,11 +81,6 @@
     border: 2px solid {{ config.neutralColor }};
   }  
 
-  /*input[type=date].valid, input[type=date]:focus.valid, input[type=date]:focus:not([readonly]), input[type=datetime-local].valid, input[type=datetime-local]:focus.valid, input[type=datetime-local]:focus:not([readonly]), input[type=email].valid, input[type=email]:focus.valid, input[type=email]:focus:not([readonly]), input[type=number].valid, input[type=number]:focus.valid, input[type=number]:focus:not([readonly]), input[type=password].valid, input[type=password]:focus.valid, input[type=password]:focus:not([readonly]), input[type=search].valid, input[type=search]:focus.valid, input[type=search]:focus:not([readonly]), input[type=tel].valid, input[type=tel]:focus.valid, input[type=tel]:focus:not([readonly]), input[type=text].valid, input[type=text]:focus.valid, input[type=text]:focus:not([readonly]), input[type=time].valid, input[type=time]:focus.valid, input[type=time]:focus:not([readonly]), input[type=url].valid, input[type=url]:focus.valid, input[type=url]:focus:not([readonly]), textarea.materialize-textarea.valid, textarea.materialize-textarea:focus.valid, textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid {{ config.primaryColor }};
-    box-shadow: 0 1px 0 0 {{ config.primaryColor }};
-  }*/
-
   label { color: {{ config.neutralColor }}; }
 
   /*  INPUT border COLOR   */
@@ -89,7 +88,8 @@
     border-color: {{ config.neutralColor }} !important;
     box-shadow: 0 1px 0 0 {{ config.neutralColor }} !important;
   }
-  #search-bar { border: none !important; }
+  
+  .search-bar-with-options-container .search-bar-container.search-bar { border: none !important; }
 
   input:not(:focus):not(.invalid), textarea:not(:focus):not(.invalid) {
     border-bottom: 1px solid  #747d8a !important;
@@ -119,7 +119,7 @@
   {# ----------- #}
   {#     HOME    #}
   {# ----------- #}
-  #search-geolocalize { color: {{ config.neutralColor }}; }
+  
   section.bottom-section { padding: 0; }
 
-  </style>
+</style>
