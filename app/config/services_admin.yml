@@ -46,7 +46,7 @@ services:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Bandeaux de la page d'accueil }
 
     admin.element:
-        class: Biopen\GeoDirectoryBundle\Admin\ElementAdmin
+        class: Biopen\GeoDirectoryBundle\Admin\Element\ElementAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:Admin/ElementAdmin']
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Éléments }    
