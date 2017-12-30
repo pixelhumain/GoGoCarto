@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Application\Sonata\UserBundle\Admin;
+namespace Biopen\CoreBundle\Admin;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -24,6 +24,30 @@ class UserAdmin extends AbstractAdmin
      * @var UserManagerInterface
      */
     protected $userManager;
+
+    protected $userContribRepo;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->addIdentifier('username')
+            ->add('email')
+            ->add('groups')
+            ->add('gamification', null, ['label' => 'Indice de Confiance'])
+            ->add('enabled', null, array('editable' => true))
+            ->add('locked', null, array('editable' => true))
+            ->add('createdAt','date', array("format" => "d/m/Y"))          
+        ;
+
+        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
+            $listMapper
+                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
+            ;
+        }
+    }
 
     /**
      * {@inheritdoc}
@@ -76,28 +100,7 @@ class UserAdmin extends AbstractAdmin
     public function getUserManager()
     {
         return $this->userManager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper
-            ->addIdentifier('username')
-            ->add('email')
-            ->add('groups')
-            ->add('enabled', null, array('editable' => true))
-            ->add('locked', null, array('editable' => true))
-            ->add('createdAt')
-        ;
-
-        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
-            $listMapper
-                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
-            ;
-        }
-    }
+    }    
 
     /**
      * {@inheritdoc}
@@ -118,6 +121,9 @@ class UserAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        dump($this->subject->getEmail());
+        $this->userContribRepo->findByUserEmail($this->subject->getEmail());
+
         $showMapper
             ->with('General')
                 ->add('username')

@@ -1,0 +1,4 @@
+services:
+  biopen_user.gamification:
+    class: Application\Sonata\UserBundle\Services\GamificationService
+    arguments: [ "@doctrine.odm.mongoDB.document_manager" ]

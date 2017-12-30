@@ -9,7 +9,7 @@ sonata_user:
 
     admin:                  # Admin Classes
         user:
-            class:          Application\Sonata\UserBundle\Admin\UserAdmin
+            class:          Biopen\CoreBundle\Admin\UserAdmin
             controller:     SonataAdminBundle:CRUD
             translation:    SonataUserBundle
 

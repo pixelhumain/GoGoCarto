@@ -57,3 +57,9 @@ biopen_special_actions_delete_element_reported:
     defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::deleteElementReportedAsNoMoreExistingAction }
     requirements:
         _method: GET
+
+biopen_special_actions_update_gamification:
+    path:     /updateGamification
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\SpecialActionsController::updateGamificationAction }
+    requirements:
+        _method: GET
