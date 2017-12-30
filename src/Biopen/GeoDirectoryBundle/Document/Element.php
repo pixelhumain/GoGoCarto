@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-29 20:04:25
+ * @Last Modified time: 2017-12-30 11:05:06
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -267,7 +267,6 @@ class Element
      * @var date $updatedAt
      *
      * @MongoDB\Date
-     * @Gedmo\Timestampable
      */
     private $updatedAt;
 
@@ -885,7 +884,7 @@ class Element
      * @param date $updated
      * @return $this
      */
-    public function setUpdatedAt($updated)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         return $this;
