@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 17:06:06
+ * @Last Modified time: 2017-12-30 10:59:16
  */
  
 
@@ -40,7 +40,7 @@ class ElementPendingService
       $this->mailService = $mailService;
    }
 
-   // When element in added or modified non admin, we go throw this function
+   // When element in added or modified by non admin, we go throw this function
    // It create an appropriate contribution, and set the status to pending
    // We could also send a confirmation mail to the contributor for example
    public function createPending($element, $editMode, $userEmail)
@@ -75,6 +75,7 @@ class ElementPendingService
       return $oldElement;
    }
 
+   // Action called to relsolve a pending element. This actions in triggered on both admin or collaborative resolve
    public function resolve($element, $isAccepted, $validationType = ValidationType::Admin, $message = null)
    {
       // Call specifics action depending of contribution type and validation or refusal
