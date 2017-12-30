@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-12-30 14:32:19
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 16:00:14
+ * @Last Modified time: 2017-12-30 16:36:12
  */
 
 namespace Application\Sonata\UserBundle\Services;
@@ -40,5 +40,8 @@ class GamificationService {
 
       $result = count($contribs) * 3 + count($reports) + count($votes);
       $user->setGamification($result);
+      $user->setContributionsCount(count($contribs));
+      $user->setVotesCount(count($votes));
+      $user->setReportsCount(count($reports));
    }
 }

@@ -36,9 +36,12 @@ class UserAdmin extends AbstractAdmin
             ->addIdentifier('username')
             ->add('email')
             ->add('groups')
-            ->add('gamification', null, ['label' => 'Indice de Confiance'])
-            ->add('enabled', null, array('editable' => true))
-            ->add('locked', null, array('editable' => true))
+            ->add('gamification', null, ['label' => 'Interaction Score'])
+            ->add('contributionsCount', null, ['label' => 'Contributions'])
+            ->add('votesCount', null, ['label' => 'Votes'])
+            ->add('reportsCount', null, ['label' => 'Signalements'])
+            // ->add('enabled', null, array('editable' => true))
+            // ->add('locked', null, array('editable' => true))
             ->add('createdAt','date', array("format" => "d/m/Y"))          
         ;
 

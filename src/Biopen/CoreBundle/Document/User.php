@@ -28,10 +28,24 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
      * @MongoDB\Field(type="int")
      */
     protected $gamification;
+
+    /**
+     * @MongoDB\Field(type="int")
+     */
+    protected $contributionsCount;
+
+    /**
+     * @MongoDB\Field(type="int")
+     */
+    protected $reportsCount;
+
+    /**
+     * @MongoDB\Field(type="int")
+     */
+    protected $votesCount;
 
     /**
      * @var string
@@ -322,6 +336,10 @@ class User extends BaseUser
         return $this->gamification;
     }
 
+    public function addVoteCount() { $this->votesCount++; }
+    public function addReportsCount() { $this->votesCount++; }
+    public function addContributionCount() { $this->votesCount++; }
+
     /**
      * Get enabled
      *
@@ -372,5 +390,71 @@ class User extends BaseUser
     public function getCredentialsExpired()
     {
         return $this->credentialsExpired;
+    }
+
+    /**
+     * Set contributionsCount
+     *
+     * @param int $contributionsCount
+     * @return $this
+     */
+    public function setContributionsCount($contributionsCount)
+    {
+        $this->contributionsCount = $contributionsCount;
+        return $this;
+    }
+
+    /**
+     * Get contributionsCount
+     *
+     * @return int $contributionsCount
+     */
+    public function getContributionsCount()
+    {
+        return $this->contributionsCount;
+    }
+
+    /**
+     * Set reportsCount
+     *
+     * @param int $reportsCount
+     * @return $this
+     */
+    public function setReportsCount($reportsCount)
+    {
+        $this->reportsCount = $reportsCount;
+        return $this;
+    }
+
+    /**
+     * Get reportsCount
+     *
+     * @return int $reportsCount
+     */
+    public function getReportsCount()
+    {
+        return $this->reportsCount;
+    }
+
+    /**
+     * Set votesCount
+     *
+     * @param int $votesCount
+     * @return $this
+     */
+    public function setVotesCount($votesCount)
+    {
+        $this->votesCount = $votesCount;
+        return $this;
+    }
+
+    /**
+     * Get votesCount
+     *
+     * @return int $votesCount
+     */
+    public function getVotesCount()
+    {
+        return $this->votesCount;
     }
 }
