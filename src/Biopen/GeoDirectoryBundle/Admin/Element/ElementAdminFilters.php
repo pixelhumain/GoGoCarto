@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 10:35:32
+ * @Last Modified time: 2018-01-02 16:04:23
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -61,7 +61,7 @@ class ElementAdminFilters extends ElementAdminAbstract
                 'callback' => function($queryBuilder, $alias, $field, $value) 
                 {
                     if (!$value || !$value['value']) { return; }
-                    $queryBuilder->field('moderationState')->notEqual(ModerationState::NotNeeded);
+                    $queryBuilder->field('moderationState')->notIn([ModerationState::NotNeeded, ModerationState::PendingForTooLong]);
                     $queryBuilder->field('status')->gte(ElementStatus::PendingModification);
                     return true;
                 },
