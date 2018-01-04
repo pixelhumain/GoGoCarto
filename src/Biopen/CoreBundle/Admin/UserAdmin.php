@@ -124,9 +124,6 @@ class UserAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
-        dump($this->subject->getEmail());
-        $this->userContribRepo->findByUserEmail($this->subject->getEmail());
-
         $showMapper
             ->with('General')
                 ->add('username')
