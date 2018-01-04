@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-14 16:33:31
+ * @Last Modified time: 2018-01-04 11:59:34
  */
 var map;
 var geocoderJS;
@@ -42,10 +42,10 @@ function initMap()
 	//    position:'topright'
 	// }).addTo(map);
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2ViYWxsb3QiLCJhIjoiY2l4MGtneGVjMDF0aDJ6cWNtdWFvc2Y3YSJ9.nIZr6G2t08etMzft_BHHUQ').addTo(map);
+	L.tileLayer(defaultTileLayer).addTo(map);
 	
 	// geocoderJS = GeocoderJS.createGeocoder({'provider': 'google', 'useSSL':true});
-	geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap'});
+	geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'useSSL':true});
 
 	if (markerPosition) createMarker(markerPosition);
 }
