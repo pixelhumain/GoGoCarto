@@ -84,6 +84,11 @@ h1, h2, label {
   &.error { color: $error-color; }
 }
 
+@media #{$small-only} {
+  h2 { text-align: left}
+  h2 .optional { right: 1rem !important;}
+}
+
 .input-field textarea { padding-bottom: 12px !important; }
 
 #section-validate-and-send
