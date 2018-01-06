@@ -5,6 +5,7 @@
 	
 	{% set dayKey = 0 %}
 	{% set frenchDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+	{% set frenchDaysShort = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'] %}
 
 	{# pour chaque day de la semaine on crée un ligne pour entrée une plage horaire
 	   une deuxième ligne cachée est crée pour pouvoir ajouter une deuxième plage si besoin #}
@@ -21,9 +22,15 @@
 		<div id="{{ dayKey }}-open-hours-first-line" class="valign-wrapper">	
 	  		
 	  		{% if (day.vars.name == "Monday") %} 
-	  			<div class="col s3 day-col">{{ frenchDays[dayKey] }}</div>
+	  			<div class="col s3 day-col">
+	  				<span class="hide-on-small-only">{{ frenchDays[dayKey] }}</span>
+	  				<span class="hide-on-med-and-up">{{ frenchDaysShort[dayKey] }}</span>
+	  			</div>
 	  		{% else %}
-	  			<div class="col s2 day-col open-hours-day">{{ frenchDays[dayKey] }}</div>
+	  			<div class="col s2 day-col open-hours-day">
+	  				<span class="hide-on-small-only">{{ frenchDays[dayKey] }}</span>
+	  				<span class="hide-on-med-and-up">{{ frenchDaysShort[dayKey] }}</span>
+	  			</div>
 	  			
 	  			{# Redo time slot button #}
 	  			<div class="col s1 center-align copy-hours-col">

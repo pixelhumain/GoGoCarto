@@ -65,7 +65,7 @@ i.material-icons {
   left: 0 !important;
 }
 
-#input-address {  width: calc(100% - 13rem); }
+@media #{$medium-and-up} { #input-address { width: calc(100% - 13rem); } }
 
 #input-address-field.error:after
 {
@@ -209,10 +209,16 @@ a.leaflet-control-zoom-out {
   z-index: 1000;
 }
 
+.copy-hours-col {
+    margin-left: -7px !important;
+    margin-right: 7px !important;
+ }
+
 .btn-geolocalize
 {
-  margin-top: 1rem;
-  float: right;
+  margin-top: .5rem;  
+  @media screen and (min-width: 600px) { float: right; width: auto; margin-top: 1rem;  }
+  width: 100%;
   font-size: .9rem;
   height: 2rem !important;
   line-height: 2rem !important;
