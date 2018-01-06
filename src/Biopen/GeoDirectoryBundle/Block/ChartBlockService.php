@@ -76,16 +76,16 @@ class ChartBlockService extends AbstractBlockService
 		// USER INTERACTION CHART
 		// ----------------------
 		$userInteractData = array(
-		  array("name" => "Ajout", "data" => $this->getDataContributionFromType(0)),
-		  array("name" => "Modification", "data" => $this->getDataContributionFromType(1)),
+		  array("name" => "Ajouts", "data" => $this->getDataContributionFromType(0)),
+		  array("name" => "Modifications", "data" => $this->getDataContributionFromType(1)),
 		  array("name" => "Votes", "data" => $this->getDataVote()),
-		  array("name" => "Reports", "data" => $this->getDataReports()),			  
+		  array("name" => "Signalements", "data" => $this->getDataReports()),			  
 		);
 
 		$userInteractChart = new Highchart();
 		$userInteractChart->chart->renderTo('userInteractChart');  // The #id of the div where to render the chart
 		$userInteractChart->chart->zoomType('x');
-		$userInteractChart->title->text('Statistiques des contributions');
+		$userInteractChart->title->text('Statistiques des interactions utilisateur');
 		// $userInteractChart->xAxis->title(array('text'  => "Horizontal axis title"));
 		$userInteractChart->xAxis->type("datetime");
 		$userInteractChart->yAxis->title(array('text'  => ""));
