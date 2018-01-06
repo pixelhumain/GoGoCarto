@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-06-15 18:47:35
+ * @Last Modified time: 2018-01-06 14:39:08
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -38,6 +38,7 @@ class CategoryAdmin extends AbstractAdmin
 		  	->add('parent', 'sonata_type_model', array(
 		  		'class'=> 'Biopen\GeoDirectoryBundle\Document\Option', 
 		  		'required' => false, 
+            'choices_as_values' => true,
 		  		'label' => 'Option parente'), array('admin_code' => 'admin.option'))
 		  	->add('pickingOptionText', null, array('required' => true, 'label' => 'Text à afficher dans le formulaire : Choisissez ....'))	
 		  	->add('index', null, array('required' => true, 'label' => 'Position'))

@@ -221,6 +221,7 @@ class UserAdmin extends AbstractAdmin
                 ->with('Groups')
                     ->add('groups', $modelType, array(
                         'required' => false,
+                        'choices_as_values' => true,
                         'expanded' => true,
                         'multiple' => true,
                     ))

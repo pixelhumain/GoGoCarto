@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-13 07:54:06
+ * @Last Modified time: 2018-01-06 14:38:07
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -135,6 +135,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('defaultTileLayer', 'sonata_type_model', array(
                             'class'=> 'Biopen\CoreBundle\Document\TileLayer', 
                             'required' => true, 
+                            'choices_as_values' => true,
                             'label' => 'Fond de carte par défaut'))
                     ->add('defaultNorthEastBoundsLat')
                     ->add('defaultNorthEastBoundsLng')
