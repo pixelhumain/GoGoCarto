@@ -246,13 +246,8 @@ class ChartBlockService extends AbstractBlockService
 		$builder
 		  ->match()
 		  		->field('type')->in([InteractionType::Add,InteractionType::Edit])
-		  		// ->field('userRole')->lte(2)
-		  		->field('status')->In([
-		  			ElementStatus::CollaborativeRefused,
-		  			ElementStatus::AdminRefused,
-		  			ElementStatus::CollaborativeValidate,
-		  			ElementStatus::AdminValidate,
-		  		])
+		  		->field('userRole')->notEqual('3') // not by an admin
+		  		->field('status')->notIn([-5, null]) // -5 = pending modification, null = not resolved
         ->group()
             ->field('_id')
             ->expression('$status')
@@ -264,7 +259,7 @@ class ChartBlockService extends AbstractBlockService
     	$results = array_map(function($x)
 		{ 
 			return array(
-				$this->statusChoices[$x['_id']], 
+				key_exists($x['_id'], $this->statusChoices) ? $this->statusChoices[$x['_id']] : "Inconnu", 
 				$x['count']
 			); 
 		}, $results);
