@@ -38,6 +38,16 @@ class ChartBlockService extends AbstractBlockService
 		'4' => 'Modifié par admin',
 	];
 
+	protected $statusColors = [
+		'-4'=> '#434348',
+		'-3'=> '#f7a35c', 
+		'-2'=> '#dd4b39',
+		'1' => '#00a65a',
+		'2' => '#90ed7d',
+		'3' => '#7a6ba7',
+		'4' => '#7cb5ec',
+	];
+
 	public function __construct($templating, DocumentManager $documentManager, $configService)
 	{
 		 $this->em = $documentManager;
@@ -78,10 +88,10 @@ class ChartBlockService extends AbstractBlockService
 		// USER INTERACTION CHART
 		// ----------------------
 		$userInteractData = array(
-		  array("name" => "Ajouts", "data" => $this->getDataContributionFromType(0)),
-		  array("name" => "Modifications", "data" => $this->getDataContributionFromType(1)),
-		  array("name" => "Votes", "data" => $this->getDataVote()),
-		  array("name" => "Signalements", "data" => $this->getDataReports()),			  
+		  array("type" => "spline", "name" => "Ajouts", "color" => "#7a6ba7", "data" => $this->getDataContributionFromType(0)),
+		  array("type" => "spline", "name" => "Modifications", "color" => "#7cb5ec", "data" => $this->getDataContributionFromType(1)),
+		  array("type" => "spline", "dashStyle" => 'shortDash', "name" => "Votes", "color" => "#8bc34a", "data" => $this->getDataVote()),
+		  array("type" => "spline", "dashStyle" => 'shortDash', "name" => "Signalements", "color" => "#dd4b39", "data" => $this->getDataReports()),			  
 		);
 
 		$userInteractChart = new Highchart();
@@ -94,13 +104,18 @@ class ChartBlockService extends AbstractBlockService
 		$userInteractChart->tooltip->shared(true);
 		$userInteractChart->tooltip->crosshairs(true);
 		$userInteractChart->series($userInteractData);
+		$userInteractChart->plotOptions->spline([
+			'lineWidth' => 2,
+         'states' => ['hover' => ['lineWidth' => 2]],
+         'marker' => ['enabled' => false]
+		]);
 
 		// ----------------------
 		// COLLABORATIVE RESOLVED
 		// ----------------------
 		$collabResolveData = array(
-    		array('type' => 'line',"name" => "Validations Collaborative", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeValidate)),
-		   array('type' => 'line',"name" => "Refus collaboratifs", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeRefused)), 
+    		array('type' => 'column',"name" => "Validations Collaborative", "color" => "#90ed7d", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeValidate)),
+		   array('type' => 'column',"name" => "Refus collaboratifs", "color" => "#f7a35c", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeRefused)), 
     	);
 
 		$collabResolveChart = new Highchart();
@@ -120,7 +135,7 @@ class ChartBlockService extends AbstractBlockService
     		array('type' => 'pie','name' => 'Résolution des contributions', 'data' => $data),
     	);
 		$totalContribs = 0;
-		foreach ($data as $k => $val) { $totalContribs += $val[1]; }
+		foreach ($data as $k => $val) { $totalContribs += $val['y']; }
 		$contribsResolvedPie = new Highchart();
 		$contribsResolvedPie->chart->renderTo('contribsResolvedPie');
 		$contribsResolvedPie->title->text('Contributions Résolues');
@@ -261,9 +276,10 @@ class ChartBlockService extends AbstractBlockService
 
     	$results = array_map(function($x)
 		{ 
-			return array(
-				key_exists($x['_id'], $this->statusChoices) ? $this->statusChoices[$x['_id']] : "Inconnu", 
-				$x['count']
+			return array(				
+				'name' => $this->statusChoices[$x['_id']],
+				'color' => $this->statusColors[$x['_id']],
+				'y' => $x['count']				
 			); 
 		}, $results);
 		return $results;
