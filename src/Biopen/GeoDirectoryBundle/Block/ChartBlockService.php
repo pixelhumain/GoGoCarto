@@ -113,17 +113,22 @@ class ChartBlockService extends AbstractBlockService
     	// ----------------------
 		// CONTRIBUTIONS RESOLVED
 		// ----------------------
+		$data = $this->getDataHowContributionAreResolved();
 		$contribResolvedData = array(
-    		array('type' => 'pie','name' => 'Résolution des contributions', 'data' => $this->getDataHowContributionAreResolved()),
+    		array('type' => 'pie','name' => 'Résolution des contributions', 'data' => $data),
     	);
-
+		$totalContribs = 0;
+		foreach ($data as $k => $val) { $totalContribs += $val[1]; }
 		$contribsResolvedPie = new Highchart();
 		$contribsResolvedPie->chart->renderTo('contribsResolvedPie');
 		$contribsResolvedPie->title->text('Résolution des Contributions');
+		$contribsResolvedPie->subtitle->text('Nombre Total (depuis le début): <b>' . $totalContribs . '</b>');
 		$contribsResolvedPie->plotOptions->pie(array(
 		    'allowPointSelect'  => true,
-		    'cursor'    => 'pointer'
+		    'cursor'    => 'pointer',
+		    'dataLabels' => ['enabled'=> true, 'format'=> '<b>{point.name}</b> : {point.y}']
 		));
+		$contribsResolvedPie->tooltip->pointFormat('{series.name} : <b>{point.percentage:.1f}%</b>');
     	$contribsResolvedPie->series($contribResolvedData);
 
 	   return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_charts.html.twig', array(
@@ -253,23 +258,16 @@ class ChartBlockService extends AbstractBlockService
             ->expression('$status')
             ->field('count')
         		->sum(1)        	
-    	;
-    	
+    	;    	
     	$results = $builder->execute()->toArray();
 
-    	$total = 0;
-    	foreach ($results as $key => $value) {
-    		$total += $value['count'];
-    	}
-
-    	$results = array_map(function($x) use ($total)
+    	$results = array_map(function($x)
 		{ 
 			return array(
 				$this->statusChoices[$x['_id']], 
-				$x['count'] / $total * 100
+				$x['count']
 			); 
 		}, $results);
-
 		return $results;
 	}
 }
