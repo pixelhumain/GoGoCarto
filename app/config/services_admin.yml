@@ -83,7 +83,7 @@ services:
 
     sonata.block.service.charts:
         class: Biopen\GeoDirectoryBundle\Block\ChartBlockService
-        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @biopen.config_service ]
         tags:
             - { name: sonata.block }
 

@@ -26,6 +26,7 @@ class ChartBlockService extends AbstractBlockService
 	protected $mongoDateEnd;
 	protected $dateStart;
 	protected $dateEnd;
+	protected $configService;
 
 	protected $statusChoices = [
 		'-4'=>'Supprimé',
@@ -37,10 +38,11 @@ class ChartBlockService extends AbstractBlockService
 		'4' => 'Modifié par admin',
 	];
 
-	public function __construct($templating, DocumentManager $documentManager)
+	public function __construct($templating, DocumentManager $documentManager, $configService)
 	{
 		 $this->em = $documentManager;
        $this->templating = $templating;
+       $this->configService = $configService;
 	}
 
 	public function getName()
@@ -136,7 +138,8 @@ class ChartBlockService extends AbstractBlockService
 	        'settings'  => $blockContext->getSettings(),
 	        'userInteractChart' => $userInteractChart,
 	        'collabResolveChart' => $collabResolveChart,
-	        'contribsResolvedPie' => $contribsResolvedPie
+	        'contribsResolvedPie' => $contribsResolvedPie,
+	        'customDashboard' => $this->configService->getConfig()->getCustomDashboard()
 	   ), $response);
 	}
 

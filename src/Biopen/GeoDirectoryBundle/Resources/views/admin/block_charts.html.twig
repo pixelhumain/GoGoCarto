@@ -12,14 +12,24 @@
 
     <div class="chart-container row">
         <div id="userInteractChart" class="col-md-12 chart-item"></div> 
-        <div id="contribsResolvedPie" class="col-md-6 chart-item"></div>  
-        <div id="collabResolveChart" class="col-md-6 chart-item"></div>                
+        <div id="contribsResolvedPie" class="col-md-6 chart-item small"></div>  
+        <div id="collabResolveChart" class="col-md-6 chart-item small"></div>  
+        {% if customDashboard %}
+            <div class="col-md-12">
+                <div class="box">
+                {{ customDashboard | raw }}
+                </div>
+            </div>  
+        {% endif %}            
     </div>
 
     <style>
         .chart-item {
             height: 400px;
-            margin-bottom:30px;
+            margin-bottom:20px;
+        }
+        .chart-item.small {
+            height: 260px;
         }
     </style>
        

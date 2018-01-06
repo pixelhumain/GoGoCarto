@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-06 14:38:07
+ * @Last Modified time: 2018-01-06 14:48:42
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -187,6 +187,11 @@ class ConfigurationAdmin extends AbstractAdmin
                 ->with('Entrez du code JCSS ou Javascript qui sera chargé sur toutes les pages publiques')
                     ->add('customCSS', 'textarea', array('label' => 'Custom CSS', 'attr' => ['rows' => '6'], 'required' => false)) 
                     ->add('customJavascript', 'textarea', array('label' => 'Custom Javascript', 'attr' => ['rows' => '6'], 'required' => false)) 
+                ->end()
+            ->end()
+            ->tab('Admin Dashboard')
+                ->with("Entrez du code du code HTML (iframe par exemple) qui sera affichée sur la page d'accueil de l'interface admin")
+                    ->add('customDashboard', 'textarea', array('label' => 'Custom HTML code', 'attr' => ['rows' => '6'], 'required' => false)) 
                 ->end()
             ->end();
     }

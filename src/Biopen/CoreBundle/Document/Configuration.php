@@ -279,6 +279,12 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $customJavascript = '';
 
+    // -------------------------
+    // ---- CUSTOM ASSETS ------
+    // ------------------------- 
+    /** @MongoDB\Field(type="string") */
+    protected $customDashboard = '';
+
     
     public function __toString() 
     {
@@ -1862,5 +1868,27 @@ class Configuration
     public function getMinVoteToForceChangeStatus()
     {
         return $this->minVoteToForceChangeStatus;
+    }
+
+    /**
+     * Set customDashboard
+     *
+     * @param string $customDashboard
+     * @return $this
+     */
+    public function setCustomDashboard($customDashboard)
+    {
+        $this->customDashboard = $customDashboard;
+        return $this;
+    }
+
+    /**
+     * Get customDashboard
+     *
+     * @return string $customDashboard
+     */
+    public function getCustomDashboard()
+    {
+        return $this->customDashboard;
     }
 }
