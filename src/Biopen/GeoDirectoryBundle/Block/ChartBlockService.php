@@ -97,7 +97,7 @@ class ChartBlockService extends AbstractBlockService
 		// COLLABORATIVE RESOLVED
 		// ----------------------
 		$collabResolveData = array(
-    		array('type' => 'line',"name" => "Validation Collaborative", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeValidate)),
+    		array('type' => 'line',"name" => "Validations Collaborative", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeValidate)),
 		   array('type' => 'line',"name" => "Refus collaboratifs", "data" => $this->getDataCollaborativeResolve(ElementStatus::CollaborativeRefused)), 
     	);
 
@@ -105,7 +105,7 @@ class ChartBlockService extends AbstractBlockService
 		$collabResolveChart->chart->renderTo('collabResolveChart');
 		$collabResolveChart->xAxis->type("datetime");
 		$collabResolveChart->yAxis->title(array('text'  => ""));
-		$collabResolveChart->title->text('Validation/Refus collaboratifs');
+		$collabResolveChart->title->text('Validations/Refus collaboratifs');
 		$userInteractChart->tooltip->shared(true);
 		$userInteractChart->tooltip->crosshairs(true);
     	$collabResolveChart->series($collabResolveData);
@@ -121,7 +121,7 @@ class ChartBlockService extends AbstractBlockService
 		foreach ($data as $k => $val) { $totalContribs += $val[1]; }
 		$contribsResolvedPie = new Highchart();
 		$contribsResolvedPie->chart->renderTo('contribsResolvedPie');
-		$contribsResolvedPie->title->text('Résolution des Contributions');
+		$contribsResolvedPie->title->text('Contributions Résolues');
 		$contribsResolvedPie->subtitle->text('Nombre Total (depuis le début): <b>' . $totalContribs . '</b>');
 		$contribsResolvedPie->plotOptions->pie(array(
 		    'allowPointSelect'  => true,
