@@ -86,7 +86,7 @@ class ChartBlockService extends AbstractBlockService
 		$userInteractChart->chart->renderTo('userInteractChart');  // The #id of the div where to render the chart
 		$userInteractChart->chart->zoomType('x');
 		$userInteractChart->title->text('Statistiques des interactions utilisateur');
-		// $userInteractChart->xAxis->title(array('text'  => "Horizontal axis title"));
+		$userInteractChart->subtitle->text('Click & drag pour zoomer sur une période');
 		$userInteractChart->xAxis->type("datetime");
 		$userInteractChart->yAxis->title(array('text'  => ""));
 		$userInteractChart->tooltip->shared(true);
