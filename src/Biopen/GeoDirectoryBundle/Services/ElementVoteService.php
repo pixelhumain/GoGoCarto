@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-29 20:06:22
+ * @Last Modified time: 2018-01-06 16:25:24
  */
  
 
@@ -42,7 +42,8 @@ class ElementVoteService
     {
         // Check user don't vote for his own creation
         if ($element->isLastContributorEqualsTo($this->user, $userMail))
-                return "Voyons voyons, vous ne comptiez quand même pas voter pour votre propre contribution si ? Laissez en un peu pour les autres !";  
+                return "Voyons voyons, vous ne comptiez quand même pas voter pour votre propre contribution si ? Laissez en un peu pour les autres !</br>
+                        Attention les petits malins, si vous utiliser une autre de vos adresse perso on le verra aussi ! "; 
 
         $hasAlreadyVoted = false;
 
