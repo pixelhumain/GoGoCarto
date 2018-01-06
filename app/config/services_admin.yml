@@ -81,6 +81,12 @@ services:
         tags:
             - { name: sonata.block }
 
+    sonata.block.service.charts:
+        class: Biopen\GeoDirectoryBundle\Block\ChartBlockService
+        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
+        tags:
+            - { name: sonata.block }
+
     biopen.block.recent_elements:
         class: Biopen\GeoDirectoryBundle\Block\RecentElementsBlockService
         arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @sonata.admin.pool ]
