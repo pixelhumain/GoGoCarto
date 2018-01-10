@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 10:35:34
+ * @Last Modified time: 2018-01-10 16:20:38
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -88,6 +88,7 @@ class ElementAdminList extends ElementAdminFilters
       $actions['delete'] = $this->createBatchConfig('Supprimer', 'delete');
       $actions['restore'] = $this->createBatchConfig('Restaurer', 'restore');
       $actions['resolveReports'] = $this->createBatchConfig('Résoudre la modération', 'resolveReports');
+      
       $actions['sendMail'] = array(
          'label' => 'Envoyer un mail',
          'ask_confirmation' => false,
@@ -95,6 +96,8 @@ class ElementAdminList extends ElementAdminFilters
             ['type' => 'text',      'label' => 'Votre adresse mail',  'id' => 'from'],
             ['type' => 'text',      'label' => 'Object',  'id' => 'mail-subject'],
             ['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
+            ['type' => 'checkbox',      'label' => "Envoyer l'email aux éléments",  'id' => 'send-to-element', "checked" => 'true'],
+            ['type' => 'checkbox',      'label' => "Envoyer l'email aux derniers contributeurs",  'id' => 'send-to-last-contributor', "checked" => 'false'],
          ]
       );
       $actions['editOptions'] = array(

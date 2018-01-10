@@ -73,8 +73,11 @@
                                       <option value="{{ key }}">{{ value }}</option>
                                   {% endfor %}}
                                 </select>
+                            {% elseif field.type == 'checkbox' %}
+                                {% set checked = field.checked | default("false") %}
+                                <input type="checkbox" id="{{ field.id }}" name="{{ field.id }}" {{ checked == "true" ? "checked" : "" }}/>
                             {% else %}
-                                <input type="{{ field.type }}" class="width-100" id="{{ field.id }}" name="{{ field.id }}">
+                                <input type="{{ field.type }}" class="width-100" id="{{ field.id }}" name="{{ field.id }}" />
                             {% endif %}
                         {% endfor %}
                     </div>

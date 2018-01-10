@@ -156,24 +156,26 @@ class ElementAdminController extends Controller
         $nbreModelsToProceed = $selectedModels->count();
         $selectedModels->limit(5000);
 
-        $request = $this->get('request')->request;
-        
+        $request = $this->get('request')->request;        
 
         $mailsSent = 0;
         $elementWithoutEmail = 0;
             
         try {
-            foreach ($selectedModels as $element) {
-                $mail = $element->getEmail();
-                if ($mail) 
+            foreach ($selectedModels as $element) 
+            {
+                $mail = $request->get('send-to-element') ? $element->getEmail() : null;
+                $mailContrib = null;
+                if ($request->get('send-to-last-contributor'))
                 {
-                    $mails[] = $mail;
-                }
-                else 
-                {
-                    $elementWithoutEmail++;
+                    $contrib = $element->getCurrContribution();
+                    $mailContrib = $contrib ? $contrib->getUsermail() : null;
+                    if ($mailContrib == "no email") $mailContrib = null;
                 }
                 
+                if ($mail) $mails[] = $mail;
+                if ($mailContrib) $mails[] = $mailContrib;
+                if (!$mail && !$mailContrib) $elementWithoutEmail++;                
             }
         } catch (\Exception $e) {
             $this->addFlash('sonata_flash_error', 'ERROR : ' . $e->getMessage());
