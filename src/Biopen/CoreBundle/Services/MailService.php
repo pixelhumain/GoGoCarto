@@ -47,10 +47,11 @@ class MailService
             $this->mailer->send($message);
         }
         catch (\Swift_RfcComplianceException $e) {
-            $this->addFlash('sonata_flash_error', 'Une erreur est survenue : ' . $e->getMessage());
+            $error = 'Une erreur est survenue : ' . $e->getMessage();
+            return [ 'success' => false, 'message' => $error ];
         }
         
-        return $draftedContent;
+        return [ 'success' => true, 'message' => 'The message has been send' ];
     }
 
     public function sendAutomatedMail($mailType, $element, $customMessage = null, $option = null)
@@ -74,8 +75,7 @@ class MailService
 
             if ($mailTo && $mailTo != "no email")
             {
-                $this->sendMail($mailTo, $draftResponse['subject'], $draftResponse['content']);
-                return [ 'success' => true, 'message' => 'The message has been send' ];
+                return $this->sendMail($mailTo, $draftResponse['subject'], $draftResponse['content']);
             }
             else
                 return [ 'success' => false, 'message' => 'No email address to deliver to' ];            

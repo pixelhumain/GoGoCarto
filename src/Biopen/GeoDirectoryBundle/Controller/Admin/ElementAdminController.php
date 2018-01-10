@@ -187,8 +187,11 @@ class ElementAdminController extends Controller
         else if (count($mails) > 0)
         {
             $mailService = $this->container->get('biopen.mail_service');
-            $mailService->sendMail(null, $request->get('mail-subject'), $request->get('mail-content'), $request->get('from'), $mails);
-            $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
+            $result = $mailService->sendMail(null, $request->get('mail-subject'), $request->get('mail-content'), $request->get('from'), $mails);
+            if ($result['success'])
+                $this->addFlash('sonata_flash_success', count($mails) . ' mails ont bien été envoyés');
+            else 
+                $this->addFlash('sonata_flash_error',$result['message']);
         } 
         
         if ($elementWithoutEmail > 0)
