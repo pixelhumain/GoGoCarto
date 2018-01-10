@@ -29,7 +29,7 @@
   {#     DIRECTORY       #}
   {# ------------------- #}
   .gogocarto-container #directory-menu .sub-categories .sub-categorie-main-title { letter-spacing: 1.5px;font-size: 1.1rem; }   
-  .gogocarto-container .search-bar-container .search-bar
+  .gogocarto-container .search-bar-with-options-container .search-bar-container .search-bar
   {
     height: 2.5rem;
     padding-left: 3.2rem;
@@ -38,12 +38,12 @@
     -moz-transition: padding .3s;
     -o-transition: padding .3s;
   }
-  .gogocarto-container .directory-menu-header .search-bar-container .search-icon.search-geolocalize { 
+  .gogocarto-container .directory-menu-header .search-bar-with-options-container .search-bar-container .search-icon.search-geolocalize { 
     color: {{ config.neutralColor }};    
   }
-  .gogocarto-container .directory-menu-header .search-bar-container .search-icon.search-geolocalize { line-height: 2.8rem; }
+  .gogocarto-container .directory-menu-header .search-bar-with-options-container .search-bar-container .search-icon.search-geolocalize { line-height: 2.8rem; }
 
-  .gogocarto-container .directory-menu-header .search-bar-container .search-icon.search-bar-icon {
+  .gogocarto-container .directory-menu-header .search-bar-with-options-container .search-bar-container .search-icon.search-bar-icon {
     position: absolute;
     font-size: 1.2rem;
     left: auto;
@@ -58,12 +58,12 @@
     line-height: 2.8rem;
     background-color: {{ config.neutralDarkColor }};
   }
-  .gogocarto-container .directory-menu-header.expanded .search-bar-container .search-icon.search-bar-icon { padding: 0 1.1rem; }
+  .gogocarto-container .directory-menu-header.expanded .search-bar-with-options-container .search-bar-container .search-icon.search-bar-icon { padding: 0 1.1rem; }
   .gogocarto-container .directory-menu-header.expanded .search-bar { padding-left: 4.2rem; }
-  @media (min-width: 850px) { .gogocarto-container .search-bar-container {
+  @media (min-width: 850px) { .gogocarto-container .search-bar-with-options-container .search-bar-container {
     padding-left: 6px;
   } }
-  .gogocarto-container .search-bar-container { padding-top: 7px; }
+  .gogocarto-container .search-bar-with-options-container .search-bar-container { padding-top: 7px; }
 
   .gogocarto-container .element-item .info-bar-divider {   
     background-color: transparent !important; 
