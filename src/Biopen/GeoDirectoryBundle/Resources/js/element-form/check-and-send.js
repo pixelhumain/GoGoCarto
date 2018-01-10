@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-28 21:17:40
+ * @Last Modified time: 2018-01-10 15:27:20
  */
 
 
@@ -13,8 +13,7 @@ function checkAndSend(submitOption)
 {	
 	checkCategories();
 	if (!$('#section_admin').is(':visible')) checkAgreeConditions();
-	checkOpenHours();
-	checkAddressGeolocalisation();
+	checkOpenHours();	
 	checkRequiredFields();
 	checkCaptcha();
 
@@ -37,6 +36,8 @@ function checkAndSend(submitOption)
 		}
 		checkRequiredFields();
 	});
+
+	checkAddressGeolocalisation();
 
 	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
 	// par une input text invalide avec materialize
@@ -145,7 +146,9 @@ function checkOpenHours()
 
 function checkAddressGeolocalisation()
 {
-	//$('#input-address').addClass("invalid");
+	if (!$('#input-latitude').val() || !$('#input-longitude').val()) {
+		$('#input-address-field').addClass("error");
+	}
 }
 
 function checkRequiredFields()

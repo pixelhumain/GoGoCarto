@@ -26,7 +26,7 @@ function geocodeAddress( address ) {
 			if (results[0].streetNumber) streetAddress +=  results[0].streetNumber + ' ';
 			if (results[0].streetName) streetAddress +=  results[0].streetName;
 			$('#input-streetAddress').val(streetAddress);	
-			$('#input-country').val(results[0].getCountyCode());
+			$('#input-country').val(results[0].country_code);
 			$('#input-address').val(results[0].formattedAddress);
 			$('#input-address').closest('.input-field').removeClass("error");	
 			$('#input-address').removeClass('invalid');

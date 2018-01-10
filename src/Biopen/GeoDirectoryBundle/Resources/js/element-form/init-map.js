@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-09 14:24:55
+ * @Last Modified time: 2018-01-10 15:07:47
  */
 var map;
 var geocoderJS;
@@ -38,14 +38,10 @@ function initMap()
 	    scrollWheelZoom : false
 	});
 
-	// L.Control.Zoom({
-	//    position:'topright'
-	// }).addTo(map);
-
 	L.tileLayer(defaultTileLayer).addTo(map);
 	
-	geocoderJS = GeocoderJS.createGeocoder({'provider': 'google', 'useSSL':true});
-	// geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'useSSL':true});
+	// geocoderJS = GeocoderJS.createGeocoder({'provider': 'google', 'useSSL':true});
+	geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'useSSL':true});
 
 	if (markerPosition) createMarker(markerPosition);
 }
