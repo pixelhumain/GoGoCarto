@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-14 11:00:01
+ * @Last Modified time: 2018-01-16 17:29:43
  */
 jQuery(document).ready(function()
 {	
@@ -24,7 +24,7 @@ jQuery(document).ready(function()
       case 4: start_time = ["18", "00"];break;
     }
     if ($(this).val()) { start_time = $(this).val().split(':'); }
-    $(this).timepicki({start_time: start_time, increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:5, max_hour_value:23, overflow_minutes:true}); 
+    $(this).timepicki({start_time: start_time, increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:0, max_hour_value:23, overflow_minutes:true}); 
   });
 
   // TOOLTIPS

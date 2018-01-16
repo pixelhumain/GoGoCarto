@@ -1,14 +1,3 @@
-/**
- * This file is part of the MonVoisinFaitDuBio project.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
- * @license    MIT License
- * @Last Modified time: 2018-01-10 15:27:20
- */
-
-
 function checkAndSend(submitOption) 
 {	
 	checkCategories();
@@ -17,7 +6,7 @@ function checkAndSend(submitOption)
 	checkRequiredFields();
 	checkCaptcha();
 
-	// // Dealing with error class
+	// Dealing with error class
 	$('.invalid, .invalid-required').each(function ()
 	{ 		
 		$(this).closest('.input-field').addClass('error');
@@ -39,11 +28,8 @@ function checkAndSend(submitOption)
 
 	checkAddressGeolocalisation();
 
-	// on compte le namebre d'erreur. "invalid" est automatiquement ajout?
-	// par une input text invalide avec materialize
 	var errorCount = $('.error:visible:not(.flash-message), .invalid:visible').length;
 
-	// Si tout est OK
 	if (errorCount === 0) 
 	{
 		encodeOptionValuesIntoHiddenInput();
@@ -94,7 +80,6 @@ function checkCategories()
 
 function checkAgreeConditions()
 {
-	// CHECK on s'engage ? bla bla bla
 	if (!$('#agree').is(':checked'))
 	{
 		$('#informations-title').addClass('error'); 
@@ -111,7 +96,6 @@ function checkAgreeConditions()
 
 function checkOpenHours()
 {
-	//CHECK horaires correctes
 	$('.timepicker_1, .timepicker_3').each(function()
 	{
 		var id = $(this).attr('id');
@@ -121,16 +105,12 @@ function checkOpenHours()
 		var value_2 = $('#'+id_2e_plage).val();
 		if (value_2 === "") value_2 = null;
 
-		// si l'horaire de d?but de plage est remplie alors on regarde
-		// que l'horaire de fin de plage le soit aussi et qu'elle soit
-		// plus tard que celle de d?but
 		if (value_1)
 		{
-			// de base le day n'est pas consid?r? comme ouvert
 			$(this).parents(".open-hours-container").removeClass('open-day');
 			$(this).removeClass('invalid');
 
-			if(!value_2 || value_2 <= value_1) 
+			if(!value_2) 
 			{
 				$('#'+id_2e_plage).addClass('invalid');
 			}
@@ -153,7 +133,6 @@ function checkAddressGeolocalisation()
 
 function checkRequiredFields()
 {
-	// CHECK les "required" sont bien remplis
 	$('.required').each(function ()
 	{ 
 		if ($(this).hasClass('required-only-add') && editMode) return;
