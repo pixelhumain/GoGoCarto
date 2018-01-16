@@ -22,7 +22,7 @@
 		      {% for message in messages %}
 		          <div class="flash-message {{ type }}">
 		              {{ message|trans({}, 'SonataUserBundle')|raw }}
-		              <span class="btn-close gogo-icon-clear"></span>
+		              <span class="btn-close gogo-icon-clear" onclick="$(this).parent().slideUp(200);console.log('click')";></span>
 		          </div>
 		      {% endfor %}
 		    </div>
