@@ -37,12 +37,14 @@
             data:
             {
                 taxonomy: {{ mainCategoryJson | raw }},
-                openHours: {{ openHoursCategoryJson | raw }},
-                elementsApiUrl: "{{ path('biopen_api_elements') }}",
+                // openHours: {{ openHoursCategoryJson | raw }},
+                elements: "{{ path('biopen_api_elements') }}",
             },
             features:
             {
-                search:   { url: "{{ path('biopen_api_elements_from_text') }}" },
+                listMode: {},
+                searchPlace: { },
+                searchElements:   { url: "{{ path('biopen_api_elements_from_text') }}" },
                 share:    {{ this.getConfigFrom(config.shareFeature,  path('biopen_report_error_for_element')) }},
                 report:   {{ this.getConfigFrom(config.reportFeature, path('biopen_report_error_for_element')) }},
                 favorite: {{ this.getConfigFrom(config.favoriteFeature) }},
@@ -51,8 +53,7 @@
                 directModeration:  {{ this.getConfigFrom(config.directModerationFeature) }},
                 moderation:  {{ this.getConfigFrom(config.directModerationFeature, path('biopen_resolve_reports_element')) }},
                 elementHistory: {{ this.getConfigFrom(config.directModerationFeature) }},
-                // desactivate add feature because we handle it in GoGoCarto Header
-                add:      {active: false},
+
                 // overide roles so even if edit is just allowed to user or admin, an anonymous will see
                 // the edit button in the element info menu
                 edit:     {{ this.getConfigFrom(
@@ -63,7 +64,11 @@
                 delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
 
                 vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }}, 
-                sendMail:     {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }},    
+                sendMail: {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }},    
+                directions: {},
+                layers: {},
+                mapdefaultview: {},
+                collaborativeModeration: {}
             },
             security:
             {
