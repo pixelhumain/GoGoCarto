@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-11-21 11:04:28
+ * @Last Modified time: 2018-01-19 11:49:53
  */ 
 
 namespace Biopen\GeoDirectoryBundle\Form;
@@ -17,7 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-
 class PostalAddressType extends AbstractType
 {
   /**
@@ -26,10 +25,12 @@ class PostalAddressType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-      $builder->add('streetAddress', HiddenType::class)
-              ->add('addressLocality', HiddenType::class)
-              ->add('postalCode', HiddenType::class)
-          	  ->add('addressCountry', HiddenType::class);
+    $builder
+      ->add('streetAddress', HiddenType::class)
+      ->add('addressLocality', HiddenType::class)
+      ->add('postalCode', HiddenType::class)
+  	  ->add('addressCountry', HiddenType::class)
+      ->add('customFormatedAddress', HiddenType::class);
   }
   
   /**
@@ -37,9 +38,9 @@ class PostalAddressType extends AbstractType
    */
   public function configureOptions(OptionsResolver $resolver)
   {
-      $resolver->setDefaults(array(
-          'data_class' => 'Biopen\GeoDirectoryBundle\Document\PostalAddress'
-      ));
+    $resolver->setDefaults(array(
+        'data_class' => 'Biopen\GeoDirectoryBundle\Document\PostalAddress'
+    ));
   }
 
   /**

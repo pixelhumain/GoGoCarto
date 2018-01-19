@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 10:35:38
+ * @Last Modified time: 2018-01-19 12:12:19
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -75,6 +75,7 @@ class ElementAdminShowEdit extends ElementAdminList
        ->end()
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
+        ->add('address.formatedAddress', null, array('label' => 'Adresse complète'))
         ->add('address.streetAddress', null, array('label' => 'Adresse'))
         ->add('address.addressLocality', null, array('label' => 'Ville'))
 	      ->add('address.postalCode', null, array('label' => 'Code postal'))

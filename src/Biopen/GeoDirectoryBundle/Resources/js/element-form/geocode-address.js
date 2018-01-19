@@ -1,33 +1,86 @@
-var geocoding_processing = false;
-// trouve le lat lng correspondant ? une adresse donn?e
-function geocodeAddress( address ) {
+var geocoderJS;
+var geocodingProcessing = false;
+var firstGeocodeDone = false;
+var geocodedFormatedAddress = '';
 
-	if (geocoding_processing || !address) return null;
+function getInputAddress() { return $('#input-address').val(); }
+
+jQuery(document).ready(function()
+{	
+	// geocoderJS = GeocoderJS.createGeocoder({'provider': 'google', 'useSSL':true});
+	geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'useSSL':true});
+
+	// Geocoding address
+	$('#input-address').change(function () 
+  { 
+    if (!firstGeocodeDone) handleInputAdressChange(); 
+  });
+
+	$('#input-address').keyup(function(e) 
+	{    
+		if(e.keyCode == 13) // touche entrée
+		{ 			 
+			handleInputAdressChange();
+		}
+	});
+  
+	$('.btn-geolocalize').click(function () { handleInputAdressChange(); });
+});
+
+function handleInputAdressChange()
+{
+	geocodeAddress(getInputAddress());
+}
+
+function geocodeAddress(address) {
+
+	console.log("geocodeAddress", address);
+
+	if (geocodingProcessing || !address) { console.log("Already processing or no address provided", address); return null; }
 
 	$('#geocode-spinner-loader').show();
 
-	geocoding_processing = true;
+	geocodingProcessing = true;
 
-	geocoderJS.geocode( address, function(results, status) 
+	geocoderJS.geocode(address, function(results, status) 
 	{
 		if (results !== null && results.length > 0) 
 		{
+			firstGeocodeDone = true;
 			//fitBounds(results[0].getBounds());
 			map.setView(results[0].getCoordinates(), 15);
 			createMarker(results[0].getCoordinates());
 
 			console.log("Geocode result :", results[0]);
 
+			// Detect street address when geocoder fails to retrieve it (OSM case)
+			var patt = new RegExp(/^\d+/g);
+			var potentialStreetNumber = patt.exec(address);
+			var streetNumber = results[0].streetNumber;
+			if (potentialStreetNumber != results[0].postal_code && potentialStreetNumber != results[0].streetNumber)
+			{
+				console.log("street number detected", potentialStreetNumber);
+				streetNumber = potentialStreetNumber;
+			}
+
+			streetAddress = '';
+			if (streetNumber) streetAddress += streetNumber + ' ';
+			if (results[0].streetName) streetAddress +=  results[0].streetName;		
+
+			geocodedFormatedAddress = "";
+	    if (streetAddress) geocodedFormatedAddress += streetAddress + ', ';
+	    if (results[0].postal_code) geocodedFormatedAddress += results[0].postal_code + ' ';
+	    if (results[0].city) geocodedFormatedAddress += results[0].city;
+
 			$('#input-latitude').val(marker.getLatLng().lat);
 			$('#input-longitude').val(marker.getLatLng().lng);
 			$('#input-postal-code').val(results[0].postal_code);
-			$('#input-city').val(results[0].city);
-			streetAddress = '';
-			if (results[0].streetNumber) streetAddress +=  results[0].streetNumber + ' ';
-			if (results[0].streetName) streetAddress +=  results[0].streetName;
-			$('#input-streetAddress').val(streetAddress);	
 			$('#input-country').val(results[0].country_code);
-			// $('#input-address').val(results[0].formattedAddress);
+			$('#input-city').val(results[0].city);
+			$('#input-streetAddress').val(streetAddress);				
+
+			$('#input-address').val(geocodedFormatedAddress);			
+
 			$('#input-address').closest('.input-field').removeClass("error");	
 			$('#input-address').removeClass('invalid');
 		} 	
@@ -46,10 +99,21 @@ function geocodeAddress( address ) {
 			$('#input-streetAddress').val('');
 
 			console.log("erreur geocoding", status);
-		}	
-		$('#geocode-spinner-loader').hide();
-		geocoding_processing = false;
-	});
+		}
 
-	return geocoding_ok;
+		$('#geocode-spinner-loader').hide();
+		geocodingProcessing = false;
+	});
+}
+
+function checkCustomFormatedAddressBeforeSend()
+{
+	if (getInputAddress() != geocodedFormatedAddress)
+	{
+		$('#input-custom-formated-address').val(getInputAddress());
+	}
+	else
+	{
+		$('#input-custom-formated-address').val(null);
+	}
 }

@@ -35,18 +35,27 @@ class PostalAddress
    * @MongoDB\Field(type="string")
    */
    public $addressCountry;
-   
 
-   public function __construct($streetAddress = null, $addressLocality = null, $postalCode = null, $addressCountry = null)
+   /**
+   * 
+   * @Expose
+   * @MongoDB\Field(type="string")
+   */
+   public $customFormatedAddress;
+
+
+   public function __construct($streetAddress = null, $addressLocality = null, $postalCode = null, $addressCountry = null, $customFormatedAddress = null)
    {
       $this->streetAddress = $streetAddress;
       $this->addressLocality = $addressLocality;
       $this->postalCode = $postalCode;
       $this->addressCountry = $addressCountry;
+      $this->customFormatedAddress = $customFormatedAddress;
    }  
 
     public function getFormatedAddress()
     {
+      if ($this->customFormatedAddress) return $this->customFormatedAddress;
       $result = "";
       if ($this->streetAddress) $result .= $this->streetAddress . ', ';
       if ($this->postalCode) $result .= $this->postalCode . ' ';
@@ -141,5 +150,27 @@ class PostalAddress
     public function getAddressCountry()
     {
         return $this->addressCountry;
+    }
+
+    /**
+     * Set customFormatedAddress
+     *
+     * @param string $customFormatedAddress
+     * @return $this
+     */
+    public function setCustomFormatedAddress($customFormatedAddress)
+    {
+        $this->customFormatedAddress = $customFormatedAddress;
+        return $this;
+    }
+
+    /**
+     * Get customFormatedAddress
+     *
+     * @return string $customFormatedAddress
+     */
+    public function getCustomFormatedAddress()
+    {
+        return $this->customFormatedAddress;
     }
 }

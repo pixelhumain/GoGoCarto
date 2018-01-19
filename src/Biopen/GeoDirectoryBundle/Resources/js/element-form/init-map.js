@@ -1,23 +1,11 @@
-/**
- * This file is part of the MonVoisinFaitDuBio project.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
- * @license    MIT License
- * @Last Modified time: 2018-01-10 15:07:47
- */
 var map;
-var geocoderJS;
 var marker;
-var geocoding_ok;
 
 // Google map initialisation
 function initMap() 
 {	
-	//initAutoCompletionForElement(document.getElementById('input-address'));
-
 	var mapCenter;
+
 	if ($('#input-latitude').val() && $('#input-longitude').val())
 	{
 		markerPosition = new L.LatLng($('#input-latitude').val(), $('#input-longitude').val());
@@ -38,10 +26,7 @@ function initMap()
 	    scrollWheelZoom : false
 	});
 
-	L.tileLayer(defaultTileLayer).addTo(map);
-	
-	// geocoderJS = GeocoderJS.createGeocoder({'provider': 'google', 'useSSL':true});
-	geocoderJS = GeocoderJS.createGeocoder({ 'provider': 'openstreetmap', 'useSSL':true});
+	L.tileLayer(defaultTileLayer).addTo(map);	
 
 	if (markerPosition) createMarker(markerPosition);
 }

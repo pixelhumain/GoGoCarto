@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-16 17:29:43
+ * @Last Modified time: 2018-01-19 11:44:51
  */
 jQuery(document).ready(function()
 {	
@@ -42,18 +42,7 @@ jQuery(document).ready(function()
 
   inputDescription.on('input', function() {
     if ($(this).hasClass('invalid')) inputDescriptionMore.parent('.input-field').slideDown(800);
-  })
-
-	// Geocoding address
-	$('#input-address').change(function () { handleInputAdressChange(); });
-	$('#input-address').keyup(function(e) 
-	{    
-		if(e.keyCode == 13) // touche entrée
-		{ 			 
-			handleInputAdressChange();
-		}
-	});
-	$('.btn-geolocalize').click(function () { handleInputAdressChange(); });
+  });
 	
 	// OPEN HOURS
 	// 2nd time slot
@@ -63,8 +52,5 @@ jQuery(document).ready(function()
 	$('.redo-time-slot-button').click(function() { redoTimeSlot($(this).attr('id').split("_")[0]); });
 });
 
-function handleInputAdressChange()
-{
-	geocodeAddress($('#input-address').val());
-}
+
 

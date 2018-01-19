@@ -33,6 +33,7 @@ function checkAndSend(submitOption)
 	if (errorCount === 0) 
 	{
 		encodeOptionValuesIntoHiddenInput();
+		checkCustomFormatedAddressBeforeSend(); // defined in geocode-address.js
 		// add submit option for handling multiple submit buttons
 		$('input#submit-option').val(submitOption);
 		$('form').submit();
@@ -147,3 +148,4 @@ function checkRequiredFields()
 		}
 	});
 }
+
