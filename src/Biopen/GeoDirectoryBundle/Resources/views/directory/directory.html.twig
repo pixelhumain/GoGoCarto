@@ -45,6 +45,7 @@
                 listMode: {},
                 searchPlace: { },
                 searchElements:   { url: "{{ path('biopen_api_elements_from_text') }}" },
+                searchGeolocate: {},
                 share:    {{ this.getConfigFrom(config.shareFeature,  path('biopen_report_error_for_element')) }},
                 report:   {{ this.getConfigFrom(config.reportFeature, path('biopen_report_error_for_element')) }},
                 favorite: {{ this.getConfigFrom(config.favoriteFeature) }},
