@@ -5,11 +5,11 @@
 	{% endfor %}
 {% endif %}
 
-<div class="category-field {{ displayInline ? 'inline' : ''}}">
-	
+{% set categoryDepth = category.depth is defined ? category.depth : 1 %}
+<div class="category-field {{ displayInline ? 'inline' : ''}}">	
 	
 	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
-    <select id="category-field-{{category.id}}" class="category-select keep-title-option depth-{{ category.depth }}" data-id="{{category.id}}" name="category-field-{{category.id}}">
+    <select id="category-field-{{category.id}}" class="category-select keep-title-option depth-{{ categoryDepth }}" data-id="{{category.id}}" name="category-field-{{category.id}}">
    	  
    	  <option disabled selected>Choisissez {{ category.pickingOptionText }}</option>
    	   
@@ -36,7 +36,7 @@
 			{% endif %}
 		{% endfor %}
 		
-		<div class="option-field depth-{{ category.depth }} {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
+		<div class="option-field depth-{{ categoryDepth }} {{ displayInline ? 'inline' : ''}}" id="option-field-{{option.id}}" {% if not displayOption %} style="display:none"{% endif %} 
 					data-id="{{option.id}}" data-index={{curr_index}}>
 
 			<div class="option-field-value {{ category.enableDescription ? "with-description" : "" }}">
@@ -45,7 +45,7 @@
 							{% set iconClass = (option.icon is defined and option.icon) ?  option.icon : 'icon-angle-right' %}	
 							{% set iconColorId = '' %}	
 							{% if iconClass %}    
-								<span class="icon {{ iconClass }} colorAs depth-{{ category.depth }}" option-id='{{ iconColorId }}' ></span>
+								<span class="icon {{ iconClass }} colorAs depth-{{ categoryDepth }}" option-id='{{ iconColorId }}' ></span>
 							{% endif %}
 							{{ option.name }}
 				</span>
