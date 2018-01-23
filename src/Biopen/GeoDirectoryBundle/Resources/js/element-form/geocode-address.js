@@ -57,14 +57,14 @@ function geocodeAddress(address) {
 			var patt = new RegExp(/^\d+/g);
 			var potentialStreetNumber = patt.exec(address);
 			var streetNumber = results[0].streetNumber;
-			if (potentialStreetNumber != results[0].postal_code && potentialStreetNumber != results[0].streetNumber)
+			if (potentialStreetNumber != results[0].postal_code && !results[0].streetNumber && results[0].streetName)
 			{
 				console.log("street number detected", potentialStreetNumber);
 				streetNumber = potentialStreetNumber;
 			}
 
 			streetAddress = '';
-			if (streetNumber) streetAddress += streetNumber + ' ';
+			if (streetNumber && results[0].streetName) streetAddress += streetNumber + ' ';
 			if (results[0].streetName) streetAddress +=  results[0].streetName;		
 
 			geocodedFormatedAddress = "";
