@@ -14,7 +14,7 @@ class Category
 {
     /**
      * @var int
-     *
+     *  @Exclude
      * @MongoDB\Id(strategy="INCREMENT") 
      */
     private $id;
