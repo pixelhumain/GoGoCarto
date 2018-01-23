@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-13 11:26:13
+ * @Last Modified time: 2018-01-23 08:29:49
  */
  
 
@@ -241,18 +241,8 @@ class ElementFormController extends GoGoController
 			$flashMessage = "Vous êtes actuellement en mode \"Anonyme\"</br> Connectez-vous pour augmenter notre confiance dans vos contributions !";
 			$request->getSession()->getFlashBag()->add('notice', $flashMessage);
 		}	
-		// else if ($session->has('userEmail') && !$addOrEditComplete)	
-		// {
-		// 	$flashMessage = 'Vous êtes identifié en tant que "' . $user .'"</br><a onclick="logout()" href="?logout=1">Changer d\'utilisateur</a>';
-		// 	$request->getSession()->getFlashBag()->add('notice', $flashMessage);
-		// }
 
-		// retrieve mainCategory as Json and unserialized it because if no it need a lot of query to
-		// retrieve all the taxonomy tree
-		$mainCategoryJson = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')
-		->findMainCategoryJson();
-
- 		$mainCategory = json_decode($mainCategoryJson);
+ 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsMainNode(true);
 
 		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(

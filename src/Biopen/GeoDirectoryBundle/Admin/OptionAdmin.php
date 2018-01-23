@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-06 14:38:58
+ * @Last Modified time: 2018-01-23 08:37:25
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -44,15 +44,15 @@ class OptionAdmin extends AbstractAdmin
             'label' => 'Catégorie parente', 
             'mapped' => true), array('admin_code' => 'admin.category.lite'))
 		  	->add('color', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur'))			  	
-		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))			  	
-		  	->add('useIconForMarker', null, array('required' => false, 'label' => "Utiliser l'icone de l'option pour le marqueur"))		
-		  	->add('useColorForMarker', null, array('required' => false, 'label' => "Utiliser la couleur de l'option pour le marqueur"))		  	
+		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))		  		  	
 		->end()
 		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6'))	
 			->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))	
 			->add('textHelper', null, array('required' => false, 'label' => "Message d'aide pour décrire rapidement l'option"))		  
 			->add('displayOption', null, array('required' => false, 'label' => "Activer l'option"))	
-		  	->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les sous catégories de cette option'))							
+		  	->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les sous catégories de cette option'))
+         ->add('useIconForMarker', null, array('required' => false, 'label' => "Utiliser l'icone de l'option pour le marqueur"))    
+         ->add('useColorForMarker', null, array('required' => false, 'label' => "Utiliser la couleur de l'option pour le marqueur"))   							
 		->end()  
 		->with('Sous catégories', array('class' => 'col-xs-12'))	
 			->add('subcategories', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), 

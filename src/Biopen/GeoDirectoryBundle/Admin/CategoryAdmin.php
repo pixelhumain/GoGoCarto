@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-06 14:39:08
+ * @Last Modified time: 2018-01-23 07:53:24
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -42,16 +42,15 @@ class CategoryAdmin extends AbstractAdmin
 		  		'label' => 'Option parente'), array('admin_code' => 'admin.option'))
 		  	->add('pickingOptionText', null, array('required' => true, 'label' => 'Text à afficher dans le formulaire : Choisissez ....'))	
 		  	->add('index', null, array('required' => true, 'label' => 'Position'))
+         ->add('isMandatory', null, array('required' => false, 'label' => "Si l'option parente est selectionnée, cette catégorie doit être obligatoirement remplie"))   
 		  	->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
 		  	->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option)"))	
-		  	->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées)'))				
+		  		
 		->end()
-		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6'))		  	
-			->add('depth', null, array('required' => false, 'label' => 'Profondeur dans l\'arbre'))			
-			->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les options de la catégorie'))
-			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))				
-		  	->add('depth', null, array('required' => false, 'label' => 'Profondeur dans l\'arbre'))	
-		  	//->add('id')							
+		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6'))		  				
+			->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées)'))        
+         ->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les options de la catégorie'))
+			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))		
 		->end()
 		->with('Options', array('class' => 'col-xs-12'))	
 			->add('options', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), array(

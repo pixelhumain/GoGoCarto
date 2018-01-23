@@ -17,7 +17,7 @@ class CategoryAdminController extends Controller
 
         // Get Product List        
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-        ->findOneByDepth(0); 
+        ->findOneByIsMainNode(true); 
 
         return $this->treeAction($mainCategory);
     }

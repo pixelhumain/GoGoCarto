@@ -3,10 +3,11 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Category
- *
+ * 
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\CategoryRepository")
  */
 class Category
@@ -27,12 +28,13 @@ class Category
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getNameShort() == object.getName()")
      * @MongoDB\Field(type="string")
      */
     private $nameShort;
 
     /**
+    * @Exclude(if="object.getOptionsCount() == 0")
     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
     */
     private $options; 
@@ -44,65 +46,80 @@ class Category
 
     /**
      * @var int
+     * @Exclude
      * @MongoDB\Field(type="int")
      */
     private $index = 0;
 
     /**
      * @var bool
-     *
+     * @Exclude
      * @MongoDB\Field(type="boolean")
      */
     private $singleOption = false;
 
     /**
      * @var bool
-     *
+     * @Exclude
+     * @MongoDB\Field(type="boolean")
+     */
+    private $isMandatory = true;
+
+    /**
+     * @var bool
+     * @Exclude
+     * @MongoDB\Field(type="boolean")
+     */
+    private $useFreeTags = false;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getEnableDescription() == false")
      * @MongoDB\Field(type="boolean")
      */
     private $enableDescription = false;
 
     /**
      * @var bool
-     *
+     * @Exclude(if="object.getDisplayCategoryName() == true")
      * @MongoDB\Field(type="boolean")
      */
     private $displayCategoryName = true;
 
     /**
-     * @var int
-     *
-     * @MongoDB\Field(type="int")
-     */
-    private $depth;
-
-    /**
      * @var string
-     *
+     * @Exclude
      * @MongoDB\Field(type="string")
      */
     private $pickingOptionText;
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getShowExpanded() == true")
      * @MongoDB\Field(type="boolean")
      */
     private $showExpanded = true;
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getUnexpandable() == false")
      * @MongoDB\Field(type="boolean")
      */
     private $unexpandable = false;
 
     /**
      * @var bool
-     *
+     * @Exclude
      * If Category is loaded by a fixture
      */
     private $isFixture = false;
+
+    /**
+     * @var string
+     * @Exclude
+     * @MongoDB\Field(type="boolean")
+     */
+    private $isMainNode = false;
 
 
     public function __construct()
@@ -114,6 +131,12 @@ class Category
     {
         $parentName = $this->getParent() ? $this->getParent()->getName() . '/' : '';
         return "(Category) " . $parentName . $this->getName();
+    }
+
+    public function getOptionsCount()
+    {
+        if ($this->options) return $this->options->count();
+        return 0;
     }
     
     /**
@@ -290,28 +313,6 @@ class Category
     }
 
     /**
-     * Set depth
-     *
-     * @param int $depth
-     * @return $this
-     */
-    public function setDepth($depth)
-    {
-        $this->depth = $depth;
-        return $this;
-    }
-
-    /**
-     * Get depth
-     *
-     * @return int $depth
-     */
-    public function getDepth()
-    {
-        return $this->depth;
-    }
-
-    /**
      * Set pickingOptionText
      *
      * @param string $pickingOptionText
@@ -391,8 +392,6 @@ class Category
         $this->parent = $parent;
         if ($updateParent) $parent->addSubcategory($this, false);
 
-        if (!$this->depth && $this->parent->getParent()) $this->setDepth($this->parent->getParent()->getDepth() + 1);
-
         return $this;
     }
 
@@ -426,5 +425,71 @@ class Category
     public function getIsFixture()
     {
         return $this->isFixture;
+    }
+
+    /**
+     * Set isMandatory
+     *
+     * @param boolean $isMandatory
+     * @return $this
+     */
+    public function setIsMandatory($isMandatory)
+    {
+        $this->isMandatory = $isMandatory;
+        return $this;
+    }
+
+    /**
+     * Get isMandatory
+     *
+     * @return boolean $isMandatory
+     */
+    public function getIsMandatory()
+    {
+        return $this->isMandatory;
+    }
+
+    /**
+     * Set useFreeTags
+     *
+     * @param boolean $useFreeTags
+     * @return $this
+     */
+    public function setUseFreeTags($useFreeTags)
+    {
+        $this->useFreeTags = $useFreeTags;
+        return $this;
+    }
+
+    /**
+     * Get useFreeTags
+     *
+     * @return boolean $useFreeTags
+     */
+    public function getUseFreeTags()
+    {
+        return $this->useFreeTags;
+    }
+
+    /**
+     * Set isMainNode
+     *
+     * @param boolean $isMainNode
+     * @return $this
+     */
+    public function setIsMainNode($isMainNode)
+    {
+        $this->isMainNode = $isMainNode;
+        return $this;
+    }
+
+    /**
+     * Get isMainNode
+     *
+     * @return boolean $isMainNode
+     */
+    public function getIsMainNode()
+    {
+        return $this->isMainNode;
     }
 }

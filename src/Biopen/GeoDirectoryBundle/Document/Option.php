@@ -3,6 +3,7 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Option
@@ -28,12 +29,13 @@ class Option
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getNameShort() == object.getName()")
      * @MongoDB\Field(type="string")
      */
     private $nameShort;
 
     /**
+    * @Exclude(if="object.getSubcategoriesCount() == 0")
     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
     */
     private $subcategories; 
@@ -45,6 +47,7 @@ class Option
 
     /**
      * @var int
+     * @Exclude
      * @MongoDB\Field(type="int") 
      */
     private $index;
@@ -58,56 +61,55 @@ class Option
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getSoftColor() == object.getColor()")
      * @MongoDB\Field(type="string")
      */
     private $softColor;
 
     /**
      * @var string
-     *
      * @MongoDB\Field(type="string")
      */
     private $icon;
 
     /**
      * @var string
-     *
+     * @Exclude(if="object.getTextHelper() == ''")
      * @MongoDB\Field(type="string")
      */
     private $textHelper;
 
     /**
      * @var bool
-     *
+     * @Exclude(if="object.getUseIconForMarker() == true")
      * @MongoDB\Field(type="boolean")
      */
-    private $useIconForMarker;
+    private $useIconForMarker = true;
 
     /**
      * @var bool
-     *
+     * @Exclude(if="object.getUseColorForMarker() == true")
      * @MongoDB\Field(type="boolean")
      */
-    private $useColorForMarker;
+    private $useColorForMarker = true;
 
     /**
      * @var bool
-     *
+     * @Exclude(if="object.getDisplayOption() == true")
      * @MongoDB\Field(type="boolean")
      */
     private $displayOption = true;
 
     /**
      * @var bool
-     *
+     * @Exclude(if="object.getShowExpanded() == false")
      * @MongoDB\Field(type="boolean")
      */
     private $showExpanded = false;
 
      /**
      * @var bool
-     *
+     * @Exclude(if="object.getShowOpenHours() == false")
      * @MongoDB\Field(type="boolean")
      * Only for main options
      */
@@ -115,7 +117,7 @@ class Option
 
     /**
      * @var bool
-     *
+     * @Exclude
      * If Option is loaded by a fixture
      */
     private $isFixture = false;
@@ -134,6 +136,12 @@ class Option
     {
         if (!$this->parent) return null;
         return $this->parent->parent;
+    }
+
+    public function getSubcategoriesCount()
+    {
+        if ($this->subcategories) return $this->subcategories->count();
+        return 0;
     }
     
     /**

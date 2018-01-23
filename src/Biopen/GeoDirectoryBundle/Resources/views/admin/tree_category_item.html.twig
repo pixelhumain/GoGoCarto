@@ -2,7 +2,7 @@
 <li class="category-item">
 
 	<span class="category-item {{ category.options|length ? 'expandable':'' }}">
-		{{ category.name|capitalize }} - (Depth {{ category.depth}})
+		{{ category.name|capitalize }}
 		{% if category.options|length %}<span class="arrow-after"></span>{% endif %}
 	</span>
 	<span class="actions">

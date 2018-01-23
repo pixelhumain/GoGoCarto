@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-01-23 07:55:00
  */
  
 
@@ -81,8 +81,7 @@ class RandomCreationService
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $mainCategory = $this->em->getRepository('BiopenGeoDirectoryBundle:Category')
-	            ->findOneByDepth(0);
+	    $mainCategory = $this->em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsMainNode(true);
 
 
 	    $lipsum = new LoremIpsum();	

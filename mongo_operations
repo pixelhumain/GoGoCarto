@@ -66,3 +66,6 @@ db.Element.find({'moderationState':-2}).forEach(function(x){
   x.fetch();
   print(x.contributions.userMail+",");
 });
+
+db.Category.updateOne({depth: 0}, {$set: {isMainNode:true}})
+db.Category.updateMany({}, { $unset: { depth: "", isFixture: "" } })

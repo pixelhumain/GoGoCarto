@@ -5,7 +5,7 @@
 	{% endfor %}
 {% endif %}
 
-{% set categoryDepth = category.depth is defined ? category.depth : 1 %}
+{% set categoryDepth = parentDepth is defined ? parentDepth + 1 : 0 %}
 <div class="category-field {{ displayInline ? 'inline' : ''}}">	
 	
 	<span class="category-field-select input-field" data-picking-text='{{ category.pickingOptionText }}'>
@@ -63,7 +63,7 @@
 	  	<div class="subcategories-wrapper ">
 		    {% for subkey, subcategory in option.subcategories %}
 
-						{% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with {'category': subcategory } %}
+						{% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with {'category': subcategory, 'parentDepth': categoryDepth } %}
 
 				{% endfor %} 
 			</div>
