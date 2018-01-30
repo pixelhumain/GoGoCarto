@@ -21,6 +21,7 @@ class ConvertCsvToArrayService {
                 if(!$header) {
                     $header = $row;
                 } else {
+                    if (count($header) != count ($row)) dump($row);
                     $data[] = array_combine($header, $row);
                 }
             }

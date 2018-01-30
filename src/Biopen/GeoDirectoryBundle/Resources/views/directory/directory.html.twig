@@ -39,6 +39,7 @@
                 taxonomy: {{ mainCategoryJson | raw }},
                 // openHours: {{ openHoursCategoryJson | raw }},
                 elements: "{{ path('biopen_api_elements') }}",
+                requestByBounds: true,
             },
             menu:
             {
@@ -87,6 +88,8 @@
                 defaultBounds: {{ config.getDefaultBounds | json_encode | raw }},
                 defaultTileLayer: "{{ config.defaultTileLayer.name }}",
                 tileLayers : {{ tileLayers | json_encode | raw }},
+                saveViewportInCookies : true,
+                saveTileLayerInCookies : true,
             },
             colors:
             {

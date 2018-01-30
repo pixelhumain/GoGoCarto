@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-01-30 17:58:44
  */
  
 
@@ -45,6 +45,14 @@ class ElementActionService
       $this->securityContext = $securityContext;
       $this->mailService = $mailService;
       $this->elementPendingService = $elementPendingService;
+   }
+
+   public function import($element, $sendMail = false, $message = null)
+   {
+      $this->addContribution($element, $message, InteractType::Import, ElementStatus::AddedByAdmin);
+      $element->setStatus(ElementStatus::AddedByAdmin); 
+      if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
+      $this->updateTimestamp($element);
    }
 
    public function add($element, $sendMail = true, $message = null)
