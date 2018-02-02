@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2017-12-12 15:32:58
+ * @Last Modified time: 2018-02-02 15:59:04
  */
  
 
@@ -77,8 +77,7 @@ class APIController extends Controller
                 $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);              
             }    
             
-            
-            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "'. $ontology .'"}';
+            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "'. $ontology .'", "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/context-gogo.jsonld"}';
             $result = new Response($responseJson);   
 
             $result->headers->set('Content-Type', 'application/json');
