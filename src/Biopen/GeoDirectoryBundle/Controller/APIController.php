@@ -5,8 +5,8 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
- * @license    MIT License
- * @Last Modified time: 2018-02-02 15:59:04
+ * @license  MIT License
+ * @Last Modified time: 2018-02-03 11:08:53
  */
  
 
@@ -31,147 +31,162 @@ use MongoClient;
 
 class APIController extends Controller
 {
-    /* Retrieve elements via API, allow params are
-    * @id
-    * @limit
-    * @bounds
-    * @ontology ( gogofull or gogocompact )
-    **/
-    public function getElementsAction(Request $request, $id = null)
+  /* Retrieve elements via API, allow params are
+  * @id
+  * @limit
+  * @bounds
+  * @ontology ( gogofull or gogocompact )
+  **/
+  public function getElementsAction(Request $request, $id = null, $_format = 'json')
+  {
+    if(true) //$request->isXmlHttpRequest()
     {
-        if($request->isXmlHttpRequest())
+      $em = $this->get('doctrine_mongodb')->getManager();
+      $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+
+      $isAdmin = $this->isUserAdmin();
+
+      $limit = $request->get('limit');
+      $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
+      $fullRepresentation =  $ontology == "gogofull";
+      $elementId = $id ? $id : $request->get('id');
+      $mainOptionId = $request->get('mainOptionId');
+
+      if ($elementId) 
+      {
+        $element = $elementRepo->findOneBy(array('id' => $elementId));
+        $elementsJson = $isAdmin ? $element->getFullAdminJson() : $element->getFullJson();
+      }
+      else 
+      {
+        if ($request->get('bounds'))
         {
-            $em = $this->get('doctrine_mongodb')->getManager();
-            $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+          $boxes = [];
+          $bounds = explode( ';' , $request->get('bounds'));
+          foreach ($bounds as $key => $bound) 
+          {
+            $boxes[] = explode( ',' , $bound);
+          }
 
-            $isAdmin = $this->isUserAdmin();
-
-            $limit = $request->get('limit');
-            $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
-            $fullRepresentation =  $ontology == "gogofull";
-            $elementId = $id ? $id : $request->get('id');
-            $mainOptionId = $request->get('mainOptionId');
-
-            if ($elementId) 
-            {
-                $element = $elementRepo->findOneBy(array('id' => $elementId));
-                $elementsJson = $isAdmin ? $element->getFullAdminJson() : $element->getFullJson();
-            }
-            else 
-            {
-                if ($request->get('bounds'))
-                {
-                    $boxes = [];
-                    $bounds = explode( ';' , $request->get('bounds'));
-                    foreach ($bounds as $key => $bound) 
-                    {
-                      $boxes[] = explode( ',' , $bound);
-                    }
-
-                    $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $mainOptionId, $fullRepresentation, $isAdmin, $limit);                    
-                } 
-                else
-                {
-                    $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $limit);
-                }    
-                $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);              
-            }    
-            
-            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "'. $ontology .'", "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/context-gogo.jsonld"}';
-            $result = new Response($responseJson);   
-
-            $result->headers->set('Content-Type', 'application/json');
-            return $result;
-        }
-        else 
+          $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $mainOptionId, $fullRepresentation, $isAdmin, $limit);          
+        } 
+        else
         {
-            return new Response("Access to the API is restricted and not allowed via the browser");
-        }
-    }  
+          $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $limit);
+        }  
+        $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);        
+      }   
 
-    public function getTaxonomyAction(Request $request)
-    {
-        if($request->isXmlHttpRequest())
-        {
-            $em = $this->get('doctrine_mongodb')->getManager();
-            
-            $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
+      if ($_format == 'jsonld')
+      {
+        $responseJson = '{
+          "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/context-gogo.jsonld",
+          "@graph"   :  '. $elementsJson . '
+        }';
+      }
+      else
+      {
+        $responseJson = '{
+          "data" :      '. $elementsJson . ', 
+          "ontology" : "'. $ontology .'"
+        }';
+      }
+      
+      
+      $result = new Response($responseJson);   
 
-            $response = new Response($taxonomy);    
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-        else 
-        {
-            return new Response("Access to the API is restricted and not allowed via the browser");
-        }
+      $result->headers->set('Content-Type', 'application/json');
+      return $result;
     }
-
-    public function getElementsFromTextAction(Request $request)
+    else 
     {
-        if($request->isXmlHttpRequest())
-        {
-            $em = $this->get('doctrine_mongodb')->getManager();
-            
-            $isAdmin = $this->isUserAdmin();
-
-            $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-            ->findElementsWithText($request->get('text'));
-
-            // $elements = array_filter($elements, function($value) {
-            //     return (float) $value['score'] >= 0;
-            // });
-
-            $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin);
-            $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
-            
-            $response = new Response($responseJson);    
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
-        else 
-        {
-            return new Response("Access to the API is restricted and not allowed via the browser");
-        }
+      return new Response("Access to the API is restricted and not allowed via the browser");
     }
+  }  
 
-    private function isUserAdmin() 
+  public function getTaxonomyAction(Request $request)
+  {
+    if($request->isXmlHttpRequest())
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
-        {
-            $user = $securityContext->getToken()->getUser(); 
-            $isAdmin = $user && $user->isAdmin();
-            return $isAdmin;
-        }
-        return false;
-        
-    }
+      $em = $this->get('doctrine_mongodb')->getManager();
+      
+      $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
 
-    private function encodeElementArrayToJsonArray($array, $fullRepresentation, $isAdmin = false)
+      $response = new Response($taxonomy);  
+      $response->headers->set('Content-Type', 'application/json');
+      return $response;
+    }
+    else 
     {
-        $elementsJson = '['; 
-
-        foreach ($array as $key => $value) 
-        { 
-            if ($fullRepresentation == 'true') 
-            {
-                $elementJson = $value['fullJson']; 
-                if ($isAdmin && $value['adminJson'] != '{}') {
-                    $elementJson = substr($elementJson , 0, -1) . ',' . substr($value['adminJson'],1);
-                }
-                if (key_exists('score', $value)) {
-                  // remove first '{'
-                  $elementJson = substr($elementJson, 1);
-                  $elementJson = '{"searchScore" : ' . $value['score'] . ',' . $elementJson;
-                }
-            } 
-            else $elementJson = $value['compactJson'];            
-            $elementsJson .=  $elementJson .  ',';
-        }   
-
-        $elementsJson = rtrim($elementsJson,",") . ']'; 
-        return $elementsJson;
+      return new Response("Access to the API is restricted and not allowed via the browser");
     }
-}
+  }
+
+  public function getElementsFromTextAction(Request $request)
+  {
+    if($request->isXmlHttpRequest())
+    {
+      $em = $this->get('doctrine_mongodb')->getManager();
+      
+      $isAdmin = $this->isUserAdmin();
+
+      $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
+      ->findElementsWithText($request->get('text'));
+
+      // $elements = array_filter($elements, function($value) {
+      //   return (float) $value['score'] >= 0;
+      // });
+
+      $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin);
+      $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
+      
+      $response = new Response($responseJson);  
+      $response->headers->set('Content-Type', 'application/json');
+      return $response;
+    }
+    else 
+    {
+      return new Response("Access to the API is restricted and not allowed via the browser");
+    }
+  }
+
+  private function isUserAdmin() 
+  {
+    $securityContext = $this->container->get('security.context');
+    if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+    {
+      $user = $securityContext->getToken()->getUser(); 
+      $isAdmin = $user && $user->isAdmin();
+      return $isAdmin;
+    }
+    return false;
     
+  }
+
+  private function encodeElementArrayToJsonArray($array, $fullRepresentation, $isAdmin = false)
+  {
+    $elementsJson = '['; 
+
+    foreach ($array as $key => $value) 
+    { 
+      if ($fullRepresentation == 'true') 
+      {
+        $elementJson = $value['fullJson']; 
+        if ($isAdmin && $value['adminJson'] != '{}') {
+          $elementJson = substr($elementJson , 0, -1) . ',' . substr($value['adminJson'],1);
+        }
+        if (key_exists('score', $value)) {
+          // remove first '{'
+          $elementJson = substr($elementJson, 1);
+          $elementJson = '{"searchScore" : ' . $value['score'] . ',' . $elementJson;
+        }
+      } 
+      else $elementJson = $value['compactJson'];      
+      $elementsJson .=  $elementJson .  ',';
+    }   
+
+    $elementsJson = rtrim($elementsJson,",") . ']'; 
+    return $elementsJson;
+  }
+}
+  

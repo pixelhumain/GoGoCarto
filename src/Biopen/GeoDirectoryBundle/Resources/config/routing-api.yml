@@ -14,11 +14,21 @@ biopen_api_elements_from_text:
     options:
         expose: true
 
-biopen_api_elements:
-    path:     /elements/{id}
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null }
+biopen_api_element_get:
+    path:     /elements/{id}.{_format}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null, _format: json }
     requirements:
         _method: GET
+        _format: json|jsonld
+    options:
+        expose: true
+
+biopen_api_elements_index:
+    path:     /elements.{_format}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null, _format: json }
+    requirements:
+        _method: GET
+        _format: json|jsonld
     options:
         expose: true
 
