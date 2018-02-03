@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-02-03 11:08:53
+ * @Last Modified time: 2018-02-03 11:15:52
  */
  
 
@@ -39,7 +39,7 @@ class APIController extends Controller
   **/
   public function getElementsAction(Request $request, $id = null, $_format = 'json')
   {
-    if(true) //$request->isXmlHttpRequest()
+    if ($request->isXmlHttpRequest())
     {
       $em = $this->get('doctrine_mongodb')->getManager();
       $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
