@@ -1,0 +1,11 @@
+biopen_user_profile:
+    path: /profile
+    defaults: { _controller: BiopenCoreBundle:User:profile }
+
+biopen_user_contributions:
+    path: /contributions
+    defaults: { _controller: BiopenCoreBundle:User:contributions }
+
+biopen_user_become_owner:
+    path: /become-owner/{id}
+    defaults: { _controller: BiopenCoreBundle:User:becomeOwner }

@@ -1,0 +1,112 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% set pageName = 'user-contributions' %}
+{% set navTitle = "Mes Contributions" %}
+
+{% block title %}Mes Contributions{% endblock %}
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+
+<section>
+
+{% set elementStatus = {
+  '' : 'En attente',
+  '-5': "modified pending",
+  '-4': 'Supprimé', 
+  '-3': 'Refusé (votes) ', 
+  '-2': 'Réfusé (admin)', 
+  '-1': 'En attente (modifs)', 
+   0: 'En attente (ajout)',
+   1: 'Validé (admin)',
+   2: 'Validé (votes)',
+   3: 'Ajouté par admin',
+   4: 'Modifié par admin',
+  }
+%}
+
+<h1>Mes contributions</h1>
+
+<h2>Mes Fiches</h2>
+<ul class="collection">
+{% for element in elementsOwned %}
+    <li class="collection-item">
+      {{ element.name }} 
+    </li>
+{% endfor %}
+<ul>
+
+{% set contributionType = {
+  0: "Ajout",
+  1: 'Modification',
+}
+%} 
+
+
+<h2>Mes Contributions</h2>
+<ul class="collection">
+{% for contribution in contributions %}
+    <li class="collection-item row">
+      <div class="col s2">{{ contribution.createdAt|date("d/m/Y")}}</div>
+      <div class="col s2">{{ contributionType[contribution.type]}}</div>
+      <div class="col s3">{{ contribution.element.name }}</div>
+      <div class="col s2">{{ elementStatus[contribution.status] }}</div>
+      {% if contribution.element.userOwnerEmail %}
+        <div class="col s3">{{ contribution.element.userOwnerEmail == app.user.email ? "Moi" : contribution.element.userOwnerEmail }}</div>
+      {% else %}
+        <div class="col s3"><a href={{ path('biopen_user_become_owner', {'id' : contribution.element.id}) }}>Devenir Propriétaire</a></div>
+      {% endif %}
+    </li>    
+{% endfor %}
+<ul>
+
+{% set voteValues = {
+  '-2': 'Ne respecte pas la charte',
+  '-1': "N'existe pas",
+  '0': 'Existe mais infos mauvaises',
+  '1': 'Existe',
+  '2': 'Existe et valide info'
+  }
+%}
+
+<h2>Mes Votes</h2>
+<ul class="collection">
+{% for vote in votes %}
+    <li class="collection-item row">
+      <div>{{ vote.createdAt|date("d/m/Y à H:i")}}</div>
+      <div>{{ voteValues[vote.value] }}</div>
+      <div>{{ vote.element.name }} {{ elementStatus[vote.element.status] }}</div>
+    </li>
+{% endfor %}
+<ul>
+
+{% set reportValues = {
+  0: "L'élément n'existe plus",
+  1: 'Les informations sont incorrectes',
+  2: "L'élément ne respecte pas la charte",
+  4: "L'élément est référencé plusieurs fois"
+  }
+%} 
+
+<h2>Mes Signalements</h2>
+<ul class="collection">
+{% for report in reports %}
+    <li class="collection-item row">
+      <div>{{ report.createdAt|date("d/m/Y à H:i")}}</div>
+      <div>{{ reportValues[report.value] }}</div>
+      <div>{{ report.element.name }} </div>
+      {% if report.isResolved %}
+        <div>{{ elementStatus[report.element.status] }}</div>
+        <div>{{ report.comment }}</div>
+      {% else %}
+        <div>En attente de modération</div>
+      {% endif %}
+    </li>
+{% endfor %}
+<ul>
+
+
+</section>
+   
+{% endblock %}

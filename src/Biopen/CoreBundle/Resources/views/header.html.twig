@@ -67,6 +67,12 @@
             <li class="name only-for-admin" {{ app.user and app.user.isAdmin ? '' : 'style="display:none"' }}>
               <a class="about-title-item waves-effect waves-light" href="{{ path('sonata_admin_dashboard') }}">Interface admin</a></li> 
             <li class="item-divider"></li>
+            {# <li class="name">
+              <a class="about-title-item waves-effect waves-light" href="{{ path('biopen_user_profile') }}">Mon profil</a></li>
+            <li class="item-divider"></li> #}
+            <li class="name only-for-user" {{ app.user ? '' : 'style="display:none"' }}>
+              <a class="about-title-item waves-effect waves-light" href="{{ path('biopen_user_contributions') }}">Mes contributions</a></li> 
+            <li class="item-divider"></li>
             <li class="name">
               <a class="about-title-item waves-effect waves-light" onclick="logout()">Se Déconnecter</a></li>       
         </ul>
@@ -162,7 +168,9 @@ function handleLogin(bool, roles, mail)
   else $('#btn-login').trigger('logout');
 
   $('#listUserActions li.only-for-admin').hide();
+  $('#listUserActions li.only-for-user').hide();
   if ($.inArray('ROLE_ADMIN', roles) > -1) $('#listUserActions li.only-for-admin').show();
+  if ($.inArray('ROLE_USER', roles) > -1) $('#listUserActions li.only-for-user').show();
 
   // carto is the GoGoCartoJs instance, defined in GeoDirectory/directoy.html.twig
   if (typeof carto !== 'undefined')
