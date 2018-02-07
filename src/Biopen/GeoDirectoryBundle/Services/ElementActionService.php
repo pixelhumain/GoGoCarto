@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-30 17:58:44
+ * @Last Modified time: 2018-02-07 16:28:13
  */
  
 
@@ -122,7 +122,7 @@ class ElementActionService
       $this->updateTimestamp($element);
    }
 
-   private function updateTimestamp($element) {
+   public function updateTimestamp($element) {
       $element->setUpdatedAt(time());
    }
 
