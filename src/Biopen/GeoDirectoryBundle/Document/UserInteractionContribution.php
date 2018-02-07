@@ -21,7 +21,7 @@ class UserInteractionContribution extends UserInteraction
      * When user propose a new element, or a modification, the element status became "pending", and other
      * users can vote to validate or not the add/modification
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionVote", cascade={"persist", "refresh"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionVote", cascade={"all"})
      */
     private $votes = [];  
 

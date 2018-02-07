@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-30 18:01:22
+ * @Last Modified time: 2018-02-07 15:54:18
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -79,7 +79,7 @@ class Element
      *
      * Users can report some problem related to the Element (no more existing, wrong informations...)
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionReport", cascade={"persist"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionReport", cascade={"all"})
      */
     private $reports;
 
@@ -88,7 +88,7 @@ class Element
      *
      * Hisotry of users contributions (add, edit, by whom, how many votes etc...)
      *
-     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionContribution", cascade={"persist"})
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\UserInteractionContribution", cascade={"all"})
      */
     private $contributions;
 
