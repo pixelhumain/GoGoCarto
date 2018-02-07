@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-02-07 15:06:14
  */
  
 
@@ -44,8 +44,7 @@ class ElementFormService
     private function isPendingModification($editMode, $isAllowedDirectModeration, $request)
     {
         return $editMode && (!$isAllowedDirectModeration || $request->request->get('dont-validate'));
-    }
-    
+    }    
 
     private function updateOptionsValues($element, $request)
     {
@@ -77,5 +76,10 @@ class ElementFormService
             }
             $element->setWebsite($webSiteUrl);
         }    
+    }
+
+    private function updateRandomHash($element)
+    {
+        $element->setRandomHash(uniqid());
     }
 }

@@ -270,6 +270,16 @@ class Element
      */
     private $updatedAt;
 
+    /**
+    * @MongoDB\Field(type="string") 
+    */ 
+    private $randomHash;
+
+    /**
+    * @MongoDB\Field(type="string") 
+    */ 
+    private $userOwnerEmail;
+
 
     /**
      * Constructor
@@ -1171,5 +1181,49 @@ class Element
     public function getOptionsString()
     {
         return $this->optionsString;
+    }
+
+    /**
+     * Set randomHash
+     *
+     * @param string $randomHash
+     * @return $this
+     */
+    public function setRandomHash($randomHash)
+    {
+        $this->randomHash = $randomHash;
+        return $this;
+    }
+
+    /**
+     * Get randomHash
+     *
+     * @return string $randomHash
+     */
+    public function getRandomHash()
+    {
+        return $this->randomHash;
+    }
+
+    /**
+     * Set userOwnerEmail
+     *
+     * @param string $userOwnerEmail
+     * @return $this
+     */
+    public function setUserOwnerEmail($userOwnerEmail)
+    {
+        $this->userOwnerEmail = $userOwnerEmail;
+        return $this;
+    }
+
+    /**
+     * Get userOwnerEmail
+     *
+     * @return string $userOwnerEmail
+     */
+    public function getUserOwnerEmail()
+    {
+        return $this->userOwnerEmail;
     }
 }

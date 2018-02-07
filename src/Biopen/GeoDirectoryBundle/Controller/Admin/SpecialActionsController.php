@@ -129,6 +129,16 @@ class SpecialActionsController extends Controller
         $geo->setLongitude( $geo->getLongitude());
     }
 
+    public function generateRandomHashAction()
+    {
+        return $this->elementsBulkAction('generateRandomHash');
+    }
+
+    public function generateRandomHash($element)
+    {
+        $element->setRandomHash(uniqid());
+    }
+
     public function verifyDuplicatesAction()
     {
         return $this->elementsBulkAction('verifyDuplicates');
