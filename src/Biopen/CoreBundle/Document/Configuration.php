@@ -188,6 +188,9 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $elementFormValidationText;
 
+    /** @MongoDB\Field(type="string") */
+    protected $elementFormOwningText;
+
     // -------------------------
     // --------- STYLE ---------
     // -------------------------
@@ -1890,5 +1893,27 @@ class Configuration
     public function getCustomDashboard()
     {
         return $this->customDashboard;
+    }
+
+    /**
+     * Set elementFormOwningText
+     *
+     * @param string $elementFormOwningText
+     * @return $this
+     */
+    public function setElementFormOwningText($elementFormOwningText)
+    {
+        $this->elementFormOwningText = $elementFormOwningText;
+        return $this;
+    }
+
+    /**
+     * Get elementFormOwningText
+     *
+     * @return string $elementFormOwningText
+     */
+    public function getElementFormOwningText()
+    {
+        return $this->elementFormOwningText;
     }
 }

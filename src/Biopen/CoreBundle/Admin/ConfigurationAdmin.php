@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-06 14:48:42
+ * @Last Modified time: 2018-02-08 16:14:29
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -150,7 +150,10 @@ class ConfigurationAdmin extends AbstractAdmin
                               'label' => "Texte d'introduction qui apparait en haut du formulaire"))
                     ->add('elementFormValidationText', 'textarea' , 
                         array('required' => false,
-                              'label' => "Label de la checkbox de validation du formulaire"))
+                              'label' => "Label de la checkbox de validation du formulaire (laisser vide pour désactiver)"))
+                    ->add('elementFormOwningText', 'textarea' , 
+                        array('required' => false,
+                              'label' => "Label pour demander si l'utilisateur est propriétaire de la fiche (laisser vide pour désactiver)"))
                 ->end()
             ->end()
             ->tab('Style')     

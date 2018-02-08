@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-07 15:06:14
+ * @Last Modified time: 2018-02-08 16:19:38
  */
  
 
@@ -30,7 +30,9 @@ class ElementFormService
     {
         $this->updateOptionsValues($element, $request);
 
-        $this->updateWebsiteUrl($element);           
+        $this->updateWebsiteUrl($element);
+
+        $this->updateOwner($element, $request, $userEmail);           
         
         if ($this->isPendingModification($editMode, $isAllowedDirectModeration, $request))
         {                   
@@ -76,6 +78,14 @@ class ElementFormService
             }
             $element->setWebsite($webSiteUrl);
         }    
+    }
+
+    private function updateOwner($element, $request, $userEmail)
+    {
+        if ($request->request->get('owning'))
+        {
+            $element->setUserOwnerEmail($userEmail);
+        }
     }
 
     private function updateRandomHash($element)
