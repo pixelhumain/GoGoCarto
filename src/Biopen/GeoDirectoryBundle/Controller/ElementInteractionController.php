@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-07 16:28:24
+ * @Last Modified time: 2018-02-08 16:46:06
  */
  
 
@@ -76,8 +76,7 @@ class ElementInteractionController extends Controller
             
             $element->addReport($report);
 
-            $elementActionService = $this->container->get('biopen.element_action_service');
-            $elementActionService->updateTimestamp($element);
+            $element->updateTimestamp();
             
             $em->persist($element);
             $em->flush();

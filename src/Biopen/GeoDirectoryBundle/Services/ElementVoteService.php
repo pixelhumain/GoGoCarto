@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:30:08
+ * @Last Modified time: 2018-02-08 16:46:35
  */
  
 
@@ -79,6 +79,8 @@ class ElementVoteService
 
             $procedureCompleteMessage = $this->checkVotes($element);
         }
+
+        $element->updateTimestamp();
 
         $this->em->persist($element);
         $this->em->flush();

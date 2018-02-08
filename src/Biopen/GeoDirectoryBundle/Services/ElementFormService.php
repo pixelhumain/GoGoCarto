@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 16:19:38
+ * @Last Modified time: 2018-02-08 16:43:39
  */
  
 
@@ -86,10 +86,5 @@ class ElementFormService
         {
             $element->setUserOwnerEmail($userEmail);
         }
-    }
-
-    private function updateRandomHash($element)
-    {
-        $element->setRandomHash(uniqid());
-    }
+    }    
 }

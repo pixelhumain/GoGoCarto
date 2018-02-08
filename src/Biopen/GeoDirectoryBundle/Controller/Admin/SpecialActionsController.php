@@ -136,7 +136,7 @@ class SpecialActionsController extends Controller
 
     public function generateRandomHash($element)
     {
-        $element->setRandomHash(uniqid());
+        $element->updateRandomHash();
     }
 
     public function verifyDuplicatesAction()

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-07 15:54:18
+ * @Last Modified time: 2018-02-08 16:49:02
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -286,7 +286,17 @@ class Element
      */
     public function __construct()
     {
-        
+        if (!$this->getRandomHash()) $this->updateRandomHash();
+    }
+
+    public function updateRandomHash()
+    {
+        $this->setRandomHash(uniqid());
+    }
+
+    public function updateTimestamp()
+    {
+        $this->setUpdatedAt(time());
     }
 
     public function resetOptionsValues()

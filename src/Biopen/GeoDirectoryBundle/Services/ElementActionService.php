@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-07 16:28:13
+ * @Last Modified time: 2018-02-08 16:45:43
  */
  
 
@@ -52,7 +52,7 @@ class ElementActionService
       $this->addContribution($element, $message, InteractType::Import, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin); 
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function add($element, $sendMail = true, $message = null)
@@ -60,7 +60,7 @@ class ElementActionService
       $this->addContribution($element, $message, InteractType::Add, ElementStatus::AddedByAdmin);
       $element->setStatus(ElementStatus::AddedByAdmin); 
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function edit($element, $sendMail = true, $message = null)
@@ -69,25 +69,25 @@ class ElementActionService
       $element->setStatus(ElementStatus::ModifiedByAdmin); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function createPending($element, $editMode, $userMail)
    {
       $this->elementPendingService->createPending($element, $editMode, $userMail);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function savePendingModification($element)
    {
       return $this->elementPendingService->savePendingModification($element);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function resolve($element, $isAccepted, $validationType = ValidationType::Admin, $message = null)
    {
       $this->elementPendingService->resolve($element, $isAccepted, $validationType, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }   
 
    public function delete($element, $sendMail = true, $message = null)
@@ -96,7 +96,7 @@ class ElementActionService
       $element->setStatus(ElementStatus::Deleted); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('delete', $element, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function restore($element, $sendMail = true, $message = null)
@@ -105,7 +105,7 @@ class ElementActionService
       $element->setStatus(ElementStatus::AddedByAdmin);
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
-      $this->updateTimestamp($element);
+      $element->updateTimestamp();
    }
 
    public function resolveReports($element, $message = '')
@@ -119,11 +119,7 @@ class ElementActionService
          $this->mailService->sendAutomatedMail('report', $element, $message, $report);
       }
       $element->setModerationState(ModerationState::NotNeeded);
-      $this->updateTimestamp($element);
-   }
-
-   public function updateTimestamp($element) {
-      $element->setUpdatedAt(time());
+      $element->updateTimestamp();
    }
 
    private function addContribution($element, $message, $InteractType, $status)

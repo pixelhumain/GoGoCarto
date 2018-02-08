@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-02-08 16:39:51
+ * @Last Modified time: 2018-02-08 16:47:14
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -87,6 +87,7 @@ class ElementAdminShowEdit extends ElementAdminList
 
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
+        ->add('randomHash')
         ->add('sourceKey', null, array('label' => 'Source'))
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))
 	      ->add('updatedAt', 'datetime', array("format" => "d/m/Y à H:i"))
