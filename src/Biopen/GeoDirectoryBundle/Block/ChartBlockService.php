@@ -36,6 +36,7 @@ class ChartBlockService extends AbstractBlockService
 		'2' => 'Validé (votes)',
 		'3' => 'Ajouté par admin',
 		'4' => 'Modifié par admin',
+		'5' => 'Modifié par propriétaire',
 	];
 
 	protected $statusColors = [
@@ -46,6 +47,7 @@ class ChartBlockService extends AbstractBlockService
 		'2' => '#90ed7d',
 		'3' => '#7a6ba7',
 		'4' => '#7cb5ec',
+		'5' => '#7cb5ec',
 	];
 
 	public function __construct($templating, DocumentManager $documentManager, $configService)

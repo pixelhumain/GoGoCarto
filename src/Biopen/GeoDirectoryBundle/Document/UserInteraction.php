@@ -163,14 +163,14 @@ class UserInteraction
     public function isMadeBy($user, $userMail)
     {
         if ($user)
-            return $this->getUserMail() == $user->getEmail();
+            return $this->getUserEmail() == $user->getEmail();
         else
-            return ($userMail && $this->getUserMail() == $userMail);
+            return ($userMail && $this->getUserEmail() == $userMail);
     }
 
     public function getUserDisplayName()
     {
-        return $this->getUserRole() == UserRoles::Anonymous ? "" : $this->getUserMail();
+        return $this->getUserRole() == UserRoles::Anonymous ? "" : $this->getUserEmail();
     }
 
     // used for Report and Vote children class. Overwrite this function like in UserInteractionContribution
@@ -180,7 +180,7 @@ class UserInteraction
         $result .=  '"type":'      . $this->getType();
         $result .=', "value":'     . $this->getValue();
         $result .=', "comment":'  . json_encode($this->getComment());
-        $result .=', "userMail":"' . $this->getUserMail() . '"';
+        $result .=', "userMail":"' . $this->getUserEmail() . '"';
         $result .=', "userRole" :' . $this->getUserRole();
         $result .=', "createdAt" :"'. $this->formatDate($this->getCreatedAt()) . '"';
         $result .= "}";
@@ -254,7 +254,7 @@ class UserInteraction
      *
      * @return string $userMail
      */
-    public function getUserMail()
+    public function getUserEmail()
     {
         return $this->userMail;
     }

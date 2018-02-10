@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 16:45:43
+ * @Last Modified time: 2018-02-08 17:53:57
  */
  
 
@@ -63,11 +63,12 @@ class ElementActionService
       $element->updateTimestamp();
    }
 
-   public function edit($element, $sendMail = true, $message = null)
+   public function edit($element, $sendMail = true, $message = null, $modifiedByOwner = false)
    {
-      $this->addContribution($element, $message, InteractType::Edit, ElementStatus::ModifiedByAdmin);
-      $element->setStatus(ElementStatus::ModifiedByAdmin); 
-      $this->resolveReports($element, $message);
+      $status = $modifiedByOwner ? ElementStatus::ModifiedByOwner : ElementStatus::ModifiedByAdmin;
+      $this->addContribution($element, $message, InteractType::Edit, $status);
+      $element->setStatus($status); 
+      if (!$modifiedByOwner) $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
       $element->updateTimestamp();
    }

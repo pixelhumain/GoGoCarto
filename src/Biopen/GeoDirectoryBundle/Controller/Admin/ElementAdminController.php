@@ -169,7 +169,7 @@ class ElementAdminController extends Controller
                 if ($request->get('send-to-last-contributor'))
                 {
                     $contrib = $element->getCurrContribution();
-                    $mailContrib = $contrib ? $contrib->getUsermail() : null;
+                    $mailContrib = $contrib ? $contrib->getUserEmail() : null;
                     if ($mailContrib == "no email") $mailContrib = null;
                 }
                 

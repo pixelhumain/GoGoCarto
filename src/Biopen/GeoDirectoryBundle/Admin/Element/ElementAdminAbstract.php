@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 10:35:29
+ * @Last Modified time: 2018-02-08 17:52:52
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -30,6 +30,7 @@ class ElementAdminAbstract extends AbstractAdmin
 		'2' => 'Validé (votes)',
 		'3' => 'Ajouté par admin',
 		'4' => 'Modifié par admin',
+    '5' => 'Modifié par propriétaire',
 	];
 
 	protected $moderationChoices = [

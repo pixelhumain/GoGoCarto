@@ -12,31 +12,39 @@ class UserController extends GoGoController
    public function contributionsAction()
    {
       $dm = $this->get('doctrine_mongodb')->getManager();
-      $contribsRepo = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution');
-      $votesRepo = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote');
-      $reportsRepo = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport');
 
       $user = $this->get('security.context')->getToken()->getUser();
       $userEmail = $user->getEmail();
 
-      $contribs = $contribsRepo->findByUserMail($userEmail);
+      $elementsOwned = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findElementsOwnedBy($userEmail);
+      $elementsOwned = array_filter($elementsOwned->toArray(), function($element) use ($userEmail) { 
+         return !$element->isPending() || $element->getCurrContribution()->getUserEmail() != $userEmail; 
+      });
+
+      $contribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserMail($userEmail);
+      $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserMail($userEmail);
+      $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserMail($userEmail);
 
       $contribs = array_filter($contribs, function($interaction) { 
          return in_array($interaction->getType(), [InteractionType::Add, InteractionType::Edit]); 
       });
 
-      $votes = $votesRepo->findByUserMail($userEmail);
-      $reports = $reportsRepo->findByUserMail($userEmail);
+      $pendingContribs = [];
+      $othersContribs = [];
+      foreach ($contribs as $key => $contrib) {
+         if ($contrib->getStatus() == null) $pendingContribs[] = $contrib;
+         else $othersContribs[] = $contrib; 
+      }
 
-      usort($contribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
+      usort($pendingContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
+      usort($othersContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
       usort($votes, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-      usort($reports, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-
-      $elementsOwned = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findByUserOwnerEmail($userEmail);
+      usort($reports, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });      
 
       return $this->render('@BiopenCoreBundle/user/contributions.html.twig', array(
          'elementsOwned' => $elementsOwned,
-         'contributions' => $contribs,
+         'pendingContributions' => $pendingContribs,
+         'othersContributions' => $othersContribs,
          'votes' => $votes,
          'reports' => $reports));
    }

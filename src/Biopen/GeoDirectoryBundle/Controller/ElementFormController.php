@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-23 08:29:49
+ * @Last Modified time: 2018-02-10 14:57:06
  */
  
 
@@ -41,14 +41,15 @@ class ElementFormController extends GoGoController
 
 		$element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($id);
 
-		if ($element->getStatus() <= ElementStatus::PendingAdd && !$this->container->get('biopen.config_service')->isUserAllowed('directModeration'))
+		if ($element->getStatus() > ElementStatus::PendingAdd || $this->container->get('biopen.config_service')->isUserAllowed('directModeration')
+			|| ($element->isPending() && $element->getRandomHash() == $request->get('hash')))
 		{
-			$request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à modifier cet élement !");
-			return $this->redirectToRoute('biopen_directory');
+			return $this->renderForm($element, true, $request, $em);	
 		}
 		else
-		{
-			return $this->renderForm($element, true, $request, $em);		
+		{				
+			$request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à modifier cet élement !");
+			return $this->redirectToRoute('biopen_directory');
 		}		
 	}	
 
@@ -64,9 +65,7 @@ class ElementFormController extends GoGoController
 		$securityContext = $this->container->get('security.context');
 		$session = $this->getRequest()->getSession();
 		$configService = $this->container->get('biopen.config_service');
-		$addEditName = $editMode ? 'edit' : 'add';
-
-		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration');
+		$addEditName = $editMode ? 'edit' : 'add';		
 
 		if ($request->get('logout')) $session->remove('userEmail');
 
@@ -95,9 +94,11 @@ class ElementFormController extends GoGoController
 		// depending on authentification type (account or just giving email) we fill some variables
 		else 
 		{
+			$userRoles = [];
 			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
 				$user = $this->get('security.context')->getToken()->getUser();
+				$userRoles = $user->getRoles();
 				$userEmail = $user->getEmail();
 			}
 			else if ($session->has('userEmail'))
@@ -110,7 +111,15 @@ class ElementFormController extends GoGoController
 				$user = 'Anonymous';
 				$userEmail = 'Anonymous';
 			}
-		}		
+		}
+
+		// We need to detect if the owner contribution has been validated. Because after that, the owner have direct moderation on the element
+		// To check that, we check is element is Valid or element is pending but from a contribution not made by the owner
+		$isUserOwnerOfValidElement = $editMode && ($element->isValid() || $element->isPending() && $element->getCurrContribution()->getUserEmail() != $userEmail)
+											  && $element->getUserOwnerEmail() && $element->getUserOwnerEmail() == $userEmail;
+		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration') 
+											  || (!$editMode && in_array('ROLE_DIRECTMODERATION_ADD', $userRoles))
+											  || $isUserOwnerOfValidElement;		
 		
 		// create the element form
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
@@ -175,7 +184,7 @@ class ElementFormController extends GoGoController
             if($isAllowedDirectModeration)
             {
                if (!$editMode) $elementActionService->add($element, $sendMail, $message);
-               else $elementActionService->edit($element, $sendMail, $message);           
+               else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement);           
             }
             else // non direct moderation
             {            

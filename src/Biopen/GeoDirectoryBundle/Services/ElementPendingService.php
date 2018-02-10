@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-02-10 15:00:43
  */
  
 
@@ -45,6 +45,10 @@ class ElementPendingService
    // We could also send a confirmation mail to the contributor for example
    public function createPending($element, $editMode, $userEmail)
    {
+      // in case user edit it's own contribution, the element is still pending, and
+      // we want to make it pending again. So we resolve the previous contribution 
+      if ($element->isPending() && $element->getCurrContribution()) $element->getCurrContribution()->setStatus(ElementStatus::ModifiedByOwner);
+      
       $contribution = new UserInteractionContribution();
       $contribution->updateUserInformation($this->securityContext, $userEmail);
       $contribution->setType($editMode ? 1 : 0);

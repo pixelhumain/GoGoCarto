@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 16:43:39
+ * @Last Modified time: 2018-02-10 15:06:11
  */
  
 
@@ -32,9 +32,12 @@ class ElementFormService
 
         $this->updateWebsiteUrl($element);
 
+        // calculate this before calling "updateOwner" because we want to check the old value of userOwnerEmail
+        $isPendingModif = $this->isPendingModification($editMode, $isAllowedDirectModeration, $request);
+
         $this->updateOwner($element, $request, $userEmail);           
         
-        if ($this->isPendingModification($editMode, $isAllowedDirectModeration, $request))
+        if ($isPendingModif)
         {                   
             $updatedElement = $this->elementActionService->savePendingModification($element);
         } 
@@ -82,9 +85,7 @@ class ElementFormService
 
     private function updateOwner($element, $request, $userEmail)
     {
-        if ($request->request->get('owning'))
-        {
-            $element->setUserOwnerEmail($userEmail);
-        }
+        if ($request->request->get('owning')) $element->setUserOwnerEmail($userEmail);
+        else $element->setUserOwnerEmail(null);
     }    
 }

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 16:49:02
+ * @Last Modified time: 2018-02-10 14:58:18
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -28,7 +28,8 @@ abstract class ElementStatus
     const AdminValidate = 1;
     const CollaborativeValidate = 2;
     const AddedByAdmin = 3; 
-    const ModifiedByAdmin = 4;            
+    const ModifiedByAdmin = 4; 
+    const ModifiedByOwner = 5;            
 }
 
 abstract class ModerationState
@@ -478,6 +479,11 @@ class Element
         return $this->status >= -1;
     }
 
+    public function isValid()
+    {
+        return $this->status > 0;
+    }
+
     public function havePendingReports()
     {
         return $this->moderationState == ModerationState::ReportsSubmitted;
@@ -491,7 +497,7 @@ class Element
             return (count($contributions) > 0) ? array_pop((array_slice($contributions, -1))) : null;
         } 
         else 
-            return $contributions->last();
+            return $contributions ? $contributions->last() : null;
     }
 
     public function getVotes()

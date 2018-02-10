@@ -67,9 +67,9 @@ class MailService
         if ($draftResponse['success'])
         {
             if (in_array($mailType, ['validation', 'refusal'])) 
-                $mailTo = $element->getCurrContribution() ? $element->getCurrContribution()->getUserMail() : null;
+                $mailTo = $element->getCurrContribution() ? $element->getCurrContribution()->getUserEmail() : null;
             else if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
-                $mailTo = $option->getUserMail();
+                $mailTo = $option->getUserEmail();
             else 
                 $mailTo =  $element->getEmail();
 
