@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-02-03 11:15:52
+ * @Last Modified time: 2018-02-11 14:37:47
  */
  
 
@@ -77,7 +77,7 @@ class APIController extends Controller
         $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);        
       }   
 
-      if ($_format == 'jsonld')
+      if ($_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json')
       {
         $responseJson = '{
           "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/context-gogo.jsonld",
