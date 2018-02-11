@@ -47,11 +47,11 @@ class UserInteraction
     /**
      * @var string
      *
-     * UserMail if the role is AnonymousWithEmail
+     * UserEmail if the role is AnonymousWithEmail
      *
      * @MongoDB\Field(type="string")
      */
-    protected $userMail = "no email";
+    protected $userEmail = "no email";
 
     /**
      * @var \stdClass
@@ -123,14 +123,14 @@ class UserInteraction
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
             $user = $securityContext->getToken()->getUser();
-            $this->setUserMail($user->getEmail());
+            $this->setUserEmail($user->getEmail());
             $this->setUserRole($user->isAdmin() ? UserRoles::Admin : UserRoles::Loggued);
         }
         else 
         {
             if ($email)
             {
-                $this->setUserMail($email);
+                $this->setUserEmail($email);
                 $this->setUserRole(UserRoles::AnonymousWithEmail);
             }
             else
@@ -160,12 +160,12 @@ class UserInteraction
         }
     }
 
-    public function isMadeBy($user, $userMail)
+    public function isMadeBy($user, $userEmail)
     {
         if ($user)
             return $this->getUserEmail() == $user->getEmail();
         else
-            return ($userMail && $this->getUserEmail() == $userMail);
+            return ($userEmail && $this->getUserEmail() == $userEmail);
     }
 
     public function getUserDisplayName()
@@ -180,7 +180,7 @@ class UserInteraction
         $result .=  '"type":'      . $this->getType();
         $result .=', "value":'     . $this->getValue();
         $result .=', "comment":'  . json_encode($this->getComment());
-        $result .=', "userMail":"' . $this->getUserEmail() . '"';
+        $result .=', "userEmail":"' . $this->getUserEmail() . '"';
         $result .=', "userRole" :' . $this->getUserRole();
         $result .=', "createdAt" :"'. $this->formatDate($this->getCreatedAt()) . '"';
         $result .= "}";
@@ -238,25 +238,25 @@ class UserInteraction
     }
 
     /**
-     * Set userMail
+     * Set userEmail
      *
-     * @param string $userMail
+     * @param string $userEmail
      * @return $this
      */
-    public function setUserMail($userMail)
+    public function setUserEmail($userEmail)
     {
-        $this->userMail = $userMail;
+        $this->userEmail = $userEmail;
         return $this;
     }
 
     /**
-     * Get userMail
+     * Get userEmail
      *
-     * @return string $userMail
+     * @return string $userEmail
      */
     public function getUserEmail()
     {
-        return $this->userMail;
+        return $this->userEmail;
     }
 
     /**

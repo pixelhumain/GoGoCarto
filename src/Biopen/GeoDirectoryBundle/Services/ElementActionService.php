@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 17:53:57
+ * @Last Modified time: 2018-02-11 13:06:48
  */
  
 
@@ -73,9 +73,9 @@ class ElementActionService
       $element->updateTimestamp();
    }
 
-   public function createPending($element, $editMode, $userMail)
+   public function createPending($element, $editMode, $userEmail)
    {
-      $this->elementPendingService->createPending($element, $editMode, $userMail);
+      $this->elementPendingService->createPending($element, $editMode, $userEmail);
       $element->updateTimestamp();
    }
 

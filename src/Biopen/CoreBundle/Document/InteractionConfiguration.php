@@ -25,11 +25,11 @@ class InteractionConfiguration extends FeatureConfiguration
         return $roles;
     }
 
-    public function isAllowed($user, $iframe, $userMail = null)
+    public function isAllowed($user, $iframe, $userEmail = null)
     {        
         if (!$this->getActive() || !$this->getActiveInIframe() && $iframe) return false;
         return parent::isAllowed($user, $iframe) ||
-                !$user && $userMail && $this->getAllowRoleAnonymousWithMail();
+                !$user && $userEmail && $this->getAllowRoleAnonymousWithMail();
     }   
 
     public function isOnlyAllowedForAdmin()

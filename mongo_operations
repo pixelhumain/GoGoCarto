@@ -69,3 +69,8 @@ db.Element.find({'moderationState':-2}).forEach(function(x){
 
 db.Category.updateOne({depth: 0}, {$set: {isMainNode:true}})
 db.Category.updateMany({}, { $unset: { depth: "", isFixture: "" } })
+
+db.UserInteraction.updateMany( { } , { $rename: { 'userMail': 'userEmail' } } )
+db.UserInteractionContribution.updateMany( { } , { $rename: { 'userMail': 'userEmail' } } )
+db.UserInteractionVote.updateMany( { } , { $rename: { 'userMail': 'userEmail' } } )
+db.UserInteractionReport.updateMany( { } , { $rename: { 'userMail': 'userEmail' } } )

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-23 07:55:00
+ * @Last Modified time: 2018-02-11 13:06:59
  */
  
 
@@ -113,7 +113,7 @@ class RandomCreationService
 	      		{ 
 	      			$vote = new UserInteraction();
 	      			$vote->setValue($this->randWithSet($new_element->getStatus() == 0 ? $voteNewSet : $voteEditSet));
-	      			$vote->setUserMail($lipsum->words(1) . '@gmail.com');
+	      			$vote->setUserEmail($lipsum->words(1) . '@gmail.com');
 	      			if (rand(0,1)) $vote->setComment($lipsum->words(rand(6,10)));
 	      			$this->em->persist($vote);
 	      			$new_element->addVote($vote);

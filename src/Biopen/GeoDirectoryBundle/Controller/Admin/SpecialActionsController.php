@@ -243,7 +243,7 @@ class SpecialActionsController extends Controller
     {
         $contribution = new UserInteractionContribution();
         $contribution->setUserRole(UserRoles::Admin);
-        $contribution->setUserMail('admin@presdecheznous.fr');
+        $contribution->setUserEmail('admin@presdecheznous.fr');
         $contribution->setType(InteractionType::Import);
 
         $element->resetContributions();

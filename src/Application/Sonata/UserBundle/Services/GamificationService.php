@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-12-30 14:32:19
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 16:36:12
+ * @Last Modified time: 2018-02-11 13:06:59
  */
 
 namespace Application\Sonata\UserBundle\Services;
@@ -29,14 +29,14 @@ class GamificationService {
    {
       if (!$user->getEmail()) return;
 
-      $contribs = $this->contribsRepo->findByUserMail($user->getEmail());
+      $contribs = $this->contribsRepo->findByUserEmail($user->getEmail());
 
       $contribs = array_filter($contribs, function($interaction) { 
          return in_array($interaction->getType(), [InteractionType::Add, InteractionType::Edit]); 
       });
 
-      $votes = $this->votesRepo->findByUserMail($user->getEmail());
-      $reports = $this->reportsRepo->findByUserMail($user->getEmail());
+      $votes = $this->votesRepo->findByUserEmail($user->getEmail());
+      $reports = $this->reportsRepo->findByUserEmail($user->getEmail());
 
       $result = count($contribs) * 3 + count($reports) + count($votes);
       $user->setGamification($result);

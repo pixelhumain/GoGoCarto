@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-10 14:58:18
+ * @Last Modified time: 2018-02-11 13:06:47
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -510,9 +510,9 @@ class Element
         return $this->getCurrContribution() ? $this->getCurrContribution()->getVotes()->toArray() : [];
     }
 
-    public function isLastContributorEqualsTo($user, $userMail)
+    public function isLastContributorEqualsTo($user, $userEmail)
     {
-        return $this->getCurrContribution() ? $this->getCurrContribution()->isMadeBy($user, $userMail) : false;
+        return $this->getCurrContribution() ? $this->getCurrContribution()->isMadeBy($user, $userEmail) : false;
     }
 
     public function getFormatedAddress()

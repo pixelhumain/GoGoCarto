@@ -22,7 +22,7 @@ class ConfigurationService
 
 	public function isUserAllowed($featureName, $request = null, $email = null)
 	{        
-        if ($email === null && $request !== null) $email = $request->get('userMail');
+        if ($email === null && $request !== null) $email = $request->get('userEmail');
 
         $user = $this->securityContext->getToken()->getUser(); 
 

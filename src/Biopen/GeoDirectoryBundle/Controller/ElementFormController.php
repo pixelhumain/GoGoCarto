@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 10:45:23
+ * @Last Modified time: 2018-02-11 13:09:19
  */
  
 
@@ -149,7 +149,8 @@ class ElementFormController extends GoGoController
 				$session->remove('elementWaitingForDuplicateCheck');
 				$session->remove('duplicatesElements');
 				$session->remove('recopyInfo');
-				$session->remove('sendMail');		
+				$session->remove('sendMail');	
+				$session->remove('inputPassword');		
 			}
 			// if we just submit the form
 			else

@@ -21,9 +21,9 @@ class UserController extends GoGoController
          return !$element->isPending() || $element->getCurrContribution()->getUserEmail() != $userEmail; 
       });
 
-      $contribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserMail($userEmail);
-      $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserMail($userEmail);
-      $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserMail($userEmail);
+      $contribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserEmail($userEmail);
+      $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserEmail($userEmail);
+      $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserEmail($userEmail);
 
       $contribs = array_filter($contribs, function($interaction) { 
          return in_array($interaction->getType(), [InteractionType::Add, InteractionType::Edit]); 

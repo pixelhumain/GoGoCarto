@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-08 16:46:35
+ * @Last Modified time: 2018-02-11 13:06:48
  */
  
 
@@ -38,10 +38,10 @@ class ElementVoteService
     }
 
     // Handle a vote (positive or negative) for pending elements
-    public function voteForElement($element, $voteValue, $comment, $userMail = null)
+    public function voteForElement($element, $voteValue, $comment, $userEmail = null)
     {
         // Check user don't vote for his own creation
-        if ($element->isLastContributorEqualsTo($this->user, $userMail))
+        if ($element->isLastContributorEqualsTo($this->user, $userEmail))
                 return "Voyons voyons, vous ne comptiez quand même pas voter pour votre propre contribution si ? Laissez-en un peu pour les autres !</br>
                         Attention les petits malins, si vous utilisez une autre de vos adresse perso on le verra aussi ! "; 
 
@@ -56,11 +56,11 @@ class ElementVoteService
             // CHECK USER HASN'T ALREADY VOTED
             $currentVotes = $element->getVotes();            
             // if user is anonymous no need to check
-            if ($userMail || $this->user)
+            if ($userEmail || $this->user)
             {
                 foreach ($currentVotes as $oldVote) 
                 {
-                    if ($oldVote->isMadeBy($this->user, $userMail)) 
+                    if ($oldVote->isMadeBy($this->user, $userEmail)) 
                     {
                         $hasAlreadyVoted = true;
                         $vote = $oldVote;
@@ -72,7 +72,7 @@ class ElementVoteService
             
             $vote->setValue($voteValue);
             $vote->setElement($element);
-            $vote->updateUserInformation($this->securityContext, $userMail);
+            $vote->updateUserInformation($this->securityContext, $userEmail);
             if ($comment) $vote->setComment($comment);
 
             if (!$hasAlreadyVoted) $element->getCurrContribution()->addVote($vote);
