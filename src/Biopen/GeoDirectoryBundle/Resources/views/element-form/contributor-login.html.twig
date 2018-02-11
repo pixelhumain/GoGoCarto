@@ -45,7 +45,7 @@
 			  <button 
 								onclick="$('#popup-login').openModal()"
 								class="btn btn-login">
-			         CONNECTEZ VOUS (avec google, facebook, ou créez un compte près de chez vous)								
+			         CONNECTEZ VOUS (avec google, facebook, ou votre compte près de chez vous)								
 				</button>
 			</div>
 		{% endif %}
@@ -66,6 +66,12 @@
 														   		 'placeholder':'Entrez simplement une adresse mail' }}) }}
 				<label for="inputMail" data-error="Veuillez renseigner une adresse mail valide" class="gogo-form-label" style="margin-left: 2.5rem;"></label>
 			</div>
+
+			{% if emailAlreadyUsed %}
+				<div class="email-already-in-use">
+					Oups, un compte avec cette adresse email existe déjà ! Connectez-vous ou utilisez une autre adresse !
+				</div>
+			{% endif %}
 
 			<div class="explanations">
 				<!-- Un mail vous sera envoyé pour vous permettre d'annuler votre contribution. -->

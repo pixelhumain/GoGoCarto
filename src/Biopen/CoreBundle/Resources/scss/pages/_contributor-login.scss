@@ -29,6 +29,8 @@
     margin-bottom: 1rem;
   } 
 
+  .email-already-in-use { color: $error-color; }
+
   .btn-login
 	{			
 		text-transform: none !important;

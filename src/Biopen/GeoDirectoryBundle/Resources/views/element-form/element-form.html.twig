@@ -31,11 +31,11 @@
 
   <script src="{{ asset('js/element-form.js?ver=' ~ version) }}"></script> 
 
-  {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+  {#} {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 	 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
 	        async defer>
 	  </script>
-	{% endif %}
+	{% endif %} #}
 
   <script>
 	  var editMode = false;		  

@@ -7,13 +7,6 @@
 
 label { color: inherit; }
 
-#section_vos_infos {
-  .checkbox-container {
-    margin-top: 1rem;
-    &:first-child { margin-top: 0 }
-  }
-}
-
 label.gogo-form-label { 
 
   background-color: white;
@@ -257,12 +250,12 @@ a.leaflet-control-zoom-out {
   margin-bottom: 0;
 }
 
-#section_vos_infos  [type="checkbox"] + label
+.checkbox-container  [type="checkbox"] + label
 {
-    padding-left: 42px;
-    &:before {
-      left: 4px;
-    }
+  padding-left: 42px;
+  &:before {
+    left: 4px;
+  }
 }
 
 #precisions

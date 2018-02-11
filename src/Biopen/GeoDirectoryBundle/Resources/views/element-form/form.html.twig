@@ -14,25 +14,35 @@
 
 	{% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
 
-	<section id="section-validate-and-send">
-		{% if not is_granted('ROLE_ADMIN') %}
+	<section id="section-validate-and-send">			
+
+		{% if isAllowedDirectModeration %}
+			{% include "@BiopenGeoDirectory/element-form/form-partials/admin.html.twig" %}	
+		{% else %}
 			{% include "@BiopenGeoDirectory/element-form/form-partials/user-validation.html.twig" %}	
 		{% endif %}
 
-		{% if is_granted('ROLE_ADMIN') %}
-			{% include "@BiopenGeoDirectory/element-form/form-partials/admin.html.twig" %}	
-		{% endif %}
+		<div class="col s12 checkbox-container" {{ config.elementFormOwningText ? '' : 'style="display:none"'}}>     
+	    <input type="checkbox" name="owning" id="owning" {{ userEmail == element.userOwnerEmail ? 'checked' : '' }} />
+	    <label id="label-owning" for="owning">{{ config.elementFormOwningText | raw }}</label>
+	  </div>
 		
 		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-			<div style="text-align:center">Marre des captcha ? créez un compte !</div>
+			<!-- <div style="text-align:center">Marre des captcha ? créez un compte !</div>
 			<div id="captcha-error-message" style="color: #c22525;">Vous devez cocher la case ci-dessous</div>
-			<div id="captcha" class="col s12"></div>
+			<div id="captcha" class="col s12"></div> -->
+			<div class="input-field col s12">
+				<i class="material-icons gogo-icon-lock prefix"></i>
+				<input type="password" id="input-password" name="input-password" class="required validate" 
+				       placeholder="Mot de passe pour créer votre compte">
+		    <!-- <label for="input-password" data-error="Mot de passe un peu court ! Veuillez utiliser au moins 5 caractères" class="gogo-form-label">Mot de passe</label> -->
+			</div>
 		{% endif %}
 
 		<input type="hidden" id="submit-option" name="submit-option" />
 		<center>
 			<button onclick="checkAndSend('backtomap')" id="element-form-submit-btn" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
-			{% if is_granted('ROLE_ADMIN') %}
+			{% if isAllowedDirectModeration %}
 				<button onclick="checkAndSend('stayonform')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et rester sur le formulaire</button>
 			{% endif %}
 
@@ -44,7 +54,6 @@
 
 	{{ form_rest(form) }}
 
-{# Fermeture de la balise <form> du formulaire HTML #}
 {{ form_end(form) }}
 
 {% block modals %}

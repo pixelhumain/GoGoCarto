@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-10 14:57:06
+ * @Last Modified time: 2018-02-11 10:45:23
  */
  
 
@@ -19,6 +19,7 @@ use Biopen\CoreBundle\Controller\GoGoController;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
+use Biopen\CoreBundle\Document\User;
 
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
@@ -63,6 +64,7 @@ class ElementFormController extends GoGoController
 		$addOrEditComplete = false;
 
 		$securityContext = $this->container->get('security.context');
+		$userRoles = [];
 		$session = $this->getRequest()->getSession();
 		$configService = $this->container->get('biopen.config_service');
 		$addEditName = $editMode ? 'edit' : 'add';		
@@ -75,26 +77,29 @@ class ElementFormController extends GoGoController
 			// creating simple form to let user enter a email address
 			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
 			->add('email', 'email', array('required' => false))
-			->getForm();			
+			->getForm();
 
-			if ($loginform->handleRequest($request)->isValid()) 
-			{
-				$user = $request->request->get('user')['email'];
-				$userEmail = $user;
-				
+			$userEmail = $request->request->get('user')['email'];
+			$emailAlreadyUsed = false;
+			if ($userEmail) {
+				$othersUsers = $em->getRepository('BiopenCoreBundle:User')->findByEmail($userEmail);
+				$emailAlreadyUsed = count($othersUsers) > 0;			
+			}
+			if ($loginform->handleRequest($request)->isValid() && !$emailAlreadyUsed) 
+			{				
 				$session->set('userEmail', $userEmail);
 			}
 			else
 			{
 				return $this->render('@BiopenGeoDirectory/element-form/contributor-login.html.twig', array(
 					'loginForm' => $loginform->createView(),
+					'emailAlreadyUsed' => $emailAlreadyUsed,
 					'featureConfig' => $configService->getFeatureConfig($addEditName)));
 			}		   
 		} 
 		// depending on authentification type (account or just giving email) we fill some variables
 		else 
-		{
-			$userRoles = [];
+		{			
 			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
 				$user = $this->get('security.context')->getToken()->getUser();
@@ -167,14 +172,37 @@ class ElementFormController extends GoGoController
 					$session->set('duplicatesElements', $duplicates);	
 					$session->set('recopyInfo', $request->request->get('recopyInfo'));
 					$session->set('sendMail', $request->request->get('send_mail'));
+					$session->set('inputPassword', $request->request->get('input-password'));
 					// redirect to check duplicate
 					return $this->redirectToRoute('biopen_element_check_duplicate');			
 				}		
 			}
 			
 			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
+			$inputPassword = $request->request->has('input-password') ? $request->request->get('input-password') : $session->get('inputPassword');
 
 			$em->persist($element);
+
+			if ($inputPassword)
+			{
+				$userManager = $this->container->get('fos_user.user_manager');
+
+				// Create our user and set details
+				$user = $userManager->createUser();
+				$user->setUserName($userEmail);
+				$user->setEmail($userEmail);
+				$user->setPlainPassword($inputPassword);
+				$user->setEnabled(true);
+
+				// Update the user
+				$userManager->updateUser($user, true);
+				$em->persist($user);
+				
+				$text = 'Un compte vous a été créé, Vous pouvez maintenant compléter <a href="'. $this->generateUrl('biopen_user_profile') .'" >votre profil</a> !';
+				$request->getSession()->getFlashBag()->add('success', $text);
+
+				$this->authenticateUser($user);
+			}
 
 			if($this->isRealModification($element, $request))
          {
@@ -298,5 +326,17 @@ class ElementFormController extends GoGoController
 		{
 			return $this->redirectToRoute('biopen_element_add');
 		}			
-	}	
+	}
+
+	protected function authenticateUser($user)
+   {
+      try {
+         $this->container->get('fos_user.security.login_manager')->loginUser(
+            $this->container->getParameter('fos_user.firewall_name'),
+            $user, null);
+      } catch (AccountStatusException $ex) {
+         // We simply do not authenticate users which do not pass the user
+         // checker (not enabled, expired, etc.).
+      }
+   }	
 }
