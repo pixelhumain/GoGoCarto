@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:59:11
+ * @Last Modified time: 2018-02-11 14:14:30
  */
  
 
@@ -241,6 +241,8 @@ class ElementFormController extends GoGoController
 			{
 				$noticeText .= "</br>Votre contribution est pour l'instant en attente de validation, <a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
 			}
+
+			$noticeText .= '</br>Retrouvez et modifiez vos contributions sur la page <a href="'.$this->generateUrl('biopen_user_contributions').'">Mes Contributions</a>';
 
 			$submitOption = $request->request->get('submit-option');
 			$isAllowedPending = $configService->isUserAllowed('pending');

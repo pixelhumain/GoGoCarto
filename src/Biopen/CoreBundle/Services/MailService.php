@@ -137,7 +137,7 @@ class MailService
         {
             $showElementUrl = $this->router->generate('biopen_directory_showElement', array('name' => $element->getName(), 'id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
             $showElementUrl = str_replace('%23', '#', $showElementUrl);
-            $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);
+            $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);            
             $elementName = $element->getName();
             $contribution = $element->getCurrContribution(); 
             
@@ -150,15 +150,17 @@ class MailService
             $string = preg_replace('/({{((?:\s)+)?user((?:\s)+)?}})/i',    $user, $string);
             $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
             $string = preg_replace('/({{((?:\s)+)?showUrl((?:\s)+)?}})/i', $showElementUrl, $string);
-            $string = preg_replace('/({{((?:\s)+)?editUrl((?:\s)+)?}})/i', $editElementUrl, $string);
+            $string = preg_replace('/({{((?:\s)+)?editUrl((?:\s)+)?}})/i', $editElementUrl, $string);            
 
             $string = str_replace('http://http://', 'http://', $string);
             $string = str_replace('http://', 'https://', $string);
         }
 
         $homeUrl = $this->router->generate('biopen_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
+        $userContributionsUrl = $this->router->generate('biopen_user_contributions',array(), UrlGeneratorInterface::ABSOLUTE_URL);
         $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
+        $string = preg_replace('/({{((?:\s)+)?userContributionsUrl((?:\s)+)?}})/i', $userContributionsUrl, $string);
 
         return $string;
     }
