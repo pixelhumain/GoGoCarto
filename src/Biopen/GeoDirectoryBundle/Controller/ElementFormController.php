@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:09:19
+ * @Last Modified time: 2018-02-11 13:59:11
  */
  
 
@@ -199,7 +199,7 @@ class ElementFormController extends GoGoController
 				$userManager->updateUser($user, true);
 				$em->persist($user);
 				
-				$text = 'Un compte vous a été créé, Vous pouvez maintenant compléter <a href="'. $this->generateUrl('biopen_user_profile') .'" >votre profil</a> !';
+				$text = 'Votre compte a bien été créé !'; //, Vous pouvez maintenant compléter <a href="'. $this->generateUrl('biopen_user_profile') .'" >votre profil</a> !';
 				$request->getSession()->getFlashBag()->add('success', $text);
 
 				$this->authenticateUser($user);
