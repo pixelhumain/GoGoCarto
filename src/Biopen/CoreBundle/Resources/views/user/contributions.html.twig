@@ -31,25 +31,32 @@
 
 <h2>Mes Fiches</h2>
 {% if elementsOwned|length > 0 %}
-  <ul class="collection">
-  {% for element in elementsOwned %}
-      <li class="collection-item row">
-        <div class="col s6">
-          <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a> 
-        </div>
-        <div class="col s3 right-align">
-          {{ elementStatus[element.status] }}
-        </div>
-        <div class="col s3 right-align">
-          {% if element.isValid() or element.isPending() and element.currContribution.userMail != app.user.email %}
-            <a href="{{ path('biopen_element_edit', {'id': element.id, 'hash': element.randomHash}) }}">
-              <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
-            </a>
-          {% endif %}
-        </div>
-      </li>
-  {% endfor %}
-  </ul>
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Fiche</th>
+          <th class="status">Status</th>
+          <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for element in elementsOwned %}
+          <tr>
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a> 
+            </td>
+            <td>{{ elementStatus[element.status] }}</td>
+            <td>
+              {% if element.isValid() or element.isPending() and element.currContribution.userEmail != app.user.email %}
+                <a href="{{ path('biopen_element_edit', {'id': element.id, 'hash': element.randomHash}) }}">
+                  <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
+                </a>
+              {% endif %}
+            </td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
   <p class="empty-secton-message">
     Aucune fiche n'est en votre posséssion
@@ -58,27 +65,37 @@
 
 {% set contributionType = {
   0: "Ajout",
-  1: 'Modification',
+  1: 'Modif',
 }
 %} 
 <h2>Mes Contributions en attente</h2>
 {% if pendingContributions|length > 0 %}
-  <ul class="collection">
-  {% for contribution in pendingContributions %}
-      <li class="collection-item row">
-        <div class="col s2">{{ contribution.createdAt|date("d/m/Y")}}</div>
-        <div class="col s2">{{ contributionType[contribution.type]}}</div>
-        <div class="col s5">
-          <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
-        </div>
-        <div class="col s3 right-align">
-          <a href="{{ path('biopen_element_edit', {'id': contribution.element.id, 'hash': contribution.element.randomHash}) }}">
-            <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
-          </a>
-        </div>
-      </li>    
-  {% endfor %}
-  </ul>
+  <table class="bordered">
+    <thead>
+      <tr>
+        <th>Fiche</th>        
+        <th class="type">Type</th> 
+        <th class="date">Date</th>       
+        <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contribution in pendingContributions %}
+        <tr>
+          <td>
+            <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
+          </td>          
+          <td>{{ contributionType[contribution.type]}}</td>  
+          <td>{{ contribution.createdAt|date("d/m/Y")}}</td>        
+          <td>
+            <a href="{{ path('biopen_element_edit', {'id': contribution.element.id, 'hash': contribution.element.randomHash}) }}">
+              <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
+            </a>
+          </td>
+        </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
   <p class="empty-secton-message">
     Vous n'avez aucune contribution en attente
@@ -87,25 +104,36 @@
 
 <h2>Contributions résolues</h2>
 {% if othersContributions|length > 0 %}
-  <ul class="collection">
-  {% for contribution in othersContributions %}
-      <li class="collection-item row">
-        <div class="col s2">{{ contribution.createdAt|date("d/m/Y")}}</div>
-        <div class="col s2">{{ contributionType[contribution.type]}}</div>
-        <div class="col s3">
-          <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
-        </div>
-        <div class="col s2">{{ elementStatus[contribution.status] }}</div>
-        <div class="col s3 right-align">
-          {% if contribution.element.userOwnerEmail %}
-            {{ contribution.element.userOwnerEmail == app.user.email ? "Moi" : contribution.element.userOwnerEmail }}
-          {% else %}
-            <a href={{ path('biopen_user_become_owner', {'id' : contribution.element.id}) }}>Devenir Propriétaire</a>
-          {% endif %}
-        </div>
-      </li>    
-  {% endfor %}
-  </ul>
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th class="type">Type</th>
+          <th class="date">Date</th>          
+          <th class="small-status">Status</th>
+          <th class="owner">Propriétaire</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contribution in othersContributions %}
+          <tr class="">
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
+            </td>            
+            <td>{{ contributionType[contribution.type]}}</td>
+            <td>{{ contribution.createdAt|date("d/m/Y")}}</td>            
+            <td>{{ elementStatus[contribution.status] }}</td>
+            <td>
+              {% if contribution.element.userOwnerEmail %}
+                {{ contribution.element.userOwnerEmail == app.user.email ? "Moi" : contribution.element.userOwnerEmail }}
+              {% else %}
+                <a href={{ path('biopen_user_become_owner', {'id' : contribution.element.id}) }}>Devenir Propriétaire</a>
+              {% endif %}
+            </td>
+          </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
   <p class="empty-secton-message">
     Vous n'avez encore fait aucune contribution
@@ -123,15 +151,28 @@
 
 <h2>Mes Votes</h2>
 {% if votes|length > 0 %}
-  <ul class="collection">
-  {% for vote in votes %}
-      <li class="collection-item row">
-        <div>{{ vote.createdAt|date("d/m/Y à H:i")}}</div>
-        <div>{{ voteValues[vote.value] }}</div>
-        <div>{{ vote.element.name }} {{ elementStatus[vote.element.status] }}</div>
-      </li>
-  {% endfor %}
-  </ul>
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Name</th>          
+          <th class="vote">Vote</th>
+          <th class="date">Date</th>
+          <th class="status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vote in votes %}
+          <tr class="">
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': vote.element.id, 'name': vote.element.name}) | replace({"%23":'#'}) }}">{{ vote.element.name }}</a>        
+            </td>                     
+            <td>{{ voteValues[vote.value] }}</td>
+            <td>{{ vote.createdAt|date("d/m/Y")}}</td>  
+            <td>{{ elementStatus[vote.element.status] }}</td>
+          </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
   <p class="empty-secton-message">
     Vous n'avez réalisé aucun vote
@@ -148,21 +189,38 @@
 
 <h2>Mes Signalements</h2>
 {% if reports|length > 0 %}
-  <ul class="collection">
-  {% for report in reports %}
-      <li class="collection-item row">
-        <div>{{ report.createdAt|date("d/m/Y à H:i")}}</div>
-        <div>{{ reportValues[report.value] }}</div>
-        <div>{{ report.element.name }} </div>
-        {% if report.isResolved %}
-          <div>{{ elementStatus[report.element.status] }}</div>
-          <div>{{ report.comment }}</div>
-        {% else %}
-          <div>En attente de modération</div>
-        {% endif %}
-      </li>
-  {% endfor %}
-  </ul>
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Name</th>          
+          <th class="report">Signalement</th>
+          <th class="date">Date</th>
+          <th class="status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+          <tr class="">
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': report.element.id, 'name': report.element.name}) | replace({"%23":'#'}) }}">{{ report.element.name }}</a>        
+            </td>                     
+            <td>{{ reportValues[report.value] }}</td>
+            <td>{{ report.createdAt|date("d/m/Y")}}</td>  
+            <td>
+              {% if report.isResolved %}
+                <span>{{ elementStatus[report.element.status] }}</span>
+                {% if report.resolvedMessage %}
+                  <span> - </span> 
+                  <i>{{ report.resolvedMessage }}</i>
+                {% endif %}
+              {% else %}
+                <span>En attente de modération</span>
+              {% endif %}
+            </td>
+          </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
 {% else %}
   <p class="empty-secton-message">
     Vous n'avez fait aucun signalement

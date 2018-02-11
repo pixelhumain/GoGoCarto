@@ -1,0 +1,36 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2018-02-11 12:03:45
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2018-02-11 13:12:46
+*/
+#page-content.user-contributions
+{
+  h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  } 
+
+  th.action {
+    width:7rem;
+    padding-left: 1.3rem;
+  }
+
+  th.date   { width:7rem; }
+  th.type   { width:5rem; }
+  th.status { width:12rem; }
+  th.owner  { width:7rem; }
+  th.small-status  { width:7rem; }
+  th.vote  { width:10rem; }
+  th.report  { width:12rem; }
+
+  thead {
+    border-top: 1px solid #d0d0d0;
+    background-color: #f7f7f7;
+  }
+
+  .empty-secton-message {
+    text-align: center;
+  }
+}
+     
