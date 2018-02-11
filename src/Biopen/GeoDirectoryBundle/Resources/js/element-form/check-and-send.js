@@ -81,18 +81,8 @@ function checkCategories()
 
 function checkAgreeConditions()
 {
-	if (!$('#agree').is(':checked'))
-	{
-		$('#informations-title').addClass('error'); 
-		$('#label-agree').addClass('error'); 		
-		$('#informations-title').text('Vous devez vous engager pour continuer'); 		
-	}
-	else 
-	{
-		$('#informations-title').removeClass('error');
-		$('#label-agree').removeClass('error'); 	
-		$('#informations-title').text('Validation'); 		
-	}
+	if (!$('#agree').is(':checked')) $('#label-agree').addClass('error');
+	else $('#label-agree').removeClass('error');
 }
 
 function checkOpenHours()
