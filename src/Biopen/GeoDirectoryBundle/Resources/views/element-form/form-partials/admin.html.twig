@@ -2,21 +2,21 @@
 <div id="section_admin">
 	<h2 id="admin-title">Admin</h2>
 	
-	<div class="col s12">
+	<div class="checkbox-container col s12">
 		<input type="checkbox" name="send_mail" id="send_mail" checked/>
 		<label for="send_mail">Prévenir {{ config.elementDisplayNameDefinite }} {{ editMode ? 'des modifications' : "de l'ajout" }}</label> 	
 	</div>
 
 	{# if element is PendingModification #}
 	{% if editMode and element.isPending() %}
-	<div class="col s12">
+	<div class="checkbox-container col s12">
 		<input type="checkbox" name="dont-validate" id="dont-validate"/>
 		<label for="dont-validate">Ne pas valider {{ config.elementDisplayNameDefinite }}, je modifie simplement la mise en forme</label> 	
 	</div>
 	{% endif %}
 
 	{% if not editMode %}
-	<div class="col s12">
+	<div class="checkbox-container col s12">
 		<input type="checkbox" name="recopyInfo" id="recopy-info"/>
 		<label for="recopy-info">Recopier les informations dans un nouveau formulaire</label> 	
 	</div>
