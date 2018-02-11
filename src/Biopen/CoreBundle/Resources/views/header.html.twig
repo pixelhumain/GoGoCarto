@@ -180,7 +180,7 @@ function handleLogin(bool, roles, mail)
     else if ($.inArray('ROLE_USER', roles) > -1) carto.setUserRole('user');
     else carto.setUserRole('anonymous');
 
-    carto.setUserMail(mail);
+    carto.setUserEmail(mail);
   }  
 }
 

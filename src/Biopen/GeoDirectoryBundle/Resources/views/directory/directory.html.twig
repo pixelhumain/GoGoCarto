@@ -26,6 +26,12 @@
     $(document).ready(function()
     {
         carto = goGoCarto('#directory-container', {
+            security:
+            {
+                userRoles: {{ userGogocartoRole | json_encode | raw }},
+                userEmail: '{{ userEmail }}',
+                loginAction: function() { $("#popup-login").openModal(); }
+            },
             text:
             {
                 element: "{{ config.elementDisplayName | raw }}" ,
@@ -74,15 +80,9 @@
                 sendMail: {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }},    
                 directions: {},
                 layers: {},
-                mapdefaultview: {},
-                collaborativeModeration: {}
+                mapdefaultview: {}
             },
-            security:
-            {
-                userRole: '{{ userGogocartoRole }}',
-                userEmail: '{{ userEmail }}',
-                loginAction: function() { $("#popup-login").openModal(); }
-            },
+            
             map:
             {
                 defaultBounds: {{ config.getDefaultBounds | json_encode | raw }},

@@ -48,6 +48,7 @@ class DirectoryController extends GoGoController
         $securityContext = $this->container->get('security.context');
         $roles = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getRoles() : [];
         $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
+        $userGogocartoRole = [$userGogocartoRole];
         $userEmail = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getEmail() : $this->getRequest()->getSession()->get('userEmail');
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array('mainCategoryJson'      => $mainCategoryJson, 
