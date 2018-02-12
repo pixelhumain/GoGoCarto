@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 14:14:30
+ * @Last Modified time: 2018-02-12 09:35:45
  */
  
 
@@ -145,12 +145,8 @@ class ElementFormController extends GoGoController
 				// filling the form with the previous element created in case we want to recopy its informations (only for admins)
 				$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
 
-				$session->remove('user_id');
 				$session->remove('elementWaitingForDuplicateCheck');
-				$session->remove('duplicatesElements');
-				$session->remove('recopyInfo');
-				$session->remove('sendMail');	
-				$session->remove('inputPassword');		
+				$session->remove('duplicatesElements');		
 			}
 			// if we just submit the form
 			else
@@ -178,11 +174,20 @@ class ElementFormController extends GoGoController
 					return $this->redirectToRoute('biopen_element_check_duplicate');			
 				}		
 			}
-			
-			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
-			$inputPassword = $request->request->has('input-password') ? $request->request->get('input-password') : $session->get('inputPassword');
 
 			$em->persist($element);
+			
+			// getting the variables from POST or from session (in case of checkDuplicate process)
+			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
+			$inputPassword = $request->request->has('input-password') ? $request->request->get('input-password') : $session->get('inputPassword');
+			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
+
+			// clear session
+			$session->remove('elementWaitingForDuplicateCheck');
+			$session->remove('duplicatesElements');			
+			$session->remove('recopyInfo');
+			$session->remove('sendMail');	
+			$session->remove('inputPassword');			
 
 			if ($inputPassword)
 			{
@@ -205,7 +210,7 @@ class ElementFormController extends GoGoController
 				$this->authenticateUser($user);
 			}
 
-			if($this->isRealModification($element, $request))
+			if ($this->isRealModification($element, $request))
          {
             $elementActionService = $this->container->get('biopen.element_action_service');
             $message = $request->get('admin-message');
@@ -219,7 +224,8 @@ class ElementFormController extends GoGoController
             {            
                $elementActionService->createPending($element, $editMode, $userEmail);
             }  
-         }         
+         }  
+
 			$em->persist($element);
 			$em->flush(); 
 
@@ -251,15 +257,6 @@ class ElementFormController extends GoGoController
 			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat sur la carte</a>';
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);			
-
-			// getting the admin option "recopy info" from POST or from session (in case of checkDuplicate process)
-			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
-
-			// clear session
-			$session->remove('elementWaitingForDuplicateCheck');
-			$session->remove('duplicatesElements');
-			$session->remove('recopyInfo');
-			$session->remove('send_mail');
 
 			if ($submitOption != 'stayonform' && !$recopyInfo) return $this->redirect($url_new_element);	
 
