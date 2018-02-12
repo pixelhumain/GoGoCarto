@@ -132,10 +132,35 @@ class Option
         return "(Option) " . $this->getName();
     }
 
+    public function getNameWithParent()
+    {
+        $result = '';
+        if ($this->getParentOption()) $result .= $this->getParentOption()->getName() . '@';
+        $result .= $this->getName();
+        return $result;
+    }
+
     public function getParentOption()
     {
         if (!$this->parent) return null;
         return $this->parent->parent;
+    }
+
+    public function getIdAndParentOptionIds()
+    {
+        return $this->recursivelyAddParentOptionId($this);
+    }
+
+    private function recursivelyAddParentOptionId($option)
+    {
+        $result = [];
+        $parentOption = $option->getParentOption();
+        if ($parentOption) 
+        {
+            $result = $this->recursivelyAddParentOptionId($parentOption);
+        }
+        $result[] = $option;
+        return $result;
     }
 
     public function getSubcategoriesCount()

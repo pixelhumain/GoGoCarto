@@ -36,6 +36,13 @@ class ImportCsvService
    	 $this->elementActionService = $elementActionService;
    }
 
+   public function getAvailableOptions()
+   {
+   	$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+   	$bottomOptions = array_filter($options, function($option) { return $option->getSubcategoriesCount() == 0;});
+   	return array_map(function($option) { return $option->getNameWithParent(); }, $bottomOptions);
+   }
+
 	public function import($fileName, $geocode = false, OutputInterface $output = null)
 	{
 	  // Getting php array of data from CSV

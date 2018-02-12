@@ -1,3 +1,7 @@
 biopen_element_import_csv:
     path:     /csv/{fileName}/{geocode}
     defaults: { _controller: BiopenGeoDirectoryBundle:Import:importCsv, geocode:'0'}
+
+biopen_element_import_available_options:
+    path:     /available-options
+    defaults: { _controller: BiopenGeoDirectoryBundle:Import:availableOptions}

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-12 11:43:34
+ * @Last Modified time: 2018-02-12 13:32:04
  */
  
 
@@ -39,5 +39,12 @@ class ImportController extends Controller
 	   $this->get('biopen.import_csv')->import($fileName, $geocode);
 
 	   return new Response('Elements importés');
-  	}    
+  	} 
+
+   public function availableOptionsAction()
+   {
+      $options = $this->get('biopen.import_csv')->getAvailableOptions();
+
+      return new Response(join('<br>', $options));
+   }    
 }
