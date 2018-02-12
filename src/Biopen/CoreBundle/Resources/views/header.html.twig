@@ -136,7 +136,6 @@ function submitAjaxLogin()
 {  
   $('.error-message').hide();
   var datatSerialized = "_username=" + $('#username').val() + "&_password=" + $('#password').val();
-  console.log("submit", datatSerialized);
   $.ajax({
       method : 'post',
       url         : '{{ path("fos_user_security_check") }}',
@@ -146,8 +145,9 @@ function submitAjaxLogin()
           if (data.success)
           {
             $('#popup-login').closeModal();
-            handleLogin(true, data.role, data.mail);
-            $('#btn-logout .username').text(data.name);
+            console.log("login success",data);
+            handleLogin(true, data.roles, data.email);
+            $('#btn-logout .username').text(data.username);
             displayLoginButton(false);       
           }  
           else
@@ -161,14 +161,17 @@ function submitAjaxLogin()
   });
 }
 
-function handleLogin(bool, roles, mail)
+function handleLogin(bool, rolesObject, mail)
 {
-  console.log("handle login", bool);
+  var roles = Object.keys(rolesObject).map(function (key) { return rolesObject[key]; });
+
+  console.log("handle login", bool, "roles", roles);
   if (bool) $('#btn-login').trigger('login');
   else $('#btn-login').trigger('logout');
 
   $('#listUserActions li.only-for-admin').hide();
   $('#listUserActions li.only-for-user').hide();
+
   if ($.inArray('ROLE_ADMIN', roles) > -1) $('#listUserActions li.only-for-admin').show();
   if ($.inArray('ROLE_USER', roles) > -1) $('#listUserActions li.only-for-user').show();
 

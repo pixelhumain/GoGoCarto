@@ -48,9 +48,9 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 		if ( $request->isXmlHttpRequest() ) {
 			$user = $this->securityContext->getToken()->getUser(); 
 			$array = array( 'success' => true, 
-								 'role' => $user->getRoles(), 
-								 'name' => $user->getUsername(), 
-								 'mail' => $user->getEmail()); // data to return via JSON
+								 'roles' => $user->getRoles(), 
+								 'username' => $user->getUsername(), 
+								 'email' => $user->getEmail()); // data to return via JSON
 			
 			$response = new Response( json_encode( $array ) );
 			$response->headers->set( 'Content-Type', 'application/json' );
