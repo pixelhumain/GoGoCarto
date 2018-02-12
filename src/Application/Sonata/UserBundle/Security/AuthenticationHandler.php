@@ -47,7 +47,12 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
 		// if AJAX login
 		if ( $request->isXmlHttpRequest() ) {
 			$user = $this->securityContext->getToken()->getUser(); 
+			$redirectionUrl = '';
+			if ( $this->session->get('_security.main.target_path' ) ) { 
+				$redirectionUrl = $this->session->get( '_security.main.target_path' ); 
+			}
 			$array = array( 'success' => true, 
+								 'redirectionUrl' => $redirectionUrl,
 								 'roles' => $user->getRoles(), 
 								 'username' => $user->getUsername(), 
 								 'email' => $user->getEmail()); // data to return via JSON

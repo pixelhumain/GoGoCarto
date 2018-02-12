@@ -144,6 +144,7 @@ function submitAjaxLogin()
       success     : function(data, status, object) {
           if (data.success)
           {
+            if (data.redirectionUrl) { window.location = data.redirectionUrl; return; }
             $('#popup-login').closeModal();
             console.log("login success",data);
             handleLogin(true, data.roles, data.email);
