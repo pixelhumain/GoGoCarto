@@ -35,7 +35,7 @@ class ImportColibrisLmcCommand extends ContainerAwareCommand
 	  $output->writeln('<comment>Start : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
 
 	  // Importing CSV on DB via Doctrine ORM
-	  $this->getContainer()->get('biopen.import_colibris_lmc')->import($input->getArgument('path'), $input->getArgument('geocode'), $output);
+	  $this->getContainer()->get('biopen.import_csv')->import($input->getArgument('path'), $input->getArgument('geocode'), $output);
 	  
 	  // Showing when the script is over
 	  $now = new \DateTime();

@@ -40,12 +40,6 @@ services:
     biopen.csvtoarray:
         class: Biopen\GeoDirectoryBundle\Services\ConvertCsvToArrayService
 
-    biopen.import_colibris_lmc:
-       class: Biopen\GeoDirectoryBundle\Services\ImportColibrisLmcService
+    biopen.import_csv:
+       class: Biopen\GeoDirectoryBundle\Services\ImportCsvService
        arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.csvtoarray", '@bazinga_geocoder.geocoder', "@biopen.element_action_service" ]
-
-    biopen.update_colibris_lmc:
-       class: Biopen\GeoDirectoryBundle\Services\UpdateColibrisLmcService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.csvtoarray"]
-
-

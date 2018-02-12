@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:05:00
+ * @Last Modified time: 2018-02-12 11:43:34
  */
  
 
@@ -34,19 +34,10 @@ class ImportController extends Controller
 	   return new Response('Elements générés');
   	} 
 
-  	public function importColibrisLmcAction($fileName, $geocode)
+  	public function importCsvAction($fileName, $geocode)
 	{
-	   $this->get('biopen.import_colibris_lmc')->import($fileName, $geocode);
+	   $this->get('biopen.import_csv')->import($fileName, $geocode);
 
 	   return new Response('Elements importés');
-  	} 
-
-   public function updateColibrisLmcAction($fileName)
-   {
-      $this->get('biopen.update_colibris_lmc')->updateMissingFields($fileName);
-
-      return new Response('Elements updated');
-   } 
-
-   
+  	}    
 }

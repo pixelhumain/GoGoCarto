@@ -15,7 +15,7 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\PostalAddress;
 
-class ImportColibrisLmcService
+class ImportCsvService
 {   
 	private $em;
 	private $mappingTableIds;
