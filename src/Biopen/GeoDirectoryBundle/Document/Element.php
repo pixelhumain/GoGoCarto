@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:06:47
+ * @Last Modified time: 2018-02-20 12:37:44
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -334,6 +334,16 @@ class Element
         usort( $result, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
         return $result;
     }
+
+    public function hasValidContributionMadeBy($userEmail)
+    {
+        $contribs = $this->getArrayFromCollection($this->getContributions());
+        $userValidContributionsOnElement = array_filter($contribs, function($contribution) use ($userEmail) { 
+            return $contribution->countAsValidContributionFrom($userEmail);
+        });
+        return count($userValidContributionsOnElement) > 0;
+    }
+    
 
     /** @MongoDB\PreFlush */
     public function onPreFlush()

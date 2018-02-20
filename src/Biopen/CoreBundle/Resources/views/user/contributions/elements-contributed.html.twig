@@ -1,0 +1,46 @@
+<h2>Les fiches auxquelles j'ai contribué</h2>
+{% if elementsUserHaveContributed|length > 0 %}
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Fiche</th>
+          <th class="status">Status</th>
+          <th class="owner">Propriétaire</th>
+          <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for element in elementsUserHaveContributed %}
+          <tr>
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a> 
+            </td>
+            <td>{{ elementStatus[element.status] }}</td>
+            <td>
+              {% if element.userOwnerEmail %}
+                {{ element.userOwnerEmail == app.user.email ? "Moi" : element.userOwnerEmail }}
+              {% elseif element.isValid %}
+                <a href={{ path('biopen_user_become_owner', {'id' : element.id}) }}>Devenir Propriétaire</a>   
+              {% endif %}         
+            </td>
+            <td>
+              {% if app.user.isAdmin
+                    or app.user.hasRole('ROLE_DIRECTMODERATION_EDIT_OWN_CONTRIB') and (element.isValid or element.isPending) %}
+                <a href="{{ path('biopen_element_edit', {'id': element.id}) }}">
+                  <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
+                </a>
+              {% else %}
+                <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">
+                  <button class="btn-biopen btn-primary small waves-light waves-effect btn">Voir</button>
+                </a>
+              {% endif %}
+            </td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-secton-message">
+    Vous n'avez contribué à aucune fiche
+  </p>
+{% endif %}

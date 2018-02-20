@@ -1,0 +1,30 @@
+<h2>Historique de mes contributions</h2>
+{% if allContributions|length > 0 %}
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th class="type">Type</th>
+          <th class="date">Date</th>          
+          <th class="small-status">Status</th>          
+      </tr>
+    </thead>
+    <tbody>
+      {% for contribution in allContributions %}
+        {% set element = contribution.element %}
+        <tr class="">
+          <td>
+            <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a>        
+          </td>            
+          <td>{{ contributionType[contribution.type]}}</td>
+          <td>{{ contribution.createdAt|date("d/m/Y")}}</td>            
+          <td>{{ elementStatus[contribution.status] }}</td>            
+        </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-secton-message">
+    Vous n'avez encore fait aucune contribution
+  </p>
+{% endif %}

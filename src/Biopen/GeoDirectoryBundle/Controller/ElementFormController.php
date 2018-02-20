@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-12 09:35:45
+ * @Last Modified time: 2018-02-20 13:08:33
  */
  
 
@@ -122,8 +122,10 @@ class ElementFormController extends GoGoController
 		// To check that, we check is element is Valid or element is pending but from a contribution not made by the owner
 		$isUserOwnerOfValidElement = $editMode && ($element->isValid() || $element->isPending() && $element->getCurrContribution()->getUserEmail() != $userEmail)
 											  && $element->getUserOwnerEmail() && $element->getUserOwnerEmail() == $userEmail;
+		
 		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration') 
 											  || (!$editMode && in_array('ROLE_DIRECTMODERATION_ADD', $userRoles))
+											  || ($editMode && in_array('ROLE_DIRECTMODERATION_EDIT_OWN_CONTRIB', $userRoles) && $element->hasValidContributionMadeBy($userEmail))
 											  || $isUserOwnerOfValidElement;		
 		
 		// create the element form
@@ -170,6 +172,7 @@ class ElementFormController extends GoGoController
 					$session->set('recopyInfo', $request->request->get('recopyInfo'));
 					$session->set('sendMail', $request->request->get('send_mail'));
 					$session->set('inputPassword', $request->request->get('input-password'));
+					$session->set('submitOption', $request->request->get('submit-option'));
 					// redirect to check duplicate
 					return $this->redirectToRoute('biopen_element_check_duplicate');			
 				}		
@@ -181,13 +184,14 @@ class ElementFormController extends GoGoController
 			$sendMail = $request->request->has('send_mail') ? $request->request->get('send_mail') : $session->get('sendMail');
 			$inputPassword = $request->request->has('input-password') ? $request->request->get('input-password') : $session->get('inputPassword');
 			$recopyInfo = $request->request->has('recopyInfo') ? $request->request->get('recopyInfo') : $session->get('recopyInfo');
-
+			$submitOption = $request->request->has('submit-option') ? $request->request->get('submit-option') : $session->get('submitOption');
 			// clear session
 			$session->remove('elementWaitingForDuplicateCheck');
-			$session->remove('duplicatesElements');			
+			$session->remove('duplicatesElements');
 			$session->remove('recopyInfo');
-			$session->remove('sendMail');	
-			$session->remove('inputPassword');			
+			$session->remove('sendMail');
+			$session->remove('inputPassword');
+			$session->remove('submitOption');
 
 			if ($inputPassword)
 			{
@@ -250,7 +254,7 @@ class ElementFormController extends GoGoController
 
 			$noticeText .= '</br>Retrouvez et modifiez vos contributions sur la page <a href="'.$this->generateUrl('biopen_user_contributions').'">Mes Contributions</a>';
 
-			$submitOption = $request->request->get('submit-option');
+			
 			$isAllowedPending = $configService->isUserAllowed('pending');
 
 			$showResultLink = $submitOption == 'stayonform' && ($isAllowedDirectModeration || $isAllowedPending);

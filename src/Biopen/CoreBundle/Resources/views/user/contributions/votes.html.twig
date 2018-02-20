@@ -1,0 +1,38 @@
+{% set voteValues = {
+  '-2': 'Ne respecte pas la charte',
+  '-1': "N'existe pas",
+  '0': 'Existe mais infos mauvaises',
+  '1': 'Existe',
+  '2': 'Existe et valide info'
+  }
+%}
+
+<h2>Mes Votes</h2>
+{% if votes|length > 0 %}
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Name</th>          
+          <th class="vote">Vote</th>
+          <th class="date">Date</th>
+          <th class="status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vote in votes %}
+          <tr class="">
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': vote.element.id, 'name': vote.element.name}) | replace({"%23":'#'}) }}">{{ vote.element.name }}</a>        
+            </td>                     
+            <td>{{ voteValues[vote.value] }}</td>
+            <td>{{ vote.createdAt|date("d/m/Y")}}</td>  
+            <td>{{ elementStatus[vote.element.status] }}</td>
+          </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-secton-message">
+    Vous n'avez réalisé aucun vote
+  </p>
+{% endif %}

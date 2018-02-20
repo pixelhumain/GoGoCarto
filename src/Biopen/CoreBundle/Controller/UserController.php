@@ -6,6 +6,7 @@ use Biopen\CoreBundle\Controller\GoGoController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Symfony\Component\HttpFoundation\Request;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 
 class UserController extends GoGoController
 {
@@ -21,30 +22,34 @@ class UserController extends GoGoController
          return !$element->isPending() || $element->getCurrContribution()->getUserEmail() != $userEmail; 
       });
 
-      $contribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserEmail($userEmail);
+      $allContribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserEmail($userEmail);
       $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserEmail($userEmail);
       $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserEmail($userEmail);
 
-      $contribs = array_filter($contribs, function($interaction) { 
+      $allContribs = array_filter($allContribs, function($interaction) { 
          return in_array($interaction->getType(), [InteractionType::Add, InteractionType::Edit]); 
       });
-
+      $elementsUserHaveContributed = [];
       $pendingContribs = [];
-      $othersContribs = [];
-      foreach ($contribs as $key => $contrib) {
+      foreach ($allContribs as $key => $contrib) {
          if ($contrib->getStatus() == null) $pendingContribs[] = $contrib;
-         else $othersContribs[] = $contrib; 
+
+         if ($contrib->countAsValidContributionFrom($userEmail)
+             && !in_array($contrib->getElement(), $elementsUserHaveContributed) 
+             && !in_array($contrib->getElement(), $elementsOwned))
+            array_push($elementsUserHaveContributed, $contrib->getElement());
       }
 
       usort($pendingContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-      usort($othersContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
+      usort($allContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
       usort($votes, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
       usort($reports, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });      
 
       return $this->render('@BiopenCoreBundle/user/contributions.html.twig', array(
          'elementsOwned' => $elementsOwned,
+         'elementsUserHaveContributed' => $elementsUserHaveContributed,
          'pendingContributions' => $pendingContribs,
-         'othersContributions' => $othersContribs,
+         'allContributions' => $allContribs,
          'votes' => $votes,
          'reports' => $reports));
    }

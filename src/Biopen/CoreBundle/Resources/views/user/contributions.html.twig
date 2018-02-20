@@ -7,227 +7,39 @@
 
 {# BODY CONTENT #}
 {% block body_content %}
-
-
 <section>
 
-{% set elementStatus = {
-  '' : 'En attente',
-  '-6': "Doublon",
-  '-5': "modified pending",
-  '-4': 'Supprimé', 
-  '-3': 'Refusé (votes) ', 
-  '-2': 'Réfusé (admin)', 
-  '-1': 'En attente (modifs)', 
-   0: 'En attente (ajout)',
-   1: 'Validé (admin)',
-   2: 'Validé (votes)',
-   3: 'Ajouté par admin',
-   4: 'Modifié par admin',
-   5: 'Modifié par propriétaire',
-  }
-%}
+  {% set elementStatus = {
+    '' : 'En attente',
+    '-6': "Doublon",
+    '-5': "modified pending",
+    '-4': 'Supprimé', 
+    '-3': 'Refusé (votes) ', 
+    '-2': 'Réfusé (admin)', 
+    '-1': 'En attente (modifs)', 
+     0: 'En attente (ajout)',
+     1: 'Validé (admin)',
+     2: 'Validé (votes)',
+     3: 'Ajouté par admin',
+     4: 'Modifié par admin',
+     5: 'Modifié par propriétaire',
+    }
+  %}
 
-<h1>Mes contributions</h1>
+  {% set contributionType = {
+      0: "Ajout",
+      1: 'Modif',
+    }
+  %} 
 
-<h2>Mes Fiches</h2>
-{% if elementsOwned|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-          <th>Fiche</th>
-          <th class="status">Status</th>
-          <th class="action">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for element in elementsOwned %}
-          <tr>
-            <td>
-              <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a> 
-            </td>
-            <td>{{ elementStatus[element.status] }}</td>
-            <td>
-              {% if element.isValid() or element.isPending() and element.currContribution.userEmail != app.user.email %}
-                <a href="{{ path('biopen_element_edit', {'id': element.id, 'hash': element.randomHash}) }}">
-                  <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
-                </a>
-              {% endif %}
-            </td>
-          </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Aucune fiche n'est en votre posséssion
-  </p>
-{% endif %}
+  <h1>Mes contributions</h1>
 
-{% set contributionType = {
-  0: "Ajout",
-  1: 'Modif',
-}
-%} 
-<h2>Mes Contributions en attente</h2>
-{% if pendingContributions|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-        <th>Fiche</th>        
-        <th class="type">Type</th> 
-        <th class="date">Date</th>       
-        <th class="action">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for contribution in pendingContributions %}
-        <tr>
-          <td>
-            <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
-          </td>          
-          <td>{{ contributionType[contribution.type]}}</td>  
-          <td>{{ contribution.createdAt|date("d/m/Y")}}</td>        
-          <td>
-            <a href="{{ path('biopen_element_edit', {'id': contribution.element.id, 'hash': contribution.element.randomHash}) }}">
-              <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
-            </a>
-          </td>
-        </tr>    
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez aucune contribution en attente
-  </p>
-{% endif %}
+  {% include '@BiopenCoreBundle/user/contributions/elements-owned.html.twig' %}
+  {% include '@BiopenCoreBundle/user/contributions/elements-contributed.html.twig' %}  
+  {% include '@BiopenCoreBundle/user/contributions/pending-contributions.html.twig' %}
+  {% include '@BiopenCoreBundle/user/contributions/votes.html.twig' %}
+  {% include '@BiopenCoreBundle/user/contributions/reports.html.twig' %}
+  {% include '@BiopenCoreBundle/user/contributions/all-contributions.html.twig' %}
 
-<h2>Contributions résolues</h2>
-{% if othersContributions|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-          <th>Name</th>
-          <th class="type">Type</th>
-          <th class="date">Date</th>          
-          <th class="small-status">Status</th>
-          <th class="owner">Propriétaire</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for contribution in othersContributions %}
-          <tr class="">
-            <td>
-              <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
-            </td>            
-            <td>{{ contributionType[contribution.type]}}</td>
-            <td>{{ contribution.createdAt|date("d/m/Y")}}</td>            
-            <td>{{ elementStatus[contribution.status] }}</td>
-            <td>
-              {% if contribution.element.userOwnerEmail %}
-                {{ contribution.element.userOwnerEmail == app.user.email ? "Moi" : contribution.element.userOwnerEmail }}
-              {% else %}
-                <a href={{ path('biopen_user_become_owner', {'id' : contribution.element.id}) }}>Devenir Propriétaire</a>
-              {% endif %}
-            </td>
-          </tr>    
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez encore fait aucune contribution
-  </p>
-{% endif %}
-
-{% set voteValues = {
-  '-2': 'Ne respecte pas la charte',
-  '-1': "N'existe pas",
-  '0': 'Existe mais infos mauvaises',
-  '1': 'Existe',
-  '2': 'Existe et valide info'
-  }
-%}
-
-<h2>Mes Votes</h2>
-{% if votes|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-          <th>Name</th>          
-          <th class="vote">Vote</th>
-          <th class="date">Date</th>
-          <th class="status">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for vote in votes %}
-          <tr class="">
-            <td>
-              <a href="{{ path('biopen_directory_showElement', {'id': vote.element.id, 'name': vote.element.name}) | replace({"%23":'#'}) }}">{{ vote.element.name }}</a>        
-            </td>                     
-            <td>{{ voteValues[vote.value] }}</td>
-            <td>{{ vote.createdAt|date("d/m/Y")}}</td>  
-            <td>{{ elementStatus[vote.element.status] }}</td>
-          </tr>    
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez réalisé aucun vote
-  </p>
-{% endif %}
-
-{% set reportValues = {
-  0: "L'élément n'existe plus",
-  1: 'Les informations sont incorrectes',
-  2: "L'élément ne respecte pas la charte",
-  4: "L'élément est référencé plusieurs fois"
-  }
-%} 
-
-<h2>Mes Signalements</h2>
-{% if reports|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-          <th>Name</th>          
-          <th class="report">Signalement</th>
-          <th class="date">Date</th>
-          <th class="status">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for report in reports %}
-          <tr class="">
-            <td>
-              <a href="{{ path('biopen_directory_showElement', {'id': report.element.id, 'name': report.element.name}) | replace({"%23":'#'}) }}">{{ report.element.name }}</a>        
-            </td>                     
-            <td>{{ reportValues[report.value] }}</td>
-            <td>{{ report.createdAt|date("d/m/Y")}}</td>  
-            <td>
-              {% if report.isResolved %}
-                <span>{{ elementStatus[report.element.status] }}</span>
-                {% if report.resolvedMessage %}
-                  <span> - </span> 
-                  <i>{{ report.resolvedMessage }}</i>
-                {% endif %}
-              {% else %}
-                <span>En attente de modération</span>
-              {% endif %}
-            </td>
-          </tr>    
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez fait aucun signalement
-  </p>
-{% endif %}
-
-</section>
-   
+</section>   
 {% endblock %}

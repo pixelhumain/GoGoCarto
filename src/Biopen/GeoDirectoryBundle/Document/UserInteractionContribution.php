@@ -31,6 +31,19 @@ class UserInteractionContribution extends UserInteraction
         return !in_array($this->status, [null, ElementStatus::PendingModification, ElementStatus::PendingAdd]);
     }
 
+    public function hasBeenAccepted()
+    {
+        return $this->status !== null && $this->status > 0;
+    }
+
+    public function countAsValidContributionFrom($userEmail)
+    {
+        return $this->getUserEmail() == $userEmail
+               && in_array($this->getType(), [InteractionType::Add, InteractionType::Edit])
+               && $this->getStatus() > 0
+               && $this->getStatus() != ElementStatus::ModifiedByOwner;
+    }
+
     public function __construct()
     {
         $this->votes = new \Doctrine\Common\Collections\ArrayCollection();

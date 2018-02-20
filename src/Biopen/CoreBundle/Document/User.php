@@ -325,6 +325,11 @@ class User extends BaseUser
        return in_array("ROLE_ADMIN", $this->getRoles());
     }
 
+    public function hasRole($role)
+    {
+        return in_array($role, $this->getRoles());
+    }
+
     public function setGamification($value)
     {         
         $this->gamification = $value;

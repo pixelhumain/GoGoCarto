@@ -1,0 +1,33 @@
+<h2>Mes Fiches</h2>
+{% if elementsOwned|length > 0 %}
+  <table class="bordered">
+    <thead>
+      <tr>
+          <th>Fiche</th>
+          <th class="status">Status</th>
+          <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for element in elementsOwned %}
+          <tr>
+            <td>
+              <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">{{ element.name }}</a> 
+            </td>
+            <td>{{ elementStatus[element.status] }}</td>
+            <td>
+              {% if element.isValid() or element.isPending() and element.currContribution.userEmail != app.user.email %}
+                <a href="{{ path('biopen_element_edit', {'id': element.id, 'hash': element.randomHash}) }}">
+                  <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
+                </a>
+              {% endif %}
+            </td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-secton-message">
+    Aucune fiche n'est en votre posséssion
+  </p>
+{% endif %}

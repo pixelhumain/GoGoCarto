@@ -1,0 +1,33 @@
+<h2>Mes Contributions en attente</h2>
+{% if pendingContributions|length > 0 %}
+  <table class="bordered">
+    <thead>
+      <tr>
+        <th>Fiche</th>        
+        <th class="type">Type</th> 
+        <th class="date">Date</th>       
+        <th class="action">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contribution in pendingContributions %}
+        <tr>
+          <td>
+            <a href="{{ path('biopen_directory_showElement', {'id': contribution.element.id, 'name': contribution.element.name}) | replace({"%23":'#'}) }}">{{ contribution.element.name }}</a>        
+          </td>          
+          <td>{{ contributionType[contribution.type]}}</td>  
+          <td>{{ contribution.createdAt|date("d/m/Y")}}</td>        
+          <td>
+            <a href="{{ path('biopen_element_edit', {'id': contribution.element.id, 'hash': contribution.element.randomHash}) }}">
+              <button class="btn-biopen btn-secondary small waves-light waves-effect btn">Editer</button>
+            </a>
+          </td>
+        </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty-secton-message">
+    Vous n'avez aucune contribution en attente
+  </p>
+{% endif %}
