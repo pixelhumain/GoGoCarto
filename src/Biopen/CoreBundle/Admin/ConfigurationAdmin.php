@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-02-11 14:08:54
+ * @Last Modified time: 2018-02-20 14:52:26
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -99,6 +99,7 @@ class ConfigurationAdmin extends AbstractAdmin
                     <li>{{ showUrl }} l'adresse qui renvoie à la visualisation de la fiche</li>
                     <li>{{ editUrl }} l'adresse qui renvoie à la modification de la fiche</li>
                     <li>{{ homeUrl }} l'adresse de la page d'accueil du site</li>
+                    <li>{{ directEditElementUniqueUrl }} l'adresse unique pour éditer directement l'élément sans être admin</li>
                     <li>{{ customMessage }} le message personnel qui a été rédigé par les admins (uniquement lors de la suppression)</li></br>
                     Vous pouvez également utiliser ces variables dans les contenus spéciaux de l'éditeur de texte. Par example dans le champs URL de la popup 
                     qui s'ouvre lorsqu'on clique sur d'ajouter un lien.</br>

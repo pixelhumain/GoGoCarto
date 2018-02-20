@@ -86,7 +86,7 @@ class MailService
         }        
     }
 
-    public function draftEmail($mailType, $element, $customMessage, $option)
+    public function draftEmail($mailType, $element, $customMessage, $option = null)
     {
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
@@ -158,9 +158,12 @@ class MailService
 
         $homeUrl = $this->router->generate('biopen_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
         $userContributionsUrl = $this->router->generate('biopen_user_contributions',array(), UrlGeneratorInterface::ABSOLUTE_URL);
+        $directEditElementUniqueUrl = $this->router->generate('biopen_element_edit',array("id" => $element->getId(), "hash" => $element->getRandomHash()), UrlGeneratorInterface::ABSOLUTE_URL);
+
         $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
         $string = preg_replace('/({{((?:\s)+)?userContributionsUrl((?:\s)+)?}})/i', $userContributionsUrl, $string);
+        $string = preg_replace('/({{((?:\s)+)?directEditElementUniqueUrl((?:\s)+)?}})/i', $directEditElementUniqueUrl, $string);
 
         return $string;
     }
