@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-03 13:36:02
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-02-20 18:13:56
+* @Last Modified time: 2018-02-20 18:36:41
 */ 
 #page-content.register
 {
@@ -35,7 +35,8 @@
   #biopen_user_registration_newsletterFrequency {
     padding-left: 3px;
     label {
-      margin-right: 20px;
+      &:not(:last-child) { margin-right: 40px; }
+      padding-left: 40px;
       @media #{$small-only} {
         display: block;
         margin-bottom: 15px;
