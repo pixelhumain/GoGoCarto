@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:06:47
+ * @Last Modified time: 2018-02-20 12:56:38
  */
  
 
@@ -42,7 +42,7 @@ class ElementInteractionController extends Controller
             $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
 
             $resultMessage = $this->get('biopen.element_vote_service')
-                             ->voteForElement($element, $request->get('value'), $request->get('comment'), $request->get('userEmail'));
+                             ->voteForElement($element, $request->get('value'), $request->get('comment'), $request->get('userMail'));
          
             return $this->returnResponse(true, $resultMessage, $element->getstatus());     
         }
@@ -60,7 +60,7 @@ class ElementInteractionController extends Controller
                 return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à signaler d'erreurs !");
             
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userEmail')) 
+            if (!$request->get('elementId') || $request->get('value') === null || !$request->get('userMail')) 
                 return $this->returnResponse(false,"Les paramètres du signalement sont incomplets");
             
             $em = $this->get('doctrine_mongodb')->getManager(); 
@@ -69,7 +69,7 @@ class ElementInteractionController extends Controller
 
             $report = new UserInteractionReport();    
             $report->setValue($request->get('value'));
-            $report->updateUserInformation($this->container->get('security.context'), $request->get('userEmail'));
+            $report->updateUserInformation($this->container->get('security.context'), $request->get('userMail'));
 
             $comment = $request->get('comment');
             if ($comment) $report->setComment($comment);
@@ -153,7 +153,7 @@ class ElementInteractionController extends Controller
                 return $this->returnResponse(false,"Désolé, vous n'êtes pas autorisé à envoyer des mails !"); 
 
             // CHECK REQUEST IS VALID
-            if (!$request->get('elementId') || !$request->get('subject') || !$request->get('content') || !$request->get('userEmail')) 
+            if (!$request->get('elementId') || !$request->get('subject') || !$request->get('content') || !$request->get('userMail')) 
                 return $this->returnResponse(false,"Les paramètres sont incomplets");
 
             $em = $this->get('doctrine_mongodb')->getManager(); 
@@ -162,7 +162,7 @@ class ElementInteractionController extends Controller
             $securityContext = $this->container->get('security.context');
             $user = $securityContext->getToken()->getUser(); 
 
-            $senderMail = $request->get('userEmail');
+            $senderMail = $request->get('userMail');
             //if ($user && $user->isAdmin()) $senderMail = "contact@presdecheznous.fr"; // TODO replace by gogoconfig contactMail field
 
             // TODO make it configurable
