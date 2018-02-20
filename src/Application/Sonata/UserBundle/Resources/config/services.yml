@@ -2,3 +2,9 @@ services:
   biopen_user.gamification:
     class: Application\Sonata\UserBundle\Services\GamificationService
     arguments: [ "@doctrine.odm.mongoDB.document_manager" ]
+
+  biopen_user.registration.form.type:
+    class: Application\Sonata\UserBundle\Form\Type\RegistrationFormType
+    arguments: [ %fos_user.model.user.class%, %sonata.user.registration.form.options% ]
+    tags:
+      - { name: "form.type", alias: "biopen_user_registration"}
