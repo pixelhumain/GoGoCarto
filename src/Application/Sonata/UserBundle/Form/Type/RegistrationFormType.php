@@ -42,20 +42,11 @@ class RegistrationFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // NEXT_MAJOR: Keep FQCN when bumping Symfony requirement to 2.8+.
-        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-            $textType = 'Symfony\Component\Form\Extension\Core\Type\TextType';
-            $emailType = 'Symfony\Component\Form\Extension\Core\Type\EmailType';
-            $repeatedType = 'Symfony\Component\Form\Extension\Core\Type\RepeatedType';
-            $passwordType = 'Symfony\Component\Form\Extension\Core\Type\PasswordType';
-            $choiceType = 'Symfony\Component\Form\Extension\Core\Type\ChoiceType';
-        } else {
-            $textType = 'text';
-            $emailType = 'email';
-            $repeatedType = 'repeated';
-            $passwordType = 'password';
-            $choiceType = 'choice';
-        }
+        $textType = 'Symfony\Component\Form\Extension\Core\Type\TextType';
+        $emailType = 'Symfony\Component\Form\Extension\Core\Type\EmailType';
+        $repeatedType = 'Symfony\Component\Form\Extension\Core\Type\RepeatedType';
+        $passwordType = 'Symfony\Component\Form\Extension\Core\Type\PasswordType';
+        $choiceType = 'Symfony\Component\Form\Extension\Core\Type\ChoiceType';
 
         $builder
             ->add('username', null, array_merge([
