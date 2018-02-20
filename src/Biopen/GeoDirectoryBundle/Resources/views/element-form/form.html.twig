@@ -27,7 +27,7 @@
 	    <label id="label-owning" for="owning">{{ config.elementFormOwningText | raw }}</label>
 	  </div>
 		
-		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and isAnonymousWithEmail %}
 			<!-- <div style="text-align:center">Marre des captcha ? créez un compte !</div>
 			<div id="captcha-error-message" style="color: #c22525;">Vous devez cocher la case ci-dessous</div>
 			<div id="captcha" class="col s12"></div> -->

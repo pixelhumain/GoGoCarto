@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-20 13:08:33
+ * @Last Modified time: 2018-02-20 15:12:17
  */
  
 
@@ -72,7 +72,7 @@ class ElementFormController extends GoGoController
 		if ($request->get('logout')) $session->remove('userEmail');
 
 		// is user not allowed, we show the contributor-login page
-		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')))
+		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')) && $element->getRandomHash() != $request->get('hash'))
 		{
 			// creating simple form to let user enter a email address
 			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
@@ -111,6 +111,11 @@ class ElementFormController extends GoGoController
 				$user = $session->get('userEmail');
 				$userEmail = $session->get('userEmail');
 			}
+			else if ($element->getRandomHash() == $request->get('hash'))
+			{
+				$user = 'Anonymous with Hash';
+				$userEmail = 'Anonymous with Hash';
+			}
 			else
 			{
 				$user = 'Anonymous';
@@ -126,7 +131,8 @@ class ElementFormController extends GoGoController
 		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration') 
 											  || (!$editMode && in_array('ROLE_DIRECTMODERATION_ADD', $userRoles))
 											  || ($editMode && in_array('ROLE_DIRECTMODERATION_EDIT_OWN_CONTRIB', $userRoles) && $element->hasValidContributionMadeBy($userEmail))
-											  || $isUserOwnerOfValidElement;		
+											  || $isUserOwnerOfValidElement
+											  || $element->getRandomHash() == $request->get('hash');		
 		
 		// create the element form
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
@@ -252,8 +258,8 @@ class ElementFormController extends GoGoController
 				$noticeText .= "</br>Votre contribution est pour l'instant en attente de validation, <a class='validation-process' onclick=\"$('#popup-collaborative-explanation').openModal()\">cliquez ici</a> pour en savoir plus sur le processus de modération collaborative !";
 			}
 
-			$noticeText .= '</br>Retrouvez et modifiez vos contributions sur la page <a href="'.$this->generateUrl('biopen_user_contributions').'">Mes Contributions</a>';
-
+			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') || $session->has('userEmail'))
+				$noticeText .= '</br>Retrouvez et modifiez vos contributions sur la page <a href="'.$this->generateUrl('biopen_user_contributions').'">Mes Contributions</a>';
 			
 			$isAllowedPending = $configService->isUserAllowed('pending');
 
@@ -293,6 +299,7 @@ class ElementFormController extends GoGoController
 						"element" => $element,
 						"userEmail" => $userEmail,
 						"isAllowedDirectModeration" => $isAllowedDirectModeration,
+						"isAnonymousWithEmail" => $session->has('userEmail'),
 						"config" => $configService->getConfig()
 					));
 	}
