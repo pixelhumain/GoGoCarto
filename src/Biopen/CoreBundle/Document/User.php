@@ -16,6 +16,12 @@ use Sonata\UserBundle\Document\BaseUser as BaseUser;
 use Sonata\UserBundle\Model\UserInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+abstract class NewsletterFrequencyOptions
+{
+    const Never = 0;
+    const Weekly = 1;
+    const Monthly = 2;           
+}
 /**
  * @MongoDB\Document
  * @MongoDB\HasLifecycleCallbacks 
@@ -25,7 +31,25 @@ class User extends BaseUser
      /**
      * @MongoDB\Id(strategy="auto")
      */
-    protected $id;
+    protected $id;    
+
+    /**
+     * Address of the user. Can be a simple postalCode, or a more precise address
+     * @MongoDB\Field(type="string")
+     */
+    protected $location;
+
+    /** 
+    * Geolocalisation of the location attribute
+    * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
+    */
+    public $geo;
+
+    /**
+     * See NewsletterFrequencyOptions
+     * @MongoDB\Field(type="int")
+     */
+    protected $newsletterFrequency;
 
     /**
      * @MongoDB\Field(type="int")
@@ -461,5 +485,71 @@ class User extends BaseUser
     public function getVotesCount()
     {
         return $this->votesCount;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     * @return $this
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string $location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set geo
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Coordinates $geo
+     * @return $this
+     */
+    public function setGeo(\Biopen\GeoDirectoryBundle\Document\Coordinates $geo)
+    {
+        $this->geo = $geo;
+        return $this;
+    }
+
+    /**
+     * Get geo
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Coordinates $geo
+     */
+    public function getGeo()
+    {
+        return $this->geo;
+    }
+
+    /**
+     * Set newsletterFrequency
+     *
+     * @param int $newsletterFrequency
+     * @return $this
+     */
+    public function setNewsletterFrequency($newsletterFrequency)
+    {
+        $this->newsletterFrequency = $newsletterFrequency;
+        return $this;
+    }
+
+    /**
+     * Get newsletterFrequency
+     *
+     * @return int $newsletterFrequency
+     */
+    public function getNewsletterFrequency()
+    {
+        return $this->newsletterFrequency;
     }
 }

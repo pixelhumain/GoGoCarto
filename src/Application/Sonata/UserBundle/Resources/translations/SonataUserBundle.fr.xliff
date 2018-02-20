@@ -542,9 +542,17 @@
                 <source>form.password</source>
                 <target>Mot de passe</target>
             </trans-unit>
+            <trans-unit id="form.location">
+                <source>form.location</source>
+                <target>Votre code postal ou votre adresse</target>
+            </trans-unit>
+            <trans-unit id="form.newsletterFrequency">
+                <source>form.newsletterFrequency</source>
+                <target>La fréquence à laquelle vous voulez être tenu informé</target>
+            </trans-unit>
             <trans-unit id="form.password_confirmation">
                 <source>form.password_confirmation</source>
-                <target>Vérification</target>
+                <target>Retapez votre mot de passe</target>
             </trans-unit>
             <trans-unit id="title_user_edit_password">
                 <source>title_user_edit_password</source>
@@ -563,6 +571,7 @@
                 <source>resetting.flash.success</source>
                 <target>Le mot de passe a été réinitialisé avec succès</target>
             </trans-unit>
+
         </body>
     </file>
 </xliff>

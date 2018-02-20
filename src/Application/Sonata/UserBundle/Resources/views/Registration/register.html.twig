@@ -3,43 +3,58 @@
 {% set pageName = 'register' %}
 {% set navTitle = "Créer un compte" %}
 
-{% block fos_user_content %}
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h1 class="panel-title">{{ 'title_user_registration'|trans({}, 'SonataUserBundle') }}</h1>
-        </div>
-        <div class="panel-body">
-            <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+{% block body_content %}
+    <h1 class="panel-title">{{ 'title_user_registration'|trans({}, 'SonataUserBundle') }}</h1>
 
-                {{ form_widget(form) }}
-                <!-- Input adresse element -->
-                {#<div class="input-field">
-                     {{ form_widget(form.username, {'id': 'input-username', 'attr': {'class': 'validate required' } }) }}
-                    <label for="input-username">Nom d'utilisateur</label>                
-                </div> 
+    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register simple-form form-horizontal">
 
-                 <div class="input-field">
-                     {{ form_widget(form.email, {'id': 'input-email', 'attr': {'class': 'validate required' } }) }}
-                    <label for="input-email">Email</label>                
-                </div>  
+        <section>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-account-circle prefix"></i>  
+                {{ form_widget(form.username, {'id': 'input-username', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-username" class="gogo-form-label">Nom d'utilisateur</label>
+            </div>
 
-                 <div class="input-field">
-                     {{ form_widget(form.plainPassword.first, {'id': 'input-passworde', 'attr': {'class': 'validate required' } }) }}
-                    <label for="input-password">Mot de passe</label>                
-                </div>  
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-mail prefix"></i>  
+                {{ form_widget(form.email, {'id': 'input-email', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-email" class="gogo-form-label">Adresse e-mail</label>
+            </div>
 
-                 <div class="input-field">
-                     {{ form_widget(form.plainPassword.second, {'id': 'input-confirme', 'attr': {'class': 'validate required' } }) }}
-                    <label for="input-confirm">Confirmez le mot de passe</label>                
-                </div>   
+            {{ form_errors(form.plainPassword.first) }}
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-lock prefix"></i>  
+                {{ form_widget(form.plainPassword.first, {'id': 'input-plainPassword-1', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-plainPassword-1" class="gogo-form-label">Mot de passe</label>
+            </div>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-lock prefix"></i>  
+                {{ form_widget(form.plainPassword.second, {'id': 'input-plainPassword-2', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-plainPassword-2" class="gogo-form-label">Retapez votre mot de passe</label>
+            </div>
+        </section>
+        <div class="divider"></div>
+        <section>
+            <h2 class="optional">Optionnel</h2>
+            <p class="newsletter-explanation gogo-neutral">Soyez informés des nouveaux points référencés près de chez vous</p>
 
-                {{ form_rest(form) }}#}
+            {{ form_widget(form.newsletterFrequency) }}
 
-                <div class="form-actions">
-                    <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-success pull-right" />
-                </div>
-            </form>
-        </div>
-    </div>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-marker-symbol prefix"></i>  
+                {{ form_widget(form.location, {'id': 'input-location', 'attr': {'class': 'validate'}}) }}
+                <label for="input-location" class="gogo-form-label">Votre code postal ou votre adresse</label>
+            </div>            
 
-{% endblock fos_user_content %}
+            {{ form_errors(form) }}
+            {{ form_rest(form) }}
+
+            <div class="form-actions">
+                <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-success pull-right" />
+            </div>
+        </section>    
+
+        
+    </form>
+
+{% endblock body_content %}

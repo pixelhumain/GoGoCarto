@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-02-20 17:36:33
  */
 jQuery(document).ready(function()
 {	
@@ -38,7 +38,7 @@ jQuery(document).ready(function()
   var inputDescription = $('#input-description');
   var inputDescriptionMore = $('#input-description-more');
   
-  if (inputDescriptionMore.val().length > 0) inputDescriptionMore.parent('.input-field').show();
+  if (inputDescriptionMore.val() && inputDescriptionMore.val().length > 0) inputDescriptionMore.parent('.input-field').show();
 
   inputDescription.on('input', function() {
     if ($(this).hasClass('invalid')) inputDescriptionMore.parent('.input-field').slideDown(800);
