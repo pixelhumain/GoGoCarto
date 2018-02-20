@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-20 15:12:17
+ * @Last Modified time: 2018-02-20 15:36:53
  */
  
 
@@ -135,6 +135,7 @@ class ElementFormController extends GoGoController
 											  || $element->getRandomHash() == $request->get('hash');		
 		
 		// create the element form
+		$element = $editMode && $element->isPending() ? $element->getModifiedElement() : $element;
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
 
 		// when we check for duplicates, we jump to an other action, and coem back to the add action
