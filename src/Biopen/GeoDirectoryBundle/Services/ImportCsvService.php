@@ -45,106 +45,105 @@ class ImportCsvService
 
 	public function import($fileName, $geocode = false, OutputInterface $output = null)
 	{
-	// Getting php array of data from CSV
-	$data = $this->converter->convert($fileName, ',');
+		// Getting php array of data from CSV
+		$data = $this->converter->convert($fileName, ',');
 
-	$this->createOptionsMappingTable();	
+		$this->createOptionsMappingTable();	
 
-	// Define the size of record, the frequency for persisting the data and the current index of records
-	$size = count($data);
-	$batchSize = 50;
-	$i = 1;
+		// Define the size of record, the frequency for persisting the data and the current index of records
+		$size = count($data);
+		$batchSize = 50;
+		$i = 1;
 
-	if ($output) 
-	{
-	  $output->writeln('Element to import length : ' . count($data));
-	  // Starting progress
-	  $progress = new ProgressBar($output, $size);
-	  $progress->start();
-	}
-
-	foreach($data as $row) 
-	{
-		$new_element = new Element();
-
-		$new_element->setName($row['titre']);	 
-
-		$address = new PostalAddress($row['rue'], $row['ville'], $row['codePostal'], "FR");
-		$new_element->setAddress($address);
-		$new_element->setCommitment($row['engagement']);   
-		$new_element->setDescription($row['description courte']);
-		$new_element->setDescriptionMore($row['description longue']);
-
-		if (strlen($row['telephone']) >= 9) $new_element->setTelephone($row['telephone']);
-
-		if ($row['site web'] != 'http://' && $row['site web'] != "https://") $new_element->setWebsite($row['site web']);
-
-		$new_element->setEmail($row['email']);
-		$new_element->setOpenHoursMoreInfos($row['horaires ouverture']);
-		$new_element->setSourceKey($row['source']);	      
-
-		$lat = 0;
-		$lng = 0;
-
-		if (strlen($row['latitude']) > 2 && strlen($row['longitude']) > 2)
+		if ($output) 
 		{
-			$lat = $row['latitude'];
-			$lng = $row['longitude'];
+		  $output->writeln('Element to import length : ' . count($data));
+		  // Starting progress
+		  $progress = new ProgressBar($output, $size);
+		  $progress->start();
 		}
-		else
-		{	      
-			if ($geocode)
+
+		foreach($data as $row) 
+		{
+			$new_element = new Element();
+			$new_element->setOldId($row['id']);	 	
+			$new_element->setName($row['titre']);	 
+
+			$address = new PostalAddress($row['rue'], $row['ville'], $row['codePostal'], "FR");
+			$new_element->setAddress($address);
+			$new_element->setCommitment($row['engagement']);   
+			$new_element->setDescription($row['description courte']);
+			$new_element->setDescriptionMore($row['description longue']);
+
+			if (strlen($row['telephone']) >= 9) $new_element->setTelephone($row['telephone']);
+
+			if ($row['site web'] != 'http://' && $row['site web'] != "https://") $new_element->setWebsite($row['site web']);
+
+			$new_element->setEmail($row['email']);
+			$new_element->setOpenHoursMoreInfos($row['horaires ouverture']);
+			$new_element->setSourceKey($row['source']);	      
+
+			$lat = 0;
+			$lng = 0;
+
+			if (strlen($row['latitude']) > 2 && strlen($row['longitude']) > 2)
 			{
-				try 
-			   {
-			   	$result = $this->geocoder->geocode($address)->first();
-			   	$lat = $result->getLatitude();
-			   	$lng = $result->getLongitude();	
-			   }
-			   catch (\Exception $error) { }    
+				$lat = $row['latitude'];
+				$lng = $row['longitude'];
 			}
-		} 
+			else
+			{	      
+				if ($geocode)
+				{
+					try 
+				   {
+				   	$result = $this->geocoder->geocode($address)->first();
+				   	$lat = $result->getLatitude();
+				   	$lng = $result->getLongitude();	
+				   }
+				   catch (\Exception $error) { }    
+				}
+			} 
 
-		if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
+			if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 
-		$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
+			$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 
-		$this->parseOptionValues($new_element, $row);
+			$this->parseOptionValues($new_element, $row);
 
-		$this->elementActionService->import($new_element);     
+			$this->elementActionService->import($new_element);     
 
-		$this->em->persist($new_element);
+			$this->em->persist($new_element);
 
-		// Each 20 users persisted we flush everything
-		if (($i % $batchSize) === 0)
-		{
-		   $this->em->flush();
-		   $this->em->clear();
-		   
-		   if ($output) 
-		   {
-				// Advancing for progress display on console
-		      $progress->advance($batchSize);				
-		      $now = new \DateTime();
-		      $output->writeln(' of users imported ... | ' . $now->format('d-m-Y G:i:s'));
-		    }
+			// Each 20 users persisted we flush everything
+			if (($i % $batchSize) === 0)
+			{
+			   $this->em->flush();
+			   $this->em->clear();
+			   
+			   if ($output) 
+			   {
+					// Advancing for progress display on console
+			      $progress->advance($batchSize);				
+			      $now = new \DateTime();
+			      $output->writeln(' of users imported ... | ' . $now->format('d-m-Y G:i:s'));
+			    }
+			}
+
+			$i++;
 		}
 
-		$i++;
+		dump($this->optionsMissing);
+
+		dump($new_element);
+
+		// Flushing and clear data on queue
+		$this->em->flush();
+		$this->em->clear();	  
+
+		// Ending the progress bar process
+		if ($output) $progress->finish();
 	}
-
-	dump($this->optionsMissing);
-
-	dump($new_element);
-
-	// Flushing and clear data on queue
-	$this->em->flush();
-	$this->em->clear();	  
-
-	// Ending the progress bar process
-	if ($output) $progress->finish();
-	}
-
 
 	private function createOptionsMappingTable()
 	{

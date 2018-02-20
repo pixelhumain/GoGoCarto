@@ -42,4 +42,9 @@ services:
 
     biopen.import_csv:
        class: Biopen\GeoDirectoryBundle\Services\ImportCsvService
-       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.csvtoarray", '@bazinga_geocoder.geocoder', "@biopen.element_action_service" ]
+       arguments: 
+          - "@doctrine.odm.mongoDB.document_manager"
+          - "@biopen.csvtoarray"
+          - '@bazinga_geocoder.geocoder'
+          - "@biopen.element_action_service"
+          - "@biopen.element_duplicates_service"
