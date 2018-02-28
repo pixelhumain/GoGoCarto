@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-09-26 17:09:42
+ * @Last Modified time: 2018-02-28 13:19:01
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation\Expose;
 class OptionValue
 {
 	/** @MongoDB\Id */
-   private $id;
+    private $id;
 
 	/**
 	* @Expose
@@ -34,6 +34,15 @@ class OptionValue
     * @MongoDB\Field(type="int") 
     */
 	public $index = 0;
+
+    public function toJson()
+    {
+        $result = "{";
+        $result .=  '"categoryId":"'   . $this->optionId . '"';
+        $result .=', "description":"'  . $this->description . '"';
+        $result .= "}";
+        return $result;
+    }
 
     /**
      * Get id
@@ -109,5 +118,10 @@ class OptionValue
     public function getOptionId()
     {
         return $this->optionId;
+    }
+
+    public function getStringOptionId()
+    {
+        return strval($this->optionId);
     }
 }

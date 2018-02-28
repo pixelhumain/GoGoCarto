@@ -21,7 +21,14 @@ class Taxonomy
      *
      * @MongoDB\Field(type="string")
      */
-    private $mainCategoryJson;    
+    private $mainCategoryJson; 
+
+    /**
+     * @var string
+     *
+     * @MongoDB\Field(type="string")
+     */
+    private $optionsJson;    
 
     /**
     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category",cascade={"all"}, orphanRemoval="true")
@@ -131,5 +138,27 @@ class Taxonomy
     public function getOpenHoursCategoryJson()
     {
         return $this->openHoursCategoryJson;
+    }
+
+    /**
+     * Set optionsJson
+     *
+     * @param string $optionsJson
+     * @return $this
+     */
+    public function setOptionsJson($optionsJson)
+    {
+        $this->optionsJson = $optionsJson;
+        return $this;
+    }
+
+    /**
+     * Get optionsJson
+     *
+     * @return string $optionsJson
+     */
+    public function getOptionsJson()
+    {
+        return $this->optionsJson;
     }
 }

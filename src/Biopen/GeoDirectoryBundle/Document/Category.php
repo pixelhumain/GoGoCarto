@@ -4,10 +4,10 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\AccessorOrder;
 
 /**
  * Category
- * 
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\CategoryRepository")
  */
 class Category
@@ -31,13 +31,7 @@ class Category
      * @Exclude(if="object.getNameShort() == object.getName()")
      * @MongoDB\Field(type="string")
      */
-    private $nameShort;
-
-    /**
-    * @Exclude(if="object.getOptionsCount() == 0")
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
-    */
-    private $options; 
+    private $nameShort;    
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", inversedBy="subcategories")
@@ -120,6 +114,12 @@ class Category
      * @MongoDB\Field(type="boolean")
      */
     private $isMainNode = false;
+
+    /**
+    * @Exclude(if="object.getOptionsCount() == 0")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Option", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
+    */
+    private $options; 
 
 
     public function __construct()

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-20 12:37:44
+ * @Last Modified time: 2018-02-28 13:27:27
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -402,24 +402,26 @@ class Element
 
         $optValuesLength = count($sortedOptionsValues);
 
-        // OPTIONS VALUES
-        $fullJson .= ', "optionValues": [';
+        // OPTIONS VALUES IDS
+        $fullJson .= ', "categories": [';
         if ($sortedOptionsValues)
         {            
             for ($i=0; $i < $optValuesLength; $i++) { 
-                $value = $sortedOptionsValues[$i];
-
-                if ($value->getDescription()) 
-                    $optionValueJson =  '[' . $value->getOptionId() . ',' . json_encode($value->getDescription()) . ']';
-                else 
-                    $optionValueJson =  $value->getOptionId();  
-
-                $fullJson .= $optionValueJson;
-                $fullJson .= ',';
+                $fullJson .= '"' . $sortedOptionsValues[$i]->getOptionId() . '",';
             }
         }
         $fullJson = rtrim($fullJson, ',');
         $fullJson .= ']';
+
+        // OPTIONS VALUES WITH DESCRIPTIONS        
+        $optionDescriptionsJson = [];
+        if ($sortedOptionsValues)
+        {            
+            for ($i=0; $i < $optValuesLength; $i++) {
+                if ($sortedOptionsValues[$i]->getDescription()) $optionDescriptionsJson[] =  $sortedOptionsValues[$i]->toJson();
+            }
+        }
+        if (count($optionDescriptionsJson)) $fullJson .= ', "categoriesDescriptions": [' . implode(",", $optionDescriptionsJson) . ']';
 
         if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
         $fullJson .= '}';

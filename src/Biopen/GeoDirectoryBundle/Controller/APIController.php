@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-02-11 14:37:47
+ * @Last Modified time: 2018-02-28 12:52:00
  */
  
 
@@ -21,6 +21,7 @@ use Biopen\GeoDirectoryBundle\Form\ElementType;
 use Biopen\GeoDirectoryBundle\Document\ElementProduct;
 use Biopen\GeoDirectoryBundle\Document\Product;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Wantlet\ORM\Point;
@@ -39,16 +40,18 @@ class APIController extends Controller
   **/
   public function getElementsAction(Request $request, $id = null, $_format = 'json')
   {
-    if ($request->isXmlHttpRequest())
+    if ($request->isXmlHttpRequest() || $request->get('test'))
     {
       $em = $this->get('doctrine_mongodb')->getManager();
       $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
       $isAdmin = $this->isUserAdmin();
 
-      $limit = $request->get('limit');
+      $jsonLdRequest = $this->isJsonLdRequest($request, $_format);
+
+      $limit = $request->get('test') ? 10 : $request->get('limit');
       $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
-      $fullRepresentation =  $ontology == "gogofull";
+      $fullRepresentation =  $jsonLdRequest || $ontology != "gogocompact";
       $elementId = $id ? $id : $request->get('id');
       $mainOptionId = $request->get('mainOptionId');
 
@@ -77,7 +80,7 @@ class APIController extends Controller
         $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin);        
       }   
 
-      if ($_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json')
+      if ($jsonLdRequest)
       {
         $responseJson = '{
           "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/context-gogo.jsonld",
@@ -104,22 +107,44 @@ class APIController extends Controller
     }
   }  
 
-  public function getTaxonomyAction(Request $request)
+  public function getTaxonomyAction(Request $request, $id = null, $_format = 'json')
   {
-    if($request->isXmlHttpRequest())
-    {
-      $em = $this->get('doctrine_mongodb')->getManager();
-      
-      $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategoryJson();
+    $em = $this->get('doctrine_mongodb')->getManager();
 
-      $response = new Response($taxonomy);  
-      $response->headers->set('Content-Type', 'application/json');
-      return $response;
-    }
-    else 
+    $optionId = $id ? $id : $request->get('id');
+    $jsonLdRequest = $this->isJsonLdRequest($request, $_format);
+
+    if ($optionId)
     {
-      return new Response("Access to the API is restricted and not allowed via the browser");
+      $serializer = $this->get('jms_serializer');
+      $option = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findOneBy(array('id' => $optionId));
+      $serializationContext = $jsonLdRequest ? SerializationContext::create()->setGroups(['semantic']) : null;
+      $dataJson = $serializer->serialize($option, 'json', $serializationContext);
+      if ($jsonLdRequest) $dataJson = '[' . $dataJson . ']';
     }
+    else
+    {
+      $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson();
+      $dataJson = $jsonLdRequest ? $taxonomy['optionsJson'] : $taxonomy['mainCategoryJson'];
+    }    
+    
+
+    if ($jsonLdRequest)
+      $responseJson = '{
+          "@context" : "https://rawgit.com/jmvanel/rdf-convert/master/pdcn-taxonomy/taxonomy.context.jsonld",
+          "@graph"   :  '. $dataJson . '
+        }';
+    else
+      $responseJson = $dataJson;
+
+    $response = new Response($responseJson);  
+    $response->headers->set('Content-Type', 'application/json');
+    return $response;
+  }
+
+  private function isJsonLdRequest($request, $_format)
+  {
+    return $_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json';
   }
 
   public function getElementsFromTextAction(Request $request)

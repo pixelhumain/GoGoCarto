@@ -4,6 +4,8 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Option
@@ -15,32 +17,31 @@ class Option
 {
     /**
      * @var int
-     *
+     * @Accessor(getter="getStringId",setter="setId") 
+     * @Groups({"semantic"})
      * @MongoDB\Id(strategy="INCREMENT") 
      */
     private $id;
 
     /**
-     * @var string
-     *
+     * @var string   
+     * @Groups({"semantic"})
      * @MongoDB\Field(type="string")
      */
     private $name;
 
     /**
      * @var string
+     * @Groups({"semantic"})
      * @Exclude(if="object.getNameShort() == object.getName()")
      * @MongoDB\Field(type="string")
      */
     private $nameShort;
-
+    
     /**
-    * @Exclude(if="object.getSubcategoriesCount() == 0")
-    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
-    */
-    private $subcategories; 
-
-    /**
+     * @Accessor(getter="getParentOptionId")
+     * @Groups({"semantic"})
+     * @Exclude(if="object.getParentOptionId() == null")
      * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options")
      */
     public $parent;
@@ -54,7 +55,7 @@ class Option
 
     /**
      * @var string
-     *
+     * @Groups({"semantic"})
      * @MongoDB\Field(type="string")
      */
     private $color;
@@ -68,12 +69,14 @@ class Option
 
     /**
      * @var string
+     * @Groups({"semantic"})
      * @MongoDB\Field(type="string")
      */
     private $icon;
 
     /**
      * @var string
+     * @Groups({"semantic"})
      * @Exclude(if="object.getTextHelper() == ''")
      * @MongoDB\Field(type="string")
      */
@@ -122,6 +125,13 @@ class Option
      */
     private $isFixture = false;
 
+    /**
+    * @Exclude(if="object.getSubcategoriesCount() == 0")
+    * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", mappedBy="parent",cascade={"all"}, sort={"index"="ASC"})
+    */
+    private $subcategories;
+
+
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
@@ -144,6 +154,12 @@ class Option
     {
         if (!$this->parent) return null;
         return $this->parent->parent;
+    }
+
+    public function getParentOptionId()
+    {
+        $parent = $this->getParentOption();
+        return $parent ? $parent->getStringId() : null;
     }
 
     public function getIdAndParentOptionIds()
@@ -177,6 +193,11 @@ class Option
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getStringId()
+    {
+        return strval($this->id);
     }
 
     public function setId() 

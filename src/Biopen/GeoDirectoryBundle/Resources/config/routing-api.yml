@@ -1,8 +1,18 @@
-biopen_api_taxonomy:
-    path:     /taxonomy
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy }
+biopen_api_taxonomy_show:
+    path:     /taxonomy/{id}.{_format}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }
     requirements:
         _method: GET
+        _format: json|jsonld
+    options:
+        expose: true
+
+biopen_api_taxonomy:
+    path:     /taxonomy.{_format}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }
+    requirements:
+        _method: GET
+        _format: json|jsonld
     options:
         expose: true
 
