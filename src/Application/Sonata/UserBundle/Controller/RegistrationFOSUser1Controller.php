@@ -32,7 +32,7 @@ class RegistrationFOSUser1Controller extends Controller
     /**
      * @return RedirectResponse|Response
      */
-    public function registerAction()
+    public function registerAction($request = null)
     {
         $user = $this->getUser();
 
@@ -43,10 +43,10 @@ class RegistrationFOSUser1Controller extends Controller
         }
         
         $form = $this->get('form.factory')->create(RegistrationFormType::class, new User());
-        $formHandler = $this->get('sonata.user.registration.form.handler');
+        $formHandler = $this->get('biopen.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
 
-        $process = $formHandler->process($confirmationEnabled);
+        $process = $formHandler->process($form, $confirmationEnabled);
         if ($process) {
             $user = $form->getData();
 
@@ -59,12 +59,6 @@ class RegistrationFOSUser1Controller extends Controller
                 $route = $this->get('session')->get('sonata_basket_delivery_redirect');
 
                 if (null !== $route) {
-                    // NEXT_MAJOR: remove the if block
-                    @trigger_error(<<<'EOT'
-Setting a redirect url in the sonata_basket_delivery_redirect session variable
-is deprecated since 3.2 and will no longer result in a redirection to this url in 4.0.
-EOT
-                    , E_USER_DEPRECATED);
                     $this->get('session')->remove('sonata_basket_delivery_redirect');
                     $url = $this->generateUrl($route);
                 } else {

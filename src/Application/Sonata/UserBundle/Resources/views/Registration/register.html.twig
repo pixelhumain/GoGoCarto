@@ -9,24 +9,29 @@
     <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register simple-form form-horizontal">
 
         <section>
+            <div class="error">{{ form_errors(form) }}</div>
+            
+            <div class="error">{{ form_errors(form.username) }}
             <div class="input-field col s12">
                 <i class="material-icons gogo-icon-account-circle prefix"></i>  
                 {{ form_widget(form.username, {'id': 'input-username', 'attr': {'class': 'validate required'}}) }}
                 <label for="input-username" class="gogo-form-label">Nom d'utilisateur</label>
             </div>
 
+            <div class="error">{{ form_errors(form.email) }}</div>
             <div class="input-field col s12">
                 <i class="material-icons gogo-icon-mail prefix"></i>  
                 {{ form_widget(form.email, {'id': 'input-email', 'attr': {'class': 'validate required'}}) }}
                 <label for="input-email" class="gogo-form-label">Adresse e-mail</label>
             </div>
 
-            {{ form_errors(form.plainPassword.first) }}
+            <div class="error">{{ form_errors(form.plainPassword.first) }}</div>
             <div class="input-field col s12">
                 <i class="material-icons gogo-icon-lock prefix"></i>  
                 {{ form_widget(form.plainPassword.first, {'id': 'input-plainPassword-1', 'attr': {'class': 'validate required'}}) }}
                 <label for="input-plainPassword-1" class="gogo-form-label">Mot de passe</label>
             </div>
+            <div class="error">{{ form_errors(form.plainPassword.second) }}</div>
             <div class="input-field col s12">
                 <i class="material-icons gogo-icon-lock prefix"></i>  
                 {{ form_widget(form.plainPassword.second, {'id': 'input-plainPassword-2', 'attr': {'class': 'validate required'}}) }}
@@ -36,17 +41,23 @@
         <div class="divider"></div>
         <section>
             <h2 class="optional">Optionnel</h2>
-            <p class="newsletter-explanation gogo-neutral">Soyez informés des nouveaux points référencés près de chez vous</p>
+            <p class="newsletter-explanation gogo-neutral">Soyez informé par mail des nouveaux points référencés près de chez vous !</p>
 
-            {{ form_widget(form.newsletterFrequency) }}
+            {{ form_widget(form.newsletterFrequency, { 'id': "select-newsletterFrequency"}) }}
 
+            <div class="error" style="margin-top: 15px">{{ form_errors(form.location) }}</div>
             <div class="input-field col s12">
                 <i class="material-icons gogo-icon-marker-symbol prefix"></i>  
                 {{ form_widget(form.location, {'id': 'input-location', 'attr': {'class': 'validate'}}) }}
                 <label for="input-location" class="gogo-form-label">Votre code postal ou votre adresse</label>
-            </div>            
+            </div>
 
-            {{ form_errors(form) }}
+            {#<i class="material-icons gogo-icon-filters-1 range-icon-prefix"></i>  
+            <div class="range-field col s12">                
+                <label class="gogo-form-label active">Rayon de recherche en kilomètres</label>
+                {{ form_widget(form.range, {'id': 'input-range'}) }}
+            </div>#}
+
             {{ form_rest(form) }}
 
             <div class="form-actions">

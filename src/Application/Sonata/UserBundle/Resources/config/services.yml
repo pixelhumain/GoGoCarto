@@ -8,3 +8,13 @@ services:
     arguments: [ %fos_user.model.user.class%, %sonata.user.registration.form.options% ]
     tags:
       - { name: "form.type", alias: "biopen_user_registration"}
+
+  biopen.registration.form.handler:
+    class: Application\Sonata\UserBundle\Form\Handler\RegistrationFormHandler
+    scope: "request"
+    arguments:
+      - "@request"
+      - "@fos_user.user_manager"
+      - "@fos_user.mailer"
+      - "@fos_user.util.token_generator"
+      - "@bazinga_geocoder.geocoder"
