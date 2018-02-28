@@ -3,328 +3,332 @@
 @import 'vendors/timepicki';
 //@import 'vendors/leaflet';
 
-@import "components/element-form/category-field";
+.gogo-load-css 
+{
+  @import "components/element-form/category-field";
 
-label { color: inherit; }
+  label { color: inherit; }
 
-label.gogo-form-label { 
+  label.gogo-form-label { 
 
-  background-color: white;
+    background-color: white;
 
-  &.active { 
-    font-weight: bold;
-    .more { display: none; }
+    &.active { 
+      font-weight: bold;
+      .more { display: none; }
+    }
+
+    &:after {
+      font-weight: normal;
+      top: 2.5rem !important;
+    }
+
+    .more {
+      font-size: .9rem;
+      font-style: italic;
+    }
   }
 
-  &:after {
-    font-weight: normal;
-    top: 2.5rem !important;
+  .invalid-required {
+    @extend .invalid;
   }
 
-  .more {
-    font-size: .9rem;
+  i.prefix.invalid {
+    color: $error-color !important;
+  }
+
+  .invalid + label:after, .invalid:focus + label:after {
+    display: inline !important;
+    position: initial !important;
+    margin-left: .5rem !important;
+    font-weight: bold !important;
+  }
+
+  i.material-icons {
+      top: 4px;
+      &.openhours-icons { line-height: 3.2rem; }
+  }
+
+  .input-field.error .prefix
+  {
+    color: $error-color !important;
+  }
+  .input-field.error textarea:not(:focus)
+  {
+    border-color: $error-color;
+  }
+
+  .invalid-required + label.gogo-form-label {
+    &:after, .more { display:none !important; }
+  }
+
+  .input-field label
+  {
+    left: 0 !important;
+  }
+
+  @media #{$medium-and-up} { #input-address { width: calc(100% - 13rem); } }
+
+  #input-address-field.error:after
+  {
+    content: "Impossible de localiser cette adresse";
+    position: absolute;
+    width: 600px;
+    top: 3.5rem;
+    color: $error-color;
+    font-weight:bold;
+    left: 3rem;
+    font-size: .8rem;
+    font-style: normal;
+  }
+
+  h1, h2, label {
+    &.error { color: $error-color; }
+  }
+
+  @media #{$small-only} {
+    h2 { text-align: left}
+    h2 .optional { right: 1rem !important;}
+  }
+
+  .input-field textarea { padding-bottom: 12px !important; }
+
+  #section-validate-and-send
+  {
+    margin-bottom: 2rem;
+  }
+
+  #section_vos_infos
+  {
+    padding-bottom: 1rem;
+  }
+
+  .element-form-submit-btn
+  {
+    margin-top: 1.5rem;
+  }
+
+  .element-form-cancel-btn {
+    display: block;
+    margin-top: 1.5rem;
+  }
+
+  #element-form-title
+  {
+    padding-top: 2rem;
+    background-color: #fafafa;
+    margin-bottom: 5px !important;
+    @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
+  }
+
+  #input-website
+  {
+    margin-bottom: 2rem;
+  }
+
+  #section_element
+  {
+    margin-bottom: 0px;
+    height: 8rem;
+  }
+
+  #section_products
+  {
+    .dropdown-content
+    {
+      max-height: 350px;
+    }
+
+    input[type="checkbox"].readonly  + label:before
+    {
+        border-right: 2px solid #aaa;
+        border-bottom: 2px solid #aaa;
+    }
+  }
+
+  .logged-info
+  {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
     font-style: italic;
+    text-align: center;
   }
-}
 
-.invalid-required {
-  @extend .invalid;
-}
-
-i.prefix.invalid {
-  color: $error-color !important;
-}
-
-.invalid + label:after, .invalid:focus + label:after {
-  display: inline !important;
-  position: initial !important;
-  margin-left: .5rem !important;
-  font-weight: bold !important;
-}
-
-i.material-icons {
-    top: 4px;
-    &.openhours-icons { line-height: 3.2rem; }
-}
-
-.input-field.error .prefix
-{
-  color: $error-color !important;
-}
-.input-field.error textarea:not(:focus)
-{
-  border-color: $error-color;
-}
-
-.invalid-required + label.gogo-form-label {
-  &:after, .more { display:none !important; }
-}
-
-.input-field label
-{
-  left: 0 !important;
-}
-
-@media #{$medium-and-up} { #input-address { width: calc(100% - 13rem); } }
-
-#input-address-field.error:after
-{
-  content: "Impossible de localiser cette adresse";
-  position: absolute;
-  width: 600px;
-  top: 3.5rem;
-  color: $error-color;
-  font-weight:bold;
-  left: 3rem;
-  font-size: .8rem;
-  font-style: normal;
-}
-
-h1, h2, label {
-  &.error { color: $error-color; }
-}
-
-@media #{$small-only} {
-  h2 { text-align: left}
-  h2 .optional { right: 1rem !important;}
-}
-
-.input-field textarea { padding-bottom: 12px !important; }
-
-#section-validate-and-send
-{
-  margin-bottom: 2rem;
-}
-
-#section_vos_infos
-{
-  padding-bottom: 1rem;
-}
-
-.element-form-submit-btn
-{
-  margin-top: 1.5rem;
-}
-
-.element-form-cancel-btn {
-  display: block;
-  margin-top: 1.5rem;
-}
-
-#element-form-title
-{
-  padding-top: 2rem;
-  background-color: #fafafa;
-  margin-bottom: 5px !important;
-  @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
-}
-
-#input-website
-{
-  margin-bottom: 2rem;
-}
-
-#section_element
-{
-  margin-bottom: 0px;
-  height: 8rem;
-}
-
-#section_products
-{
-  .dropdown-content
+  #captcha { margin-top: 1rem;}
+  #captcha > div 
   {
-    max-height: 350px;
+      margin: 0 auto;
+      margin-bottom: 1rem;
   }
 
-  input[type="checkbox"].readonly  + label:before
+  #captcha-error-message
   {
-      border-right: 2px solid #aaa;
-      border-bottom: 2px solid #aaa;
+    display:none;
+    text-align: center;
+    margin: .5rem 0;
   }
-}
+      
 
-.logged-info
-{
-  margin-top: 1rem;
-  margin-bottom: .5rem;
-  font-style: italic;
-  text-align: center;
-}
+  .rc-anchor
+  {
+    @include box-shadow-1(none);
+  }
 
-#captcha { margin-top: 1rem;}
-#captcha > div 
-{
-    margin: 0 auto;
-    margin-bottom: 1rem;
-}
+  .rc-anchor-light
+  {
+    border: none !important;
+  }
 
-#captcha-error-message
-{
-  display:none;
-  text-align: center;
-  margin: .5rem 0;
-}
-    
+  // ---------------------------------------
+  //             MAP
+  // ---------------------------------------
+  #address-preview-map
+  {
+    height:13rem;
+    margin-top: 1.5rem;
+    border-radius: 5px;
+    z-index: 500;
+    //border: 2px solid #D0CCCC;
+  }
 
-.rc-anchor
-{
-  @include box-shadow-1(none);
-}
+  a.leaflet-control-zoom-in {
+      font-size: 18px !important;
+      color: #3d3d3d;
+  }
 
-.rc-anchor-light
-{
-  border: none !important;
-}
+  a.leaflet-control-zoom-out {
+      font-size: 25px! important;
+      font-weight: normal;
+      color: #3d3d3d;
+      text-indent: 0;
+  }
 
-// ---------------------------------------
-//             MAP
-// ---------------------------------------
-#address-preview-map
-{
-  height:13rem;
-  margin-top: 1.5rem;
-  border-radius: 5px;
-  z-index: 500;
-  //border: 2px solid #D0CCCC;
-}
+  #geocode-spinner-loader
+  {
+    display:none;
+    position: absolute;
+    bottom: 50%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+  }
 
-a.leaflet-control-zoom-in {
-    font-size: 18px !important;
-    color: #3d3d3d;
-}
+  .copy-hours-col {
+      margin-left: -7px !important;
+      margin-right: 7px !important;
+   }
 
-a.leaflet-control-zoom-out {
-    font-size: 25px! important;
-    font-weight: normal;
-    color: #3d3d3d;
-    text-indent: 0;
-}
-
-#geocode-spinner-loader
-{
-  display:none;
-  position: absolute;
-  bottom: 50%;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.copy-hours-col {
-    margin-left: -7px !important;
-    margin-right: 7px !important;
- }
-
-.btn-geolocalize
-{
-  margin-top: .5rem;  
-  @media screen and (min-width: 600px) { float: right; width: auto; margin-top: 1rem;  }
-  width: 100%;
-  font-size: .9rem;
-  height: 2rem !important;
-  line-height: 2rem !important;
-  padding: 0 1.3rem !important;
-}
+  .btn-geolocalize
+  {
+    margin-top: .5rem;  
+    @media screen and (min-width: 600px) { float: right; width: auto; margin-top: 1rem;  }
+    width: 100%;
+    font-size: .9rem;
+    height: 2rem !important;
+    line-height: 2rem !important;
+    padding: 0 1.3rem !important;
+  }
 
 
-// ---------------------------------------
-//             TYPE PRODUIT
-// ---------------------------------------
-[type="checkbox"] + label {
-    padding-left: 26px;
-}
-
-@media screen and (min-width: 600px)
-{
+  // ---------------------------------------
+  //             TYPE PRODUIT
+  // ---------------------------------------
   [type="checkbox"] + label {
-      padding-left: 32px;
+      padding-left: 26px;
   }
-}
 
-#section_vos_infos 
-{
-  margin-bottom: 0;
-}
-
-.checkbox-container  [type="checkbox"] + label
-{
-  padding-left: 42px;
-  &:before {
-    left: 4px;
+  @media screen and (min-width: 600px)
+  {
+    [type="checkbox"] + label {
+        padding-left: 32px;
+    }
   }
+
+  #section_vos_infos 
+  {
+    margin-bottom: 0;
+  }
+
+  .checkbox-container  [type="checkbox"] + label
+  {
+    padding-left: 42px;
+    &:before {
+      left: 4px;
+    }
+  }
+
+  #precisions
+  {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .label_precision
+  {
+    color:#5A5959 !important;
+    font-weight: bold !important;
+  }
+
+
+  // ---------------------------------------
+  //               HORAIRES
+  // ---------------------------------------
+  .second-line-slot {
+      display: none !important;
+      @include transition(all 1s);
+      opacity: 0; 
+      height: 0;
+  }
+
+  .second-line-slot.active {
+      opacity: 1;
+      display: flex !important;
+      height: 100%;
+
+  }
+
+  .open-hours-day
+  {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .open-hours-container
+  {
+    padding: .2rem 0 .6rem .5rem;
+  }
+
+  .open-hours-container.impair
+  {
+    background-color: #EFEFEF;
+  }
+
+  .timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4
+  {
+    height: 2rem !important;
+    margin: 0 !important;
+  }
+
+  .btn-floating i {
+    color: rgb(52, 52, 52) !important;
+  }
+
+  .col
+  {
+    padding: 0 !important;
+  }
+
+  .add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover
+  {
+    color: $secondary-color;
+    @include transition(color 0.5s);
+  }
+  .redo-time-slot-button { line-height: 3rem; }
 }
 
-#precisions
-{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.label_precision
-{
-  color:#5A5959 !important;
-  font-weight: bold !important;
-}
-
-
-// ---------------------------------------
-//               HORAIRES
-// ---------------------------------------
-.second-line-slot {
-    display: none !important;
-    @include transition(all 1s);
-    opacity: 0; 
-    height: 0;
-}
-
-.second-line-slot.active {
-    opacity: 1;
-    display: flex !important;
-    height: 100%;
-
-}
-
-.open-hours-day
-{
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.open-hours-container
-{
-  padding: .2rem 0 .6rem .5rem;
-}
-
-.open-hours-container.impair
-{
-  background-color: #EFEFEF;
-}
-
-.timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4
-{
-  height: 2rem !important;
-  margin: 0 !important;
-}
-
-.btn-floating i {
-  color: rgb(52, 52, 52) !important;
-}
-
-.col
-{
-  padding: 0 !important;
-}
-
-.add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover
-{
-  color: $secondary-color;
-  @include transition(color 0.5s);
-}
-.redo-time-slot-button { line-height: 3rem; }
     
 
 

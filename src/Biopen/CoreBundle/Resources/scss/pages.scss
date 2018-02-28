@@ -1,133 +1,137 @@
 @import 'partials/base';
 
-@import 'partials/header';
-@import 'partials/flash-messages';
-
-@import 'pages/partner';
-@import 'pages/contributor-login';
-@import 'pages/element-form';
-@import 'pages/check-for-duplicates';
-@import 'pages/register';
-@import 'pages/error';
-@import 'pages/directory';
-@import 'pages/user-contributions';
-
-@import 'components/wysiwyg-content';
-
-body
+.gogo-load-css
 {
-  height: auto;
-  min-height: 100%;
-  @include flexbox();
-}
 
-header
-{
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
+  @import 'partials/header';
+  @import 'partials/flash-messages';
 
-#page-container
-{
-  padding-top: 3rem;
+  @import 'pages/partner';
+  @import 'pages/contributor-login';
+  @import 'pages/element-form';
+  @import 'pages/check-for-duplicates';
+  @import 'pages/register';
+  @import 'pages/error';
+  @import 'pages/directory';
+  @import 'pages/user-contributions';
 
-  @media only screen and (min-width : 701px)
+  @import 'components/wysiwyg-content';
+
+  body
   {
-    padding-top: 3.5rem;
+    height: auto;
+    min-height: 100%;
+    @include flexbox();
   }
-}
 
-#page-content
-{
-	position:relative;
-  margin-top: 0;
-	margin-left: auto;
-  margin-right: auto; 
-	width:100%;	  
-  padding: 0rem; 
-
-  @media screen and (min-width: 600px)
-	{
-	   margin-top: 30px;
-	   max-width: 900px;
-	   width:80%;  
-	}
-}
-
-section
-{
-  padding: 1rem;
-  background-color : transparent;
-
-  @media screen and (min-width: 600px)
+  header
   {
-    padding: 2rem 3.5rem 2rem 2.5rem;
-    margin-bottom: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
   }
-}
 
-.divider 
-{    
-    overflow: hidden;
-    border-bottom: 2px dashed;
-    overflow: hidden;
-    background-color: transparent;
-    margin-bottom: 1rem;
+  #page-container
+  {
+    padding-top: 3rem;
+
+    @media only screen and (min-width : 701px)
+    {
+      padding-top: 3.5rem;
+    }
+  }
+
+  #page-content
+  {
+  	position:relative;
+    margin-top: 0;
+  	margin-left: auto;
+    margin-right: auto; 
+  	width:100%;	  
+    padding: 0rem; 
+
+    @media screen and (min-width: 600px)
+  	{
+  	   margin-top: 30px;
+  	   max-width: 900px;
+  	   width:80%;  
+  	}
+  }
+
+  section
+  {
+    padding: 1rem;
+    background-color : transparent;
 
     @media screen and (min-width: 600px)
     {
-      display:none,
-      // height: 1rem;
-      // border-bottom: none;
-      // margin: 0
+      padding: 2rem 3.5rem 2rem 2.5rem;
+      margin-bottom: 1rem;
     }
-}
-
-// ---------------------------------------
-//          MISE EN PAGE GENERALE
-// --------------------------------------- 
-h1
-{
-  font-size: 2.5rem;
-  text-align: center;
-  padding-top: .5rem;
-  margin-top: 0;
-
-   @media screen and (min-width: 600px) { font-size: 3.5rem; }
-}
-
-h2
-{
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin: 0.5rem 0 1.3rem 0;
-  color: #3d3d3d;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-
-h2.error, h1.error
-{
-  font-weight: normal;
-}
-
-h2.no-margin-bottom
-{
-  margin-bottom: 0;
-}
-
-.btn-biopen
-{
-  &.small
-  {
-    font-size: .85rem;
-    line-height: 2rem;
-    height: 2rem;
-    padding: 0 15px;
   }
 
-  height: auto
+  .divider 
+  {    
+      overflow: hidden;
+      border-bottom: 2px dashed;
+      overflow: hidden;
+      background-color: transparent;
+      margin-bottom: 1rem;
+
+      @media screen and (min-width: 600px)
+      {
+        display:none,
+        // height: 1rem;
+        // border-bottom: none;
+        // margin: 0
+      }
+  }
+
+  // ---------------------------------------
+  //          MISE EN PAGE GENERALE
+  // --------------------------------------- 
+  h1
+  {
+    font-size: 2.5rem;
+    text-align: center;
+    padding-top: .5rem;
+    margin-top: 0;
+
+     @media screen and (min-width: 600px) { font-size: 3.5rem; }
+  }
+
+  h2
+  {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 0.5rem 0 1.3rem 0;
+    color: #3d3d3d;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+
+  h2.error, h1.error
+  {
+    font-weight: normal;
+  }
+
+  h2.no-margin-bottom
+  {
+    margin-bottom: 0;
+  }
+
+  .btn-biopen
+  {
+    &.small
+    {
+      font-size: .85rem;
+      line-height: 2rem;
+      height: 2rem;
+      padding: 0 15px;
+    }
+
+    height: auto
+  }
 }
