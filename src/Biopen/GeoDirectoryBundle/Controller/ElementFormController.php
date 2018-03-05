@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-28 18:49:08
+ * @Last Modified time: 2018-03-05 13:59:29
  */
  
 
@@ -131,11 +131,14 @@ class ElementFormController extends GoGoController
 		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration') 
 											  || (!$editMode && in_array('ROLE_DIRECTMODERATION_ADD', $userRoles))
 											  || ($editMode && in_array('ROLE_DIRECTMODERATION_EDIT_OWN_CONTRIB', $userRoles) && $element->hasValidContributionMadeBy($userEmail))
-											  || $isUserOwnerOfValidElement
-											  || $element->getRandomHash() == $request->get('hash');		
+											  || $isUserOwnerOfValidElement;	
+
+		$editingOwnPendingContrib = $element->isPending() && $element->getCurrContribution() && $element->getCurrContribution()->getUserEmail() == $userEmail;
+
+		$editMode = $editMode && !($editingOwnPendingContrib && $element->isPendingAdd());
 		
 		// create the element form
-		$element = $editMode && $element->isPending() ? $element->getModifiedElement() : $element;
+		$element = $element->isPendingModification() ? $element->getModifiedElement() : $element;
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
 
 		// when we check for duplicates, we jump to an other action, and coem back to the add action
@@ -161,7 +164,7 @@ class ElementFormController extends GoGoController
 			else
 			{				
 				// check for duplicates in Add action
-				if (!$editMode)
+				if (!$editMode && !$editingOwnPendingContrib)
 				{					
 					$duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element);					
 					$needToCheckDuplicates = count($duplicates) > 0;
@@ -224,9 +227,9 @@ class ElementFormController extends GoGoController
 			if ($this->isRealModification($element, $request))
          {
             $elementActionService = $this->container->get('biopen.element_action_service');
-            $message = $request->get('admin-message');
+            $message = $request->get('admin-message');            
             
-            if($isAllowedDirectModeration)
+            if ($isAllowedDirectModeration)
             {
                if (!$editMode) $elementActionService->add($element, $sendMail, $message);
                else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement);           
