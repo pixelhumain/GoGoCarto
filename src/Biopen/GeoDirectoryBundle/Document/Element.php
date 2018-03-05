@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-28 13:27:27
+ * @Last Modified time: 2018-03-05 12:37:19
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -483,7 +483,17 @@ class Element
 
     public function isPending()
     {
-        return $this->status == ElementStatus::PendingAdd || $this->status == ElementStatus::PendingModification;
+        return $this->isPendingAdd() || $this->isPendingModification();
+    }
+
+    public function isPendingAdd()
+    {
+        return $this->status == ElementStatus::PendingAdd;
+    }
+
+    public function isPendingModification()
+    {
+        return $this->status == ElementStatus::PendingModification;
     }
 
     public function isVisible()
@@ -519,7 +529,9 @@ class Element
 
     public function getVotesArray()
     {
-        return $this->getCurrContribution() ? $this->getCurrContribution()->getVotes()->toArray() : [];
+        if  (!$this->getCurrContribution() ||  is_array($this->getCurrContribution()->getVotes()))
+            return [];
+        return $this->getCurrContribution()->getVotes()->toArray();
     }
 
     public function isLastContributorEqualsTo($user, $userEmail)
