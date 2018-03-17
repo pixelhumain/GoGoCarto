@@ -1,0 +1,19 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{# BODY CONTENT #}
+{% block body_content %} 
+
+<div class="menu-user">
+  <ul>
+    <li class="title">Menu</li>
+    <a href="{{ path('biopen_user_profile') }}"><li>Profil</li></a>
+    <a href="{{ path('biopen_user_contributions') }}"><li>Mes contributions</li></a>
+  </ul>
+</div>
+
+<section>
+  {% block body_user_content %}
+  {% endblock %}
+</section>
+   
+{% endblock %}

@@ -1,0 +1,57 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2018-03-17 12:11:03
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2018-03-17 12:59:54
+*/
+.menu-user {  
+  width: 170px;
+
+  position: fixed;
+  left: 20px;
+  top: calc(3.5rem + 30px);
+
+  @media (min-width: 1380px) {
+    position: absolute;
+    left: -200px;
+    top: 0;
+  }
+
+  @media (max-width : 900px) {
+    display: none;
+  }
+
+  ul { 
+    margin: 0;
+
+    a { 
+      color: inherit; 
+      &:not(:last-child) { li { border-bottom: 1px solid #d0d0d0; } }
+      &:last-child { li { border-radius: 0 0 5px 5px; } }
+    }
+
+    li {
+      &.title {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 5px 5px 0 0;
+      }
+
+      &.active { text-decoration: underline; }
+
+      background-color: white;
+      line-height: 3rem;
+      padding: 0 20px;      
+
+      &:hover:not(.title) {
+        cursor: pointer;
+        background-color: #eee;
+        @include transition(all .3s);
+      }
+
+      
+    }
+  }
+
+}

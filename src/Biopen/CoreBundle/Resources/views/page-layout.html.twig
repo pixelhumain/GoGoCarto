@@ -11,7 +11,10 @@
 
 {% block body %}
 
-	<div id="page-container" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>	   
+	<div id="page-container" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>	  
+
+		{% block page_content %}
+		{% endblock %} 
 		
 		<div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
 

@@ -13,7 +13,8 @@
   @import 'pages/register';
   @import 'pages/error';
   @import 'pages/directory';
-  @import 'pages/user-contributions';
+  @import 'pages/user/user-contributions';
+  @import 'pages/user/user-menu';
 
   @import 'components/wysiwyg-content';
 
@@ -40,6 +41,12 @@
     {
       padding-top: 3.5rem;
     }
+
+    &.with-sidebar {
+      @media only screen and (min-width : 900px) and (max-width : 1380px) {
+        padding-left: 200px;
+      }
+    }
   }
 
   #page-content
@@ -51,12 +58,20 @@
   	width:100%;	  
     padding: 0rem; 
 
-    @media screen and (min-width: 600px)
+    @media screen and (min-width: 900px)
   	{
   	   margin-top: 30px;
   	   max-width: 900px;
   	   width:80%;  
   	}
+
+    &.with-sidebar {
+      @media only screen and (min-width : 900px) and (max-width : 1380px) {
+        width: auto;
+        margin: 0 20px;
+        margin-top: 30px;
+      }
+    }
   }
 
   section

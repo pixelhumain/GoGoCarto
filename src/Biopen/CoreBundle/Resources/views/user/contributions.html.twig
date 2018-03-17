@@ -1,13 +1,12 @@
-{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+{% extends "@BiopenCoreBundle/user/layout.html.twig" %}
 
-{% set pageName = 'user-contributions' %}
+{% set pageName = 'user-contributions with-sidebar' %}
 {% set navTitle = "Mes Contributions" %}
 
 {% block title %}Mes Contributions{% endblock %}
 
 {# BODY CONTENT #}
-{% block body_content %}
-<section>
+{% block body_user_content %}
 
   {% set elementStatus = {
     '' : 'En attente',
@@ -41,5 +40,4 @@
   {% include '@BiopenCoreBundle/user/contributions/reports.html.twig' %}
   {% include '@BiopenCoreBundle/user/contributions/all-contributions.html.twig' %}
 
-</section>   
 {% endblock %}

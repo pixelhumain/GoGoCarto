@@ -107,7 +107,7 @@ class UserInteraction
         return $this->id;
     }
 
-    function getTimestamp()
+    public function getTimestamp()
     {
         $date = in_array($this->type, [InteractionType::Report,InteractionType::Vote]) ? $this->createdAt : $this->updatedAt;
         return $date == null ? 0 : $date->getTimestamp();
