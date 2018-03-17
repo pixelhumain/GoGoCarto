@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-10 15:18:50
+ * @Last Modified time: 2018-03-17 11:40:55
  */
  
 
@@ -125,7 +125,7 @@ class ElementRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     if ($moderationState != null) $qb->field('moderationState')->equals($moderationState);
-    else $qb->field('moderationState')->notIn([ModerationState::NotNeeded, ModerationState::PendingForTooLong]);
+    else $qb->field('moderationState')->notIn([ModerationState::NotNeeded]);
     $qb->field('status')->gte(ElementStatus::PendingModification);
     if ($getCount) $qb->count();
 
