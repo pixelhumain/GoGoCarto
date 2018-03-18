@@ -7,6 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Symfony\Component\HttpFoundation\Request;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\CoreBundle\Form\UserProfileType;
+use Symfony\Component\Form\FormError;
+use Biopen\GeoDirectoryBundle\Document\Coordinates;   
 
 class UserController extends GoGoController
 {
@@ -74,8 +77,42 @@ class UserController extends GoGoController
       return $this->redirectToRoute('biopen_user_contributions');
    }
     
-   public function profileAction()
+   public function profileAction(Request $request)
    {
-      return $this->render('@BiopenCoreBundle/user/profile.html.twig', array());        
+      $user = $this->get('security.context')->getToken()->getUser();
+      $form = $this->get('form.factory')->create(UserProfileType::class, $user);
+      $em = $this->get('doctrine_mongodb')->getManager();
+
+      if ($form->handleRequest($request)->isValid())
+      {
+         // $alreadyUsedEmail    = count($this->userManager->findUserByEmail($user->getEmail())) > 0;
+         // $alreadyUsedUserName = count($this->userManager->findUserByUsername($user->getUsername())) > 0;
+         $locationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
+         $geocodeError = false;
+         if ($user->getLocation()) {
+             try
+             {
+                 $geocoded = $this->get('bazinga_geocoder.geocoder')->using('openstreetmap')->geocode($user->getLocation())->first();
+                 $user->setGeo(new Coordinates($geocoded->getLatitude(), $geocoded->getLongitude()));
+             }
+             catch (\Exception $error) { $geocodeError = true; } 
+         }                
+
+         if ($form->isValid() /*&& !$alreadyUsedEmail && !$alreadyUsedUserName*/ && !$locationSetToReceiveNewsletter && !$geocodeError) 
+         {
+            $em->persist($user);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('info', "Modifications sauvegardées !");
+         } 
+         else 
+         {
+            // if ($alreadyUsedEmail) $form->get('email')->addError(new FormError('Cet email est déjà utilisé'));
+            // if ($alreadyUsedUserName) $form->get('username')->addError(new FormError("Ce nom d'utilisateur est déjà pris !"));
+            if ($locationSetToReceiveNewsletter) $form->get('location')->addError(new FormError("Si vous voulez recevoir les nouveaux ajouts, vous devez renseigner une adresse"));
+            if ($geocodeError) $form->get('location')->addError(new FormError("Impossible de localiser cette adresse"));
+         }
+      } 
+
+      return $this->render('@BiopenCoreBundle/user/profile.html.twig', array('user' => $user, 'form' => $form->createView()));        
    }
 }

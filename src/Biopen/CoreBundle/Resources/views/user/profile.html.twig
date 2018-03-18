@@ -1,6 +1,6 @@
 {% extends "@BiopenCoreBundle/user/layout.html.twig" %}
 
-{% set pageName = 'user-profile with-sidebar' %}
+{% set pageName = 'user-profile with-sidebar with-section' %}
 {% set navTitle = "Mon Profil" %}
 
 {% block title %}Mon profil{% endblock %}
@@ -9,5 +9,31 @@
 {% block body_user_content %}
 
 <h1>Mon profil</h1>
+
+<form action="{{ path('biopen_user_profile') }}" {{ form_enctype(form) }} method="POST" class="biopen_user_profile simple-form form-horizontal">
+
+  <p class="newsletter-explanation gogo-neutral">Soyez informé par mail des nouveaux points référencés près de chez vous !</p>
+
+  {{ form_widget(form.newsletterFrequency, { 'id': "select-newsletterFrequency"}) }}
+
+  <div class="separator"></div>
+  <div class="error" style="margin-top: 15px">{{ form_errors(form.location) }}</div>
+  <div class="input-field col s12">
+      <i class="material-icons gogo-icon-marker-symbol prefix"></i>  
+      {{ form_widget(form.location, {'id': 'input-location', 'attr': {'class': 'validate'}}) }}
+      <label for="input-location" class="gogo-form-label">Votre code postal ou votre adresse</label>
+  </div>
+
+  <div class="separator"></div>
+  <i class="material-icons gogo-icon-filters-1 range-icon-prefix"></i>  
+  <div class="range-field col s12">                
+      <label class="gogo-form-label active">Rayon de recherche en kilomètres</label>
+      {{ form_widget(form.newsletterRange, {'id': 'input-range'}) }}
+  </div>
+
+  {{ form_rest(form) }}
+
+  <button type="submit" class="btn btn-success">Enregistrer</button>
+</form>
    
 {% endblock %}

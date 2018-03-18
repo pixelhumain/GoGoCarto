@@ -86,7 +86,7 @@ class RegistrationFormType extends AbstractType
                 'required' => false, 'placeholder' => false,
                 'choices_as_values' => true,
             ], $this->mergeOptions))
-            // ->add('range', $rangeType, array_merge([
+            // ->add('newsletterRange', $rangeType, array_merge([
             //     'label' => 'form.location',
             //     'required' => false,
             //     'mapped' => false,

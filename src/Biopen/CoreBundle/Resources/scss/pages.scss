@@ -15,6 +15,7 @@
   @import 'pages/directory';
   @import 'pages/user/user-contributions';
   @import 'pages/user/user-menu';
+  @import 'pages/user/user-profile';
 
   @import 'components/wysiwyg-content';
 
@@ -83,6 +84,14 @@
     {
       padding: 2rem 3.5rem 2rem 2.5rem;
       margin-bottom: 1rem;
+    }
+  }
+
+  #page-content.with-section {
+    background-color: transparent;
+    section { 
+      background-color: white;
+      border-radius: 5px;
     }
   }
 

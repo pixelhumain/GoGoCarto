@@ -1,0 +1,27 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2018-03-18 13:48:38
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2018-03-18 13:59:16
+*/
+#page-content.user-profile 
+{
+  .input-field .prefix~label {
+    margin-left: 2.2rem;
+  }
+
+  .separator {
+    padding-top: .8rem;
+  }
+
+  .newsletter-explanation {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+
+  button[type=submit] {
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: .5rem;
+  }
+}

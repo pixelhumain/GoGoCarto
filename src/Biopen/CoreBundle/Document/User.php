@@ -46,10 +46,17 @@ class User extends BaseUser
     public $geo;
 
     /**
+     * Newletter sending the recently added elements
      * See NewsletterFrequencyOptions
      * @MongoDB\Field(type="int")
      */
     protected $newsletterFrequency;
+
+    /**
+     * We send to user the recently added elements in a specific range in km from location
+     * @MongoDB\Field(type="int")
+     */
+    protected $newsletterRange;
 
     /**
      * @MongoDB\Field(type="int")
@@ -551,5 +558,27 @@ class User extends BaseUser
     public function getNewsletterFrequency()
     {
         return $this->newsletterFrequency;
+    }
+
+    /**
+     * Set newsletterRange
+     *
+     * @param int $newsletterRange
+     * @return $this
+     */
+    public function setNewsletterRange($newsletterRange)
+    {
+        $this->newsletterRange = $newsletterRange;
+        return $this;
+    }
+
+    /**
+     * Get newsletterRange
+     *
+     * @return int $newsletterRange
+     */
+    public function getNewsletterRange()
+    {
+        return $this->newsletterRange;
     }
 }
