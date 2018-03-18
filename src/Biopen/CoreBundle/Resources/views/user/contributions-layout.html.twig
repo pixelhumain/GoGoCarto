@@ -1,9 +1,6 @@
 {% extends "@BiopenCoreBundle/user/layout.html.twig" %}
 
 {% set pageName = 'user-contributions with-sidebar' %}
-{% set navTitle = "Mes Contributions" %}
-
-{% block title %}Mes Contributions{% endblock %}
 
 {# BODY CONTENT #}
 {% block body_user_content %}
@@ -31,13 +28,7 @@
     }
   %} 
 
-  <h1>Mes contributions</h1>
-
-  {% include '@BiopenCoreBundle/user/contributions/elements-owned.html.twig' %}
-  {% include '@BiopenCoreBundle/user/contributions/elements-contributed.html.twig' %}  
-  {% include '@BiopenCoreBundle/user/contributions/pending-contributions.html.twig' %}
-  {% include '@BiopenCoreBundle/user/contributions/votes.html.twig' %}
-  {% include '@BiopenCoreBundle/user/contributions/reports.html.twig' %}
-  {% include '@BiopenCoreBundle/user/contributions/all-contributions.html.twig' %}
+  {% block contribution_page %}
+  {% endblock %}
 
 {% endblock %}

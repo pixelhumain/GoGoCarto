@@ -6,6 +6,14 @@ biopen_user_contributions:
     path: /contributions
     defaults: { _controller: BiopenCoreBundle:User:contributions }
 
+biopen_user_votes:
+    path: /votes
+    defaults: { _controller: BiopenCoreBundle:User:votes }
+
+biopen_user_reports:
+    path: /reports
+    defaults: { _controller: BiopenCoreBundle:User:reports }
+
 biopen_user_become_owner:
     path: /become-owner/{id}
     defaults: { _controller: BiopenCoreBundle:User:becomeOwner }

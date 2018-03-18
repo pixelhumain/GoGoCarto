@@ -16,7 +16,6 @@ class UserController extends GoGoController
    public function contributionsAction()
    {
       $dm = $this->get('doctrine_mongodb')->getManager();
-
       $user = $this->get('security.context')->getToken()->getUser();
       $userEmail = $user->getEmail();
 
@@ -26,8 +25,6 @@ class UserController extends GoGoController
       });
 
       $allContribs = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionContribution')->findByUserEmail($userEmail);
-      $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserEmail($userEmail);
-      $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserEmail($userEmail);
 
       $allContribs = array_filter($allContribs, function($interaction) { 
          return in_array($interaction->getType(), [InteractionType::Add, InteractionType::Edit]); 
@@ -44,17 +41,37 @@ class UserController extends GoGoController
       }
 
       usort($pendingContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-      usort($allContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-      usort($votes, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });
-      usort($reports, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });      
+      usort($allContribs, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });  
 
-      return $this->render('@BiopenCoreBundle/user/contributions.html.twig', array(
+      return $this->render('@BiopenCoreBundle/user/contributions/my-contributions.html.twig', array(
          'elementsOwned' => $elementsOwned,
          'elementsUserHaveContributed' => $elementsUserHaveContributed,
          'pendingContributions' => $pendingContribs,
-         'allContributions' => $allContribs,
-         'votes' => $votes,
-         'reports' => $reports));
+         'allContributions' => $allContribs));
+   }
+
+   public function votesAction()
+   {
+      $dm = $this->get('doctrine_mongodb')->getManager();
+      $user = $this->get('security.context')->getToken()->getUser();
+      $userEmail = $user->getEmail();
+
+      $votes = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionVote')->findByUserEmail($userEmail);
+      usort($votes, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });    
+
+      return $this->render('@BiopenCoreBundle/user/contributions/votes.html.twig', array('votes' => $votes));
+   }
+
+   public function reportsAction()
+   {
+      $dm = $this->get('doctrine_mongodb')->getManager();
+      $user = $this->get('security.context')->getToken()->getUser();
+      $userEmail = $user->getEmail();
+
+      $reports = $dm->getRepository('BiopenGeoDirectoryBundle:UserInteractionReport')->findByUserEmail($userEmail);
+      usort($reports, function ($a, $b) { return $b->getTimestamp() - $a->getTimestamp(); });      
+
+      return $this->render('@BiopenCoreBundle/user/contributions/reports.html.twig', array('reports' => $reports));
    }
 
    public function becomeOwnerAction($id, Request $request)

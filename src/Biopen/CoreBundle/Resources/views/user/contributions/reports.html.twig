@@ -1,47 +1,56 @@
-{% set reportValues = {
-  0: "L'élément n'existe plus",
-  1: 'Les informations sont incorrectes',
-  2: "L'élément ne respecte pas la charte",
-  4: "L'élément est référencé plusieurs fois"
-  }
-%} 
+{% extends "@BiopenCoreBundle/user/contributions-layout.html.twig" %}
 
-<h2>Mes Signalements</h2>
-{% if reports|length > 0 %}
-  <table class="bordered">
-    <thead>
-      <tr>
-          <th>Name</th>          
-          <th class="report">Signalement</th>
-          <th class="date">Date</th>
-          <th class="status">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for report in reports %}
-          <tr class="">
-            <td>
-              <a href="{{ path('biopen_directory_showElement', {'id': report.element.id, 'name': report.element.name}) | replace({"%23":'#'}) }}">{{ report.element.name }}</a>        
-            </td>                     
-            <td>{{ reportValues[report.value] }}</td>
-            <td>{{ report.createdAt|date("d/m/Y")}}</td>  
-            <td>
-              {% if report.isResolved %}
-                <span>{{ elementStatus[report.element.status] }}</span>
-                {% if report.resolvedMessage %}
-                  <span> - </span> 
-                  <i>{{ report.resolvedMessage }}</i>
+{% set navTitle = "Mes Signalements" %}
+{% block title %}Mes Signalements{% endblock %}
+
+{% block contribution_page %}
+
+  {% set reportValues = {
+    0: "L'élément n'existe plus",
+    1: 'Les informations sont incorrectes',
+    2: "L'élément ne respecte pas la charte",
+    4: "L'élément est référencé plusieurs fois"
+    }
+  %} 
+
+  <h1 style="margin-bottom: 3rem;">Mes Signalements</h1>
+  {% if reports|length > 0 %}
+    <table class="bordered">
+      <thead>
+        <tr>
+            <th>Name</th>          
+            <th class="report">Signalement</th>
+            <th class="date">Date</th>
+            <th class="status">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reports %}
+            <tr class="">
+              <td>
+                <a href="{{ path('biopen_directory_showElement', {'id': report.element.id, 'name': report.element.name}) | replace({"%23":'#'}) }}">{{ report.element.name }}</a>        
+              </td>                     
+              <td>{{ reportValues[report.value] }}</td>
+              <td>{{ report.createdAt|date("d/m/Y")}}</td>  
+              <td>
+                {% if report.isResolved %}
+                  <span>{{ elementStatus[report.element.status] }}</span>
+                  {% if report.resolvedMessage %}
+                    <span> - </span> 
+                    <i>{{ report.resolvedMessage }}</i>
+                  {% endif %}
+                {% else %}
+                  <span>En attente de modération</span>
                 {% endif %}
-              {% else %}
-                <span>En attente de modération</span>
-              {% endif %}
-            </td>
-          </tr>    
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez fait aucun signalement
-  </p>
-{% endif %}
+              </td>
+            </tr>    
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-secton-message">
+      Vous n'avez fait aucun signalement
+    </p>
+  {% endif %}
+
+{% endblock %}

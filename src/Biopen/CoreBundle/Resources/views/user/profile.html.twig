@@ -3,12 +3,12 @@
 {% set pageName = 'user-profile with-sidebar with-section' %}
 {% set navTitle = "Mon Profil" %}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}Mes préférences{% endblock %}
 
 {# BODY CONTENT #}
 {% block body_user_content %}
 
-<h1>Mon profil</h1>
+<h1>Mes préférences</h1>
 
 <form action="{{ path('biopen_user_profile') }}" {{ form_enctype(form) }} method="POST" class="biopen_user_profile simple-form form-horizontal">
 
