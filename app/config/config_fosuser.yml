@@ -10,7 +10,7 @@ sonata_user:
     admin:                  # Admin Classes
         user:
             class:          Biopen\CoreBundle\Admin\UserAdmin
-            controller:     SonataAdminBundle:CRUD
+            controller:     BiopenCoreBundle:UserAdmin
             translation:    SonataUserBundle
 
         group:

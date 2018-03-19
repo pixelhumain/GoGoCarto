@@ -270,4 +270,32 @@ class UserAdmin extends AbstractAdmin
             ->end()
         ;
     }
+
+    public function getTemplate($name) 
+   {
+     switch ($name) {
+         case 'list': return 'BiopenGeoDirectoryBundle:admin:base_list_custom_batch.html.twig';
+             break;
+         default : return parent::getTemplate($name);
+             break;
+     }
+   }
+
+    public function configureBatchActions($actions)
+    {
+      // $actions = parent::configureBatchActions($actions);
+      $actions = [];
+      
+      $actions['sendMail'] = array(
+         'label' => 'Envoyer un mail',
+         'ask_confirmation' => false,
+         'modal' => [
+            ['type' => 'text',      'label' => 'Votre adresse mail',  'id' => 'from'],
+            ['type' => 'text',      'label' => 'Object',  'id' => 'mail-subject'],
+            ['type' => 'textarea',  'label' => 'Contenu', 'id' => 'mail-content'],
+         ]
+      );
+
+      return $actions;
+    }
 }
