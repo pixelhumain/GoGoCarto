@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2018-03-17 12:11:03
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-03-19 14:14:02
+* @Last Modified time: 2018-03-19 14:47:31
 */
 
 #menu-overlay {
@@ -31,7 +31,7 @@
 
   @media (min-width: 1400px) {
     position: absolute;
-    left: -220px;
+    left: -215px;
     top: 0;
   }
 
@@ -84,7 +84,7 @@
         line-height: 3.2rem;
         font-size: 1.2rem;
         opacity: .8;
-        margin-right: .6rem;
+        margin-right: 1rem;
         float: left;
       }      
     }

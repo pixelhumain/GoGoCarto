@@ -7,9 +7,7 @@
   <h1>Mes contributions</h1>
 
   {% include '@BiopenCoreBundle/user/contributions/elements-owned.html.twig' %}
-  {% if elementsUserHaveContributed|length > 0 %}
-    {% include '@BiopenCoreBundle/user/contributions/elements-contributed.html.twig' %}  
-  {% endif %}
+  {% include '@BiopenCoreBundle/user/contributions/elements-contributed.html.twig' %}  
   {% include '@BiopenCoreBundle/user/contributions/pending-contributions.html.twig' %}
   {#{% include '@BiopenCoreBundle/user/contributions/all-contributions.html.twig' %}#}
 {% endblock %}

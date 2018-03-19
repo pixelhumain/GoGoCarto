@@ -1,5 +1,5 @@
-<h2>Mes Fiches</h2>
 {% if elementsOwned|length > 0 %}
+<h2>Mes Fiches</h2>
   <table class="bordered">
     <thead>
       <tr>
@@ -26,8 +26,4 @@
       {% endfor %}
     </tbody>
   </table>
-{% else %}
-  <p class="empty-secton-message">
-    Aucune fiche n'est en votre posséssion
-  </p>
 {% endif %}
