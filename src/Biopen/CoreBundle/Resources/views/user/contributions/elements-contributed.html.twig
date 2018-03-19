@@ -1,5 +1,5 @@
-<h2>Autres fiches auxquelles j'ai contribué</h2>
 {% if elementsUserHaveContributed|length > 0 %}
+<h2>Autres fiches auxquelles j'ai contribué</h2>
   <table class="bordered">
     <thead>
       <tr>
@@ -20,7 +20,8 @@
               {% if element.userOwnerEmail %}
                 {{ element.userOwnerEmail == app.user.email ? "Moi" : element.userOwnerEmail }}
               {% elseif element.isValid %}
-                <a href={{ path('biopen_user_become_owner', {'id' : element.id}) }}>Devenir Propriétaire</a>   
+                {#<a href=>Devenir Propriétaire</a>   #}
+                <a href="#" class="" onclick="openConfModal('{{ element.id }}')">Devenir Propriétaire</a>
               {% endif %}         
             </td>
             <td>
@@ -39,8 +40,25 @@
       {% endfor %}
     </tbody>
   </table>
-{% else %}
-  <p class="empty-secton-message">
-    Vous n'avez contribué à aucune fiche
-  </p>
 {% endif %}
+
+<!-- Modal Structure -->
+<div id="become-owner-confirmation-modal" class="modal">
+  <div class="modal-content">
+    <h4>Confirmation</h4>
+    <p>Pour devenir propriétaire d'une fiche, vous devez certifier participer à la gestion de cette structure</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" id="become-owner-confirmation-btn" class="modal-action modal-close waves-effect waves-green btn btn-primary">Je confirme</a>
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" style="color: inherit;">Annuler</a>    
+  </div>
+</div>
+
+<script>
+  function openConfModal(id) {  
+    var url = "{{ path('biopen_user_become_owner', {'id' : 'ID'}) }}";
+    var elementUrl = url.replace('ID', id);
+    $('#become-owner-confirmation-btn').attr('href', elementUrl);
+    $('#become-owner-confirmation-modal').openModal();
+  }
+</script>

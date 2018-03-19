@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2018-02-11 12:03:45
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-02-11 13:12:46
+* @Last Modified time: 2018-03-19 16:09:33
 */
 #page-content.user-contributions
 {
@@ -31,6 +31,13 @@
 
   .empty-secton-message {
     text-align: center;
+  }
+
+  #become-owner-confirmation-modal {
+    .modal-footer {
+      padding: 4px 20px;
+      height: 60px;
+    }
   }
 }
      
