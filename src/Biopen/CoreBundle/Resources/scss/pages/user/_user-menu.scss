@@ -2,24 +2,48 @@
 * @Author: Sebastian Castro
 * @Date:   2018-03-17 12:11:03
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-03-17 12:59:54
+* @Last Modified time: 2018-03-19 14:14:02
 */
-.menu-user {  
-  width: 170px;
 
+#menu-overlay {
+  position: fixed;
+  top: 0; left: 0;right: 0; bottom: 0;
+  z-index: 10;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.49);
+}
+.menu-user-button {
+  font-size: 2rem;
+  line-height: 4.3rem;
+  float: left;
+  padding: 1rem;
+
+  @media (min-width : 901px) {
+    display: none;
+  }
+}
+.menu-user {
+  width: 190px;
+  z-index: 20;
   position: fixed;
   left: 20px;
   top: calc(3.5rem + 30px);
 
-  @media (min-width: 1380px) {
+  @media (min-width: 1400px) {
     position: absolute;
-    left: -200px;
+    left: -220px;
     top: 0;
   }
 
   @media (max-width : 900px) {
     display: none;
+    height: 100%;
+    left: 0;
+    background-color: white;
+    top: 3rem;
   }
+
+  @media (min-width : 901px) { display: block !important; }
 
   ul { 
     margin: 0;
@@ -27,30 +51,42 @@
     a { 
       color: inherit; 
       &:not(:last-child) { li { border-bottom: 1px solid #d0d0d0; } }
-      &:last-child { li { border-radius: 0 0 5px 5px; } }
+      @media (min-width : 901px) {
+        &:last-child { li { border-radius: 0 0 5px 5px; } }
+      }
     }
 
     li {
+
+      background-color: white;
+      line-height: 3rem;
+      height: 3rem;
+      padding: 0 20px 0 13px;
+      overflow: hidden;   
+
       &.title {
         color: white;
         font-size: 1.1rem;
         font-weight: bold;
-        border-radius: 5px 5px 0 0;
+        @media (min-width : 901px) { border-radius: 5px 5px 0 0; }        
+        padding-left: 16px;
       }
 
-      &.active { text-decoration: underline; }
-
-      background-color: white;
-      line-height: 3rem;
-      padding: 0 20px;      
+      &.active { text-decoration: underline; }    
 
       &:hover:not(.title) {
         cursor: pointer;
         background-color: #eee;
         @include transition(all .3s);
-      }
+      }  
 
-      
+      i {
+        line-height: 3.2rem;
+        font-size: 1.2rem;
+        opacity: .8;
+        margin-right: .6rem;
+        float: left;
+      }      
     }
   }
 

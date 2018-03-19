@@ -3,13 +3,16 @@
 {# BODY CONTENT #}
 {% block body_content %} 
 
-<div class="menu-user">
+<i class="gogo-icon-menu menu-user-button" onclick="showMenu()"></i>
+<div id="menu-overlay" onclick="hideMenu()"></div>
+
+<div id="menu-user" class="menu-user side-nav">
   <ul>
     <li class="title">Menu</li>
-    <a href="{{ path('biopen_user_profile') }}"><li>Préférences</li></a>
-    <a href="{{ path('biopen_user_contributions') }}"><li>Mes contributions</li></a>
-    <a href="{{ path('biopen_user_votes') }}"><li>Mes votes</li></a>
-    <a href="{{ path('biopen_user_reports') }}"><li>Mes signalements</li></a>
+    <a href="{{ path('biopen_user_profile') }}">      <li><i class="gogo-icon-filters-1"></i>Préférences</li></a>
+    <a href="{{ path('biopen_user_contributions') }}"><li><i class="gogo-icon-edit"></i>Mes contributions</li></a>
+    <a href="{{ path('biopen_user_votes') }}">        <li><i class="gogo-icon-vote"></i>Mes votes</li></a>
+    <a href="{{ path('biopen_user_reports') }}">      <li><i class="gogo-icon-exclamation-1"></i>Mes signalements</li></a>
   </ul>
 </div>
 
@@ -19,3 +22,17 @@
 </section>
    
 {% endblock %}
+
+{% block page_javascripts %}
+  <script>  
+  function showMenu() {
+    $('#menu-user').show();
+    $('#menu-overlay').fadeIn();
+  }
+
+  function hideMenu() {
+    $('#menu-user').hide();
+    $('#menu-overlay').fadeOut();
+  }
+</script>
+{% endblock %} 

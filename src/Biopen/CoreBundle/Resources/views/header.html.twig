@@ -67,11 +67,11 @@
             <li class="name only-for-admin" {{ app.user and app.user.isAdmin ? '' : 'style="display:none"' }}>
               <a class="about-title-item waves-effect waves-light" href="{{ path('sonata_admin_dashboard') }}">Interface admin</a></li> 
             <li class="item-divider"></li>
-            <li class="name">
+            {#<li class="name">
               <a class="about-title-item waves-effect waves-light" href="{{ path('biopen_user_profile') }}">Préférences</a></li>
-            <li class="item-divider"></li>
+            <li class="item-divider"></li>#}
             <li class="name only-for-user" {{ app.user ? '' : 'style="display:none"' }}>
-              <a class="about-title-item waves-effect waves-light" href="{{ path('biopen_user_contributions') }}">Mes contributions</a></li> 
+              <a class="about-title-item waves-effect waves-light" href="{{ path('biopen_user_contributions') }}">Mon Espace</a></li> 
             <li class="item-divider"></li>
             <li class="name">
               <a class="about-title-item waves-effect waves-light" onclick="logout()">Se Déconnecter</a></li>       

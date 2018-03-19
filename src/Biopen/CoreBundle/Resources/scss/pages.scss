@@ -44,8 +44,8 @@
     }
 
     &.with-sidebar {
-      @media only screen and (min-width : 900px) and (max-width : 1380px) {
-        padding-left: 200px;
+      @media only screen and (min-width : 900px) and (max-width : 1400px) {
+        padding-left: 220px;
       }
     }
   }
@@ -67,7 +67,7 @@
   	}
 
     &.with-sidebar {
-      @media only screen and (min-width : 900px) and (max-width : 1380px) {
+      @media only screen and (min-width : 900px) and (max-width : 1400px) {
         width: auto;
         margin: 0 20px;
         margin-top: 30px;
