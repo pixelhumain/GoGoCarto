@@ -1,0 +1,25 @@
+/*
+* @Author: Sebastian Castro
+* @Date:   2018-03-19 14:33:23
+* @Last Modified by:   Sebastian Castro
+* @Last Modified time: 2018-03-19 14:41:29
+*/
+#page-content.user-space
+{
+  h1 { 
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+
+  .menu-user {
+    position: relative;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    display: block !important;
+
+    li.title { display: none; }
+  }
+
+  .menu-user-button { display: none !important; }
+}

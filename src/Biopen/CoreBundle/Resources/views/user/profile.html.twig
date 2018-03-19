@@ -26,8 +26,8 @@
 
   <div class="separator"></div>
   <i class="material-icons gogo-icon-filters-1 range-icon-prefix"></i>  
-  <div class="range-field col s12">                
-      <label class="gogo-form-label active">Rayon de recherche en kilomètres</label>
+  <div class="range-field col s12">   
+      <label class="gogo-form-label active">Rayon de recherche : <span class="range-value">{{ form.vars.value.newsletterRange }}</span> kilomètres</label>
       {{ form_widget(form.newsletterRange, {'id': 'input-range'}) }}
   </div>
 
@@ -37,3 +37,13 @@
 </form>
    
 {% endblock %}
+
+{% block user_page_javascripts %}  
+  <script>
+    $(document).ready(function() {
+        $('#input-range').change(function() { 
+        $('.range-value').text($(this).val());
+      });
+    });
+  </script>
+{% endblock %} 

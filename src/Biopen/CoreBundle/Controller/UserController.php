@@ -13,6 +13,11 @@ use Biopen\GeoDirectoryBundle\Document\Coordinates;
 
 class UserController extends GoGoController
 {
+   public function userSpaceAction()
+   {
+      return $this->render('@BiopenCoreBundle/user/user-space.html.twig');
+   }
+
    public function contributionsAction()
    {
       $dm = $this->get('doctrine_mongodb')->getManager();

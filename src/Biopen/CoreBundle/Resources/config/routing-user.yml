@@ -1,3 +1,7 @@
+biopen_user_space:
+    path: /mon-espace
+    defaults: { _controller: BiopenCoreBundle:User:userSpace }
+
 biopen_user_profile:
     path: /profile
     defaults: { _controller: BiopenCoreBundle:User:profile }

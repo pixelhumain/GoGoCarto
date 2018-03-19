@@ -3,6 +3,9 @@
 {# BODY CONTENT #}
 {% block body_content %} 
 
+{% block body_user_before_content %}
+{% endblock %}
+
 <i class="gogo-icon-menu menu-user-button" onclick="showMenu()"></i>
 <div id="menu-overlay" onclick="hideMenu()"></div>
 
@@ -25,14 +28,18 @@
 
 {% block page_javascripts %}
   <script>  
-  function showMenu() {
-    $('#menu-user').show();
-    $('#menu-overlay').fadeIn();
-  }
+    function showMenu() {
+      $('#menu-user').show();
+      $('#menu-overlay').fadeIn();
+    }
 
-  function hideMenu() {
-    $('#menu-user').hide();
-    $('#menu-overlay').fadeOut();
-  }
-</script>
+    function hideMenu() {
+      $('#menu-user').hide();
+      $('#menu-overlay').fadeOut();
+    }
+  </script>
+
+  {% block user_page_javascripts %}
+  {% endblock %} 
+
 {% endblock %} 
