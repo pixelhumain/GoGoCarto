@@ -1,7 +1,7 @@
-<div style="background-color: {{ config.backgroundColor }};
+<div class="main-container" style="background-color: {{ config.backgroundColor }};
             height: 100%;
             padding: 30px 45px">
-  <div style="background-color : {{ config.contentBackgroundColor }};
+  <div class="header" style="background-color : {{ config.contentBackgroundColor }};
               max-width: 700px;              
               color: {{ config.neutralDarkColor }};
               margin: 0 auto;
@@ -9,8 +9,9 @@
               font-weight: normal;
               overflow: hidden;
               text-align: center;
-              font-family: Georgia, 'Times New Roman', Times, serif;
-              font-size: 18px;">
+              font-family: Arial, sans-serif;
+              line-height: 26px;
+              font-size: 15px;">
     <div style="text-align:center;
                 padding: 10px;
                 border-radius: 5px 5px 0 0;
@@ -29,7 +30,7 @@
                     font-family: sans-serif;
                     ">{{ config.appBaseline }}</br></div>
     </div>
-    <div style="padding:20px 25px">
+    <div class="content" style="padding:20px 25px;">
       {{ content | raw }}
     </div>
   </div>

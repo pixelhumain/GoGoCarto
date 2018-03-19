@@ -26,8 +26,7 @@ class MailTestController extends Controller
      {
         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
         return $this->redirecttoRoute('admin_biopen_core_configuration_list');    
-     }   
-     
+     }        
    }
 
    public function sentTestAutomatedAction(Request $request, $mailType)
@@ -54,9 +53,7 @@ class MailTestController extends Controller
     {
        $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
     }
-
-    return $this->render('@BiopenCoreBundle/emails/test-emails.html.twig', array('subject' => $draftResponse['subject'], 'content' => $mailContent, 'mailType' => $mailType));
-    
+    return $this->redirectToRoute('biopen_mail_draft_automated', array('mailType' => $mailType));    
    }
 
    private function draftTest($mailType)

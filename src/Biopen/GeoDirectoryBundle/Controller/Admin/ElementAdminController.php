@@ -158,6 +158,7 @@ class ElementAdminController extends Controller
 
         $request = $this->get('request')->request;        
 
+        $mails = [];
         $mailsSent = 0;
         $elementWithoutEmail = 0;
             
