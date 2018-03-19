@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family: "carto";
-  src:url("fonts/carto.eot");
-  src:url("fonts/carto.eot?#iefix") format("embedded-opentype"),
-    url("fonts/carto.woff") format("woff"),
-    url("fonts/carto.ttf") format("truetype"),
-    url("fonts/carto.svg#carto") format("svg");
+  font-family: "presdecheznous";
+  src:url("fonts/presdecheznous.eot");
+  src:url("fonts/presdecheznous.eot?#iefix") format("embedded-opentype"),
+    url("fonts/presdecheznous.woff") format("woff"),
+    url("fonts/presdecheznous.ttf") format("truetype"),
+    url("fonts/presdecheznous.svg#presdecheznous") format("svg");
   font-weight: normal;
   font-style: normal;
 
 }
 
 [data-icon]:before {
-  font-family: "carto" !important;
+  font-family: "presdecheznous" !important;
   content: attr(data-icon);
   font-style: normal !important;
   font-weight: normal !important;
@@ -27,7 +27,7 @@
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-  font-family: "carto" !important;
+  font-family: "presdecheznous" !important;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -74,77 +74,20 @@
 .icon-boissons:before {
   content: "\6f";
 }
-.icon-expand:before {
-  content: "\75";
-}
-.icon-angle-right:before {
-  content: "\77";
-}
 .icon-oeufs:before {
   content: "\78";
 }
 .icon-huile:before {
   content: "\79";
 }
-.icon-plus-circle:before {
-  content: "\7a";
-}
 .icon-marker:before {
   content: "\41";
-}
-.icon-close:before {
-  content: "\45";
-}
-.icon-search:before {
-  content: "\48";
-}
-.icon-edit:before {
-  content: "\4c";
-}
-.icon-delete:before {
-  content: "\4d";
-}
-.icon-directions:before {
-  content: "\4e";
-}
-.icon-menu:before {
-  content: "\4a";
-}
-.icon-star-full:before {
-  content: "\69";
-}
-.icon-starcircle:before {
-  content: "\49";
-}
-.icon-locate:before {
-  content: "\4b";
-}
-.icon-star-empty:before {
-  content: "\4f";
-}
-.icon-day:before {
-  content: "\52";
-}
-.icon-attention:before {
-  content: "\56";
-}
-.icon-exclamation-1:before {
-  content: "\59";
-}
-.icon-share-alt:before {
-  content: "\30";
-}
-.icon-external-link:before {
-  content: "\38";
 }
 .icon-paper-plane:before {
   content: "\21";
 }
 .icon-legumineuses:before {
   content: "\61";
-}
-.icon-list:before {
-  content: "\29";
 }
 .icon-epicerie:before {
   content: "\2a";
@@ -158,92 +101,11 @@
 .icon-car:before {
   content: "\44";
 }
-.icon-flower:before {
-  content: "\2d";
-}
-.icon-internet:before {
-  content: "\3b";
-}
-.icon-education:before {
-  content: "\3c";
-}
-.icon-people:before {
-  content: "\3d";
-}
-.icon-coffee:before {
-  content: "\40";
-}
-.icon-home:before {
-  content: "\5f";
-}
-.icon-users:before {
-  content: "\7e";
-}
 .icon-clothe:before {
   content: "\e004";
 }
 .icon-leaf-1:before {
   content: "\e008";
-}
-.icon-facebook:before {
-  content: "\e00c";
-}
-.icon-gplus:before {
-  content: "\e00d";
-}
-.icon-twitter:before {
-  content: "\e00e";
-}
-.icon-description:before {
-  content: "\e00f";
-}
-.icon-account-circle:before {
-  content: "\e010";
-}
-.icon-mail:before {
-  content: "\e012";
-}
-.icon-phone:before {
-  content: "\e013";
-}
-.icon-add-circle:before {
-  content: "\e015";
-}
-.icon-clear:before {
-  content: "\e016";
-}
-.icon-redo:before {
-  content: "\e017";
-}
-.icon-material-design-icons-1:before {
-  content: "\e009";
-}
-.icon-person:before {
-  content: "\e00a";
-}
-.icon-directory:before {
-  content: "\e00b";
-}
-.icon-add-element:before {
-  content: "\e011";
-}
-.icon-info:before {
-  content: "\e018";
-}
-.icon-lock:before {
-  content: "\e019";
-}
-.icon-map:before {
-  content: "\e01a";
-}
-.icon-user-plus:before {
-  content: "\e01c";
-}
-.icon-unlock:before {
-  content: "\e01d";
-}
-.icon-yahoo:before {
-  content: "\e01e";
 }
 .icon-camping:before {
   content: "\e022";
@@ -274,9 +136,6 @@
 }
 .icon-mobilite-2:before {
   content: "\37";
-}
-.icon-marker-symbol:before {
-  content: "\54";
 }
 .icon-cafe:before {
   content: "\2f";
@@ -347,9 +206,6 @@
 .icon-ferme-1:before {
   content: "\2b";
 }
-.icon-chalet:before {
-  content: "\2e";
-}
 .icon-hotel-1:before {
   content: "\3f";
 }
@@ -364,9 +220,6 @@
 }
 .icon-pharmacie-1:before {
   content: "\5e";
-}
-.icon-pharmacie-2:before {
-  content: "\60";
 }
 .icon-cosmetique:before {
   content: "\7b";
@@ -386,9 +239,93 @@
 .icon-friperie-1:before {
   content: "\e047";
 }
-.icon-eye:before {
+.icon-case:before {
+  content: "\50";
+}
+.icon-coffee:before {
+  content: "\51";
+}
+.icon-tags:before {
+  content: "\53";
+}
+.icon-euro:before {
+  content: "\55";
+}
+.icon-paw:before {
+  content: "\58";
+}
+.icon-education-1:before {
+  content: "\31";
+}
+.icon-construction:before {
+  content: "\42";
+}
+.icon-ruche:before {
+  content: "\47";
+}
+.icon-expo:before {
+  content: "\46";
+}
+.icon-home:before {
   content: "\64";
 }
-.icon-no-eye:before {
+.icon-angle-right:before {
+  content: "\70";
+}
+.icon-recycle:before {
+  content: "\69";
+}
+.icon-tool:before {
   content: "\6a";
+}
+.icon-icon-chalet:before {
+  content: "\73";
+}
+.icon-distrib:before {
+  content: "\74";
+}
+.icon-palette:before {
+  content: "\75";
+}
+.icon-008-paint-board-and-brush:before {
+  content: "\76";
+}
+.icon-005-artist-tools:before {
+  content: "\77";
+}
+.icon-food-5:before {
+  content: "\7a";
+}
+.icon-back-in-time:before {
+  content: "\45";
+}
+.icon-hourglass:before {
+  content: "\48";
+}
+.icon-database:before {
+  content: "\49";
+}
+.icon-archive:before {
+  content: "\4a";
+}
+.icon-steam:before {
+  content: "\4b";
+}
+.icon-qq:before {
+  content: "\4c";
+}
+.icon-057-flash:before {
+  content: "\4d";
+}
+.icon-cogs:before {
+  content: "\4e";
+}
+.icon-linux:before {
+  content: "\4f";
+}
+.icon-users:before {
+  content: "\52";
+}
+.icon-user-plus:before {
+  content: "\54";
 }
