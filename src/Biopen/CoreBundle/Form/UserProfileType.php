@@ -19,7 +19,8 @@ class UserProfileType extends AbstractType
    */
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-      $builder->add('newsletterFrequency', ChoiceType::class, [
+      $builder->add('username')
+              ->add('newsletterFrequency', ChoiceType::class, [
                    'choices'  => array(
                        'Jamais' => 0,
                        'Chaque semaine' => 1,

@@ -102,13 +102,15 @@ class UserController extends GoGoController
    public function profileAction(Request $request)
    {
       $user = $this->get('security.context')->getToken()->getUser();
+      $current_user = clone $user;
       $form = $this->get('form.factory')->create(UserProfileType::class, $user);
       $em = $this->get('doctrine_mongodb')->getManager();
+      $userRepo = $em->getRepository('BiopenCoreBundle:User'); 
 
       if ($form->handleRequest($request)->isValid())
-      {
+      {         
          // $alreadyUsedEmail    = count($this->userManager->findUserByEmail($user->getEmail())) > 0;
-         // $alreadyUsedUserName = count($this->userManager->findUserByUsername($user->getUsername())) > 0;
+         $alreadyUsedUserName = ($current_user->getUsername() != $user->getUsername()) && count($userRepo->findByUsername($user->getUsername())) > 0;
          $locationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
          $geocodeError = false;
          if ($user->getLocation()) {
@@ -120,7 +122,7 @@ class UserController extends GoGoController
              catch (\Exception $error) { $geocodeError = true; } 
          }                
 
-         if ($form->isValid() /*&& !$alreadyUsedEmail && !$alreadyUsedUserName*/ && !$locationSetToReceiveNewsletter && !$geocodeError) 
+         if ($form->isValid() /*&& !$alreadyUsedEmail */&& !$alreadyUsedUserName && !$locationSetToReceiveNewsletter && !$geocodeError) 
          {
             $em->persist($user);
             $em->flush();
@@ -129,7 +131,7 @@ class UserController extends GoGoController
          else 
          {
             // if ($alreadyUsedEmail) $form->get('email')->addError(new FormError('Cet email est déjà utilisé'));
-            // if ($alreadyUsedUserName) $form->get('username')->addError(new FormError("Ce nom d'utilisateur est déjà pris !"));
+            if ($alreadyUsedUserName) $form->get('username')->addError(new FormError("Ce nom d'utilisateur est déjà pris !"));
             if ($locationSetToReceiveNewsletter) $form->get('location')->addError(new FormError("Si vous voulez recevoir les nouveaux ajouts, vous devez renseigner une adresse"));
             if ($geocodeError) $form->get('location')->addError(new FormError("Impossible de localiser cette adresse"));
          }
