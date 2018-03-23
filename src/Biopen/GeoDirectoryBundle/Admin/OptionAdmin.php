@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-23 08:37:25
+ * @Last Modified time: 2018-03-23 16:50:22
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -49,7 +49,8 @@ class OptionAdmin extends AbstractAdmin
 		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6'))	
 			->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))	
 			->add('textHelper', null, array('required' => false, 'label' => "Message d'aide pour décrire rapidement l'option"))		  
-			->add('displayOption', null, array('required' => false, 'label' => "Activer l'option"))	
+			->add('displayOption', null, array('required' => false, 'label' => "Activer l'option"))
+         ->add('disableInInfoBar', null, array('required' => false, 'label' => "Masquer l'option dans la fiche détail")) 	
 		  	->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les sous catégories de cette option'))
          ->add('useIconForMarker', null, array('required' => false, 'label' => "Utiliser l'icone de l'option pour le marqueur"))    
          ->add('useColorForMarker', null, array('required' => false, 'label' => "Utiliser la couleur de l'option pour le marqueur"))   							

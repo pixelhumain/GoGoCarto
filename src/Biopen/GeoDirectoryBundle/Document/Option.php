@@ -105,6 +105,13 @@ class Option
 
     /**
      * @var bool
+     * @Exclude(if="object.getDisableInInfoBar() == false")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $disableInInfoBar = false;
+
+    /**
+     * @var bool
      * @Exclude(if="object.getShowExpanded() == false")
      * @MongoDB\Field(type="boolean")
      */
@@ -545,5 +552,27 @@ class Option
     public function getIsFixture()
     {
         return $this->isFixture;
+    }
+
+    /**
+     * Set disableInInfoBar
+     *
+     * @param boolean $disableInInfoBar
+     * @return $this
+     */
+    public function setDisableInInfoBar($disableInInfoBar)
+    {
+        $this->disableInInfoBar = $disableInInfoBar;
+        return $this;
+    }
+
+    /**
+     * Get disableInInfoBar
+     *
+     * @return boolean $disableInInfoBar
+     */
+    public function getDisableInInfoBar()
+    {
+        return $this->disableInInfoBar;
     }
 }
