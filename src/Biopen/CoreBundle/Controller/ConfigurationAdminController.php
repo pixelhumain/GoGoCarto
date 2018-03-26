@@ -11,15 +11,15 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 
 class ConfigurationAdminController extends Controller
 {
-    public function listAction()
-    {
-        $em = $this->get('doctrine_mongodb')->getManager();
-     
-        $configuration = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+   public function listAction()
+   {
+      $em = $this->get('doctrine_mongodb')->getManager();
 
-        if ($configuration) 
-		  	  return $this->redirect($this->admin->generateUrl('edit', ['id' => $configuration->getId()]));
-		  else 
-		  	  return $this->redirect($this->admin->generateUrl('create'));
-    }
+      $configuration = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+
+      if ($configuration) 
+         return $this->redirect($this->admin->generateUrl('edit', ['id' => $configuration->getId()]));
+      else 
+      	return $this->redirect($this->admin->generateUrl('create'));
+   }
 }

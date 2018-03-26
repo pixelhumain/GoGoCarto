@@ -25,6 +25,8 @@ abstract class NewsletterFrequencyOptions
 /**
  * @MongoDB\Document
  * @MongoDB\HasLifecycleCallbacks 
+ * @MongoDB\Index(keys={"geo"="2d"})
+ * @MongoDB\Document(repositoryClass="Biopen\CoreBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -57,6 +59,18 @@ class User extends BaseUser
      * @MongoDB\Field(type="int")
      */
     protected $newsletterRange;
+
+    /**
+     * The date where the last newsletter has been sent
+     * @MongoDB\Date
+     */
+    protected $lastNewsletterSentAt;
+
+    /**
+     * The date where the next newsletter has to be send
+     * @MongoDB\Date
+     */
+    protected $nextNewsletterDate;
 
     /**
      * @MongoDB\Field(type="int")
@@ -376,6 +390,26 @@ class User extends BaseUser
     public function addReportsCount() { $this->votesCount++; }
     public function addContributionCount() { $this->votesCount++; }
 
+    public function updateNextNewsletterDate() 
+    {
+        if ($this->getNewsletterFrequency() == 0) $this->setNextNewsletterDate(null);
+        else 
+        {           
+            switch ($this->getNewsletterFrequency()) 
+            {
+                case NewsletterFrequencyOptions::Weekly: $interval = new \DateInterval('P7D'); break;                
+                case NewsletterFrequencyOptions::Monthly: $interval = new \DateInterval('P1M'); break;
+            }
+            $lastSent = clone $this->getLastNewsletterSentAt();
+            $this->setNextNewsletterDate($lastSent->add($interval));
+        }
+    }
+
+    public function getDisplayName()
+    {
+        if ($this->getUsername()) return $this->getUsername();
+        return $this->getEmail();
+    }
     /**
      * Get enabled
      *
@@ -546,7 +580,10 @@ class User extends BaseUser
      */
     public function setNewsletterFrequency($newsletterFrequency)
     {
-        $this->newsletterFrequency = $newsletterFrequency;
+        // reset last newsletter sent at to now when user check to receive newsletter
+        if ($this->getNewsletterFrequency() == 0 && $newsletterFrequency > 0) $this->setLastNewsletterSentAt(new \DateTime());
+        $this->newsletterFrequency = $newsletterFrequency; 
+        $this->updateNextNewsletterDate();      
         return $this;
     }
 
@@ -580,5 +617,49 @@ class User extends BaseUser
     public function getNewsletterRange()
     {
         return $this->newsletterRange;
+    }
+
+    /**
+     * Set nextNewsletterDate
+     *
+     * @param date $nextNewsletterDate
+     * @return $this
+     */
+    public function setNextNewsletterDate($nextNewsletterDate)
+    {
+        $this->nextNewsletterDate = $nextNewsletterDate;
+        return $this;
+    }
+
+    /**
+     * Get nextNewsletterDate
+     *
+     * @return date $nextNewsletterDate
+     */
+    public function getNextNewsletterDate()
+    {
+        return $this->nextNewsletterDate;
+    }
+
+    /**
+     * Set lastNewsletterSentAt
+     *
+     * @param date $lastNewsletterSentAt
+     * @return $this
+     */
+    public function setLastNewsletterSentAt($lastNewsletterSentAt)
+    {
+        $this->lastNewsletterSentAt = $lastNewsletterSentAt;
+        return $this;
+    }
+
+    /**
+     * Get lastNewsletterSentAt
+     *
+     * @return date $lastNewsletterSentAt
+     */
+    public function getLastNewsletterSentAt()
+    {
+        return $this->lastNewsletterSentAt;
     }
 }

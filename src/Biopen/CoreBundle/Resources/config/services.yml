@@ -7,3 +7,6 @@ services:
     class: Biopen\CoreBundle\Services\MailService
     arguments: [ "@doctrine.odm.mongoDB.document_manager", "@mailer", "@router", "@twig" ]
 
+  biopen.newsletter_service:
+    class: Biopen\CoreBundle\Services\NewsletterService
+    arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.mail_service" ]

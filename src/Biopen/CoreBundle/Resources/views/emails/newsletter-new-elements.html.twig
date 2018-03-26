@@ -1,0 +1,44 @@
+<table style="width:100%">
+  {% for element in elements %}
+    
+    <tr style="">
+      <td style="text-align: left;
+                  padding: 10px;
+                  padding-left: 4px;                
+                  line-height: 25px;
+                  border-bottom: 1px dashed grey;">
+
+        {# NAME #}
+        <div class="name" style="font-weight: bold;">{{ element.name | capitalize }}</div>
+        
+        {# DESCRIPTION #}
+        {% if element.description is defined %}
+          <div class="description" style="font-style: italic;color: #5f5f5f;">{{ element.description | capitalize }}</div>
+        {% endif %}
+        
+        {# ADDRESS #}
+        <div class="address" style="text-transform: capitalize">{{ element.getFormatedAddress() }}</div>
+
+      </td>
+      <td style="width: 80px;border-bottom: 1px dashed grey;">
+
+        {# LINK #}
+        <a href="{{ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">
+          <button class="btn-biopen btn-secondary small waves-light waves-effect btn"
+                  style= "font-size: 11px;
+                          line-height: 30px;
+                          height: 30px;
+                          padding: 0 15px;
+                          font-weight: bold;
+                          color: white;
+                          border-radius: 5px;
+                          text-transform: uppercase;
+                          letter-spacing: 1px;
+                          border: none;
+                          background-color: {{ config.secondaryColor }};">Voir !</button>
+        </a>
+
+      </td>
+    </tr>
+  {% endfor %}
+</table>

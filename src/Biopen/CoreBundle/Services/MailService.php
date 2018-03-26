@@ -3,6 +3,8 @@ namespace Biopen\CoreBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
+use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\CoreBundle\Document\User;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  
 class MailService 
@@ -91,12 +93,19 @@ class MailService
         $mailConfig = $this->getAutomatedMailConfigFromType($mailType);
 
         if ($mailConfig == null)
-            return [ 'success' => false, 'message' => $mailType . ' automated mail does not exist' ];        
+            return [ 'success' => false, 'message' => $mailType . ' automated mail does not exist' ];
+
+        $subject = $mailConfig->getSubject();  
+        $content = $mailConfig->getContent();
+
         if (!$mailConfig->getSubject() || !$mailConfig->getContent()) 
             return [ 'success' => false, 'message' => $mailType . ' automated mail missing subject or content' ];
 
-        $subject = $this->replaceMailsVariables($mailConfig->getSubject(), $element, $customMessage, $mailType, $option);
-        $content = $this->replaceMailsVariables($mailConfig->getContent(), $element, $customMessage, $mailType, $option);
+        if ($mailType == 'newsletter')
+            $content = $this->replaceNewElementsList($content, $option);
+
+        $subject = $this->replaceMailsVariables($subject, $element, $customMessage, $mailType, $option);
+        $content = $this->replaceMailsVariables($content, $element, $customMessage, $mailType, $option);
 
         return [ 'success' => true, 'subject' => $subject, 'content' => $content];
     }
@@ -126,6 +135,7 @@ class MailService
             case 'validation':     $mailConfig = $this->config->getValidationMail();break;
             case 'refusal':        $mailConfig = $this->config->getRefusalMail();break;
             case 'report':         $mailConfig = $this->config->getReportResolvedMail();break;
+            case 'newsletter':     $mailConfig = $this->config->getNewsletterMail();break;
         }
 
         return $mailConfig;
@@ -135,35 +145,55 @@ class MailService
     {
         if ($element !== null && $element)
         {
-            $showElementUrl = $this->router->generate('biopen_directory_showElement', array('name' => $element->getName(), 'id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
-            $showElementUrl = str_replace('%23', '#', $showElementUrl);
-            $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);            
-            $elementName = $element->getName();
-            $contribution = $element->getCurrContribution(); 
-            
-            if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
-                $user = $option->getUserDisplayName();
-            else
-                $user = $contribution ? $contribution->getUserDisplayName() : 'Inconnu';
+            if ($element instanceof Element)
+            {
+                $showElementUrl = $this->router->generate('biopen_directory_showElement', array('name' => $element->getName(), 'id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
+                $showElementUrl = str_replace('%23', '#', $showElementUrl);
+                $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);            
+                $elementName = $element->getName();
+                $contribution = $element->getCurrContribution(); 
+                $directEditElementUniqueUrl = $this->router->generate('biopen_element_edit',array("id" => $element->getId(), "hash" => $element->getRandomHash()), UrlGeneratorInterface::ABSOLUTE_URL);
+                
+                if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
+                    $user = $option->getUserDisplayName();
+                else
+                    $user = $contribution ? $contribution->getUserDisplayName() : 'Inconnu';
 
-            $string = preg_replace('/({{((?:\s)+)?element((?:\s)+)?}})/i', $elementName, $string);
-            $string = preg_replace('/({{((?:\s)+)?user((?:\s)+)?}})/i',    $user, $string);
-            $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
-            $string = preg_replace('/({{((?:\s)+)?showUrl((?:\s)+)?}})/i', $showElementUrl, $string);
-            $string = preg_replace('/({{((?:\s)+)?editUrl((?:\s)+)?}})/i', $editElementUrl, $string);            
-
-            $string = str_replace('http://http://', 'http://', $string);
-            $string = str_replace('http://', 'https://', $string);
+                $string = preg_replace('/({{((?:\s)+)?element((?:\s)+)?}})/i', $elementName, $string);
+                $string = preg_replace('/({{((?:\s)+)?user((?:\s)+)?}})/i',    $user, $string);
+                $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
+                $string = preg_replace('/({{((?:\s)+)?showUrl((?:\s)+)?}})/i', $showElementUrl, $string);
+                $string = preg_replace('/({{((?:\s)+)?editUrl((?:\s)+)?}})/i', $editElementUrl, $string);
+                $string = preg_replace('/({{((?:\s)+)?directEditElementUniqueUrl((?:\s)+)?}})/i', $directEditElementUniqueUrl, $string);
+            }
+            else if  ($element instanceof User) 
+            {
+                $string = preg_replace('/({{((?:\s)+)?user((?:\s)+)?}})/i', $element->getDisplayName(), $string);
+            }  
         }
 
         $homeUrl = $this->router->generate('biopen_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
-        $userContributionsUrl = $this->router->generate('biopen_user_contributions',array(), UrlGeneratorInterface::ABSOLUTE_URL);
-        $directEditElementUniqueUrl = $this->router->generate('biopen_element_edit',array("id" => $element->getId(), "hash" => $element->getRandomHash()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $userContributionsUrl = $this->router->generate('biopen_user_contributions',array(), UrlGeneratorInterface::ABSOLUTE_URL);        
+        $userProfileUrl = $this->router->generate('biopen_user_profile', array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
-        $string = preg_replace('/({{((?:\s)+)?userContributionsUrl((?:\s)+)?}})/i', $userContributionsUrl, $string);
-        $string = preg_replace('/({{((?:\s)+)?directEditElementUniqueUrl((?:\s)+)?}})/i', $directEditElementUniqueUrl, $string);
+        $string = preg_replace('/({{((?:\s)+)?userContributionsUrl((?:\s)+)?}})/i', $userContributionsUrl, $string);        
+        $string = preg_replace('/({{((?:\s)+)?userProfileUrl((?:\s)+)?}})/i', $userProfileUrl, $string);
+
+        $string = str_replace('http://http://', 'http://', $string);
+        $string = str_replace('http://', 'https://', $string);
+
+        return $string;
+    }
+
+    private function replaceNewElementsList($string, $elements)
+    {
+        $elementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
+            array('elements' => $elements, 'config' => $this->config)
+        );
+
+        $string = preg_replace('/({{((?:\s)+)?newElements((?:\s)+)?}})/i', $elementsHtml, $string);
 
         return $string;
     }

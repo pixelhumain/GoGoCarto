@@ -1919,26 +1919,4 @@ class Configuration
     {
         return $this->elementFormOwningText;
     }
-
-    /**
-     * Set newsletterMail
-     *
-     * @param Biopen\CoreBundle\Document\AutomatedMailConfiguration $newsletterMail
-     * @return $this
-     */
-    public function setNewsletterMail(\Biopen\CoreBundle\Document\AutomatedMailConfiguration $newsletterMail)
-    {
-        $this->newsletterMail = $newsletterMail;
-        return $this;
-    }
-
-    /**
-     * Get newsletterMail
-     *
-     * @return Biopen\CoreBundle\Document\AutomatedMailConfiguration $newsletterMail
-     */
-    public function getNewsletterMail()
-    {
-        return $this->newsletterMail;
-    }
 }

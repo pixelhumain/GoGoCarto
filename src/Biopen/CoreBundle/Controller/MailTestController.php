@@ -12,59 +12,69 @@ class MailTestController extends Controller
 {
    public function draftAutomatedAction(Request $request, $mailType)
    {
-     $mailService = $this->container->get('biopen.mail_service');
-     $draftResponse = $this->draftTest($mailType);
+      $mailService = $this->container->get('biopen.mail_service');
+      $draftResponse = $this->draftTest($mailType);
 
-     if ($draftResponse == null) return new Response('No visible elements in database, please create an element');
+      if ($draftResponse == null) return new Response('No visible elements in database, please create an element');
 
-     if ($draftResponse['success'])
-     {
+      if ($draftResponse['success'])
+      {
          $mailContent = $mailService->draftTemplate($draftResponse['content']);
          return $this->render('@BiopenCoreBundle/emails/test-emails.html.twig', array('subject' => $draftResponse['subject'], 'content' => $mailContent, 'mailType' => $mailType));
-     }
-     else
-     {
-        $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
-        return $this->redirecttoRoute('admin_biopen_core_configuration_list');    
-     }        
+      }
+      else
+      {
+         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
+         return $this->redirecttoRoute('admin_biopen_core_configuration_list');    
+      }        
    }
 
    public function sentTestAutomatedAction(Request $request, $mailType)
    {
-    $mail = $request->get('email');
+      $mail = $request->get('email');
 
-    if (!$mail) return new Response('Aucune adresse mail n\'a été renseignée');
-    $mailService = $this->container->get('biopen.mail_service');
+      if (!$mail) return new Response('Aucune adresse mail n\'a été renseignée');
+      $mailService = $this->container->get('biopen.mail_service');
 
-    $draftResponse = $this->draftTest($mailType);
+      $draftResponse = $this->draftTest($mailType);
 
-    if ($draftResponse == null) 
-    {
-      $request->getSession()->getFlashBag()->add('error', 'No visible elements in database, please create an element for email texting');
-      return $this->redirectToRoute('admin_biopen_core_configuration_list');    
-    }
+      if ($draftResponse == null) 
+      {
+         $request->getSession()->getFlashBag()->add('error', 'No elements in database, please create an element for email testing');
+         return $this->redirectToRoute('admin_biopen_core_configuration_list');    
+      }
 
-    if ($draftResponse['success'])
-    {
-       $mailContent = $mailService->sendMail($mail,$draftResponse['subject'], $draftResponse['content']); 
-       $request->getSession()->getFlashBag()->add('success', 'Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
-    }
-    else 
-    {
-       $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
-    }
-    return $this->redirectToRoute('biopen_mail_draft_automated', array('mailType' => $mailType));    
+      if ($draftResponse['success'])
+      {
+         $mailContent = $mailService->sendMail($mail,$draftResponse['subject'], $draftResponse['content']); 
+         $request->getSession()->getFlashBag()->add('success', 'Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
+      }
+      else 
+      {
+         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
+      }
+      return $this->redirectToRoute('biopen_mail_draft_automated', array('mailType' => $mailType));    
    }
 
-   private function draftTest($mailType)
-   {
-     $em = $this->get('doctrine_mongodb')->getManager();     
-     $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findVisibles()->getSingleResult();
+  private function draftTest($mailType)
+  {
+     $em = $this->get('doctrine_mongodb')->getManager();
+     $options = null;     
+
+     if ($mailType == 'newsletter')
+     {
+        $element = $em->getRepository('BiopenCoreBundle:User')->findOneByEnabled(true);
+        $options = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findBy([], null, 3);
+     }
+     else
+     {
+      $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findVisibles()->getSingleResult();
+     }     
 
      if (!$element) return null;
 
      $mailService = $this->container->get('biopen.mail_service');
-     $draftResponse = $mailService->draftEmail($mailType, $element, "Un customMessage de test");
+     $draftResponse = $mailService->draftEmail($mailType, $element, "Un customMessage de test", $options);
      return $draftResponse;
-   }
+  }
 }

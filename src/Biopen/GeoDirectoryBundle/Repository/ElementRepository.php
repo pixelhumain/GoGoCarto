@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-03-17 11:40:55
+ * @Last Modified time: 2018-03-26 20:02:59
  */
  
 
@@ -211,6 +211,15 @@ class ElementRepository extends DocumentRepository
     $qb->field('userOwnerEmail')->equals($userEmail);
     $qb->field('status')->notEqual(ElementStatus::ModifiedPendingVersion);
     $qb->sort('updatedAt', 'DESC');
+    return $qb->getQuery()->execute();
+  }
+
+  public function findWithinCenterFromDate($lat, $lng, $distance, $date)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $radius = $distance / 110;
+    $qb->field('geo')->withinCenter((float)$lat, (float)$lng, $radius);
+    $qb->field('createdAt')->gt($date);
     return $qb->getQuery()->execute();
   }
 }

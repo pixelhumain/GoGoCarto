@@ -33,8 +33,8 @@ class UserProfileType extends AbstractType
               ->add('newsletterRange', RangeType::class, [
                    'required' => false,
                    'attr' => array(
-                       'min' => 5,
-                       'max' => 50
+                       'min' => 1,
+                       'max' => 250
                    )
                   ]);
   }
