@@ -58,7 +58,7 @@ class User extends BaseUser
      * We send to user the recently added elements in a specific range in km from location
      * @MongoDB\Field(type="int")
      */
-    protected $newsletterRange;
+    public $newsletterRange;
 
     /**
      * The date where the last newsletter has been sent

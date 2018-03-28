@@ -105,11 +105,14 @@ class UserController extends GoGoController
       $current_user = clone $user;
       $form = $this->get('form.factory')->create(UserProfileType::class, $user);
       $em = $this->get('doctrine_mongodb')->getManager();
-      $userRepo = $em->getRepository('BiopenCoreBundle:User'); 
+      $userRepo = $em->getRepository('BiopenCoreBundle:User');
+      $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+
+      if (!$user->getNewsletterRange()) $user->setNewsletterRange(50);
 
       if ($form->handleRequest($request)->isValid())
       {         
-         // $alreadyUsedEmail    = count($this->userManager->findUserByEmail($user->getEmail())) > 0;
+         $alreadyUsedEmail    = ($current_user->getEmail()    != $user->getEmail())    && count($userRepo->findByEmail($user->getEmail())) > 0;
          $alreadyUsedUserName = ($current_user->getUsername() != $user->getUsername()) && count($userRepo->findByUsername($user->getUsername())) > 0;
          $locationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
          $geocodeError = false;
@@ -137,6 +140,6 @@ class UserController extends GoGoController
          }
       } 
 
-      return $this->render('@BiopenCoreBundle/user/profile.html.twig', array('user' => $user, 'form' => $form->createView()));        
+      return $this->render('@BiopenCoreBundle/user/profile.html.twig', array('user' => $user, 'form' => $form->createView(), 'config' => $config));        
    }
 }

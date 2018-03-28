@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2018-03-18 13:48:38
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-03-18 13:59:16
+* @Last Modified time: 2018-03-28 12:41:22
 */
 #page-content.user-profile 
 {
@@ -23,5 +23,26 @@
     width: 100%;
     margin-top: 2rem;
     margin-bottom: .5rem;
+  }
+
+  #address-preview-map
+  {
+    height:13rem;
+    margin-top: 1.5rem;
+    border-radius: 5px;
+    z-index: 500;
+    //border: 2px solid #D0CCCC;
+  }
+
+  a.leaflet-control-zoom-in {
+      font-size: 18px !important;
+      color: #3d3d3d;
+  }
+
+  a.leaflet-control-zoom-out {
+      font-size: 25px! important;
+      font-weight: normal;
+      color: #3d3d3d;
+      text-indent: 0;
   }
 }
