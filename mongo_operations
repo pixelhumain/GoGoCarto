@@ -62,10 +62,19 @@ db.Element.aggregate([
   {"$project": {"name" : 1, "contribs": "$contribs"} }
 ])
 
+# create script.js with : 
 db.Element.find({'moderationState':-2}).forEach(function(x){
   x.fetch();
   print(x.contributions.userMail+",");
 });
+# or other script
+db.User.find({'email': { $ne: '' }},{'mail':1, '_id':0}).forEach(function(x){
+  print(x.email+",");
+});
+# then run 
+mongo gogocarto_default script.js > export.csv
+# and copy it to your machine
+scp admin@colibris_prod:/home/admin/export.csv local-export-copy.csv
 
 db.Category.updateOne({depth: 0}, {$set: {isMainNode:true}})
 db.Category.updateMany({}, { $unset: { depth: "", isFixture: "" } })
