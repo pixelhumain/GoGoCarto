@@ -28,12 +28,15 @@ class NewsletterService
                                         $user->getGeo()->getLongitude(), 
                                         $user->getNewsletterRange(),
                                         $user->getLastNewsletterSentAt());
-      if ($elements->count() > 0)
+      $elementCount = $elements->count();
+      if ($elementCount > 0)
       {
         $this->mailService->sendAutomatedMail('newsletter', $user, null, $elements);
       }
 
       $user->setLastNewsletterSentAt(new \DateTime);
       $user->updateNextNewsletterDate();
+
+      return $elementCount;
    }
 }

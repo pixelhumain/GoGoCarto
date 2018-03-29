@@ -31,7 +31,8 @@ class NewsletterCommand extends ContainerAwareCommand
 
       foreach ($users as $key => $user)
       { 
-         $newsletterService->sendTo($user);
+         $nreElements = $newsletterService->sendTo($user);
+         $output->writeln('  -> User : ' . $user->getDisplayName() . ', location : ' . $user->getLocation() . ' / ' . $user->getNewsletterRange() . ' km -> Nre Elements : ' .  $nreElements);
          $em->persist($user);
       }
 
