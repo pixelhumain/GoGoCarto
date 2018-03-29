@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-03-26 11:54:12
+ * @Last Modified time: 2018-03-29 09:25:31
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -81,6 +81,7 @@ class ConfigurationMailAdmin extends AbstractAdmin
                     <li>{{ user }} le nom ou l'adresse mail du contributeur</li>
                     <li>{{ homeUrl }} l'adresse de la page d'accueil du site</li>
                     <li>{{ userProfileUrl }} l'adresse de la page \"Mes paramètres\" dans l'espace utilisateur</li>
+                    <li>{{ showOnMapBtn }} un bouton pour renvoyer vers la carte centrée sur la position de l'utilisateur</li>
                     </br>
                     <b>Une fois le mail sauvegardé</b>, vous pouvez cliquer sur le bouton <b>TESTER</b> pour visualiser le rendu"))->end()                
                 ->with("Newsletter" . $this->getEmailTestLink($router, 'newsletter'), array('class' => 'col-md-12'))

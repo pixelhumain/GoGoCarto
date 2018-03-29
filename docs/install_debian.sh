@@ -165,7 +165,7 @@ chmod -R 777 var/;
 
 # adding crontab task
 line="5 3 * * * php /var/www/html/CartoV3/bin/console app:elements:checkvote"
-line2="@hourly php /var/www/html/CartoV3/bin/console app:users:sendNewsletter"
+line2="@hourly php /var/www/html/CartoV3/bin/console --env=prod app:users:sendNewsletter"
 (crontab -l; echo "$line" ) | crontab -u userhere -
 
 # services au démarrage

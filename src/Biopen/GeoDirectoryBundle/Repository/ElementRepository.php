@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-03-26 20:02:59
+ * @Last Modified time: 2018-03-29 08:54:40
  */
  
 
@@ -214,12 +214,13 @@ class ElementRepository extends DocumentRepository
     return $qb->getQuery()->execute();
   }
 
-  public function findWithinCenterFromDate($lat, $lng, $distance, $date)
+  public function findWithinCenterFromDate($lat, $lng, $distance, $date, $limit = null)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $radius = $distance / 110;
     $qb->field('geo')->withinCenter((float)$lat, (float)$lng, $radius);
     $qb->field('createdAt')->gt($date);
+    if ($limit) $qb->limit($limit);
     return $qb->getQuery()->execute();
   }
 }

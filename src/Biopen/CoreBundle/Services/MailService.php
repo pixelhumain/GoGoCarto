@@ -102,7 +102,7 @@ class MailService
             return [ 'success' => false, 'message' => $mailType . ' automated mail missing subject or content' ];
 
         if ($mailType == 'newsletter')
-            $content = $this->replaceNewElementsList($content, $option);
+            $content = $this->replaceNewElementsList($content, $option, $element);
 
         $subject = $this->replaceMailsVariables($subject, $element, $customMessage, $mailType, $option);
         $content = $this->replaceMailsVariables($content, $element, $customMessage, $mailType, $option);
@@ -183,17 +183,23 @@ class MailService
 
         $string = str_replace('http://http://', 'http://', $string);
         $string = str_replace('http://', 'https://', $string);
+        $string = str_replace('https://https://', 'https://', $string);
 
         return $string;
     }
 
-    private function replaceNewElementsList($string, $elements)
+    private function replaceNewElementsList($string, $elements, $user)
     {
         $elementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
             array('elements' => $elements, 'config' => $this->config)
         );
 
+        $showOnMapBtnHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-show-on-map-button.html.twig',
+            array('config' => $this->config, 'user' => $user)
+        );
+
         $string = preg_replace('/({{((?:\s)+)?newElements((?:\s)+)?}})/i', $elementsHtml, $string);
+        $string = preg_replace('/({{((?:\s)+)?showOnMapBtn((?:\s)+)?}})/i', $showOnMapBtnHtml, $string);
 
         return $string;
     }

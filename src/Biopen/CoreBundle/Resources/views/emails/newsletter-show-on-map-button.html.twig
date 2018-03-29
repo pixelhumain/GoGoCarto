@@ -1,0 +1,15 @@
+{% set params = '#/carte/' ~ user.location ~ '@' ~ user.geo.latitude ~ ',' ~ user.geo.longitude ~ ',11z' %}
+<a href="{{ url('biopen_directory') ~ params }}">
+  <button class="btn-biopen btn-secondary small waves-light waves-effect btn"
+    style= "font-size: 11px;
+            line-height: 30px;
+            height: 30px;
+            padding: 0 15px;
+            font-weight: bold;
+            color: white;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            background-color: {{ config.primaryColor }};">Voir la carte près de chez vous</button>
+</a>

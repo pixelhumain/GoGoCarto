@@ -27,7 +27,9 @@ class NewsletterService
                                         $user->getGeo()->getLatitude(), 
                                         $user->getGeo()->getLongitude(), 
                                         $user->getNewsletterRange(),
-                                        $user->getLastNewsletterSentAt());
+                                        $user->getLastNewsletterSentAt(),
+                                        20);
+
       $elementCount = $elements->count();
       if ($elementCount > 0)
       {

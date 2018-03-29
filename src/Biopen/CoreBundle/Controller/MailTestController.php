@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Biopen\GeoDirectoryBundle\Document\Coordinates;
 
 
 class MailTestController extends Controller
@@ -64,7 +65,9 @@ class MailTestController extends Controller
      if ($mailType == 'newsletter')
      {
         $element = $em->getRepository('BiopenCoreBundle:User')->findOneByEnabled(true);
-        $options = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findBy([], null, 3);
+        $element->setLocation('bordeaux');
+        $element->setGeo(new Coordinates(44.876,-0.512));
+        $options = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findBy([], null, 3); 
      }
      else
      {
