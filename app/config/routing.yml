@@ -71,3 +71,7 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
+other:
+    path: /{anything}
+    defaults: { _controller: BiopenCoreBundle:Core:home }
+
