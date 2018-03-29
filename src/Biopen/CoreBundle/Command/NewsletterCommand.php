@@ -24,7 +24,7 @@ class NewsletterCommand extends ContainerAwareCommand
       $usersRepo = $em->getRepository('BiopenCoreBundle:User');
       
       $users = $usersRepo->findNeedsToReceiveNewsletter();
-
+      $users->limit(70);
       $nbrUsers = $users->count();
 
       $newsletterService = $this->getContainer()->get('biopen.newsletter_service');
