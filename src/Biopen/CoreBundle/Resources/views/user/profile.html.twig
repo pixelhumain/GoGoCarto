@@ -95,15 +95,16 @@
         // if (markerPosition)  marker = new L.Marker(markerPosition, { draggable: false } );        
 
         var circle = L.circle(markerPosition, {
-            color: '{{ config.neutralColor }}',
-            fillColor: '{{ config.neutralColor }}',
+            color: '{{ config.secondaryColor }}',
+            opacity: 0.8,
+            fillColor: '{{ config.secondaryColor }}',
             fillOpacity: 0.5,
             radius: user.newsletterRange * 1000
         });
 
         var circleCenter = L.circle(markerPosition, {
-            color: '{{ config.neutralColor }}',
-            fillColor: '{{ config.neutralColor }}',
+            color: '{{ config.secondaryColor }}',
+            fillColor: '{{ config.secondaryColor }}',
             fillOpacity: 1,
             radius: 100
         })
