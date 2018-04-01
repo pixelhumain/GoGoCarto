@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-03 15:23:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-04-01 13:05:59
+ * @Last Modified time: 2018-04-01 13:15:05
  */
 
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -39,7 +39,7 @@ class OptionValue
     {
         $result = "{";
         $result .=  '"categoryId":"'   . $this->optionId . '"';
-        $result .=', "description":"'  . json_encode($this->description) . '"';
+        $result .=', "description":'  . json_encode($this->description);
         $result .= "}";
         return $result;
     }
