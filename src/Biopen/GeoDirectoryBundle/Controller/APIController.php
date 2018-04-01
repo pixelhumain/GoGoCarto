@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-02-28 12:52:00
+ * @Last Modified time: 2018-04-01 13:48:54
  */
  
 
@@ -52,8 +52,7 @@ class APIController extends Controller
       $limit = $request->get('test') ? 10 : $request->get('limit');
       $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
       $fullRepresentation =  $jsonLdRequest || $ontology != "gogocompact";
-      $elementId = $id ? $id : $request->get('id');
-      $mainOptionId = $request->get('mainOptionId');
+      $elementId = $id ? $id : $request->get('id');      
 
       if ($elementId) 
       {
@@ -71,7 +70,7 @@ class APIController extends Controller
             $boxes[] = explode( ',' , $bound);
           }
 
-          $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $mainOptionId, $fullRepresentation, $isAdmin, $limit);          
+          $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request, $fullRepresentation, $isAdmin, $limit);          
         } 
         else
         {

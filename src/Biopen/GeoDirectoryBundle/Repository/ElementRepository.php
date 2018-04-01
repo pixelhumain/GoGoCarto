@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-03-29 16:12:46
+ * @Last Modified time: 2018-04-01 15:09:37
  */
  
 
@@ -42,8 +42,7 @@ class ElementRepository extends DocumentRepository
                 ->field('status')->gt(ElementStatus::Duplicate)
                 ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)                
                 ->sortMeta('score', 'textScore')
-                ->hydrate(false)->getQuery()->execute()->toArray();
-    
+                ->hydrate(false)->getQuery()->execute()->toArray();    
   }
 
   public function findPerfectDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
@@ -54,42 +53,28 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     return $qb  ->field('name')->equals($text)
                 ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)           
-                ->hydrate(false)->getQuery()->execute()->toArray();
-    
+                ->hydrate(false)->getQuery()->execute()->toArray();    
   }
 
-  public function findWhithinBoxes($bounds, $optionId, $getFullRepresentation, $isAdmin = false, $limit = null)
+  public function findWhithinBoxes($bounds, $request, $getFullRepresentation, $isAdmin = false, $limit = null)
   {
-    $results = [];
-
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    //dump("quering getFullRepresentation " . $getFullRepresentation);
+    $status = ($request->get('pendings') === "false") ? ElementStatus::AdminValidate : ElementStatus::PendingModification;
+    $this->filterVisibles($qb, $status);
 
+    $mainOptionId = $request->get('mainOptionId');
+    if ($mainOptionId && $mainOptionId != "all") $qb->field('optionValues.optionId')->in(array((float) $optionId));
+
+    // get elements within box
     foreach ($bounds as $key => $bound) 
-    {
-      if (count($bound) == 4)
-      {
-        $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+      if (count($bound) == 4)        
+        $qb->addOr($qb->expr()->field('geo')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]));
+    
+    $this->selectJson($qb, $getFullRepresentation, $isAdmin);
 
-        $this->filterVisibles($qb);
-
-        if ($optionId && $optionId != "all")
-        {
-          //$qb->where("function() { return this.optionValues.some(function(optionValue) { return optionValue.optionId == " . $optionId . "; }); }");
-          $qb->field('optionValues.optionId')->in(array((float) $optionId));
-        }
-
-        // get elements within box
-        $qb->field('geo')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]);
-
-        $this->selectJson($qb, $getFullRepresentation, $isAdmin);
-
-        // execute request   
-        $array = $this->queryToArray($qb);
-        $results = array_merge($results, $array);  
-      }
-    }
+    // execute request   
+    $results = $this->queryToArray($qb); 
 
     return $results;
   }
@@ -106,8 +91,7 @@ class ElementRepository extends DocumentRepository
     
     $this->filterVisibles($qb);
                 
-    return $this->queryToArray($qb);
-    
+    return $this->queryToArray($qb);    
   }
 
   public function findPendings($getCount = false)
@@ -181,10 +165,10 @@ class ElementRepository extends DocumentRepository
     return $qb->hydrate(false)->getQuery()->execute()->toArray();
   }
 
-  private function filterVisibles($qb)
+  private function filterVisibles($qb, $status = ElementStatus::PendingModification)
   {
     // fetching pendings and validated
-    $qb->field('status')->gte(ElementStatus::PendingModification);
+    $qb->field('status')->gte($status);
     // removing element withtout category or withtout geolocation
     $qb->field('moderationState')->notIn(array(ModerationState::GeolocError, ModerationState::NoOptionProvided));
     return $qb;
