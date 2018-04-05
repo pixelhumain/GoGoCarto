@@ -21,7 +21,8 @@ abstract class UserRoles
     const Anonymous = 0;
     const AnonymousWithEmail = 1;
     const Loggued = 2;  
-    const Admin = 3;  
+    const Admin = 3; 
+    const AnonymousWithHash = 4; 
 }
 
 /** @MongoDB\Document */
@@ -118,7 +119,7 @@ class UserInteraction
         return $this->getUserRole() == UserRoles::Admin;
     }
 
-    public function updateUserInformation($securityContext, $email = null)
+    public function updateUserInformation($securityContext, $email = null, $directModerationWithHash = false)
     {
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
@@ -133,14 +134,13 @@ class UserInteraction
                 $this->setUserEmail($email);
                 $this->setUserRole(UserRoles::AnonymousWithEmail);
             }
-            else
-            {
-                $this->setUserRole(UserRoles::Anonymous);
-            }
+            else $this->setUserRole(UserRoles::Anonymous);
+            
+            if ($directModerationWithHash) $this->setUserRole(UserRoles::AnonymousWithHash);            
         }
     }
 
-    public function updateResolvedBy($securityContext, $email = null)
+    public function updateResolvedBy($securityContext, $email = null, $directModerationWithHash = false)
     {
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
         {
@@ -149,14 +149,9 @@ class UserInteraction
         }
         else 
         {
-            if ($email)
-            {
-                $this->setResolvedBy($email);
-            }
-            else
-            {
-                $this->setResolvedBy('Anonymous');
-            }
+            if ($email)                          $this->setResolvedBy($email);
+            else if ($directModerationWithHash)  $this->setResolvedBy('Anonymous with hash');
+            else                                 $this->setResolvedBy('Anonymous');
         }
     }
 

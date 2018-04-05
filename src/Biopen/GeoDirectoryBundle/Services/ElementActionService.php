@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:06:48
+ * @Last Modified time: 2018-04-05 08:53:44
  */
  
 
@@ -63,10 +63,11 @@ class ElementActionService
       $element->updateTimestamp();
    }
 
-   public function edit($element, $sendMail = true, $message = null, $modifiedByOwner = false)
+   public function edit($element, $sendMail = true, $message = null, $modifiedByOwner = false, $directModerationWithHash = false)
    {
       $status = $modifiedByOwner ? ElementStatus::ModifiedByOwner : ElementStatus::ModifiedByAdmin;
-      $this->addContribution($element, $message, InteractType::Edit, $status);
+      $status = $directModerationWithHash ? ElementStatus::ModifiedFromHash : $status;
+      $this->addContribution($element, $message, InteractType::Edit, $status, $directModerationWithHash);
       $element->setStatus($status); 
       if (!$modifiedByOwner) $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
@@ -123,13 +124,12 @@ class ElementActionService
       $element->updateTimestamp();
    }
 
-   private function addContribution($element, $message, $InteractType, $status)
+   private function addContribution($element, $message, $InteractType, $status, $directModerationWithHash = false)
    {
       $contribution = new UserInteractionContribution();
-      $contribution->updateUserInformation($this->securityContext);
+      $contribution->updateUserInformation($this->securityContext, null, $directModerationWithHash);
       $contribution->setResolvedMessage($message);
-      $contribution->updateResolvedBy($this->securityContext);
-      $contribution->setType($InteractType);
+      $contribution->updateResolvedBy($this->securityContext, null, $directModerationWithHash);
       $contribution->setType($InteractType);
       $contribution->setStatus($status);
       $element->addContribution($contribution);

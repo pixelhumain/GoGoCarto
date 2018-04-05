@@ -22,7 +22,8 @@
 			{% include "@BiopenGeoDirectory/element-form/form-partials/user-validation.html.twig" %}	
 		{% endif %}
 
-		<div class="col s12 checkbox-container" {{ config.elementFormOwningText ? '' : 'style="display:none"'}}>     
+		{% set showOwnerCheckbox = config.elementFormOwningText and (userType == "loggued" or userType == "email") %}
+		<div class="col s12 checkbox-container" {{ showOwnerCheckbox ? '' : 'style="display:none"'}}>     
 	    <input type="checkbox" name="owning" id="owning" {{ userEmail == element.userOwnerEmail ? 'checked' : '' }} />
 	    <label id="label-owning" for="owning">{{ config.elementFormOwningText | raw }}</label>
 	  </div>

@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-03-18 15:25:35
+ * @Last Modified time: 2018-04-05 08:44:59
  */
  
 
@@ -71,8 +71,11 @@ class ElementFormController extends GoGoController
 
 		if ($request->get('logout')) $session->remove('userEmail');
 
+		$userType = "anonymous";
+		$isEditingWithHash = $element->getRandomHash() == $request->get('hash');
+
 		// is user not allowed, we show the contributor-login page
-		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')) && $element->getRandomHash() != $request->get('hash'))
+		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')) && !$isEditingWithHash)
 		{
 			// creating simple form to let user enter a email address
 			$loginform = $this->get('form.factory')->createNamedBuilder('user', 'form')
@@ -88,6 +91,7 @@ class ElementFormController extends GoGoController
 			if ($loginform->handleRequest($request)->isValid() && !$emailAlreadyUsed) 
 			{				
 				$session->set('userEmail', $userEmail);
+				$userType = "email";
 			}
 			else
 			{
@@ -102,22 +106,26 @@ class ElementFormController extends GoGoController
 		{			
 			if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
 			{
+				$userType = "loggued";
 				$user = $this->get('security.context')->getToken()->getUser();
 				$userRoles = $user->getRoles();
 				$userEmail = $user->getEmail();
 			}
 			else if ($session->has('userEmail'))
 			{
+				$userType = "email";
 				$user = $session->get('userEmail');
 				$userEmail = $session->get('userEmail');
 			}
-			else if ($element->getRandomHash() == $request->get('hash'))
+			else if ($isEditingWithHash)
 			{
+				$userType = "hash";
 				$user = 'Anonymous with Hash';
 				$userEmail = 'Anonymous with Hash';
 			}
 			else
 			{
+				$userType = "anonymous";
 				$user = 'Anonymous';
 				$userEmail = 'Anonymous';
 			}
@@ -126,12 +134,13 @@ class ElementFormController extends GoGoController
 		// We need to detect if the owner contribution has been validated. Because after that, the owner have direct moderation on the element
 		// To check that, we check is element is Valid or element is pending but from a contribution not made by the owner
 		$isUserOwnerOfValidElement = $editMode && ($element->isValid() || $element->isPending() && $element->getCurrContribution()->getUserEmail() != $userEmail)
-											  && $element->getUserOwnerEmail() && $element->getUserOwnerEmail() == $userEmail;
+											  && $element->getUserOwnerEmail() && $element->getUserOwnerEmail() == $userEmail;		
 		
 		$isAllowedDirectModeration = $configService->isUserAllowed('directModeration') 
 											  || (!$editMode && in_array('ROLE_DIRECTMODERATION_ADD', $userRoles))
 											  || ($editMode && in_array('ROLE_DIRECTMODERATION_EDIT_OWN_CONTRIB', $userRoles) && $element->hasValidContributionMadeBy($userEmail))
-											  || $isUserOwnerOfValidElement;	
+											  || $isUserOwnerOfValidElement
+											  || $isEditingWithHash;	
 
 		$editingOwnPendingContrib = $element->isPending() && $element->getCurrContribution() && $element->getCurrContribution()->getUserEmail() == $userEmail;
 
@@ -229,10 +238,11 @@ class ElementFormController extends GoGoController
             $elementActionService = $this->container->get('biopen.element_action_service');
             $message = $request->get('admin-message');            
             
+            dump($isAllowedDirectModeration);
             if ($isAllowedDirectModeration)
             {
                if (!$editMode) $elementActionService->add($element, $sendMail, $message);
-               else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement);           
+               else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement, $isEditingWithHash);           
             }
             else // non direct moderation
             {            
@@ -302,9 +312,10 @@ class ElementFormController extends GoGoController
 						'mainCategory'=> $mainCategory,
 						"element" => $element,
 						"userEmail" => $userEmail,
+						"userType" => $userType,
 						"isAllowedDirectModeration" => $isAllowedDirectModeration,
 						"isAnonymousWithEmail" => $session->has('userEmail'),
-						"config" => $configService->getConfig()
+						"config" => $configService->getConfig(),
 					));
 	}
 

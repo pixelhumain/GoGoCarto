@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-03-05 12:37:19
+ * @Last Modified time: 2018-04-05 08:53:05
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -29,7 +29,8 @@ abstract class ElementStatus
     const CollaborativeValidate = 2;
     const AddedByAdmin = 3; 
     const ModifiedByAdmin = 4; 
-    const ModifiedByOwner = 5;            
+    const ModifiedByOwner = 5; 
+    const ModifiedFromHash = 6;           
 }
 
 abstract class ModerationState
