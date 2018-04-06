@@ -106,6 +106,10 @@
                 <source>form.label_enabled</source>
                 <target>Activé</target>
             </trans-unit>
+            <trans-unit id="form.label_allowed_stamps">
+                <source>form.label_allowed_stamps</source>
+                <target>Etiquettes autorisées</target>
+            </trans-unit>
             <trans-unit id="form.label_credentials_expired">
                 <source>form.label_credentials_expired</source>
                 <target>Droits expirés</target>

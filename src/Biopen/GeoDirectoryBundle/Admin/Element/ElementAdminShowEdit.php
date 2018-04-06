@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-02-08 16:47:14
+ * @Last Modified time: 2018-04-06 10:21:08
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -30,7 +30,14 @@ class ElementAdminShowEdit extends ElementAdminList
 			->add('website', 'text', array('required' => false)) 
 			->add('email', 'text', array('required' => false))
 			->add('openHoursMoreInfos', 'text', array('required' => false)) 
-      ->add('userOwnerEmail', 'text', array('required' => false)) 
+      ->add('userOwnerEmail', 'text', array('required' => false))
+      ->add('stamps', 'sonata_type_model', array(
+            'label' => "Etiquettes",
+            'required' => false,
+            'choices_as_values' => true,
+            'expanded' => false,
+            'multiple' => true,
+        ))
 		->end();      
 	}	
 

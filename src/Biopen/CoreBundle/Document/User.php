@@ -93,6 +93,12 @@ class User extends BaseUser
     protected $votesCount;
 
     /**
+     * Private Labels/Tags than the user can use
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Stamp", cascade={"all"})
+     */
+    protected $allowedStamps;
+
+    /**
      * @var string
      * @MongoDB\Field(type="string")
      */
@@ -661,5 +667,35 @@ class User extends BaseUser
     public function getLastNewsletterSentAt()
     {
         return $this->lastNewsletterSentAt;
+    }
+
+    /**
+     * Add allowedStamp
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Stamp $allowedStamp
+     */
+    public function addAllowedStamp(\Biopen\GeoDirectoryBundle\Document\Stamp $allowedStamp)
+    {
+        $this->allowedStamps[] = $allowedStamp;
+    }
+
+    /**
+     * Remove allowedStamp
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Stamp $allowedStamp
+     */
+    public function removeAllowedStamp(\Biopen\GeoDirectoryBundle\Document\Stamp $allowedStamp)
+    {
+        $this->allowedStamps->removeElement($allowedStamp);
+    }
+
+    /**
+     * Get allowedStamps
+     *
+     * @return \Doctrine\Common\Collections\Collection $allowedStamps
+     */
+    public function getAllowedStamps()
+    {
+        return $this->allowedStamps;
     }
 }

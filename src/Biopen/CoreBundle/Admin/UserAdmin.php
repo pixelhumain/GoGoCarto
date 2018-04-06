@@ -42,7 +42,8 @@ class UserAdmin extends AbstractAdmin
             ->add('reportsCount', null, ['label' => 'Signalements'])
             // ->add('enabled', null, array('editable' => true))
             // ->add('locked', null, array('editable' => true))
-            ->add('createdAt','date', array("format" => "d/m/Y"))          
+            ->add('createdAt','date', array("format" => "d/m/Y")) 
+
         ;
 
         if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
@@ -211,6 +212,12 @@ class UserAdmin extends AbstractAdmin
                     ->add('plainPassword', $textType, array(
                         'required' => (!$this->getSubject() || is_null($this->getSubject()->getId())),
                     ))
+                    ->add('allowedStamps', $modelType, array(
+                        'required' => false,
+                        'choices_as_values' => true,
+                        'expanded' => false,
+                        'multiple' => true,
+                    ))
                 ->end()
                 ->with('Status')
                     ->add('locked', null, array('required' => false))
@@ -218,7 +225,7 @@ class UserAdmin extends AbstractAdmin
                     ->add('enabled', null, array('required' => false))
                     ->add('credentialsExpired', null, array('required' => false))
                 ->end()
-                ->with('Groups')
+                ->with('Groups')                    
                     ->add('groups', $modelType, array(
                         'required' => false,
                         'choices_as_values' => true,

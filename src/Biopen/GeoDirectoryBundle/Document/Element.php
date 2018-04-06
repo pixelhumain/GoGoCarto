@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-05 08:53:05
+ * @Last Modified time: 2018-04-06 09:15:37
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -103,6 +103,13 @@ class Element
      * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Element", cascade={"all"})
      */
     private $modifiedElement;
+
+    /**
+     * Labels/Tags added to an element by specific organisations/people
+     *
+     * @MongoDB\ReferenceMany(targetDocument="Biopen\GeoDirectoryBundle\Document\Stamp", cascade={"all"})
+     */
+    private $stamps;
 
     /**
      * @var string
@@ -1266,5 +1273,35 @@ class Element
     public function getUserOwnerEmail()
     {
         return $this->userOwnerEmail;
+    }
+
+    /**
+     * Add stamp
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Stamp $stamp
+     */
+    public function addStamp(\Biopen\GeoDirectoryBundle\Document\Stamp $stamp)
+    {
+        $this->stamps[] = $stamp;
+    }
+
+    /**
+     * Remove stamp
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Stamp $stamp
+     */
+    public function removeStamp(\Biopen\GeoDirectoryBundle\Document\Stamp $stamp)
+    {
+        $this->stamps->removeElement($stamp);
+    }
+
+    /**
+     * Get stamps
+     *
+     * @return \Doctrine\Common\Collections\Collection $stamps
+     */
+    public function getStamps()
+    {
+        return $this->stamps;
     }
 }
