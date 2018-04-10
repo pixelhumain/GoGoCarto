@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-04-01 13:48:54
+ * @Last Modified time: 2018-04-10 11:38:38
  */
  
 
@@ -27,8 +27,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
-
-use MongoClient;
 
 class APIController extends Controller
 {

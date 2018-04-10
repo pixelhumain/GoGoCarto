@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-07 14:59:55
+ * @Last Modified time: 2018-04-10 11:56:28
  */
  
 
@@ -65,6 +65,9 @@ class ElementRepository extends DocumentRepository
 
     $mainOptionId = $request->get('mainOptionId');
     if ($mainOptionId && $mainOptionId != "all") $qb->field('optionValues.optionId')->in(array((float) $mainOptionId));
+
+    $stampsIds = $request->get('stampsIds');
+    if ($stampsIds) $qb->field('stamps.id')->in(explode(',', $stampsIds));
 
     // get elements within box
     foreach ($bounds as $key => $bound) 
