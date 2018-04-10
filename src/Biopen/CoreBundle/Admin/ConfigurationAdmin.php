@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-03-26 11:53:58
+ * @Last Modified time: 2018-04-10 12:18:36
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -63,6 +63,8 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('directionsFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Signalement d\'une erreur', $featureStyle)
                     ->add('reportFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Etiquetter les éléments', $featureStyle)
+                    ->add('stampFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Affichage des éléments en attente de validation', $featureStyle)
                     ->add('pendingFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Envoyer un mail à un élement', $featureStyle)

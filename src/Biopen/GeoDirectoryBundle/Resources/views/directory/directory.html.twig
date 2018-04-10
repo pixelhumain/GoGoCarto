@@ -78,10 +78,11 @@
 
                 vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }}, 
                 sendMail: {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }}, 
-                stamp: { 
-                    url: "{{ path('biopen_element_stamp') }}",
-                    options: { allowedStamps: {{ user.allowedStamps | json_encode | raw }} },
-                },    
+                stamp: {{ this.getConfigFrom(
+                        config.stampFeature, 
+                        path('biopen_element_stamp'),
+                        { "options": { "allowedStamps": allowedStamps } } 
+                    ) }},   
                 directions: {},
                 layers: {},
                 mapdefaultview: {}
@@ -135,9 +136,13 @@
         inIframe: {{ feature.activeInIframe ? 'true' : 'false' }},
         url: "{{ path | default('') }}", 
         {% if overide.roles is defined %}
-            roles: {{ overide.roles | raw }}
+            roles: {{ overide.roles | raw }},
         {% else %}
-            roles: {{ feature.getAllowedRoles | json_encode | raw }}
+            roles: {{ feature.getAllowedRoles | json_encode | raw }},
+        {% endif %}
+
+        {% if overide.options is defined %}
+            options: {{ overide.options | json_encode | raw }}
         {% endif %}
     }
 {% endmacro %}

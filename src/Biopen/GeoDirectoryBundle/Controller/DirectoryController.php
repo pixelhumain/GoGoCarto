@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-07 16:09:47
+ * @Last Modified time: 2018-04-10 12:43:45
  */
  
 
@@ -54,13 +54,18 @@ class DirectoryController extends GoGoController
         $userGogocartoRole = [$userGogocartoRole];
         $userEmail = $user ? $user->getEmail() : $this->getRequest()->getSession()->get('userEmail');
 
-        $stamps = $user ? $user->getAllowedStamps()->toArray() : [];
-        foreach ($stamps as $stamp) {
-            $result = $elementsRep->findStampedWithId($stamp->getId());
-            $elementIds = [];
-            foreach ($result as $obj) $elementIds[] = $obj['_id'];
-            $stamp->setElementIds($elementIds);
-        }
+        $allowedStamps = [];
+        if ($config->getStampFeature()->getActive())
+        {
+            $stamps = $user ? $user->getAllowedStamps()->toArray() : [];
+            foreach ($stamps as $stamp) {
+                $result = $elementsRep->findStampedWithId($stamp->getId());
+                $elementIds = [];
+                foreach ($result as $obj) $elementIds[] = $obj['_id'];
+                $stamp->setElementIds($elementIds);
+            }
+            $allowedStamps = $user ? $user->getAllowedStamps()->toArray() : [];
+        }            
 
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array('mainCategoryJson'      => $mainCategoryJson, 
@@ -68,7 +73,7 @@ class DirectoryController extends GoGoController
                                     'userGogocartoRole'     => $userGogocartoRole,
                                     'userEmail'             => $userEmail,
                                     'user'                  => $user,
-                                    'stamps'                => $stamps,
+                                    'allowedStamps'         => $allowedStamps,
                                     'config'                => $config, 
                                     'tileLayers'            => $tileLayers));
     }

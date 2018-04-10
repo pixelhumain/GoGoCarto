@@ -86,7 +86,10 @@ class Configuration
     protected $directionsFeature;    
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
-    protected $reportFeature;   
+    protected $reportFeature;  
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $stampFeature;  
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
     protected $pendingFeature;
@@ -1940,5 +1943,27 @@ class Configuration
     public function getNewsletterMail()
     {
         return $this->newsletterMail;
+    }
+
+    /**
+     * Set stampFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $stampFeature
+     * @return $this
+     */
+    public function setStampFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $stampFeature)
+    {
+        $this->stampFeature = $stampFeature;
+        return $this;
+    }
+
+    /**
+     * Get stampFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $stampFeature
+     */
+    public function getStampFeature()
+    {
+        return $this->stampFeature;
     }
 }
