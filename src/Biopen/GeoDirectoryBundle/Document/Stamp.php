@@ -18,7 +18,7 @@ class Stamp
      * @var string
      * @MongoDB\Field(type="string")
      */
-   public $name;
+   public $name = "";
 
    /**
      * @var bool
@@ -29,7 +29,7 @@ class Stamp
    // non persisted. Array of elements ids taged with this stamp
    public $elementIds = [];
 
-   public function __toString() { return $this->getName(); }
+   public function __toString() { return $this->getName() ? $this->getName() : ""; }
 
     /**
      * Get id
