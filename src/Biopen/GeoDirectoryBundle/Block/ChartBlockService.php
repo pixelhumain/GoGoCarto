@@ -134,15 +134,31 @@ class ChartBlockService extends AbstractBlockService
     	// ----------------------
 		// CONTRIBUTIONS RESOLVED
 		// ----------------------
-		$data = $this->getDataHowContributionAreResolved();
+		$contribsAddResolvedPie = $this->createChartFormContribution([InteractionType::Add], "Ajouts résolus", 'contribsAddResolvedPie');
+		$contribsEditResolvedPie = $this->createChartFormContribution([InteractionType::Edit], "Modifications résolues", 'contribsEditResolvedPie');
+
+	   return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_charts.html.twig', array(
+	        'block'     => $blockContext->getBlock(),
+	        'settings'  => $blockContext->getSettings(),
+	        'userInteractChart' => $userInteractChart,
+	        'collabResolveChart' => $collabResolveChart,
+	        'contribsAddResolvedPie' => $contribsAddResolvedPie,
+	        'contribsEditResolvedPie' => $contribsEditResolvedPie,
+	        'customDashboard' => $this->configService->getConfig()->getCustomDashboard()
+	   ), $response);
+	}
+
+	private function createChartFormContribution($types, $title, $name)
+	{
+		$data = $this->getDataHowContributionAreResolved($types);
 		$contribResolvedData = array(
     		array('type' => 'pie','name' => 'Résolution des contributions', 'data' => $data),
     	);
 		$totalContribs = 0;
 		foreach ($data as $k => $val) { $totalContribs += $val['y']; }
 		$contribsResolvedPie = new Highchart();
-		$contribsResolvedPie->chart->renderTo('contribsResolvedPie');
-		$contribsResolvedPie->title->text('Contributions Résolues');
+		$contribsResolvedPie->chart->renderTo($name);
+		$contribsResolvedPie->title->text($title);
 		$contribsResolvedPie->subtitle->text('Nombre Total (depuis le début): <b>' . $totalContribs . '</b>');
 		$contribsResolvedPie->plotOptions->pie(array(
 		    'allowPointSelect'  => true,
@@ -151,15 +167,7 @@ class ChartBlockService extends AbstractBlockService
 		));
 		$contribsResolvedPie->tooltip->pointFormat('{series.name} : <b>{point.percentage:.1f}%</b>');
     	$contribsResolvedPie->series($contribResolvedData);
-
-	   return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_charts.html.twig', array(
-	        'block'     => $blockContext->getBlock(),
-	        'settings'  => $blockContext->getSettings(),
-	        'userInteractChart' => $userInteractChart,
-	        'collabResolveChart' => $collabResolveChart,
-	        'contribsResolvedPie' => $contribsResolvedPie,
-	        'customDashboard' => $this->configService->getConfig()->getCustomDashboard()
-	   ), $response);
+    	return $contribsResolvedPie;
 	}
 
 	private function dateRange( $first, $last, $step = '+1 day', $format = 'm/d/Y' ) 
@@ -262,12 +270,12 @@ class ChartBlockService extends AbstractBlockService
 		return $qb;
 	}
 
-	private function getDataHowContributionAreResolved()
+	private function getDataHowContributionAreResolved($types)
 	{
 		$builder = $this->em->createAggregationBuilder('BiopenGeoDirectoryBundle:UserInteractionContribution');
 		$builder
 		  ->match()
-		  		->field('type')->in([InteractionType::Add,InteractionType::Edit])
+		  		->field('type')->in($types)
 		  		->field('userRole')->notEqual('3') // not by an admin
 		  		->field('status')->notIn([-5, null]) // -5 = pending modification, null = not resolved
         ->group()
