@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-01 15:09:37
+ * @Last Modified time: 2018-04-07 14:59:55
  */
  
 
@@ -64,7 +64,7 @@ class ElementRepository extends DocumentRepository
     $this->filterVisibles($qb, $status);
 
     $mainOptionId = $request->get('mainOptionId');
-    if ($mainOptionId && $mainOptionId != "all") $qb->field('optionValues.optionId')->in(array((float) $optionId));
+    if ($mainOptionId && $mainOptionId != "all") $qb->field('optionValues.optionId')->in(array((float) $mainOptionId));
 
     // get elements within box
     foreach ($bounds as $key => $bound) 
