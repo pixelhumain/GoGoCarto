@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-05 08:44:59
+ * @Last Modified time: 2018-04-10 13:32:45
  */
  
 
@@ -238,7 +238,6 @@ class ElementFormController extends GoGoController
             $elementActionService = $this->container->get('biopen.element_action_service');
             $message = $request->get('admin-message');            
             
-            dump($isAllowedDirectModeration);
             if ($isAllowedDirectModeration)
             {
                if (!$editMode) $elementActionService->add($element, $sendMail, $message);
