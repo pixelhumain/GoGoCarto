@@ -29,7 +29,7 @@
             security:
             {
                 userRoles: {{ userGogocartoRole | json_encode | raw }},
-                userEmail: '{{ userEmail }}',
+                userEmail: '{{ userEmail }}',                
                 loginAction: function() { $("#popup-login").openModal(); }
             },
             text:
@@ -77,7 +77,11 @@
                 delete:   {{ this.getConfigFrom(config.deleteFeature, path('biopen_delete_element')) }},
 
                 vote:     {{ this.getConfigFrom(config.collaborativeModerationFeature, path('biopen_vote_for_element')) }}, 
-                sendMail: {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }},    
+                sendMail: {{ this.getConfigFrom(config.sendMailFeature, path('biopen_element_send_mail')) }}, 
+                stamp: { 
+                    url: "{{ path('biopen_element_stamp') }}",
+                    options: { allowedStamps: {{ user.allowedStamps | json_encode | raw }} },
+                },    
                 directions: {},
                 layers: {},
                 mapdefaultview: {}

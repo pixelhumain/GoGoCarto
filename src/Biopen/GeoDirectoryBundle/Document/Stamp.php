@@ -10,24 +10,24 @@ class Stamp
 {
    /**
      * @var int
-     * @Expose 
      * @MongoDB\Id(strategy="INCREMENT") 
      */
-   private $id;
+   public $id;
 
    /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
-   private $name;
+   public $name;
 
    /**
      * @var bool
-     * @Expose
      * @MongoDB\Field(type="bool")
      */
-   private $isPublic = false;
+   public $isPublic = false;
+
+   // non persisted. Array of elements ids taged with this stamp
+   public $elementIds = [];
 
    public function __toString() { return $this->getName(); }
 
@@ -83,5 +83,16 @@ class Stamp
     public function getIsPublic()
     {
         return $this->isPublic;
+    }
+
+    public function setElementIds($elementIds)
+    {
+        $this->elementIds = $elementIds;
+        return $this;
+    }
+
+    public function getElementIds()
+    {
+        return $this->elementIds;
     }
 }

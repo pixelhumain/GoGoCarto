@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:04:59
+ * @Last Modified time: 2018-04-07 16:09:47
  */
  
 
@@ -37,6 +37,7 @@ class DirectoryController extends GoGoController
         $em = $this->get('doctrine_mongodb')->getManager();      
 
         $taxonomyRep = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy');
+        $elementsRep = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
         $tileLayers = $em->getRepository('BiopenCoreBundle:TileLayer')->findAll();
         
@@ -46,15 +47,28 @@ class DirectoryController extends GoGoController
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 
         $securityContext = $this->container->get('security.context');
-        $roles = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getRoles() : [];
+        $user = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser() : null;
+        
+        $roles = $user ? $user->getRoles() : [];
         $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
         $userGogocartoRole = [$userGogocartoRole];
-        $userEmail = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser()->getEmail() : $this->getRequest()->getSession()->get('userEmail');
+        $userEmail = $user ? $user->getEmail() : $this->getRequest()->getSession()->get('userEmail');
+
+        $stamps = $user ? $user->getAllowedStamps()->toArray() : [];
+        foreach ($stamps as $stamp) {
+            $result = $elementsRep->findStampedWithId($stamp->getId());
+            $elementIds = [];
+            foreach ($result as $obj) $elementIds[] = $obj['_id'];
+            $stamp->setElementIds($elementIds);
+        }
+
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array('mainCategoryJson'      => $mainCategoryJson, 
                                     'openHoursCategoryJson' => $openHoursCategoryJson,
                                     'userGogocartoRole'     => $userGogocartoRole,
                                     'userEmail'             => $userEmail,
+                                    'user'                  => $user,
+                                    'stamps'                => $stamps,
                                     'config'                => $config, 
                                     'tileLayers'            => $tileLayers));
     }

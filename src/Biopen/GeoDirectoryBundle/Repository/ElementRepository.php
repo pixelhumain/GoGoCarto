@@ -208,6 +208,14 @@ class ElementRepository extends DocumentRepository
     if ($limit) $qb->limit($limit);
     return $qb->getQuery()->execute();
   }
+
+  public function findStampedWithId($stampId)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $qb->field('stamps.id')->in(array((float) $stampId));
+    $qb->select('id');
+    return $this->queryToArray($qb);
+  }
 }
 
 

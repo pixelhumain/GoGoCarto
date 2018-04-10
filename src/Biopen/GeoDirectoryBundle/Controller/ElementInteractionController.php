@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-21 08:27:53
+ * @Last Modified time: 2018-04-07 16:22:43
  */
  
 
@@ -44,7 +44,7 @@ class ElementInteractionController extends Controller
             $resultMessage = $this->get('biopen.element_vote_service')
                              ->voteForElement($element, $request->get('value'), $request->get('comment'), $request->get('userEmail'));
          
-            return $this->returnResponse(true, $resultMessage, $element->getstatus());     
+            return $this->returnResponse(true, $resultMessage, $element->getStatus());     
         }
         else 
         {
@@ -182,6 +182,37 @@ class ElementInteractionController extends Controller
         {
             return new JsonResponse("Not valid ajax request");
         }
+    }
+
+    public function stampAction(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            // CHECK REQUEST IS VALID
+            if (!$request->get('stampId') || $request->get('value') === null || !$request->get('elementId')) 
+                return $this->returnResponse(false,"Les paramètres sont incomplets");
+
+            $em = $this->get('doctrine_mongodb')->getManager(); 
+            $element = $em->getRepository('BiopenGeoDirectoryBundle:Element')->find($request->get('elementId'));           
+            $stamp = $em->getRepository('BiopenGeoDirectoryBundle:Stamp')->find($request->get('stampId'));
+            $securityContext = $this->container->get('security.context');
+            $user = $securityContext->getToken()->getUser(); 
+
+            if (!in_array($stamp, $user->getAllowedStamps()->toArray()))  return $this->returnResponse(false,"Vous n'êtes pas autorisé à utiliser cette étiquette");
+            
+            if ($request->get('value') == "true")
+            {
+                if (!in_array($stamp, $element->getStamps()->toArray())) $element->addStamp($stamp);
+            }
+            else
+                $element->removeStamp($stamp); 
+
+            $em->persist($element);
+            $em->flush();           
+
+            return $this->returnResponse(true, "L'étiquette a bien été modifiée", $element->getStampIds());        
+        }
+        else return new JsonResponse("Not valid ajax request");
     }
 
     private function returnResponse($success, $message, $data = null)

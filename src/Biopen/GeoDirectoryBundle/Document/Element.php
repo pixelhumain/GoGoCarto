@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-06 09:15:37
+ * @Last Modified time: 2018-04-07 16:19:47
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -416,6 +416,18 @@ class Element
         {            
             for ($i=0; $i < $optValuesLength; $i++) { 
                 $fullJson .= '"' . $sortedOptionsValues[$i]->getOptionId() . '",';
+            }
+        }
+        $fullJson = rtrim($fullJson, ',');
+        $fullJson .= ']';
+
+        // STAMPS IDS
+        $stamps = is_array($this->stamps) ? $this->stamps : $this->stamps->toArray();
+        $fullJson .= ', "stamps": [';
+        if ($stamps)
+        {            
+            foreach ($stamps as $stamp) { 
+                $fullJson .= $stamp->getId() . ',';
             }
         }
         $fullJson = rtrim($fullJson, ',');
@@ -1293,6 +1305,11 @@ class Element
     public function removeStamp(\Biopen\GeoDirectoryBundle\Document\Stamp $stamp)
     {
         $this->stamps->removeElement($stamp);
+    }
+
+    public function getStampIds()
+    {
+        return array_map( function($el) { return $el->getId(); }, $this->getStamps()->toArray());
     }
 
     /**
