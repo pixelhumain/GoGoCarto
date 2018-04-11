@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-07 16:19:47
+ * @Last Modified time: 2018-04-11 15:27:48
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -421,16 +421,16 @@ class Element
         $fullJson = rtrim($fullJson, ',');
         $fullJson .= ']';
 
-        // STAMPS IDS
-        $stamps = is_array($this->stamps) ? $this->stamps : $this->stamps->toArray();
+        // STAMPS IDS        
         $fullJson .= ', "stamps": [';
-        if ($stamps)
+        if ($this->stamps)
         {            
+            $stamps = is_array($this->stamps) ? $this->stamps : $this->stamps->toArray();
             foreach ($stamps as $stamp) { 
                 $fullJson .= $stamp->getId() . ',';
             }
-        }
-        $fullJson = rtrim($fullJson, ',');
+            $fullJson = rtrim($fullJson, ',');
+        }        
         $fullJson .= ']';
 
         // OPTIONS VALUES WITH DESCRIPTIONS        
