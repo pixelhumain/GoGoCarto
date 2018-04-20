@@ -23,10 +23,10 @@ class UserProfileType extends AbstractType
       $builder->add('username')
               ->add('email', EmailType::class, array('required' => true))
               ->add('newsletterFrequency', ChoiceType::class, [
-                   'choices'  => array(
-                       'Jamais' => 0,
+                   'choices'  => array(                       
                        'Chaque semaine' => 1,
                        'Chaque mois' => 2,
+                       'Jamais' => 0,
                    ),
                    'expanded' => true,  'multiple' => false,
                    'required' => false, 'placeholder' => false,
