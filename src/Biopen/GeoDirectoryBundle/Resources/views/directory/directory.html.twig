@@ -82,7 +82,16 @@
                         config.stampFeature, 
                         path('biopen_element_stamp'),
                         { "options": { "allowedStamps": allowedStamps } } 
-                    ) }},   
+                    ) }},  
+                customPopup: {{ this.getConfigFrom(
+                        config.customPopupFeature, 
+                        null,
+                        { "options": { 
+                            "text": config.customPopupText,
+                            "showOnlyOnce": config.customPopupShowOnlyOnce,
+                            "id": config.customPopupId 
+                        } } 
+                    ) }},  
                 directions: {},
                 layers: {},
                 mapdefaultview: {}

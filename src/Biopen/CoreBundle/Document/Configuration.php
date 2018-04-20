@@ -53,6 +53,15 @@ class Configuration
 
     /** @MongoDB\Field(type="string") */    
     protected $collaborativeModerationExplanations;
+
+    /** @MongoDB\Field(type="string") */    
+    protected $customPopupText;
+
+    /** @MongoDB\Field(type="int") */
+    protected $customPopupId = 0;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $customPopupShowOnlyOnce;
     
 
 
@@ -96,6 +105,9 @@ class Configuration
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\InteractionConfiguration") */
     protected $sendMailFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $customPopupFeature;
 
 
     // ---------------------------------
@@ -1965,5 +1977,93 @@ class Configuration
     public function getStampFeature()
     {
         return $this->stampFeature;
+    }
+
+    /**
+     * Set customPopupText
+     *
+     * @param string $customPopupText
+     * @return $this
+     */
+    public function setCustomPopupText($customPopupText)
+    {
+        $this->customPopupText = $customPopupText;
+        return $this;
+    }
+
+    /**
+     * Get customPopupText
+     *
+     * @return string $customPopupText
+     */
+    public function getCustomPopupText()
+    {
+        return $this->customPopupText;
+    }
+
+    /**
+     * Set customPopupId
+     *
+     * @param int $customPopupId
+     * @return $this
+     */
+    public function setCustomPopupId($customPopupId)
+    {
+        $this->customPopupId = $customPopupId;
+        return $this;
+    }
+
+    /**
+     * Get customPopupId
+     *
+     * @return int $customPopupId
+     */
+    public function getCustomPopupId()
+    {
+        return $this->customPopupId;
+    }
+
+    /**
+     * Set customPopupShowOnlyOnce
+     *
+     * @param bool $customPopupShowOnlyOnce
+     * @return $this
+     */
+    public function setCustomPopupShowOnlyOnce($customPopupShowOnlyOnce)
+    {
+        $this->customPopupShowOnlyOnce = $customPopupShowOnlyOnce;
+        return $this;
+    }
+
+    /**
+     * Get customPopupShowOnlyOnce
+     *
+     * @return bool $customPopupShowOnlyOnce
+     */
+    public function getCustomPopupShowOnlyOnce()
+    {
+        return $this->customPopupShowOnlyOnce;
+    }
+
+    /**
+     * Set customPopupFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $customPopupFeature
+     * @return $this
+     */
+    public function setCustomPopupFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $customPopupFeature)
+    {
+        $this->customPopupFeature = $customPopupFeature;
+        return $this;
+    }
+
+    /**
+     * Get customPopupFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $customPopupFeature
+     */
+    public function getCustomPopupFeature()
+    {
+        return $this->customPopupFeature;
     }
 }

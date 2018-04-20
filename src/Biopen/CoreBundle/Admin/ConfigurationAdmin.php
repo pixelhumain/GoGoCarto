@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-04-10 12:18:36
+ * @Last Modified time: 2018-04-20 10:43:48
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -39,6 +39,16 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('elementDisplayNameIndefinite', null, array('label' => 'Nom avec artcile indéfini'))  
                     ->add('elementDisplayNamePlural', null, array('label' => 'Nom pluriel '))  
                 ->end()
+                ->with('Message popup à faire apparaître sur la carte')
+                    ->add('customPopupText', 'sonata_simple_formatter_type', array(
+                            'format' => 'richhtml',
+                            'label' => "Texte à afficher (N'oubliez pas d'activer la fonctionalité custom popup !)", 
+                            'ckeditor_context' => 'full',
+                            'required' => false
+                    ))
+                    ->add('customPopupId', null, array('label' => 'Numéro de version du popup (à changer quand vous modifiez le texte)', 'required' => false))
+                    ->add('customPopupShowOnlyOnce', null, array('label' => "Afficher la popup une fois seulement (si l'utilisateur la ferme, il ne la reverra plus jusqu'à ce que vous changiez le numéro de version)", 'required' => false))
+                ->end()
                 ->with('Autres textes')
                     ->add('collaborativeModerationExplanations', 'sonata_simple_formatter_type', array(
                             'format' => 'richhtml',
@@ -46,11 +56,7 @@ class ConfigurationAdmin extends AbstractAdmin
                             'ckeditor_context' => 'full',
                             'required' => false
                     ))
-                ->end()
-                ->with('Autres textes')
-                    ->add('fontImport', null, array('label' => 'Lien pour le CDN des polices', 'required' => false))
-                    ->add('iconImport', null, array('label' => 'Lien pour le CDN des icones', 'required' => false))
-                ->end()
+                ->end()               
             ->end()
             ->tab('Fonctionalités')
                 ->with('Favoris', $featureStyle)
@@ -69,6 +75,8 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('pendingFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
                 ->with('Envoyer un mail à un élement', $featureStyle)
                     ->add('sendMailFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
+                ->with('Afficher la popup custom', $featureStyle)
+                    ->add('customPopupFeature','sonata_type_admin', $featureFormOption, $featureFormTypeOption)->end()
             ->end()
             ->tab('Contributions/Modération')
                 ->with('Pouvoir ajouter un élément', $contributionStyle)
@@ -115,7 +123,11 @@ class ConfigurationAdmin extends AbstractAdmin
                               'label' => "Label pour demander si l'utilisateur est propriétaire de la fiche (laisser vide pour désactiver)"))
                 ->end()
             ->end()
-            ->tab('Style')     
+            ->tab('Style')   
+                 ->with('Imports')
+                    ->add('fontImport', null, array('label' => 'Lien pour le CDN des polices', 'required' => false))
+                    ->add('iconImport', null, array('label' => 'Lien pour le CDN des icones', 'required' => false))
+                ->end()  
                 ->with('Style principal', array('class' => 'col-md-6'))
                     ->add('mainFont', null, array('label' => 'Police principale'))  
                     ->add('titleFont', null, array('label' => 'Police de titre')) 
