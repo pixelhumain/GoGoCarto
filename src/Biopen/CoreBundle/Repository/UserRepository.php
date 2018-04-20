@@ -17,7 +17,7 @@ class UserRepository extends DocumentRepository
 	{
       $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:User');
       return $qb->field('newsletterFrequency')->gt(NewsletterFrequencyOptions::Never)               
-                ->field('nextNewsletterDate')->lt(new \DateTime())    
+                ->field('nextNewsletterDate')->lte(new \DateTime())
                 ->getQuery()->execute();
 	}
 
