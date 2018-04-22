@@ -91,6 +91,8 @@ function geocodeAddress(address) {
 
 			if (marker) marker.remove();
 
+			$('.geolocalize-help-text').show();
+
 			$('#input-latitude').val('');
 			$('#input-longitude').val('');
 			$('#input-postal-code').val('');

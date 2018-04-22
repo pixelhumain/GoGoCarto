@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-04-20 10:43:48
+ * @Last Modified time: 2018-04-22 19:45:15
  */
 namespace Biopen\CoreBundle\Admin;
 
@@ -121,6 +121,9 @@ class ConfigurationAdmin extends AbstractAdmin
                     ->add('elementFormOwningText', 'textarea' , 
                         array('required' => false,
                               'label' => "Label pour demander si l'utilisateur est propriétaire de la fiche (laisser vide pour désactiver)"))
+                    ->add('elementFormGeocodingHelp', 'textarea' , 
+                        array('required' => false,
+                              'label' => "Texte d'aide pour la geolocalisation"))
                 ->end()
             ->end()
             ->tab('Style')   

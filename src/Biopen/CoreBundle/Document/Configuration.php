@@ -198,7 +198,7 @@ class Configuration
 
 
     // ----------------------------
-    // -------- CONTENUS ----------
+    // ---------- FORM ------------
     // ----------------------------
     /** @MongoDB\Field(type="string") */
     protected $elementFormIntroText;
@@ -208,6 +208,9 @@ class Configuration
 
     /** @MongoDB\Field(type="string") */
     protected $elementFormOwningText;
+
+    /** @MongoDB\Field(type="string") */
+    protected $elementFormGeocodingHelp;
 
     // -------------------------
     // --------- STYLE ---------
@@ -2065,5 +2068,27 @@ class Configuration
     public function getCustomPopupFeature()
     {
         return $this->customPopupFeature;
+    }
+
+    /**
+     * Set elementFormGeocodingHelp
+     *
+     * @param string $elementFormGeocodingHelp
+     * @return $this
+     */
+    public function setElementFormGeocodingHelp($elementFormGeocodingHelp)
+    {
+        $this->elementFormGeocodingHelp = $elementFormGeocodingHelp;
+        return $this;
+    }
+
+    /**
+     * Get elementFormGeocodingHelp
+     *
+     * @return string $elementFormGeocodingHelp
+     */
+    public function getElementFormGeocodingHelp()
+    {
+        return $this->elementFormGeocodingHelp;
     }
 }

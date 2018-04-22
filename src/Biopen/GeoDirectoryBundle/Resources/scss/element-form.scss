@@ -67,20 +67,29 @@
     left: 0 !important;
   }
 
-  @media #{$medium-and-up} { #input-address { width: calc(100% - 13rem); } }
+  @media #{$medium-and-up} { #input-address { width: calc(100% - 260px); } }
 
-  #input-address-field.error:after
-  {
-    content: "Impossible de localiser cette adresse";
-    position: absolute;
-    width: 600px;
-    top: 3.5rem;
-    color: $error-color;
-    font-weight:bold;
-    left: 3rem;
-    font-size: .8rem;
-    font-style: normal;
+  #input-address {
+    margin-bottom: 10px;
   }
+
+  #input-address-field.error
+  {
+    #input-address { margin-bottom: 20px; }
+
+    &:after
+    {
+      content: "Impossible de localiser cette adresse";
+      position: absolute;
+      width: 600px;
+      top: 3.5rem;
+      color: $error-color;
+      font-weight:bold;
+      left: 3rem;
+      font-size: .8rem;
+      font-style: normal;
+    }
+  }    
 
   h1, h2, label {
     &.error { color: $error-color; }
@@ -221,15 +230,41 @@
       margin-right: 7px !important;
    }
 
-  .btn-geolocalize
+  .btn-geolocalize, .btn-geolocalize-help
   {
     margin-top: .5rem;  
     @media screen and (min-width: 600px) { float: right; width: auto; margin-top: 1rem;  }
-    width: 100%;
+    width: 60%;
     font-size: .9rem;
     height: 2rem !important;
     line-height: 2rem !important;
     padding: 0 1.3rem !important;
+  }
+
+  .btn-geolocalize-help {
+    margin-right: 5px;
+    @media screen and (max-width: 600px){ 
+      width: calc(39% - 15px); 
+      margin-right: 0;
+      margin-left: 10px;
+    }
+  }
+
+  .geolocalize-help-text {
+    display: none;
+    margin-top: 18px;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: justify;
+    font-style: italic;
+
+    .btn-close {
+      float: right;
+      font-size: 1.2rem;
+      padding-top: 10px;
+      padding-left: 15px;
+      cursor: pointer;
+    }
   }
 
 

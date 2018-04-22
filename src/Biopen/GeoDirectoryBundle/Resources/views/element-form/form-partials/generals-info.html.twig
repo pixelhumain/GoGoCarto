@@ -43,8 +43,13 @@
   	{{ form_widget(form.fullAddress, {'id': 'input-address', 'value': element.getFormatedAddress(),
   								  'attr': {'class': 'validate required'  }}) }}
     <label for="input-address" class="gogo-form-label">Adresse complète</label>
-  	<div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>
-	
+    <div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>
+    <div class="btn-geolocalize-help btn btn-neutral waves-effect waves-light" onclick="$('.geolocalize-help-text').toggle();">Aide ?</div>  	
+    <div class="geolocalize-help-text">
+        {{ config.elementFormGeocodingHelp|raw}}
+        <span class="btn-close gogo-icon-clear" onclick="$(this).parent().slideUp(200);";></span>
+    </div>
+
 	</div>	
 
 	<!-- HIDDEN input for geolocalization -->
