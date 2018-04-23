@@ -1,28 +1,39 @@
-CartoV3
-=======
+GoGoCarto 
+=========
 
 Overview
 --------
 
-We are developing a collaborative mapping directory app.
+GoGoCarto is a full reusable application to create cartographic directory
 
-The main functionalities are
-- Displaying data entries
-- Free and smooth navigation on the map
-- Filter the results, search for a particular location or data
-- Ability to everyone to contribute adding/editing/deleting data
-- Export data service (API and IFrame)
+The software have been developped for the project ["Près de chez vous"](https://presdecheznous.fr), consisting on referencing food/education/health/... alternatives in France.
 
-First we gonna  develop this directory for the project "Près de chez vous", consisting on mapping food/education/health/... alternatives in France.
+GoGoCarto is highly configurable, and almost ready to be reused by anyone to create it's own map, with it's own data, categories, moderation rules etc...
+There is a whole back office to manage data, contents, configuration
 
-Then the goal is to make this application accessible to everyone, with a configuration panel to fit their needs.
+For more information, please contact us on the channel GoGoCarto at https://chat.lescommuns.org
+
+![Dashboard](docs/images/21.png "Dashboard")
+
+[See more screenshot of the backoffice](docs/backoffice-screenshots.md)
+
+GoGoCarto & GoGoCartoJs
+------------------
+
+The GoGoCarto project is divided into two separate project. 
+
+GoGoCarto repo take care of backend stuff, the form to add new elements, the backoffice, and additonnals pages sucha as homepage
+[GoGoCartoJs](https://pixelhumain.github.io/GoGoCartoJs) an autonomous javascript library responsible for data vizualisation (map, list, categories, search...). [See the online full documentation](https://pixelhumain.github.io/GoGoCartoJs)
 
 Stack
 -----
-Symfony2, Twig templates, SASS, MaterializeCSS, Typescript, Gulp
+
+Symfony2, Twig templates, SASS, MaterializeCSS, Javascript, Gulp
 
 Documentation
 -------------
+
+(This documentation maybe outdated, please contact us for more informations)
 
 - [Installation intructions](docs/installation.md)
 - [Project structure](docs/project-structure.md)
