@@ -3,45 +3,34 @@
 namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use JMS\Serializer\Annotation\Expose;
 
 /** @MongoDB\EmbeddedDocument */
 class PostalAddress
 {
    /**
-   * 
-   * @Expose
    * @MongoDB\Field(type="string")
    */
-   public $streetAddress;
+   private $streetAddress;
 
    /**
-   * 
-   * @Expose
    * @MongoDB\Field(type="string")
    */
-   public $addressLocality;
+   private $addressLocality;
 
    /**
-   * 
-   * @Expose
    * @MongoDB\Field(type="string")
    */
-   public $postalCode;
+   private $postalCode;
 
    /**
-   * 
-   * @Expose
    * @MongoDB\Field(type="string")
    */
-   public $addressCountry;
+   private $addressCountry;
 
    /**
-   * 
-   * @Expose
    * @MongoDB\Field(type="string")
    */
-   public $customFormatedAddress;
+   private $customFormatedAddress;
 
 
    public function __construct($streetAddress = null, $addressLocality = null, $postalCode = null, $addressCountry = null, $customFormatedAddress = null)
@@ -61,6 +50,19 @@ class PostalAddress
       if ($this->postalCode) $result .= $this->postalCode . ' ';
       if ($this->addressLocality) $result .= $this->addressLocality;
       return $result;
+    }
+
+    public function toJson()
+    {
+        $result = "";
+        if ($this->streetAddress)   $result .=  '"streetAddress":'          . json_encode($this->getStreetAddress());
+        if ($this->addressLocality) $result .=', "addressLocality":'        . json_encode($this->getAddressLocality());
+        if ($this->postalCode)      $result .=', "postalCode":'             . json_encode($this->getPostalCode());
+        if ($this->addressCountry)  $result .=', "addressCountry":'         . json_encode($this->getAddressCountry());
+        if ($this->customFormatedAddress) $result .=', "customFormatedAddress" :' . json_encode($this->getCustomFormatedAddress());
+        $result = ltrim($result, ',');
+        $result = "{" . $result . "}";
+        return $result;
     }
 
    /**

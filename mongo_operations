@@ -85,3 +85,5 @@ db.UserInteractionVote.updateMany( { } , { $rename: { 'userMail': 'userEmail' } 
 db.UserInteractionReport.updateMany( { } , { $rename: { 'userMail': 'userEmail' } } )
 
 db.User.updateMany( {}, { $set: { 'lastNewsletterSentAt' : ISODate("2018-03-27T00:00:00.000Z") } })
+
+db.Elements.updateMany( { } , { $rename: { 'fullJson': 'baseJson' } } )

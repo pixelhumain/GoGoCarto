@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-12-30 10:35:55
+ * @Last Modified time: 2018-04-23 12:04:19
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -12,7 +12,7 @@ namespace Biopen\GeoDirectoryBundle\Admin\Element;
 class ElementAdmin extends ElementAdminShowEdit
 {
 	public function getExportFields()
-  {
-    return array('name', 'optionsString', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'telephone', 'email', 'website');
-  } 
+   {
+      return array('name', 'optionsString', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'descriptionMore', 'commitment', 'website');
+   } 
 }

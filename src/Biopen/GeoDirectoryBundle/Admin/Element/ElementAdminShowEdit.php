@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-04-06 10:21:08
+ * @Last Modified time: 2018-04-23 15:05:31
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -106,7 +106,8 @@ class ElementAdminShowEdit extends ElementAdminList
 
     $show->with('JSON', array('class' => 'col-md-12'))         
           ->add('compactJson')
-          ->add('fullJson')
+          ->add('baseJson')
+          ->add('privateJson')
           ->add('adminJson')
          ->end();
 	}

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-10 11:56:28
+ * @Last Modified time: 2018-04-23 15:13:03
  */
  
 
@@ -61,19 +61,14 @@ class ElementRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $status = ($request->get('pendings') === "false") ? ElementStatus::AdminValidate : ElementStatus::PendingModification;
-    $this->filterVisibles($qb, $status);
-
-    $mainOptionId = $request->get('mainOptionId');
-    if ($mainOptionId && $mainOptionId != "all") $qb->field('optionValues.optionId')->in(array((float) $mainOptionId));
-
-    $stampsIds = $request->get('stampsIds');
-    if ($stampsIds) $qb->field('stamps.id')->in(explode(',', $stampsIds));
+    $this->filterVisibles($qb, $status);    
 
     // get elements within box
     foreach ($bounds as $key => $bound) 
       if (count($bound) == 4)        
         $qb->addOr($qb->expr()->field('geo')->withinBox((float) $bound[1], (float) $bound[0], (float) $bound[3], (float) $bound[2]));
     
+    if ($request) $this->filterWithRequest($qb, $request);
     $this->selectJson($qb, $getFullRepresentation, $isAdmin);
 
     // execute request   
@@ -82,7 +77,7 @@ class ElementRepository extends DocumentRepository
     return $results;
   }
 
-  public function findElementsWithText($text)
+  public function findElementsWithText($text, $fullRepresentation = true, $isAdmin = false)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
@@ -93,6 +88,8 @@ class ElementRepository extends DocumentRepository
                 ->sortMeta('score', 'textScore');
     
     $this->filterVisibles($qb);
+
+    $this->selectJson($qb, $fullRepresentation, $isAdmin);
                 
     return $this->queryToArray($qb);    
   }
@@ -139,7 +136,7 @@ class ElementRepository extends DocumentRepository
     return $qb->getQuery()->execute();
   }
 
-  public function findAllPublics($getFullRepresentation, $isAdmin, $limit = null)
+  public function findAllPublics($getFullRepresentation, $isAdmin, $limit = null, $request = null)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
@@ -147,6 +144,7 @@ class ElementRepository extends DocumentRepository
     $qb->field('moderationState')->equals(ModerationState::NotNeeded);
     if ($limit) $qb->limit($limit);  
 
+    if ($request) $this->filterWithRequest($qb, $request);
     $this->selectJson($qb, $getFullRepresentation, $isAdmin);  
     
     return $this->queryToArray($qb);
@@ -168,6 +166,18 @@ class ElementRepository extends DocumentRepository
     return $qb->hydrate(false)->getQuery()->execute()->toArray();
   }
 
+  private function filterWithRequest($qb, $request)
+  {
+    $categoriesIds = $request->get('categories') ? explode(',' , $request->get('categories')) : null;    
+    if ($categoriesIds) {
+      $categoriesIds = array_map(function($el) { return (float) $el; }, $categoriesIds);
+      $qb->field('optionValues.optionId')->in($categoriesIds);
+    }
+
+    $stampsIds = $request->get('stampsIds');
+    if ($stampsIds) $qb->field('stamps.id')->in(explode(',', $stampsIds));
+  }
+
   private function filterVisibles($qb, $status = ElementStatus::PendingModification)
   {
     // fetching pendings and validated
@@ -182,7 +192,7 @@ class ElementRepository extends DocumentRepository
     // get json representation
     if ($getFullRepresentation == 'true') 
     {
-      $qb->select('fullJson'); 
+      $qb->select(['baseJson', 'privateJson']);
       if ($isAdmin) $qb->select('adminJson');
     }
     else

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-11 15:27:48
+ * @Last Modified time: 2018-04-23 15:10:33
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -63,18 +63,16 @@ class Element
     public $id;
 
     /** 
-     * @Expose
      * See ElementStatus
      * @MongoDB\Field(type="int")
      */
-    public $status;
+    private $status;
 
     /** 
-     * @Expose
      * If element need moderation we write here the type of modification needed
      * @MongoDB\Field(type="int")
      */
-    public $moderationState = 0;
+    private $moderationState = 0;
 
     /**
      * @var \stdClass
@@ -113,13 +111,11 @@ class Element
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
     public $name;
 
     /** 
-    * @Expose
     * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Coordinates") 
     */
     public $geo;
@@ -128,11 +124,10 @@ class Element
      * @var string
      *
      * Complete address
-     *
-     * @Expose     
+     *    
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\PostalAddress") 
      */
-    public $address;
+    private $address;
 
      /**
      * @var string
@@ -145,52 +140,45 @@ class Element
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string", nullable=false)
      */
     public $description;
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string", nullable=false)
      */
-    public $descriptionMore;
+    private $descriptionMore;
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
-    public $telephone;
+    private $telephone;
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
     private $email;
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
-    public $website;
+    private $website;
     
     /**
      * @var \stdClass
      *
      * The options filled by the element, with maaybe some description attached to them
      *
-     * @Expose
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\OptionValue")
      */
     private $optionValues;
 
     /**
      * @var string
-     * @Expose
      * @MongoDB\Field(type="string")
      */
     private $optionsString;
@@ -200,7 +188,6 @@ class Element
      *
      * Structured OpenHours
      *
-     * @Expose
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\OpenHours")
      */
     private $openHours;
@@ -210,10 +197,9 @@ class Element
      *
      * A string for giving mor openHours infos, or for importing non structured open hours
      *
-     * @Expose
      * @MongoDB\Field(type="string", nullable=true)
      */
-    public $openHoursMoreInfos = '';
+    private $openHoursMoreInfos = '';
 
     /**
      * @var string
@@ -253,12 +239,21 @@ class Element
      *
      * @MongoDB\Field(type="string") 
      */ 
-    private $fullJson; 
+    private $baseJson; 
 
     /** 
      * @var string 
      * 
-     * Somes special field returned only for admins. this adminJson is concatenated to the fullJson
+     * Somes special field returned only for trusted people. this privateJson is concatenated to the baseJson
+     *
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $privateJson; 
+
+    /** 
+     * @var string 
+     * 
+     * Somes special field returned only for admins. this adminJson is concatenated to the baseJson
      *
      * @MongoDB\Field(type="string") 
      */ 
@@ -394,13 +389,14 @@ class Element
         if (!$this->geo) { dump('no coordinates'); return;}
 
         // -------------------- FULL JSON ----------------
-        $fullJson = json_encode($this);
-        $fullJson = substr($fullJson , 0, -1);
-        if ($this->openHours) $fullJson .= ', "openHours": ' . $this->openHours->toJson();
-        if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
-            $fullJson .= ', "email": "' . $this->getEmail(). '"';
-        else
-            $fullJson .= ', "email": ' . ($this->getEmail() ? '"hidden"' : 'null');
+        $baseJson = json_encode($this);
+        $baseJson = substr($baseJson , 0, -1);
+
+        if ($this->address)            $baseJson .= ', "address":'           . $this->address->toJson();
+        if ($this->descriptionMore)    $baseJson .= ', "descriptionMore":'   . json_encode($this->descriptionMore);
+        if ($this->website)            $baseJson .= ', "website":'           . json_encode($this->website);     
+        if ($this->openHours)          $baseJson .= ', "openHours": '        . $this->openHours->toJson(); 
+        if ($this->openHoursMoreInfos) $baseJson .= ', "openHoursMoreInfos":'. json_encode($this->openHoursMoreInfos);  
 
         if ($this->optionValues)
         {
@@ -411,27 +407,30 @@ class Element
         $optValuesLength = count($sortedOptionsValues);
 
         // OPTIONS VALUES IDS
-        $fullJson .= ', "categories": [';
+        $baseJson .= ', "categories": [';
         if ($sortedOptionsValues)
         {            
             for ($i=0; $i < $optValuesLength; $i++) { 
-                $fullJson .= '"' . $sortedOptionsValues[$i]->getOptionId() . '",';
+                $baseJson .= '"' . $sortedOptionsValues[$i]->getOptionId() . '",';
             }
         }
-        $fullJson = rtrim($fullJson, ',');
-        $fullJson .= ']';
+        $baseJson = rtrim($baseJson, ',');
+        $baseJson .= ']';
 
-        // STAMPS IDS        
-        $fullJson .= ', "stamps": [';
+        // STAMPS IDS   
         if ($this->stamps)
         {            
             $stamps = is_array($this->stamps) ? $this->stamps : $this->stamps->toArray();
-            foreach ($stamps as $stamp) { 
-                $fullJson .= $stamp->getId() . ',';
+            if (count($stamps) > 0)
+            {
+                $baseJson .= ', "stamps": [';
+                foreach ($stamps as $stamp) { 
+                    $baseJson .= $stamp->getId() . ',';
+                }
+                $baseJson = rtrim($baseJson, ',');
+                $baseJson .= ']';
             }
-            $fullJson = rtrim($fullJson, ',');
-        }        
-        $fullJson .= ']';
+        }  
 
         // OPTIONS VALUES WITH DESCRIPTIONS        
         $optionDescriptionsJson = [];
@@ -441,12 +440,33 @@ class Element
                 if ($sortedOptionsValues[$i]->getDescription()) $optionDescriptionsJson[] =  $sortedOptionsValues[$i]->toJson();
             }
         }
-        if (count($optionDescriptionsJson)) $fullJson .= ', "categoriesDescriptions": [' . implode(",", $optionDescriptionsJson) . ']';
+        if (count($optionDescriptionsJson)) $baseJson .= ', "categoriesDescriptions": [' . implode(",", $optionDescriptionsJson) . ']';
 
-        if ($this->getModifiedElement()) $fullJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getFullJson();
-        $fullJson .= '}';
+        if ($this->getModifiedElement()) {
+            $baseJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getJson(true, false);
+        }
+        $baseJson .= '}';
 
-        $this->setFullJson($fullJson);  
+        $this->setBaseJson($baseJson); 
+        
+
+        // -------------------- PRIVATE -------------------------
+        $privateJson = '{';        
+        // status
+        $privateJson .= '"status": ' . $this->getStatus() . ',';
+        $privateJson .= '"moderationState": ' . $this->getModerationState() . ',';
+        // tel
+        if ($this->getTelephone()) $privateJson .= '"telephone": "' . $this->getTelephone() . '",';
+        // email
+        if ($this->getEmail())
+            if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
+                $privateJson .= '"email": "' . $this->getEmail(). '"';
+            else
+                $privateJson .= '"email": ' . ($this->getEmail() ? '"hidden"' : 'null');
+        $privateJson = rtrim($privateJson, ',');
+        $privateJson .= '}';
+        $this->setPrivateJson($privateJson);
+
 
         // -------------------- REPORTS & CONTRIBUTIONS -------------------------
         $adminJson = '{';
@@ -482,10 +502,14 @@ class Element
         $this->setCompactJson($compactJson);
     }
 
-    public function getFullAdminJson()
+    public function getJson($includeContact, $isAdmin)
     {
-        if (!$this->adminJson || $this->adminJson == '{}') return $this->fullJson;
-        return substr($this->fullJson , 0, -1) . ',' . substr($this->adminJson,1);
+        $result = $this->baseJson;
+        if ($includeContact && $this->privateJson && $this->privateJson != '{}')
+           $result = substr($result , 0, -1) . ',' . substr($this->privateJson,1);
+        if ($isAdmin && $this->adminJson && $this->adminJson != '{}')
+           $result = substr($result , 0, -1) . ',' . substr($this->adminJson,1);
+        return $result;
     }
 
     private function encodeArrayObjectToJson($propertyName, $array)
@@ -843,25 +867,25 @@ class Element
     }
 
     /**
-     * Set fullJson
+     * Set baseJson
      *
-     * @param string $fullJson
+     * @param string $baseJson
      * @return $this
      */
-    public function setFullJson($fullJson)
+    public function setBaseJson($baseJson)
     {
-        $this->fullJson = $fullJson;
+        $this->baseJson = $baseJson;
         return $this;
     }
 
     /**
-     * Get fullJson
+     * Get baseJson
      *
-     * @return string $fullJson
+     * @return string $baseJson
      */
-    public function getFullJson()
+    public function getBaseJson()
     {
-        return $this->fullJson;
+        return $this->baseJson;
     }
 
     /**
@@ -1320,5 +1344,27 @@ class Element
     public function getStamps()
     {
         return $this->stamps;
+    }
+
+    /**
+     * Set privateJson
+     *
+     * @param string $privateJson
+     * @return $this
+     */
+    public function setPrivateJson($privateJson)
+    {
+        $this->privateJson = $privateJson;
+        return $this;
+    }
+
+    /**
+     * Get privateJson
+     *
+     * @return string $privateJson
+     */
+    public function getPrivateJson()
+    {
+        return $this->privateJson;
     }
 }
