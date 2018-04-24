@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-04-24 14:23:42
+ * @Last Modified time: 2018-04-24 16:10:53
  */
  
 
@@ -27,6 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class APIController extends GoGoController
 {
@@ -40,17 +41,33 @@ class APIController extends GoGoController
   **/
   public function getElementsAction(Request $request, $id = null, $_format = 'json')
   {
-    $em = $this->get('doctrine_mongodb')->getManager();
-    $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
+    $em = $this->get('doctrine_mongodb')->getManager();     
 
-    $isAdmin = $this->isUserAdmin();
-    $includeContact = $request->isXmlHttpRequest();
-
-    $jsonLdRequest = $this->isJsonLdRequest($request, $_format);
-
+    $jsonLdRequest = $this->isJsonLdRequest($request, $_format); 
+    $token = $request->get('token');
     $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
     $fullRepresentation =  $jsonLdRequest || $ontology != "gogocompact";
-    $elementId = $id ? $id : $request->get('id');      
+    $elementId = $id ? $id : $request->get('id');       
+    
+    // allow ajax request from same host
+    if ($request->isXmlHttpRequest() && $this->getRefererHost($request) == $request->getHost())
+    {
+      $isAdmin = $this->isUserAdmin();
+      $includeContact = true;
+    }
+    else if ($token) // otherwise API is protected by user token 
+    {
+      $user = $em->getRepository('BiopenCoreBundle:User')->findOneByToken($token);
+      if (!$user) return new Response("The token you provided does not correspond to any existing user. Please visit " . $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL)); 
+      $isAdmin = false;
+      $includeContact = false;
+    } 
+    else
+    {      
+      return new Response("You need to provide a token to access to this API. Please visit " . $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL)); 
+    }    
+
+    $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');   
 
     if ($elementId) 
     {
@@ -90,9 +107,13 @@ class APIController extends GoGoController
         "data" :      '. $elementsJson . ', 
         "ontology" : "'. $ontology .'"
       }';
-    }    
+    }
+
+    // TODO count how much a user is using the API
+    // $responseSize = strlen($elementsJson);
+    // $date = date('d/m/Y'); 
     
-    $result = new Response($responseJson);
+    $result = new Response($responseJson);    
     $result->headers->set('Content-Type', 'application/json');
     return $result;
   }  
@@ -137,6 +158,15 @@ class APIController extends GoGoController
     return $_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json';
   }
 
+  private function getRefererHost($request)
+  {
+    $refererUrl = $request->headers->get('referer');
+    $refererHost = ltrim($refererUrl, 'http://');
+    $refererHost = ltrim($refererHost, 'https://');
+    $refererHost = explode('/', $refererHost)[0];
+    return $refererHost;
+  }
+
   public function getElementsFromTextAction(Request $request)
   {
     if($request->isXmlHttpRequest())
@@ -169,6 +199,14 @@ class APIController extends GoGoController
   {        
     $em = $this->get('doctrine_mongodb')->getManager();
     $options = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+
+    $user = $this->get('security.context')->getToken()->getUser();
+    if (!$user->getToken()) 
+    {
+      $user->createToken();
+      $em->flush();
+    }
+
     return $this->render('BiopenGeoDirectoryBundle:api:api-ui.html.twig', array('options' => $options));        
   }
 

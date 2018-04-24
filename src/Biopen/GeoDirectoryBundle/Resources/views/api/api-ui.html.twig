@@ -16,7 +16,6 @@
 
 {# BODY CONTENT #}
 {% block body_content %}
-
   <section>
     <h1>Accédez aux données via une API</h1>
 
@@ -77,6 +76,7 @@
     var defaultBounds = {{ config.getDefaultBounds | json_encode | raw }}
 
     var apiUrlBase = "{{ url('biopen_api_elements_index') }}";
+    var userToken = "{{ app.user.token }}";
   </script>
 {% endblock %}  
 

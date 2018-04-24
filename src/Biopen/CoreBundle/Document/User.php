@@ -350,6 +350,7 @@ class User extends BaseUser
     {
         //parent::__construct();
         // your own logic
+        $this->createToken();
     }
 
     /**
@@ -390,6 +391,11 @@ class User extends BaseUser
     public function getGamification()
     {         
         return $this->gamification;
+    }
+
+    public function createToken()
+    {
+        if (!$this->getToken()) $this->setToken(uniqid());
     }
 
     public function addVoteCount() { $this->votesCount++; }

@@ -131,12 +131,22 @@ class SpecialActionsController extends Controller
 
     public function generateRandomHashAction()
     {
-        return $this->elementsBulkAction('generateRandomHash');
-    }
-
-    public function generateRandomHash($element)
-    {
-        $element->updateRandomHash();
+        $em = $this->get('doctrine_mongodb')->getManager();
+        $users = $em->getRepository('BiopenCoreBundle:User')->findAll();
+        echo "<h1>Utilisateurs : " . count($users) . "</h1>";
+        $i = 0;
+        foreach ($users as $key => $user) 
+        {
+           $user->createToken();
+           echo "Update user " . $user->getUsername() . "</br>"; 
+           if ((++$i % 20) == 0) {
+                $em->flush();
+                $em->clear();
+            }
+        }
+        $em->flush();
+        $em->clear();
+        return new Response("Les éléments ont été mis à jours avec succès."); 
     }
 
     public function verifyDuplicatesAction()
@@ -148,8 +158,6 @@ class SpecialActionsController extends Controller
     {
         if ($element->getStatus() == ElementStatus::Duplicate)
         {            
-            $em = $this->get('doctrine_mongodb')->getManager();
-
             $em = $this->get('doctrine_mongodb')->getManager();
             $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
             $elements = $qb
