@@ -1,0 +1,84 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% set pageName = 'api' %}
+{% set navTitle = "Configurer une API" %}
+
+{% block title %}Configurer une API{% endblock %}
+
+{% block stylesheets %}
+  
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css?ver=' ~ version) }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/api.css?ver=' ~ version) }}">  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+
+{% endblock %}
+
+{# BODY CONTENT #}
+{% block body_content %}
+
+  <section>
+    <h1>Accédez aux données via une API</h1>
+
+    {# FORMAT #}
+    <p class="format-container">
+      <span class="forma-label">Format :</span>
+      <input name="format" type="radio" id="format-json" data-value="json" checked class="url-update" />
+      <label for="format-json">Json</label>
+
+      <input name="format" type="radio" id="format-jsonld"  data-value="jsonld" class="url-update" />
+      <label for="format-jsonld">Json-LD (Sémantique)</label>
+    </p>
+
+    {# CATEGORIES #}
+    <div class="col s12 option-container">     
+      <input type="checkbox" name="use-categories" id="use-categories" checked class="url-update" />
+      <label id="label-use-categories" for="use-categories">Restreindre par categories</label>
+    </div>
+    <div class="select-categories-container">
+      <select class="select-categories browser-default url-update" multiple>
+       {% for option in options %}
+        <option value="{{ option.id }}">{{ option.name }}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    {# BOUNDS #}
+    <div class="col s12 option-container">     
+      <input type="checkbox" name="use-bounds" id="use-bounds" checked class="url-update" />
+      <label id="label-use-bounds" for="use-bounds">Restreindre sur une zone géographique (dessinez un rectangle sur la carte)</label>
+    </div>
+    <div id="map-bounds-select"></div>
+
+    {# LIMIT #}
+    <div class="col s12 option-container">     
+      <input type="checkbox" name="use-limit" id="use-limit" class="url-update" checked/>
+      <label id="label-use-limit" for="use-limit">Limiter le nombre de résultat</label>
+      <input type="number" id="limit-input" class="url-update" value="100"/>
+    </div>
+
+    {# URL #}
+    <h2>Url de l'API</h2>
+    <div class="col s12 input-field">     
+      <input type="text" id="api-url" onClick="this.setSelectionRange(0, this.value.length)"/>
+    </div>
+
+    <button id="test-api" class="btn btn-primary">Tester</button>
+    
+  </section>
+
+{% endblock %}
+
+{% block page_javascripts %}
+  <script src="{{ asset('js/pages.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <script>
+    var defaultTileLayer = "{{ config.defaultTileLayer.url }}"
+    var defaultBounds = {{ config.getDefaultBounds | json_encode | raw }}
+
+    var apiUrlBase = "{{ url('biopen_api_elements_index') }}";
+  </script>
+{% endblock %}  
+
+
+

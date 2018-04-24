@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-23 15:13:03
+ * @Last Modified time: 2018-04-24 14:22:53
  */
  
 
@@ -56,7 +56,7 @@ class ElementRepository extends DocumentRepository
                 ->hydrate(false)->getQuery()->execute()->toArray();    
   }
 
-  public function findWhithinBoxes($bounds, $request, $getFullRepresentation, $isAdmin = false, $limit = null)
+  public function findWhithinBoxes($bounds, $request, $getFullRepresentation, $isAdmin = false)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
@@ -136,13 +136,12 @@ class ElementRepository extends DocumentRepository
     return $qb->getQuery()->execute();
   }
 
-  public function findAllPublics($getFullRepresentation, $isAdmin, $limit = null, $request = null)
+  public function findAllPublics($getFullRepresentation, $isAdmin, $request = null)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $qb = $this->filterVisibles($qb);
-    $qb->field('moderationState')->equals(ModerationState::NotNeeded);
-    if ($limit) $qb->limit($limit);  
+    $qb->field('moderationState')->equals(ModerationState::NotNeeded); 
 
     if ($request) $this->filterWithRequest($qb, $request);
     $this->selectJson($qb, $getFullRepresentation, $isAdmin);  
@@ -176,6 +175,9 @@ class ElementRepository extends DocumentRepository
 
     $stampsIds = $request->get('stampsIds');
     if ($stampsIds) $qb->field('stamps.id')->in(explode(',', $stampsIds));
+
+    $limit = $request->get('limit');
+    if ($limit && $limit > 0) $qb->limit($limit);
   }
 
   private function filterVisibles($qb, $status = ElementStatus::PendingModification)

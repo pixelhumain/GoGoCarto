@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-04-23 15:05:31
+ * @Last Modified time: 2018-04-24 14:23:42
  */
  
 
@@ -15,7 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Biopen\CoreBundle\Controller\GoGoController;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Form\ElementType;
 use Biopen\GeoDirectoryBundle\Document\ElementProduct;
@@ -28,13 +28,14 @@ use Wantlet\ORM\Point;
 use Biopen\GeoDirectoryBundle\Classes\ContactAmap;
 use joshtronic\LoremIpsum;
 
-class APIController extends Controller
+class APIController extends GoGoController
 {
   /* Retrieve elements via API, allow params are
   * @id
   * @limit
   * @bounds
-  * @categories
+  * @categories (ids)
+  * @stamps (ids)
   * @ontology ( gogofull or gogocompact )
   **/
   public function getElementsAction(Request $request, $id = null, $_format = 'json')
@@ -47,7 +48,6 @@ class APIController extends Controller
 
     $jsonLdRequest = $this->isJsonLdRequest($request, $_format);
 
-    $limit = $request->get('limit');
     $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
     $fullRepresentation =  $jsonLdRequest || $ontology != "gogocompact";
     $elementId = $id ? $id : $request->get('id');      
@@ -68,11 +68,11 @@ class APIController extends Controller
           $boxes[] = explode( ',' , $bound);
         }
 
-        $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request, $fullRepresentation, $isAdmin, $limit);          
+        $elementsFromDB = $elementRepo->findWhithinBoxes($boxes, $request, $fullRepresentation, $isAdmin);          
       } 
       else
       {
-        $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $limit, $request);
+        $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $request);
       }  
       $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin, $includeContact);        
     }   
@@ -90,11 +90,9 @@ class APIController extends Controller
         "data" :      '. $elementsJson . ', 
         "ontology" : "'. $ontology .'"
       }';
-    }
+    }    
     
-    
-    $result = new Response($responseJson);   
-
+    $result = new Response($responseJson);
     $result->headers->set('Content-Type', 'application/json');
     return $result;
   }  
@@ -165,6 +163,13 @@ class APIController extends Controller
     {
       return new Response("Access to the API is restricted and not allowed via the browser");
     }
+  }
+
+  public function apiUiAction()
+  {        
+    $em = $this->get('doctrine_mongodb')->getManager();
+    $options = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+    return $this->render('BiopenGeoDirectoryBundle:api:api-ui.html.twig', array('options' => $options));        
   }
 
   private function isUserAdmin() 

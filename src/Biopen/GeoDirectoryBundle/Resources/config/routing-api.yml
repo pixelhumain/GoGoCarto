@@ -1,3 +1,7 @@
+biopen_api_ui:
+    path: /
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:apiUi }
+
 biopen_api_taxonomy_show:
     path:     /taxonomy/{id}.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }

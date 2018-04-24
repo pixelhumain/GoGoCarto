@@ -1,0 +1,74 @@
+#page-content.api
+{
+  @import 'vendors/select2-materialize';
+
+  .leaflet-areaselect-shade {
+    position: absolute;
+    background: rgba(0,0,0,0.4);
+    z-index: 400;
+  }
+
+  .leaflet-interactive.leaflet-path-draggable {
+    fill: transparent !important;
+  }
+
+  #map-bounds-select {
+    height: 400px;
+    margin-top: 1.5rem;
+    border-radius: 5px;
+    z-index: 500;
+  }
+
+  a.leaflet-control-zoom-in {
+      font-size: 18px !important;
+      color: #3d3d3d;
+  }
+
+  a.leaflet-control-zoom-out {
+      font-size: 25px! important;
+      font-weight: normal;
+      color: #3d3d3d;
+      text-indent: 0;
+  }
+
+  #api-url {
+    padding: .5rem 1rem;
+    width: calc(100% - 2rem);
+    background-color: #f1f1f1;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: none;
+    font-family: "Lucida Console",Monaco,monospace;
+    border: 1px dashed #c1c1c1 !important;
+    margin-bottom: 1rem;
+  }
+
+  .format-container {
+    label { margin-left: 15px; }
+  }
+
+  .option-container { margin-top: 20px; }
+
+  h2 { margin-top: 25px; }
+  h1 { margin-bottom: 40px; }
+
+  .select2-container.select2 {
+    margin: 0;
+    width: 100% !important;
+    margin-top: 10px;
+
+    .select2-search__field { border: none !important; }
+  }
+
+  #limit-input {
+    width: 70px;
+    margin-left: 15px;
+    text-align: center;
+    height: 2rem;
+  }
+
+  #test-api { width: 100%; }
+}
+
+  

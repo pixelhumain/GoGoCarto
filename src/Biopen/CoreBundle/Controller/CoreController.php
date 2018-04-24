@@ -39,5 +39,5 @@ class CoreController extends GoGoController
 
         return $this->render('@BiopenCoreBundle/partners.html.twig', array('listPartners' => $listPartners));
         
-    }
+    }    
 }
