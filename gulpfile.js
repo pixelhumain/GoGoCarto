@@ -18,14 +18,14 @@ function handleError(err) {
   this.emit('end');
 }
 
-gulp.task("scriptsPages", function () {
-   return gulp.src(['src/Biopen/CoreBundle/Resources/js/home.js', 'src/Biopen/GeoDirectoryBundle/Resources/js/api.js'])
-    .pipe(concat('pages.js'))
+gulp.task("scriptsHome", function () {
+   return gulp.src(['src/Biopen/CoreBundle/Resources/js/home.js'])
+    .pipe(concat('home.js'))
     .pipe(gulp.dest('web/js'));
 });
 
 gulp.task("scriptsApi", function () {
-   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/api.js'])
+   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/api/**/*.js'])
     .pipe(concat('api.js'))
     .pipe(gulp.dest('web/js'));
 });
@@ -40,6 +40,7 @@ gulp.task('scriptsLibs', function() {
   gulp.src(['node_modules/GoGoCartoJs/dist/gogocarto.js'])
       .pipe(gulp.dest('web/js'));
   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js', 
+                   'src/Biopen/CoreBundle/Resources/js/libs/**/*.js', 
                    'web/bundles/fosjsrouting/js/router.js',
                    ])
     .pipe(concat('libs.js'))
@@ -82,11 +83,14 @@ gulp.task('gzip_styles', ['prod_styles'], function() {
 });
 
 gulp.task('prod_js', function() {
-  return gulp.src(['web/js/*.js'])
+  return gulp.src(['web/js/*.js', '!web/js/api.js'])
     //.pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     //.pipe(sourcemaps.init({loadMaps: true}))
-    //.pipe(uglify().on('error', gulpUtil.log)) // notice the error event here
+    .pipe(uglify().on('error', function(uglify) {
+        console.error(uglify.message);
+        this.emit('end');
+    }))
     //.pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('web/js'));
 });
@@ -117,12 +121,15 @@ gulp.task('watch', function() {
   gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'], 
               ['scriptsElementForm']);
 
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/api/**/*.js'], 
+              ['scriptsApi']);
+
   gulp.watch(['node_modules/GoGoCartoJs/dist/**/*'], 
               ['gogocarto_assets']);
   
-  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js','../node_modules/GoGoCartoJs/dist/gogocarto.js'], ['scriptsLibs']);
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/libs/**/*.js','src/Biopen/CoreBundle/Resources/js/libs/**/*.js','node_modules/GoGoCartoJs/dist/gogocarto.js'], ['scriptsLibs']);
 
-  gulp.watch(['src/Biopen/CoreBundle/Resources/js/**/*js', 'src/Biopen/GeoDirectoryBundle/Resources/js/**/*js'], ['scriptsPages']);
+  gulp.watch(['src/Biopen/CoreBundle/Resources/js/home.js'], ['scriptsHome']);
   // Watch image files
   //gulp.watch('src/img/*', ['images']);
 
@@ -134,7 +141,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('build', function() {
-    gulp.start('clean','sass', 'scriptsLibs', 'scriptsPages', 'scriptsElementForm', 'gogocarto_assets');
+    gulp.start('clean','sass', 'scriptsLibs', 'scriptsHome', 'scriptsApi', 'scriptsElementForm', 'gogocarto_assets');
 });
 
 gulp.task('production', function() {
