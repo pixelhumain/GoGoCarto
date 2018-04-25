@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-04-24 16:10:53
+ * @Last Modified time: 2018-04-25 11:49:14
  */
  
 
@@ -50,7 +50,7 @@ class APIController extends GoGoController
     $elementId = $id ? $id : $request->get('id');       
     
     // allow ajax request from same host
-    if ($request->isXmlHttpRequest() && $this->getRefererHost($request) == $request->getHost())
+    if ($request->isXmlHttpRequest() && $this->requestFromSameHost($request))
     {
       $isAdmin = $this->isUserAdmin();
       $includeContact = true;
@@ -158,13 +158,10 @@ class APIController extends GoGoController
     return $_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json';
   }
 
-  private function getRefererHost($request)
+  private function requestFromSameHost($request)
   {
-    $refererUrl = $request->headers->get('referer');
-    $refererHost = ltrim($refererUrl, 'http://');
-    $refererHost = ltrim($refererHost, 'https://');
-    $refererHost = explode('/', $refererHost)[0];
-    return $refererHost;
+    if (!(isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER']))) return false;
+    return strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) == strtolower($_SERVER['HTTP_HOST']);
   }
 
   public function getElementsFromTextAction(Request $request)
