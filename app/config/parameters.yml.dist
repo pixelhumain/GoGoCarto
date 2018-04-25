@@ -17,3 +17,10 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    oauth_communs_id: localhost-marc
+    oauth_communs_secret: 521099d1-2d75-45b2-8955-6add560f70c1
+    oauth_google_id: localhost-marc
+    oauth_google_secret: 521099d1-2d75-45b2-8955-6add560f70c1
+    oauth_facebook_id: localhost-marc
+    oauth_facebook_secret: 521099d1-2d75-45b2-8955-6add560f70c1

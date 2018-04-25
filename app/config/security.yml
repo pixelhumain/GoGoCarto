@@ -62,6 +62,7 @@ security:
                     facebook:           "/login/check-facebook"
                     gplus:             "/login/check-google"
                     yahoo:             "/login/check-yahoo"
+                    communs:             "/login/check-les-communs"
                 login_path:        /login
                 failure_path:      /login
 

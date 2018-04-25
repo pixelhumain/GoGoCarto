@@ -1,7 +1,7 @@
 services:
     my_user_provider:
         class: Application\Sonata\UserBundle\Security\FOSUBUserProvider
-        arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid, yahoo: twitterUid}]
+        arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid, communs: communsUid}]
 
     biopen.authentication_handler:
         class: Application\Sonata\UserBundle\Security\AuthenticationHandler

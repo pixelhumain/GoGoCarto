@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2017-12-13 11:56:23
+* @Last Modified time: 2018-04-25 18:17:18
 */
 #popup-login
 {
@@ -44,10 +44,10 @@
 	    &.facebook { background-color: #446da0; }
 	    &.gplus { background-color: #cf5d46; }
 	    &.yahoo { background-color: #834fd6; }
+	    &.communs { background-color: white; color: #e87151; }
 
 	    i.icon {
 	    	font-size: 20px;
-	    	color: white !important;
 	    	line-height: 3.5rem;
 	    	padding: 0;
 	    }

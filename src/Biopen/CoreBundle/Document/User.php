@@ -326,6 +326,24 @@ class User extends BaseUser
      * @var string
      * @MongoDB\Field(type="string")
      */
+    protected $communsUid;
+
+    /**
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $communsName;
+
+    /**
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
+    protected $communsData;
+
+    /**
+     * @var string
+     * @MongoDB\Field(type="string")
+     */
     protected $gplusUid;
 
     /**
@@ -703,5 +721,71 @@ class User extends BaseUser
     public function getAllowedStamps()
     {
         return $this->allowedStamps;
+    }
+
+    /**
+     * Set communsUid
+     *
+     * @param string $communsUid
+     * @return $this
+     */
+    public function setCommunsUid($communsUid)
+    {
+        $this->communsUid = $communsUid;
+        return $this;
+    }
+
+    /**
+     * Get communsUid
+     *
+     * @return string $communsUid
+     */
+    public function getCommunsUid()
+    {
+        return $this->communsUid;
+    }
+
+    /**
+     * Set communsName
+     *
+     * @param string $communsName
+     * @return $this
+     */
+    public function setCommunsName($communsName)
+    {
+        $this->communsName = $communsName;
+        return $this;
+    }
+
+    /**
+     * Get communsName
+     *
+     * @return string $communsName
+     */
+    public function getCommunsName()
+    {
+        return $this->communsName;
+    }
+
+    /**
+     * Set communsData
+     *
+     * @param string $communsData
+     * @return $this
+     */
+    public function setCommunsData($communsData)
+    {
+        $this->communsData = $communsData;
+        return $this;
+    }
+
+    /**
+     * Get communsData
+     *
+     * @return string $communsData
+     */
+    public function getCommunsData()
+    {
+        return $this->communsData;
     }
 }

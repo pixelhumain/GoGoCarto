@@ -310,6 +310,14 @@
                 <source>form.label_twitter_name</source>
                 <target>Nom Twitter</target>
             </trans-unit>
+            <trans-unit id="form.label_communs_uid">
+                <source>form.label_communs_uid</source>
+                <target>Uid LesCommuns.org</target>
+            </trans-unit>
+            <trans-unit id="form.label_communs_name">
+                <source>form.label_communs_name</source>
+                <target>Nom LesCommuns.org</target>
+            </trans-unit>
             <trans-unit id="form.label_gplus_uid">
                 <source>form.label_gplus_uid</source>
                 <target>Uid Google+</target>
@@ -389,6 +397,14 @@
             <trans-unit id="show.label_twitter_name">
                 <source>show.label_twitter_name</source>
                 <target>Nom Twitter</target>
+            </trans-unit>
+            <trans-unit id="show.label_communs_uid">
+                <source>show.label_communs_uid</source>
+                <target>Uid LesCommuns.org</target>
+            </trans-unit>
+            <trans-unit id="show.label_communs_name">
+                <source>show.label_communs_name</source>
+                <target>Nom LesCommuns.org</target>
             </trans-unit>
             <trans-unit id="show.label_gplus_uid">
                 <source>show.label_gplus_uid</source>

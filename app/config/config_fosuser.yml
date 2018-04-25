@@ -49,20 +49,21 @@ hwi_oauth:
         username_iterations: 30
         properties:
             google: gplusUid
-            facebook : facebook_id
+            facebook : facebookUid
+            communs: twitterUid
     resource_owners:
         gplus:
             type:                google
-            client_id:           718756240856-nqjk8stfevmbjoklqctvec8avtci3oac.apps.googleusercontent.com
-            client_secret:       c2j_wuyI7lo3kECCkB9nbmcr
+            client_id:           "%oauth_google_id%"
+            client_secret:       "%oauth_google_secret%"
             scope:               "email profile"
             options:
                 display: popup #dialog is optimized for popup window
                 csrf: true
         facebook:
             type:                facebook
-            client_id:           723073984538238
-            client_secret:       44cbf0bb6892e8d8bfd890357e9b6951
+            client_id:           "%oauth_facebook_id%"
+            client_secret:       "%oauth_facebook_secret%"
             scope:               "public_profile,email"
             options:
                 display: popup #dialog is optimized for popup window
@@ -71,3 +72,21 @@ hwi_oauth:
             type:                yahoo
             client_id:           dj0yJmk9VlJSaEY2MTZIODVCJmQ9WVdrOWJGRlhUMjVJTlRnbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD03Nw--
             client_secret:       babaa2b0eb6dc3d580f08f8ad298115409abae0c
+
+        communs:
+            type: oauth2
+            paths:
+                identifier: sub
+                nickname: name
+                realname: name
+                firstname: given_name
+                lastname: family_name
+                email: email
+            class:          'HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GenericOAuth2ResourceOwner'
+            access_token_url: https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/token
+            authorization_url: https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/auth
+            infos_url:         https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/userinfo
+            client_id:      "%oauth_communs_id%"
+            client_secret:  "%oauth_communs_secret%"
+            scope:          "email profile openid"
+            

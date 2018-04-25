@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-04-05 15:04:49
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-01-06 17:53:43
+* @Last Modified time: 2018-04-25 18:24:08
 */
 .modal.page-modal
 {
@@ -23,6 +23,12 @@
 		}
 	}
 
+  .modal-content {    
+    padding: 24px;    
+    @media #{$medium-and-up} { padding: 40px 15px; }
+    @media #{$large-only} { padding: 40px; }
+  }
+
 	.btn-back
 	{
 		float: left;
@@ -39,14 +45,14 @@
 
 	@media only screen and (min-width: 601px)
 	{
-	   width: 90%;
+	   width: 100%;
 	   max-height: 80%;
 	}
 
 	@media only screen and (min-width: 1200px)
 	{
 	   min-width: 800px;
-	   width: 55%;
+	   width: 60%;
 	   max-height: 80%;
 	}	
 

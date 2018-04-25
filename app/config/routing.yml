@@ -30,6 +30,9 @@ facebook_login:
 gplus_login:
     path: /login/check-google
 
+communs_login:
+    path: /login/check-les-communs
+
 yahoo_login:
     path: /login/check-yahoo
 
