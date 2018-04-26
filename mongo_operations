@@ -1,3 +1,6 @@
+apt update
+apt upgrade
+
 http://localhost/GoGoCarto/web/app_dev.php/elements/update-colibris-lmc/export_lmc_1.csv
 
 use gogocarto_default
