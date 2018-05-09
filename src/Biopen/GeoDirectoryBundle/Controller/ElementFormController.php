@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-09 11:18:34
+ * @Last Modified time: 2018-05-09 11:55:02
  */
  
 
@@ -72,7 +72,7 @@ class ElementFormController extends GoGoController
 		if ($request->get('logout')) $session->remove('userEmail');
 
 		$userType = "anonymous";
-		$isEditingWithHash = $element->getRandomHash() == $request->get('hash');
+		$isEditingWithHash = $element->getRandomHash() && $element->getRandomHash() == $request->get('hash');
 
 		// is user not allowed, we show the contributor-login page
 		if (!$configService->isUserAllowed($addEditName, $request, $session->get('userEmail')) && !$isEditingWithHash)

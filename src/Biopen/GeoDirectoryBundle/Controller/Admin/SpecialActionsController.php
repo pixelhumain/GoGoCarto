@@ -131,13 +131,23 @@ class SpecialActionsController extends Controller
 
     public function generateRandomHashAction()
     {
+         return $this->elementsBulkAction('generateRandomHash'); 
+    } 
+ 
+    public function generateRandomHash($element) 
+    { 
+        $element->updateRandomHash(); 
+    }
+
+    public function generateTokenAction()
+    {
         $em = $this->get('doctrine_mongodb')->getManager();
         $users = $em->getRepository('BiopenCoreBundle:User')->findAll();
         echo "<h1>Utilisateurs : " . count($users) . "</h1>";
         $i = 0;
         foreach ($users as $key => $user) 
         {
-           $user->createToken();
+           $user->createToken(); 
            echo "Update user " . $user->getUsername() . "</br>"; 
            if ((++$i % 20) == 0) {
                 $em->flush();
