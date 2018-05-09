@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-10 15:00:43
+ * @Last Modified time: 2018-05-09 10:08:34
  */
  
 
@@ -79,7 +79,7 @@ class ElementPendingService
       return $oldElement;
    }
 
-   // Action called to relsolve a pending element. This actions in triggered on both admin or collaborative resolve
+   // Action called to relsolve a pending element. This actions in triggered from both admin or collaborative resolve
    public function resolve($element, $isAccepted, $validationType = ValidationType::Admin, $message = null)
    {
       // Call specifics action depending of contribution type and validation or refusal
@@ -118,14 +118,14 @@ class ElementPendingService
       $modifiedElement = $element->getModifiedElement();
       if ($modifiedElement)
       {
-         // copying public attributes
-         foreach ($element as $key => $value) 
+         // copying following attributes
+         $attributes = ['name', 'geo', 'address', 'commitment', 'description', 'descriptionMore', 'telephone', 'email', 'website', 'optionValues', 'openHours', 'openHoursMoreInfos'];
+         foreach ($attributes as $key) 
          {
-           if (!in_array($key, ["id", "status"])) $element->$key = $modifiedElement->$key;
+           $getter = 'get' . ucfirst($key);
+           $setter = 'set' . ucfirst($key);
+           $element->$setter($modifiedElement->$getter());
          }
-         // copying private attribute (they are not in $keys)
-         $element->setEmail($modifiedElement->getEmail());         
-         $element->setOptionValues($modifiedElement->getOptionValues());
          $element->setModifiedElement(null);
       }
 
