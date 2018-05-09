@@ -4,7 +4,7 @@
     {% spaceless %}
         {% if field_description.options.choices is defined %}
             {% for key, optionValue in value %}
-                {{ field_description.options.choices[optionValue.optionId].nameShort }}
+                {{ field_description.options.choices[optionValue.optionId].name }}
                 {% if not loop.last %}, {% endif %}
             {% endfor %}
         {% endif %}
