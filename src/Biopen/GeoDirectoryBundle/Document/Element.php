@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-23 15:10:33
+ * @Last Modified time: 2018-05-09 10:34:21
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -586,6 +586,15 @@ class Element
     public function getFormatedAddress()
     {
         return $this->address ? $this->address->getFormatedAddress() : '';
+    }
+
+    public function getOptionIds()
+    {
+        $result = [];
+        foreach ($this->getOptionValues() as $optionsValue) {
+            $result[] = (string) $optionsValue->getOptionId();
+        }
+        return $result;
     }
 
     public function reset()

@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-10 13:32:45
+ * @Last Modified time: 2018-05-09 11:18:34
  */
  
 
@@ -147,7 +147,8 @@ class ElementFormController extends GoGoController
 		$editMode = $editMode && !($editingOwnPendingContrib && $element->isPendingAdd());
 		
 		// create the element form
-		$element = $element->isPendingModification() ? $element->getModifiedElement() : $element;
+		$element = $element->isPendingModification() ? $element->getModifiedElement() : $element;		
+		$originalElement = clone $element;
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
 
 		// when we check for duplicates, we jump to an other action, and coem back to the add action
@@ -181,7 +182,7 @@ class ElementFormController extends GoGoController
 				else $needToCheckDuplicates = false;
 
 				// custom handling form (to creating OptionValues for example)
-				$element = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration);	
+				list($element, $isMinorModification) = $this->get("biopen.element_form_service")->handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration, $originalElement, $em);	
 
 				if ($needToCheckDuplicates)	
 				{				
@@ -236,9 +237,9 @@ class ElementFormController extends GoGoController
 			if ($this->isRealModification($element, $request))
          {
             $elementActionService = $this->container->get('biopen.element_action_service');
-            $message = $request->get('admin-message');            
+            $message = $request->get('admin-message');  
             
-            if ($isAllowedDirectModeration)
+            if ($isAllowedDirectModeration || $isMinorModification)
             {
                if (!$editMode) $elementActionService->add($element, $sendMail, $message);
                else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement, $isEditingWithHash);           
@@ -319,11 +320,11 @@ class ElementFormController extends GoGoController
 	}
 
 	// If user check "do not validate" on pending element, it means we just want to
-    // modify some few things, but staying on the same state. So that's not a "Real" modification
-    private function isRealModification($element, $request)
-    {
-        return !$element->isPending() || !$request->request->get('dont-validate');
-    }
+   // modify some few things, but staying on the same state. So that's not a "Real" modification
+   private function isRealModification($element, $request)
+   {
+      return !$element->isPending() || !$request->request->get('dont-validate');
+   }	   
 
 	// when submitting new element, check it's not yet existing
 	public function checkDuplicatesAction(Request $request)

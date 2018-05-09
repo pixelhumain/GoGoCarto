@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-10 15:06:11
+ * @Last Modified time: 2018-05-09 11:14:02
  */
  
 
@@ -26,14 +26,15 @@ class ElementFormService
         $this->elementActionService = $elementActionService;
     }
 
-    public function handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration)
+    public function handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration, $originalElement, $em)
     {
         $this->updateOptionsValues($element, $request);
 
         $this->updateWebsiteUrl($element);
 
+        $isMinorModif = $this->isMinorModification($element, $originalElement, $em);
         // calculate this before calling "updateOwner" because we want to check the old value of userOwnerEmail
-        $isPendingModif = $this->isPendingModification($editMode, $isAllowedDirectModeration, $request);
+        $isPendingModif = $this->isPendingModification($editMode, $isAllowedDirectModeration || $isMinorModif, $request);
 
         $this->updateOwner($element, $request, $userEmail);           
         
@@ -43,13 +44,32 @@ class ElementFormService
         } 
         else $updatedElement = $element;           
 
-        return $updatedElement;
+        return [$updatedElement, $isMinorModif];
     }
 
     private function isPendingModification($editMode, $isAllowedDirectModeration, $request)
     {
         return $editMode && (!$isAllowedDirectModeration || $request->request->get('dont-validate'));
-    }    
+    }  
+
+    // when user only make a minor modification, we don't want to go through moderation
+    // Here is a function to detect minor changes
+    private function isMinorModification($element, $originalElement, $em)
+    {
+        $uow = $em->getUnitOfWork();
+        $uow->computeChangeSets();
+        $changeset = $uow->getDocumentChangeSet($element); 
+        $attributesChanged = array_keys($changeset);
+                        
+        $sameOptionValues = $element->getOptionIds() == $originalElement->getOptionIds();
+        $nonImportantAttributes = ['geo', 'openHours', 'openHoursMoreInfos'];
+        foreach ($attributesChanged as $index => $attribute) {
+           if ($attribute == 'optionValues' && $sameOptionValues || strpos($attribute, 'Json') !== false || in_array($attribute, $nonImportantAttributes)) {
+              unset($attributesChanged[$index]);
+           }
+        }
+        return count($attributesChanged) == 0;
+    }  
 
     private function updateOptionsValues($element, $request)
     {
