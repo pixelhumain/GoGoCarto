@@ -17,6 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    csrf_protection: true
 
     oauth_communs_id: localhost-marc
     oauth_communs_secret: 521099d1-2d75-45b2-8955-6add560f70c1
