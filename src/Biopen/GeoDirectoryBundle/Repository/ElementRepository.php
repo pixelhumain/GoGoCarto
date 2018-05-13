@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-24 14:22:53
+ * @Last Modified time: 2018-05-13 14:49:27
  */
  
 
@@ -167,14 +167,18 @@ class ElementRepository extends DocumentRepository
 
   private function filterWithRequest($qb, $request)
   {
-    $categoriesIds = $request->get('categories') ? explode(',' , $request->get('categories')) : null;    
+    $categoriesIds = $request->get('categories');    
     if ($categoriesIds) {
+      if (!is_array($categoriesIds)) $categoriesIds = explode(',' , $categoriesIds);
       $categoriesIds = array_map(function($el) { return (float) $el; }, $categoriesIds);
       $qb->field('optionValues.optionId')->in($categoriesIds);
     }
 
-    $stampsIds = $request->get('stampsIds');
-    if ($stampsIds) $qb->field('stamps.id')->in(explode(',', $stampsIds));
+    $stampsIds = $request->get('stampsIds');    
+    if ($stampsIds) {
+      if (!is_array($stampsIds)) $stampsIds = explode(',' , $stampsIds);
+      $qb->field('stamps.id')->in($stampsIds);
+    }
 
     $limit = $request->get('limit');
     if ($limit && $limit > 0) $qb->limit($limit);
