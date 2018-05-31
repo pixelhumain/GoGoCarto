@@ -91,6 +91,7 @@ security:
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
         - { path: ^/admin/, role: [ROLE_SONATA_ADMIN] }
+        - { path: ^/import/, role: [ROLE_SONATA_ADMIN] }
         - { path: ^/user/, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/api/$, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: ^/api/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

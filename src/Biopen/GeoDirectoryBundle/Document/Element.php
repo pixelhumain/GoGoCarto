@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-09 10:34:21
+ * @Last Modified time: 2018-05-30 21:12:11
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -368,9 +368,9 @@ class Element
                 if (!$this->isPending()) $needed = false;
                 break;
             case ModerationState::NoOptionProvided:
-                if ( $this->getOptionValues() == null ||
-                     is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0 ||
-                    !is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0
+                if ( $this->getOptionValues() != null && (
+                     (is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0) ||
+                     (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0) )
                     )
                     $needed = false;
                 break;

@@ -9,6 +9,7 @@ use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
+use Biopen\GeoDirectoryBundle\Document\Option;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
 use Biopen\GeoDirectoryBundle\Document\InteractionType;
@@ -22,9 +23,9 @@ class ImportCsvService
 	private $converter;
 	private $geocoder;
 	private $elementActionService;
-	private $mainsCategories;
-	private $optionsMissing = [];
-
+	protected $parentCategoryToCreateMissingOptions;
+	protected $missingOptionDefaultAttributesForCreate;
+	protected $createMissingOptions;
 	/**
     * Constructor
     */
@@ -34,17 +35,13 @@ class ImportCsvService
    	 $this->converter = $converter;
    	 $this->geocoder = $geocoder->using('google_maps');
    	 $this->elementActionService = $elementActionService;
+   	 $this->currentRow = [];
    }
 
-   public function getAvailableOptions()
-   {
-   	$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
-   	$bottomOptions = array_filter($options, function($option) { return $option->getSubcategoriesCount() == 0;});
-   	return array_map(function($option) { return $option->getNameWithParent(); }, $bottomOptions);
-   }
-
-	public function import($fileName, $geocode = false, OutputInterface $output = null)
+	public function import($import, OutputInterface $output = null)
 	{
+		
+      $fileName = 'uploads/imports/' . $import->getFileName();
 		// Getting php array of data from CSV
 		$data = $this->converter->convert($fileName, ',');
 
@@ -58,30 +55,43 @@ class ImportCsvService
 		if ($output) 
 		{
 		  $output->writeln('Element to import length : ' . count($data));
-		  // Starting progress
 		  $progress = new ProgressBar($output, $size);
 		  $progress->start();
 		}
 
+		$this->parentCategoryToCreateMissingOptions = $import->getParentCategoryToCreateOptions() ? $import->getParentCategoryToCreateOptions() : $this->em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategory();
+		$this->missingOptionDefaultAttributesForCreate = [
+			"useIconForMarker" => false,
+			"useColorForMarker" => false,
+			"displayOption" => false
+		];
+		$this->createMissingOptions = $import->getCreateMissingOptions();
+		$sourceKey = $import->getSourceName();
+
+		$fields = ['id', 'title', 'streetAddress', 'addressLocality', 'postalCode', 'addressCountry', 'description', 'descriptionMore', 'commitment',
+						'telephone', 'website', 'email', 'openHoursString', 'source', 'latitude', 'longitude'];
+		$data = $this->addMissingFieldsToData($fields, $data);
+
 		foreach($data as $row) 
 		{
+			$this->currentRow = $row;
 			$new_element = new Element();
 			$new_element->setOldId($row['id']);	 	
-			$new_element->setName($row['titre']);	 
+			$new_element->setName($row['title']);	 
 
-			$address = new PostalAddress($row['rue'], $row['ville'], $row['codePostal'], "FR");
+			$address = new PostalAddress($row['streetAddress'], $row['addressLocality'], $row['postalCode'], $row["addressCountry"]);
 			$new_element->setAddress($address);
-			$new_element->setCommitment($row['engagement']);   
-			$new_element->setDescription($row['description courte']);
-			$new_element->setDescriptionMore($row['description longue']);
+			$new_element->setCommitment($row['commitment']);   
+			$new_element->setDescription($row['description']);
+			$new_element->setDescriptionMore($row['descriptionMore']);
 
 			if (strlen($row['telephone']) >= 9) $new_element->setTelephone($row['telephone']);
 
-			if ($row['site web'] != 'http://' && $row['site web'] != "https://") $new_element->setWebsite($row['site web']);
+			if ($row['website'] != 'http://' && $row['website'] != "https://") $new_element->setWebsite($row['website']);
 
 			$new_element->setEmail($row['email']);
-			$new_element->setOpenHoursMoreInfos($row['horaires ouverture']);
-			$new_element->setSourceKey($row['source']);	      
+			$new_element->setOpenHoursMoreInfos($row['openHoursString']);
+			$new_element->setSourceKey(strlen($row['source']) > 0 ? $row['source'] : $sourceKey);	      
 
 			$lat = 0;
 			$lng = 0;
@@ -93,11 +103,11 @@ class ImportCsvService
 			}
 			else
 			{	      
-				if ($geocode)
+				if ($import->getGeocodeIfNecessary())
 				{
 					try 
 				   {
-				   	$result = $this->geocoder->geocode($address)->first();
+				   	$result = $this->geocoder->geocode($address->getFormatedAddress())->first();
 				   	$lat = $result->getLatitude();
 				   	$lng = $result->getLongitude();	
 				   }
@@ -106,12 +116,10 @@ class ImportCsvService
 			} 
 
 			if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
-
 			$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 
-			$this->parseOptionValues($new_element, $row);
-
-			$this->elementActionService->import($new_element);     
+			$this->createCategories($new_element, $row);
+			$this->elementActionService->import($new_element); 			
 
 			$this->em->persist($new_element);
 
@@ -133,72 +141,69 @@ class ImportCsvService
 			$i++;
 		}
 
-		dump($this->optionsMissing);
-
-		dump($new_element);
-
 		// Flushing and clear data on queue
 		$this->em->flush();
 		$this->em->clear();	  
 
 		// Ending the progress bar process
 		if ($output) $progress->finish();
+
+		return count($data);
+	}
+
+	private function addMissingFieldsToData($fields, $data) {
+		// assuming that all data ahve the same field, we only check the first
+		$missingFields = array_diff($fields, array_keys($data[0]));
+		foreach ($missingFields as $missingField) {
+			foreach ($data as $key => $row) {
+				$data[$key][$missingField] = "";
+			}
+		}
+		return $data;
 	}
 
 	private function createOptionsMappingTable()
 	{
-		$mappingTableIds;
-
 		$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
 		foreach($options as $option)
 		{		
-			$mappingTableIds[$this->slugify($option->getNameWithParent())] = [
+			$ids = [
 				'id' => $option->getId(), 
 				'idAndParentsId' => $option->getIdAndParentOptionIds()
 			];
+			$this->mappingTableIds[$this->slugify($option->getNameWithParent())] = $ids;
+			$this->mappingTableIds[$this->slugify($option->getName())] = $ids;
 		}
-
-		if (!array_key_exists($excelValueSlug, $mappingTableIds)) dump('Not option found for excel value : ' . $excelValueSlug);
-
-		//dump($mappingTableIds);
-		$this->mappingTableIds = $mappingTableIds;
+		dump($this->mappingTableIds);
 	}
 
-	private function parseOptionValues($element, $row)
+	private function createCategories($element, $row)
 	{
 		$optionsIdAdded = [];
 
-		if ($row['catégories'])
+		if (strlen($row['categories']) > 0)
 		{
-			$optionsCsv = explode(',', $row['catégories']);			
+			$optionsCsv = explode(',', $row['categories']);			
 			foreach($optionsCsv as $optionName)
 			{
 				if ($optionName)
 				{
-					$optionName = $this->slugify($optionName);
-					
-					if (array_key_exists($optionName, $this->mappingTableIds))
-					{						
-						// we add option id and parent options if not already added (because excel import works only with the lower level of options)
-						foreach ($this->mappingTableIds[$optionName]['idAndParentsId'] as $key => $optionId) 
-						{							
-					  		if (!in_array($optionId, $optionsIdAdded)) $optionsIdAdded[] = $this->AddOptionValue($element, $optionId);
-						}						
-					}
-					else
-					{
-						// dump("Option from excel '" . $optionName . "' don't exist in the web site");
-						if(!in_array($optionName, $this->optionsMissing)) $this->optionsMissing[] = $optionName;
-					}						
+					$optionNameSlug = $this->slugify($optionName);
+					$optionExists = array_key_exists($optionNameSlug, $this->mappingTableIds);
+
+					// create option if does not exist					
+					if (!$optionExists && $this->createMissingOptions) { $this->createOption($optionName); $optionExists = true; }
+
+					if ($optionExists)
+						// we add option id and parent options if not already added (because import works only with the lower level of options)
+						foreach ($this->mappingTableIds[$optionNameSlug]['idAndParentsId'] as $key => $optionId) 
+							if (!in_array($optionId, $optionsIdAdded)) $optionsIdAdded[] = $this->AddOptionValue($element, $optionId);									
 				}			
 			}
 		}
 
-		if (count($element->getOptionValues()) == 0) 
-		{
-			$element->setModerationState(ModerationState::NoOptionProvided);
-		}
+		if (count($element->getOptionValues()) == 0) $element->setModerationState(ModerationState::NoOptionProvided); 		
 	}
 
 	private function AddOptionValue($element, $id)
@@ -208,6 +213,19 @@ class ImportCsvService
 	  	$optionValue->setIndex(0); 
 	  	$element->addOptionValue($optionValue);
 	  	return $id;
+	}
+
+	private function createOption($name)
+	{
+		$option = new Option();
+		$option->setName($name);
+		$option->setParent($this->parentCategoryToCreateMissingOptions);
+		$option->setUseIconForMarker($this->missingOptionDefaultAttributesForCreate["useIconForMarker"]);
+		$option->setUseColorForMarker($this->missingOptionDefaultAttributesForCreate["useColorForMarker"]);
+		$option->setDisplayOption($this->missingOptionDefaultAttributesForCreate["displayOption"]);
+		$this->em->persist($option);
+		$this->em->flush();
+		$this->createOptionsMappingTable();
 	}
 
 	private function slugify($text)
@@ -222,28 +240,15 @@ class ImportCsvService
 	  $text = str_replace('â', 'a', $text);
 	  $text = str_replace('î', 'i', $text);
 	  $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+	  
+	  $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); // transliterate	  
+	  $text = preg_replace('~[^-\w]+~', '', $text); // remove unwanted characters	  
+	  $text = trim($text, '-'); // trim	  
+	  $text = rtrim($text, 's'); // remove final "s" for plural	  
+	  $text = preg_replace('~-+~', '-', $text); // remove duplicate -	  
+	  $text = strtolower($text); // lowercase
 
-	  // transliterate
-	  $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-	  // remove unwanted characters
-	  $text = preg_replace('~[^-\w]+~', '', $text);
-
-	  // trim
-	  $text = trim($text, '-');
-	  // remove final "s" for plural
-	  $text = rtrim($text, 's');
-
-	  // remove duplicate -
-	  $text = preg_replace('~-+~', '-', $text);
-
-	  // lowercase
-	  $text = strtolower($text);
-
-	  if (empty($text)) {
-	   return '';
-	  }
-
+	  if (empty($text)) return '';
 	  return $text;
 	}
 

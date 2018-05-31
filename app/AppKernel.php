@@ -19,8 +19,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Bazinga\Bundle\GeocoderBundle\BazingaGeocoderBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new FOS\JsRoutingBundle\FOSJsRoutingBundle(), 
-            //new JMS\TwigJsBundle\JMSTwigJsBundle(),            
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),        
             
             new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             new Pix\SortableBehaviorBundle\PixSortableBehaviorBundle(),
@@ -49,6 +48,7 @@ class AppKernel extends Kernel
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
+            new Vich\UploaderBundle\VichUploaderBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

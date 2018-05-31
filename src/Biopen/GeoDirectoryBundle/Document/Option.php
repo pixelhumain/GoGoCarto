@@ -182,7 +182,7 @@ class Option
         {
             $result = $this->recursivelyAddParentOptionId($parentOption);
         }
-        $result[] = $option;
+        $result[] = $option->getId();
         return $result;
     }
 

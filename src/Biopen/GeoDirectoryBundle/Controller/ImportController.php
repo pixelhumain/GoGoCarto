@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-12 13:32:04
+ * @Last Modified time: 2018-05-30 20:31:32
  */
  
 
@@ -43,8 +43,10 @@ class ImportController extends Controller
 
    public function availableOptionsAction()
    {
-      $options = $this->get('biopen.import_csv')->getAvailableOptions();
+      $options = $this->get('doctrine_mongodb')->getManager()->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+      $bottomOptions = array_filter($options, function($option) { return $option->getSubcategoriesCount() == 0;});
+      $optionsNames = array_map(function($option) { return $option->getNameWithParent(); }, $bottomOptions);
 
-      return new Response(join('<br>', $options));
+      return new Response(join('<br>', $optionsNames));
    }    
 }
