@@ -1,18 +1,27 @@
-- Installation de GoGoCarto, prise en main -> 1,5j
+
 
 - Configuration manquante
   -> Image/Logo 0,5j
+  -> thème de style que l'on peut choisir
+  -> séparer la configuration en plusieurs étapes (aussi niveau back : faire des embeded documents)
+  -> pouvoir accéder à la config en json que l'on donne à GoGoCartoJs
 
   En option: (5j)
   -> Config du formulaire : activer ou non les champs existants (open hours etc..) 0,5j
   -> Créer un ou plusieurs champs génériques, avec label configurable. Voir générateur de formulaire (bundle symfony?) 1,5j
   -> Menu header ? configurer quelles pages activer (accueil, qui sommes-nous) 0,5
-  -> Personalisation du thème par défault : 2j
 
 - Ferme de service
-  -> rajouter config par projet dans l'url. Chaque projet doit utiliser une base de donnée différente 4j
+  -> Voir pour utiliser le nom de domaine de manière plus propre
+  -> page de création d'une instance (nom + création user admin)
   -> vue pour lister toutes les instances 0,5j
+  -> Document "Instance"à créer
+  -> voir comment faire marcher les crontabs sur chaque domaine existant
 
+- Source de données
+  -> Importer des données. Si catégorie existe pas la créer
+  -> Utiliser une source externe. Configuration de la mise à jour automatique, plus URL d'update manuelle
 
-BASE = 6,5j -> 10j
-OPTION = 5j
+- Bonus
+  -> générteur des couleurs à partir de deux ou trois couleurs
+  -> CRUD taxonomy en javascript plus rapide, avec possibilité de drag/drop. Voir lib qui existe déjà?
