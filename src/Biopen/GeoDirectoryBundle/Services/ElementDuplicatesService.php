@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-11-29 12:27:35
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-03-26 09:44:19
+ * @Last Modified time: 2018-06-04 17:03:37
  */
 namespace Biopen\GeoDirectoryBundle\Services;
 
@@ -17,7 +17,7 @@ class ElementDuplicatesService
       $this->em = $documentManager;
    }
 
-   public function checkForDuplicates($element)
+   public function checkForDuplicates($element, $includeDeleted = false, $hydrate = false)
    {
       $distance = 1; // km
       $maxResults = 10;
@@ -26,7 +26,9 @@ class ElementDuplicatesService
          $element->getGeo()->getLongitude(), 
          $distance, 
          $maxResults, 
-         $element->getName()
+         $element->getName(),
+         $includeDeleted,
+         $hydrate
       );
       return $elements;
    }

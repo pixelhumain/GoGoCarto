@@ -2,10 +2,17 @@
 
 namespace Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions;
 
+use Biopen\GeoDirectoryBundle\Document\Element;
+use Biopen\GeoDirectoryBundle\Document\ElementStatus;
+use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
+use Biopen\GeoDirectoryBundle\Document\ReportValue;
+use Biopen\GeoDirectoryBundle\Document\UserRoles;
+use Biopen\GeoDirectoryBundle\Document\ModerationState;
+
 class DuplicatesActionsController extends BulkActionsAbstractController
 {
-   public  function detectDuplicatesAction() { return $this->elementsBulkAction('detectDuplicates'); }
-   private function detectDuplicates($element)
+   public function detectDuplicatesAction() { return $this->elementsBulkAction('detectDuplicates', false, 1000, false); }
+   public function detectDuplicates($element)
    {
       if ($element->getStatus() >= ElementStatus::PendingModification)
       {
@@ -13,26 +20,21 @@ class DuplicatesActionsController extends BulkActionsAbstractController
          $radius = 1 / 110; // km
 
          $em = $this->get('doctrine_mongodb')->getManager();
-         $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-         $elements = $qb
-         ->field('name')->equals($element->getName()) 
-         ->field('status')->gte(ElementStatus::PendingModification) 
-         ->field('geo')->withinCenter((float)$element->getGeo()->getLatitude(), (float)$element->getGeo()->getLongitude(), $radius)
-         ->hydrate(false)->getQuery()->execute()->toArray();
+         $duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, false, true);
 
-         if (count($elements) > 1)
+         if (count($duplicates) > 1)
          {
-            echo "<h2>" . array_values($elements)[0]['name'] . '</h2>';
-            foreach($elements as $key => $element)
+            echo "<h3>Duplicates found</h3><ul>";
+            foreach($duplicates as $key => $element)
             {
-               $address = $element['address'];
-               if (key_exists('streetAddress', $address)) echo $address['streetAddress'] . ", ";
-               if (key_exists('postalCode', $address)) echo $address['postalCode'] . " ";
-               if (key_exists('addressLocality', $address)) echo $address['addressLocality'] . " ";
-               echo '<a href="' . $this->generateUrl('admin_biopen_geodirectory_element_showEdit', ['id' => $element['_id']]). '">Voire la fiche<a/>';
-               echo '</br>';
+               echo "<li>" . $element->getName() . " / " . $element->getAddress()->getFormatedAddress() . ' / ';
+
+               echo '<a href="' . $element->getShowUrlFromController($this) . '" target="_blank">Voire la fiche<a/></br>';
+               $element->setModerationState(ModerationState::PossibleDuplicate);                  
             }
-            echo '</br>';
+            echo "</ul>";
+
+            $em->flush();
          }
       }
    }

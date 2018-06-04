@@ -17,7 +17,7 @@ class BulkActionsAbstractController extends Controller
 {
     public $optionList = [];
 
-    protected function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000)
+    protected function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000, $automaticRedirection = false)
     {
         $batchSize = 50;
         
@@ -43,16 +43,21 @@ class BulkActionsAbstractController extends Controller
         }
 
         $count = $elementRepo->findAllElements(null, $batchFromStep, true); 
-
+        $elementsToProcceedCount = 0;
         if ($count > $maxElementsCount)
         {            
-            $session->set('batch_lastStep', $batchFromStep + $maxElementsCount - 1);
+            $nextStep = $batchFromStep + $maxElementsCount;
+            $session->set('batch_lastStep', $nextStep);
             $isStillElementsToProceed = true;
+            $elementsToProcceedCount =  $count - $maxElementsCount;
         }   
         else
-        {
+        {            
+            $nextStep = $batchFromStep + $count;
             $session->remove('batch_lastStep');
         }
+
+        if (!$automaticRedirection) echo "<h1>Analyse des éléments de " . $batchFromStep . " à " . $nextStep . "</h1>";
 
         $elements = $elementRepo->findAllElements($maxElementsCount, $batchFromStep);
 
@@ -72,11 +77,12 @@ class BulkActionsAbstractController extends Controller
 
         if ($isStillElementsToProceed)
         {
-            $routeName = $this->getRequest()->get('_route'); 
-            return $this->redirect($this->generateUrl($routeName));
+            $route = $this->generateUrl($this->getRequest()->get('_route')); 
+            if ($automaticRedirection) return $this->redirect($route);
+            else return new Response("<a href='" . $route . "'>Continue with next elements (still " . $elementsToProcceedCount . " to analyze)</a>");
         }
         else
-        {
+        {            
             return new Response("Les éléments ont été mis à jours avec succès.");
         }         
     }    

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-13 14:49:27
+ * @Last Modified time: 2018-06-04 17:10:36
  */
  
 
@@ -30,19 +30,23 @@ class ElementRepository extends DocumentRepository
   //   return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
   // }
 
-  public function findDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
+  public function findDuplicatesAround($lat, $lng, $distance, $maxResults, $text, $includeDeleted = true, $hydrate = false)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $expr = $qb->expr()->operator('$text', array('$search' => $text));
     // convert kilometre in degrees
+    $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
     $radius = $distance / 110;
-    return $qb  //->limit($maxResults)
-                ->equals($expr->getQuery())
-                ->field('status')->gt(ElementStatus::Duplicate)
-                ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)                
-                ->sortMeta('score', 'textScore')
-                ->hydrate(false)->getQuery()->execute()->toArray();    
+    $qb  //->limit($maxResults)
+        ->equals($expr->getQuery())
+        ->field('status')->gt($status)
+        ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius); 
+
+    if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PossibleDuplicate);              
+    
+    return $qb->sortMeta('score', 'textScore')
+              ->hydrate($hydrate)->getQuery()->execute()->toArray();    
   }
 
   public function findPerfectDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
