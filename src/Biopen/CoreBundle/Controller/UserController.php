@@ -116,13 +116,15 @@ class UserController extends GoGoController
          $alreadyUsedUserName = ($current_user->getUsername() != $user->getUsername()) && count($userRepo->findByUsername($user->getUsername())) > 0;
          $locationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
          $geocodeError = false;
+         
          if ($user->getLocation()) {
              try
              {
-                 $geocoded = $this->get('bazinga_geocoder.geocoder')->using('openstreetmap')->geocode($user->getLocation())->first();
+                 $geocoded = $this->get('bazinga_geocoder.geocoder')->using('google_maps')->geocode($user->getLocation())->first();
+                 dump($geocoded);
                  $user->setGeo(new Coordinates($geocoded->getLatitude(), $geocoded->getLongitude()));
              }
-             catch (\Exception $error) { $geocodeError = true; } 
+             catch (\Exception $error) { dump($error);$geocodeError = true; } 
          }                
 
          if ($form->isValid() /*&& !$alreadyUsedEmail */&& !$alreadyUsedUserName && !$locationSetToReceiveNewsletter && !$geocodeError) 

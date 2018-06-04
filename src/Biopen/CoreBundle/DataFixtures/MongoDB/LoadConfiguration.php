@@ -18,6 +18,10 @@ class LoadConfiguration implements FixtureInterface
   {  
     $configuration = new Configuration();
 
+    $configuration->setAppName("GoGoCarto");
+    $configuration->setAppSlug("gogocarto");
+    $configuration->setAppBaseline("Créez des cartes à GoGo");
+
     // FEATURES
     $configuration->setFavoriteFeature(  new FeatureConfiguration(true, false, true, true, true));
     $configuration->setShareFeature(     new FeatureConfiguration(true, true,  true, true, true));
@@ -25,9 +29,12 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setDirectionsFeature(new FeatureConfiguration(true, true,  true, true, true));   
     $configuration->setReportFeature(    new FeatureConfiguration(true, false, true, true, false));    
     $configuration->setPendingFeature(   new FeatureConfiguration(true, false, true, true, true));
+    $configuration->setSendMailFeature(   new InteractionConfiguration(true, false, true, true, true, true));
+    $configuration->setCustomPopupFeature(   new FeatureConfiguration());
+    $configuration->setStampFeature(   new FeatureConfiguration());    
 
-    $configuration->setAddFeature(       new InteractionConfiguration(true, true,  false, false, true, true));
-    $configuration->setEditFeature(      new InteractionConfiguration(true, true,  false, false, true, true));
+    $configuration->setAddFeature(       new InteractionConfiguration(true, true,  false, true, true, true));
+    $configuration->setEditFeature(      new InteractionConfiguration(true, true,  false, true, true, true));
     $configuration->setDeleteFeature(    new InteractionConfiguration(true, false, false, false, false, true));
     $configuration->setCollaborativeModerationFeature(      new InteractionConfiguration(true, false, false, false, true, true));
     $configuration->setDirectModerationFeature(             new InteractionConfiguration(true, false, false, false, true, true));
@@ -62,15 +69,19 @@ class LoadConfiguration implements FixtureInterface
     $secondary = $pink ;
     $background = $greyLight ;
 
-    $textColor = $neutralDark ;
+    $textColor = $softDarkblue ;
     $disableColor = $blueLight ;
     $listTitle = $neutralDark ;
     $listTitleBackBtn = $neutralDark;
     $listTitleBackground = $background ;
 
     $mainFont = 'Roboto' ;
-    $titleFont = 'Lobster' ;
-    $taxonomyMainTitleFont = $titleFont ;  
+    $titleFont = 'Roboto' ;
+    $taxonomyMainTitleFont = $titleFont ; 
+
+    // IMPORT
+    $configuration->setFontImport('<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">');
+    $configuration->setIconImport('<script src="https://use.fontawesome.com/3b93bc3463.js"></script>');
 
     // STYLE
     $configuration->setMainFont($mainFont);

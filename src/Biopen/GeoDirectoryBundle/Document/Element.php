@@ -591,9 +591,10 @@ class Element
     public function getOptionIds()
     {
         $result = [];
-        foreach ($this->getOptionValues() as $optionsValue) {
-            $result[] = (string) $optionsValue->getOptionId();
-        }
+        if ($this->getOptionValues())
+            foreach ($this->getOptionValues() as $optionsValue) {
+                $result[] = (string) $optionsValue->getOptionId();
+            }
         return $result;
     }
 
@@ -626,7 +627,7 @@ class Element
 
     public function __toString() 
     {
-        return $this->getName();
+        return $this->getName() ? $this->getName() : "";
     }
 
     /**

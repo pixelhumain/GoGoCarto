@@ -315,6 +315,34 @@ class Configuration
         return "Configuration Générale";
     }
 
+    public function __construct()
+    {
+        $this->addMail = new AutomatedMailConfiguration();
+        $this->editMail = new AutomatedMailConfiguration();
+        $this->deleteMail = new AutomatedMailConfiguration();
+        $this->validationMail = new AutomatedMailConfiguration();
+        $this->refusalMail = new AutomatedMailConfiguration();
+        $this->reportResolvedMail = new AutomatedMailConfiguration();
+        $this->newsletterMail = new AutomatedMailConfiguration();
+
+        $this->favoriteFeature = new FeatureConfiguration();
+        $this->shareFeature = new FeatureConfiguration();
+        $this->exportIframeFeature = new FeatureConfiguration();
+        $this->directionsFeature = new FeatureConfiguration();
+        $this->reportFeature = new FeatureConfiguration(); 
+        $this->stampFeature = new FeatureConfiguration();
+        $this->pendingFeature = new FeatureConfiguration();
+        $this->customPopupFeature = new FeatureConfiguration();
+
+        $this->sendMailFeature = new InteractionConfiguration();
+        
+        $this->addFeature = new InteractionConfiguration();
+        $this->editFeature = new InteractionConfiguration(); 
+        $this->deleteFeature = new InteractionConfiguration();
+        $this->collaborativeModerationFeature = new InteractionConfiguration();
+        $this->directModerationFeature = new InteractionConfiguration();
+    }
+
 
     /**
      * Get id

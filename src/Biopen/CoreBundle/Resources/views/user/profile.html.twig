@@ -66,17 +66,17 @@
 
       var user = {{ user | json_encode | raw }}
       var defaultTileLayer = "{{ config.defaultTileLayer.url }}"
-      var map, marker;
+      var map, marker, mapCenter;
 
       initMap();
 
       // Map initialisation
       function initMap() 
       { 
-        var mapCenter;
-
+        mapZoom = 8;
+        userIsGeolocalized = user.geo && user.geo.latitude
         console.log(user);
-        if (user.geo && user.geo.latitude)
+        if (userIsGeolocalized)
         {
           markerPosition = new L.LatLng(user.geo.latitude, user.geo.longitude);
           mapCenter = markerPosition;
@@ -93,25 +93,31 @@
         L.tileLayer(defaultTileLayer).addTo(map); 
 
         // if (markerPosition)  marker = new L.Marker(markerPosition, { draggable: false } );        
+        if (userIsGeolocalized) 
+        {
+          var circle = L.circle(markerPosition, {
+              color: '{{ config.secondaryColor }}',
+              opacity: 0.8,
+              fillColor: '{{ config.secondaryColor }}',
+              fillOpacity: 0.5,
+              radius: user.newsletterRange * 1000
+          });
 
-        var circle = L.circle(markerPosition, {
-            color: '{{ config.secondaryColor }}',
-            opacity: 0.8,
-            fillColor: '{{ config.secondaryColor }}',
-            fillOpacity: 0.5,
-            radius: user.newsletterRange * 1000
-        });
+          var circleCenter = L.circle(markerPosition, {
+              color: '{{ config.secondaryColor }}',
+              fillColor: '{{ config.secondaryColor }}',
+              fillOpacity: 1,
+              radius: 100
+          });
 
-        var circleCenter = L.circle(markerPosition, {
-            color: '{{ config.secondaryColor }}',
-            fillColor: '{{ config.secondaryColor }}',
-            fillOpacity: 1,
-            radius: 100
-        })
-
-        var group = new L.featureGroup([circle, circleCenter]);
-        group.addTo(map);
-        map.fitBounds(group.getBounds());
+          var group = new L.featureGroup([circle, circleCenter]);
+          group.addTo(map);
+          map.fitBounds(group.getBounds());
+        }
+        else
+        {
+          map.fitBounds({{ config.getDefaultBounds | json_encode | raw }});
+        }
       }
       
     });

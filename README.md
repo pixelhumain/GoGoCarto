@@ -6,14 +6,14 @@ GoGoCarto
 Overview
 --------
 
-GoGoCarto is a full reusable application to create cartographic directory
+GoGoCarto is a full reusable application to create collaborative cartographic directory
 
-The software have been developped for the project ["Près de chez vous"](https://presdecheznous.fr), consisting on referencing food/education/health/... alternatives in France.
+The software have been developped for the project ["Près de chez Nous"](https://presdecheznous.fr), consisting on referencing food/education/health/... alternatives in France.
 
 GoGoCarto is highly configurable, and almost ready to be reused by anyone to create its own map, with its own data, categories, moderation rules, configuration etc...
 There is a whole back office to manage data, contents, configuration
 
-For more information, please contact us on the channel GoGoCarto at https://chat.lescommuns.org
+For more information, please contact us on the channel GoGoCarto at https://chat.lescommuns.org/channel/gogocarto
 
 ![Dashboard](docs/images/21.png "Dashboard")
 
@@ -34,8 +34,6 @@ Symfony2, Twig templates, SASS, MaterializeCSS, Javascript, Gulp
 
 Documentation
 -------------
-
-(This documentation maybe outdated, please contact us for more informations)
 
 - [Installation intructions](docs/installation.md)
 - [Project structure](docs/project-structure.md)
