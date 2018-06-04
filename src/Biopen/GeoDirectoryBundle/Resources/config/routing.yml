@@ -17,9 +17,9 @@ biopen_vote:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-element-interaction.yml"
     prefix: /interact
 
-biopen_special_actions:
-    resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-special-actions.yml"
-    prefix: /specialActions
+biopen_bulk_actions:
+    resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-bulk-actions.yml"
+    prefix: /bulkActions
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

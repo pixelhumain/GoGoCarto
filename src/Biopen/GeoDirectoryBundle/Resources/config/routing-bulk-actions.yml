@@ -1,0 +1,90 @@
+# ----------
+# MODERATION
+# ----------
+biopen_bulk_actions_delete_element_reported:
+    path:     /deleteElementReportedAsNoMoreExisting
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\ModerationActionsController::deleteElementReportedAsNoMoreExistingAction }
+    requirements:
+        _method: GET
+
+# -----------
+# DATA UPDATE
+# -----------
+biopen_bulk_actions_update_json:
+    path:     /updateJson
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataUpdateActionsController::updateJsonAction }
+    requirements:
+        _method: GET
+
+biopen_bulk_actions_update_options_string:
+    path:     /updateOptionsString
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataUpdateActionsController::updateElementOptionsStringAction }
+    requirements:
+        _method: GET
+
+biopen_bulk_actions_update_gamification:
+    path:     /updateGamification
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataUpdateActionsController::updateGamificationAction }
+    requirements:
+        _method: GET
+
+# ----------
+# DUPLICATES
+# ----------
+biopen_bulk_actions_detect_duplicates:
+    path:     /detectDuplicates
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DuplicatesActionsController::detectDuplicatesAction }
+    requirements:
+        _method: GET
+
+# ------------
+# DATA QUALITY
+# ------------
+biopen_bulk_actions_fixs_mail_address:
+    path:     /fixsEmailAddresses
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataQualityActionsController::fixsEmailAddressesAction }
+    requirements:
+        _method: GET
+
+biopen_bulk_actions_fixs_cicuits_court:
+    path:     /fixsCircuitsCourts
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataQualityActionsController::fixsCircuitsCourtAction }
+    requirements:
+        _method: GET
+
+biopen_bulk_actions_fix_cities:
+    path:     /fixsMissingCities
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DataQualityActionsController::fixsMissingCitiesAction }
+    requirements:
+        _method: GET
+
+# ----------
+# MIGRATIONS
+# ----------
+biopen_bulk_actions_random_hash:
+    path:     /generateRandomHash
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DbMigrationsActionsController::generateRandomHashAction }
+    requirements:
+        _method: GET
+
+biopen_bulk_actions_add_import_contribution:
+    path:     /addImportContribution
+    defaults: { _controller: Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions\DbMigrationsActionsController::addImportContributionAction }
+    requirements:
+        _method: GET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

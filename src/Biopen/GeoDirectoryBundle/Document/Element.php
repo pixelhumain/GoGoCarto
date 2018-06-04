@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-30 21:12:11
+ * @Last Modified time: 2018-06-04 09:07:51
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -386,7 +386,7 @@ class Element
 
     public function updateJsonRepresentation()
     {
-        if (!$this->geo) { dump('no coordinates'); return;}
+        if (!$this->geo) { return; }
 
         // -------------------- FULL JSON ----------------
         $baseJson = json_encode($this);

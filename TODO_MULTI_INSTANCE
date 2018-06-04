@@ -3,25 +3,26 @@
 - Configuration manquante
   -> Image/Logo 0,5j
   -> thème de style que l'on peut choisir
-  -> séparer la configuration en plusieurs étapes (aussi niveau back : faire des embeded documents)
+  -> séparer la configuration en plusieurs étapes (aussi niveau du code : faire des embeded documents)
   -> pouvoir accéder à la config en json que l'on donne à GoGoCartoJs
-
-  En option: (5j)
-  -> Config du formulaire : activer ou non les champs existants (open hours etc..) 0,5j
-  -> Créer un ou plusieurs champs génériques, avec label configurable. Voir générateur de formulaire (bundle symfony?) 1,5j
-  -> Menu header ? configurer quelles pages activer (accueil, qui sommes-nous) 0,5
 
 - Ferme de service
   -> Voir pour utiliser le nom de domaine de manière plus propre
   -> page de création d'une instance (nom + création user admin)
   -> vue pour lister toutes les instances 0,5j
-  -> Document "Instance"à créer
-  -> voir comment faire marcher les crontabs sur chaque domaine existant
+  -> Document "Instance" à créer
+  -> voir comment faire marcher les crontabs sur chaque domaine existant. Peut être stocker sur la base gogocarto_default la listede toutes les instances, et appeler la task apour chaque instance?
+
+- DB cohérence
+  -> suppression d'une option ou catégorie doit supprimer toutes les sous options/catégrories, et retirer ces options à tous les éléments. De même pour les USe group
 
 - Source de données
   -> Importer des données. Si catégorie existe pas la créer
   -> Utiliser une source externe. Configuration de la mise à jour automatique, plus URL d'update manuelle
 
 - Bonus
+  -> Config du formulaire : activer ou non les champs existants (open hours etc..) 0,5j
+  -> Créer un ou plusieurs champs génériques, avec label configurable. Voir générateur de formulaire (bundle symfony?) 1,5j
+  -> Menu header ? configurer quelles pages activer (accueil, qui sommes-nous) 0,5
   -> générteur des couleurs à partir de deux ou trois couleurs
   -> CRUD taxonomy en javascript plus rapide, avec possibilité de drag/drop. Voir lib qui existe déjà?

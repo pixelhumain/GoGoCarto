@@ -15,7 +15,7 @@ use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 
-class SpecialActionsBlockService extends AbstractBlockService
+class BulkActionsBlockService extends AbstractBlockService
 {
 	protected $em;
 
@@ -27,7 +27,7 @@ class SpecialActionsBlockService extends AbstractBlockService
 
 	public function getName()
 	{
-	  return 'SpecialActions';
+	  return 'BulkActions';
 	}
 
 	public function getDefaultSettings()
@@ -45,7 +45,7 @@ class SpecialActionsBlockService extends AbstractBlockService
 
 	public function execute(BlockContextInterface $blockContext, Response $response = null)
 	{
-	    return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_special_actions.html.twig', array(
+	    return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_bulk_actions.html.twig', array(
 	        'block'     => $blockContext->getBlock(),
 	        'settings'  => $blockContext->getSettings(),
 	    ), $response);

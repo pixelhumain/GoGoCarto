@@ -9,9 +9,7 @@ sonata_block:
         sonata.block.service.charts: 
         biopen.block.recent_elements:
             contexts: [admin]
-        sonata.admin.block.admin_list:
-            contexts: [admin]
-        sonata.block.service.special_actions: 
+        sonata.block.service.bulk_actions: 
 
 sonata_doctrine_mongo_db_admin:
     templates:
@@ -98,10 +96,9 @@ sonata_admin:
     dashboard:
         blocks:
             # display a dashboard block
-            - { position: left, type: sonata.admin.block.admin_list }
             - { position: right, type: biopen.block.recent_elements, settings: { title: 'Dernières validation collaboratives', filterStatus: 2, class: box-success}}
             - { position: right, type: biopen.block.recent_elements, settings: { title: 'Derniers refus collaboratifs', filterStatus: -3 , class: box-danger}}
-            - { position: right, type: sonata.block.service.special_actions }
+            - { position: left, type: sonata.block.service.bulk_actions }
             - { position: top, class: col-md-12, type: sonata.block.service.monitoring}
             - { position: top, class: col-md-12, type: sonata.block.service.charts}
         groups:

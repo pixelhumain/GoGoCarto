@@ -1,0 +1,29 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+
+		<div class="sonata-news-block-recent-element box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Actions de masse</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div><a href={{ path('biopen_bulk_actions_update_json') }} target="_blank">Update Json representations</a></div>
+            <div><a href={{ path('biopen_bulk_actions_update_options_string') }} target="_blank">Update options string</a></div>
+            <div><a href={{ path('biopen_bulk_actions_update_gamification') }} target="_blank">Update user gamification</a></div>
+            
+            <div><a href={{ path('biopen_bulk_actions_detect_duplicates') }} target="_blank">Detection doublon</a></div>
+            <div><a href={{ path('biopen_bulk_actions_delete_element_reported') }} target="_blank">Supprimer les éléments reportés comme n'existant plus</a></div>
+            
+            <div><a href={{ path('biopen_bulk_actions_random_hash') }} target="_blank">Generate random hash</a></div> 
+            <!-- <div><a href={{ path('biopen_bulk_actions_add_import_contribution') }} target="_blank">Reset import contribution</a></div> -->
+            <!-- <div><a href={{ path('biopen_bulk_actions_fix_cities') }} target="_blank">Fixs missing cities</a></div> -->
+            <!-- <div><a href={{ path('biopen_bulk_actions_verify_duplicates') }} target="_blank">Vérifier que les élément marqués comme doublons le sont bien !</a></div> -->
+
+        </div>
+    </div>
+
+      
+
+{% endblock %}

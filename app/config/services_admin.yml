@@ -105,8 +105,8 @@ services:
         tags:
             - { name: sonata.block }
 
-    sonata.block.service.special_actions:
-        class: Biopen\GeoDirectoryBundle\Block\SpecialActionsBlockService
+    sonata.block.service.bulk_actions:
+        class: Biopen\GeoDirectoryBundle\Block\BulkActionsBlockService
         arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
         tags:
             - { name: sonata.block }
