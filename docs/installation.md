@@ -3,7 +3,7 @@ Installation and Production Instructions
 
 Feel free to add some more informations if you solve installation issues !
 
-*There is a script for debian installation called install_debian.sh in this docs directory !*
+*There is a script for debian installation called install_debian.sh in this docs directory ! * The script is more appropriate for production server installation, but having a look to the script can probably help you for some steps.
 
 Requirements
 ------------
@@ -15,14 +15,20 @@ Requirements
 5. Web Server (Apache, Ngninx, [Wamp server](http://www.wampserver.com/) ...)
 6. MongoDB (http://php.net/manual/fr/mongodb.installation.php)
 
+the project is using php5. If you want to use php7, you will need to install the [MongoPhpAdapter](https://github.com/alcaeus/mongo-php-adapter)
+To do so, please run :
+```
+composer config "platform.ext-mongo" "1.6.16" && composer require alcaeus/mongo-php-adapter
+```
+
 Installation
 ------------
 
 ### Cloning repo (clone dev branch)
 ```
 cd path-to-php-server-folder (default linux /var/www/html, windows c:/wamp/www... )
-git clone -b dev https://github.com/Biopen/CartoV3.git
-cd CartoV3/
+git clone https://github.com/pixelhumain/GoGoCarto
+cd GoGoCarto/
 ```
 
 ### Installing dependencies 
@@ -60,7 +66,8 @@ gulp watch
 Generate Database
 -----------------
 
-Go to symfony console : http://localhost/PagesVertes/web/app_dev.php/_console
+Go to symfony console : http://localhost/GoGoCarto/web/app_dev.php/_console
+Run the followings command
 ```
 doctrine:mongodb:schema:create
 doctrine:mongodb:generate:hydrators
@@ -68,16 +75,13 @@ doctrine:mongodb:generate:proxies
 doctrine:mongodb:fixtures:load
 ```
 
-Load defaul admin user "admin/admin"
-```
-doctrine:fixtures:load
-```
+The last command will generate a basic configuration, and two default users : "admin/admin" and "user/user"
 
 Then generate if necessary random point on the map :
 app:elements:generate 200
 
 Everthing is ready, enjoy :
-http://localhost/PagesVertes/web/app_dev.php
+http://localhost/GoGoCarto/web/app_dev.php
 
 Production
 ----------

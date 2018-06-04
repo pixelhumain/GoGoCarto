@@ -1,5 +1,3 @@
-#alias ssh_colibris="ssh -p 22102 -o useroaming=no -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 admin@carto-dev.colibris-outilslibres.org"
-
 #!/bin/bash
 WEB_DIR=/var/www/html
 WEB_USR=www-data
@@ -63,7 +61,7 @@ else
     echo "extension=mongo.so" >> /etc/php5/fpm/php.ini
 fi
 
-# NODEJS
+# NODEJSsudo apt-get install -y make php5-dev php-pear
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
 curl -L https://npmjs.org/install.sh | sudo s

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-02-11 13:06:59
+ * @Last Modified time: 2018-06-04 14:39:45
  */
  
 
@@ -19,6 +19,7 @@ use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\UserInteraction;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
 use Biopen\GeoDirectoryBundle\Document\OptionValue;
+use Biopen\GeoDirectoryBundle\Document\PostalAddress;
 
 use joshtronic\LoremIpsum;
 
@@ -144,7 +145,7 @@ class RandomCreationService
 	  3 => 0.1,
 	];
 
-  	$nbreOptions = $this->randWithSet($nbreOptionsSet) * max(1, $category->getDepth());
+  	$nbreOptions = $this->randWithSet($nbreOptionsSet);
 
    $options = $category->getOptions();
 

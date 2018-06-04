@@ -14,24 +14,17 @@ class LoadWrapper implements FixtureInterface
   public function load(ObjectManager $manager)
   {  
     $new_wrapper = new Wrapper();
-    $new_wrapper->setTitle('Du bio, du local, du solidaire !'); 
-    $new_wrapper->setContent("Produits bio, équitables et locaux, amap, éco-artisans, mode éthique, écoles alternatives… Découvrez nos 12 000 bons plans !");
+    $new_wrapper->setTitle('Bienvenue sur GoGoCarto !'); 
+    $new_wrapper->setContent("Ces bandeaux sont éditables depuis l'interface admin, dans le menu \"Contenu\" puis \"Bandeaux de la page d'accueil. Vous poubez insérer des balises html si vous le souhaitez, par example pour créer un <a href=\"https://github.com/pixelhumain/GoGoCarto\" style=\"font-weight:bold;color: #bdc900;\" target=\"_blank\">lien vers le dépo Github du projet</a>");
     $new_wrapper->setBackgroundColor('ffffff');
     $new_wrapper->setTextColor("inherit");
 
     $manager->persist($new_wrapper);
     $new_wrapper = new Wrapper();
-    $new_wrapper->setTitle("Ici, c'est open bar !"); 
-    $new_wrapper->setRawContent("<span style=\"text-transform: uppercase;font-weight: bold;padding-right: 5px;color: #bd2d86;\">Près de chez nous</span> est un site gratuit et libre de droits. Ça veut dire que le code source est en accès libre sur <a href=\"https://github.com/Biopen/GoGoCarto\" style=\"font-weight:bold;color: #bdc900;\" target=\"_blank\">Github</a>, à condition que vous le partagiez à votre tour :-)");
-    $new_wrapper->setBackgroundColor('ffffff');
-    $new_wrapper->setTextColor("inherit");
-
-    $manager->persist($new_wrapper); 
-    $new_wrapper = new Wrapper();
-    $new_wrapper->setTitle('Projet collaboratif'); 
-    $new_wrapper->setContent("Nous comptons sur la force du collectif pour mener à bien ce projet de référencement. Ainsi chaque citoyen est libre de contirbuer à cette carte, nous sommes également ouverts à des partenariats pour mettre en communs nos bases de données !");
-    $new_wrapper->setBackgroundColor('ffffff');
-    $new_wrapper->setTextColor("inherit");
+    $new_wrapper->setTitle("Un autre bandeau!"); 
+    $new_wrapper->setRawContent("La couleur de fond et de texte sont également paramétrables");
+    $new_wrapper->setBackgroundColor('6b7e9b');
+    $new_wrapper->setTextColor("ffffff");
 
     $manager->persist($new_wrapper);      
 

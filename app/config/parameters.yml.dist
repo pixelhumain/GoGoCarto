@@ -11,9 +11,11 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
     csrf_protection: true
 
-    oauth_communs_id: localhost-marc
-    oauth_communs_secret: 521099d1-2d75-45b2-8955-6add560f70c1
-    oauth_google_id: localhost-marc
-    oauth_google_secret: 521099d1-2d75-45b2-8955-6add560f70c1
-    oauth_facebook_id: localhost-marc
-    oauth_facebook_secret: 521099d1-2d75-45b2-8955-6add560f70c1
+    oauth_communs_id: communsIds
+    oauth_communs_secret: communsSecret
+    oauth_google_id: googleId
+    oauth_google_secret: googleSecret
+    oauth_facebook_id: facebookId
+    oauth_facebook_secret: facebookSecret
+
+    router.request_context.host: localhost/GoGoCarto/app_dev.php

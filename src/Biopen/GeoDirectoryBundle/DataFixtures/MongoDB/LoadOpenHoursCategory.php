@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:05:00
+ * @Last Modified time: 2018-06-04 14:09:15
  */
  
 
@@ -24,7 +24,6 @@ function loadOpenHoursCategory()
 	$openHoursCategory->setName("Horaires d'ouverture");
 	$openHoursCategory->setIndex(1);
 	$openHoursCategory->setDisplayCategoryName(true);
-	$openHoursCategory->setDepth(-1);
 	$openHoursCategory->setShowExpanded(false);
 	$openHoursCategory->setIsFixture(true);
 
