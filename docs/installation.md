@@ -1,9 +1,11 @@
 Installation and Production Instructions
 ========================================
 
+*Last update : 2018/06/04*
+
 Feel free to add some more informations if you solve installation issues !
 
-*There is a script for debian installation called install_debian.sh in this docs directory ! * The script is more appropriate for production server installation, but having a look to the script can probably help you for some steps.
+**There is a script for debian installation** named install_debian.sh in this docs directory ! The script is more appropriate for production server installation, but having a look to the script can probably help you for some steps.
 
 Requirements
 ------------
@@ -15,7 +17,7 @@ Requirements
 5. Web Server (Apache, Ngninx, [Wamp server](http://www.wampserver.com/) ...)
 6. MongoDB (http://php.net/manual/fr/mongodb.installation.php)
 
-the project is using php5. If you want to use php7, you will need to install the [MongoPhpAdapter](https://github.com/alcaeus/mongo-php-adapter)
+The project is using php5. **If you want to use php7**, you will need to install the [MongoPhpAdapter](https://github.com/alcaeus/mongo-php-adapter)
 To do so, please run :
 ```
 composer config "platform.ext-mongo" "1.6.16" && composer require alcaeus/mongo-php-adapter
