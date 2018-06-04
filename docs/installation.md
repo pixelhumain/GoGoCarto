@@ -105,3 +105,14 @@ cache:clear --env=prod
 ```
 
 5. Make sure that the var folder is writable ```chmod -R 771 var/```
+
+
+
+Issues
+-------
+
+If you creating an element you ahev the issue "cannot load method bcmod from namespace ..."
+You need to install the bc-math module
+```
+sudo apt install php7.0-bcmath
+```

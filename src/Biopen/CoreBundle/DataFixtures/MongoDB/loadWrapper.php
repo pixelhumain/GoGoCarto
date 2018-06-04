@@ -15,7 +15,7 @@ class LoadWrapper implements FixtureInterface
   {  
     $new_wrapper = new Wrapper();
     $new_wrapper->setTitle('Bienvenue sur GoGoCarto !'); 
-    $new_wrapper->setContent("Ces bandeaux sont éditables depuis l'interface admin, dans le menu \"Contenu\" puis \"Bandeaux de la page d'accueil. Vous poubez insérer des balises html si vous le souhaitez, par example pour créer un <a href=\"https://github.com/pixelhumain/GoGoCarto\" style=\"font-weight:bold;color: #bdc900;\" target=\"_blank\">lien vers le dépo Github du projet</a>");
+    $new_wrapper->setContent("Ces bandeaux sont éditables depuis l'interface admin, dans le menu <b>Contenu</b> puis <b>Bandeaux de la page d'accueil</b>. Vous pouvez insérer des balises html si vous le souhaitez, par example pour créer un <a href=\"https://github.com/pixelhumain/GoGoCarto\" style=\"font-weight:bold;color: #bdc900;\" target=\"_blank\">lien vers le dépo Github du projet</a>");
     $new_wrapper->setBackgroundColor('ffffff');
     $new_wrapper->setTextColor("inherit");
 
