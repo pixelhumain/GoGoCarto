@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-09 10:34:21
+ * @Last Modified time: 2018-06-04 15:14:28
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -591,9 +591,10 @@ class Element
     public function getOptionIds()
     {
         $result = [];
-        foreach ($this->getOptionValues() as $optionsValue) {
-            $result[] = (string) $optionsValue->getOptionId();
-        }
+        if ($this->getOptionValues())
+            foreach ($this->getOptionValues() as $optionsValue) {
+                $result[] = (string) $optionsValue->getOptionId();
+            }
         return $result;
     }
 
@@ -626,7 +627,7 @@ class Element
 
     public function __toString() 
     {
-        return $this->getName();
+        return $this->getName() ? $this->getName() : "";
     }
 
     /**
