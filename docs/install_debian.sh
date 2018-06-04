@@ -3,8 +3,6 @@
 #!/bin/bash
 WEB_DIR=/var/www/html
 WEB_USR=www-data
-DB_USR=cartopen
-DB_PWD=biopen40
 
 echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
@@ -20,7 +18,6 @@ git \
 php5-fpm \
 php5 \
 php5-curl \
-php5-mysql \
 mariadb-server \
 git-core \
 curl \
@@ -66,14 +63,6 @@ else
     echo "extension=mongo.so" >> /etc/php5/fpm/php.ini
 fi
 
-# CREATE DATABASE
-echo "Creating Database, connect with mysql root user";
-mysql -u root -p -e "CREATE DATABASE $DB_USR ;
-CREATE USER "$DB_USR"@"localhost" ;
-SET password FOR "$DB_USR"@"localhost" = password('$DB_PWD') ;
-GRANT ALL ON $DB_USR.* TO "$DB_USR"@"localhost" ;"
-
-
 # NODEJS
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -81,13 +70,13 @@ curl -L https://npmjs.org/install.sh | sudo s
 h
 # PULL CODE
 cd $WEB_DIR
-git clone -b master https://github.com/Biopenlandes/CartoV3.git
-cd CartoV3/
+git clone -b master https://github.com/pixelhumain/GoGoCarto.git
+cd GoGoCarto/
 
 chmod 777 /var/log/mongodb/mongod.log
 chmod 777 /var/lib/mongodb
 chmod 777 /var/log/mongodb
-chmod 777 /var/www/html/CartoV3/var
+chmod 777 /var/www/html/GoGoCarto/var
 
 sudo setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX var/cache var/logs
 
@@ -104,7 +93,7 @@ echo "
 server {
     listen 80;
 
-    root /var/www/html/CartoV3/web;
+    root /var/www/html/GoGoCarto/web;
 
     error_log /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
@@ -134,11 +123,6 @@ server {
 
 echo "
 parameters:
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: $DB_USR
-    database_user: $DB_USR
-    database_password: $DB_PWD
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
@@ -165,8 +149,8 @@ php bin/console cache:clear --env=prod;
 chmod -R 777 var/;
 
 # adding crontab task
-line="5 3 * * * php /var/www/html/CartoV3/bin/console --env=prod app:elements:checkvote"
-line2="@hourly php /var/www/html/CartoV3/bin/console --env=prod app:users:sendNewsletter"
+line="5 3 * * * php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkvote"
+line2="@hourly php /var/www/html/GoGoCarto/bin/console --env=prod app:users:sendNewsletter"
 # TODO add crontab automatically
 # (crontab -l; echo "$line" ) | crontab -u userhere -
 
