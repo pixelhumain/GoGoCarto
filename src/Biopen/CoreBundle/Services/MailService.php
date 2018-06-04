@@ -147,7 +147,7 @@ class MailService
         {
             if ($element instanceof Element)
             {
-                $showElementUrl = $this->router->generate('biopen_directory_showElement', array('name' => $element->getName(), 'id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
+                $showElementUrl = $this->router->generate('biopen_directory_showElement', array('id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
                 $showElementUrl = str_replace('%23', '#', $showElementUrl);
                 $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);            
                 $elementName = $element->getName();

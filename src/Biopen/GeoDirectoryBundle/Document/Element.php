@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-04 09:07:51
+ * @Last Modified time: 2018-06-04 17:27:38
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -291,6 +291,11 @@ class Element
     public function __construct()
     {
         if (!$this->getRandomHash()) $this->updateRandomHash();
+    }
+
+    public function getShowUrlFromController($controller)
+    {
+        return str_replace('%23', '#', $controller->generateUrl('biopen_directory_showElement', array('id'=>$this->getId())));
     }
 
     public function updateRandomHash()

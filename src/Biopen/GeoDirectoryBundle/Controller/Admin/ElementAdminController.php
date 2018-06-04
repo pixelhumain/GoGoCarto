@@ -32,7 +32,7 @@ class ElementAdminController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
-        return $this->redirect(str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $object->getName(), 'id'=>$object->getId()))));
+        return $this->redirect($object->getShowUrlFromController($this));
     }
 
     public function redirectBackAction()

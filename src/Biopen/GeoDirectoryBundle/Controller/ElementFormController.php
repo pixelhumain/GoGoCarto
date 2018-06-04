@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-09 11:55:02
+ * @Last Modified time: 2018-06-04 17:29:49
  */
  
 
@@ -260,8 +260,8 @@ class ElementFormController extends GoGoController
 				$em->flush();       		
 			}
 			
-			// Add flashBags succeess
-			$url_new_element = str_replace('%23', '#', $this->generateUrl('biopen_directory_showElement', array('name' => $element->getName(), 'id'=>$element->getId())));				
+			// Add flashBags success
+			$url_new_element = $element->getShowUrlFromController($this);	
 
 			$noticeText = 'Merci de votre aide ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte !';
