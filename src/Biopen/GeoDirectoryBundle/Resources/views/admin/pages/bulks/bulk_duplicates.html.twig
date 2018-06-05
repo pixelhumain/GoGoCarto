@@ -1,0 +1,17 @@
+<div class="bs-callout bs-callout-danger">
+
+  <h4>Doublons potentiels détectés</h4>
+  <ul>
+    {% for element in duplicates %}  
+        <li>
+            <a href="{{ element.showUrlFromController(controller)}}" target="_blank">{{ element.name }}</a>{{ " / " ~ element.address.formatedAddress }}
+        </li>
+    {% endfor %}
+  </ul>
+
+</div>
+
+
+
+
+

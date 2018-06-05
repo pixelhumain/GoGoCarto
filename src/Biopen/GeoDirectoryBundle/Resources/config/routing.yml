@@ -7,7 +7,7 @@ biopen_directory:
 
 biopen_import:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-import.yml"
-    prefix:   /import
+    prefix:   /admin/import
 
 biopen_api:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-api.yml"
@@ -19,7 +19,7 @@ biopen_vote:
 
 biopen_bulk_actions:
     resource: "@BiopenGeoDirectoryBundle/Resources/config/routing-bulk-actions.yml"
-    prefix: /bulkActions
+    prefix: /admin/bulkActions
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

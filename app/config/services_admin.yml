@@ -87,30 +87,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Import } 
 
-    sonata.block.service.monitoring:
-        class: Biopen\GeoDirectoryBundle\Block\MonitoringElementsBlockService
-        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
-        tags:
-            - { name: sonata.block }
-
-    sonata.block.service.charts:
-        class: Biopen\GeoDirectoryBundle\Block\ChartBlockService
-        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @biopen.config_service ]
-        tags:
-            - { name: sonata.block }
-
-    biopen.block.recent_elements:
-        class: Biopen\GeoDirectoryBundle\Block\RecentElementsBlockService
-        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager, @sonata.admin.pool ]
-        tags:
-            - { name: sonata.block }
-
-    sonata.block.service.bulk_actions:
-        class: Biopen\GeoDirectoryBundle\Block\BulkActionsBlockService
-        arguments: [ @templating, @doctrine.odm.mongoDB.document_manager ]
-        tags:
-            - { name: sonata.block }
-
     admin.stamps:
         class: Biopen\GeoDirectoryBundle\Admin\StampAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Stamp, '' ]

@@ -16,6 +16,7 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 class BulkActionsAbstractController extends Controller
 {
     public $optionList = [];
+    protected $title = null;
 
     protected function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000, $automaticRedirection = false)
     {
@@ -57,14 +58,16 @@ class BulkActionsAbstractController extends Controller
             $session->remove('batch_lastStep');
         }
 
-        if (!$automaticRedirection) echo "<h1>Analyse des éléments de " . $batchFromStep . " à " . $nextStep . "</h1>";
+        if (!$automaticRedirection) echo "";
 
         $elements = $elementRepo->findAllElements($maxElementsCount, $batchFromStep);
 
         $i = 0;
+        $renderedViews = [];
         foreach ($elements as $key => $element) 
         {
-           $this->$functionToExecute($element);  
+           $view = $this->$functionToExecute($element);  
+           if ($view) $renderedViews[] = $view;
 
            if ((++$i % 20) == 0) {
                 $em->flush();
@@ -75,15 +78,18 @@ class BulkActionsAbstractController extends Controller
         $em->flush();
         $em->clear(); 
 
-        if ($isStillElementsToProceed)
-        {
-            $route = $this->generateUrl($this->getRequest()->get('_route')); 
-            if ($automaticRedirection) return $this->redirect($route);
-            else return new Response("<a href='" . $route . "'>Continue with next elements (still " . $elementsToProcceedCount . " to analyze)</a>");
-        }
-        else
-        {            
-            return new Response("Les éléments ont été mis à jours avec succès.");
-        }         
+        dump($renderedViews);
+
+        $redirectionRoute = $this->generateUrl($this->getRequest()->get('_route'));
+        if ($isStillElementsToProceed && $automaticRedirection) return $this->redirect();
+
+        return $this->render('@BiopenAdmin/pages/bulks/bulk_abstract.html.twig', array(
+            'isStillElementsToProceed' => $isStillElementsToProceed, 
+            'renderedViews' => $renderedViews,
+            'firstId' => $batchFromStep,
+            'lastId' => $nextStep,
+            'elementsToProcceedCount' => $elementsToProcceedCount,
+            'redirectionRoute' => $redirectionRoute,
+            'title' => $this->title ? $this->title : $functionToExecute));        
     }    
 }

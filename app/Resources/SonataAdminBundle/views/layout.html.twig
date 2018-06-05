@@ -19,6 +19,17 @@
         .side-bar-links .dropdown-menu>li>a {
             color: #777;
         }
+
+        .bs-callout {
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #eee;
+            border-left-width: 5px;
+            border-radius: 3px;
+            background-color: white;
+        }
+
+        .bs-callout-danger { border-left-color: #ce4844; }
     </style>
     
 
@@ -69,5 +80,19 @@
         <li><a href={{ path('biopen_element_add') }} target='_blank'>Formulaire</a></li>
         <li><a href={{ path('biopen_partners') }} target='_blank'>Qui sommes nous</a></li>
       </ul>
-    </div>
+    </div>    
+{% endblock %}
+
+{% block side_bar_after_nav %} 
+    {# CUSTOM Menu #}
+    <ul class="sidebar-menu">
+        <li class="first treeview">            
+            <a href="{{ path('biopen_bulk_actions_index') }}"><i class="fa fa-bullhorn"></i><span>Actions de masse</span>{#<i class="fa pull-right fa-angle-left"></i>#}</a>                
+            {#<ul class="active treeview-menu menu_level_1">
+                <li class="first">
+                    <a href=""><i class="fa fa-angle-double-right" aria-hidden="true"></i>Onglets "A propos"</a>        
+                </li>
+            </ul>#}
+        </li>
+    </ul>
 {% endblock %}

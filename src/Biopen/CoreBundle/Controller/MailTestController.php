@@ -26,7 +26,7 @@ class MailTestController extends Controller
       else
       {
          $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
-         return $this->redirecttoRoute('admin_biopen_core_configuration_list');    
+         return $this->redirectToRoute('admin_biopen_core_configuration_list');    
       }        
    }
 
