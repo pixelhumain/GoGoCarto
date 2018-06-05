@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-04-23 15:05:31
+ * @Last Modified time: 2018-06-05 17:39:59
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -47,7 +47,7 @@ class ElementAdminShowEdit extends ElementAdminList
     {
       $show       
        ->with('En attente', array('class' => 'col-md-6 col-sm-12'))
-         ->add('currContribution', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_one_contribution.html.twig'))
+         ->add('currContribution', null, array('template' => '@BiopenAdmin/partials/show_one_contribution.html.twig'))
        ->end();
     }
     else
@@ -66,16 +66,16 @@ class ElementAdminShowEdit extends ElementAdminList
         ->add('moderationState', 'choice', [
             'label' => 'Moderation',
                'choices'=> $this->moderationChoices,
-               'template' => 'BiopenGeoDirectoryBundle:admin:show_choice_moderation.html.twig'
+               'template' => '@BiopenAdmin/partials/show_choice_moderation.html.twig'
                ])       
-        ->add('reports', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_pending_reports.html.twig', 'label' => 'Signalements'))
+        ->add('reports', null, array('template' => '@BiopenAdmin/partials/show_pending_reports.html.twig', 'label' => 'Signalements'))
        ->end();
     }    
     
     $show
        ->with('Catégorisation', array('class' => 'col-md-6 col-sm-12'))
 	       ->add('optionValues', null, [
-		      	'template' => 'BiopenGeoDirectoryBundle:admin:show_option_values.html.twig', 
+		      	'template' => '@BiopenAdmin/partials/show_option_values.html.twig', 
 		      	'choices' => $this->optionList,
 		      	'label' => 'Catégories'
 		      ])
@@ -101,7 +101,7 @@ class ElementAdminShowEdit extends ElementAdminList
        ->end()
 
       ->with('Hitorique des contributions', array('class' => 'col-sm-12'))
-        ->add('contributions', null, array('template' => 'BiopenGeoDirectoryBundle:admin:show_contributions.html.twig'))
+        ->add('contributions', null, array('template' => '@BiopenAdmin/partials/show_contributions.html.twig'))
       ->end(); 
 
     $show->with('JSON', array('class' => 'col-md-12'))         

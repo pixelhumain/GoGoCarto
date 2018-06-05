@@ -154,7 +154,6 @@ class UserAdmin extends AbstractAdmin
             ->end()
             ->with('Security')
                 ->add('token')
-                //->add('twoStepVerificationCode')
             ->end()
         ;
     }
@@ -167,42 +166,25 @@ class UserAdmin extends AbstractAdmin
         // define group zoning
         $formMapper
             ->tab('User')
-                //->with('Profile', array('class' => 'col-md-6'))->end()
                 ->with('General', array('class' => 'col-md-6'))->end()
-                //->with('Social', array('class' => 'col-md-6'))->end()
                 ->with('Status', array('class' => 'col-md-6'))->end()
                 ->with('Groups', array('class' => 'col-md-12'))->end()
             ->end()
             ->tab('Security')
-                //->with('Status', array('class' => 'col-md-4'))->end()
-                //->with('Groups', array('class' => 'col-md-4'))->end()
-                //->with('Keys', array('class' => 'col-md-4'))->end()
                 ->with('Roles', array('class' => 'col-md-12'))->end()
             ->end()
         ;
 
         $now = new \DateTime();
 
-        // NEXT_MAJOR: Keep FQCN when bumping Symfony requirement to 2.8+.
-        // if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-        //     $textType = 'Symfony\Component\Form\Extension\Core\Type\TextType';
-        //     $datePickerType = 'Sonata\CoreBundle\Form\Type\DatePickerType';
-        //     $urlType = 'Symfony\Component\Form\Extension\Core\Type\UrlType';
-        //     $userGenderType = 'Sonata\UserBundle\Form\Type\UserGenderListType';
-        //     $localeType = 'Symfony\Component\Form\Extension\Core\Type\LocaleType';
-        //     $timezoneType = 'Symfony\Component\Form\Extension\Core\Type\TimezoneType';
-        //     $modelType = 'Sonata\AdminBundle\Form\Type\ModelType';
-        //     $securityRolesType = 'Sonata\UserBundle\Form\Type\SecurityRolesType';
-        // } else {
-            $textType = 'text';
-            $datePickerType = 'sonata_type_date_picker';
-            $urlType = 'url';
-            $userGenderType = 'sonata_user_gender';
-            $localeType = 'locale';
-            $timezoneType = 'timezone';
-            $modelType = 'sonata_type_model';
-            $securityRolesType = 'sonata_security_roles';
-        //}
+        $textType = 'text';
+        $datePickerType = 'sonata_type_date_picker';
+        $urlType = 'url';
+        $userGenderType = 'sonata_user_gender';
+        $localeType = 'locale';
+        $timezoneType = 'timezone';
+        $modelType = 'sonata_type_model';
+        $securityRolesType = 'sonata_security_roles';
 
         $formMapper
             ->tab('User')
@@ -233,33 +215,6 @@ class UserAdmin extends AbstractAdmin
                         'multiple' => true,
                     ))
                 ->end()
-                // ->with('Profile')
-                //     ->add('dateOfBirth', $datePickerType, array(
-                //         'years' => range(1900, $now->format('Y')),
-                //         'dp_min_date' => '1-1-1900',
-                //         'dp_max_date' => $now->format('c'),
-                //         'required' => false,
-                //     ))
-                //     ->add('firstname', null, array('required' => false))
-                //     ->add('lastname', null, array('required' => false))
-                //     ->add('website', $urlType, array('required' => false))
-                //     ->add('biography', $textType, array('required' => false))
-                //     ->add('gender', $userGenderType, array(
-                //         'required' => true,
-                //         'translation_domain' => $this->getTranslationDomain(),
-                //     ))
-                //     ->add('locale', $localeType, array('required' => false))
-                //     ->add('timezone', $timezoneType, array('required' => false))
-                //     ->add('phone', null, array('required' => false))
-                // ->end()
-                // ->with('Social')
-                //     ->add('facebookUid', null, array('required' => false))
-                //     ->add('facebookName', null, array('required' => false))
-                //     ->add('twitterUid', null, array('required' => false))
-                //     ->add('twitterName', null, array('required' => false))
-                //     ->add('gplusUid', null, array('required' => false))
-                //     ->add('gplusName', null, array('required' => false))
-                // ->end()
             ->end()
             ->tab('Security')                
                 ->with('Roles')
@@ -270,10 +225,6 @@ class UserAdmin extends AbstractAdmin
                         'required' => false,
                     ))
                 ->end()
-                // ->with('Keys')
-                //     ->add('token', null, array('required' => false))
-                //     ->add('twoStepVerificationCode', null, array('required' => false))
-                // ->end()
             ->end()
         ;
     }
@@ -281,7 +232,7 @@ class UserAdmin extends AbstractAdmin
     public function getTemplate($name) 
    {
      switch ($name) {
-         case 'list': return 'BiopenGeoDirectoryBundle:admin:base_list_custom_batch.html.twig';
+         case 'list': return '@BiopenAdmin/list/list_user.html.twig';
              break;
          default : return parent::getTemplate($name);
              break;

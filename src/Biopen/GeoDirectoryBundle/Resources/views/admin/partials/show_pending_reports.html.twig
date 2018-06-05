@@ -13,7 +13,7 @@
 		{% for key, item in admin.subject.getUnresolvedReports() %}
 				{% set labelClass = 'label-danger' %}
         {% set smallWidth = true %}
-				{% include "@BiopenAdmin/display_vote_report_item.html.twig" %}
+				{% include "@BiopenAdmin/partials/display_vote_report_item.html.twig" %}
 		{% endfor %}
 
 {% endspaceless %}

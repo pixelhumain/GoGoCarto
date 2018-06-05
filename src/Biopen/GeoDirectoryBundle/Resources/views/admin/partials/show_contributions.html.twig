@@ -12,12 +12,12 @@
   {% for key, item in admin.subject.getContributionsAndResolvedReports() %}
     {% if item.type ==  3 %}    
       <div style="border-top: 10px solid #ecf0f5;padding: 10px;">
-        {% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'itemContainer' : false} %}
+        {% include "@BiopenAdmin/partials/display_vote_report_item.html.twig" with {'itemContainer' : false} %}
       </div>
     {% else %}
       {#<div >#}
       <div class="panel panel-default" style="border-top: 10px solid #ecf0f5;margin-top:0">
-        {% include "@BiopenAdmin/show_one_contribution.html.twig" with {'value': item, 'showResolved': true} %}
+        {% include "@BiopenAdmin/partials/show_one_contribution.html.twig" with {'value': item, 'showResolved': true} %}
       </div>
     {% endif %}
   {% endfor %}   

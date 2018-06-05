@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-01-19 13:05:00
+ * @Last Modified time: 2018-06-05 18:12:19
  */
  
 
@@ -28,8 +28,6 @@ class RandomCreationController extends Controller
     public function generateAction($nombre, $generateVote = false)
     {
 	   $lastElementCreated = $this->get('biopen.random_creation_service')->generate($nombre, $generateVote);
-
-	   dump($lastElementCreated);
 
 	   return new Response('Elements générés');
   	} 

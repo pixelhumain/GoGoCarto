@@ -175,7 +175,6 @@ class ImportCsvService
 			$this->mappingTableIds[$this->slugify($option->getNameWithParent())] = $ids;
 			$this->mappingTableIds[$this->slugify($option->getName())] = $ids;
 		}
-		dump($this->mappingTableIds);
 	}
 
 	private function createCategories($element, $row)

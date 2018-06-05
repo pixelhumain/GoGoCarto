@@ -110,7 +110,7 @@ class ImportAdminController extends Controller
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
 
-        return $this->render('BiopenGeoDirectoryBundle:admin:edit_import.html.twig', array(
+        return $this->render('@BiopenAdmin/edit/edit_import.html.twig', array(
             'action' => 'create',
             'form' => $view,
             'object' => $object,

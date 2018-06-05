@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-03-23 16:50:22
+ * @Last Modified time: 2018-06-05 17:40:00
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -29,12 +29,22 @@ class OptionAdmin extends AbstractAdmin
 	    return $query;
 	}
 
+   public function getTemplate($name) 
+   {
+     switch ($name) {
+         case 'edit': return '@BiopenAdmin/edit/edit_option_category.html.twig';
+             break;
+         default : return parent::getTemplate($name);
+             break;
+     }
+   }
+
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 	  $formMapper
 	  ->with('Paramètres principaux', array('class' => 'col-xs-12 col-md-6'))
 		  	->add('name', null, array('required' => true, 'label' => 'Nom'))
-		  	// ->add('optionValues', null, array('template' => 'BiopenGeoDirectoryBundle:admin:list_option_values.html.twig'))
+		  	// ->add('optionValues', null, array('template' => '@BiopenAdmin/partials/list_option_values.html.twig'))
 		  	->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))
 		  	->add('index', null, array('required' => true, 'label' => 'Position (pour classer les options)'))
 		    ->add('parent', 'sonata_type_model', array(

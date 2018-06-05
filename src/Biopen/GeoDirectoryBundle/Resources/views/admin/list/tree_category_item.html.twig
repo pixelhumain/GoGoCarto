@@ -6,8 +6,8 @@
 		{% if category.options|length %}<span class="arrow-after"></span>{% endif %}
 	</span>
 	<span class="actions">
-		{% include "@BiopenAdmin/list__action_edit.html.twig" with {'object':category} %}
-		{% include "@BiopenAdmin/list__action_delete.html.twig" with {'object':category} %}
+		{% include "@BiopenAdmin/partials/list__action_edit.html.twig" with {'object':category} %}
+		{% include "@BiopenAdmin/partials/list__action_delete.html.twig" with {'object':category} %}
 	</span>
 
   <ul class="children category-children">
@@ -26,7 +26,7 @@
 
       	<ul class="children option-children" style="display:none">
       	{% for subkey, subcategory in option.subcategories %}
-						{% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': subcategory, 'firstDepth':false } %}
+						{% include '@BiopenAdmin/list/tree_category_item.html.twig' with {'category': subcategory, 'firstDepth':false } %}
 				{% endfor %} 
 				</ul>
 

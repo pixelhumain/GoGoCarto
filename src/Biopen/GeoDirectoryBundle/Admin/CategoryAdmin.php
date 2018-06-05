@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-01-23 07:53:24
+ * @Last Modified time: 2018-06-05 17:33:21
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -28,6 +28,16 @@ class CategoryAdmin extends AbstractAdmin
 	    $query = parent::createQuery($context);
 	    return $query;
 	}	
+
+   public function getTemplate($name) 
+   {
+     switch ($name) {
+         case 'edit': return '@BiopenAdmin/edit/edit_option_category.html.twig';
+             break;
+         default : return parent::getTemplate($name);
+             break;
+     }
+   }
 
 	protected function configureFormFields(FormMapper $formMapper)
 	{
@@ -68,7 +78,7 @@ class CategoryAdmin extends AbstractAdmin
 	      ->add('name')	 
 	      ->add('_action', 'actions', array(
                 'actions' => array(
-                	  'tree' => array('template' => 'BiopenGeoDirectoryBundle:admin:list__action_tree.html.twig')
+                	  'tree' => array('template' => '@BiopenAdmin/partials/list__action_tree.html.twig')
                 )
             ));   
 	}

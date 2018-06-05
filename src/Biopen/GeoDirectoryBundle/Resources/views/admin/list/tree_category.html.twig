@@ -21,7 +21,7 @@
 	<div class="well" style="font-size: 15px; line-height: 20px;">
 	{% if category %}
 		<ul>
-	    {% include '@BiopenAdmin/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
+	    {% include '@BiopenAdmin/list/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
     </ul>
     {% else %}
     	Aucune catégorie

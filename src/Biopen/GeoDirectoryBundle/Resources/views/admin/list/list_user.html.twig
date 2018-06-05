@@ -1,0 +1,6 @@
+{% extends "@BiopenAdmin/list/base_list_custom_batch.html.twig" %}
+
+{% block list_header %}
+  <div><a class="btn btn-primary btn-sm pull-right" style="margin: 10px;"  
+          href={{ path('biopen_bulk_actions_update_gamification') }}>Mettre à jour les scores (nombre de votes, de contributions, et score total par utilisateur)</a></div>
+{% endblock %}

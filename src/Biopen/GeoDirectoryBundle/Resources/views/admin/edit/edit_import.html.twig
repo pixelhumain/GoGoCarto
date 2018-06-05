@@ -1,0 +1,14 @@
+{% extends 'SonataAdminBundle::CRUD/base_edit.html.twig' %}
+
+{% block actions %}
+{% endblock %}
+
+{% block sonata_form_actions %}
+  {% if admin.hasroute('edit') and admin.isGranted('EDIT') %}
+      <button class="btn btn-primary" type="submit" name="btn_create_and_edit"><i class="fa fa-upload" aria-hidden="true"></i> Importer</button>
+  {% endif %}
+{% endblock %}
+
+
+
+

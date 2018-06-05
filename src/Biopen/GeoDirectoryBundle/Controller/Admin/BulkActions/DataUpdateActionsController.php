@@ -2,9 +2,11 @@
 
 namespace Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class DataUpdateActionsController extends BulkActionsAbstractController
 {
-   public function updateGamificationAction()
+   public function updateGamificationAction(Request $request)
    {
       $em = $this->get('doctrine_mongodb')->getManager();
       $qb = $em->createQueryBuilder('BiopenCoreBundle:User');
@@ -28,16 +30,17 @@ class DataUpdateActionsController extends BulkActionsAbstractController
       $em->flush();
       $em->clear(); 
 
-      return new Response(count($users) . " utilisateurs mis à jour");      
+      $request->getSession()->getFlashBag()->add('success', count($users) . " utilisateurs ont été mis à jour");
+      return $this->redirect($this->generateUrl('admin_biopen_core_user_list'));
    }
 
-   public function updateJsonAction() { return $this->elementsBulkAction('updateJson'); }
+   public function updateJsonAction(Request $request) { return $this->elementsBulkAction('updateJson', $request); }
    public function updateJson($element)
    {
       $element->updateJsonRepresentation(); 
    }   
 
-   public function updateElementOptionsStringAction() { return $this->elementsBulkAction('updateElementOptionsString'); }
+   public function updateElementOptionsStringAction(Request $request) { return $this->elementsBulkAction('updateElementOptionsString', $request); }
    public function updateElementOptionsString($element)
    {
       $optionsArray = array_map( function($ov) { return $this->optionList[$ov->getOptionId()]['name']; }, $element->getOptionValues()->toArray());   

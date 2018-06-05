@@ -87,7 +87,7 @@
 					{% for key, vote in value.votes %}
 							{% if vote.value is defined %}
 								{% set labelClass = vote.value >= 0 ? 'label-success' : 'label-danger' %}
-								{% include "@BiopenAdmin/display_vote_report_item.html.twig" with {'item': vote} %}
+								{% include "@BiopenAdmin/partials/display_vote_report_item.html.twig" with {'item': vote} %}
 							{% endif %}
 					{% endfor %}
 				</div>

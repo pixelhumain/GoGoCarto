@@ -1,10 +1,11 @@
 <?php
 
 namespace Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions;
+use Symfony\Component\HttpFoundation\Request;
 
 class DataQualityActionsController extends BulkActionsAbstractController
 {
-   public function fixsEmailAddressesAction() { return $this->elementsBulkAction('fixsEmailAddresses'); }
+   public function fixsEmailAddressesAction(Request $request) { return $this->elementsBulkAction('fixsEmailAddresses', $request); }
    public function fixsEmailAddresses($element)
    {
       $actualMail = $element->getEmail();
@@ -14,7 +15,7 @@ class DataQualityActionsController extends BulkActionsAbstractController
       }
    }
 
-   public function fixsCoordinatesDigitsAction() { return $this->elementsBulkAction('fixsCoordinatesDigits'); }
+   public function fixsCoordinatesDigitsAction(Request $request) { return $this->elementsBulkAction('fixsCoordinatesDigits', $request); }
    public function fixsCoordinatesDigits($element)
    {
       $geo = $element->getGeo();
@@ -22,7 +23,7 @@ class DataQualityActionsController extends BulkActionsAbstractController
       $geo->setLongitude( $geo->getLongitude());
    }
 
-   public function fixsMissingCitiesAction()
+   public function fixsMissingCitiesAction(Request $request)
    {
       $em = $this->get('doctrine_mongodb')->getManager();
       $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
@@ -44,9 +45,9 @@ class DataQualityActionsController extends BulkActionsAbstractController
       catch (\Exception $error) { }  
       
       $em->flush(); 
-      dump($element);
 
-      return new Response(count($elements) . " éléments  ont été réparés.</br>"); 
+      $request->getSession()->getFlashBag()->add('success', count($elements) . " éléments  ont été réparés");
+      return $this->redirectToIndex();
    }
 
    // public function fixsCircuitsCourtAction()

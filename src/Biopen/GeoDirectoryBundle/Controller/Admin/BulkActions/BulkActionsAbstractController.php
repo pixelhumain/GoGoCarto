@@ -15,10 +15,13 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 
 class BulkActionsAbstractController extends Controller
 {
-    public $optionList = [];
+    protected $optionList = [];
     protected $title = null;
+    protected $fromBeginning = false;
+    protected $maxElementsCount = 1000;
+    protected $automaticRedirection = true;
 
-    protected function elementsBulkAction($functionToExecute, $fromBeginning = false, $maxElementsCount = 1000, $automaticRedirection = false)
+    protected function elementsBulkAction($functionToExecute, $request)
     {
         $batchSize = 50;
         
@@ -35,7 +38,7 @@ class BulkActionsAbstractController extends Controller
         $optionsRepo = $em->getRepository('BiopenGeoDirectoryBundle:Option');
         $this->optionList = $optionsRepo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
 
-        if (!$fromBeginning && $session->has('batch_lastStep'))
+        if (!$this->fromBeginning && $session->has('batch_lastStep'))
             $batchFromStep = $session->get('batch_lastStep');
         else
         {
@@ -45,12 +48,12 @@ class BulkActionsAbstractController extends Controller
 
         $count = $elementRepo->findAllElements(null, $batchFromStep, true); 
         $elementsToProcceedCount = 0;
-        if ($count > $maxElementsCount)
+        if ($count > $this->maxElementsCount)
         {            
-            $nextStep = $batchFromStep + $maxElementsCount;
+            $nextStep = $batchFromStep + $this->maxElementsCount;
             $session->set('batch_lastStep', $nextStep);
             $isStillElementsToProceed = true;
-            $elementsToProcceedCount =  $count - $maxElementsCount;
+            $elementsToProcceedCount =  $count - $this->maxElementsCount;
         }   
         else
         {            
@@ -58,9 +61,7 @@ class BulkActionsAbstractController extends Controller
             $session->remove('batch_lastStep');
         }
 
-        if (!$automaticRedirection) echo "";
-
-        $elements = $elementRepo->findAllElements($maxElementsCount, $batchFromStep);
+        $elements = $elementRepo->findAllElements($this->maxElementsCount, $batchFromStep);
 
         $i = 0;
         $renderedViews = [];
@@ -78,10 +79,13 @@ class BulkActionsAbstractController extends Controller
         $em->flush();
         $em->clear(); 
 
-        dump($renderedViews);
-
         $redirectionRoute = $this->generateUrl($this->getRequest()->get('_route'));
-        if ($isStillElementsToProceed && $automaticRedirection) return $this->redirect();
+        if ($isStillElementsToProceed && $this->automaticRedirection) return $this->redirect($redirectionRoute);
+        
+        if ($this->automaticRedirection) {
+            $request->getSession()->getFlashBag()->add('success', "Tous les éléments ont été traité avec succès");
+            return $this->redirectToIndex();
+        }
 
         return $this->render('@BiopenAdmin/pages/bulks/bulk_abstract.html.twig', array(
             'isStillElementsToProceed' => $isStillElementsToProceed, 
@@ -91,5 +95,10 @@ class BulkActionsAbstractController extends Controller
             'elementsToProcceedCount' => $elementsToProcceedCount,
             'redirectionRoute' => $redirectionRoute,
             'title' => $this->title ? $this->title : $functionToExecute));        
-    }    
+    }  
+
+    protected function redirectToIndex()
+    {        
+        return $this->redirect($this->generateUrl("biopen_bulk_actions_index"));
+    }  
 }

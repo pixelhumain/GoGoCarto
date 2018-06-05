@@ -39,7 +39,6 @@ class ImportAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('fileName')
-            //->add('link', 'string', array('template' => 'KPhoenSingleUploadableBundle:Image:list_link.html.twig'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),

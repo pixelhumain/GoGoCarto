@@ -137,7 +137,7 @@ class ChartBlockService extends AbstractBlockService
 		$contribsAddResolvedPie = $this->createChartFormContribution([InteractionType::Add], "Ajouts résolus", 'contribsAddResolvedPie');
 		$contribsEditResolvedPie = $this->createChartFormContribution([InteractionType::Edit], "Modifications résolues", 'contribsEditResolvedPie');
 
-	   return $this->renderResponse('BiopenGeoDirectoryBundle:admin:block_charts.html.twig', array(
+	   return $this->renderResponse('@BiopenAdmin/blocks/block_charts.html.twig', array(
 	        'block'     => $blockContext->getBlock(),
 	        'settings'  => $blockContext->getSettings(),
 	        'userInteractChart' => $userInteractChart,

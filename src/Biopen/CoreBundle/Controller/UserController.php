@@ -121,10 +121,9 @@ class UserController extends GoGoController
              try
              {
                  $geocoded = $this->get('bazinga_geocoder.geocoder')->using('google_maps')->geocode($user->getLocation())->first();
-                 dump($geocoded);
                  $user->setGeo(new Coordinates($geocoded->getLatitude(), $geocoded->getLongitude()));
              }
-             catch (\Exception $error) { dump($error);$geocodeError = true; } 
+             catch (\Exception $error) { $geocodeError = true; } 
          }                
 
          if ($form->isValid() /*&& !$alreadyUsedEmail */&& !$alreadyUsedUserName && !$locationSetToReceiveNewsletter && !$geocodeError) 

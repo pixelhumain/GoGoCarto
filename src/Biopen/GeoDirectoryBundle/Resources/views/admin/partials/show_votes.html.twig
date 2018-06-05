@@ -15,7 +15,7 @@
 		{% for key, item in value %}
 			{% if item.value is defined %}
 				{% set labelClass = item.value >= 0 ? 'label-success' : 'label-danger' %}
-				{% include "@BiopenAdmin/display_vote_report_item.html.twig" %}
+				{% include "@BiopenAdmin/partials/display_vote_report_item.html.twig" %}
 			{% endif %}
 		{% endfor %}
 

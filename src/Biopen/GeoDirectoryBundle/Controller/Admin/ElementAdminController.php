@@ -381,7 +381,7 @@ class ElementAdminController extends Controller
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
 
-        return $this->render('BiopenGeoDirectoryBundle:admin:edit_element.html.twig', array(
+        return $this->render('@BiopenAdmin/edit/edit_element.html.twig', array(
             'action' => 'edit',
             'form' => $view,
             'object' => $object,

@@ -36,7 +36,7 @@ class CategoryAdminController extends Controller
         $this->admin->checkAccess('edit', $object);
         $this->admin->setSubject($object);
 
-        return $this->render('BiopenGeoDirectoryBundle:admin:tree_category.html.twig', array(
+        return $this->render('@BiopenAdmin/list/tree_category.html.twig', array(
             'category' => $object,
         ), null);
     }

@@ -13,7 +13,7 @@ sonata_block:
 sonata_doctrine_mongo_db_admin:
     templates:
         form:
-            - BiopenGeoDirectoryBundle:admin:form_admin_fields.html.twig
+            - @BiopenAdmin/core_custom/form_admin_fields.html.twig
         filter:
             - SonataDoctrineMongoDBAdminBundle:Form:filter_admin_fields.html.twig
         types:
@@ -89,6 +89,8 @@ sonata_admin:
     title_logo:           'assets/img/favicon.png'
     security:
         handler: sonata.admin.security.handler.role
+    options:
+        confirm_exit: false
     templates:
         # default global templates
         layout:  SonataAdminBundle::layout.html.twig

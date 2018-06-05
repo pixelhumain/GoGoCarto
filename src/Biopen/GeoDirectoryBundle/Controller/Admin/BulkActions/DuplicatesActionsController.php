@@ -2,6 +2,7 @@
 
 namespace Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions;
 
+use Symfony\Component\HttpFoundation\Request;
 use Biopen\GeoDirectoryBundle\Document\Element;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
@@ -11,7 +12,13 @@ use Biopen\GeoDirectoryBundle\Document\ModerationState;
 
 class DuplicatesActionsController extends BulkActionsAbstractController
 {
-   public function detectDuplicatesAction() { $this->title = "Détection de doublons"; return $this->elementsBulkAction('detectDuplicates', false, 1000, false); }
+   public function detectDuplicatesAction(Request $request) 
+   { 
+      $this->title = "Détection des doublons"; 
+      $this->automaticRedirection = false;
+      return $this->elementsBulkAction('detectDuplicates', $request); 
+   }
+
    public function detectDuplicates($element)
    {
       if ($element->getStatus() >= ElementStatus::PendingModification)

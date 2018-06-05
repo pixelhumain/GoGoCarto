@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-04 17:10:36
+ * @Last Modified time: 2018-06-05 18:30:16
  */
  
 
@@ -115,6 +115,7 @@ class ElementRepository extends DocumentRepository
     if ($moderationState != null) $qb->field('moderationState')->equals($moderationState);
     else $qb->field('moderationState')->notIn([ModerationState::NotNeeded]);
     $qb->field('status')->gte(ElementStatus::PendingModification);
+
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();

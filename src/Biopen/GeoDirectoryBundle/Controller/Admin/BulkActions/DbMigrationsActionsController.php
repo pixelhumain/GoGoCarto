@@ -2,24 +2,25 @@
 
 namespace Biopen\GeoDirectoryBundle\Controller\Admin\BulkActions;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class DbMigrationsActionsController extends BulkActionsAbstractController
 {
-   public function generateRandomHashAction() { return $this->elementsBulkAction('generateRandomHash'); } 
+   public function generateRandomHashAction(Request $request) { return $this->elementsBulkAction('generateRandomHash', $request); } 
    public function generateRandomHash($element) 
    { 
       $element->updateRandomHash(); 
    }
 
-   public function generateTokenAction()
+   public function generateTokenAction(Request $request)
    {
       $em = $this->get('doctrine_mongodb')->getManager();
       $users = $em->getRepository('BiopenCoreBundle:User')->findAll();
-      echo "<h1>Utilisateurs : " . count($users) . "</h1>";
+      
       $i = 0;
       foreach ($users as $key => $user) 
       {
          $user->createToken(); 
-         echo "Update user " . $user->getUsername() . "</br>"; 
          if ((++$i % 20) == 0) {
             $em->flush();
             $em->clear();
@@ -27,10 +28,12 @@ class DbMigrationsActionsController extends BulkActionsAbstractController
       }
       $em->flush();
       $em->clear();
-      return new Response("Les éléments ont été mis à jours avec succès."); 
+
+      $request->getSession()->getFlashBag()->add('success', "Les éléments ont été mis à jours avec succès.");
+      return $this->redirectToIndex();
    }
 
-   public function addImportContributionAction() { return $this->elementsBulkAction('addImportContribution'); }
+   public function addImportContributionAction(Request $request) { return $this->elementsBulkAction('addImportContribution', $request); }
    public function addImportContribution($element)
    {
       $contribution = new UserInteractionContribution();
