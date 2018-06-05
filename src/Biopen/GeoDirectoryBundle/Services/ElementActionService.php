@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-05 08:53:44
+ * @Last Modified time: 2018-06-05 18:43:49
  */
  
 
@@ -95,7 +95,8 @@ class ElementActionService
    public function delete($element, $sendMail = true, $message = null)
    {
       $this->addContribution($element, $message, InteractType::Deleted, ElementStatus::Deleted);
-      $element->setStatus(ElementStatus::Deleted); 
+      $newStatus = ($element->getModerationState() == ModerationState::PossibleDuplicate) ? ElementStatus::Duplicate : ElementStatus::Deleted;
+      $element->setStatus($newStatus); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('delete', $element, $message);
       $element->updateTimestamp();
