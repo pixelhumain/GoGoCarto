@@ -22,6 +22,8 @@ This code manage the one-to-many association field popup
 
 <script type="text/javascript">
 
+    var env = "{{ app.environment }}";
+
     // handle the add link
     var field_add_{{ id }} = function(event) {
 
@@ -39,8 +41,9 @@ This code manage the one-to-many association field popup
             } + sonata_admin.field_description.getOption('link_parameters', {})) }}";
 
         // picking right protocol
-        var url = url.replace('http', window.location.protocol.replace(':',''));   
-
+        if (env == "prod")
+            var url = url.replace('http', window.location.protocol.replace(':','')).replace('ss','s');  
+        
         // the ajax post
         jQuery(form).ajaxSubmit({
             url: url,
