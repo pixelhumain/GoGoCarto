@@ -15,6 +15,8 @@ use Biopen\GeoDirectoryBundle\Document\UserInteractionContribution;
 use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\PostalAddress;
+use Biopen\GeoDirectoryBundle\Document\ElementUrl;
+use Biopen\GeoDirectoryBundle\Document\ElementImage;
 
 class ImportCsvService
 {   
@@ -44,7 +46,7 @@ class ImportCsvService
       $fileName = 'uploads/imports/' . $import->getFileName();
 		// Getting php array of data from CSV
 		$data = $this->converter->convert($fileName, ',');
-
+		if ($data === null) return null;
 		$this->createOptionsMappingTable();	
 
 		// Define the size of record, the frequency for persisting the data and the current index of records
@@ -69,7 +71,7 @@ class ImportCsvService
 		$sourceKey = $import->getSourceName();
 
 		$fields = ['id', 'title', 'streetAddress', 'addressLocality', 'postalCode', 'addressCountry', 'description', 'descriptionMore', 'commitment',
-						'telephone', 'website', 'email', 'openHoursString', 'source', 'latitude', 'longitude'];
+						'telephone', 'website', 'email', 'openHoursString', 'source', 'latitude', 'longitude', 'images'];
 		$data = $this->addMissingFieldsToData($fields, $data);
 
 		foreach($data as $row) 
@@ -118,6 +120,8 @@ class ImportCsvService
 			if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 			$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 
+			$this->createUrls($new_element, $row);
+			$this->createImages($new_element, $row);
 			$this->createCategories($new_element, $row);
 			$this->elementActionService->import($new_element); 			
 
@@ -175,6 +179,47 @@ class ImportCsvService
 			$this->mappingTableIds[$this->slugify($option->getNameWithParent())] = $ids;
 			$this->mappingTableIds[$this->slugify($option->getName())] = $ids;
 		}
+	}
+
+	private function createImages($element, $row)
+	{
+		if (strlen($row['images']) > 0)
+		{
+			$optionsCsv = explode(',', $row['images']);			
+			foreach($optionsCsv as $imageUrl)
+			{
+				if (strlen($imageUrl) > 5)
+				{
+					$elementImage = new ElementImage();
+					$elementImage->setImageName($imageUrl);
+					$element->addImage($elementImage);
+				}					
+			}
+		}			
+	}
+
+	private function createUrls($element, $row)
+	{
+		$keys = array_keys($row);
+		$url_keys = array_filter($keys, function($key) { return $this->startsWith($key, 'url_'); });
+		if (count($url_keys) == 0) return;
+
+		foreach ($url_keys as $key) 
+		{
+			if ($row[$key])
+			{
+				$elementUrl = new ElementUrl();
+				$elementUrl->setValue($row[$key]);
+				$elementUrl->setKey(str_replace('url_', '', $key));
+				$element->addUrl($elementUrl);
+			}				
+		}
+	}
+
+	function startsWith($haystack, $needle)
+	{
+	     $length = strlen($needle);
+	     return (substr($haystack, 0, $length) === $needle);
 	}
 
 	private function createCategories($element, $row)

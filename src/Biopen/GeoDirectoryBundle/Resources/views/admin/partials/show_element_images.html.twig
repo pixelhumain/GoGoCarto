@@ -2,11 +2,14 @@
 
 {% block display_value %}
     {% for key, item in value %}
-      <img src="{{ item.imageName) }}" class="thumbnail"/> 
+      <img src="{{ item.imageName }}" class="thumbnail"/> 
       {#<img src="{{ asset('uploads/image/elements/' ~ item.imageName) }}" class="thumbnail"/> #}
     {% endfor %}
 
     <style>
-      .thumbnail { width: 30px; height: 30px; }
+      .thumbnail {     
+        width: 100px;
+        display: inline-block; 
+      }
     </style>
 {% endblock %}
