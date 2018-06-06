@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-06-15 22:32:18
+ * @Last Modified time: 2018-06-06 11:54:13
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -27,7 +27,7 @@ class OptionLiteAdmin extends AbstractAdmin
 	{
 	  $formMapper
 		  	->add('name', null, array('required' => true,'label' => 'Nom'))		  	
-		  	->add('index', null, array('required' => true, 'label' => 'Position'))
+		  	->add('index', null, array('required' => false, 'label' => 'Position'))
 		  	->add('color', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur'))		
 		  	->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))		  	
 		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))

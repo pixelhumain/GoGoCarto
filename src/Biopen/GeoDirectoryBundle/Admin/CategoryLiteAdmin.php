@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2017-06-15 22:32:56
+ * @Last Modified time: 2018-06-06 11:54:18
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -29,7 +29,7 @@ class CategoryLiteAdmin extends AbstractAdmin
 	  
 		  	->add('name', null, array('required' => true, 'label' => 'Nom de la catégorie'))
 		  	->add('pickingOptionText', null, array('required' => true, 'label' => 'Text à afficher dans le formulaire : Choisissez ....'))	
-		  	->add('index', null, array('required' => true, 'label' => 'Position'))
+		  	->add('index', null, array('required' => false, 'label' => 'Position'))
 		  	->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
 		  	->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option"))	
 		  	->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées'))
