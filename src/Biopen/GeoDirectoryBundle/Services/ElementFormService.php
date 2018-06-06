@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-05-09 11:14:02
+ * @Last Modified time: 2018-06-06 11:27:49
  */
  
 
@@ -32,7 +32,7 @@ class ElementFormService
 
         $this->updateWebsiteUrl($element);
 
-        $isMinorModif = $this->isMinorModification($element, $originalElement, $em);
+        $isMinorModif = $editMode ? $this->isMinorModification($element, $originalElement, $em) : false;
         // calculate this before calling "updateOwner" because we want to check the old value of userOwnerEmail
         $isPendingModif = $this->isPendingModification($editMode, $isAllowedDirectModeration || $isMinorModif, $request);
 
