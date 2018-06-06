@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-05 17:39:59
+ * @Last Modified time: 2018-06-06 14:35:38
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -15,6 +15,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ElementAdminShowEdit extends ElementAdminList
 {
@@ -31,6 +32,12 @@ class ElementAdminShowEdit extends ElementAdminList
 			->add('email', 'text', array('required' => false))
 			->add('openHoursMoreInfos', 'text', array('required' => false)) 
       ->add('userOwnerEmail', 'text', array('required' => false))
+      // ->add('urls', 'sonata_type_collection', array('by_reference' => true, 'type_options' => array('delete' => true)), 
+      //    array(
+      //           'edit' => 'inline',
+      //           'inline' => 'table',
+      //           //'sortable' => 'index',
+      //       ))
       ->add('stamps', 'sonata_type_model', array(
             'label' => "Etiquettes",
             'required' => false,
@@ -43,6 +50,7 @@ class ElementAdminShowEdit extends ElementAdminList
 
 	protected function configureShowFields(ShowMapper $show)
 	{    
+    
     if ($this->subject->isPending())
     {
       $show       
@@ -73,6 +81,7 @@ class ElementAdminShowEdit extends ElementAdminList
     }    
     
     $show
+
        ->with('Catégorisation', array('class' => 'col-md-6 col-sm-12'))
 	       ->add('optionValues', null, [
 		      	'template' => '@BiopenAdmin/partials/show_option_values.html.twig', 
@@ -94,6 +103,12 @@ class ElementAdminShowEdit extends ElementAdminList
 
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
+        // ->add('urls', 'sonata_type_collection', array('type_options' => array('delete' => true)), 
+        //    array(
+        //           'edit' => 'inline',
+        //           'inline' => 'table',
+        //           //'sortable' => 'index',
+        //       ))
         ->add('randomHash')
         ->add('sourceKey', null, array('label' => 'Source'))
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))

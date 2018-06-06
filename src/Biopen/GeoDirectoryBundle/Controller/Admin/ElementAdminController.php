@@ -13,6 +13,17 @@ use Biopen\GeoDirectoryBundle\Services\ValidationType;
 
 class ElementAdminController extends Controller
 {
+    public function editAction($id = null)
+    {
+        $object = $this->admin->getSubject();
+
+        if (!$object) {
+            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        return $this->redirectToRoute('admin_biopen_geodirectory_element_showEdit', ['id' => $object->getId()]);
+    }
+
     public function redirectEditAction()
     {
         $object = $this->admin->getSubject();

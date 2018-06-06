@@ -92,3 +92,15 @@ services:
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Stamp, '' ]
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Etiquettes }
+
+    admin.element_image:
+        class: Biopen\GeoDirectoryBundle\Admin\ElementImageAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementImage, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
+
+    admin.element_url:
+        class: Biopen\GeoDirectoryBundle\Admin\ElementUrlAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementUrl, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }

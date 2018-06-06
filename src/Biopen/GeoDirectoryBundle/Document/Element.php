@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-06 09:59:17
+ * @Last Modified time: 2018-06-06 14:16:44
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -15,6 +15,7 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Expose;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 abstract class ElementStatus
 {
@@ -49,6 +50,7 @@ abstract class ModerationState
  *
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\ElementRepository")
  * @MongoDB\HasLifecycleCallbacks 
+ * @Vich\Uploadable
  * @MongoDB\Indexes({
  *   @MongoDB\Index(keys={"geo"="2d"}),
  *   @MongoDB\Index(keys={"name"="text"}),
@@ -172,6 +174,13 @@ class Element
      * @MongoDB\Field(type="string")
      */
     private $website;
+
+    /**
+     * Urls, like  website, socials, videos etc
+     * 
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementUrl") 
+     */
+    private $urls;
     
     /**
      * @var \stdClass
@@ -205,6 +214,13 @@ class Element
      * @MongoDB\Field(type="string", nullable=true)
      */
     private $openHoursMoreInfos = '';
+
+    /**
+     * Images, photos, logos, linked to an element
+     * 
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementImage") 
+     */
+    private $images;    
 
     /**
      * @var string
@@ -288,9 +304,6 @@ class Element
     * @MongoDB\Field(type="string") 
     */ 
     private $userOwnerEmail;
-
-    // non mapped field
-    private $score;
 
     /**
      * Constructor
@@ -1388,5 +1401,65 @@ class Element
     public function getPrivateJson()
     {
         return $this->privateJson;
+    }
+
+    /**
+     * Add url
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
+     */
+    public function addUrl(\Biopen\GeoDirectoryBundle\Document\ElementUrl $url)
+    {
+        $this->urls[] = $url;
+    }
+
+    /**
+     * Remove url
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
+     */
+    public function removeUrl(\Biopen\GeoDirectoryBundle\Document\ElementUrl $url)
+    {
+        $this->urls->removeElement($url);
+    }
+
+    /**
+     * Get urls
+     *
+     * @return \Doctrine\Common\Collections\Collection $urls
+     */
+    public function getUrls()
+    {
+        return $this->urls;
+    }
+
+    /**
+     * Add image
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\ElementImage $image
+     */
+    public function addImage(\Biopen\GeoDirectoryBundle\Document\ElementImage $image)
+    {
+        $this->images[] = $image;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\ElementImage $image
+     */
+    public function removeImage(\Biopen\GeoDirectoryBundle\Document\ElementImage $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection $images
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

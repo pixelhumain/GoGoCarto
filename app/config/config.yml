@@ -179,6 +179,10 @@ vich_uploader:
         import_file:
             uri_prefix: /imports
             upload_destination: '%kernel.root_dir%/../web/uploads/imports'
+        element_image:
+            uri_prefix: /images/elements
+            upload_destination: '%kernel.root_dir%/../web/uploads/images/elements'
+            inject_on_load: true
             
             
             
