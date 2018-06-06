@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-05 18:30:16
+ * @Last Modified time: 2018-06-06 10:16:33
  */
  
 
@@ -24,40 +24,27 @@ use Biopen\GeoDirectoryBundle\Document\ModerationState;
  */
 class ElementRepository extends DocumentRepository
 {
-  // public function findAll()
-  // {
-  //   $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-  //   return $qb->select('compactJson')->hydrate(false)->getQuery()->execute()->toArray(); 
-  // }
-
-  public function findDuplicatesAround($lat, $lng, $distance, $maxResults, $text, $includeDeleted = true, $hydrate = false)
+  public function findDuplicatesFor($element, $distance, $maxResults, $includeDeleted = true, $hydrate = false)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    $expr = $qb->expr()->operator('$text', array('$search' => $text));
     // convert kilometre in degrees
     $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
     $radius = $distance / 110;
-    $qb  //->limit($maxResults)
-        ->equals($expr->getQuery())
-        ->field('status')->gt($status)
-        ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius); 
 
-    if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PossibleDuplicate);              
+    $qb->addOr($qb->expr()->text($element->getName())->language('fr'));
+    if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail())); 
+    $streetAddress = $element->getAddress()->getStreetAddress();
+    if ($streetAddress) $qb->addOr($qb->expr()->field('address.streetAddress')->equals($streetAddress));  
+
+    $qb->limit($maxResults) 
+       ->field('status')->gt($status)
+       ->field('geo')->withinCenter((float) $element->getGeo()->getLatitude(), (float) $element->getGeo()->getLongitude(), $radius); 
+
+    if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PossibleDuplicate);   
     
     return $qb->sortMeta('score', 'textScore')
               ->hydrate($hydrate)->getQuery()->execute()->toArray();    
-  }
-
-  public function findPerfectDuplicatesAround($lat, $lng, $distance, $maxResults, $text)
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-
-    // convert kilometre in degrees
-    $radius = $distance / 110;
-    return $qb  ->field('name')->equals($text)
-                ->field('geo')->withinCenter((float)$lat, (float)$lng, $radius)           
-                ->hydrate(false)->getQuery()->execute()->toArray();    
   }
 
   public function findWhithinBoxes($bounds, $request, $getFullRepresentation, $isAdmin = false)
@@ -85,11 +72,7 @@ class ElementRepository extends DocumentRepository
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    $expr = $qb->expr()->operator('$text', array('$search' => (string) $text));
-    
-    $qb  //->limit(50)
-                ->equals($expr->getQuery())        
-                ->sortMeta('score', 'textScore');
+    $qb->text($text)->language('fr')->sortMeta('score', 'textScore');
     
     $this->filterVisibles($qb);
 

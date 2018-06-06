@@ -12,6 +12,8 @@ use Biopen\GeoDirectoryBundle\Document\ModerationState;
 
 class DuplicatesActionsController extends BulkActionsAbstractController
 {
+   protected $duplicatesFound = [];
+
    public function detectDuplicatesAction(Request $request) 
    { 
       $this->title = "Détection des doublons"; 
@@ -23,18 +25,19 @@ class DuplicatesActionsController extends BulkActionsAbstractController
    {
       if ($element->getStatus() >= ElementStatus::PendingModification)
       {
-         // dump($element->getName());
-         $radius = 1 / 110; // km
-
          $em = $this->get('doctrine_mongodb')->getManager();
-         $duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, false, true);
+         $duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, false, true, 1);
 
-         if (count($duplicates) > 1)
+         if (count($duplicates) > 1 && !array_key_exists($element->getId(), $this->duplicatesFound))
          {
-            foreach($duplicates as $key => $element) $element->setModerationState(ModerationState::PossibleDuplicate); 
+            foreach($duplicates as $key => $duplicate) {
+               $duplicate->setModerationState(ModerationState::PossibleDuplicate); 
+               $this->duplicatesFound[$duplicate->getId()] = true;
+            }
             $em->flush();
             return $this->render('@BiopenAdmin/pages/bulks/bulk_duplicates.html.twig', array('duplicates' => $duplicates, 'controller' => $this));
          }
+
 
          return null;
       }

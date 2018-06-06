@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-11-29 12:27:35
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-04 17:03:37
+ * @Last Modified time: 2018-06-06 08:25:48
  */
 namespace Biopen\GeoDirectoryBundle\Services;
 
@@ -17,16 +17,12 @@ class ElementDuplicatesService
       $this->em = $documentManager;
    }
 
-   public function checkForDuplicates($element, $includeDeleted = false, $hydrate = false)
+   public function checkForDuplicates($element, $includeDeleted = false, $hydrate = false, $distance = 1, $maxResults = 10)
    {
-      $distance = 1; // km
-      $maxResults = 10;
-      $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesAround(
-         $element->getGeo()->getLatitude(), 
-         $element->getGeo()->getLongitude(), 
+      $elements = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesFor(
+         $element,         
          $distance, 
          $maxResults, 
-         $element->getName(),
          $includeDeleted,
          $hydrate
       );

@@ -4,7 +4,9 @@ namespace Biopen\GeoDirectoryBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
-/** @MongoDB\EmbeddedDocument */
+/** @MongoDB\EmbeddedDocument 
+* @MongoDB\Index(keys={"streetAddress"="asc"})
+*/
 class PostalAddress
 {
    /**

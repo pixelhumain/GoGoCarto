@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-04 17:29:49
+ * @Last Modified time: 2018-06-06 10:07:06
  */
  
 
@@ -176,7 +176,7 @@ class ElementFormController extends GoGoController
 				// check for duplicates in Add action
 				if (!$editMode && !$editingOwnPendingContrib)
 				{					
-					$duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element);					
+					$duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, true);	
 					$needToCheckDuplicates = count($duplicates) > 0;
 				}
 				else $needToCheckDuplicates = false;
