@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-06 14:35:38
+ * @Last Modified time: 2018-06-06 16:29:01
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -103,12 +103,8 @@ class ElementAdminShowEdit extends ElementAdminList
 
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
-        // ->add('urls', 'sonata_type_collection', array('type_options' => array('delete' => true)), 
-        //    array(
-        //           'edit' => 'inline',
-        //           'inline' => 'table',
-        //           //'sortable' => 'index',
-        //       ))
+        ->add('urls', null,   array('template' => '@BiopenAdmin/partials/show_element_urls.html.twig'))
+        ->add('images', null, array('template' => '@BiopenAdmin/partials/show_element_images.html.twig'))
         ->add('randomHash')
         ->add('sourceKey', null, array('label' => 'Source'))
 	      ->add('createdAt', 'datetime', array("format" => "d/m/Y à H:i"))

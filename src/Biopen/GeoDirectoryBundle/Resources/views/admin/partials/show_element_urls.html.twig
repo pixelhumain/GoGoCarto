@@ -1,0 +1,13 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+{% spaceless %}
+    {% for key, item in value %}
+       <p>
+          <span class="label label-default" style="margin-right:8px">{{ item.key }}</span>
+          <a href="{{ item.value }}" target="_blank">{{ item.value }}</a>
+      </p>
+    {% endfor %}
+
+{% endspaceless %}
+{% endblock %}
