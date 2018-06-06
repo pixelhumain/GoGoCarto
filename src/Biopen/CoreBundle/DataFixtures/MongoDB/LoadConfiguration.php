@@ -37,7 +37,7 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setEditFeature(      new InteractionConfiguration(true, true,  false, true, true, true));
     $configuration->setDeleteFeature(    new InteractionConfiguration(true, false, false, false, false, true));
     $configuration->setCollaborativeModerationFeature(      new InteractionConfiguration(true, false, false, false, true, true));
-    $configuration->setDirectModerationFeature(             new InteractionConfiguration(true, false, false, false, true, true));
+    $configuration->setDirectModerationFeature(             new InteractionConfiguration(true, false, false, false, false, true));
 
     // MAP
     $defaultLayer = LoadTileLayers($manager);
