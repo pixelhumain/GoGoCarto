@@ -31,6 +31,7 @@ class Stamp
 
    public function __toString() { return $this->getName() ? $this->getName() : ""; }
 
+   public function toJson() { return $this->getId(); }
     /**
      * Get id
      *

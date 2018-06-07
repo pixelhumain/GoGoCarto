@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-06 14:16:44
+ * @Last Modified time: 2018-06-07 08:07:06
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -440,22 +440,13 @@ class Element
             }
         }
         $baseJson = rtrim($baseJson, ',');
-        $baseJson .= ']';
+        $baseJson .= '],';
+  
+        $baseJson .= $this->encodeArrayObjectToJson("stamps", $this->stamps);
+        $baseJson .= $this->encodeArrayObjectToJson("images", $this->images);
+        $baseJson .= $this->encodeArrayObjectToJson("urls",   $this->urls);
 
-        // STAMPS IDS   
-        if ($this->stamps)
-        {            
-            $stamps = is_array($this->stamps) ? $this->stamps : $this->stamps->toArray();
-            if (count($stamps) > 0)
-            {
-                $baseJson .= ', "stamps": [';
-                foreach ($stamps as $stamp) { 
-                    $baseJson .= $stamp->getId() . ',';
-                }
-                $baseJson = rtrim($baseJson, ',');
-                $baseJson .= ']';
-            }
-        }  
+        $baseJson = rtrim($baseJson, ','); 
 
         // OPTIONS VALUES WITH DESCRIPTIONS        
         $optionDescriptionsJson = [];
@@ -539,7 +530,9 @@ class Element
 
     private function encodeArrayObjectToJson($propertyName, $array)
     {
-        if (!$array || count($array) == 0) return '';
+        if (!$array) return "";
+        $array = is_array($array) ? $array : $array->toArray();
+        if (count($array) == 0) return '';
         $result = '"'. $propertyName .'": [';
         foreach ($array as $key => $value) {
             $result .= $value->toJson();

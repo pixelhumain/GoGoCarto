@@ -20,6 +20,16 @@ class ElementUrl
      */
     public $value = "";
 
+    public function toJson()
+    {
+        $result = "";
+        $result .=  '"type":'          . json_encode($this->getKey());
+        $result .=', "value":'        . json_encode($this->getValue());
+        $result = ltrim($result, ',');
+        $result = "{" . $result . "}";
+        return $result;
+    }
+
     /**
      * Set key
      *
