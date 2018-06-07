@@ -384,13 +384,13 @@ class Category
      * @param Biopen\GeoDirectoryBundle\Document\Option $parent
      * @return $this
      */
-    public function setParent(\Biopen\GeoDirectoryBundle\Document\Option $parent, $updateParent = true)
+    public function setParent($parent, $updateParent = true)
     {
         // clearing old parent
         if ($updateParent && $this->parent) $this->parent->removeSubcategory($this, false);
         
         $this->parent = $parent;
-        if ($updateParent) $parent->addSubcategory($this, false);
+        if ($updateParent && $parent) $parent->addSubcategory($this, false);
 
         return $this;
     }
