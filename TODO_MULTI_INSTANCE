@@ -15,7 +15,8 @@
 
 - DB cohérence
   -> suppression d'une option ou catégorie doit supprimer toutes les sous options/catégrories, et retirer ces options à tous les éléments. De même pour les USe group
-
+  -> empecher de supprimer la catégorie principale
+  
 - Source de données
   -> Importer des données. Si catégorie existe pas la créer
   -> Utiliser une source externe. Configuration de la mise à jour automatique, plus URL d'update manuelle

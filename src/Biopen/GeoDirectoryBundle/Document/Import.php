@@ -26,7 +26,7 @@ class Import
     private $sourceName = "";
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", inversedBy="options")
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", cascade={"all"})
      */
     private $parentCategoryToCreateOptions;
 

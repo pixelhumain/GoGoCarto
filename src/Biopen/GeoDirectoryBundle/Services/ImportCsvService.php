@@ -61,7 +61,8 @@ class ImportCsvService
 		  $progress->start();
 		}
 
-		$this->parentCategoryToCreateMissingOptions = $import->getParentCategoryToCreateOptions() ? $import->getParentCategoryToCreateOptions() : $this->em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategory();
+		$this->parentCategoryToCreateMissingOptions = $import->getParentCategoryToCreateOptions() ? $import->getParentCategoryToCreateOptions() : $this->em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategory();		
+
 		$this->missingOptionDefaultAttributesForCreate = [
 			"useIconForMarker" => false,
 			"useColorForMarker" => false,
@@ -166,9 +167,9 @@ class ImportCsvService
 		return $data;
 	}
 
-	private function createOptionsMappingTable()
+	private function createOptionsMappingTable($options = null)
 	{
-		$options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+		if ($options === null) $options = $this->em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
 		foreach($options as $option)
 		{		
@@ -183,19 +184,25 @@ class ImportCsvService
 
 	private function createImages($element, $row)
 	{
-		if (strlen($row['images']) > 0)
+		if (strlen($row['images']) > 0) $optionsCsv = explode(',', $row['images']);
+		else
 		{
-			$optionsCsv = explode(',', $row['images']);			
-			foreach($optionsCsv as $imageUrl)
+			$keys = array_keys($row);
+			$image_keys = array_filter($keys, function($key) { return $this->startsWith($key, 'image'); });
+			$optionsCsv = array_map(function($key) use ($row) { return $row[$key]; }, $image_keys);			
+		}
+
+		if (count($optionsCsv) == 0) return;
+
+		foreach($optionsCsv as $imageUrl)
+		{
+			if (strlen($imageUrl) > 5)
 			{
-				if (strlen($imageUrl) > 5)
-				{
-					$elementImage = new ElementImage();
-					$elementImage->setExternalImageUrl($imageUrl);
-					$element->addImage($elementImage);
-				}					
-			}
-		}			
+				$elementImage = new ElementImage();
+				$elementImage->setExternalImageUrl($imageUrl);
+				$element->addImage($elementImage);
+			}					
+		}		
 	}
 
 	private function createUrls($element, $row)
@@ -261,6 +268,7 @@ class ImportCsvService
 
 	private function createOption($name)
 	{
+		$this->em->persist($this->parentCategoryToCreateMissingOptions);
 		$option = new Option();
 		$option->setName($name);
 		$option->setParent($this->parentCategoryToCreateMissingOptions);
@@ -268,8 +276,9 @@ class ImportCsvService
 		$option->setUseColorForMarker($this->missingOptionDefaultAttributesForCreate["useColorForMarker"]);
 		$option->setDisplayOption($this->missingOptionDefaultAttributesForCreate["displayOption"]);
 		$this->em->persist($option);
-		$this->em->flush();
-		$this->createOptionsMappingTable();
+		// $this->em->flush();
+		// dump("new option", $option);
+		$this->createOptionsMappingTable([$option]);
 	}
 
 	private function slugify($text)
