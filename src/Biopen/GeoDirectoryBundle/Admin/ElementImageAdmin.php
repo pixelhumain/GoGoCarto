@@ -16,6 +16,7 @@ class ElementImageAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('image', 'file', array('label' => 'Fichier à importer', 'required' => false))
+            ->add('externalImageUrl', null, array('label' => 'Lien vers une image externe', 'required' => false))
         ;
     }
 

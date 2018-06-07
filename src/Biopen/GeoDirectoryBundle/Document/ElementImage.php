@@ -32,13 +32,31 @@ class ElementImage
     public $imageSize = "";
 
     /**
+     * @var string
+     * memory
+     * @MongoDB\Field(type="string")    
+     */
+    public $imageRealPath = "";    
+
+    /**
+     * @var string
+     * 
+     * @MongoDB\Field(type="string")    
+     */
+    public $externalImageUrl = "";
+
+    /**
      * @MongoDB\Field(type="date")
      *
      * @var \DateTime
      */
     private $updatedAt;
 
-    public function toJson() { return json_encode($this->getImageName()); }
+    public function toJson() 
+    { 
+        $url = $this->imageRealPath ? $this->imageRealPath : $this->externalImageUrl;
+        return json_encode($url); 
+    }
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -54,8 +72,14 @@ class ElementImage
         $this->image = $image;
 
         if (null !== $image) {
+
+            // store the absolute url of the file so we can directly use it in the json conversion
+            // if this "realPath" property does not give an absolute Url, we probably need to use
+            // the vich upload helper https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/generating_urls.md
+            $this->imageRealPath = $image->getRealPath();
+
             // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
+            // otherwise the event listeners won't be called and the file is lost            
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
@@ -129,5 +153,49 @@ class ElementImage
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set externalImageUrl
+     *
+     * @param string $externalImageUrl
+     * @return $this
+     */
+    public function setExternalImageUrl($externalImageUrl)
+    {
+        $this->externalImageUrl = $externalImageUrl;
+        return $this;
+    }
+
+    /**
+     * Get externalImageUrl
+     *
+     * @return string $externalImageUrl
+     */
+    public function getExternalImageUrl()
+    {
+        return $this->externalImageUrl;
+    }
+
+    /**
+     * Set imageRealPath
+     *
+     * @param string $imageRealPath
+     * @return $this
+     */
+    public function setImageRealPath($imageRealPath)
+    {
+        $this->imageRealPath = $imageRealPath;
+        return $this;
+    }
+
+    /**
+     * Get imageRealPath
+     *
+     * @return string $imageRealPath
+     */
+    public function getImageRealPath()
+    {
+        return $this->imageRealPath;
     }
 }

@@ -191,7 +191,7 @@ class ImportCsvService
 				if (strlen($imageUrl) > 5)
 				{
 					$elementImage = new ElementImage();
-					$elementImage->setImageName($imageUrl);
+					$elementImage->setExternalImageUrl($imageUrl);
 					$element->addImage($elementImage);
 				}					
 			}

@@ -13,11 +13,6 @@ use Biopen\GeoDirectoryBundle\Services\ValidationType;
 
 class ElementAdminController extends Controller
 {
-    public function editAction($id = null)
-    {
-        return $this->showEditAction($id);
-    }
-
     public function redirectEditAction()
     {
         $object = $this->admin->getSubject();
@@ -286,7 +281,38 @@ class ElementAdminController extends Controller
         );
     }
 
-    public function showEditAction($id = null)
+    public function showEditAction($id = null) 
+    {
+        $request = $this->getRequest();
+
+        $id = $request->get($this->admin->getIdParameter());
+        $object = $this->admin->getObject($id);
+
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        $this->admin->checkAccess('edit', $object);
+        $this->admin->setSubject($object);
+
+        /** @var $form Form */
+        $form = $this->admin->getForm();
+        $form->setData($object);
+
+        $view = $form->createView();
+
+        // set the theme for the current Admin Form
+        $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
+        
+        return $this->render('@BiopenAdmin/edit/edit_element.html.twig', array(
+            'action' => 'edit',
+            'form' => $view,
+            'object' => $object,
+            'elements' => $this->admin->getShow(),
+        ), null);
+    }
+
+    public function editAction($id = null)
     {
         $request = $this->getRequest();
 
@@ -381,16 +407,6 @@ class ElementAdminController extends Controller
             }
         }
 
-        $view = $form->createView();
-
-        // set the theme for the current Admin Form
-        $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
-        
-        return $this->render('@BiopenAdmin/edit/edit_element.html.twig', array(
-            'action' => 'edit',
-            'form' => $view,
-            'object' => $object,
-            'elements' => $this->admin->getShow(),
-        ), null);
+        return $this->redirectToRoute('admin_biopen_geodirectory_element_showEdit', ['id' => $id]);
     }
 }

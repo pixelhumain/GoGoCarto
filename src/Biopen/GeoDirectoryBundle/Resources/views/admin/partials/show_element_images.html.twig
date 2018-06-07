@@ -2,9 +2,10 @@
 
 {% block display_value %}
     {% for key, item in value %}
-     {% if item.imageName %}
-      <img src="{{ asset('uploads/images/elements/' ~ item.imageName) }}" class="thumbnail"/>
-     {% endif %}
+      {% set imagePath = (item.imageName is defined and item.imageName != "") ? asset('uploads/images/elements/' ~ item.imageName) : item.externalImageUrl %}
+      {% if imagePath %}
+        <img src="{{ imagePath }}" class="thumbnail"/>
+      {% endif %}
     {% endfor %}
 
     <style>
