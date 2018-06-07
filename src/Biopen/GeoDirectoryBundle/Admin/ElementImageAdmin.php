@@ -15,7 +15,7 @@ class ElementImageAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('image', 'file', array('label' => 'Fichier à importer'))
+            ->add('image', 'file', array('label' => 'Fichier à importer', 'required' => false))
         ;
     }
 

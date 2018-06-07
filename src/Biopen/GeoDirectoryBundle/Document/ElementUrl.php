@@ -58,10 +58,17 @@ class ElementUrl
      * @param int $value
      * @return $this
      */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        return $this;
+    public function setValue($url)
+    {        
+        if ($url && $url != '')
+        {
+            $parsed = parse_url($url);
+            if (empty($parsed['scheme'])) {
+                $url = 'http://' . ltrim($url, '/');
+            }
+            $this->value = $url;
+        } 
+        return $this;   
     }
 
     /**

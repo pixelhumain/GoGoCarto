@@ -15,13 +15,7 @@ class ElementAdminController extends Controller
 {
     public function editAction($id = null)
     {
-        $object = $this->admin->getSubject();
-
-        if (!$object) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
-        }
-
-        return $this->redirectToRoute('admin_biopen_geodirectory_element_showEdit', ['id' => $object->getId()]);
+        return $this->showEditAction($id);
     }
 
     public function redirectEditAction()
@@ -391,7 +385,7 @@ class ElementAdminController extends Controller
 
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
-
+        
         return $this->render('@BiopenAdmin/edit/edit_element.html.twig', array(
             'action' => 'edit',
             'form' => $view,
