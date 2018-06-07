@@ -29,36 +29,26 @@ class BulkActionsAbstractController extends Controller
         $elementLeftCount = 0;
         $isStillElementsToProceed = false;
 
-        $session = $this->getRequest()->getSession();
-        $session->remove('bulks_elements_left_to_proceed');
-
         $em = $this->get('doctrine_mongodb')->getManager();
         $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
 
         $optionsRepo = $em->getRepository('BiopenGeoDirectoryBundle:Option');
         $this->optionList = $optionsRepo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
 
-        if (!$this->fromBeginning && $session->has('batch_lastStep'))
-            $batchFromStep = $session->get('batch_lastStep');
-        else
-        {
-            $session->remove('batch_lastStep');
-            $batchFromStep = 0;    
-        }
+        if (!$this->fromBeginning && $request->get('batchFromStep')) $batchFromStep = $request->get('batchFromStep');
+        else $batchFromStep = 0;    
 
         $count = $elementRepo->findAllElements(null, $batchFromStep, true); 
         $elementsToProcceedCount = 0;
         if ($count > $this->maxElementsCount)
         {            
-            $nextStep = $batchFromStep + $this->maxElementsCount;
-            $session->set('batch_lastStep', $nextStep);
+            $batchLastStep = $batchFromStep + $this->maxElementsCount;
             $isStillElementsToProceed = true;
             $elementsToProcceedCount =  $count - $this->maxElementsCount;
         }   
         else
         {            
-            $nextStep = $batchFromStep + $count;
-            $session->remove('batch_lastStep');
+            $batchLastStep = $batchFromStep + $count;
         }
 
         $elements = $elementRepo->findAllElements($this->maxElementsCount, $batchFromStep);
@@ -79,7 +69,7 @@ class BulkActionsAbstractController extends Controller
         $em->flush();
         $em->clear(); 
 
-        $redirectionRoute = $this->generateUrl($this->getRequest()->get('_route'));
+        $redirectionRoute = $this->generateUrl($this->getRequest()->get('_route'), ['batchFromStep' => $batchLastStep]);
         if ($isStillElementsToProceed && $this->automaticRedirection) return $this->redirect($redirectionRoute);
         
         if ($this->automaticRedirection) {
@@ -91,7 +81,7 @@ class BulkActionsAbstractController extends Controller
             'isStillElementsToProceed' => $isStillElementsToProceed, 
             'renderedViews' => $renderedViews,
             'firstId' => $batchFromStep,
-            'lastId' => $nextStep,
+            'lastId' => $batchLastStep,
             'elementsToProcceedCount' => $elementsToProcceedCount,
             'redirectionRoute' => $redirectionRoute,
             'title' => $this->title ? $this->title : $functionToExecute));        
