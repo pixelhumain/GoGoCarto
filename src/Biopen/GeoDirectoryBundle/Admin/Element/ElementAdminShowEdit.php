@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-07 08:34:02
+ * @Last Modified time: 2018-06-08 20:47:14
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -35,7 +35,7 @@ class ElementAdminShowEdit extends ElementAdminList
       ->add('urls', 'sonata_type_collection', array('by_reference' => true, 'type_options' => array('delete' => true)), 
          array('edit' => 'inline', 'inline' => 'table'))
       ->add('images', 'sonata_type_collection', array('by_reference' => true, 'type_options' => array('delete' => true)), 
-         array('edit' => 'inline', 'inline' => 'table'))
+         array('edit' => 'inline', 'inline' => 'table', 'admin_code' => 'admin.image'))
       ->add('stamps', 'sonata_type_model', array(
             'label' => "Etiquettes",
             'required' => false,

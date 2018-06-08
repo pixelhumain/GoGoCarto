@@ -177,12 +177,16 @@ ivory_ck_editor:
 vich_uploader:
     db_driver: mongodb
     mappings:
+        default_file:
+            upload_destination: '%kernel.root_dir%/../web'
+            directory_namer: biopen.upload_directory_namer
+            namer: vich_uploader.namer_origname
         import_file:
             upload_destination: '%kernel.root_dir%/../web'
             directory_namer: biopen.upload_directory_namer
-        element_image:
+        image:
             upload_destination: '%kernel.root_dir%/../web'
-            inject_on_load: true
+            # inject_on_load: true
             directory_namer: biopen.upload_directory_namer
             namer: vich_uploader.namer_origname
             

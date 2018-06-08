@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-08 20:06:57
+ * @Last Modified time: 2018-06-08 20:45:38
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -16,6 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Expose;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Biopen\CoreBundle\Document\Image;
 
 abstract class ElementStatus
 {
@@ -43,6 +44,15 @@ abstract class ModerationState
     const VotesConflicts = 2; 
     const PendingForTooLong = 3;
     const PossibleDuplicate = 4;         
+}
+
+/** 
+* @MongoDB\EmbeddedDocument 
+* @Vich\Uploadable
+*/
+class ElementImage extends Image
+{
+    protected $vichUploadFileKey = "element_image";
 }
 
 /**
@@ -218,7 +228,7 @@ class Element
     /**
      * Images, photos, logos, linked to an element
      * 
-     * @MongoDB\EmbedMany(targetDocument="Biopen\CoreBundle\Document\Image") 
+     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementImage") 
      */
     private $images;    
 

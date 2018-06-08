@@ -17,6 +17,7 @@ class UploadDirectoryNamer implements DirectoryNamerInterface
    private $BASE_PATH = "uploads/";
 
    private $PATHS = [
+      "image" => "/images",
       "element_image" => "/images/elements",
       "import_file" => "/imports",
       "default_file" => '/default'

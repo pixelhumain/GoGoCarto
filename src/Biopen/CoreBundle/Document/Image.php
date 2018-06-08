@@ -13,7 +13,7 @@ use Biopen\CoreBundle\Document\AbstractFile;
 */
 class Image extends AbstractFile
 {
-    protected $vichUploadFileKey = "element_image";
+    protected $vichUploadFileKey = "image";
 
     /**
      * @var string

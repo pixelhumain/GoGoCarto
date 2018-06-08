@@ -93,7 +93,7 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Etiquettes }
 
-    admin.element_image:
+    admin.image:
         class: Biopen\CoreBundle\Admin\ImageAdmin
         arguments: [~, Biopen\CoreBundle\Document\Image, '' ]
         tags:
