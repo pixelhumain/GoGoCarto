@@ -94,8 +94,8 @@ services:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Etiquettes }
 
     admin.element_image:
-        class: Biopen\GeoDirectoryBundle\Admin\ElementImageAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementImage, '' ]
+        class: Biopen\CoreBundle\Admin\ImageAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Image, '' ]
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
 

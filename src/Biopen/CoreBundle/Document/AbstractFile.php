@@ -11,6 +11,10 @@ use Biopen\CoreBundle\Services\UploadDirectoryNamer;
 * Represent a common File. Need to be extended by real Document 
 * You need to implement $vichUploadFileKey and the annotation of the $file to specify the mapping key inside it (defined also in config.yml -> vich_uploader)
 */
+/** 
+* @MongoDB\EmbeddedDocument 
+* @Vich\Uploadable
+*/
 class AbstractFile
 {
   protected $vichUploadFileKey = "default_file";
@@ -69,7 +73,6 @@ class AbstractFile
     $this->file = $file;
 
     if (null !== $file) {
-
       // store the absolute url of the file so we can directly use it in the json conversion
       $this->fileUrl = $this->calculateFileUrl();
 
@@ -185,5 +188,10 @@ class AbstractFile
   public function getFileUrl()
   {
     return $this->fileUrl;
+  }
+
+  public function getVichUploadFileKey()
+  {
+    return $this->vichUploadFileKey;
   }
 }

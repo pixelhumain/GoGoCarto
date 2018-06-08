@@ -24,8 +24,7 @@ class UploadDirectoryNamer implements DirectoryNamerInterface
 
    public function directoryName($object, PropertyMapping $mapping)
    {     
-      $name = $this->getDirectoryPathFromKey($mapping->getMappingName());
-      dump($name);
+      $name = $this->getDirectoryPathFromKey($object->getVichUploadFileKey());
       return $name;
    }
 

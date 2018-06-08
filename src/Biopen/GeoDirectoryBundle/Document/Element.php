@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-07 08:07:06
+ * @Last Modified time: 2018-06-08 20:06:57
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -218,7 +218,7 @@ class Element
     /**
      * Images, photos, logos, linked to an element
      * 
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementImage") 
+     * @MongoDB\EmbedMany(targetDocument="Biopen\CoreBundle\Document\Image") 
      */
     private $images;    
 
@@ -1429,9 +1429,9 @@ class Element
     /**
      * Add image
      *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementImage $image
+     * @param Biopen\CoreBundle\Document\Image $image
      */
-    public function addImage(\Biopen\GeoDirectoryBundle\Document\ElementImage $image)
+    public function addImage(\Biopen\CoreBundle\Document\Image $image)
     {
         $this->images[] = $image;
     }
@@ -1439,9 +1439,9 @@ class Element
     /**
      * Remove image
      *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementImage $image
+     * @param Biopen\CoreBundle\Document\Image $image
      */
-    public function removeImage(\Biopen\GeoDirectoryBundle\Document\ElementImage $image)
+    public function removeImage(\Biopen\CoreBundle\Document\Image $image)
     {
         $this->images->removeElement($image);
     }

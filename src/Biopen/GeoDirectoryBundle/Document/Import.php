@@ -13,6 +13,8 @@ use Biopen\CoreBundle\Document\AbstractFile;
 */
 class Import extends AbstractFile
 {
+    protected $vichUploadFileKey = "import_file";
+
     /**
      * @var int
      * @MongoDB\Id(strategy="INCREMENT") 
@@ -43,22 +45,9 @@ class Import extends AbstractFile
     /**
      * @MongoDB\Field(type="bool")
      */
-    private $geocodeIfNecessary;
-
-
-    protected $vichUploadFileKey = "import_file";
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * 
-     * @Vich\UploadableField(mapping="import_file", fileNameProperty="fileName", size="fileSize")
-     * 
-     * @var File
-     */
-    protected $file;
+    private $geocodeIfNecessary;    
     
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get id

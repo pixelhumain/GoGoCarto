@@ -16,7 +16,7 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\PostalAddress;
 use Biopen\GeoDirectoryBundle\Document\ElementUrl;
-use Biopen\GeoDirectoryBundle\Document\ElementImage;
+use Biopen\CoreBundle\Document\Image;
 
 class ImportCsvService
 {   
@@ -95,7 +95,8 @@ class ImportCsvService
 			$new_element->setEmail($row['email']);
 			$new_element->setOpenHoursMoreInfos($row['openHoursString']);
 			$new_element->setSourceKey(strlen($row['source']) > 0 ? $row['source'] : $sourceKey);	      
-
+			if (array_key_exists('publisher', $row)) $new_element->setUserOwnerEmail($row['publisher']);
+			
 			$lat = 0;
 			$lng = 0;
 
@@ -198,7 +199,7 @@ class ImportCsvService
 		{
 			if (strlen($imageUrl) > 5)
 			{
-				$elementImage = new ElementImage();
+				$elementImage = new Image();
 				$elementImage->setExternalImageUrl($imageUrl);
 				$element->addImage($elementImage);
 			}					
