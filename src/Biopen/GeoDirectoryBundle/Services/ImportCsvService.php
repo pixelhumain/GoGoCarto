@@ -42,8 +42,8 @@ class ImportCsvService
 
 	public function import($import, OutputInterface $output = null)
 	{
-		
-      $fileName = 'uploads/imports/' . $import->getFileName();
+		$fileName = $import->calculateFilePath();
+
 		// Getting php array of data from CSV
 		$data = $this->converter->convert($fileName, ',');
 		if ($data === null) return null;

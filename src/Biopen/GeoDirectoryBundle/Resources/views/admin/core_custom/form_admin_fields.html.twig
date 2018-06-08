@@ -14,7 +14,7 @@
       {# the following code works great, except when creating new file, then an error in thrwn during the template render #}
       {% set file = form.vars.sonata_admin.admin.subject is defined ? form.vars.sonata_admin.admin.subject : null %}
       {% if file %}
-        {% set imagePath = (file.imageName is defined and file.imageName != "") ? asset('uploads/images/elements/' ~ file.imageName) : file.externalImageUrl is defined ? file.externalImageUrl : null  %}
+        {% set imagePath = file.fileUrl is defined ? file.fileUrl : file.externalImageUrl is defined ? file.externalImageUrl : null %}
         {% if imagePath %}
             <img src="{{ imagePath }}" class="thumbnail"/>
         {% endif %}

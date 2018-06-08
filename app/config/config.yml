@@ -172,17 +172,19 @@ ivory_ck_editor:
             - [ -, Styles,Format,Font,FontSize, TextColor, BGColor]
             - [ -, JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock]
 
+# Those upload_destinations should remain at the root public directory
+# To customize the different path, please do it in the CoreBundle UploadDirectoryNamer.php
 vich_uploader:
     db_driver: mongodb
-
     mappings:
         import_file:
-            uri_prefix: /imports
-            upload_destination: '%kernel.root_dir%/../web/uploads/imports'
+            upload_destination: '%kernel.root_dir%/../web'
+            directory_namer: biopen.upload_directory_namer
         element_image:
-            uri_prefix: /images/elements
-            upload_destination: '%kernel.root_dir%/../web/uploads/images/elements'
+            upload_destination: '%kernel.root_dir%/../web'
             inject_on_load: true
+            directory_namer: biopen.upload_directory_namer
+            namer: vich_uploader.namer_origname
             
             
             

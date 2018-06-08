@@ -5,13 +5,13 @@ namespace Biopen\GeoDirectoryBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Biopen\CoreBundle\Document\AbstractFile;
 
 /** 
 * @MongoDB\Document 
 * @Vich\Uploadable
 */
-class Import
+class Import extends AbstractFile
 {
     /**
      * @var int
@@ -46,9 +46,7 @@ class Import
     private $geocodeIfNecessary;
 
 
-
-
-
+    protected $vichUploadFileKey = "import_file";
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
@@ -56,54 +54,10 @@ class Import
      * 
      * @var File
      */
-    private $fileToImport;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     */
-    public $fileName = "";
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="int")
-     */
-    public $fileSize = "";
-
-    /**
-     * @MongoDB\Field(type="date")
-     *
-     * @var \DateTime
-     */
-    private $updatedAt;
+    protected $file;
     
     public function __construct()
     {
-    }
-
-   /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|UploadedFile $image
-     */
-    public function setFileToImport($file = null)
-    {
-        $this->fileToImport = $file;
-
-        if (null !== $file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getFileToImport()
-    {
-        return $this->fileToImport;
     }
 
     /**
@@ -136,72 +90,6 @@ class Import
     public function getSourceName()
     {
         return $this->sourceName;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param date $updatedAt
-     * @return $this
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return date $updatedAt
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set fileName
-     *
-     * @param string $fileName
-     * @return $this
-     */
-    public function setFileName($fileName)
-    {
-        $this->fileName = $fileName;
-        return $this;
-    }
-
-    /**
-     * Get fileName
-     *
-     * @return string $fileName
-     */
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * Set fileSize
-     *
-     * @param int $fileSize
-     * @return $this
-     */
-    public function setFileSize($fileSize)
-    {
-        $this->fileSize = $fileSize;
-        return $this;
-    }
-
-    /**
-     * Get fileSize
-     *
-     * @return int $fileSize
-     */
-    public function getFileSize()
-    {
-        return $this->fileSize;
     }
 
     /**

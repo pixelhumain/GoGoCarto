@@ -15,26 +15,26 @@ class ElementImageAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('image', 'file', array('label' => 'Fichier à importer', 'required' => false))
+            ->add('file', 'file', array('label' => 'Fichier à importer', 'required' => false))
             ->add('externalImageUrl', null, array('label' => 'Lien vers une image externe', 'required' => false))
         ;
     }
 
     protected function configureShowFields(ShowMapper $show)
     { 
-        $show->add('imageName');
+        $show->add('fileName');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('imageName')
+            ->add('fileName')
         ;
     }
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('imageName')
+            ->addIdentifier('fileName')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),

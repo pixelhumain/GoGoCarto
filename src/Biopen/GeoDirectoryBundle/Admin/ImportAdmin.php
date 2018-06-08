@@ -14,7 +14,7 @@ class ImportAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('sourceName', 'text', array('required' => false, 'label' => 'Nom de la source'))
-            ->add('fileToImport', 'file', array('label' => 'Fichier à importer'))
+            ->add('file', 'file', array('label' => 'Fichier à importer'))
             ->add('geocodeIfNecessary', null, array('required' => false, 'label' => 'Géocoder si élements sans latitude ni longitude'))
             ->add('createMissingOptions', null, array('required' => false, 'label' => 'Créer les options manquantes'))
             ->add('parentCategoryToCreateOptions', 'sonata_type_model', array(

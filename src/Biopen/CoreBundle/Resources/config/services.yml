@@ -10,3 +10,7 @@ services:
   biopen.newsletter_service:
     class: Biopen\CoreBundle\Services\NewsletterService
     arguments: [ "@doctrine.odm.mongoDB.document_manager", "@biopen.mail_service" ]
+
+  biopen.upload_directory_namer:
+    class: Biopen\CoreBundle\Services\UploadDirectoryNamer
+    arguments: []
