@@ -3,6 +3,8 @@
 namespace Biopen\CoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Biopen\CoreBundle\Document\PartnerImage;
 
 /**
  * Partner
@@ -35,9 +37,9 @@ class Partner
     /**
      * @var string
      *
-     * @MongoDB\Field(type="string")
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage") 
      */
-    private $logoUrl;
+    private $logo;
 
    /**
      * @var string
@@ -52,7 +54,9 @@ class Partner
      */
     private $position;
 
-
+    public function __constructor()
+    {
+    }
     /**
      * Get id
      *
@@ -85,30 +89,6 @@ class Partner
     public function getContent()
     {
         return $this->content;
-    }
-
-    /**
-     * Set logoUrl
-     *
-     * @param string $logoUrl
-     *
-     * @return Partner
-     */
-    public function setLogoUrl($logoUrl)
-    {
-        $this->logoUrl = $logoUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get logoUrl
-     *
-     * @return string
-     */
-    public function getLogoUrl()
-    {
-        return $this->logoUrl;
     }
 
     /**
@@ -178,5 +158,27 @@ class Partner
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $logo
+     * @return $this
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
     }
 }

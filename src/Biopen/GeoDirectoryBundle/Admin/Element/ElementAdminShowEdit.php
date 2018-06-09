@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-09 12:39:16
+ * @Last Modified time: 2018-06-09 14:29:33
  */
 namespace Biopen\GeoDirectoryBundle\Admin\Element;
 
@@ -23,7 +23,7 @@ class ElementAdminShowEdit extends ElementAdminList
 	{
 	  $formMapper
 	  ->with('Informations générales', array())
-		  ->add('name', 'text')		  	
+		  ->add('name', 'text')	
 			->add('description', 'textarea')
       ->add('descriptionMore', 'textarea', array('label' => 'Précisions', 'required' => false))
       ->add('commitment', 'textarea', array('required' => false)) 

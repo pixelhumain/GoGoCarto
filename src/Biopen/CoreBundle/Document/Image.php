@@ -11,7 +11,7 @@ use Biopen\CoreBundle\Document\AbstractFile;
 * @MongoDB\EmbeddedDocument 
 * @Vich\Uploadable
 */
-class Image extends AbstractFile
+class EmbeddedImage extends AbstractFile
 {
     protected $vichUploadFileKey = "image";
 
@@ -22,11 +22,20 @@ class Image extends AbstractFile
      */
     public $externalImageUrl = "";
 
+    public function __toString()
+    {
+      return $this->fileName ?: $this->externalImageUrl;
+    }
+
     public function toJson() 
     { 
-        $url = $this->fileUrl ? $this->fileUrl : $this->externalImageUrl;
-        return json_encode($url); 
-    }    
+        return json_encode($this->getImageUrl()); 
+    } 
+
+    public function getImageUrl()
+    {
+       return $this->fileUrl ? $this->fileUrl : $this->externalImageUrl; 
+    }   
 
     /**
      * Set externalImageUrl
@@ -49,4 +58,26 @@ class Image extends AbstractFile
     {
         return $this->externalImageUrl;
     }
+
+    public function __construct($imageUrl = "") 
+    {
+        $this->externalImageUrl = $imageUrl;
+    }
 }
+
+/*
+* @MongoDB\Document
+* @Vich\Uploadable
+*/
+class Image extends EmbeddedImage
+{
+   /**
+     * @var int
+     *
+     * @MongoDB\Id(strategy="INCREMENT") 
+     */
+   private $id;
+
+   public function getId() { return $this->id; }
+}
+

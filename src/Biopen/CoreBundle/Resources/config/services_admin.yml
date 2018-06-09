@@ -47,6 +47,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Qui sommes nous }
     
+    admin.parter_image:
+        class: Biopen\CoreBundle\Admin\ImageAdmin
+        arguments: [~, Biopen\CoreBundle\Document\PartnerImage, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }   
+
     admin.wrapper:
         class: Biopen\CoreBundle\Admin\WrapperAdmin
         arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
@@ -55,7 +61,9 @@ services:
 
     admin.image:
         class: Biopen\CoreBundle\Admin\ImageAdmin
-        arguments: [~, Biopen\CoreBundle\Document\Image, '' ]
+        arguments: [~, Biopen\CoreBundle\Document\EmbeddedImage, '' ]
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }    
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" } 
+
+
     

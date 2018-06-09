@@ -47,3 +47,7 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../web'
             directory_namer: biopen.upload_directory_namer
             namer: vich_uploader.namer_origname
+        partner_image:
+            upload_destination: '%kernel.root_dir%/../web'
+            directory_namer: biopen.upload_directory_namer
+            namer: ~

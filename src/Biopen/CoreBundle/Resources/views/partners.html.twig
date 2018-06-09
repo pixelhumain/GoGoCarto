@@ -15,13 +15,14 @@
 {% for partner in listPartners %}
 
   <div class="partner-item row">
-    {% if partner.logoUrl %}
+    {% set hasImage = partner.logo and partner.logo.imageUrl %}
+    {% if hasImage %}
       <div class="image-container">
-        <img src={{ partner.logoUrl }} alt="logo" class="partner-logo"/>
+        <img src="{{ partner.logo.imageUrl }}" alt="logo" class="partner-logo"/>
       </div>
     {% endif %}
     <div class="partner-text">
-      <h2 class="partner-title {{ partner.logoUrl ? "with-logo" : 'no-logo' }}">{{ partner.name|capitalize }}</h2>
+      <h2 class="partner-title {{ hasImage ? "with-logo" : 'no-logo' }}">{{ partner.name|capitalize }}</h2>
       <div class="partner-description wysiwyg-content">{{ partner.content | raw }} </div>
       {% if partner.websiteUrl %}
         {% set mailto = partner.websiteUrl|split('mailto') %}
