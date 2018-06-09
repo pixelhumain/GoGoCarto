@@ -1,4 +1,13 @@
 services:
+  my_user_provider:
+        class: Application\Sonata\UserBundle\Security\FOSUBUserProvider
+        arguments: [@fos_user.user_manager,{facebook: facebookUid, gplus: gplusUid, communs: communsUid}]
+
+  biopen.authentication_handler:
+      class: Application\Sonata\UserBundle\Security\AuthenticationHandler
+      public: false
+      arguments: [ '@router', '@session', '@security.context']
+        
   biopen.config_service:
     class: Biopen\CoreBundle\Services\ConfigurationService
     arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context" ]

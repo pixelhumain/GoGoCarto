@@ -3,14 +3,16 @@ imports:
     - { resource: version.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: services_admin.yml }
     - { resource: services_admin_blocks.yml }
     - { resource: config_fosuser.yml }
     - { resource: config_sonata.yml }
+    - { resource: config_vendors.yml }
     - { resource: "@BiopenCoreBundle/Resources/config/services.yml" }
+    - { resource: "@BiopenCoreBundle/Resources/config/services_admin.yml" }
     - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services.yml" }
-    - { resource: "@SonataUserBundle/Resources/config/services.yml" }
+    - { resource: "@BiopenGeoDirectoryBundle/Resources/config/services_admin.yml" }    
     - { resource: "@BiopenSaasBundle/Resources/config/services.yml" }
+    - { resource: "@SonataUserBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -105,9 +107,6 @@ doctrine_mongodb:
                 #     alias: GedmoTree # (optional) it will default to the name set for the mapping
                 #     is_bundle: false
 
-fos_js_routing:
-    routes_to_expose: []
-
 stof_doctrine_extensions:
     default_locale: fr
     mongodb:
@@ -147,49 +146,6 @@ assetic:
         # uglifycss:
         #     bin: C:/users/MARIETTE/AppData/Roaming/npm/uglifycss
 
-bazinga_geocoder: 
-    providers:
-        google_maps:
-            locale:               fr
-            region:               null
-            use_ssl:              true
-            api_key:              AIzaSyBgah9u8A21CdN6O_fN80Op-4zcLJ0EwXk
-        openstreetmap:
-            locale:               fr
-
-
-ivory_ck_editor:
-    default_config: full
-    configs:
-        full:
-            toolbar:
-            - [ - , NumberedList, BulletedList, -, Outdent, Indent ]
-            - [ Image, Link, Unlink, Table , Blockquote, HorizontalRule, Iframe ]
-            - -
-            - [ Cut, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo ]
-            - [ -,Maximize, ShowBlocks, Source ]            
-            - /
-            - [ Bold, Italic, Underline, Strike, -, RemoveFormat ]
-            - [ -, Styles,Format,Font,FontSize, TextColor, BGColor]
-            - [ -, JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock]
-
-# Those upload_destinations should remain at the root public directory
-# To customize the different path, please do it in the CoreBundle UploadDirectoryNamer.php
-vich_uploader:
-    db_driver: mongodb
-    mappings:
-        default_file:
-            upload_destination: '%kernel.root_dir%/../web'
-            directory_namer: biopen.upload_directory_namer
-            namer: vich_uploader.namer_origname
-        import_file:
-            upload_destination: '%kernel.root_dir%/../web'
-            directory_namer: biopen.upload_directory_namer
-        image:
-            upload_destination: '%kernel.root_dir%/../web'
-            # inject_on_load: true
-            directory_namer: biopen.upload_directory_namer
-            namer: vich_uploader.namer_origname
             
             
             

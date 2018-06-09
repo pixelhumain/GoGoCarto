@@ -1,0 +1,55 @@
+services:
+    admin.element:
+        class: Biopen\GeoDirectoryBundle\Admin\Element\ElementAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Element, 'BiopenGeoDirectoryBundle:Admin/ElementAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Éléments }  
+
+    admin.element_url:
+        class: Biopen\GeoDirectoryBundle\Admin\ElementUrlAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementUrl, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
+
+    admin.element_image:
+        class: Biopen\CoreBundle\Admin\ImageAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementImage, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }  
+
+    admin.option:
+        class: Biopen\GeoDirectoryBundle\Admin\OptionAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, 'BiopenGeoDirectoryBundle:Admin/OptionAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" } 
+
+    admin.option.lite:
+        class: Biopen\GeoDirectoryBundle\Admin\OptionLiteAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Option, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" } 
+
+    admin.category.lite:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryLiteAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, '']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
+
+    admin.category:
+        class: Biopen\GeoDirectoryBundle\Admin\CategoryAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Category, 'BiopenGeoDirectoryBundle:Admin/CategoryAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: "Catégories & Options" }   
+
+    admin.import:
+        class: Biopen\GeoDirectoryBundle\Admin\ImportAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Import, 'BiopenGeoDirectoryBundle:Admin/ImportAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Import } 
+
+    admin.stamps:
+        class: Biopen\GeoDirectoryBundle\Admin\StampAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\Stamp, '' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Etiquettes }
+
