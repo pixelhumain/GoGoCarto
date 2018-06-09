@@ -31,6 +31,7 @@ class AppKernel extends Kernel
 
             new Biopen\GeoDirectoryBundle\BiopenGeoDirectoryBundle(),
             new Biopen\CoreBundle\BiopenCoreBundle(),
+            new Biopen\SaasBundle\BiopenSaasBundle(),
 
             new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
             //new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
@@ -49,6 +50,7 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Ob\HighchartsBundle\ObHighchartsBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+           
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

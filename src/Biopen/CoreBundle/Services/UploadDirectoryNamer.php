@@ -5,7 +5,7 @@ namespace Biopen\CoreBundle\Services;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Naming\DirectoryNamerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Biopen\CoreBundle\Helper\HostResolverHelper;
+use Biopen\SaasBundle\Helper\SaasHelper;
 
 /**
  * Directory namer wich can create subfolder depends on generated filename.
@@ -31,7 +31,7 @@ class UploadDirectoryNamer implements DirectoryNamerInterface
 
    public function getDirectoryPathFromKey($key)
    {
-      $hostHelper = new HostResolverHelper();
+      $hostHelper = new SaasHelper();
       return $this->BASE_PATH . $hostHelper->getCurrentProjectCode() . $this->PATHS[$key];
    }
 }

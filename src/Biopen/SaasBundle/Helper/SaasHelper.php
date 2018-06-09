@@ -1,8 +1,8 @@
 <?php
 
-namespace Biopen\CoreBundle\Helper;
+namespace Biopen\SaasBundle\Helper;
 
-class HostResolverHelper
+class SaasHelper
 {
    // GoGoCarto can be use as a SAAS. in this case, each subdomain map a projet
    // project1.gog.carto, project2.gogo.carto etc...

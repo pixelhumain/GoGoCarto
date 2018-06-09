@@ -4,7 +4,7 @@ namespace Biopen\CoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Biopen\CoreBundle\Helper\HostResolverHelper;
+use Biopen\SaasBundle\Helper\SaasHelper;
 use Biopen\CoreBundle\Document\AbstractFile;
 
 /** 
