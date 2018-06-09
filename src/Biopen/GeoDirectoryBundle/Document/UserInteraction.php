@@ -85,7 +85,7 @@ class UserInteraction
     /**
      * @var date $createdAt
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
@@ -93,7 +93,7 @@ class UserInteraction
     /**
      * @var date $updatedAt
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      * @Gedmo\Timestampable
      */
     protected $updatedAt;    

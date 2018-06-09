@@ -62,13 +62,13 @@ class User extends BaseUser
 
     /**
      * The date where the last newsletter has been sent
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      */
     protected $lastNewsletterSentAt;
 
     /**
      * The date where the next newsletter has to be send
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      */
     protected $nextNewsletterDate;
 

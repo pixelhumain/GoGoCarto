@@ -6,7 +6,7 @@ biopen_api_taxonomy_show:
     path:     /taxonomy/{id}.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }
     requirements:
-        _method: GET
+        methods: GET
         _format: json|jsonld
     options:
         expose: true
@@ -15,7 +15,7 @@ biopen_api_taxonomy:
     path:     /taxonomy.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }
     requirements:
-        _method: GET
+        methods: GET
         _format: json|jsonld
     options:
         expose: true
@@ -24,7 +24,7 @@ biopen_api_elements_from_text:
     path:     /elements/search
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsFromText }
     requirements:
-        _method: GET
+        methods: GET
     options:
         expose: true
 
@@ -32,7 +32,7 @@ biopen_api_element_get:
     path:     /elements/{id}.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null, _format: json }
     requirements:
-        _method: GET
+        methods: GET
         _format: json|jsonld
     options:
         expose: true
@@ -41,7 +41,7 @@ biopen_api_elements_index:
     path:     /elements.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElements, id: null, _format: json }
     requirements:
-        _method: GET
+        methods: GET
         _format: json|jsonld
     options:
         expose: true

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-08 20:45:38
+ * @Last Modified time: 2018-06-09 12:45:34
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -293,7 +293,7 @@ class Element
     /**
      * @var date $createdAt
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
@@ -301,7 +301,7 @@ class Element
     /**
      * @var date $updatedAt
      *
-     * @MongoDB\Date
+     * @MongoDB\Field(type="date")
      */
     private $updatedAt;
 

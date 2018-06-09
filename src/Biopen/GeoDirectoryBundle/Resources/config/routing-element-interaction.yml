@@ -2,35 +2,35 @@ biopen_vote_for_element:
     path:     /vote
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:vote }
     requirements:
-        _method: POST
+        methods: POST
 
 biopen_report_error_for_element:
     path:     /report
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:reportError }
     requirements:
-        _method: POST
+        methods: POST
 
 biopen_delete_element:
     path:     /delete
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:delete }
     requirements:
-        _method: POST
+        methods: POST
 
 biopen_resolve_reports_element:
     path:     /resolve-reports
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:resolveReports }
     requirements:
-        _method: POST
+        methods: POST
 
 biopen_element_send_mail:
     path:     /sendMail
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:sendMail }
     requirements:
-        _method: POST
+        methods: POST
 
 biopen_element_stamp:
     path:     /stamp
     defaults: { _controller: BiopenGeoDirectoryBundle:ElementInteraction:stamp }
     requirements:
-        _method: POST
+        methods: POST
 
