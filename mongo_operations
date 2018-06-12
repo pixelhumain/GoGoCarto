@@ -89,4 +89,6 @@ db.UserInteractionReport.updateMany( { } , { $rename: { 'userMail': 'userEmail' 
 
 db.User.updateMany( {}, { $set: { 'lastNewsletterSentAt' : ISODate("2018-03-27T00:00:00.000Z") } })
 
-db.Elements.updateMany( { } , { $rename: { 'fullJson': 'baseJson' } } )
+db.Element.updateMany( { } , { $rename: { 'fullJson': 'baseJson' } } )
+
+db.Element.deleteMany({'createdAt': { $gte: ISODate("2018-06-11T00:00:00.000Z")}})
