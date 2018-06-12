@@ -5,14 +5,16 @@
     <span class="icon btn-back gogo-icon-material-design-icons-1" onclick="$('#popup-login').closeModal()"></span>
     <h1>Connexion</h1>
 
-    <div class="row">
+    <div class="row login-form">
 
       {# OAuth LOGIN #}
       <div class="col s12 m6 oauth-section section">
         
-        <a class="oauth-btn waves-effect waves-light gplus" href="{{ hwi_oauth_login_url('gplus') }}"><i class="icon gogo-icon-gplus left"></i>Se connecter avec Google</a>
-        <a class="oauth-btn waves-effect waves-light facebook" href="{{ hwi_oauth_login_url('facebook') }}"><i class="icon gogo-icon-facebook left"></i>Se connecter avec Facebook</a>
-        <a class="oauth-btn waves-effect waves-light communs" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-communs left"></i>Se connecter avec LesCommuns.org / Mon printemps</a>
+        
+        <a class="oauth-btn waves-effect waves-light communs" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-communs left"></i>LesCommuns.org</a>
+        <a class="oauth-btn waves-effect waves-light printemps" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-printemps left"></i>Printemps de l'éducation</a>
+        <a class="oauth-btn waves-effect waves-light gplus" href="{{ hwi_oauth_login_url('gplus') }}"><i class="icon gogo-icon-gplus left"></i>Google</a>
+        <a class="oauth-btn waves-effect waves-light facebook" href="{{ hwi_oauth_login_url('facebook') }}"><i class="icon gogo-icon-facebook left"></i>Facebook</a>
         <p class="facebook-alert">ATTENTION ! Si votre mail est privé sur Facebook, vous ne serez pas informé du l'évolution de vos contributions</p>    
         {#<a class="oauth-btn waves-effect waves-light yahoo" href="{{ hwi_oauth_login_url('yahoo') }}"><i class="icon gogo-icon-yahoo left"></i>Se connecter avec Yahoo</a>#}
       </div>

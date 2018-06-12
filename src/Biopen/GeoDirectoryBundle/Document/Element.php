@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-09 17:45:36
+ * @Last Modified time: 2018-06-12 12:22:28
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -16,7 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Expose;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Biopen\CoreBundle\Document\EmbeddedImage;
+use Biopen\CoreBundle\Document\Image;
 
 abstract class ElementStatus
 {
@@ -50,7 +50,7 @@ abstract class ModerationState
 * @MongoDB\EmbeddedDocument 
 * @Vich\Uploadable
 */
-class ElementImage extends EmbeddedImage
+class ElementImage extends Image
 {
     protected $vichUploadFileKey = "element_image";
 }

@@ -2,7 +2,7 @@
 * @Author: Sebastian Castro
 * @Date:   2017-03-31 08:51:24
 * @Last Modified by:   Sebastian Castro
-* @Last Modified time: 2018-04-25 18:17:18
+* @Last Modified time: 2018-06-12 15:37:48
 */
 #popup-login
 {
@@ -20,17 +20,18 @@
 		font-weight: bold;
     margin-top: 3rem;
     margin-bottom: 1rem;    
-	}	    
+	}	 
+
+	.login-form {
+		margin-top: 40px;
+	}   
 
 	.oauth-section
-	{
-	  padding-top: 1.5rem !important;    
-	  padding-right: 2rem !important;
-	  
+	{  
+	  padding-right: 2rem !important;		
 
-		.oauth-btn
-		{
-			height: 3rem;
+	  .oauth-btn {
+	  	height: 3rem;
 	    line-height: 3rem;
 	    color: white;
 	    text-align: left;
@@ -38,20 +39,20 @@
 	    font-weight: 600;
 	    padding-left: 1.5rem;
 	    margin-bottom: 1rem;
-	    text-decoration: none !important;
-	    
+	    text-decoration: none !important;  
 
 	    &.facebook { background-color: #446da0; }
 	    &.gplus { background-color: #cf5d46; }
 	    &.yahoo { background-color: #834fd6; }
 	    &.communs { background-color: white; color: #e87151; }
+	    &.printemps { background-color: #785fa1; } 
 
 	    i.icon {
 	    	font-size: 20px;
 	    	line-height: 3.5rem;
 	    	padding: 0;
-	    }
-		}
+	    } 
+	  }
 	}
 
 	p.facebook-alert

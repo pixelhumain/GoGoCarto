@@ -29,30 +29,73 @@
     margin-bottom: 1rem;
   } 
 
-  .email-already-in-use { color: $error-color; }
+  .email-already-in-use { color: $error-color; }  
 
-  .btn-login
-	{			
-		text-transform: none !important;
-    height: auto;
-    line-height: 2rem;
-    padding: 0 10px;
-    font-size: .85rem;
-    margin-top: -9px;
+  .login-section
+  {
+    text-align: center;
 
+    .oauth-section 
+    {
+      .oauth-btn 
+      {
+        height: 3rem;
+        line-height: 3rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #707680;
+        margin-right: 5px;
+        width: auto;
+        text-transform: none;
+        padding-left: 5px;
+        margin-bottom: 0;
+        background-color: transparent;
 
-		@media only screen and (min-width : 801px) 
-		{ 
-			padding: 0 1.5rem;
-			line-height: 2.5rem;
-		}
-	}
+        &:not(:last-child):after {
+          content: "/";
+          color: #c7c7c7;
+          margin-left: 1rem;
+        }
+
+        @media only screen and (max-width : 800px)  
+        {
+          width: 100%;
+          margin-left: .5rem;
+          text-align: left;
+          &:after { content: "" !important; }
+        }
+
+        &.facebook {color: #446da0; }
+        &.gplus { color: #cf5d46; }
+        &.yahoo { color: #834fd6; }
+        &.communs { color: #e87151; }
+        &.printemps { color: #785fa1; } 
+
+        i.icon {
+          font-size: 20px;
+          line-height: 3.5rem;
+          padding: 0;
+        }
+
+        &.instance-login {
+          img {
+            height: 23px;
+            float: left;
+            top: 10px;
+            margin-top: 9px;
+            margin-right: 1rem;
+          }          
+        }
+      }
+    }
+  }    
+    
 
   .or-label
   {
   	position: relative;
-    margin-top: 20px;
-    margin-bottom: 5px;
+    margin-top: 15px;
+    margin-bottom: 25px;
     margin-left: 2rem;
     margin-right: 2rem;
     text-align: center;

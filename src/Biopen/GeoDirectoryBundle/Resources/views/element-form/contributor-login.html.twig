@@ -41,12 +41,16 @@
 
 		{# Login button #}
 		{% if featureConfig.getAllowRoleUser() or featureConfig.getAllowRoleAdmin() %}
-		  <div style="text-align:center">
-			  <button 
-								onclick="$('#popup-login').openModal()"
-								class="btn btn-login">
-			         CONNECTEZ VOUS (avec google, facebook, ou votre compte près de chez vous)								
-				</button>
+		  <div class="login-section">
+		  	<div class="oauth-section">
+		  		<a class="oauth-btn waves-effect waves-light instance-login" onclick="$('#popup-login').openModal()"><img src="{{ asset('assets/img/favicon.png') }}" /></i>Près De Chez Nous</a>
+	        <a class="oauth-btn waves-effect waves-light printemps" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-printemps left"></i>Printemps de l'éducation</a>
+	        <a class="oauth-btn waves-effect waves-light communs" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-communs left"></i>LesCommuns.org</a>
+	      </div>
+	      <div class="oauth-section">
+	        <a class="oauth-btn waves-effect waves-light gplus" href="{{ hwi_oauth_login_url('gplus') }}"><i class="icon gogo-icon-gplus left"></i>Google</a>
+	        <a class="oauth-btn waves-effect waves-light facebook" href="{{ hwi_oauth_login_url('facebook') }}"><i class="icon gogo-icon-facebook left"></i>Facebook</a>
+        </div>
 			</div>
 		{% endif %}
 
