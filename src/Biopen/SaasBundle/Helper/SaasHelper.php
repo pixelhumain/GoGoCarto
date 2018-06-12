@@ -23,7 +23,7 @@ class SaasHelper
    // return the Url to the actual public folder (the web/ folder)
    public function getPublicFolderUrl()
    {
-      if (isset($_SERVER["HHTTP_ORIGIN"])) $url = $_SERVER["HHTTP_ORIGIN"];
+      if (isset($_SERVER["HTTP_ORIGIN"])) $url = $_SERVER["HTTP_ORIGIN"];
       else
       {
          $url = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
