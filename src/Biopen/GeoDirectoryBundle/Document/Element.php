@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-12 12:22:28
+ * @Last Modified time: 2018-06-12 17:10:07
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -16,7 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JMS\Serializer\Annotation\Expose;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Biopen\CoreBundle\Document\Image;
+use Biopen\CoreBundle\Document\EmbeddedImage;
 
 abstract class ElementStatus
 {
@@ -50,7 +50,7 @@ abstract class ModerationState
 * @MongoDB\EmbeddedDocument 
 * @Vich\Uploadable
 */
-class ElementImage extends Image
+class ElementImage extends EmbeddedImage
 {
     protected $vichUploadFileKey = "element_image";
 }
@@ -1411,7 +1411,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
      */
-    public function addUrl(\Biopen\GeoDirectoryBundle\Document\ElementUrl $url)
+    public function addUrl($url)
     {
         $this->urls[] = $url;
     }
@@ -1421,7 +1421,7 @@ class Element
      *
      * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
      */
-    public function removeUrl(\Biopen\GeoDirectoryBundle\Document\ElementUrl $url)
+    public function removeUrl($url)
     {
         $this->urls->removeElement($url);
     }
@@ -1441,7 +1441,7 @@ class Element
      *
      * @param Biopen\CoreBundle\Document\Image $image
      */
-    public function addImage(\Biopen\CoreBundle\Document\Image $image)
+    public function addImage($image)
     {
         $this->images[] = $image;
     }
@@ -1451,7 +1451,7 @@ class Element
      *
      * @param Biopen\CoreBundle\Document\Image $image
      */
-    public function removeImage(\Biopen\CoreBundle\Document\Image $image)
+    public function removeImage($image)
     {
         $this->images->removeElement($image);
     }

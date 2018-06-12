@@ -23,8 +23,13 @@ class SaasHelper
    // return the Url to the actual public folder (the web/ folder)
    public function getPublicFolderUrl()
    {
-      $url = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
-      if (strpos($url, 'localhost') !== false) $url .= explode('/app',$_SERVER["SCRIPT_NAME"])[0]; // ugly fix to support localhost !
+      if (isset($_SERVER["HHTTP_ORIGIN"])) $url = $_SERVER["HHTTP_ORIGIN"];
+      else
+      {
+         $url = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
+         if (strpos($url, 'localhost') !== false) $url .= explode('/app',$_SERVER["SCRIPT_NAME"])[0]; // ugly fix to support localhost !
+      }
+         
       return $url;
    }
 }

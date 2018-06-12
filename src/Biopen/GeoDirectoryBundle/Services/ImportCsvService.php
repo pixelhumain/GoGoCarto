@@ -16,7 +16,7 @@ use Biopen\GeoDirectoryBundle\Document\InteractionType;
 use Biopen\GeoDirectoryBundle\Document\UserRoles;
 use Biopen\GeoDirectoryBundle\Document\PostalAddress;
 use Biopen\GeoDirectoryBundle\Document\ElementUrl;
-use Biopen\CoreBundle\Document\Image;
+use Biopen\GeoDirectoryBundle\Document\ElementImage;
 
 class ImportCsvService
 {   
@@ -199,7 +199,7 @@ class ImportCsvService
 		{
 			if (strlen($imageUrl) > 5)
 			{
-				$elementImage = new Image();
+				$elementImage = new ElementImage();
 				$elementImage->setExternalImageUrl($imageUrl);
 				$element->addImage($elementImage);
 			}					
