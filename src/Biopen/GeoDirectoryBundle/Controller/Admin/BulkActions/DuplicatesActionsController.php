@@ -18,6 +18,7 @@ class DuplicatesActionsController extends BulkActionsAbstractController
    { 
       $this->title = "Détection des doublons"; 
       $this->automaticRedirection = false;
+      $this->maxElementsCount = 2000;
       return $this->elementsBulkAction('detectDuplicates', $request); 
    }
 
