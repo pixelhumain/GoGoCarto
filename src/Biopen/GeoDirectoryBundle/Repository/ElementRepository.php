@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-06 10:16:33
+ * @Last Modified time: 2018-06-13 21:12:09
  */
  
 
@@ -33,9 +33,7 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
 
     $qb->addOr($qb->expr()->text($element->getName())->language('fr'));
-    if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail())); 
-    $streetAddress = $element->getAddress()->getStreetAddress();
-    if ($streetAddress) $qb->addOr($qb->expr()->field('address.streetAddress')->equals($streetAddress));  
+    if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail()));  
 
     $qb->limit($maxResults) 
        ->field('status')->gt($status)

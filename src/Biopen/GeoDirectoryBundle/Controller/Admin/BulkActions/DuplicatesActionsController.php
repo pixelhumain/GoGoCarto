@@ -27,7 +27,7 @@ class DuplicatesActionsController extends BulkActionsAbstractController
       if ($element->getStatus() >= ElementStatus::PendingModification)
       {
          $em = $this->get('doctrine_mongodb')->getManager();
-         $duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, false, true, 0.5);
+         $duplicates = $this->get("biopen.element_duplicates_service")->checkForDuplicates($element, false, true, 0.4);
 
          if (count($duplicates) > 1 && !array_key_exists($element->getId(), $this->duplicatesFound))
          {
