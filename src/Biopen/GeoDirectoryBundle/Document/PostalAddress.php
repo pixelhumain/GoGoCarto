@@ -44,6 +44,11 @@ class PostalAddress
       $this->customFormatedAddress = $customFormatedAddress;
    }  
 
+   public function getDepartmentCode()
+   {
+     return substr($this->postalCode, 0, 2);
+   }
+
     public function getFormatedAddress()
     {
       if ($this->customFormatedAddress) return $this->customFormatedAddress;

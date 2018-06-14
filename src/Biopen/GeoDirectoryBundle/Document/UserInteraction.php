@@ -13,7 +13,8 @@ abstract class InteractionType
     const Vote = 2;  
     const Report = 3;
     const Import = 4; 
-    const Restored = 5;   
+    const Restored = 5;  
+    const ModerationResolved = 6;   
 }
 
 abstract class UserRoles

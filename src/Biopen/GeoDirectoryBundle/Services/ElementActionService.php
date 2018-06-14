@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-05 18:43:49
+ * @Last Modified time: 2018-06-14 14:13:15
  */
  
 
@@ -29,7 +29,8 @@ abstract class InteractType
     const Vote = 2;  
     const Report = 3;
     const Import = 4; 
-    const Restored = 5;   
+    const Restored = 5; 
+    const ModerationResolved = 6; 
 }
 
 /**
@@ -114,15 +115,19 @@ class ElementActionService
    public function resolveReports($element, $message = '')
    {    
       $elements = $element->getUnresolvedReports();
-      foreach ($elements as $key => $report) 
-      {
-         $report->setResolvedMessage($message);
-         $report->updateResolvedBy($this->securityContext);
-         $report->setIsResolved(true);
-         $this->mailService->sendAutomatedMail('report', $element, $message, $report);
-      }
+      if (count($elements) > 0)
+         foreach ($elements as $key => $report) 
+         {
+            $report->setResolvedMessage($message);
+            $report->updateResolvedBy($this->securityContext);
+            $report->setIsResolved(true);
+            $this->mailService->sendAutomatedMail('report', $element, $message, $report);
+         }
+      else
+         $this->addContribution($element, $message, InteractType::ModerationResolved, $element->getStatus());
+
       $element->setModerationState(ModerationState::NotNeeded);
-      $element->updateTimestamp();
+      // $element->updateTimestamp();
    }
 
    private function addContribution($element, $message, $InteractType, $status, $directModerationWithHash = false)

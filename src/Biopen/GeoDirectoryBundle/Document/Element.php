@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-12 17:10:07
+ * @Last Modified time: 2018-06-14 13:33:51
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -381,6 +381,13 @@ class Element
         });
         return count($userValidContributionsOnElement) > 0;
     }
+
+    public function countOptionsValues()
+    {
+        if (!$this->getOptionValues()) return 0;
+        if (is_array($this->getOptionValues())) return count($this->getOptionValues());
+        return $this->getOptionValues()->count();
+    }
     
 
     /** @MongoDB\PreFlush */
@@ -403,10 +410,7 @@ class Element
                 if (!$this->isPending()) $needed = false;
                 break;
             case ModerationState::NoOptionProvided:
-                if ( $this->getOptionValues() != null && (
-                     (is_array($this->getOptionValues()) && count($this->getOptionValues()) > 0) ||
-                     (!is_array($this->getOptionValues()) && $this->getOptionValues()->count() > 0) )
-                    )
+                if ($this->countOptionsValues() > 0)
                     $needed = false;
                 break;
             case ModerationState::GeolocError:

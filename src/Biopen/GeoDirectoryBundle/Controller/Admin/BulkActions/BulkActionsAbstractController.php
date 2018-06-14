@@ -18,7 +18,7 @@ class BulkActionsAbstractController extends Controller
     protected $optionList = [];
     protected $title = null;
     protected $fromBeginning = false;
-    protected $maxElementsCount = 1000;
+    protected $batchSize = 1000;
     protected $automaticRedirection = true;
 
     protected function elementsBulkAction($functionToExecute, $request)
@@ -40,18 +40,18 @@ class BulkActionsAbstractController extends Controller
 
         $count = $elementRepo->findAllElements(null, $batchFromStep, true); 
         $elementsToProcceedCount = 0;
-        if ($count > $this->maxElementsCount)
+        if ($count > $this->batchSize)
         {            
-            $batchLastStep = $batchFromStep + $this->maxElementsCount;
+            $batchLastStep = $batchFromStep + $this->batchSize;
             $isStillElementsToProceed = true;
-            $elementsToProcceedCount =  $count - $this->maxElementsCount;
+            $elementsToProcceedCount =  $count - $this->batchSize;
         }   
         else
         {            
             $batchLastStep = $batchFromStep + $count;
         }
 
-        $elements = $elementRepo->findAllElements($this->maxElementsCount, $batchFromStep);
+        $elements = $elementRepo->findAllElements($this->batchSize, $batchFromStep);
 
         $i = 0;
         $renderedViews = [];

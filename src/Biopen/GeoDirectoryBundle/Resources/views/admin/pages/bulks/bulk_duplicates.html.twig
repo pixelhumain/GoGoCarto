@@ -1,10 +1,22 @@
-<div class="bs-callout bs-callout-danger">
+<div class="bs-callout {{ needHumanMerge ? 'bs-callout-warning' : 'bs-callout-success' }} bulk-duplicate">
 
-  <h4>Doublons potentiels détectés</h4>
-  <ul>
-    {% for element in duplicates %} 
-        <li>
-            <a href="{{ element.showUrlFromController(controller)}}" target="_blank">{{ element.name }}</a>{{ " / " ~ element.address.formatedAddress ~ " / " ~ element.email }}
+    <h4>{{ automaticMerge ? "Fusion automatique" : "Doublons potentiels détectés" }}</h4>   
+
+    {% for duplicate in duplicates %}
+        <li>           
+            <a class="duplicate-name" href="{{ duplicate.showUrlFromController(controller)}}" target="_blank"><b>{{ duplicate.name }} </b></a>
+           
+            {% if automaticMerge %}
+              {% if duplicate.status == '-6' %}
+                <span class="label label-default">Doublon Supprimé</span>
+              {% elseif duplicate.id == mergedId %}
+                <span class="label label-success">Doublon Conservé</span>
+              {% endif %}
+            {% endif %}
+            {% if duplicate.moderationState == 4 %}
+              <span class="label label-warning">Doublon potentiel</span>
+            {% endif %}
+            <div class="element-description"><i>{{ duplicate.description }}</i></div>
         </li>
     {% endfor %}
   </ul>

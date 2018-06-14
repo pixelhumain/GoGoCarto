@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-13 21:12:09
+ * @Last Modified time: 2018-06-14 13:35:23
  */
  
 
@@ -32,13 +32,15 @@ class ElementRepository extends DocumentRepository
     $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
     $radius = $distance / 110;
 
-    $qb->addOr($qb->expr()->text($element->getName())->language('fr'));
+    $textSearch = "" . $element->getName() . " -bio";
+    $qb->addOr($qb->expr()->text($textSearch)->language('fr'));
     if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail()));  
 
     $qb->limit($maxResults) 
        ->field('status')->gt($status)
        ->field('geo')->withinCenter((float) $element->getGeo()->getLatitude(), (float) $element->getGeo()->getLongitude(), $radius); 
 
+    if ($element->getId()) $qb->field('id')->notEqual($element->getId());
     if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PossibleDuplicate);   
     
     return $qb->sortMeta('score', 'textScore')
