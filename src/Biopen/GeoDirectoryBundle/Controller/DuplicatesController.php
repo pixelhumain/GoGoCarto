@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2018-06-16 11:15:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-16 15:52:51
+ * @Last Modified time: 2018-06-16 19:05:49
  */
 
 namespace Biopen\GeoDirectoryBundle\Controller;
@@ -23,7 +23,7 @@ class DuplicatesController extends GoGoController
       $optionsNames = [];
       foreach($options as $option) $optionsNames[$option->getId()] = $option->getName();
 
-      $duplicatesNode = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesNodes(30);
+      $duplicatesNode = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesNodes(15);
       return $this->render('BiopenGeoDirectoryBundle:duplicates:duplicates-index.html.twig', array('duplicatesNode' => $duplicatesNode, 'controller' => $this, 'optionsNames' => $optionsNames));    
    }  
 

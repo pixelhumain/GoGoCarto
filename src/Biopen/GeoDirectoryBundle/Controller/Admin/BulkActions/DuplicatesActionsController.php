@@ -20,7 +20,7 @@ class DuplicatesActionsController extends BulkActionsAbstractController
    { 
       $this->title = "Détection des doublons"; 
       $this->automaticRedirection = false;
-      $this->batchSize = 1000; 
+      $this->batchSize = 2000; 
       $this->duplicateService = $this->get("biopen.element_duplicates_service");
       $this->elementActionService = $this->get("biopen.element_action_service");
       return $this->elementsBulkAction('detectDuplicates', $request); 
