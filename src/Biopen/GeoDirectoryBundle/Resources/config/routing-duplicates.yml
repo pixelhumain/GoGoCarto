@@ -1,0 +1,10 @@
+biopen_duplicates_index:
+    path: /
+    defaults: { _controller: BiopenGeoDirectoryBundle:Duplicates:index }
+
+biopen_mark_as_non_duplicate:
+    path: /mark-as-non-duplicate
+    defaults: { _controller: BiopenGeoDirectoryBundle:Duplicates:markAsNonDuplicate }
+    
+    requirements:
+        methods: POST

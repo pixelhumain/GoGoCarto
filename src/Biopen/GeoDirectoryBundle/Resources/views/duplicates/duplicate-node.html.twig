@@ -1,0 +1,36 @@
+{% set duplicates = duplicateNode.getSortedDuplicates %}
+
+<table class="duplicate-node"><tbody><tr>   
+  
+  <td class="duplicates"><ul class="collapsible" data-collapsible="false">
+    {% for duplicate in duplicates %}  
+      <li class="collection-item">   
+        <div class="collapsible-header">
+          {{ duplicate.name }}
+          <div class="actions">
+            <a href="{{ duplicate.showUrlFromController(controller)}}" target="_blank" class="btn-edit icon gogo-icon-eye"></a> 
+            <a href={{ path('biopen_element_edit', { id: duplicate.id}) }} target="_blank" class="btn-edit icon gogo-icon-edit"></a>            
+            <button class="btn-resolve btn btn-success waves-effect waves-light" data-id="{{ duplicate.id }}">Conserver</button>
+            <button class="btn-delete btn btn-danger waves-effect waves-light" data-id="{{ duplicate.id }}">Supprimer</button>
+          </div>
+        </div>
+        <div class="collapsible-body">
+          <div class="description">{{ duplicate.description }}</div>
+          {% if duplicate.commitment %}<div class="description">{{ duplicate.commitment }}</div>{% endif %}
+          <div class="options">
+            {% for optionValue in duplicate.optionValues %} 
+              <span class="option">{{ optionsNames[optionValue.optionId] }} {% if not loop.last %}, {% endif %}</span>            
+            {% endfor %}
+          </div>
+          <div class="address">{{ duplicate.address.getFormatedAddress }}</div>
+          <div class="source">Source : {{ duplicate.sourceKey }}</div>
+          <div class="updated-at">{{ duplicate.updatedAt|date("d/m/Y") }}</div> 
+        </div>         
+      </li>  
+    {% endfor %}
+  </ul></td>
+  
+  <td class="non-duplicates">
+    <a class="icon gogo-icon-close" data-id="{{ duplicateNode.id }}"></a>
+  </td>  
+</tr></tbody></table>

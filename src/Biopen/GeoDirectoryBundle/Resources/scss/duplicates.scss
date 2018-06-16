@@ -1,0 +1,73 @@
+.gogo-load-css #page-content.duplicates
+{
+  background-color: transparent;
+  max-width: 1400px;
+  width: 100%;
+
+  a { color: #636363; }
+  a:hover { color: black; cursor: pointer; }
+
+  .explanations {
+    font-style: italic;
+    text-align: center;
+  }
+
+  .duplicate-node 
+  {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    td { padding: 0; }
+    td.duplicates {
+      width: calc(100% - 50px);
+    }
+
+    ul {
+      border-left: 5px solid grey;
+      margin: 0;
+
+      .collapsible-header 
+      {
+        &:hover { font-weight: bold; }
+        .actions { float: right; }
+        .btn-edit {
+          font-size: 1.3rem;
+          margin-left: 10px;
+          padding-top: 2px;
+          margin-right: 5px;
+          height: 2rem;
+          float: left;
+        }
+        button.btn { 
+          height: 2rem;
+          padding: 0 10px;
+          margin-left: 10px;
+          font-size: .8rem;
+          font-weight: bold;
+          line-height: 2rem;
+          box-shadow: none;
+
+          &.btn-success { background-color: rgba(76, 175, 80, 0.88); }
+          &.btn-danger { background-color: rgba(244, 67, 54, 0.78); }
+
+          &.action-done { background-color: #607D8B; }
+        }
+      }
+
+      .collapsible-body {
+        padding: 1rem;
+
+        .description { font-style: italic; }
+        .options, .source { font-weight: bold; }
+
+        div { margin-bottom: 1rem; }
+      }
+    }
+
+    td.non-duplicates {
+      width: 50px;
+      text-align: right;
+      font-size: 1.7rem;
+    }
+  }
+}

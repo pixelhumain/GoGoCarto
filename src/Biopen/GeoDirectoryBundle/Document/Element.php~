@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-16 15:53:12
+ * @Last Modified time: 2018-06-16 10:49:20
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -415,32 +415,13 @@ class Element
 
     public function getNonDuplicatesIds()
     {
-        $result = [];
-        if ($this->nonDuplicates) 
-            $result = array_map(function($nonDuplicate) {
-                return $nonDuplicate->getId();
-            }, $this->nonDuplicates->toArray());
+        $result = array_map(function($nonDuplicate) {
+            $nonDuplicate->getId();
+        }, $this->nonDuplicates);
         if ($this->getId()) $result[] = $this->getId();
         return $result;
     }
-
-    public function isPotentialDuplicate() { return $this->moderationState == ModerationState::PotentialDuplicate; }
-
-    public function getSortedDuplicates($duplicates = null)
-    {
-        if (!$duplicates) $duplicates = $this->getPotentialDuplicates() ? $this->getPotentialDuplicates()->toArray() : null;
-        if (!$duplicates) return [];
-        $duplicates[] = $this;
-        usort($duplicates, function ($a, $b) 
-        { 
-            $diffDays = (float) date_diff($a->getUpdatedAt(), $b->getUpdatedAt())->format('%d');
-            if ($diffDays != 0) return $diffDays;
-            $diffComitment = strlen($b->getCommitment()) - strlen($a->getCommitment());
-            if ($diffComitment != 0) return $diffComitment;
-            return $b->countOptionsValues() - $a->countOptionsValues();
-        }); 
-        return $duplicates;
-    }  
+    
 
     /** @MongoDB\PreFlush */
     public function onPreFlush()
@@ -1552,12 +1533,6 @@ class Element
         return $this->potentialDuplicates;
     }
 
-    public function clearPotentialDuplicates()
-    {
-        $this->potentialDuplicates = [];
-        return $this;
-    }
-
     /**
      * Add nonDuplicate
      *
@@ -1586,27 +1561,5 @@ class Element
     public function getNonDuplicates()
     {
         return $this->nonDuplicates;
-    }
-
-    /**
-     * Set isDuplicateNode
-     *
-     * @param bool $isDuplicateNode
-     * @return $this
-     */
-    public function setIsDuplicateNode($isDuplicateNode)
-    {
-        $this->isDuplicateNode = $isDuplicateNode;
-        return $this;
-    }
-
-    /**
-     * Get isDuplicateNode
-     *
-     * @return bool $isDuplicateNode
-     */
-    public function getIsDuplicateNode()
-    {
-        return $this->isDuplicateNode;
     }
 }

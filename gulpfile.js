@@ -24,9 +24,9 @@ gulp.task("scriptsHome", function () {
     .pipe(gulp.dest('web/js'));
 });
 
-gulp.task("scriptsApi", function () {
-   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/api/**/*.js'])
-    .pipe(concat('api.js'))
+gulp.task("scriptsExternalPages", function () {
+   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/js/**/*.js', '!src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'])
+    .pipe(concat('external-pages.js'))
     .pipe(gulp.dest('web/js'));
 });
 
@@ -83,7 +83,7 @@ gulp.task('gzip_styles', ['prod_styles'], function() {
 });
 
 gulp.task('prod_js', function() {
-  return gulp.src(['web/js/*.js', '!web/js/api.js'])
+  return gulp.src(['web/js/*.js', '!web/js/external-pages.js'])
     //.pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     //.pipe(sourcemaps.init({loadMaps: true}))
@@ -121,8 +121,8 @@ gulp.task('watch', function() {
   gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'], 
               ['scriptsElementForm']);
 
-  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/api/**/*.js'], 
-              ['scriptsApi']);
+  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/**/*.js', '!src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'], 
+              ['scriptsExternalPages']);
 
   gulp.watch(['node_modules/GoGoCartoJs/dist/**/*'], 
               ['gogocarto_assets']);
@@ -141,7 +141,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('build', function() {
-    gulp.start('clean','sass', 'scriptsLibs', 'scriptsHome', 'scriptsApi', 'scriptsElementForm', 'gogocarto_assets');
+    gulp.start('clean','sass', 'scriptsLibs', 'scriptsHome', 'scriptsExternalPages', 'scriptsElementForm', 'gogocarto_assets');
 });
 
 gulp.task('production', function() {

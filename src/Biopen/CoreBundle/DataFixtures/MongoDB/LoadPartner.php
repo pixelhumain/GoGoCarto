@@ -5,7 +5,7 @@ namespace Biopen\CoreBundle\DataFixtures\MongoDB;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\CoreBundle\Document\Partner;
-use Biopen\CoreBundle\Document\ImagePartner;
+use Biopen\CoreBundle\Document\PartnerImage;
 
 use joshtronic\LoremIpsum;
 
@@ -30,7 +30,7 @@ class LoadPartner implements FixtureInterface
 
       $new_partner->setName($name); 
       $new_partner->setContent($lipsum->words(rand(30,100)));
-      $new_partner->setLogo(new ImagePartner("http://lorempixel.com/300/300/abstract/" . $key));
+      $new_partner->setLogo(new PartnerImage("http://lorempixel.com/300/300/abstract/" . $key));
       $new_partner->setWebsiteUrl("www.partenaire.com");
       $manager->persist($new_partner);
     }  

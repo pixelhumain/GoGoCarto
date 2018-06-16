@@ -37,7 +37,7 @@ class Partner
     /**
      * @var string
      *
-     * @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage") 
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage", cascade={"all"}) 
      */
     private $logo;
 

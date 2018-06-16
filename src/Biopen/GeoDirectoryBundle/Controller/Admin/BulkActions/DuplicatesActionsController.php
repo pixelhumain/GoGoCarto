@@ -20,7 +20,7 @@ class DuplicatesActionsController extends BulkActionsAbstractController
    { 
       $this->title = "Détection des doublons"; 
       $this->automaticRedirection = false;
-      $this->batchSize = 10; 
+      $this->batchSize = 1000; 
       $this->duplicateService = $this->get("biopen.element_duplicates_service");
       $this->elementActionService = $this->get("biopen.element_action_service");
       return $this->elementsBulkAction('detectDuplicates', $request); 
@@ -28,22 +28,20 @@ class DuplicatesActionsController extends BulkActionsAbstractController
 
    public function detectDuplicates($element)
    {
-      if ($element->getStatus() >= ElementStatus::PendingModification && !array_key_exists($element->getId(), $this->duplicatesFound))
+      if ($element->getStatus() >= ElementStatus::PendingModification 
+          && !array_key_exists($element->getId(), $this->duplicatesFound) 
+          && !$element->isPotentialDuplicate())
       {
          $em = $this->get('doctrine_mongodb')->getManager();
-         $distance = 0.5;
+         $distance = 0.4;
          $city = strtolower($element->getAddress()->getAddressLocality());
-         $inCity = false;
          if (  in_array($element->getAddress()->getDepartmentCode(), ["75","92","93","94"])
             || in_array($city, ["marseille", "lyon", "bordeaux", "lille", "montpellier", "strasbourg", "nantes", "nice"]))
          {
-            // dump("En ville ! PostalCode = " . $element->getAddress()->getPostalCode() . "Ville = " . $element->getAddress()->getAddressLocality());
-            $distance = 0.15;
-            $inCity = true;
+            $distance = 0.1;
          }
 
-         $duplicates = $this->duplicateService->checkForDuplicates($element, true, true, $distance); // CHANGE 2nd ARGUMENT TO FALSE
-
+         $duplicates = $this->duplicateService->checkForDuplicates($element, false, true, $distance);
          if (count($duplicates) == 0) return null;
 
          $perfectMatches = array_filter($duplicates, function($duplicate) use ($element) { return $this->slugify($duplicate->getName()) == $this->slugify($element->getName()); });
@@ -57,9 +55,11 @@ class DuplicatesActionsController extends BulkActionsAbstractController
             $otherDuplicates[] = $element;
 
             foreach($otherDuplicates as $key => $duplicate) {
-               $duplicate->setModerationState(ModerationState::PossibleDuplicate); 
+               if ($duplicate != $element) $element->addPotentialDuplicate($duplicate);
+               $duplicate->setModerationState(ModerationState::PotentialDuplicate); 
                $this->duplicatesFound[$duplicate->getId()] = true;              
-            }            
+            } 
+            $element->setIsDuplicateNode(true);          
          }
 
          $em->flush();
@@ -69,44 +69,29 @@ class DuplicatesActionsController extends BulkActionsAbstractController
                'automaticMerge' => count($perfectMatches) > 0,
                'needHumanMerge' => count($otherDuplicates) > 0,
                'mergedId' => $element->getId(),
-               'controller' => $this, 
-               'inCity' => $inCity));
+               'controller' => $this));
       }
    }
 
    public function automaticMerge($element, $duplicates)
    {
-      $duplicates[] = $element;
-      usort($duplicates, function ($a, $b) 
-      { 
-         $diffDays = $this->dateDifference($a->getUpdatedAt(), $b->getUpdatedAt());
-         if ($diffDays != 0) return $diffDays;
-         $diffComitment = strlen($b->getCommitment()) - strlen($a->getCommitment());
-         if ($diffComitment != 0) return $diffComitment;
-         return $b->countOptionsValues() - $a->countOptionsValues();
-      }); 
+      $sortedDuplicates = $element->getSortedDuplicates($duplicates);
 
-      foreach($duplicates as $duplicate) $this->duplicatesFound[$duplicate->getId()] = true; 
+      foreach($sortedDuplicates as $duplicate) $this->duplicatesFound[$duplicate->getId()] = true; 
 
-      $merged = array_shift($duplicates); 
+      $merged = array_shift($sortedDuplicates); 
 
-      foreach($duplicates as $duplicate) {
+      foreach($sortedDuplicates as $duplicate) {
          if ($duplicate->getId() != $merged->getId())
          {
-            $duplicate->setModerationState(ModerationState::PossibleDuplicate); 
+            $duplicate->setModerationState(ModerationState::PotentialDuplicate); 
             $this->elementActionService->delete($duplicate, false);
          }
       }
       $merged->setModerationState(ModerationState::NotNeeded); 
 
       return $merged;
-   }
-
-   private function dateDifference($date_1 , $date_2 , $differenceFormat = '%d')
-   {
-      $interval = date_diff($date_1, $date_2);
-      return (float) $interval->format($differenceFormat);       
-   }
+   }   
 
    private function slugify($text)
    {

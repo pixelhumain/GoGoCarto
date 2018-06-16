@@ -7,12 +7,13 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-14 14:13:15
+ * @Last Modified time: 2018-06-16 15:55:10
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Services;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Security\Core\SecurityContext;
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\ModerationState;
@@ -41,8 +42,9 @@ class ElementActionService
    /**
    * Constructor
    */
-   public function __construct(SecurityContext $securityContext, MailService $mailService, ElementPendingService $elementPendingService)
+   public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, MailService $mailService, ElementPendingService $elementPendingService)
    {
+      $this->em = $documentManager;
       $this->securityContext = $securityContext;
       $this->mailService = $mailService;
       $this->elementPendingService = $elementPendingService;
@@ -96,7 +98,7 @@ class ElementActionService
    public function delete($element, $sendMail = true, $message = null)
    {
       $this->addContribution($element, $message, InteractType::Deleted, ElementStatus::Deleted);
-      $newStatus = ($element->getModerationState() == ModerationState::PossibleDuplicate) ? ElementStatus::Duplicate : ElementStatus::Deleted;
+      $newStatus = $element->isPotentialDuplicate() ? ElementStatus::Duplicate : ElementStatus::Deleted;
       $element->setStatus($newStatus); 
       $this->resolveReports($element, $message);
       if($sendMail) $this->mailService->sendAutomatedMail('delete', $element, $message);
@@ -127,7 +129,15 @@ class ElementActionService
          $this->addContribution($element, $message, InteractType::ModerationResolved, $element->getStatus());
 
       $element->setModerationState(ModerationState::NotNeeded);
-      // $element->updateTimestamp();
+      $element->setIsDuplicateNode(false);
+      $element->updateTimestamp();
+
+      $potentialOwners = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findPotentialDuplicateOwner($element);
+      foreach ($potentialOwners as $key => $owner) {
+         $this->em->persist($owner);
+         $owner->removePotentialDuplicate($element);
+      }
+      $this->em->flush();      
    }
 
    private function addContribution($element, $message, $InteractType, $status, $directModerationWithHash = false)

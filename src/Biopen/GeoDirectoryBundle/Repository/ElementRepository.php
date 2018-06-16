@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-14 13:35:23
+ * @Last Modified time: 2018-06-16 15:53:12
  */
  
 
@@ -40,8 +40,8 @@ class ElementRepository extends DocumentRepository
        ->field('status')->gt($status)
        ->field('geo')->withinCenter((float) $element->getGeo()->getLatitude(), (float) $element->getGeo()->getLongitude(), $radius); 
 
-    if ($element->getId()) $qb->field('id')->notEqual($element->getId());
-    if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PossibleDuplicate);   
+    if ($element->getId()) $qb->field('id')->notIn($element->getNonDuplicatesIds());
+    if (!$includeDeleted) $qb->field('moderationState')->notEqual(ModerationState::PotentialDuplicate);   
     
     return $qb->sortMeta('score', 'textScore')
               ->hydrate($hydrate)->getQuery()->execute()->toArray();    
@@ -66,6 +66,14 @@ class ElementRepository extends DocumentRepository
     $results = $this->queryToArray($qb); 
 
     return $results;
+  }
+
+  public function findDuplicatesNodes($limit = null)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $qb->field('isDuplicateNode')->equals(true);
+    if ($limit) $qb->limit($limit);
+    return $qb->getQuery()->execute();
   }
 
   public function findElementsWithText($text, $fullRepresentation = true, $isAdmin = false)
@@ -222,6 +230,13 @@ class ElementRepository extends DocumentRepository
     $qb->field('stamps.id')->in(array((float) $stampId));
     $qb->select('id');
     return $this->queryToArray($qb);
+  }
+
+  public function findPotentialDuplicateOwner($element)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $qb->field('potentialDuplicates')->includesReferenceTo($element);
+    return $qb->getQuery()->execute();
   }
 }
 

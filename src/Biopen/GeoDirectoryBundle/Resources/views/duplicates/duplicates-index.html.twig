@@ -1,0 +1,53 @@
+{% extends "@BiopenCoreBundle/page-layout.html.twig" %}
+
+{% set pageName = 'duplicates' %}
+{% set navTitle = "Gestion des doublons" %}
+
+{% block title %}Gestion des doublons{% endblock %}
+
+{% block stylesheets %}
+  
+  <link rel="stylesheet" href="{{ asset('assets/css/pages.css?ver=' ~ version) }}"> 
+  <link rel="stylesheet" href="{{ asset('assets/css/duplicates.css?ver=' ~ version) }}">  
+
+{% endblock %}
+
+{# BODY CONTENT #}
+{% block body_content %}
+  <section>    
+
+    {% if duplicatesNode|length == 0 %}
+      <h1>Aucun doublon à traiter !</h1>
+    {% else %}
+      <h1>Gérez les doublons détectés</h1>  
+
+      <div class="explanations">
+        <p>Chaque groupe présente des éléments détectés comme doublons. Vous pouvez cliquer sur le nom d'un élément pour afficher plus de détail</p>
+
+        <p>Si les éléments présentés ne sont pas des doublons, cliquez sur la croix. Si il y a des doublons, choisissez qui conserver et qui supprimer.</p>
+
+        <p>Plus d'info sur la gestion des doublons : les éléments sont déjà triés dans chaque groupe, normallement le premier élément devrait être celui à conserver. Si vous avez besoin de faire des modifications, cliquez sur l'icon crayon. Lorsque vous traitez les éléments un par un avec les bouton conserver/supprimer, veillez à bien marquer chaque élément du groupe avec l'un ou l'autre de ces boutons</p> 
+
+      </div>  
+      {% for duplicateNode in duplicatesNode %}        
+        {% include '@BiopenGeoDirectory/duplicates/duplicate-node.html.twig' with { 'duplicateNode' : duplicateNode, 'optionsNames' : optionsNames } %}
+      {% endfor %}
+
+      <center><button class="btn btn-primary" onclick="window.location.reload()">J'en veux encore ! Montre-moi plus de doublons</button></center>
+    {% endif %}    
+    
+  </section>
+
+{% endblock %}
+
+{% block page_javascripts %}
+  <script src="{{ asset('js/external-pages.js') }}"></script>
+  <script>
+    var apiDelete = "{{ path('biopen_delete_element') }}";
+    var apiResolve = "{{ path('biopen_resolve_reports_element') }}";
+    var apiMarkAsNonDuplicate = "{{ path('biopen_mark_as_non_duplicate') }}";
+  </script>
+{% endblock %}  
+
+
+

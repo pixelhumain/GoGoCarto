@@ -11,7 +11,7 @@ services:
 
     biopen.element_action_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementActionService
-       arguments: [ "@security.context", "@biopen.mail_service", "@biopen.element_pending_service" ]
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@biopen.mail_service", "@biopen.element_pending_service" ]
 
     biopen.element_pending_service:
        class: Biopen\GeoDirectoryBundle\Services\ElementPendingService
