@@ -23,12 +23,12 @@
     }
 
     ul {
-      border-left: 5px solid grey;
+      border-left: 5px solid grey; 
       margin: 0;
 
       .collapsible-header 
       {
-        &:hover { font-weight: bold; }
+        .name { font-weight: bold; }
         .actions { float: right; }
         .btn-edit {
           font-size: 1.3rem;
@@ -52,14 +52,21 @@
 
           &.action-done { background-color: #607D8B; }
         }
+        .description { 
+          line-height: 1.5rem;
+          opacity: .8;
+         }
+         .options { 
+            font-weight: bold;
+            opacity: .7;
+            font-style: italic; 
+          }
       }
 
       .collapsible-body {
         padding: 1rem;
-
-        .description { font-style: italic; }
-        .options, .source { font-weight: bold; }
-
+        padding-bottom: 0;
+        .source { font-weight: bold; }
         div { margin-bottom: 1rem; }
       }
     }

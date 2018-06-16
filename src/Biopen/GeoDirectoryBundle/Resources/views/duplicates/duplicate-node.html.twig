@@ -6,22 +6,25 @@
     {% for duplicate in duplicates %}  
       <li class="collection-item">   
         <div class="collapsible-header">
-          {{ duplicate.name }}
+          <span class="name">{{ duplicate.name }}</span>
           <div class="actions">
             <a href="{{ duplicate.showUrlFromController(controller)}}" target="_blank" class="btn-edit icon gogo-icon-eye"></a> 
             <a href={{ path('biopen_element_edit', { id: duplicate.id}) }} target="_blank" class="btn-edit icon gogo-icon-edit"></a>            
             <button class="btn-resolve btn btn-success waves-effect waves-light" data-id="{{ duplicate.id }}">Conserver</button>
             <button class="btn-delete btn btn-danger waves-effect waves-light" data-id="{{ duplicate.id }}">Supprimer</button>
           </div>
-        </div>
-        <div class="collapsible-body">
           <div class="description">{{ duplicate.description }}</div>
-          {% if duplicate.commitment %}<div class="description">{{ duplicate.commitment }}</div>{% endif %}
           <div class="options">
             {% for optionValue in duplicate.optionValues %} 
               <span class="option">{{ optionsNames[optionValue.optionId] }} {% if not loop.last %}, {% endif %}</span>            
             {% endfor %}
           </div>
+        </div>
+        <div class="collapsible-body">
+          {% if duplicate.descriptionMore %}<div class="description">{{ duplicate.descriptionMore }}</div>{% endif %}
+          {% if duplicate.commitment %}<div class="description">{{ duplicate.commitment }}</div>{% endif %}
+          {% if duplicate.email %}<div class="link">{{ duplicate.email }}</div>{% endif %}
+          {% if duplicate.website %}<div class="link"><a href="{{ duplicate.website }}" target="_blank">{{ duplicate.website }}</a></div>{% endif %}
           <div class="address">{{ duplicate.address.getFormatedAddress }}</div>
           <div class="source">Source : {{ duplicate.sourceKey }}</div>
           <div class="updated-at">{{ duplicate.updatedAt|date("d/m/Y") }}</div> 
