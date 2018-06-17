@@ -4,7 +4,7 @@
  * @Author: Sebastian Castro
  * @Date:   2018-06-16 11:15:08
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-16 19:05:49
+ * @Last Modified time: 2018-06-17 16:46:54
  */
 
 namespace Biopen\GeoDirectoryBundle\Controller;
@@ -16,6 +16,8 @@ use Biopen\GeoDirectoryBundle\Document\Element;
 
 class DuplicatesController extends GoGoController
 {
+  const DUPLICATE_BATH_SIZE = 15;
+
    public function indexAction()
    {
       $dm = $this->get('doctrine_mongodb')->getManager();
@@ -23,8 +25,16 @@ class DuplicatesController extends GoGoController
       $optionsNames = [];
       foreach($options as $option) $optionsNames[$option->getId()] = $option->getName();
 
-      $duplicatesNode = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesNodes(15);
-      return $this->render('BiopenGeoDirectoryBundle:duplicates:duplicates-index.html.twig', array('duplicatesNode' => $duplicatesNode, 'controller' => $this, 'optionsNames' => $optionsNames));    
+      $duplicatesNodeCount = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesNodes(null, true);
+      $duplicatesNode = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findDuplicatesNodes(DuplicatesController::DUPLICATE_BATH_SIZE)->toArray();
+
+      $leftDuplicatesToProceedCount = max($duplicatesNodeCount - DuplicatesController::DUPLICATE_BATH_SIZE, 0);
+
+      $lockUntil = time() + 10 * 60; // lock for 10 minutes
+      foreach ($duplicatesNode as $key => $element) $element->setLockUntil($lockUntil);
+      $dm->flush();
+
+      return $this->render('BiopenGeoDirectoryBundle:duplicates:duplicates-index.html.twig', array('duplicatesNode' => $duplicatesNode, 'controller' => $this, 'optionsNames' => $optionsNames, 'leftDuplicatesToProceedCount' => $leftDuplicatesToProceedCount));    
    }  
 
    public function markAsNonDuplicateAction(Request $request)

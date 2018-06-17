@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-16 15:53:12
+ * @Last Modified time: 2018-06-17 16:46:33
  */
  
 
@@ -28,9 +28,9 @@ class ElementRepository extends DocumentRepository
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    // convert kilometre in degrees
-    $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
+    // convert kilometre in degrees    
     $radius = $distance / 110;
+    $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
 
     $textSearch = "" . $element->getName() . " -bio";
     $qb->addOr($qb->expr()->text($textSearch)->language('fr'));
@@ -68,11 +68,15 @@ class ElementRepository extends DocumentRepository
     return $results;
   }
 
-  public function findDuplicatesNodes($limit = null)
+  public function findDuplicatesNodes($limit = null, $getCount = null)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $qb->field('isDuplicateNode')->equals(true);
-    if ($limit) $qb->limit($limit);
+    if ($getCount) $qb->count();
+    else {
+      $qb->field('lockUntil')->lte(time());
+      if ($limit) $qb->limit($limit);
+    }
     return $qb->getQuery()->execute();
   }
 

@@ -16,8 +16,11 @@
 {% block body_content %}
   <section>    
 
-    {% if duplicatesNode|length == 0 %}
+    {% if duplicatesNode|length == 0 %}      
       <h1>Aucun doublon à traiter !</h1>
+      {% if leftDuplicatesToProceedCount > 0 %}
+        <center><p>Les doublons restant sont déjà en traitement par quelqu'un d'autre ({{ leftDuplicatesToProceedCount }})</p>  </center>      
+      {% endif %}
     {% else %}
       <h1>Gérez les doublons détectés</h1>  
 
@@ -33,7 +36,7 @@
         {% include '@BiopenGeoDirectory/duplicates/duplicate-node.html.twig' with { 'duplicateNode' : duplicateNode, 'optionsNames' : optionsNames } %}
       {% endfor %}
 
-      <center><button class="btn btn-primary" onclick="window.location.reload()">J'en veux encore ! Montre-moi plus de doublons</button></center>
+      <center><button class="btn btn-primary" onclick="window.location.reload()">J'en veux encore ! (plus que {{ leftDuplicatesToProceedCount }} doublons à traiter)</button></center>
     {% endif %}    
     
   </section>

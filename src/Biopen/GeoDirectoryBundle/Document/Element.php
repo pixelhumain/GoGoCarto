@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-16 15:53:12
+ * @Last Modified time: 2018-06-17 16:48:39
  */
  
 namespace Biopen\GeoDirectoryBundle\Document;
@@ -336,6 +336,13 @@ class Element
     * @MongoDB\Field(type="string") 
     */ 
     private $userOwnerEmail;
+
+    /**
+     * When actions are made by many person (like moderation, duplicates check...) we look the elements currently procced by someone
+     * so noone else make acction on the same element 
+     * @MongoDB\Field(type="int")
+     */
+    private $lockUntil = 0;
 
     /**
      * Constructor
@@ -1608,5 +1615,27 @@ class Element
     public function getIsDuplicateNode()
     {
         return $this->isDuplicateNode;
+    }
+
+    /**
+     * Set lockUntil
+     *
+     * @param int $lockUntil
+     * @return $this
+     */
+    public function setLockUntil($lockUntil)
+    {
+        $this->lockUntil = $lockUntil;
+        return $this;
+    }
+
+    /**
+     * Get lockUntil
+     *
+     * @return int $lockUntil
+     */
+    public function getLockUntil()
+    {
+        return $this->lockUntil;
     }
 }

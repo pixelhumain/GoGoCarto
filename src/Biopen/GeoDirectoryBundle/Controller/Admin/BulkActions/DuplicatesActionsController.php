@@ -84,6 +84,7 @@ class DuplicatesActionsController extends BulkActionsAbstractController
       foreach($sortedDuplicates as $duplicate) {
          if ($duplicate->getId() != $merged->getId())
          {
+            // setting this moderation so when deleted it becomes "deleted duplicate" instead of just "deleted"
             $duplicate->setModerationState(ModerationState::PotentialDuplicate); 
             $this->elementActionService->delete($duplicate, false);
          }
