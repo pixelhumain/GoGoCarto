@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-16 15:55:10
+ * @Last Modified time: 2018-06-17 19:57:54
  */
  
 
@@ -130,7 +130,6 @@ class ElementActionService
 
       $element->setModerationState(ModerationState::NotNeeded);
       $element->setIsDuplicateNode(false);
-      $element->updateTimestamp();
 
       $potentialOwners = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findPotentialDuplicateOwner($element);
       foreach ($potentialOwners as $key => $owner) {
