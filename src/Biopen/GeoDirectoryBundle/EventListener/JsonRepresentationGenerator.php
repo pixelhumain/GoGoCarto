@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-06-18 21:03:01
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-02-28 11:42:37
+ * @Last Modified time: 2018-07-01 18:03:13
  */
 namespace Biopen\GeoDirectoryBundle\EventListener;
 
@@ -79,12 +79,6 @@ class JsonRepresentationGenerator
 		{
 			$mainCategoryJson = $this->serializer->serialize($taxonomy->getMainCategory(), 'json');
 			$taxonomy->setMainCategoryJson($mainCategoryJson);
-		}
-
-		if ($taxonomy->getOpenHoursCategory())
-		{
-			$mainCategoryJson = $this->serializer->serialize($taxonomy->getOpenHoursCategory(), 'json');
-			$taxonomy->setOpenHoursCategoryJson($mainCategoryJson);
 		}
 		
 		$options = $dm->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();

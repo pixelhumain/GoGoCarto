@@ -31,18 +31,6 @@ class Taxonomy
     private $optionsJson;    
 
     /**
-    * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category",cascade={"all"}, orphanRemoval="true")
-    */
-    private $openHoursCategory;
-
-    /**
-     * @var string
-     *
-     * @MongoDB\Field(type="string")
-     */
-    private $openHoursCategoryJson;   
-
-    /**
      * Get id
      *
      * @return id $id
@@ -94,50 +82,6 @@ class Taxonomy
     public function getMainCategoryJson()
     {
         return $this->mainCategoryJson;
-    }
-
-    /**
-     * Set openHoursCategory
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\Category $openHoursCategory
-     * @return $this
-     */
-    public function setOpenHoursCategory(\Biopen\GeoDirectoryBundle\Document\Category $openHoursCategory)
-    {
-        $this->openHoursCategory = $openHoursCategory;
-        return $this;
-    }
-
-    /**
-     * Get openHoursCategory
-     *
-     * @return Biopen\GeoDirectoryBundle\Document\Category $openHoursCategory
-     */
-    public function getOpenHoursCategory()
-    {
-        return $this->openHoursCategory;
-    }
-
-    /**
-     * Set openHoursCategoryJson
-     *
-     * @param string $openHoursCategoryJson
-     * @return $this
-     */
-    public function setOpenHoursCategoryJson($openHoursCategoryJson)
-    {
-        $this->openHoursCategoryJson = $openHoursCategoryJson;
-        return $this;
-    }
-
-    /**
-     * Get openHoursCategoryJson
-     *
-     * @return string $openHoursCategoryJson
-     */
-    public function getOpenHoursCategoryJson()
-    {
-        return $this->openHoursCategoryJson;
     }
 
     /**

@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-07 16:36:09
+ * @Last Modified time: 2018-07-01 18:03:22
  */
  
 
@@ -22,14 +22,6 @@ class TaxonomyRepository extends DocumentRepository
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
     $qb->select('mainCategoryJson'); 
     return $qb->hydrate(false)->getQuery()->getSingleResult()['mainCategoryJson'];
-  }
-
-  public function findOpenHoursCategoryJson()
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
-    $qb->limit(1);
-    $qb->select('openHoursCategoryJson'); 
-    return $qb->hydrate(false)->getQuery()->getSingleResult()['openHoursCategoryJson'];
   }
 
   public function findTaxonomyJson()

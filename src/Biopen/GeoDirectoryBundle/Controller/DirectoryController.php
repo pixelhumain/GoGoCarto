@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-04-10 12:43:45
+ * @Last Modified time: 2018-07-01 18:02:24
  */
  
 
@@ -42,7 +42,6 @@ class DirectoryController extends GoGoController
         $tileLayers = $em->getRepository('BiopenCoreBundle:TileLayer')->findAll();
         
         $mainCategoryJson = $taxonomyRep->findMainCategoryJson();
-        $openHoursCategoryJson = $taxonomyRep->findOpenHoursCategoryJson();
 
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
 
@@ -69,7 +68,6 @@ class DirectoryController extends GoGoController
 
         return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
                               array('mainCategoryJson'      => $mainCategoryJson, 
-                                    'openHoursCategoryJson' => $openHoursCategoryJson,
                                     'userGogocartoRole'     => $userGogocartoRole,
                                     'userEmail'             => $userEmail,
                                     'user'                  => $user,

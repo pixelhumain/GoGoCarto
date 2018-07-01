@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-04 14:24:41
+ * @Last Modified time: 2018-07-01 18:02:39
  */
  
 
@@ -19,8 +19,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\GeoDirectoryBundle\Document\Taxonomy;
 use Biopen\GeoDirectoryBundle\Document\Category;
 use Biopen\GeoDirectoryBundle\Document\Option;
-
-use Biopen\GeoDirectoryBundle\DataFixtures\MongoDB\LoadOpenHoursCategory;
 
 
 class LoadTaxonomy implements FixtureInterface
@@ -94,9 +92,6 @@ class LoadTaxonomy implements FixtureInterface
 
 			$mainCategory->addOption($new_main);
 		}
-
-		$openhoursCategory = loadOpenHoursCategory(); 
- 		$taxonomy->setOpenHoursCategory($openhoursCategory); 
 
 		// On déclenche l'enregistrement de toutes les catégories
 		$manager->flush();
