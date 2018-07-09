@@ -11,5 +11,11 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  * repository methods below.
  */
 class CategoryRepository extends DocumentRepository
-{
+{  
+   public function findRootCategories()
+   {
+      $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Category');
+      $qb->field('isRootCategory')->equals(true);
+      return $qb->getQuery()->execute();
+   }
 }

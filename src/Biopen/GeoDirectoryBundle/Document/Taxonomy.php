@@ -12,20 +12,15 @@ class Taxonomy
     private $id;
 
     /**
-    * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category",cascade={"all"}, orphanRemoval="true")
-    */
-    private $mainCategory;
-
-    /**
      * @var string
-     *
+     * The complete list of category and options in a hierarchic object
      * @MongoDB\Field(type="string")
      */
-    private $mainCategoryJson; 
+    private $taxonomyJson; 
 
     /**
      * @var string
-     *
+     * The list of all options flatten in an array
      * @MongoDB\Field(type="string")
      */
     private $optionsJson;    
@@ -39,49 +34,26 @@ class Taxonomy
     {
         return $this->id;
     }
-
     /**
-     * Set mainCategory
+     * Set taxonomyJson
      *
-     * @param Biopen\GeoDirectoryBundle\Document\Category $mainCategory
+     * @param string $taxonomyJson
      * @return $this
      */
-    public function setMainCategory(\Biopen\GeoDirectoryBundle\Document\Category $mainCategory)
+    public function setTaxonomyJson($taxonomyJson)
     {
-        $this->mainCategory = $mainCategory;
+        $this->taxonomyJson = $taxonomyJson;
         return $this;
     }
 
     /**
-     * Get mainCategory
+     * Get taxonomyJson
      *
-     * @return Biopen\GeoDirectoryBundle\Document\Category $mainCategory
+     * @return string $taxonomyJson
      */
-    public function getMainCategory()
+    public function getTaxonomyJson()
     {
-        return $this->mainCategory;
-    }
-
-    /**
-     * Set mainCategoryJson
-     *
-     * @param string $mainCategoryJson
-     * @return $this
-     */
-    public function setMainCategoryJson($mainCategoryJson)
-    {
-        $this->mainCategoryJson = $mainCategoryJson;
-        return $this;
-    }
-
-    /**
-     * Get mainCategoryJson
-     *
-     * @return string $mainCategoryJson
-     */
-    public function getMainCategoryJson()
-    {
-        return $this->mainCategoryJson;
+        return $this->taxonomyJson;
     }
 
     /**

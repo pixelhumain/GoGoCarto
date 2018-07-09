@@ -1,7 +1,7 @@
 {% extends base_template %}
 
 {% block navbar_title %}
-    {{ category ? category.name : "Liste des catégories" }}
+    Liste des catégories
 {% endblock %}
 
 {%- block actions -%}		
@@ -17,12 +17,23 @@
 
 
 {% block show %}
+  
+  <p><a class="btn btn-primary sonata-action-element" href="{{ path('admin_biopen_geodirectory_category_create') }}" style="margin-right: 10px;">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        Ajouter une catégorie
+  </a>
+  <a class="btn btn-primary sonata-action-element" href="{{ path('admin_biopen_geodirectory_option_create') }}">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          Ajouter une Option
+  </a></p>
 	
 	<div class="well" style="font-size: 15px; line-height: 20px;">
-	{% if category %}
-		<ul>
-	    {% include '@BiopenAdmin/list/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
-    </ul>
+  	{% if categories|length %}
+  		{% for category in categories %}
+        <ul>
+          {% include '@BiopenAdmin/list/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
+        </ul>
+      {% endfor %}      
     {% else %}
     	Aucune catégorie
     {% endif %}
@@ -82,7 +93,7 @@ span.option-item
 	margin-left: 1rem;
 }
 
-.btn
+.btn-sm.btn-default
 {
 	border: none;
 	padding: 5px 5px;

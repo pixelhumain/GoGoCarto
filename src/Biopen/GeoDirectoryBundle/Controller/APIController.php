@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license  MIT License
- * @Last Modified time: 2018-04-25 11:49:14
+ * @Last Modified time: 2018-07-08 12:02:04
  */
  
 
@@ -135,8 +135,7 @@ class APIController extends GoGoController
     }
     else
     {
-      $taxonomy = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson();
-      $dataJson = $jsonLdRequest ? $taxonomy['optionsJson'] : $taxonomy['mainCategoryJson'];
+      $dataJson = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson($jsonLdRequest);
     }    
     
 

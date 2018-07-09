@@ -66,7 +66,7 @@ function checkCaptcha()
 
 function checkCategories()
 {	
-	$('.category-field:visible').each(function() 
+	$('.category-field.mandatory:visible').each(function() 
 	{
 		if ($(this).children('.option-field:visible').length === 0)
 		{

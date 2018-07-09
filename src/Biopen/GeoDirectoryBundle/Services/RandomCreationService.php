@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-04 14:39:45
+ * @Last Modified time: 2018-07-08 16:45:42
  */
  
 
@@ -82,7 +82,7 @@ class RandomCreationService
 	    $lngSpan = $NElng - $SOlng;
 	    $latSpan = $NElat - $SOlat; 
 
-	    $mainCategory = $this->em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsMainNode(true);
+	    $mainCategories = $this->em->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
 
 
 	    $lipsum = new LoremIpsum();	
@@ -124,7 +124,9 @@ class RandomCreationService
 
       	$new_element->setModerationState($this->randWithSet($moderationTypeSet));
 
-	      $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
+         foreach ($mainCategories as $key => $mainCategory) {
+            $this->recursivelyCreateOptionsforCategory($mainCategory, $new_element, $lipsum);
+         }	      
 
          // TODO create a contribution with type "import"
 	      //$new_element->setContributorMail('contributor@gmail.com');

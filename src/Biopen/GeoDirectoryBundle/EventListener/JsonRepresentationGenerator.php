@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-06-18 21:03:01
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-07-01 18:03:13
+ * @Last Modified time: 2018-07-08 16:46:11
  */
 namespace Biopen\GeoDirectoryBundle\EventListener;
 
@@ -66,31 +66,33 @@ class JsonRepresentationGenerator
 
 		if ($document instanceof Option || $document instanceof Category)
 		{
-			  $this->updateTaxonomy($dm);
+			$this->updateTaxonomy($dm);
 		}
 	}
 
 	private function updateTaxonomy($dm)
 	{
-		$taxonomy = $dm->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findAll()[0]; 
-		$dm->refresh($taxonomy);		
-
-		if ($taxonomy->getMainCategory())
-		{
-			$mainCategoryJson = $this->serializer->serialize($taxonomy->getMainCategory(), 'json');
-			$taxonomy->setMainCategoryJson($mainCategoryJson);
-		}
-		
+		$taxonomy = $dm->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomy(); 
+		$dm->refresh($taxonomy);	
+		$rootCategories = $dm->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
 		$options = $dm->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
-		$optionsSerialized = [];
 
+		// Create hierachic taxonomy
+		$rootCategoriesSerialized = [];
+		foreach ($rootCategories as $key => $rootCategory)
+		{
+			$rootCategoriesSerialized[] = $this->serializer->serialize($rootCategory, 'json');			
+		}
+		$taxonomyJson = '[' . implode(", ", $rootCategoriesSerialized) . ']';
+		$taxonomy->setTaxonomyJson($taxonomyJson);
+		
+		// Create flatten option list		
+		$optionsSerialized = [];
 		foreach ($options as $key => $option) 
 		{
 			$optionsSerialized[] = $this->serializer->serialize($option, 'json', SerializationContext::create()->setGroups(['semantic']));
 		}
-
 		$optionsJson = '[' . implode(", ", $optionsSerialized) . ']';
-
 		$taxonomy->setOptionsJson($optionsJson);	
 
 		$dm->persist($taxonomy);

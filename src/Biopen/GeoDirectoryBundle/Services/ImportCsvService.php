@@ -61,12 +61,11 @@ class ImportCsvService
 		  $progress->start();
 		}
 
-		$this->parentCategoryToCreateMissingOptions = $import->getParentCategoryToCreateOptions() ? $import->getParentCategoryToCreateOptions() : $this->em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findMainCategory();		
+		$this->parentCategoryToCreateMissingOptions = $import->getParentCategoryToCreateOptions() ?: $this->em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsRootCategory();		
 
 		$this->missingOptionDefaultAttributesForCreate = [
 			"useIconForMarker" => false,
-			"useColorForMarker" => false,
-			"displayOption" => false
+			"useColorForMarker" => false
 		];
 		$this->createMissingOptions = $import->getCreateMissingOptions();
 		$sourceKey = $import->getSourceName();
@@ -275,7 +274,6 @@ class ImportCsvService
 		$option->setParent($this->parentCategoryToCreateMissingOptions);
 		$option->setUseIconForMarker($this->missingOptionDefaultAttributesForCreate["useIconForMarker"]);
 		$option->setUseColorForMarker($this->missingOptionDefaultAttributesForCreate["useColorForMarker"]);
-		$option->setDisplayOption($this->missingOptionDefaultAttributesForCreate["displayOption"]);
 		$this->em->persist($option);
 		// $this->em->flush();
 		// dump("new option", $option);

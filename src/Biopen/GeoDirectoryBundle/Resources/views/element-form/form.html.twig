@@ -3,55 +3,13 @@
 
 <div id="element-form-content">
 
-	<section id="section-categories-options">
-		<div class="categories-info neutral-color">Choississez la ou les catégories par ordre d'importance</div>
-		{% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
-		<input id="options-values" name="options-values" type="hidden"/>
-	</section>
-	<div class="divider"></div>
+	{% include "@BiopenGeoDirectory/element-form/form-partials/categories.html.twig" %}	
 
 	{% include "@BiopenGeoDirectory/element-form/form-partials/generals-info.html.twig" %}	
 
 	{% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
 
-	<section id="section-validate-and-send">			
-
-		{% if isAllowedDirectModeration %}
-			{% include "@BiopenGeoDirectory/element-form/form-partials/admin.html.twig" %}	
-		{% else %}
-			{% include "@BiopenGeoDirectory/element-form/form-partials/user-validation.html.twig" %}	
-		{% endif %}
-
-		{% set showOwnerCheckbox = config.elementFormOwningText and (userType == "loggued" or userType == "email") %}
-		<div class="col s12 checkbox-container" {{ showOwnerCheckbox ? '' : 'style="display:none"'}}>     
-	    <input type="checkbox" name="owning" id="owning" {{ userEmail == element.userOwnerEmail ? 'checked' : '' }} />
-	    <label id="label-owning" for="owning">{{ config.elementFormOwningText | raw }}</label>
-	  </div>
-		
-		{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and isAnonymousWithEmail %}
-			<!-- <div style="text-align:center">Marre des captcha ? créez un compte !</div>
-			<div id="captcha-error-message" style="color: #c22525;">Vous devez cocher la case ci-dessous</div>
-			<div id="captcha" class="col s12"></div> -->
-			<div class="input-field col s12">
-				<i class="material-icons gogo-icon-lock prefix"></i>
-				<input type="password" id="input-password" name="input-password" class="required validate" 
-				       placeholder="Mot de passe pour créer votre compte">
-		    <!-- <label for="input-password" data-error="Mot de passe un peu court ! Veuillez utiliser au moins 5 caractères" class="gogo-form-label">Mot de passe</label> -->
-			</div>
-		{% endif %}
-
-		<input type="hidden" id="submit-option" name="submit-option" />
-		<center>
-			<button onclick="checkAndSend('backtomap')" id="element-form-submit-btn" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer</button>
-			{% if isAllowedDirectModeration %}
-				<button onclick="checkAndSend('stayonform')" type="button" class="btn element-form-submit-btn waves-effect waves-light">Envoyer et rester sur le formulaire</button>
-			{% endif %}
-
-			{% if editMode %}
-				<button onclick="history.back()" id="element-form-cancel-btn" type="button" class="btn btn-neutral element-form-cancel-btn waves-effect waves-light">Annuler</button>
-			{% endif %}
-		</center>
-  </section>
+	{% include "@BiopenGeoDirectory/element-form/form-partials/validate-and-send.html.twig" %}
 
 	{{ form_rest(form) }}
 

@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation\AccessorOrder;
 
 /**
  * Category
+ * @MongoDB\HasLifecycleCallbacks 
  * @MongoDB\Document(repositoryClass="Biopen\GeoDirectoryBundle\Repository\CategoryRepository")
  */
 class Category
@@ -75,10 +76,38 @@ class Category
 
     /**
      * @var bool
-     * @Exclude(if="object.getDisplayCategoryName() == true")
+     * @Exclude(if="object.getDisplayInMenu() == false")
      * @MongoDB\Field(type="boolean")
      */
-    private $displayCategoryName = true;
+    private $displayInMenu = false;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayInInfoBar() == false")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayInInfoBar = false;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayInForm() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayInForm = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getUseForFiltering() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $useForFiltering = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplaySuboptionsInline() == false")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displaySuboptionsInline = false;
 
     /**
      * @var string
@@ -113,7 +142,7 @@ class Category
      * @Exclude
      * @MongoDB\Field(type="boolean")
      */
-    private $isMainNode = false;
+    private $isRootCategory = false;
 
     /**
     * @Exclude(if="object.getOptionsCount() == 0")
@@ -131,6 +160,13 @@ class Category
     {
         $parentName = $this->getParent() ? $this->getParent()->getName() . '/' : '';
         return "(Category) " . $parentName . $this->getName();
+    }
+
+    /** @MongoDB\PreFlush */
+    public function onPreFlush()
+    {
+        $haveNoParent = $this->getParent() === null;
+        $this->setIsRootCategory($haveNoParent);
     }
 
     public function getOptionsCount()
@@ -289,29 +325,7 @@ class Category
     {
         return $this->enableDescription;
     }
-
-    /**
-     * Set displayCategoryName
-     *
-     * @param boolean $displayCategoryName
-     * @return $this
-     */
-    public function setDisplayCategoryName($displayCategoryName)
-    {
-        $this->displayCategoryName = $displayCategoryName;
-        return $this;
-    }
-
-    /**
-     * Get displayCategoryName
-     *
-     * @return boolean $displayCategoryName
-     */
-    public function getDisplayCategoryName()
-    {
-        return $this->displayCategoryName;
-    }
-
+    
     /**
      * Set pickingOptionText
      *
@@ -472,24 +486,134 @@ class Category
     }
 
     /**
-     * Set isMainNode
+     * Set isRootCategory
      *
-     * @param boolean $isMainNode
+     * @param boolean $isRootCategory
      * @return $this
      */
-    public function setIsMainNode($isMainNode)
+    public function setIsRootCategory($isRootCategory)
     {
-        $this->isMainNode = $isMainNode;
+        $this->isRootCategory = $isRootCategory;
         return $this;
     }
 
     /**
-     * Get isMainNode
+     * Get isRootCategory
      *
-     * @return boolean $isMainNode
+     * @return boolean $isRootCategory
      */
-    public function getIsMainNode()
+    public function getIsRootCategory()
     {
-        return $this->isMainNode;
+        return $this->isRootCategory;
+    }
+
+    /**
+     * Set displayInMenu
+     *
+     * @param boolean $displayInMenu
+     * @return $this
+     */
+    public function setDisplayInMenu($displayInMenu)
+    {
+        $this->displayInMenu = $displayInMenu;
+        return $this;
+    }
+
+    /**
+     * Get displayInMenu
+     *
+     * @return boolean $displayInMenu
+     */
+    public function getDisplayInMenu()
+    {
+        return $this->displayInMenu;
+    }
+
+    /**
+     * Set displayInInfoBar
+     *
+     * @param boolean $displayInInfoBar
+     * @return $this
+     */
+    public function setDisplayInInfoBar($displayInInfoBar)
+    {
+        $this->displayInInfoBar = $displayInInfoBar;
+        return $this;
+    }
+
+    /**
+     * Get displayInInfoBar
+     *
+     * @return boolean $displayInInfoBar
+     */
+    public function getDisplayInInfoBar()
+    {
+        return $this->displayInInfoBar;
+    }
+
+    /**
+     * Set displayInForm
+     *
+     * @param boolean $displayInForm
+     * @return $this
+     */
+    public function setDisplayInForm($displayInForm)
+    {
+        $this->displayInForm = $displayInForm;
+        return $this;
+    }
+
+    /**
+     * Get displayInForm
+     *
+     * @return boolean $displayInForm
+     */
+    public function getDisplayInForm()
+    {
+        return $this->displayInForm;
+    }
+
+    /**
+     * Set useForFiltering
+     *
+     * @param boolean $useForFiltering
+     * @return $this
+     */
+    public function setUseForFiltering($useForFiltering)
+    {
+        $this->useForFiltering = $useForFiltering;
+        return $this;
+    }
+
+    /**
+     * Get useForFiltering
+     *
+     * @return boolean $useForFiltering
+     */
+    public function getUseForFiltering()
+    {
+        return $this->useForFiltering;
+    }
+
+    /**
+     * Set displaySuboptionsInline
+     *
+     * @param boolean $displaySuboptionsInline
+     * @return $this
+     */
+    public function setDisplaySuboptionsInline($displaySuboptionsInline)
+    {
+        $this->displaySuboptionsInline = $displaySuboptionsInline;
+        return $this;
+    }
+
+    /**
+     * Get displaySuboptionsInline
+     *
+     * @return boolean $displaySuboptionsInline
+     */
+    public function getDisplaySuboptionsInline()
+    {
+        return $this->displaySuboptionsInline;
     }
 }

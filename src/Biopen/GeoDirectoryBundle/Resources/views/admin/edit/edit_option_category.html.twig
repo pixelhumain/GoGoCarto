@@ -11,15 +11,15 @@
 {% block breadcrumb %}
     {% if admin.id(object) is not null %}
         {% set currNode = object %}
-        {% set isMainNode = attribute(currNode, "isMainNode") is defined ? currNode.isMainNode : false %}
+        {% set isRootCategory = attribute(currNode, "isRootCategory") is defined ? currNode.isRootCategory : false %}
         
         <li class="active"><a href="#">{{ currNode.name }}</a></li>
-        {% for i in 0..3 if not isMainNode %}
+        {% for i in 0..3 if not isRootCategory %}
             {% set currNode = currNode.parent %} 
-            {% set is_category = attribute(currNode, "isMainNode") is defined %}      
+            {% set is_category = attribute(currNode, "isRootCategory") is defined %}      
             {% set route_name = is_category ? 'admin_biopen_geodirectory_category_edit' : 'admin_biopen_geodirectory_option_edit' %}
             <li><a href={{ path(route_name, { id: currNode.id }) }}>{{ currNode.name }}</a></li>
-            {% set isMainNode = is_category ? currNode.isMainNode : false %}
+            {% set isRootCategory = is_category ? currNode.isRootCategory : false %}
         {% endfor %}
         <li><a href={{ admin.generateUrl('list') }}>Liste des catégories</a></li>
         

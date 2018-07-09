@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-06 11:58:06
+ * @Last Modified time: 2018-07-08 16:42:20
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -25,17 +25,17 @@ class CategoryAdmin extends AbstractAdmin
 
    public function createQuery($context = 'list')
 	{
-	    $query = parent::createQuery($context);
-	    return $query;
+	   $query = parent::createQuery($context);
+	   return $query;
 	}	
 
    public function getTemplate($name) 
    {
-     switch ($name) {
+      switch ($name) {
          case 'edit': return '@BiopenAdmin/edit/edit_option_category.html.twig';
-             break;
+            break;
          default : return parent::getTemplate($name);
-             break;
+            break;
      }
    }
 
@@ -53,14 +53,18 @@ class CategoryAdmin extends AbstractAdmin
 		->end()
 		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6', 'box_class' => 'box'))	
          ->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))
-         ->add('index', null, array('required' => false, 'label' => 'Position'))	  				
-			->add('displayCategoryName', null, array('required' => false, 'label' => 'Afficher le nom de la catégorie (si non, seules les options seront affichées)'))        
+         ->add('index', null, array('required' => false, 'label' => 'Position'))	  				      
          ->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les options de la catégorie'))
 			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))
-         ->add('isMandatory', null, array('required' => false, 'label' => "Si l'option parente est selectionnée, cette catégorie doit être obligatoirement remplie"))   
+         ->add('isMandatory', null, array('required' => false, 'label' => "Cette catégorie doit être obligatoirement remplie"))   
          ->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
          ->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option)")) 		
 		->end()
+      ->with('Afficher la catégorie', array('class' => 'col-xs-12', 'box_class' => 'box'))  
+         ->add('displayInMenu', null, array('required' => false, 'label' => "Dans le manu"))  
+         ->add('displayInInfoBar', null, array('required' => false, 'label' => "Dans la fiche détail"))  
+         ->add('displayInForm', null, array('required' => false, 'label' => "Dans le formulaire")) 
+      ->end() 
 		->with('Options', array('class' => 'col-xs-12'))	
 			->add('options', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), array(
                 'edit' => 'inline',
@@ -76,14 +80,14 @@ class CategoryAdmin extends AbstractAdmin
 	  $listMapper
 	      ->add('name')	 
 	      ->add('_action', 'actions', array(
-                'actions' => array(
-                	  'tree' => array('template' => '@BiopenAdmin/partials/list__action_tree.html.twig')
-                )
+               'actions' => array(
+                	'tree' => array('template' => '@BiopenAdmin/partials/list__action_tree.html.twig')
+               )
             ));   
 	}
 
 	protected function configureRoutes(RouteCollection $collection)
 	{
-	    $collection->add('tree', $this->getRouterIdParameter().'/tree');
+	  $collection->add('tree', $this->getRouterIdParameter().'/tree');
 	}
 }

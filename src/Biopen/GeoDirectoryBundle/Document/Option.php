@@ -98,17 +98,45 @@ class Option
 
     /**
      * @var bool
-     * @Exclude(if="object.getDisplayOption() == true")
+     * @Exclude(if="object.getDisplayInMenu() == true")
      * @MongoDB\Field(type="boolean")
      */
-    private $displayOption = true;
+    private $displayInMenu = true;
 
     /**
      * @var bool
-     * @Exclude(if="object.getDisableInInfoBar() == false")
+     * @Exclude(if="object.getDisplayInInfoBar() == true")
      * @MongoDB\Field(type="boolean")
      */
-    private $disableInInfoBar = false;
+    private $displayInInfoBar = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayInForm() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayInForm = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayChildrenInMenu() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayChildrenInMenu = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayChildrenInInfoBar() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayChildrenInInfoBar = true;
+
+    /**
+     * @var bool
+     * @Exclude(if="object.getDisplayChildrenInForm() == true")
+     * @MongoDB\Field(type="boolean")
+     */
+    private $displayChildrenInForm = true;
 
     /**
      * @var bool
@@ -117,13 +145,12 @@ class Option
      */
     private $showExpanded = false;
 
-     /**
+    /**
      * @var bool
-     * @Exclude(if="object.getShowOpenHours() == false")
+     * @Exclude(if="object.getUnexpandable() == false")
      * @MongoDB\Field(type="boolean")
-     * Only for main options
      */
-    private $showOpenHours = false;
+    private $unexpandable = false;
 
     /**
      * @var bool
@@ -489,28 +516,6 @@ class Option
     }
 
     /**
-     * Set displayOption
-     *
-     * @param boolean $displayOption
-     * @return $this
-     */
-    public function setDisplayOption($displayOption)
-    {
-        $this->displayOption = $displayOption;
-        return $this;
-    }
-
-    /**
-     * Get displayOption
-     *
-     * @return boolean $displayOption
-     */
-    public function getDisplayOption()
-    {
-        return $this->displayOption;
-    }
-
-    /**
      * Set parent
      *
      * @param Biopen\GeoDirectoryBundle\Document\Category $parent
@@ -574,5 +579,159 @@ class Option
     public function getDisableInInfoBar()
     {
         return $this->disableInInfoBar;
+    }
+
+    /**
+     * Set displayInMenu
+     *
+     * @param boolean $displayInMenu
+     * @return $this
+     */
+    public function setDisplayInMenu($displayInMenu)
+    {
+        $this->displayInMenu = $displayInMenu;
+        return $this;
+    }
+
+    /**
+     * Get displayInMenu
+     *
+     * @return boolean $displayInMenu
+     */
+    public function getDisplayInMenu()
+    {
+        return $this->displayInMenu;
+    }
+
+    /**
+     * Set displayInInfoBar
+     *
+     * @param boolean $displayInInfoBar
+     * @return $this
+     */
+    public function setDisplayInInfoBar($displayInInfoBar)
+    {
+        $this->displayInInfoBar = $displayInInfoBar;
+        return $this;
+    }
+
+    /**
+     * Get displayInInfoBar
+     *
+     * @return boolean $displayInInfoBar
+     */
+    public function getDisplayInInfoBar()
+    {
+        return $this->displayInInfoBar;
+    }
+
+    /**
+     * Set displayInForm
+     *
+     * @param boolean $displayInForm
+     * @return $this
+     */
+    public function setDisplayInForm($displayInForm)
+    {
+        $this->displayInForm = $displayInForm;
+        return $this;
+    }
+
+    /**
+     * Get displayInForm
+     *
+     * @return boolean $displayInForm
+     */
+    public function getDisplayInForm()
+    {
+        return $this->displayInForm;
+    }
+
+    /**
+     * Set displayChildrenInMenu
+     *
+     * @param boolean $displayChildrenInMenu
+     * @return $this
+     */
+    public function setDisplayChildrenInMenu($displayChildrenInMenu)
+    {
+        $this->displayChildrenInMenu = $displayChildrenInMenu;
+        return $this;
+    }
+
+    /**
+     * Get displayChildrenInMenu
+     *
+     * @return boolean $displayChildrenInMenu
+     */
+    public function getDisplayChildrenInMenu()
+    {
+        return $this->displayChildrenInMenu;
+    }
+
+    /**
+     * Set displayChildrenInInfoBar
+     *
+     * @param boolean $displayChildrenInInfoBar
+     * @return $this
+     */
+    public function setDisplayChildrenInInfoBar($displayChildrenInInfoBar)
+    {
+        $this->displayChildrenInInfoBar = $displayChildrenInInfoBar;
+        return $this;
+    }
+
+    /**
+     * Get displayChildrenInInfoBar
+     *
+     * @return boolean $displayChildrenInInfoBar
+     */
+    public function getDisplayChildrenInInfoBar()
+    {
+        return $this->displayChildrenInInfoBar;
+    }
+
+    /**
+     * Set displayChildrenInForm
+     *
+     * @param boolean $displayChildrenInForm
+     * @return $this
+     */
+    public function setDisplayChildrenInForm($displayChildrenInForm)
+    {
+        $this->displayChildrenInForm = $displayChildrenInForm;
+        return $this;
+    }
+
+    /**
+     * Get displayChildrenInForm
+     *
+     * @return boolean $displayChildrenInForm
+     */
+    public function getDisplayChildrenInForm()
+    {
+        return $this->displayChildrenInForm;
+    }
+
+    /**
+     * Set unexpandable
+     *
+     * @param boolean $unexpandable
+     * @return $this
+     */
+    public function setUnexpandable($unexpandable)
+    {
+        $this->unexpandable = $unexpandable;
+        return $this;
+    }
+
+    /**
+     * Get unexpandable
+     *
+     * @return boolean $unexpandable
+     */
+    public function getUnexpandable()
+    {
+        return $this->unexpandable;
     }
 }

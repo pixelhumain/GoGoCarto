@@ -7,41 +7,28 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-07-01 18:03:22
+ * @Last Modified time: 2018-07-08 16:45:09
  */
  
 
 namespace Biopen\GeoDirectoryBundle\Repository;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Biopen\GeoDirectoryBundle\Document\Taxonomy;
-
+  
 class TaxonomyRepository extends DocumentRepository
 {
-  public function findMainCategoryJson()
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
-    $qb->select('mainCategoryJson'); 
-    return $qb->hydrate(false)->getQuery()->getSingleResult()['mainCategoryJson'];
-  }
-
-  public function findTaxonomyJson()
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
-    $qb->limit(1);
-    return $qb->hydrate(false)->getQuery()->getSingleResult();
-  }
-
-  public function findMainCategory()
-  {
-    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
-    return $qb->getQuery()->getSingleResult()->getMainCategory();
-  }
-
   public function findTaxonomy()
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
     return $qb->getQuery()->getSingleResult();
   }
+
+  public function findTaxonomyJson($getOnlyOptions = false)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Taxonomy');
+    $taxonomy =  $qb->hydrate(false)->getQuery()->getSingleResult();
+    return $getOnlyOptions ? $taxonomy['optionsJson'] : $taxonomy['taxonomyJson'];
+  }    
 }
 
 

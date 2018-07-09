@@ -1,0 +1,8 @@
+<section id="section-categories-options">
+  <div class="categories-info neutral-color">Choississez la ou les catégories par ordre d'importance</div>
+  {% for mainCategory in mainCategories %}    
+    {% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with { 'category' : mainCategory } %} 
+  {% endfor %}
+  <input id="options-values" name="options-values" type="hidden"/>
+</section>
+<div class="divider"></div>

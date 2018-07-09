@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-07-01 18:02:39
+ * @Last Modified time: 2018-07-06 11:13:01
  */
  
 
@@ -51,8 +51,7 @@ class LoadTaxonomy implements FixtureInterface
 		$mainCategory->setIndex(1);
 		$mainCategory->setSingleOption(false);
 		$mainCategory->setEnableDescription(false);
-		$mainCategory->setDisplayCategoryName(true);
-		$mainCategory->setIsMainNode(true);
+		$mainCategory->setIsRootCategory(true);
 		$mainCategory->setUnexpandable(true);
 		$mainCategory->setIsFixture(true);
 

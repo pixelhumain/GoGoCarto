@@ -3,7 +3,7 @@
  * @Author: Sebastian Castro
  * @Date:   2017-03-28 15:29:03
  * @Last Modified by:   Sebastian Castro
- * @Last Modified time: 2018-06-06 11:54:13
+ * @Last Modified time: 2018-07-08 17:28:56
  */
 namespace Biopen\GeoDirectoryBundle\Admin;
 
@@ -32,8 +32,7 @@ class OptionLiteAdmin extends AbstractAdmin
 		  	->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))		  	
 		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))
 		  	->add('useIconForMarker', null, array('required' => false, 'label' => "Icone  pour le marqueur"))		
-		  	->add('useColorForMarker', null, array('required' => false, 'label' => "Couleur pour le marqueur"))				  
-			->add('displayOption', null, array('required' => false, 'label' => "Activer l'option"))
+		  	->add('useColorForMarker', null, array('required' => false, 'label' => "Couleur pour le marqueur"))
 			->add('_link', 'text', array('required' => false, 'mapped' => false, 'label' => 'admin_biopen_geodirectory_option_edit')); 
 	}
 }

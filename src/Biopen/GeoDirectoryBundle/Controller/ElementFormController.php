@@ -6,7 +6,7 @@
  *
  * @copyright Copyright (c) 2016 Sebastian Castro - 90scastro@gmail.com
  * @license    MIT License
- * @Last Modified time: 2018-06-06 10:07:06
+ * @Last Modified time: 2018-07-08 16:44:57
  */
  
 
@@ -303,13 +303,13 @@ class ElementFormController extends GoGoController
 			$request->getSession()->getFlashBag()->add('notice', $flashMessage);
 		}	
 
- 		$mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsMainNode(true);
-
+ 		$mainCategories = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
+ 		
 		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,
 						'form' => $elementForm->createView(),
-						'mainCategory'=> $mainCategory,
+						'mainCategories'=> $mainCategories,
 						"element" => $element,
 						"userEmail" => $userEmail,
 						"userType" => $userType,

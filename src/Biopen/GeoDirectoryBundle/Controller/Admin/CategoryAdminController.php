@@ -13,28 +13,24 @@ class CategoryAdminController extends Controller
         $em = $this->get('doctrine_mongodb')->getManager();
 
         // Get Product List        
-        $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')
-        ->findOneByIsMainNode(true); 
+        $rootCategories = $em->getRepository('BiopenGeoDirectoryBundle:Category')
+        ->findByIsRootCategory(true); 
 
-        return $this->treeAction($mainCategory);
+        return $this->treeAction($rootCategories);
     }
 
-    public function treeAction($mainCategory = null)
+    public function treeAction($rootCategories = null)
     {
         $request = $this->getRequest();
 
         $id = $request->get($this->admin->getIdParameter());
-        $object = $mainCategory ?: $this->admin->getObject($id);
+        $object = $rootCategories ?: [$this->admin->getObject($id)];
 
-        // if (!$object) {
-        //     throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
-        // }
-
-        $this->admin->checkAccess('edit', $object);
+        $this->admin->checkAccess('edit', $object[0]);
         $this->admin->setSubject($object);
 
         return $this->render('@BiopenAdmin/list/tree_category.html.twig', array(
-            'category' => $object,
+            'categories' => $object,
         ), null);
     }
 }
