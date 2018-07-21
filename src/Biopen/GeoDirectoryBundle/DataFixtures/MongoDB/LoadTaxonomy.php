@@ -39,11 +39,6 @@ class LoadTaxonomy implements FixtureInterface
 		$c['red'] = '#cc3125';			$s['red'] = '#ce3a2f';
 		$c['darkgreen'] = '#1e8065';			$s['darkgreen'] = '#1e8065';
 		
-		
-		$taxonomy = new Taxonomy();
-		$manager->persist($taxonomy);
-		$manager->flush();
-
 		// main
 		$mainCategory = new Category();
 		$mainCategory->setName('Catégories Principales');
@@ -51,11 +46,10 @@ class LoadTaxonomy implements FixtureInterface
 		$mainCategory->setIndex(1);
 		$mainCategory->setSingleOption(false);
 		$mainCategory->setEnableDescription(false);
-		$mainCategory->setIsRootCategory(true);
 		$mainCategory->setUnexpandable(true);
 		$mainCategory->setIsFixture(true);
 
-		$taxonomy->setMainCategory($mainCategory);
+		$manager->persist($mainCategory);
 
 		// Liste des noms de catégorie à ajouter
 		$mains = array(
@@ -93,6 +87,10 @@ class LoadTaxonomy implements FixtureInterface
 		}
 
 		// On déclenche l'enregistrement de toutes les catégories
+		$manager->flush();
+
+		$taxonomy = new Taxonomy();
+		$manager->persist($taxonomy);
 		$manager->flush();
 	}
 }

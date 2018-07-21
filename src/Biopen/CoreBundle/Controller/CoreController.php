@@ -15,7 +15,7 @@ class CoreController extends GoGoController
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
         ->findAllOrderedByPosition();
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsRootCategory(true);
-        $mainOptions = $mainCategory->getOptions();
+        $mainOptions = $mainCategory ? $mainCategory->getOptions() : [];
 
         $this->get('session')->clear();
         
