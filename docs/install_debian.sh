@@ -64,8 +64,8 @@ fi
 # NODEJSsudo apt-get install -y make php5-dev php-pear
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
-curl -L https://npmjs.org/install.sh | sudo s
-h
+curl -L https://npmjs.org/install.sh | sudo sh
+
 # PULL CODE
 cd $WEB_DIR
 git clone -b master https://github.com/pixelhumain/GoGoCarto.git
@@ -138,11 +138,6 @@ php bin/console doctrine:mongodb:schema:create ;
 php bin/console doctrine:mongodb:generate:hydrators ;
 php bin/console doctrine:mongodb:generate:proxies ;
 php bin/console doctrine:mongodb:fixtures:load ;
-
-php bin/console doctrine:schema:update --force
-php bin/console doctrine:fixtures:load
-
-php bin/console cache:clear --env=prod;
 
 chmod -R 777 var/;
 

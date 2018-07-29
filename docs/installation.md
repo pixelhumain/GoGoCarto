@@ -36,14 +36,13 @@ cd GoGoCarto/
 ### Installing dependencies 
 Php dependency (symfony, bundles...) 
 ```
-php path-to/composer.phar install or composer install
+composer install
 ```
 *During installation, config/parameters file will be created, leave default fields*
 
 Workflow dependencies (compiling sass and javascript)
 ```
 npm install gulp
-npm install -g gulp
 npm install
 ```
 
