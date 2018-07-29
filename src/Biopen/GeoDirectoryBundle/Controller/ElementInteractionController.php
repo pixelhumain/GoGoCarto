@@ -22,7 +22,7 @@ use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 use Biopen\GeoDirectoryBundle\Document\UserInteractionReport;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ElementInteractionController extends Controller
 {

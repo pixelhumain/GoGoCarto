@@ -651,7 +651,11 @@ class Element
         $contributions = $this->getContributions();
         if (is_array($contributions))   
         {
-            return (count($contributions) > 0) ? array_pop((array_slice($contributions, -1))) : null;
+            if (count($contributions) > 0) {
+                $currContrib = array_slice($contributions, -1);
+                return array_pop($currContrib);
+            }
+            return null;
         } 
         else 
             return $contributions ? $contributions->last() : null;
