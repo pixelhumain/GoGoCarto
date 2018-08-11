@@ -37,18 +37,17 @@ cd /usr/src
 sudo apt-get install -y curl php5-cli
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
-# MONGODB
-sudo apt-get install -y make php5-dev php-pear
-
+# openssl (needed?)
 mkdir -p /usr/local/openssl/include/openssl/
 ln -s /usr/include/openssl/evp.h /usr/local/openssl/include/openssl/evp.h
 mkdir -p /usr/local/openssl/lib/
 ln -s /usr/lib/x86_64-linux-gnu/libssl.a /usr/local/openssl/lib/libssl.a
 ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/local/openssl/lib/
+
+# MONGODB
+sudo apt-get install -y make php5-dev php-pear
 pecl install mongodb
 pecl install mongo
-
-
 sudo apt-get install -y mongodb-org
 
 if grep "extension=mongodb.so" /etc/php5/cli/php.ini 
@@ -61,8 +60,16 @@ else
     echo "extension=mongo.so" >> /etc/php5/fpm/php.ini
 fi
 
-# NODEJSsudo apt-get install -y make php5-dev php-pear
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+# php 7
+sudo apt install php7.0 php7.0-fpm php7.0-dev php-pear php-mbstring php7.0-bcmath
+pecl install mongodb
+# MongoDB ter
+sudo apt install mongodb php7.0-mongodb
+composer config "platform.ext-mongo" "1.6.16" && composer require alcaeus/mongo-php-adapter
+echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini
+
+# NODEJS
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 curl -L https://npmjs.org/install.sh | sudo sh
 
