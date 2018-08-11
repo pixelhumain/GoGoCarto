@@ -32,6 +32,10 @@ jQuery(document).ready(function()
 
 		checkForSelectLabel(optionField, 1);
 		index++;
+
+		// open automatically mandatory sub select
+		var firstMandatorySubSelect = optionField.find('.category-field.mandatory .select-dropdown')[0];
+		if (firstMandatorySubSelect) setTimeout(function() { firstMandatorySubSelect.click(); }, 350);
 	});
 
 	$('.option-field-delete').click(function()
