@@ -58,6 +58,7 @@ class CategoryAdmin extends AbstractAdmin
 			->add('unexpandable', null, array('required' => false, 'label' => 'Ne pas pouvoir reduire cette catégorie'))
          ->add('isMandatory', null, array('required' => false, 'label' => "Cette catégorie doit être obligatoirement remplie"))   
          ->add('singleOption', null, array('required' => false, 'label' => 'Option unique (une seule option est sélectionnable pour cette catégorie)'))
+         ->add('displaySuboptionsInline', null, array('required' => false, 'label' => 'Afficher les sous catégories sur une seule ligne'))
          ->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option)")) 		
 		->end()
       ->with('Afficher la catégorie', array('class' => 'col-xs-12', 'box_class' => 'box'))  
