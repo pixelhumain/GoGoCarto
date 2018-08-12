@@ -23,7 +23,7 @@ class ImportAdminController extends Controller
 
     private function executeImport($import)
     {        
-        $result = $this->get('biopen.import_csv')->import($import);
+        $result = $this->get('biopen.element_import')->importCsv($import);
         if ($result === null) 
             $this->addFlash('sonata_flash_error', "Un erreur s'est produite lors du chargement du fichier Csv. Vérifiez que le fichier est bien valide");
         else

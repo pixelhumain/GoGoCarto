@@ -1,0 +1,22 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% if admin.isGranted('VIEW', object) and admin.hasRoute('refresh') and object.id != "" %}
+    <a href="{{ admin.generateObjectUrl('refresh', object) }}" class="btn {{ class|default('btn-sm btn-primary') }} view_link">
+        {% if object.lastRefresh %}
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+          Synchroniser
+        {% else %}
+          <i class="fa fa-download" aria-hidden="true"></i>
+          Charger les données
+        {% endif %}
+    </a>
+{% endif %}

@@ -23,14 +23,14 @@ class Import extends AbstractFile
 
     /**
      * @var string
-     * @MongoDB\Field(type="string")
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Source", cascade={"persist"})
      */
-    private $sourceName = "";
+    private $source;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", cascade={"all"})
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Category", cascade={"persist"})
      */
-    private $parentCategoryToCreateOptions;
+    private $parentCategoryToCreateOptions = null;
 
     /**
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Option")
@@ -40,12 +40,12 @@ class Import extends AbstractFile
     /**
      * @MongoDB\Field(type="bool")
      */
-    private $createMissingOptions;
+    private $createMissingOptions = false;
 
     /**
      * @MongoDB\Field(type="bool")
      */
-    private $geocodeIfNecessary;    
+    private $geocodeIfNecessary = false;    
     
     public function __construct() {}
 
@@ -57,28 +57,6 @@ class Import extends AbstractFile
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set sourceName
-     *
-     * @param string $sourceName
-     * @return $this
-     */
-    public function setSourceName($sourceName)
-    {
-        $this->sourceName = $sourceName;
-        return $this;
-    }
-
-    /**
-     * Get sourceName
-     *
-     * @return string $sourceName
-     */
-    public function getSourceName()
-    {
-        return $this->sourceName;
     }
 
     /**
@@ -167,5 +145,27 @@ class Import extends AbstractFile
     public function getGeocodeIfNecessary()
     {
         return $this->geocodeIfNecessary;
+    }
+
+    /**
+     * Set source
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Source $source
+     * @return $this
+     */
+    public function setSource(\Biopen\GeoDirectoryBundle\Document\Source $source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Source $source
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 }

@@ -40,8 +40,8 @@ services:
     biopen.csvtoarray:
         class: Biopen\GeoDirectoryBundle\Services\ConvertCsvToArrayService
 
-    biopen.import_csv:
-       class: Biopen\GeoDirectoryBundle\Services\ImportCsvService
+    biopen.element_import:
+       class: Biopen\GeoDirectoryBundle\Services\ElementImportService
        arguments: 
           - "@doctrine.odm.mongoDB.document_manager"
           - "@biopen.csvtoarray"

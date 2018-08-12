@@ -149,8 +149,9 @@ php bin/console doctrine:mongodb:fixtures:load ;
 chmod -R 777 var/;
 
 # adding crontab task
-line="5 3 * * * php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkvote"
+line="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkvote"
 line2="@hourly php /var/www/html/GoGoCarto/bin/console --env=prod app:users:sendNewsletter"
+line3="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkExternalSourceToUpdate"
 # TODO add crontab automatically
 # (crontab -l; echo "$line" ) | crontab -u userhere -
 

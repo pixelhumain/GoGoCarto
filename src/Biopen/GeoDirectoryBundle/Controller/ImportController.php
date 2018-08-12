@@ -32,12 +32,12 @@ class ImportController extends Controller
 	   return new Response('Elements générés');
   	} 
 
-  	public function importCsvAction($fileName, $geocode)
-	{
-	   $this->get('biopen.import_csv')->import($fileName, $geocode);
+  	// public function importCsvAction($fileName, $geocode)
+	  // {
+	  //  $this->get('biopen.element_import')->importCsv($fileName, $geocode);
 
-	   return new Response('Elements importés');
-  	} 
+	  //  return new Response('Elements importés');
+  	// } 
 
    public function availableOptionsAction()
    {

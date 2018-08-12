@@ -13,7 +13,12 @@ class ImportAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('sourceName', 'text', array('required' => false, 'label' => 'Nom de la source'))
+            ->add('source', 'sonata_type_model', array(), array(
+                'class'=> 'Biopen\GeoDirectoryBundle\Document\Source', 
+                'required' => true, 
+                'choices_as_values' => true,
+                'label' => 'Source des données',
+                'mapped' => true))
             ->add('file', 'file', array('label' => 'Fichier à importer'))
             ->add('geocodeIfNecessary', null, array('required' => false, 'label' => 'Géocoder si élements sans latitude ni longitude'))
             ->add('createMissingOptions', null, array('required' => false, 'label' => 'Créer les options manquantes'))

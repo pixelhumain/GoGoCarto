@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle::CRUD/base_edit.html.twig' %}
+
+{% block actions %}
+{% endblock %}
+
+{% block sonata_form_actions %}
+  {% if object.lastRefresh %}
+    <p>Dernière mise à jour : {{ object.lastRefresh|date('d/m/Y') }}</p>
+  {% endif %}
+  {% set class = "btn-primary" %}
+  <button type="submit" class="btn btn-success" name="submit"><i class="fa fa-save" aria-hidden="true"></i>Sauvegarder</button>
+  {% include '@BiopenAdmin/partials/list__action_refresh.html.twig' %}
+  <a href="{{ admin.generateObjectUrl('list', object) }}" class="btn btn-default view_link">
+    <i class="fa fa-list" aria-hidden="true"></i>Retour à la liste
+  </a>
+{% endblock %}
+

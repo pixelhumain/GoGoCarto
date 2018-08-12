@@ -1,0 +1,11 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+  {% spaceless %}
+      {% if value %}
+      	<span class="label label-success">{{ value|date('d/m/Y') }}</span>
+      {% else %}
+      	<span class="label label-default">Manuelle</span>
+      {% endif %}
+  {% endspaceless %}
+{% endblock %}

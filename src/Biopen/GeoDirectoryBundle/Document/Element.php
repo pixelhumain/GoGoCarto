@@ -243,6 +243,13 @@ class Element
     public $sourceKey = 'PDCN';
 
     /**
+     * The source from where the element has been imported or created
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Biopen\GeoDirectoryBundle\Document\Source")
+     */
+    private $source;
+
+    /**
      * @var string
      *
      * If element has been imported, this is the Id of the element in the previous database
@@ -338,8 +345,8 @@ class Element
     private $userOwnerEmail;
 
     /**
-     * When actions are made by many person (like moderation, duplicates check...) we look the elements currently procced by someone
-     * so noone else make acction on the same element 
+     * When actions are made by many person (like moderation, duplicates check...) we lock the elements currently proceed by someone
+     * so noone else make action on the same element 
      * @MongoDB\Field(type="int")
      */
     private $lockUntil = 0;
@@ -1641,5 +1648,27 @@ class Element
     public function getLockUntil()
     {
         return $this->lockUntil;
+    }
+
+    /**
+     * Set source
+     *
+     * @param Biopen\GeoDirectoryBundle\Document\Source $source
+     * @return $this
+     */
+    public function setSource(\Biopen\GeoDirectoryBundle\Document\Source $source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return Biopen\GeoDirectoryBundle\Document\Source $source
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 }
