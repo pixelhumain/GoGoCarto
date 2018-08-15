@@ -1,0 +1,48 @@
+{% extends "@BiopenSaasBundle/sass-layout.html.twig" %}
+
+{% set pageName = 'register' %}
+{% set navTitle = "Créer un compte administrateur" %}
+
+{% block body %}
+    <h1 class="panel-title">Créez un compte administrateur</h1> 
+
+    <form action="{{ path('biopen_saas_initialize_project') }}" {{ form_enctype(form) }} method="POST" class="simple-form form-horizontal">
+
+        <section>
+            <div class="error">{{ form_errors(form) }}</div>
+            
+            <div class="error">{{ form_errors(form.username) }}
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-account-circle prefix"></i>  
+                {{ form_widget(form.username, {'id': 'input-username', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-username" class="gogo-form-label">Nom d'utilisateur</label>
+            </div>
+
+            <div class="error">{{ form_errors(form.email) }}</div>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-mail prefix"></i>  
+                {{ form_widget(form.email, {'id': 'input-email', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-email" class="gogo-form-label">Adresse e-mail</label>
+            </div>
+
+            <div class="error">{{ form_errors(form.plainPassword.first) }}</div>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-lock prefix"></i>  
+                {{ form_widget(form.plainPassword.first, {'id': 'input-plainPassword-1', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-plainPassword-1" class="gogo-form-label">Mot de passe</label>
+            </div>
+            <div class="error">{{ form_errors(form.plainPassword.second) }}</div>
+            <div class="input-field col s12">
+                <i class="material-icons gogo-icon-lock prefix"></i>  
+                {{ form_widget(form.plainPassword.second, {'id': 'input-plainPassword-2', 'attr': {'class': 'validate required'}}) }}
+                <label for="input-plainPassword-2" class="gogo-form-label">Retapez votre mot de passe</label>
+            </div>
+        </section>
+
+        <div class="form-actions">
+            <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-success pull-right" />
+        </div>
+        
+    </form>
+
+{% endblock %}

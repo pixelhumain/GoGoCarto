@@ -4,12 +4,14 @@ namespace Biopen\SaasBundle\Helper;
 
 class SaasHelper
 {
+   private $ROOT_PROJECT_CODE = "gogocarto_default";
+
    // GoGoCarto can be use as a SAAS. in this case, each subdomain map a projet
    // project1.gog.carto, project2.gogo.carto etc...
    // by default, the projet code is "gogocarto_default"
    public function getCurrentProjectCode()
    {
-      $dbName = "gogocarto_default";
+      $dbName = $this->ROOT_PROJECT_CODE;
       $host = $_SERVER["HTTP_HOST"];
       if ($host)
       {
@@ -19,6 +21,8 @@ class SaasHelper
       }
       return $dbName;
    }
+
+   public function isRootProject() { return $this->getCurrentProjectCode() == $this->ROOT_PROJECT_CODE; }
 
    // return the Url to the actual public folder (the web/ folder)
    public function getPublicFolderUrl()

@@ -1,0 +1,11 @@
+biopen_saas_new_project:
+    path: project/new
+    defaults: { _controller: BiopenSaasBundle:Project:create }
+
+biopen_saas_initialize_project:
+    path: project/initialize
+    defaults: { _controller: BiopenSaasBundle:Project:initialize }
+
+biopen_saas_home:
+    path: projects
+    defaults: { _controller: BiopenSaasBundle:Project:home }

@@ -1,0 +1,41 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie" lang="fr"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie" lang="fr"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie" lang="fr"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js ie9 ie" lang="fr"> <![endif]-->
+<!--[if !(IE)]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+<head>
+  <title>{% block title %}GoGoCarto{% endblock %}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+ 
+  {# gogocarto contains materializeCss lib, so we load it for all files #}
+  <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=' ~ version) }}">    
+
+  {% block stylesheets %}
+  {% endblock %}  
+
+  <meta name="robots" content="index, follow, all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
+</head>
+
+<body class="gogo-load-css"> {# use this class to load the css vendors encapsulated inside gogocarto.css #}
+
+  {% block body %}
+  {% endblock %} 
+
+  {# Mains javascripts libs #}
+  <script src="{{ asset('js/libs.js?ver=' ~ version) }}"></script> 
+  <script src="{{ asset('js/gogocarto.js?ver=' ~ version) }}"></script>      
+
+  {# Block to add custom javascript to each page #}
+  {% block javascripts %}           
+  {% endblock %}   
+
+  {% block modals %}  
+  {% endblock %} 
+
+</body>
+</html>
+

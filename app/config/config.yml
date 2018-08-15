@@ -57,6 +57,7 @@ twig:
         "%kernel.root_dir%/../src/Biopen/CoreBundle/Resources/views": BiopenCoreBundle
         "%kernel.root_dir%/../src/Application/Sonata/UserBundle/Resources/views": UserBundle
         "%kernel.root_dir%/../web": RootDir
+        "%kernel.root_dir%/../src/Biopen/SaasBundle/Resources/views": BiopenSaasBundle
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
     form:
@@ -77,7 +78,7 @@ doctrine_mongodb:
         default:
             server: "%mongodb_server%"
             options: {}
-    default_database: gogocarto
+    default_database: gogocarto_default
     document_managers:
         default:
             auto_mapping: true

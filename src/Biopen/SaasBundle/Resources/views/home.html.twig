@@ -1,0 +1,16 @@
+{% extends "@BiopenSaasBundle/sass-layout.html.twig" %}
+
+{% block title %}GoGoCarto - Des cartes à GoGo{% endblock %}
+
+{% block body %}
+  <h1>Bienvenue dans la ferme de carto !</h1>
+
+  <a href="{{ path('biopen_saas_new_project') }}"><button>Créer un projet</button></a>
+
+  <h2>Liste des projets</h2>
+  <ul>
+    {% for project in projects %}
+      <li><a href={{ project.homeUrl }} target="_blank">{{ project.name}}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

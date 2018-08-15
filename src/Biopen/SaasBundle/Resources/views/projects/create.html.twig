@@ -1,0 +1,33 @@
+{% extends "@BiopenSaasBundle/sass-layout.html.twig" %}
+
+{% block title %}GoGoCarto - Des cartes à GoGo{% endblock %}
+
+{% block body %}
+  <h1>Créer un projet</h1>
+
+  {{ form_start(form, {'id': 'project-form'}) }}   
+
+  {{ form_errors(form.name) }}
+  <div class="row">
+    <div class="input-field col s12">
+      <i class="material-icons gogo-icon-account-circle prefix"></i>  
+      {{ form_widget(form.name, {'id': 'input-name', 
+                                 'attr': {'class': 'validate required', 'length':'80'}}) }}
+      <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom du projet</label>
+    </div>  
+
+    {{ form_errors(form.domainName) }}
+    <div class="input-field col s12">
+      <i class="material-icons gogo-icon-account-circle prefix"></i>  
+      {{ form_widget(form.domainName, {'id': 'input-domain', 
+                                 'attr': {'class': 'validate required', 'length':'80'}}) }}
+      <label for="input-domain" class="gogo-form-label" data-error="">Nom du domaine</label>
+    </div> 
+
+    <button type="submit">Créer</button>  
+  </div>
+
+  {{ form_rest(form) }}
+
+  {{ form_end(form) }}
+{% endblock %}
