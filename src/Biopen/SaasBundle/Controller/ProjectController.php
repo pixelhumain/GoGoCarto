@@ -88,7 +88,7 @@ class ProjectController extends AbstractSaasController
     public function initializeAction(Request $request)  
     {
         $odm = $this->get('doctrine_mongodb')->getManager();
-        $users = $odm->getRepository('BiopenSaasBundle:Project')->findAll();
+        $users = $odm->getRepository('BiopenCoreBundle:User')->findAll();
         if (count($users) > 0) return $this->redirectToRoute('biopen_homepage');
 
         $userManager = $this->container->get('fos_user.user_manager');
