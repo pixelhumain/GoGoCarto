@@ -9,7 +9,7 @@
 <meta property="og:image" content="{{ asset('assets/img/pdcn-social-share.jpg') }}" />
 
 {# custom javascript code #}
-<script>{{ config.customJavascript | raw }}</script>
+<script>window.onload = function() { {{ config.customJavascript | raw }} }</script>
 
 {# general gogocarto styles depending on configuration style (colors, font...) #}
 {% include '@BiopenCoreBundle/gogocarto-styles.html.twig' %}

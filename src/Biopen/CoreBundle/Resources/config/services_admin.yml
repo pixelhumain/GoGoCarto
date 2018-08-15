@@ -5,6 +5,30 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Configuration Générale }
 
+    admin.home_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationHomeAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Page d'accueil }
+
+    admin.map_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationMapAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: La carte }
+
+    admin.form_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationFormContributionsAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Formulaire / Contributions }
+
+    admin.style_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationStyleAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Style }
+
     admin.mail_config:
         class: Biopen\CoreBundle\Admin\ConfigurationMailAdmin
         arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']

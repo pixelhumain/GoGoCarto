@@ -44,17 +44,19 @@
           <span class="header-icon gogo-icon-partner-3"></span><span class="text">Qui sommes nous ?</span>
         </a>  
 			</div>	
-                       
-      <div class="col menu-item dropdown-button" data-activates='listAbout'>
-        <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">A propos</span></a> 
-        <div class="arrow-after"></div>                
-      </div>
-      <ul id='listAbout' class='dropdown-content'>    	
-        {% for about in listAbouts %}
-        	<li class="item-divider"></li>
-          <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
-      	{% endfor %}            
-      </ul>
+           
+      {% if listAbouts.count %}            
+        <div class="col menu-item dropdown-button" data-activates='listAbout'>
+          <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">A propos</span></a> 
+          <div class="arrow-after"></div>                
+        </div>
+        <ul id='listAbout' class='dropdown-content'>    	
+          {% for about in listAbouts %}
+          	<li class="item-divider"></li>
+            <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
+        	{% endfor %}            
+        </ul>
+      {% endif %}
 
       {# no loggin in iframe #}
       {% if not iframe %}

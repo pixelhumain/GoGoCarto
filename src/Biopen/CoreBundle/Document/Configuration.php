@@ -5,6 +5,7 @@ namespace Biopen\CoreBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+
 /**
  * Main Configuration
  *
@@ -35,8 +36,25 @@ class Configuration
     // For meta keywords header
     protected $appTags;
 
-    // TODO Logo, LogoInline, HomeBackground, favicon
+    // ----------------------------
+    // --------- IMAGES -----------
+    // ----------------------------
 
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    protected $logo;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    protected $logoInline;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    protected $socialShareImage;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    protected $favicon;
+
+    // ----------------------------
+    // ---------- TEXTS -----------
+    // ----------------------------
     // The strings to describe an element of the directory (it can be a "point" an "organization" ...)
 
     /** @MongoDB\Field(type="string") */ 
@@ -50,32 +68,26 @@ class Configuration
 
     /** @MongoDB\Field(type="string") */    
     protected $elementDisplayNamePlural = "éléments"; // elements 
+   
 
-    /** @MongoDB\Field(type="string") */    
-    protected $collaborativeModerationExplanations;
-
-    /** @MongoDB\Field(type="string") */    
-    protected $customPopupText;
-
-    /** @MongoDB\Field(type="int") */
-    protected $customPopupId = 0;
+    // ----------------------------
+    // ----------- HOME -----------
+    // ----------------------------
 
     /** @MongoDB\Field(type="bool") */
-    protected $customPopupShowOnlyOnce;
-    
+    protected $activateHomePage;
 
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    protected $backgroundImage;
 
-    // ----------------------------
-    // -------- IMPORTS -----------
-    // ----------------------------
+    /** @MongoDB\Field(type="bool") */
+    protected $displayCategories;
 
-    /** @MongoDB\Field(type="string") */ 
-    protected $fontImport;
+    /** @MongoDB\Field(type="string") */
+    protected $addElementHint;
 
-    /** @MongoDB\Field(type="string") */ 
-    protected $iconImport;
-
-
+    /** @MongoDB\Field(type="string") */
+    protected $seeMoreButton;
 
 
     // ----------------------------
@@ -144,6 +156,8 @@ class Configuration
     /** @MongoDB\Field(type="int") */
     protected $maxDaysLeavingAnElementPending = 15;
 
+    /** @MongoDB\Field(type="string") */    
+    protected $collaborativeModerationExplanations;    
 
 
     // -------------------------
@@ -164,6 +178,19 @@ class Configuration
 
      /** @MongoDB\Field(type="float") */
     protected $defaultSouthWestBoundsLng;
+
+    // -------------------------
+    // ------ MAP POPUP --------
+    // -------------------------
+
+    /** @MongoDB\Field(type="string") */    
+    protected $customPopupText;
+
+    /** @MongoDB\Field(type="int") */
+    protected $customPopupId = 0;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $customPopupShowOnlyOnce;
 
 
     // ----------------------------
@@ -200,6 +227,7 @@ class Configuration
     // ----------------------------
     // ---------- FORM ------------
     // ----------------------------
+
     /** @MongoDB\Field(type="string") */
     protected $elementFormIntroText;
 
@@ -212,13 +240,22 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $elementFormGeocodingHelp;
 
+
+
+    // ----------------------------
+    // -------- IMPORTS -----------
+    // ----------------------------
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $fontImport;
+
+    /** @MongoDB\Field(type="string") */ 
+    protected $iconImport;
+
+
     // -------------------------
     // --------- STYLE ---------
     // -------------------------
-
-    protected $logo;
-
-    protected $homeBackground;
 
     // MAIN COLORS & FONTS
 
@@ -289,8 +326,7 @@ class Configuration
     protected $pendingColor; 
 
     /** @MongoDB\Field(type="string") */
-    protected $interactiveSectionColor; 
-
+    protected $interactiveSectionColor;
 
 
     // -------------------------
@@ -2118,5 +2154,203 @@ class Configuration
     public function getElementFormGeocodingHelp()
     {
         return $this->elementFormGeocodingHelp;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $logo
+     * @return $this
+     */
+    public function setLogo(\Biopen\CoreBundle\Document\PartnerImage $logo)
+    {
+        $this->logo = $logo;
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * Set logoInline
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $logoInline
+     * @return $this
+     */
+    public function setLogoInline(\Biopen\CoreBundle\Document\PartnerImage $logoInline)
+    {
+        $this->logoInline = $logoInline;
+        return $this;
+    }
+
+    /**
+     * Get logoInline
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $logoInline
+     */
+    public function getLogoInline()
+    {
+        return $this->logoInline;
+    }
+
+    /**
+     * Set socialShareImage
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $socialShareImage
+     * @return $this
+     */
+    public function setSocialShareImage(\Biopen\CoreBundle\Document\PartnerImage $socialShareImage)
+    {
+        $this->socialShareImage = $socialShareImage;
+        return $this;
+    }
+
+    /**
+     * Get socialShareImage
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $socialShareImage
+     */
+    public function getSocialShareImage()
+    {
+        return $this->socialShareImage;
+    }
+
+    /**
+     * Set favicon
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $favicon
+     * @return $this
+     */
+    public function setFavicon(\Biopen\CoreBundle\Document\PartnerImage $favicon)
+    {
+        $this->favicon = $favicon;
+        return $this;
+    }
+
+    /**
+     * Get favicon
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $favicon
+     */
+    public function getFavicon()
+    {
+        return $this->favicon;
+    }
+
+    /**
+     * Set activateHomePage
+     *
+     * @param bool $activateHomePage
+     * @return $this
+     */
+    public function setActivateHomePage($activateHomePage)
+    {
+        $this->activateHomePage = $activateHomePage;
+        return $this;
+    }
+
+    /**
+     * Get activateHomePage
+     *
+     * @return bool $activateHomePage
+     */
+    public function getActivateHomePage()
+    {
+        return $this->activateHomePage;
+    }
+
+    /**
+     * Set backgroundImage
+     *
+     * @param Biopen\CoreBundle\Document\PartnerImage $backgroundImage
+     * @return $this
+     */
+    public function setBackgroundImage(\Biopen\CoreBundle\Document\PartnerImage $backgroundImage)
+    {
+        $this->backgroundImage = $backgroundImage;
+        return $this;
+    }
+
+    /**
+     * Get backgroundImage
+     *
+     * @return Biopen\CoreBundle\Document\PartnerImage $backgroundImage
+     */
+    public function getBackgroundImage()
+    {
+        return $this->backgroundImage;
+    }
+
+    /**
+     * Set displayCategories
+     *
+     * @param bool $displayCategories
+     * @return $this
+     */
+    public function setDisplayCategories($displayCategories)
+    {
+        $this->displayCategories = $displayCategories;
+        return $this;
+    }
+
+    /**
+     * Get displayCategories
+     *
+     * @return bool $displayCategories
+     */
+    public function getDisplayCategories()
+    {
+        return $this->displayCategories;
+    }
+
+    /**
+     * Set addElementHint
+     *
+     * @param string $addElementHint
+     * @return $this
+     */
+    public function setAddElementHint($addElementHint)
+    {
+        $this->addElementHint = $addElementHint;
+        return $this;
+    }
+
+    /**
+     * Get addElementHint
+     *
+     * @return string $addElementHint
+     */
+    public function getAddElementHint()
+    {
+        return $this->addElementHint;
+    }
+
+    /**
+     * Set seeMoreButton
+     *
+     * @param string $seeMoreButton
+     * @return $this
+     */
+    public function setSeeMoreButton($seeMoreButton)
+    {
+        $this->seeMoreButton = $seeMoreButton;
+        return $this;
+    }
+
+    /**
+     * Get seeMoreButton
+     *
+     * @return string $seeMoreButton
+     */
+    public function getSeeMoreButton()
+    {
+        return $this->seeMoreButton;
     }
 }

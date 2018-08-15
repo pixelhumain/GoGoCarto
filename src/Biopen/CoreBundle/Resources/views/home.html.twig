@@ -99,24 +99,7 @@
 {% endblock %}
 
 {% block javascripts %}  
-	<script src="{{ asset('js/home.js') }}"></script>
-	<script>
-		var ratio = window.innerWidth / window.innerHeight;
-
-		var imgDir = "{{ asset('assets/img/') }}";
-		var imgName = ratio > 1.75 ? 'home-2-1' : 'home-3-2';
-
-		if (window.innerWidth > 1200) imgName += '-big';
-		else if (window.innerWidth > 600) imgName += '-medium';
-		else imgName += '-small';
-
-		imgName += '.png';				
-		var imgPath = imgDir + imgName;
-
-		// not displaying image for small screens
-		if (window.innerWidth > 600) $('body').css('background-image', 'url(' + imgPath + ')' );
-	</script>
-	
+	<script src="{{ asset('js/home.js') }}"></script>	
 {% endblock %}
 
 

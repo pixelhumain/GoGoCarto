@@ -26,3 +26,5 @@
 ssh_password
 /web/uploads/*
 *.csv
+/web/assets/images/*
+pdcn-home-script\.js

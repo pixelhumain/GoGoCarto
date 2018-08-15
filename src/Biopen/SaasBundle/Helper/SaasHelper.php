@@ -28,11 +28,9 @@ class SaasHelper
    public function getPublicFolderUrl()
    {
       if (isset($_SERVER["HTTP_ORIGIN"])) $url = $_SERVER["HTTP_ORIGIN"];
-      else
-      {
-         $url = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
-         if (strpos($url, 'localhost') !== false) $url .= explode('/app',$_SERVER["SCRIPT_NAME"])[0]; // ugly fix to support localhost !
-      }
+      else $url = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
+
+      if (strpos($url, 'localhost') !== false) $url .= explode('/app',$_SERVER["SCRIPT_NAME"])[0]; // ugly fix to support localhost !
          
       return $url;
    }

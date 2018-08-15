@@ -13,6 +13,9 @@ use Application\Sonata\UserBundle\Form\Type\RegistrationFormType;
 use Biopen\CoreBundle\Document\User;
 use FOS\UserBundle\Model\UserInterface;
 use Biopen\CoreBundle\DataFixtures\MongoDB\LoadConfiguration;
+use Biopen\GeoDirectoryBundle\Document\Taxonomy;
+use Biopen\GeoDirectoryBundle\Document\Category;
+use Biopen\GeoDirectoryBundle\Document\Option;
 
 class ProjectController extends AbstractSaasController
 {
@@ -61,6 +64,13 @@ class ProjectController extends AbstractSaasController
             $configuration->setAppName($project->getName());
             $configuration->setAppBaseline("");
 
+            // $mainCategory = new Category();
+            // $mainCategory->setName('Catégories Principales');
+            // $projectOdm->persist($mainCategory);
+            // $projectOdm->flush();
+            
+            // $taxonomy = new Taxonomy();
+            // $projectOdm->persist($taxonomy);
             $projectOdm->flush();
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');

@@ -20,6 +20,7 @@ class UploadDirectoryNamer implements DirectoryNamerInterface
       "image" => "/images",
       "element_image" => "/images/elements",
       "partner_image" => "/images/partners",
+      "config_image" => "/images/config",
       "import_file" => "/imports",
       "default_file" => '/default'
    ];   
