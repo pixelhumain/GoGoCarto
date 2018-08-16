@@ -2194,7 +2194,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfImage $backgroundImage
      * @return $this
      */
-    public function setBackgroundImage(\Biopen\CoreBundle\Document\ConfImage $backgroundImage)
+    public function setBackgroundImage($backgroundImage)
     {
         $this->backgroundImage = $backgroundImage;
         return $this;
@@ -2304,7 +2304,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfImage $logo
      * @return $this
      */
-    public function setLogo(\Biopen\CoreBundle\Document\ConfImage $logo)
+    public function setLogo($logo)
     {
         $this->logo = $logo;
         return $this;
@@ -2326,7 +2326,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfImage $logoInline
      * @return $this
      */
-    public function setLogoInline(\Biopen\CoreBundle\Document\ConfImage $logoInline)
+    public function setLogoInline($logoInline)
     {
         $this->logoInline = $logoInline;
         return $this;
@@ -2348,7 +2348,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfImage $socialShareImage
      * @return $this
      */
-    public function setSocialShareImage(\Biopen\CoreBundle\Document\ConfImage $socialShareImage)
+    public function setSocialShareImage($socialShareImage)
     {
         $this->socialShareImage = $socialShareImage;
         return $this;
@@ -2370,7 +2370,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfImage $favicon
      * @return $this
      */
-    public function setFavicon(\Biopen\CoreBundle\Document\ConfImage $favicon)
+    public function setFavicon($favicon)
     {
         $this->favicon = $favicon;
         return $this;
