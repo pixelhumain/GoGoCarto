@@ -62,39 +62,30 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setDefaultSouthWestBoundsLat(40);
     $configuration->setDefaultSouthWestBoundsLng(-5);
 
-    $darkBlue = '#354254' ;
-    $darkBlueTransparent = 'rgba(53, 66, 84, 0.9)' ;
-    $softDarkblue = '#5c6c86' ;
-    $blue = '#6b7e9b' ;
-    $greyLight = '#f4f4f4' ;
-    $blueLight = '#c2c9d4' ;
-    $green = '#bdc900' ;
-    $pink = '#bd2d86' ;
+    $neutralDark = '#345451' ;
+    $neutralDarkTransparent = '#345451' ;
+    $neutralSoftDark = '#345451' ;
+    $neutral = '#467471' ;
+    $neutralSoft = '#467471' ;
+    $neutralLight = '#95C5C2' ;
+    $primary = '#F57B56' ;
+    $primarySoft = '#F57B56';
+    $pendingColor = '#5B5B5B';
+    $secondary = '#97C5C2' ;
+    $background = '#F4F4F4' ;
 
-    $neutralDark = $darkBlue ;
-    $neutralDarkTransparent = $darkBlueTransparent ;
-    $neutralSoftDark = $softDarkblue ;
-    $neutral = $blue ;
-    $neutralSoft = '#a9b5ca' ;
-    $neutralLight = $greyLight ;
-    $primary = $green ;
-    $primarySoft = '#adb700';
-    $pendingColor = '#5b5b5b';
-    $secondary = $pink ;
-    $background = $greyLight ;
+    $textColor = '#477572' ;
+    $disableColor = '#C2C9D4' ;
+    $listTitle = '#345451' ;
+    $listTitleBackBtn = '#FFFFFF';
+    $listTitleBackground = '#F4F4F4' ;
 
-    $textColor = $softDarkblue ;
-    $disableColor = $blueLight ;
-    $listTitle = $neutralDark ;
-    $listTitleBackBtn = $neutralDark;
-    $listTitleBackground = $background ;
-
-    $mainFont = 'Roboto' ;
-    $titleFont = 'Roboto' ;
+    $mainFont = 'Cabin' ;
+    $titleFont = 'Carter One' ;
     $taxonomyMainTitleFont = $titleFont ; 
 
     // IMPORT
-    $configuration->setFontImport('<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">');
+    $configuration->setFontImport('<link href="https://fonts.googleapis.com/css?family=Cabin:400,700|Carter+One" rel="stylesheet">');
     $configuration->setIconImport('<script src="https://use.fontawesome.com/3b93bc3463.js"></script>');
 
     // STYLE

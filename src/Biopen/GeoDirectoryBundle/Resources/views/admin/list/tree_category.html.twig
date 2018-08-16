@@ -30,9 +30,11 @@
 	<div class="well" style="font-size: 15px; line-height: 20px;">
   	{% if categories|length %}
   		{% for category in categories %}
+        {% if category %}
         <ul>
           {% include '@BiopenAdmin/list/tree_category_item.html.twig' with {'category': category, 'firstDepth':true} %}
         </ul>
+        {% endif %}
       {% endfor %}      
     {% else %}
     	Aucune catégorie

@@ -50,12 +50,6 @@ class ProjectController extends AbstractSaasController
 
         if ($projectForm->handleRequest($request)->isValid())
         {
-            dump($project);
-            // "/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)/"
-            $odm = $this->get('doctrine_mongodb')->getManager();
-            $odm->persist($project);    
-            $odm->flush();
-
             $projectOdm = $this->getOdmForProject($project);
 
             $confLoader = new LoadConfiguration();
@@ -64,14 +58,20 @@ class ProjectController extends AbstractSaasController
             $configuration->setAppName($project->getName());
             $configuration->setAppBaseline("");
 
-            // $mainCategory = new Category();
-            // $mainCategory->setName('Catégories Principales');
-            // $projectOdm->persist($mainCategory);
-            // $projectOdm->flush();
-            
-            // $taxonomy = new Taxonomy();
-            // $projectOdm->persist($taxonomy);
+            $mainCategory = new Category();
+            $mainCategory->setName('Catégories Principales');
+            $projectOdm->persist($mainCategory);
             $projectOdm->flush();
+            
+            $taxonomy = new Taxonomy();
+            $projectOdm->persist($taxonomy);
+            
+            $projectOdm->flush();
+
+            // "/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)/"
+            $odm = $this->get('doctrine_mongodb')->getManager();
+            $odm->persist($project);    
+            $odm->flush();
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');
             return $this->redirect($url);

@@ -73,10 +73,13 @@ class JsonRepresentationGenerator
 	private function updateTaxonomy($dm)
 	{
 		$taxonomy = $dm->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomy(); 
+		if (!$taxonomy) return;
+		
 		$dm->refresh($taxonomy);	
 		$rootCategories = $dm->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
 		$options = $dm->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
+		if (count($rootCategories) == 0) return;
 		// Create hierachic taxonomy
 		$rootCategoriesSerialized = [];
 		foreach ($rootCategories as $key => $rootCategory)

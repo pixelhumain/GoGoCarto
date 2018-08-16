@@ -131,11 +131,8 @@ body
 
   section#home-main-container
   {
-    background-color: initial;
-
     @media #{$medium-and-up}
   	{
-  		background-color: white; 
   		border-radius: 15px;
     	margin: 0 auto;
     	padding: 2rem;
@@ -156,7 +153,6 @@ body
   	{
   		position: relative;
       font-weight: bold;
-      letter-spacing: -2px;
       z-index: 50;  		
       text-shadow: 5px 4px 1px #191b16;
       font-size: 2.8rem;
