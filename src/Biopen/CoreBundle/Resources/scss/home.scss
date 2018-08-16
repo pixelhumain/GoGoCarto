@@ -3,7 +3,6 @@
 body
 {
 	text-align: center;
-	background-color: #2f2f2f;
 	height: 100% !important;	
 	background: 50% no-repeat fixed;
 	background-size: cover;
@@ -16,11 +15,6 @@ body
 	}
 }
 
-html
-{
-  background-color: #354253 !important;
-}
-
 .gogo-load-css 
 {
   header
@@ -30,8 +24,6 @@ html
   	#menu
   	{		
   	  width: 100% !important;
-  	  @media #{$medium-and-up} { background-color: transparent; }
-
   		#menu-home { display:none !important }
   	}	
   }
@@ -48,23 +40,23 @@ html
   	height: 100%;
   	width: 100%;
   	position: relative;
-  	background-color: rgba(20, 20, 20, 0.8);
-  	@media #{$medium-and-up} { background-color: initial !important; }
 
+    .btn { width: 100% }
+    @media #{$medium-and-up} { .btn { width: auto } }
 
   	#bottom-more-info
   	{
   		position: absolute;
+      color: white;
   		left: -2rem;
   		right: 0;
   		bottom: 0;
-  		line-height: 3rem;
+  		line-height: 3.5rem;
       font-size: .9rem;
       letter-spacing: 1px;
       background-color: #525252;
       //border-bottom: 1px solid #4a4a4a;
       @media #{$medium-and-up} { font-size: 1.1rem; } 
-      @media (min-height: 800px) { padding-bottom: .5rem;  }
 
       &:hover
       {
@@ -143,10 +135,10 @@ html
 
     @media #{$medium-and-up}
   	{
-  		background-color: rgba(20, 20, 20, 0.8); 
+  		background-color: white; 
   		border-radius: 15px;
     	margin: 0 auto;
-    	padding: 2rem 2rem 1rem 2rem; 
+    	padding: 2rem;
   	}
 
     @media #{$medium1-only}
@@ -165,11 +157,12 @@ html
   		position: relative;
       font-weight: bold;
       letter-spacing: -2px;
-  		//font-family: 'Yellowtail', cursive;
-  		
+      z-index: 50;  		
       text-shadow: 5px 4px 1px #191b16;
       font-size: 2.8rem;
-      margin: 1rem 0;	 	    
+      margin: 1rem 0;	 
+
+      @media #{$small-only} { text-shadow:2px 2px 1px #191b16; }	    
 
   	  @media #{$medium-and-up}
   		{
@@ -182,13 +175,13 @@ html
       @media #{$medium1-only}
       {
       	font-size: 4.8rem;
-    		top: -4.3rem;
+    		top: -5rem;
       }
 
   		@media #{$medium2-and-up}
   		{
   			font-size: 6.4rem;
-      	top: -5.8rem;
+      	top: -6rem;
   		}	
   	}
 
@@ -219,7 +212,7 @@ html
   		padding-right:1rem;
   		margin: 0 auto;
   		margin-top: 1rem;
-     		margin-bottom: .5rem;			
+     	margin-bottom: .5rem;			
 
   		@media #{$medium-and-up}
   		{
@@ -302,7 +295,7 @@ html
       font-size: 1.8rem;
       line-height: 3.5rem;
       position: absolute;
-      right: 13.8rem;
+      right: 1rem;
       height: 3rem;
       &:hover { cursor: pointer }
 
@@ -326,7 +319,6 @@ html
 
   		label.main-option-radio-label 
   		{
-  	    color: white;
   	    margin-right: 1.5rem;
   	    margin-bottom: 1rem;
 
@@ -410,12 +402,15 @@ html
   		margin-bottom: 1.5rem;
   	}
 
-  	.divider { margin-bottom : 1.5rem; }
+  	.divider { 
+      display: block;
+      margin-bottom: 1.5rem; 
+      border-bottom: 1px dashed;
+      opacity: .3;
+    }
 
   	@media (max-height:800px)
     {
-    	padding-top: 1rem;
-
     	label.main-option-radio-label {
     		margin-bottom: .5rem !important;
     		font-size: 1rem;
@@ -448,7 +443,6 @@ html
 
     	.divider
     	{
-    		margin-top: -.5rem;
       	margin-bottom: 1rem;
     	}
 
@@ -504,7 +498,7 @@ html
   	font-size: 2rem; 
   	margin-bottom: 0;
 
-  	strong { font-weight: bold; }
+  	strong { font-weight: bold; color: white; }
 
   	@media #{$small-only}
   	{

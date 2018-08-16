@@ -22,7 +22,7 @@ class ConfigurationHomeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $imagesOptions = array(
-            'class'=> 'Biopen\CoreBundle\Document\PartnerImage', 
+            'class'=> 'Biopen\CoreBundle\Document\ConfImage',
             'placeholder' => "Séléctionnez une image déjà importée, ou ajoutez en une !",
             'required' => false, 
             'choices_as_values' => true,
@@ -37,10 +37,10 @@ class ConfigurationHomeAdmin extends AbstractAdmin
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
             ->add('activateHomePage', null, array('label' => "Activer la page d'accueil", 'required' => false))
-            ->add('backgroundImage', 'sonata_type_model', array_replace($imagesOptions,['label' => 'Image de fond']))
-            ->add('displayCategories', null, array('label' => "Afficher les catégories principales selectionnables pour la recherche", 'required' => false))
-            ->add('addElementHint', null, array('label' => "Texte au dessus du bouton \"Ajouter un élément\"", 'required' => false))
-            ->add('seeMoreButton', null, array('label' => "Texte pour inviter à scroller (si des bandeaux de la page d'accueil existent)", 'required' => false))
+            ->add('backgroundImage', 'sonata_type_model', array_replace($imagesOptions,['label' => 'Image de fond (le nom du fichier ne doit pas contenir d\'espaces ou de caractères spéciaux']))
+            ->add('home.displayCategoriesToPick', 'checkbox', array('label' => "Afficher les catégories principales selectionnables pour la recherche", 'required' => false))
+            ->add('home.addElementHintText', null, array('label' => "Texte au dessus du bouton \"Ajouter un élément\"", 'required' => false))
+            ->add('home.seeMoreButtonText', null, array('label' => "Texte pour inviter à scroller (si des bandeaux de la page d'accueil existent)", 'required' => false))
         ;
     }
 }

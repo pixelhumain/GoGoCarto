@@ -16,8 +16,17 @@
 
 		<div class="col menu-item" id="menu-home" >			
 			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="small-logo">
-        <img src="{{ asset('assets/img/favicon.png?ver=1.0') }}"/></a> 
-			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo"><img src="{{ asset('assets/img/logo_inline.png') }}" id="logo-inline"/></a> 
+        {% set logo = config.favicon ? config.favicon : config.logo %}
+        {% if logo %}<img src="{{ logo.imageUrl }}"/>{% endif %}
+      </a> 
+			<a href="{{ path('biopen_homepage') }}" {% if iframe %}target="_blank"{% endif %} class="large-logo">
+        {% set logo = config.logoInline ? config.logoInline : config.logo %}
+        {% if logo %}
+          <img src="{{ logo.imageUrl }}" id="logo-inline"/>
+        {% else %}
+          {{ config.appName|capitalize }}
+        {% endif %}        
+      </a> 
 		</div>
 
     <h1 id="nav-page-title">{{ navTitle|default(config.appName) }}</h1>

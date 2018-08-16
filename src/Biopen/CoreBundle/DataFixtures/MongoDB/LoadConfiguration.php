@@ -5,6 +5,7 @@ namespace Biopen\CoreBundle\DataFixtures\MongoDB;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\CoreBundle\Document\Configuration;
+use Biopen\CoreBundle\Document\ConfigurationHome;
 use Biopen\CoreBundle\Document\FeatureConfiguration;
 use Biopen\CoreBundle\Document\InteractionConfiguration;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
@@ -20,6 +21,14 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setAppName("GoGoCarto");
     $configuration->setAppSlug("gogocarto");
     $configuration->setAppBaseline("Créez des cartes à GoGo");
+
+    // HOME
+    $configuration->setActivateHomePage(true);
+    $confHome = new ConfigurationHome();
+    $confHome->setDisplayCategoriesToPick(false);
+    $confHome->setAddElementHintText("Contribuez à enrichir la base de donnée !");
+    $confHome->setSeeMoreButtonText("En savoir plus");
+    $configuration->setHome($confHome);
 
     // FEATURES
     $configuration->setFavoriteFeature(  new FeatureConfiguration(true, false, true, true, true));

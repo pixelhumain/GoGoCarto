@@ -4,7 +4,7 @@ namespace Biopen\CoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Biopen\CoreBundle\Document\ConfImage;
 
 /**
  * Main Configuration
@@ -40,16 +40,16 @@ class Configuration
     // --------- IMAGES -----------
     // ----------------------------
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $logo;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $logoInline;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $socialShareImage;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $favicon;
 
     // ----------------------------
@@ -77,18 +77,11 @@ class Configuration
     /** @MongoDB\Field(type="bool") */
     protected $activateHomePage;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\PartnerImage")  */
+    /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $backgroundImage;
 
-    /** @MongoDB\Field(type="bool") */
-    protected $displayCategories;
-
-    /** @MongoDB\Field(type="string") */
-    protected $addElementHint;
-
-    /** @MongoDB\Field(type="string") */
-    protected $seeMoreButton;
-
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\ConfigurationHome") */
+    protected $home;
 
     // ----------------------------
     // --------- FEATURES ---------
@@ -2156,93 +2149,7 @@ class Configuration
         return $this->elementFormGeocodingHelp;
     }
 
-    /**
-     * Set logo
-     *
-     * @param Biopen\CoreBundle\Document\PartnerImage $logo
-     * @return $this
-     */
-    public function setLogo(\Biopen\CoreBundle\Document\PartnerImage $logo)
-    {
-        $this->logo = $logo;
-        return $this;
-    }
-
-    /**
-     * Get logo
-     *
-     * @return Biopen\CoreBundle\Document\PartnerImage $logo
-     */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    /**
-     * Set logoInline
-     *
-     * @param Biopen\CoreBundle\Document\PartnerImage $logoInline
-     * @return $this
-     */
-    public function setLogoInline(\Biopen\CoreBundle\Document\PartnerImage $logoInline)
-    {
-        $this->logoInline = $logoInline;
-        return $this;
-    }
-
-    /**
-     * Get logoInline
-     *
-     * @return Biopen\CoreBundle\Document\PartnerImage $logoInline
-     */
-    public function getLogoInline()
-    {
-        return $this->logoInline;
-    }
-
-    /**
-     * Set socialShareImage
-     *
-     * @param Biopen\CoreBundle\Document\PartnerImage $socialShareImage
-     * @return $this
-     */
-    public function setSocialShareImage(\Biopen\CoreBundle\Document\PartnerImage $socialShareImage)
-    {
-        $this->socialShareImage = $socialShareImage;
-        return $this;
-    }
-
-    /**
-     * Get socialShareImage
-     *
-     * @return Biopen\CoreBundle\Document\PartnerImage $socialShareImage
-     */
-    public function getSocialShareImage()
-    {
-        return $this->socialShareImage;
-    }
-
-    /**
-     * Set favicon
-     *
-     * @param Biopen\CoreBundle\Document\PartnerImage $favicon
-     * @return $this
-     */
-    public function setFavicon(\Biopen\CoreBundle\Document\PartnerImage $favicon)
-    {
-        $this->favicon = $favicon;
-        return $this;
-    }
-
-    /**
-     * Get favicon
-     *
-     * @return Biopen\CoreBundle\Document\PartnerImage $favicon
-     */
-    public function getFavicon()
-    {
-        return $this->favicon;
-    }
+    
 
     /**
      * Set activateHomePage
@@ -2269,10 +2176,10 @@ class Configuration
     /**
      * Set backgroundImage
      *
-     * @param Biopen\CoreBundle\Document\PartnerImage $backgroundImage
+     * @param Biopen\CoreBundle\Document\ConfImage $backgroundImage
      * @return $this
      */
-    public function setBackgroundImage(\Biopen\CoreBundle\Document\PartnerImage $backgroundImage)
+    public function setBackgroundImage(\Biopen\CoreBundle\Document\ConfImage $backgroundImage)
     {
         $this->backgroundImage = $backgroundImage;
         return $this;
@@ -2281,7 +2188,7 @@ class Configuration
     /**
      * Get backgroundImage
      *
-     * @return Biopen\CoreBundle\Document\PartnerImage $backgroundImage
+     * @return Biopen\CoreBundle\Document\ConfImage $backgroundImage
      */
     public function getBackgroundImage()
     {
@@ -2352,5 +2259,115 @@ class Configuration
     public function getSeeMoreButton()
     {
         return $this->seeMoreButton;
+    }
+
+    /**
+     * Set home
+     *
+     * @param Biopen\CoreBundle\Document\ConfigurationHome $home
+     * @return $this
+     */
+    public function setHome(\Biopen\CoreBundle\Document\ConfigurationHome $home)
+    {
+        $this->home = $home;
+        return $this;
+    }
+
+    /**
+     * Get home
+     *
+     * @return Biopen\CoreBundle\Document\ConfigurationHome $home
+     */
+    public function getHome()
+    {
+        return $this->home;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param Biopen\CoreBundle\Document\ConfImage $logo
+     * @return $this
+     */
+    public function setLogo(\Biopen\CoreBundle\Document\ConfImage $logo)
+    {
+        $this->logo = $logo;
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return Biopen\CoreBundle\Document\ConfImage $logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * Set logoInline
+     *
+     * @param Biopen\CoreBundle\Document\ConfImage $logoInline
+     * @return $this
+     */
+    public function setLogoInline(\Biopen\CoreBundle\Document\ConfImage $logoInline)
+    {
+        $this->logoInline = $logoInline;
+        return $this;
+    }
+
+    /**
+     * Get logoInline
+     *
+     * @return Biopen\CoreBundle\Document\ConfImage $logoInline
+     */
+    public function getLogoInline()
+    {
+        return $this->logoInline;
+    }
+
+    /**
+     * Set socialShareImage
+     *
+     * @param Biopen\CoreBundle\Document\ConfImage $socialShareImage
+     * @return $this
+     */
+    public function setSocialShareImage(\Biopen\CoreBundle\Document\ConfImage $socialShareImage)
+    {
+        $this->socialShareImage = $socialShareImage;
+        return $this;
+    }
+
+    /**
+     * Get socialShareImage
+     *
+     * @return Biopen\CoreBundle\Document\ConfImage $socialShareImage
+     */
+    public function getSocialShareImage()
+    {
+        return $this->socialShareImage;
+    }
+
+    /**
+     * Set favicon
+     *
+     * @param Biopen\CoreBundle\Document\ConfImage $favicon
+     * @return $this
+     */
+    public function setFavicon(\Biopen\CoreBundle\Document\ConfImage $favicon)
+    {
+        $this->favicon = $favicon;
+        return $this;
+    }
+
+    /**
+     * Get favicon
+     *
+     * @return Biopen\CoreBundle\Document\ConfImage $favicon
+     */
+    public function getFavicon()
+    {
+        return $this->favicon;
     }
 }

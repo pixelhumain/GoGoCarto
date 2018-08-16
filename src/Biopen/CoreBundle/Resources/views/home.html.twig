@@ -1,6 +1,7 @@
 {% extends "@BiopenCoreBundle/base-layout.html.twig" %}
 
 {% block title %}{{ config.appName }}{% endblock %}
+{% set pageName = 'home' %}
 
 {% block stylesheets %}
   
@@ -8,7 +9,12 @@
   <link rel="stylesheet" href="{{ asset('assets/css/home.css?ver=' ~ version) }}">   
 
   <style>
-	  body { background-color: {{ config.primaryColor }} !important; background-image: url(); }
+	  body { 
+	  	background-color: {{ config.backgroundColor }}; 
+	  	{% if config.backgroundImage %}
+	  		background-image: url({{ config.backgroundImage.imageUrl }}); 
+	  	{% endif %}
+	  }
 	</style>	
 
 {% endblock %}
@@ -17,14 +23,15 @@
 {% block body %}
 
 <div id="home-main-wrapper" class="valign-wrapper">
-	<section id="home-main-container" class="valign">	
+	<section id="home-main-container" class="valign">			
 
-		{# TODO put logo or H1 with text depending on config #}
-		<h1 style="display:none">{{ config.appName }}</h1>
+		{% if config.logo %}
+			<img src="{{ config.logo.imageUrl }}" id="home-logo"/>	
+		{% else %}
+			<h1>{{ config.appName }}</h1>
+		{% endif %}	
 
-		<img src="{{ asset('assets/img/logo.png') }}" id="home-logo"/>		
-
-		<h2>{{ config.appBaseline }}</h2>
+		{% if config.appBaseLine %}<h2>{{ config.appBaseline }}</h2>{% endif %}
 
 		<div class="input-field" id="search-bar-container" >
 			<a class="gogo-icon-search waves-effect waves-light" id="search-bar-icon"></a> 
@@ -34,8 +41,7 @@
 			<input class="validate" placeholder="Entrez une adresse, une ville..." type="text" id="search-bar" name="adresse"/>
 		</div>
 
-		{% set showCategoriesOptions = false %}
-		{% if showCategoriesOptions %}
+		{% if config.home.displayCategoriesToPick %}
 			<div class="main-options-container">
 				<input class="main-option-radio-btn" data-name="all" name="mainOption" type="radio" id="option-all" checked/>
 		    <label class="main-option-radio-label" for="option-all">Toutes</label>
@@ -65,7 +71,7 @@
 		<div class="divider"></div>
 
 		<div>
-			<p class="contribution-text">Aidez-nous à agrandir notre base de donnée collaborative en ajoutant {{ config.elementDisplayNameIndefinite }} !</p>
+			<p class="contribution-text">{{ config.home.addElementHintText }}</p>
 			<a href="{{ path('biopen_element_add') }}">
 				<button class="btn-secondary btn waves-effect waves-light">Ajouter {{ config.elementDisplayNameIndefinite }}</button>
 			</a>
@@ -73,11 +79,13 @@
 	
 	</section>
 
-	<div id="bottom-more-info">
-		<span class="icon gogo-icon-arrow-circle-down"></span>
-		<span class="text">Un projet libre propulsé par Colibris</span>
-		<span class="icon gogo-icon-arrow-circle-down"></span>
-	</div>
+	{% if listWrappers.count > 0 %}
+		<div id="bottom-more-info" class="gogo-bg-neutral">
+			<span class="icon gogo-icon-arrow-circle-down"></span>
+			<span class="text">{{ config.home.seeMoreButtonText }}</span>
+			<span class="icon gogo-icon-arrow-circle-down"></span>
+		</div>
+	{% endif %}
 </div>
 
 <div class="wrappers-container">

@@ -55,3 +55,4 @@ vich_uploader:
             upload_destination: '%kernel.root_dir%/../web'
             directory_namer: biopen.upload_directory_namer
             namer: ~
+        # if you add new image class, don't forget to add the relevant service in services_admin.yml

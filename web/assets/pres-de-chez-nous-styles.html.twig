@@ -1,8 +1,7 @@
 <style>  
   {# --------------------#}
   {#     GENERAL         #}
-  {# ------------------- #}
-
+  {# ------------------- #}  
   .gogo-load-css .btn
   {
     font-weight: bold;
@@ -266,10 +265,13 @@
   {#        HOME         #}
   {# ------------------- #}
 
-  .gogo-load-css #home-main-wrapper { background-color: white; }
+  .gogo-load-css #home-main-wrapper { background-color: {{ config.primaryColor }} !important; }
+
+  .gogo-load-css section#home-main-container #search-geolocalize { right: 13.8rem; }
 
   @media screen and (max-width: 600px)
   {
+    .gogo-load-css #home-main-wrapper { background-color: white !important; }
     .gogo-load-css #bottom-more-info { color: {{ config.neutralColor }} !important; }
 
     .gogo-load-css section#home-main-container { box-shadow: none !important; }
@@ -280,7 +282,10 @@
     .gogo-load-css .show-as-list-button { left: 15px !important; }
   }
   .gogo-load-css #bottom-more-info .text { font-family: Lobster; text-transform: none; font-weight: normal; }
-  @media screen and (min-width: 600px) { .gogo-load-css #bottom-more-info .text { font-size: 1.3rem; } }
+  @media screen and (min-width: 600px) { 
+    .gogo-load-css #bottom-more-info .text { font-size: 1.3rem; } 
+    .gogo-load-css.home header #menu { background-color: transparent; }
+  }
   @media screen and (min-width: 1200px) { .gogo-load-css #bottom-more-info .text { font-size: 1.4rem; } }
   @media screen and (max-height: 450px) { body { background-image: none !important; } }
   .gogo-load-css #home-main-wrapper #bottom-more-info 
@@ -318,7 +323,7 @@
   .gogo-load-css #home-main-wrapper label { color: inherit !important; font-weight: bold; font-size: inherit; }
   .gogo-load-css #home-main-wrapper h2 { text-transform: uppercase; font-weight: bold; font-size: 1.1rem !important; margin-top: 0 !important; line-height: 3.5rem; }
   .gogo-load-css #home-main-wrapper .btn { width: 100%; }
-  @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .btn { font-size: 1rem !important;  width: 350px !important; padding: 4px 3rem; height: auto;} }
+  @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .btn { font-size: 1rem !important; width: 350px !important; padding: 4px 3rem; height: auto;} }
   @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .contribution-text { font-weight: bold; font-size: 1.2rem !important;} }
   .gogo-load-css #home-main-wrapper .divider {
     background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);

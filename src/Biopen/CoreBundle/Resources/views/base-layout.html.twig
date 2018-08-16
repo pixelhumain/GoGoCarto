@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    
 </head>
 
-<body class="gogo-load-css"> {# use this class to load the css vendors encapsulated inside gogocarto.css #}
+<body class="gogo-load-css {% if pageName is defined %}{{ pageName }}{% endif %}"> {# use this class to load the css vendors encapsulated inside gogocarto.css #}
 
   {# All action from GoGoControllers give the config variable into the view to render the header.
   If not, we need to render manually the header via a dedicate action 

@@ -8,12 +8,16 @@ use Biopen\SaasBundle\Helper\SaasHelper;
 
 class CoreController extends GoGoController
 {
-    public function homeAction()
+    public function homeAction($force = null)
     {
         $sassHelper = new SaasHelper();
-        if ($this->container->getParameter('use_as_saas') && $sassHelper->isRootProject()) return $this->redirectToRoute('biopen_saas_home');
+        if (!$force && $this->container->getParameter('use_as_saas') && $sassHelper->isRootProject()) return $this->redirectToRoute('biopen_saas_home');
 
         $em = $this->get('doctrine_mongodb')->getManager();
+
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+        if (!$config->getActivateHomePage()) return $this->redirectToRoute('biopen_directory');
+        
         // Get Wrapper List        
         $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
         ->findAllOrderedByPosition();

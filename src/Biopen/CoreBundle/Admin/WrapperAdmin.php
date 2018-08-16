@@ -34,8 +34,8 @@ class WrapperAdmin extends AbstractAdmin
                 'label' => 'Contenu en raw html (optionel)',
                 'required' => false,
             ));
-        $formMapper->add('textColor', 'xmon_color_picker');
-        $formMapper->add('backgroundColor', 'xmon_color_picker');
+        $formMapper->add('textColor', 'xmon_color_picker', ['required' => false]);
+        $formMapper->add('backgroundColor', 'xmon_color_picker', ['required' => false]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

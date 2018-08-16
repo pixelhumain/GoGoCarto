@@ -18,7 +18,7 @@ class ConfigurationAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $imagesOptions = array(
-            'class'=> 'Biopen\CoreBundle\Document\PartnerImage', 
+            'class'=> 'Biopen\CoreBundle\Document\ConfImage', 
             'placeholder' => "Séléctionnez une image déjà importée, ou ajoutez en une !",
             'required' => false, 
             'choices_as_values' => true,

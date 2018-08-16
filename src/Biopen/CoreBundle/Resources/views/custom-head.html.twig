@@ -1,12 +1,14 @@
 <meta name="description" content="{{ config.appBaseline }}" /> 
 <meta name="keywords" content="{{ config.appTags }}" />
 
-<link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
-<link rel="image_src" type="image/png" href="{{ asset('assets/img/pdcn-social-share.jpg') }}">
+{% set socialShare = config.socialShareImage ? config.socialShareImage : config.logo %}
+{% set favicon     = config.favicon ? config.favicon : config.logo %}
+{% if favicon %}<link rel="icon" type="image/png" href="{{ favicon.imageUrl }}">{% endif %}
+{% if socialShare %}<link rel="image_src" type="image/png" href="{{ socialShare.imageUrl }}">{% endif %}
 
 <meta property="og:title" content="{{ config.appName }}" />
-<meta property="og:description" content="{{ config.appBaseline }}" />
-<meta property="og:image" content="{{ asset('assets/img/pdcn-social-share.jpg') }}" />
+{% if config.appBaseline %}<meta property="og:description" content="{{ config.appBaseline }}" />{% endif %}
+{% if socialShare %}<meta property="og:image" content="{{ socialShare.imageUrl }}" />{% endif %}
 
 {# custom javascript code #}
 <script>window.onload = function() { {{ config.customJavascript | raw }} }</script>
