@@ -58,18 +58,26 @@ services:
         arguments: [~, Biopen\CoreBundle\Document\TileLayer, 'PixSortableBehaviorBundle:SortableAdmin']
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Fonds de carte }
+    
+    admin.wrapper:
+        class: Biopen\CoreBundle\Admin\WrapperAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Bandeaux de la page d'accueil }
+
+    admin.partner:
+        class: Biopen\CoreBundle\Admin\PartnerAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Partenaires }
 
     admin.about:
         class: Biopen\CoreBundle\Admin\AboutAdmin
         arguments: [~, Biopen\CoreBundle\Document\About, 'PixSortableBehaviorBundle:SortableAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Onglets "A propos" }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Popups type "A propos" }
     
-    admin.partner:
-        class: Biopen\CoreBundle\Admin\PartnerAdmin
-        arguments: [~, Biopen\CoreBundle\Document\Partner, 'PixSortableBehaviorBundle:SortableAdmin']
-        tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Qui sommes nous }
+    
     
     admin.parter_image:
         class: Biopen\CoreBundle\Admin\ImageAdmin
@@ -81,13 +89,7 @@ services:
         class: Biopen\CoreBundle\Admin\ImageAdmin
         arguments: [~, Biopen\CoreBundle\Document\ConfImage, '' ]
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }   
-
-    admin.wrapper:
-        class: Biopen\CoreBundle\Admin\WrapperAdmin
-        arguments: [~, Biopen\CoreBundle\Document\Wrapper, 'PixSortableBehaviorBundle:SortableAdmin']
-        tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Bandeaux de la page d'accueil }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }     
 
     admin.image:
         class: Biopen\CoreBundle\Admin\ImageAdmin

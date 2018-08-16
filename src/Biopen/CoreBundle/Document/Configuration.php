@@ -68,14 +68,29 @@ class Configuration
 
     /** @MongoDB\Field(type="string") */    
     protected $elementDisplayNamePlural = "éléments"; // elements 
-   
+
+    // ----------------------------
+    // --------- GENRAL -----------
+    // ----------------------------
+    
+    /** @MongoDB\Field(type="bool") */
+    protected $activateHomePage;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $activatePartnersPage;
+
+    /** @MongoDB\Field(type="string") */
+    protected $partnerPageTitle;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $activateAbouts;
+
+    /** @MongoDB\Field(type="string") */
+    protected $aboutHeaderTitle;
 
     // ----------------------------
     // ----------- HOME -----------
-    // ----------------------------
-
-    /** @MongoDB\Field(type="bool") */
-    protected $activateHomePage;
+    // ----------------------------    
 
     /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $backgroundImage;
@@ -2369,5 +2384,93 @@ class Configuration
     public function getFavicon()
     {
         return $this->favicon;
+    }
+
+    /**
+     * Set activatePartnersPage
+     *
+     * @param bool $activatePartnersPage
+     * @return $this
+     */
+    public function setActivatePartnersPage($activatePartnersPage)
+    {
+        $this->activatePartnersPage = $activatePartnersPage;
+        return $this;
+    }
+
+    /**
+     * Get activatePartnersPage
+     *
+     * @return bool $activatePartnersPage
+     */
+    public function getActivatePartnersPage()
+    {
+        return $this->activatePartnersPage;
+    }
+
+    /**
+     * Set partnerPageTitle
+     *
+     * @param string $partnerPageTitle
+     * @return $this
+     */
+    public function setPartnerPageTitle($partnerPageTitle)
+    {
+        $this->partnerPageTitle = $partnerPageTitle;
+        return $this;
+    }
+
+    /**
+     * Get partnerPageTitle
+     *
+     * @return string $partnerPageTitle
+     */
+    public function getPartnerPageTitle()
+    {
+        return $this->partnerPageTitle;
+    }
+
+    /**
+     * Set activateAbouts
+     *
+     * @param bool $activateAbouts
+     * @return $this
+     */
+    public function setActivateAbouts($activateAbouts)
+    {
+        $this->activateAbouts = $activateAbouts;
+        return $this;
+    }
+
+    /**
+     * Get activateAbouts
+     *
+     * @return bool $activateAbouts
+     */
+    public function getActivateAbouts()
+    {
+        return $this->activateAbouts;
+    }
+
+    /**
+     * Set aboutHeaderTitle
+     *
+     * @param string $aboutHeaderTitle
+     * @return $this
+     */
+    public function setAboutHeaderTitle($aboutHeaderTitle)
+    {
+        $this->aboutHeaderTitle = $aboutHeaderTitle;
+        return $this;
+    }
+
+    /**
+     * Get aboutHeaderTitle
+     *
+     * @return string $aboutHeaderTitle
+     */
+    public function getAboutHeaderTitle()
+    {
+        return $this->aboutHeaderTitle;
     }
 }

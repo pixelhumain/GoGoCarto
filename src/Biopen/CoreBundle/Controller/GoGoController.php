@@ -12,8 +12,10 @@ class GoGoController extends Controller
       $em = $this->get('doctrine_mongodb')->getManager();
       $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
       $listAbouts = $em->getRepository('BiopenCoreBundle:About')->findAllOrderedByPosition();
+      $countPartners = count($em->getRepository('BiopenCoreBundle:Partner')->findAll());
       $parameters['config'] = $config;
       $parameters['listAbouts'] = $listAbouts;
+      $parameters['countPartners'] = $countPartners;
 
       return parent::render($view, $parameters, $response);
    }

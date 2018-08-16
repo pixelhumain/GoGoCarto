@@ -48,15 +48,17 @@
 			</div>
       {% endif %}
 
-			<div class="col menu-item">
-				<a href="{{ path('biopen_partners') }}" {% if iframe %}target="_blank"{% endif %}>
-          <span class="header-icon gogo-icon-partner-3"></span><span class="text">Qui sommes nous ?</span>
-        </a>  
-			</div>	
+      {% if config.activatePartnersPage and countPartners %}
+  			<div class="col menu-item">
+  				<a href="{{ path('biopen_partners') }}" {% if iframe %}target="_blank"{% endif %}>
+            <span class="header-icon gogo-icon-partner-3"></span><span class="text">{{ config.partnerPageTitle }}</span>
+          </a>  
+  			</div>	
+      {% endif %}
            
-      {% if listAbouts.count %}            
+      {% if config.activateAbouts and listAbouts.count %}            
         <div class="col menu-item dropdown-button" data-activates='listAbout'>
-          <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">A propos</span></a> 
+          <a id='btn-about'><span class="header-icon gogo-icon-info"></span><span class="text">{{ config.aboutHeaderTitle }}</span></a> 
           <div class="arrow-after"></div>                
         </div>
         <ul id='listAbout' class='dropdown-content'>    	

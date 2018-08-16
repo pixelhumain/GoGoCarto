@@ -22,6 +22,12 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setAppSlug("gogocarto");
     $configuration->setAppBaseline("Créez des cartes à GoGo");
 
+    $activateHomePage;
+    $configuration->setActivatePartnersPage(true);
+    $configuration->setPartnerPageTitle("Partenaires");
+    $configuration->setActivateAbouts(true);
+    $configuration->setAboutHeaderTitle("A propos");
+
     // HOME
     $configuration->setActivateHomePage(true);
     $confHome = new ConfigurationHome();
