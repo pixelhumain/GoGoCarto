@@ -96,7 +96,7 @@ sudo -u $WEB_USR php $WEB_DIR/bin/console doctrine:mongodb:fixtures:load ;
 echo "
 server {
   listen 80;
-  server_name ${WEB_URL} *.${WEB_URL};
+  server_name *.${WEB_URL};
 
   root ${WEB_DIR}/web;
 
