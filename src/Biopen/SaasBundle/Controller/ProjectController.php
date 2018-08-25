@@ -101,7 +101,8 @@ class ProjectController extends AbstractSaasController
             $taxonomy = new Taxonomy();
             $projectOdm->persist($taxonomy);
             
-            $projectOdm->flush();            
+            $projectOdm->flush();
+            $projectOdm->getSchemaManager()->updateIndexes();         
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');
             return $this->redirect($url);
