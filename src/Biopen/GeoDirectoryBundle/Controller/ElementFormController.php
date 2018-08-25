@@ -98,6 +98,7 @@ class ElementFormController extends GoGoController
 				return $this->render('@BiopenGeoDirectory/element-form/contributor-login.html.twig', array(
 					'loginForm' => $loginform->createView(),
 					'emailAlreadyUsed' => $emailAlreadyUsed,
+					'config' => $configService->getConfig(),
 					'featureConfig' => $configService->getFeatureConfig($addEditName)));
 			}		   
 		} 

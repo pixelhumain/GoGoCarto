@@ -85,11 +85,7 @@ class ProjectController extends AbstractSaasController
             $taxonomy = new Taxonomy();
             $projectOdm->persist($taxonomy);
             
-            $projectOdm->flush();
-
-            
-
-            
+            $projectOdm->flush();            
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');
             return $this->redirect($url);
@@ -126,6 +122,7 @@ class ProjectController extends AbstractSaasController
 
         if ($form->handleRequest($request)->isValid()) {
             $user = $form->getData();
+            $user->setEnabled(true);
             $user->setRoles(array('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_SONATA_ADMIN'));
             $userManager->updateUser($user, true);  
 

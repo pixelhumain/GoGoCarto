@@ -55,7 +55,7 @@ sonata_formatter:
 
 sonata_admin:
     title:                'GoGoCarto Administration'
-    title_logo:           'assets/img/favicon.png'
+    # title_logo:           'assets/img/favicon.png'
     security:
         handler: sonata.admin.security.handler.role
     options:

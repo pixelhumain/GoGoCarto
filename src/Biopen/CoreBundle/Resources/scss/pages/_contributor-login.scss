@@ -16,7 +16,7 @@
 	  }
   }
 
-  h1 { margin-bottom: 2.5rem; }
+  h1 { margin-bottom: 2.5rem; }  
 
   .input-field.error .prefix { color: $error-color; }
 
@@ -27,13 +27,19 @@
     font-size: .8rem;
     color: #404040;
     margin-bottom: 1rem;
-  } 
+  }
 
   .email-already-in-use { color: $error-color; }  
 
   .login-section
   {
     text-align: center;
+    margin-top: -1rem;
+
+    h3 { 
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
 
     .oauth-section 
     {

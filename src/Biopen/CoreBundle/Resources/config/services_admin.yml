@@ -35,6 +35,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Mails / Newsletter }
 
+    admin.login_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationLoginAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Connexion }
+
     admin.feature_config:
         class: Biopen\CoreBundle\Admin\FeatureConfigurationAdmin
         arguments: [~, Biopen\CoreBundle\Document\FeatureConfiguration, '']

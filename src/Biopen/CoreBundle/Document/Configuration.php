@@ -89,6 +89,23 @@ class Configuration
     protected $aboutHeaderTitle;
 
     // ----------------------------
+    // ---------- LOGIN -----------
+    // ----------------------------    
+
+    /** @MongoDB\Field(type="bool") */
+    protected $loginWithLesCommuns = true;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $loginWithMonPrintemps = false;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $loginWithGoogle = true;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $loginWithFacebook = true;
+
+
+    // ----------------------------
     // ----------- HOME -----------
     // ----------------------------    
 
@@ -2472,5 +2489,93 @@ class Configuration
     public function getAboutHeaderTitle()
     {
         return $this->aboutHeaderTitle;
+    }
+
+    /**
+     * Set loginWithLesCommuns
+     *
+     * @param bool $loginWithLesCommuns
+     * @return $this
+     */
+    public function setLoginWithLesCommuns($loginWithLesCommuns)
+    {
+        $this->loginWithLesCommuns = $loginWithLesCommuns;
+        return $this;
+    }
+
+    /**
+     * Get loginWithLesCommuns
+     *
+     * @return bool $loginWithLesCommuns
+     */
+    public function getLoginWithLesCommuns()
+    {
+        return $this->loginWithLesCommuns;
+    }
+
+    /**
+     * Set loginWithGoogle
+     *
+     * @param bool $loginWithGoogle
+     * @return $this
+     */
+    public function setLoginWithGoogle($loginWithGoogle)
+    {
+        $this->loginWithGoogle = $loginWithGoogle;
+        return $this;
+    }
+
+    /**
+     * Get loginWithGoogle
+     *
+     * @return bool $loginWithGoogle
+     */
+    public function getLoginWithGoogle()
+    {
+        return $this->loginWithGoogle;
+    }
+
+    /**
+     * Set loginWithFacebook
+     *
+     * @param bool $loginWithFacebook
+     * @return $this
+     */
+    public function setLoginWithFacebook($loginWithFacebook)
+    {
+        $this->loginWithFacebook = $loginWithFacebook;
+        return $this;
+    }
+
+    /**
+     * Get loginWithFacebook
+     *
+     * @return bool $loginWithFacebook
+     */
+    public function getLoginWithFacebook()
+    {
+        return $this->loginWithFacebook;
+    }
+
+    /**
+     * Set loginWithMonPrintemps
+     *
+     * @param bool $loginWithMonPrintemps
+     * @return $this
+     */
+    public function setLoginWithMonPrintemps($loginWithMonPrintemps)
+    {
+        $this->loginWithMonPrintemps = $loginWithMonPrintemps;
+        return $this;
+    }
+
+    /**
+     * Get loginWithMonPrintemps
+     *
+     * @return bool $loginWithMonPrintemps
+     */
+    public function getLoginWithMonPrintemps()
+    {
+        return $this->loginWithMonPrintemps;
     }
 }

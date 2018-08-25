@@ -42,14 +42,29 @@
 		{# Login button #}
 		{% if featureConfig.getAllowRoleUser() or featureConfig.getAllowRoleAdmin() %}
 		  <div class="login-section">
+		  	<h3>Connectez vous avec votre compte</h3>
 		  	<div class="oauth-section">
-		  		<a class="oauth-btn waves-effect waves-light instance-login" onclick="$('#popup-login').openModal()"><img src="{{ asset('assets/img/favicon.png') }}" /></i>Près De Chez Nous</a>
-	        <a class="oauth-btn waves-effect waves-light printemps" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-printemps left"></i>Printemps de l'éducation</a>
+		  		<a class="oauth-btn waves-effect waves-light instance-login" onclick="$('#popup-login').openModal()">
+		  			{% set logo = config.favicon ? config.favicon : config.logo %}
+		  			{% if logo %}<img src="{{ logo }}"/>{% endif %}
+		  			{{ config.appName }}
+		  		</a>
+		  		{% if config.loginWithMonPrintemps %}
+	        	<a class="oauth-btn waves-effect waves-light printemps" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-printemps left"></i>Printemps de l'éducation</a>
+	        {% endif %}
+	        {% if config.loginWithLesCommuns %}
 	        <a class="oauth-btn waves-effect waves-light communs" href="{{ hwi_oauth_login_url('communs') }}"><i class="icon gogo-icon-communs left"></i>LesCommuns.org</a>
+	      	{% endif %}
+	      {% if config.loginWithMonPrintemps %}
 	      </div>
 	      <div class="oauth-section">
+	      {% endif %}
+	      	{% if config.loginWithGoogle %}
 	        <a class="oauth-btn waves-effect waves-light gplus" href="{{ hwi_oauth_login_url('gplus') }}"><i class="icon gogo-icon-gplus left"></i>Google</a>
+	        {% endif %}
+	        {% if config.loginWithFacebook %}
 	        <a class="oauth-btn waves-effect waves-light facebook" href="{{ hwi_oauth_login_url('facebook') }}"><i class="icon gogo-icon-facebook left"></i>Facebook</a>
+	        {% endif %}
         </div>
 			</div>
 		{% endif %}
