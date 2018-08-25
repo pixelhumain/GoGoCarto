@@ -16,6 +16,10 @@ class CoreController extends GoGoController
         $em = $this->get('doctrine_mongodb')->getManager();
 
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+        if (!$config && $this->container->getParameter('use_as_saas')) {
+            $url = 'http://' . $this->container->getParameter('saas_base_url') . $this->generateUrl('biopen_saas_home');
+            return $this->redirect($url);
+        } 
         if (!$config->getActivateHomePage()) return $this->redirectToRoute('biopen_directory');
         
         // Get Wrapper List        
