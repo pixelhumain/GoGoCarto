@@ -1,16 +1,10 @@
 
 
 - Configuration manquante
-  -> Image/Logo 0,5j
   -> thème de style que l'on peut choisir
-  -> séparer la configuration en plusieurs étapes (aussi niveau du code : faire des embeded documents)
   -> pouvoir accéder à la config en json que l'on donne à GoGoCartoJs
 
 - Ferme de service
-  -> Voir pour utiliser le nom de domaine de manière plus propre
-  -> page de création d'une instance (nom + création user admin)
-  -> vue pour lister toutes les instances 0,5j
-  -> Document "Instance" à créer
   -> voir comment faire marcher les crontabs sur chaque domaine existant. Peut être stocker sur la base gogocarto_default la listede toutes les instances, et appeler la task apour chaque instance?
 
 - DB cohérence
@@ -18,7 +12,6 @@
   -> empecher de supprimer la catégorie principale
   
 - Source de données
-  -> Importer des données. Si catégorie existe pas la créer
   -> Utiliser une source externe. Configuration de la mise à jour automatique, plus URL d'update manuelle
 
 - Bonus

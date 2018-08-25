@@ -6,6 +6,8 @@ use Biopen\SaasBundle\Controller\AbstractSaasController;
 use Biopen\SaasBundle\Helper\SaasHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Biopen\SaasBundle\Document\Project;
+use Biopen\SaasBundle\Document\ScheduledCommand;
+use Biopen\SaasBundle\Command\GoGoMainCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Biopen\CoreBundle\Document\Configuration;
 use Biopen\CoreBundle\DataFixtures\MongoDB\LoadTileLayers;
@@ -50,6 +52,23 @@ class ProjectController extends AbstractSaasController
 
         if ($projectForm->handleRequest($request)->isValid())
         {
+            // "/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)/"
+            $odm = $this->get('doctrine_mongodb')->getManager();
+            $odm->persist($project);  
+
+            // initialize commands
+            $commands = (new GoGoMainCommand())->scheduledCommands;
+            foreach ($commands as $commandName => $period) {
+                $scheduledCommand = new ScheduledCommand();
+                $scheduledCommand->setProject($project);
+                $scheduledCommand->setNextExecutionAt(time());
+                $scheduledCommand->setCommandName($commandName);
+
+                $odm->persist($scheduledCommand);
+            }
+
+            $odm->flush();
+
             $projectOdm = $this->getOdmForProject($project);
 
             $confLoader = new LoadConfiguration();
@@ -68,10 +87,9 @@ class ProjectController extends AbstractSaasController
             
             $projectOdm->flush();
 
-            // "/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)/"
-            $odm = $this->get('doctrine_mongodb')->getManager();
-            $odm->persist($project);    
-            $odm->flush();
+            
+
+            
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');
             return $this->redirect($url);

@@ -8,11 +8,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Biopen\GeoDirectoryBundle\Document\ElementStatus;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Biopen\SaasBundle\Command\GoGoAbstractCommand;
 
-class CheckVoteCommand extends ContainerAwareCommand
+class CheckVoteCommand extends GoGoAbstractCommand
 {
-    protected function configure()
+    protected function gogoConfigure()
     {
        $this
         ->setName('app:elements:checkvote')
@@ -20,9 +20,8 @@ class CheckVoteCommand extends ContainerAwareCommand
     ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function gogoExecute($em, InputInterface $input, OutputInterface $output)
     {
-      $em = $this->getContainer()->get('doctrine_mongodb.odm.default_document_manager');
       $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');
       $elements = $elementRepo->findPendings();
 

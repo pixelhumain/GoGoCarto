@@ -6,11 +6,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Biopen\SaasBundle\Command\GoGoAbstractCommand;
 
-class NewsletterCommand extends ContainerAwareCommand
+class NewsletterCommand extends GoGoAbstractCommand
 {
-    protected function configure()
+    protected function gogoConfigure()
     {
        $this
         ->setName('app:users:sendNewsletter')
@@ -18,9 +18,8 @@ class NewsletterCommand extends ContainerAwareCommand
     ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function gogoExecute($em, InputInterface $input, OutputInterface $output)
     {
-      $em = $this->getContainer()->get('doctrine_mongodb.odm.default_document_manager');      
       $usersRepo = $em->getRepository('BiopenCoreBundle:User');
       
       $users = $usersRepo->findNeedsToReceiveNewsletter();
