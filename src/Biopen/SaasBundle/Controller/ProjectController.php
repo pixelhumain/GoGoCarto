@@ -80,6 +80,22 @@ class ProjectController extends AbstractSaasController
             $mainCategory = new Category();
             $mainCategory->setName('Catégories Principales');
             $projectOdm->persist($mainCategory);
+
+            $mains = array(
+                array('Option 1'  , 'fa fa-envira'     , '#98a100'),
+                array('Option 2'  , 'fa fa-home'       , '#7e3200')         
+            );
+
+            foreach ($mains as $key => $main) 
+            {
+                $new_main = new Option();
+                $new_main->setName($main[0]);
+                $new_main->setIcon($main[1]);
+                $new_main->setColor($main[2]);
+                $new_main->setIsFixture(true);
+                $mainCategory->addOption($new_main);
+            }
+
             $projectOdm->flush();
             
             $taxonomy = new Taxonomy();
