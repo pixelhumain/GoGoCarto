@@ -12,6 +12,8 @@
  
   {# gogocarto contains materializeCss lib, so we load it for all files #}
   <link rel="stylesheet" href="{{ asset('assets/css/gogocarto.min.css?ver=' ~ version) }}">    
+  <link rel="stylesheet" href="{{ asset('assets/css/saas.css?ver=' ~ version) }}"> 
+  <link href="https://fonts.googleapis.com/css?family=Cabin:400,700|Carter+One" rel="stylesheet">
 
   {% block stylesheets %}
   {% endblock %}  
@@ -22,8 +24,12 @@
 
 <body class="gogo-load-css"> {# use this class to load the css vendors encapsulated inside gogocarto.css #}
 
-  {% block body %}
-  {% endblock %} 
+  <div id="page-container" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
+    <div id="page-content" {% if pageName is defined %}class="{{ pageName }}"{% endif %}>
+      {% block body %}
+      {% endblock %} 
+    </div>
+  </div>
 
   {# Mains javascripts libs #}
   <script src="{{ asset('js/libs.js?ver=' ~ version) }}"></script> 

@@ -1,0 +1,51 @@
+@import '../../../CoreBundle/Resources/scss/partials/base';
+
+@import 'home';
+
+body
+{
+  height: auto;
+  min-height: 100%;
+  @include flexbox();
+  font-family: 'Cabin';
+  color: #345451;
+}
+
+#page-container
+{
+  width: 100%;
+  background-color: #345451;
+
+  #page-content
+  {
+    position:relative;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto; 
+    width:100%;   
+    padding: 0rem; 
+
+    @media screen and (min-width: 900px)
+    {
+       margin-top: 30px;
+       max-width: 900px;
+       width:80%;  
+    }
+
+    section {
+      text-align: center;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 5px;
+      margin-bottom: 2rem;
+    }    
+
+    h1 { 
+      font-family: 'Carter One';
+      text-align: center;
+      color: #F57B56;
+    }
+    
+  }
+}
+

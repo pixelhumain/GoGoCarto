@@ -4,30 +4,34 @@
 
 {% block body %}
   <h1>Créer un projet</h1>
+  <section>
+    
 
-  {{ form_start(form, {'id': 'project-form'}) }}   
+    {{ form_start(form, {'id': 'project-form'}) }}   
 
-  {{ form_errors(form.name) }}
-  <div class="row">
-    <div class="input-field col s12">
-      <i class="material-icons gogo-icon-account-circle prefix"></i>  
-      {{ form_widget(form.name, {'id': 'input-name', 
-                                 'attr': {'class': 'validate required', 'length':'80'}}) }}
-      <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom du projet</label>
-    </div>  
+    {{ form_errors(form.name) }}
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons gogo-icon-description prefix"></i>  
+        {{ form_widget(form.name, {'id': 'input-name', 
+                                   'attr': {'class': 'validate required', 'length':'80'}}) }}
+        <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom du projet</label>
+      </div>  
 
-    {{ form_errors(form.domainName) }}
-    <div class="input-field col s12">
-      <i class="material-icons gogo-icon-account-circle prefix"></i>  
-      {{ form_widget(form.domainName, {'id': 'input-domain', 
-                                 'attr': {'class': 'validate required', 'length':'80'}}) }}
-      <label for="input-domain" class="gogo-form-label" data-error="">Nom du domaine</label>
-    </div> 
+      {{ form_errors(form.domainName) }}
+      <div class="input-field col s12">
+        <i class="material-icons gogo-icon-internet prefix"></i>  
+        {{ form_widget(form.domainName, {'id': 'input-domain', 
+                                   'attr': {'class': 'validate required', 'length':'80'}}) }}
+        <label for="input-domain" class="gogo-form-label" data-error="">Nom du domaine <i>( ****.{{ saas_base_url }} )</i></label>
+      </div> 
+    </div>
+    
+    <button class="btn" type="submit">Créer</button>  
+    
 
-    <button type="submit">Créer</button>  
-  </div>
+    {{ form_rest(form) }}
 
-  {{ form_rest(form) }}
-
-  {{ form_end(form) }}
+    {{ form_end(form) }}
+  </section>
 {% endblock %}

@@ -1,0 +1,18 @@
+#page-container #page-content.home {  
+
+  h2 { font-size: 1.5rem; margin-top: 0; font-weight: bold; }
+
+  .project-item {
+    line-height: 1.5rem;
+  }
+
+  section.title { background-color: transparent; }
+  section:not(.title) { 
+    background-color: #52716e;
+    color: #ececec;
+    a { color: #bfbfbf; }
+  }
+}
+
+  
+  

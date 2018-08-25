@@ -49,7 +49,8 @@ gulp.task('scriptsLibs', function() {
 
 gulp.task('sass', function () {
   return gulp.src(['src/Biopen/GeoDirectoryBundle/Resources/scss/**/*.scss',
-                  'src/Biopen/CoreBundle/Resources/scss/**/*.scss'])
+                  'src/Biopen/CoreBundle/Resources/scss/**/*.scss',
+                  'src/Biopen/SaasBundle/Resources/scss/**/*.scss'])
     .pipe(sass()
     .on('error', sass.logError))    
     .pipe(gulp.dest('web/assets/css'));
@@ -114,9 +115,7 @@ gulp.task('watch', function() {
 
   //livereload.listen();
   // Watch .scss files
-  gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/scss/**/*.scss',
-              'src/Biopen/CoreBundle/Resources/scss/**/*.scss'], 
-              ['sass']);
+  gulp.watch(['src/Biopen/**/Resources/scss/**/*.scss'],['sass']);
   
   gulp.watch(['src/Biopen/GeoDirectoryBundle/Resources/js/element-form/**/*.js'], 
               ['scriptsElementForm']);

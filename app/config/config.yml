@@ -50,6 +50,7 @@ twig:
     debug:            "%kernel.debug%"
     globals:
         version: '%app.version%'
+        saas_base_url: '%saas_base_url%'
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": BiopenGeoDirectory
