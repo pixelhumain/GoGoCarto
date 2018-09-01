@@ -90,7 +90,7 @@ class Configuration
     protected $aboutHeaderTitle;
 
     // ----------------------------
-    // ---------- LOGIN -----------
+    // ---------- USER -----------
     // ----------------------------    
 
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationUser") */
