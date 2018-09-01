@@ -1,14 +1,12 @@
 <?php
 
-namespace Biopen\CoreBundle\Document;
+namespace Biopen\CoreBundle\Document\Configuration;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /** @MongoDB\EmbeddedDocument */
 class ConfigurationHome
 {
-    
-
     /** @MongoDB\Field(type="bool") */
     protected $displayCategoriesToPick;
 

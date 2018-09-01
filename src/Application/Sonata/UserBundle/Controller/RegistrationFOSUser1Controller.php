@@ -15,6 +15,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
@@ -32,8 +33,15 @@ class RegistrationFOSUser1Controller extends Controller
     /**
      * @return RedirectResponse|Response
      */
-    public function registerAction($request = null)
+    public function registerAction(Request $request = null)
     {
+        $odm = $this->get('doctrine_mongodb')->getManager();        
+        $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+        if (!$config->getUser()->getEnableRegistration()) {
+            $request->getSession()->getFlashBag()->add('error', "Désolé, vous n'êtes pas autorisé à créer un compte.");
+            return $this->redirectToRoute('biopen_directory');
+        }
+
         $user = $this->getUser();
 
         if ($user instanceof UserInterface) {
@@ -44,7 +52,9 @@ class RegistrationFOSUser1Controller extends Controller
         
         $form = $this->get('form.factory')->create(RegistrationFormType::class, new User());
         $formHandler = $this->get('biopen.registration.form.handler');
-        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+
+        
+        $confirmationEnabled = $config->getUser()->getSendConfirmationEmail();
 
         $process = $formHandler->process($form, $confirmationEnabled);
         if ($process) {

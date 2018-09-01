@@ -51,6 +51,7 @@ twig:
     globals:
         version: '%app.version%'
         saas_base_url: '%saas_base_url%'
+        contact_email: '%contact_email%'
     strict_variables: "%kernel.debug%"
     paths:
         "%kernel.root_dir%/../src/Biopen/GeoDirectoryBundle/Resources/views": BiopenGeoDirectory

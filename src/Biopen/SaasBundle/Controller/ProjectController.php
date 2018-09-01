@@ -72,7 +72,7 @@ class ProjectController extends AbstractSaasController
             $projectOdm = $this->getOdmForProject($project);
 
             $confLoader = new LoadConfiguration();
-            $configuration = $confLoader->load($projectOdm);
+            $configuration = $confLoader->load($projectOdm, $this->container);
 
             $configuration->setAppName($project->getName());
             $configuration->setAppBaseline("");

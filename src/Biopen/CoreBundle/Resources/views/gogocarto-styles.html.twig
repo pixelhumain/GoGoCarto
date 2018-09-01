@@ -106,7 +106,7 @@
   .gogo-load-css label { color: {{ config.neutralColor }}; }
 
   /*  INPUT border COLOR   */
-  .gogo-load-css input:focus:not(.invalid):not([readonly]), .gogo-load-css textarea:focus:not(.invalid):not([readonly]) {
+  .gogo-load-css input:focus:not(.invalid):not([readonly]):not([type=submit]), .gogo-load-css textarea:focus:not(.invalid):not([readonly]) {
     border-color: {{ config.neutralColor }} !important;
     box-shadow: 0 1px 0 0 {{ config.neutralColor }} !important;
   }

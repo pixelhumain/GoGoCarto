@@ -64,10 +64,14 @@
     margin-bottom:1rem;
 	}
 
+	&.with-oauth {
+		.form-section {
+			padding-left: 2rem !important;
+			border-left: 1px solid #909090;
+		}
+	}
 	.form-section
-	{
-		padding-left: 2rem !important;
-		border-left: 1px solid #909090;
+	{		
 		text-align: left;
 
 		#login-form { margin-bottom: 1rem; }

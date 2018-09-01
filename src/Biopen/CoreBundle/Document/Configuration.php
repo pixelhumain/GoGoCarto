@@ -5,6 +5,7 @@ namespace Biopen\CoreBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Biopen\CoreBundle\Document\ConfImage;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
 
 /**
  * Main Configuration
@@ -92,18 +93,8 @@ class Configuration
     // ---------- LOGIN -----------
     // ----------------------------    
 
-    /** @MongoDB\Field(type="bool") */
-    protected $loginWithLesCommuns = true;
-
-    /** @MongoDB\Field(type="bool") */
-    protected $loginWithMonPrintemps = false;
-
-    /** @MongoDB\Field(type="bool") */
-    protected $loginWithGoogle = true;
-
-    /** @MongoDB\Field(type="bool") */
-    protected $loginWithFacebook = true;
-
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationUser") */
+    protected $user;
 
     // ----------------------------
     // ----------- HOME -----------
@@ -112,7 +103,7 @@ class Configuration
     /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\ConfImage", cascade={"all"})   */
     protected $backgroundImage;
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\ConfigurationHome") */
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationHome") */
     protected $home;
 
     // ----------------------------
@@ -402,6 +393,8 @@ class Configuration
         $this->deleteFeature = new InteractionConfiguration();
         $this->collaborativeModerationFeature = new InteractionConfiguration();
         $this->directModerationFeature = new InteractionConfiguration();
+
+        $this->user = new ConfigurationUser();
     }
 
 
@@ -2299,7 +2292,7 @@ class Configuration
      * @param Biopen\CoreBundle\Document\ConfigurationHome $home
      * @return $this
      */
-    public function setHome(\Biopen\CoreBundle\Document\ConfigurationHome $home)
+    public function setHome(\Biopen\CoreBundle\Document\Configuration\ConfigurationHome $home)
     {
         $this->home = $home;
         return $this;
@@ -2492,90 +2485,25 @@ class Configuration
     }
 
     /**
-     * Set loginWithLesCommuns
+     * Set user
      *
-     * @param bool $loginWithLesCommuns
+     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationUser $user
      * @return $this
      */
-    public function setLoginWithLesCommuns($loginWithLesCommuns)
+    public function setUser(\Biopen\CoreBundle\Document\Configuration\ConfigurationUser $user)
     {
-        $this->loginWithLesCommuns = $loginWithLesCommuns;
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * Get loginWithLesCommuns
+     * Get user
      *
-     * @return bool $loginWithLesCommuns
+     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationUser $user
      */
-    public function getLoginWithLesCommuns()
+    public function getUser()
     {
-        return $this->loginWithLesCommuns;
-    }
-
-    /**
-     * Set loginWithGoogle
-     *
-     * @param bool $loginWithGoogle
-     * @return $this
-     */
-    public function setLoginWithGoogle($loginWithGoogle)
-    {
-        $this->loginWithGoogle = $loginWithGoogle;
-        return $this;
-    }
-
-    /**
-     * Get loginWithGoogle
-     *
-     * @return bool $loginWithGoogle
-     */
-    public function getLoginWithGoogle()
-    {
-        return $this->loginWithGoogle;
-    }
-
-    /**
-     * Set loginWithFacebook
-     *
-     * @param bool $loginWithFacebook
-     * @return $this
-     */
-    public function setLoginWithFacebook($loginWithFacebook)
-    {
-        $this->loginWithFacebook = $loginWithFacebook;
-        return $this;
-    }
-
-    /**
-     * Get loginWithFacebook
-     *
-     * @return bool $loginWithFacebook
-     */
-    public function getLoginWithFacebook()
-    {
-        return $this->loginWithFacebook;
-    }
-
-    /**
-     * Set loginWithMonPrintemps
-     *
-     * @param bool $loginWithMonPrintemps
-     * @return $this
-     */
-    public function setLoginWithMonPrintemps($loginWithMonPrintemps)
-    {
-        $this->loginWithMonPrintemps = $loginWithMonPrintemps;
-        return $this;
-    }
-
-    /**
-     * Get loginWithMonPrintemps
-     *
-     * @return bool $loginWithMonPrintemps
-     */
-    public function getLoginWithMonPrintemps()
-    {
-        return $this->loginWithMonPrintemps;
+        if (!$this->user) $this->user = new ConfigurationUser();
+        return $this->user;
     }
 }

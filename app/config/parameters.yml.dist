@@ -2,22 +2,30 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
+    # SAAS Config
     use_as_saas: true
     saas_base_url: saas.localhost
+    
+    # EMAIL SERVER
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~
 
+    # CONTACT EMAIL (displayed on error messages)
+    contact_email: ~
+
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret: ThisTokenIsNotSoSecretChangeIt
     csrf_protection: true
 
-    oauth_communs_id: communsIds
-    oauth_communs_secret: communsSecret
-    oauth_google_id: googleId
-    oauth_google_secret: googleSecret
-    oauth_facebook_id: facebookId
-    oauth_facebook_secret: facebookSecret
+    # OAUTH CONF (not mandatory)
+    oauth_communs_id: ~
+    oauth_communs_secret: ~
+    oauth_google_id: ~
+    oauth_google_secret: ~
+    oauth_facebook_id: ~
+    oauth_facebook_secret: ~
 
+    # SERVER HOST (used when sending newsletters)
     router.request_context.host: localhost/GoGoCarto/app_dev.php

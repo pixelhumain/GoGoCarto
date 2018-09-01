@@ -5,7 +5,8 @@ namespace Biopen\CoreBundle\DataFixtures\MongoDB;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biopen\CoreBundle\Document\Configuration;
-use Biopen\CoreBundle\Document\ConfigurationHome;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationHome;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
 use Biopen\CoreBundle\Document\FeatureConfiguration;
 use Biopen\CoreBundle\Document\InteractionConfiguration;
 use Biopen\GeoDirectoryBundle\Document\Coordinates;
@@ -14,7 +15,7 @@ use Biopen\CoreBundle\Document\TileLayer;
 class LoadConfiguration implements FixtureInterface
 {
   
-  public function load(ObjectManager $manager)
+  public function load(ObjectManager $manager, $container = null)
   {  
     $configuration = new Configuration();
 
@@ -35,6 +36,14 @@ class LoadConfiguration implements FixtureInterface
     $confHome->setAddElementHintText("Contribuez à enrichir la base de donnée !");
     $confHome->setSeeMoreButtonText("En savoir plus");
     $configuration->setHome($confHome);
+
+    if ($container) {
+        $confUser = new ConfigurationUser();
+        $confUser->setLoginWithLesCommuns($container->getParameter('oauth_communs_id') != "disabled");
+        $confUser->setLoginWithGoogle($container->getParameter('oauth_google_id') != "disabled");
+        $confUser->setLoginWithFacebook($container->getParameter('oauth_facebook_id') != "disabled");
+        $configuration->setUser($confUser);
+    }
 
     // FEATURES
     $configuration->setFavoriteFeature(  new FeatureConfiguration(true, false, true, true, true));

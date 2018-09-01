@@ -17,6 +17,7 @@
   .form-actions { 
     text-align: center; 
     margin-top: 1rem; 
+    height: 2rem;
     @media #{$medium-and-up} { margin-top: 2rem; }
     .btn { width: 100%; }
   }
