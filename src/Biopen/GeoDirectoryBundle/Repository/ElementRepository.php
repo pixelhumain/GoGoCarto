@@ -242,6 +242,13 @@ class ElementRepository extends DocumentRepository
     $qb->field('potentialDuplicates')->includesReferenceTo($element);
     return $qb->getQuery()->execute();
   }
+
+  public function findOriginalElementOfModifiedPendingVersion($element)
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $qb->field('modifiedElement')->references($element);
+    return $qb->getQuery()->getSingleResult();
+  }
 }
 
 
