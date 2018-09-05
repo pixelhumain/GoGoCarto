@@ -17,6 +17,9 @@ class Configuration
     /** @MongoDB\Id(strategy="INCREMENT") */
     private $id;
 
+    /** @MongoDB\Field(type="string") */
+    protected $dbName = "gogocarto_default";
+
     // ----------------------------
     // --------- BASICS -----------
     // ----------------------------
@@ -2505,5 +2508,17 @@ class Configuration
     {
         if (!$this->user) $this->user = new ConfigurationUser();
         return $this->user;
+    }
+
+    public function setDbName($dbName)
+    {
+        $this->dbName = $dbName;
+        return $this;
+    }
+
+
+    public function getDbName()
+    {
+        return $this->dbName;
     }
 }

@@ -14,17 +14,22 @@ class MailService
     protected $mailer;
     protected $router;
     protected $twig;
+    protected $baseUrl;
 
 	/**
 	* Constructor
 	*/
-	public function __construct(DocumentManager $documentManager, $mailer, $router, $twig)
+	public function __construct(DocumentManager $documentManager, $mailer, $router, $twig, $baseUrl, $basePath, $sass)
 	{
 	   $this->em = $documentManager;
        $this->config = $this->em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
        $this->mailer = $mailer;
        $this->router = $router;
        $this->twig = $twig;
+
+       $this->baseUrl = 'http://';
+       if ($sass) $this->baseUrl .= $this->config->getDbName() . '.';
+       $this->baseUrl .= $baseUrl . $basePath;
 	}
 
     public function sendMail($to, $subject, $content, $from = null, $toBCC = null)
@@ -114,7 +119,7 @@ class MailService
     {
         return $this->twig->render(
                 '@BiopenCoreBundle/emails/layout.html.twig',
-                array('content' => $content, 'config' => $this->config)
+                array('content' => $content, 'config' => $this->config, 'homeUrl' => $this->generateRoute('biopen_homepage'))
             );
     }
 
@@ -147,12 +152,12 @@ class MailService
         {
             if ($element instanceof Element)
             {
-                $showElementUrl = $this->router->generate('biopen_directory_showElement', array('id' => $element->getId()),UrlGeneratorInterface::ABSOLUTE_URL);
+                $showElementUrl = $this->generateRoute('biopen_directory_showElement', array('id' => $element->getId()));
                 $showElementUrl = str_replace('%23', '#', $showElementUrl);
-                $editElementUrl = $this->router->generate('biopen_element_edit', array('id' => $element->getId()), UrlGeneratorInterface::ABSOLUTE_URL);            
+                $editElementUrl = $this->generateRoute('biopen_element_edit', array('id' => $element->getId()));            
                 $elementName = $element->getName();
                 $contribution = $element->getCurrContribution(); 
-                $directEditElementUniqueUrl = $this->router->generate('biopen_element_edit',array("id" => $element->getId(), "hash" => $element->getRandomHash()), UrlGeneratorInterface::ABSOLUTE_URL);
+                $directEditElementUniqueUrl = $this->generateRoute('biopen_element_edit',array("id" => $element->getId(), "hash" => $element->getRandomHash()));
                 
                 if ($mailType == 'report' && $option && $option instanceof UserInteractionReport)
                     $user = $option->getUserDisplayName();
@@ -172,9 +177,9 @@ class MailService
             }  
         }
 
-        $homeUrl = $this->router->generate('biopen_homepage', array(), UrlGeneratorInterface::ABSOLUTE_URL);
-        $userContributionsUrl = $this->router->generate('biopen_user_contributions',array(), UrlGeneratorInterface::ABSOLUTE_URL);        
-        $userProfileUrl = $this->router->generate('biopen_user_profile', array(), UrlGeneratorInterface::ABSOLUTE_URL);
+        $homeUrl = $this->generateRoute('biopen_homepage');
+        $userContributionsUrl = $this->generateRoute('biopen_user_contributions');        
+        $userProfileUrl = $this->generateRoute('biopen_user_profile');
 
         $string = preg_replace('/({{((?:\s)+)?homeUrl((?:\s)+)?}})/i', $homeUrl, $string);
         $string = preg_replace('/({{((?:\s)+)?customMessage((?:\s)+)?}})/i', $customMessage, $string);
@@ -188,14 +193,19 @@ class MailService
         return $string;
     }
 
+    private function generateRoute($routeName, $args = [])
+    {
+        return $this->baseUrl . $this->router->generate($routeName, $args);      
+    }
+
     private function replaceNewElementsList($string, $elements, $user)
     {
         $elementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
-            array('elements' => $elements, 'config' => $this->config)
+            array('elements' => $elements, 'config' => $this->config, 'baseUrl' => $this->baseUrl)
         );
 
         $showOnMapBtnHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-show-on-map-button.html.twig',
-            array('config' => $this->config, 'user' => $user)
+            array('config' => $this->config, 'user' => $user, 'directoryUrl' => $this->generateRoute('biopen_directory'))
         );
 
         $string = preg_replace('/({{((?:\s)+)?newElements((?:\s)+)?}})/i', $elementsHtml, $string);

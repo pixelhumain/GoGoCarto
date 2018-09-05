@@ -36,7 +36,7 @@ class ProjectController extends AbstractSaasController
 
     protected function generateUrlForProject($project, $route = 'biopen_homepage')
     {
-        return 'http://' . $project->getDomainName() . '.' . $this->container->getParameter('saas_base_url') . $this->generateUrl($route);
+        return 'http://' . $project->getDomainName() . '.' . $this->container->getParameter('base_url') . $this->generateUrl($route);
     }
 
     public function createAction(Request $request)
@@ -76,6 +76,7 @@ class ProjectController extends AbstractSaasController
 
             $configuration->setAppName($project->getName());
             $configuration->setAppBaseline("");
+            $configuration->setDbName($project->getDbName());
 
             $mainCategory = new Category();
             $mainCategory->setName('Catégories Principales');

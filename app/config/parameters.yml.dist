@@ -4,7 +4,7 @@
 parameters:
     # SAAS Config
     use_as_saas: true
-    saas_base_url: saas.localhost
+    base_url: saas.localhost
     
     # EMAIL SERVER
     mailer_transport:  smtp

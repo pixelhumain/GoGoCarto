@@ -17,7 +17,7 @@ class CoreController extends GoGoController
 
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
         if (!$config && $this->container->getParameter('use_as_saas')) {
-            $url = 'http://' . $this->container->getParameter('saas_base_url') . $this->generateUrl('biopen_saas_home');
+            $url = 'http://' . $this->container->getParameter('base_url') . $this->generateUrl('biopen_saas_home');
             return $this->redirect($url);
         } 
         if (!$config->getActivateHomePage()) return $this->redirectToRoute('biopen_directory');
