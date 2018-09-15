@@ -6,6 +6,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Biopen\CoreBundle\Document\ConfImage;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationMap;
+
 
 /**
  * Main Configuration
@@ -182,6 +184,9 @@ class Configuration
     // -------------------------
     // --------- MAP -----------
     // -------------------------
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationMap") */
+    protected $map;
 
     /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\TileLayer") */
     protected $defaultTileLayer;    
@@ -398,6 +403,7 @@ class Configuration
         $this->directModerationFeature = new InteractionConfiguration();
 
         $this->user = new ConfigurationUser();
+        $this->map = new ConfigurationMap();
     }
 
 
@@ -2520,5 +2526,27 @@ class Configuration
     public function getDbName()
     {
         return $this->dbName;
+    }
+
+    /**
+     * Set map
+     *
+     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map
+     * @return $this
+     */
+    public function setMap(\Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map)
+    {
+        $this->map = $map;
+        return $this;
+    }
+
+    /**
+     * Get map
+     *
+     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map
+     */
+    public function getMap()
+    {
+        return $this->map;
     }
 }

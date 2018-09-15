@@ -70,7 +70,13 @@ class ConfigurationMapAdmin extends AbstractAdmin
                     ->add('customPopupShowOnlyOnce', null, array('label' => "Afficher la popup une fois seulement (si l'utilisateur la ferme, il ne la reverra plus jusqu'à ce que vous changiez le numéro de version)", 'required' => false))
                 ->end()
             ->end()                  
-            
+            ->tab('Menu')
+                ->add('map.width', null, array('label' => "Largueur du menu", 'required' => false))
+                ->add('map.smallWidthStyle', 'checkbox', array('required' => false))
+                ->add('map.showOnePanePerMainOption', 'checkbox', array('required' => false))
+                ->add('map.showCheckboxForMainFilterPane', 'checkbox', array('required' => false))
+                ->add('map.showCheckboxForSubFilterPane', 'checkbox', array('required' => false))
+            ->end()
         ;            
     }
 }
