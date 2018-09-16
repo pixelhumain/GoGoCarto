@@ -46,4 +46,10 @@ biopen_api_elements_index:
     options:
         expose: true
 
+biopen_api_manifest:
+    path:     /manifest.{_format}
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getManifest, _format: json }
+    requirements:
+        methods: GET
+        _format: json
 

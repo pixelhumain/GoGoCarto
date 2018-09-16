@@ -3,9 +3,23 @@
 
 {% set socialShare = config.socialShareImage ? config.socialShareImage : config.logo %}
 {% set favicon     = config.favicon ? config.favicon : config.logo %}
-{% if favicon %}<link rel="icon" type="image/png" href="{{ favicon.imageUrl }}">{% endif %}
+<link rel="manifest" href="{{ path('biopen_api_manifest') }}">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="{{ config.appName }}">
+<meta name="apple-mobile-web-app-title" content="{{ config.appName }}">
+<meta name="theme-color" content="{{ config.primaryColor }}">
+<meta name="msapplication-navbutton-color" content="{{ config.primaryColor }}">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="msapplication-starturl" content="{{ path('biopen_directory') ~ '#/carte/autour-de-moi' }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% if favicon %}<link rel="icon" type="image/png" href="{{ favicon.imageUrl }}">
+{% else %}<link rel="icon" type="image/png" href="{{ asset('assets/img/default-icon.png') }}">
+{% endif %}
+{% if favicon %}<link rel="apple-touch-icon" type="image/png"  href="{{ favicon.imageUrl }}">
+{% else %}<link rel="apple-touch-icon" type="image/png"  href="{{ asset('assets/img/default-icon.png') }}">
+{% endif %}
 {% if socialShare %}<link rel="image_src" type="image/png" href="{{ socialShare.imageUrl }}">{% endif %}
-
 <meta property="og:title" content="{{ config.appName }}" />
 {% if config.appBaseline %}<meta property="og:description" content="{{ config.appBaseline }}" />{% endif %}
 {% if socialShare %}<meta property="og:image" content="{{ socialShare.imageUrl }}" />{% endif %}

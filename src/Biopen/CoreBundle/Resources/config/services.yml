@@ -23,3 +23,8 @@ services:
   biopen.upload_directory_namer:
     class: Biopen\CoreBundle\Services\UploadDirectoryNamer
     arguments: []
+  
+  biopen.image_resizer:
+    class: Biopen\CoreBundle\EventListener\ImageResizer
+    tags:
+        - { name: doctrine_mongodb.odm.event_listener, event: postPersist }

@@ -32,9 +32,21 @@ class EmbeddedImage extends AbstractFile
         return json_encode($this->getImageUrl()); 
     } 
 
-    public function getImageUrl()
+    public function getImageUrl($suffix = '')
     {
-       return $this->fileUrl ? $this->fileUrl : $this->externalImageUrl; 
+        if ($this->fileUrl) {
+            if ($suffix) {
+                return preg_replace(
+                    '/(\.jpe?g|\.png)$/',
+                    '-'.$suffix.'$1',
+                    $this->fileUrl
+                );
+            } else {
+                return $this->fileUrl;
+            }
+        } else {
+            return $this->externalImageUrl; 
+        }
     }   
 
     /**
