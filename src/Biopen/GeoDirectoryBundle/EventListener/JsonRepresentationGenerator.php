@@ -76,6 +76,7 @@ class JsonRepresentationGenerator
 		if (!$taxonomy) return;
 		
 		$dm->refresh($taxonomy);	
+		$dm->flush();
 		$rootCategories = $dm->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
 		$options = $dm->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
 
