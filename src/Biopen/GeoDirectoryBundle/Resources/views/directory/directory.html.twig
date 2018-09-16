@@ -48,8 +48,11 @@
             },
             menu:
             {
-                showOnePanePerMainOption: true,
-                showCheckboxForMainFilterPane: false
+                width: {{ config.map.width ? config.map.width : 'undefined' }},
+                smallWidthStyle: {{ config.map.smallWidthStyle ? 'true' : 'false' }},
+                showOnePanePerMainOption: {{ config.map.showOnePanePerMainOption ? 'true' : 'false' }},
+                showCheckboxForMainFilterPane: {{ config.map.showCheckboxForMainFilterPane  ? 'true' : 'false'}},
+                showCheckboxForSubFilterPane: {{ config.map.showCheckboxForSubFilterPane ? 'true' : 'false' }}
             },
             features:
             {

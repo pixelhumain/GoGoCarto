@@ -23,7 +23,7 @@
       <td style="width: 80px;border-bottom: 1px dashed grey;">
 
         {# LINK #}
-        <a href="{{ url('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">
+        <a href="{{ baseUrl ~ path('biopen_directory_showElement', {'id': element.id, 'name': element.name}) | replace({"%23":'#'}) }}">
           <button class="btn-biopen btn-secondary small waves-light waves-effect btn"
                   style= "font-size: 11px;
                           line-height: 30px;

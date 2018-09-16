@@ -68,12 +68,18 @@ class ElementActionService
 
    public function edit($element, $sendMail = true, $message = null, $modifiedByOwner = false, $directModerationWithHash = false)
    {
+      if ($element->getStatus() == ElementStatus::ModifiedPendingVersion)
+      {
+         $element = $this->em->getRepository('BiopenGeoDirectoryBundle:Element')->findOriginalElementOfModifiedPendingVersion($element);
+         $this->resolve($element, true, ValidationType::Admin, $message);
+      }
+      else if ($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
+
       $status = $modifiedByOwner ? ElementStatus::ModifiedByOwner : ElementStatus::ModifiedByAdmin;
       $status = $directModerationWithHash ? ElementStatus::ModifiedFromHash : $status;
       $this->addContribution($element, $message, InteractType::Edit, $status, $directModerationWithHash);
       $element->setStatus($status); 
-      if (!$modifiedByOwner) $this->resolveReports($element, $message);
-      if($sendMail) $this->mailService->sendAutomatedMail('edit', $element, $message);
+      if (!$modifiedByOwner) $this->resolveReports($element, $message);      
       $element->updateTimestamp();
    }
 

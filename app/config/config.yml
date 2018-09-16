@@ -50,7 +50,7 @@ twig:
     debug:            "%kernel.debug%"
     globals:
         version: '%app.version%'
-        saas_base_url: '%saas_base_url%'
+        base_url: '%base_url%'
         contact_email: '%contact_email%'
     strict_variables: "%kernel.debug%"
     paths:

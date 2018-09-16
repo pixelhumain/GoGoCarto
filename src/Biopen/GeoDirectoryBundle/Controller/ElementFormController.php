@@ -148,6 +148,7 @@ class ElementFormController extends GoGoController
 		$editMode = $editMode && !($editingOwnPendingContrib && $element->isPendingAdd());
 		
 		// create the element form
+		$realElement = $element;
 		$element = $element->isPendingModification() ? $element->getModifiedElement() : $element;		
 		$originalElement = clone $element;
 		$elementForm = $this->get('form.factory')->create(ElementType::class, $element);
@@ -236,20 +237,20 @@ class ElementFormController extends GoGoController
 			}
 
 			if ($this->isRealModification($element, $request))
-         {
-            $elementActionService = $this->container->get('biopen.element_action_service');
-            $message = $request->get('admin-message');  
-            
-            if ($isAllowedDirectModeration || $isMinorModification)
-            {
-               if (!$editMode) $elementActionService->add($element, $sendMail, $message);
-               else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement, $isEditingWithHash);           
-            }
-            else // non direct moderation
-            {            
-               $elementActionService->createPending($element, $editMode, $userEmail);
-            }  
-         }  
+			{
+			  $elementActionService = $this->container->get('biopen.element_action_service');
+			  $message = $request->get('admin-message');  
+			  
+			  if ($isAllowedDirectModeration || $isMinorModification)
+			  {
+			     if (!$editMode) $elementActionService->add($element, $sendMail, $message);
+			     else $elementActionService->edit($element, $sendMail, $message, $isUserOwnerOfValidElement, $isEditingWithHash);           
+			  }
+			  else // non direct moderation
+			  {            
+			     $elementActionService->createPending($element, $editMode, $userEmail);
+			  }  
+			}  
 
 			$em->persist($element);
 			$em->flush(); 
@@ -261,8 +262,8 @@ class ElementFormController extends GoGoController
 				$em->flush();       		
 			}
 			
-			// Add flashBags success
-			$url_new_element = $element->getShowUrlFromController($this);	
+			// Redirect to directory with success message
+			$elementShowOnMapUrl = $realElement->getShowUrlFromController($this);	
 
 			$noticeText = 'Merci de votre aide ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte !';
@@ -279,11 +280,11 @@ class ElementFormController extends GoGoController
 			$isAllowedPending = $configService->isUserAllowed('pending');
 
 			$showResultLink = $submitOption == 'stayonform' && ($isAllowedDirectModeration || $isAllowedPending);
-			if ($showResultLink) $noticeText .= '</br><a href="' . $url_new_element . '">Voir le résultat sur la carte</a>';
+			if ($showResultLink) $noticeText .= '</br><a href="' . $elementShowOnMapUrl . '">Voir le résultat sur la carte</a>';
 
 			$request->getSession()->getFlashBag()->add('success', $noticeText);			
 
-			if ($submitOption != 'stayonform' && !$recopyInfo) return $this->redirect($url_new_element);	
+			if ($submitOption != 'stayonform' && !$recopyInfo) return $this->redirect($elementShowOnMapUrl);	
 
 			if ($editMode) return $this->redirectToRoute('biopen_element_add');
 
