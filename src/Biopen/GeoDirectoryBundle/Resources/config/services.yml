@@ -37,6 +37,11 @@ services:
             - { name: doctrine_mongodb.odm.event_listener, event: postUpdate }
             - { name: doctrine_mongodb.odm.event_listener, event: postRemove }
 
+    biopen.db_integrity:
+        class: Biopen\GeoDirectoryBundle\EventListener\DatabaseIntegrityWatcher
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: preRemove }
+
     biopen.csvtoarray:
         class: Biopen\GeoDirectoryBundle\Services\ConvertCsvToArrayService
 
