@@ -115,3 +115,8 @@ You need to install the bc-math module
 ```
 sudo apt install php7.0-bcmath
 ```
+
+If memory limits while using composer
+```
+COMPOSER_MEMORY_LIMIT=-1 composer ...
+```
