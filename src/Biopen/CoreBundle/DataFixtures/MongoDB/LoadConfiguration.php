@@ -71,6 +71,9 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setDefaultSouthWestBoundsLat(40);
     $configuration->setDefaultSouthWestBoundsLng(-5);
 
+    // FORM
+    $configuration->setElementFormGeocodingHelp("Ne mettez pas de ponctuation, les noms tout en majuscules ne sont pas reconnus non plus. Si la localisation ne fonctionne pas (il arrive que certaines adresses ne soient pas reconnues), entrez le nom de la ville/le village le plus proche, cliquez sur « Localiser », puis placer le point de localisation manuellement. Re-rentrez l’adresse complète dans la barre et passez à la suite du formulaire sans re-cliquer sur « localiser ».");
+
     $neutralDark = '#345451' ;
     $neutralDarkTransparent = '#345451' ;
     $neutralSoftDark = '#345451' ;
