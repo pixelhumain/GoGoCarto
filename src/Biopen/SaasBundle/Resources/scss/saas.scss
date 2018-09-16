@@ -2,6 +2,11 @@
 
 @import 'home';
 
+html 
+{
+  background-color: #345451;
+}
+
 body
 {
   height: auto;
@@ -14,7 +19,6 @@ body
 #page-container
 {
   width: 100%;
-  background-color: #345451;
 
   #page-content
   {
