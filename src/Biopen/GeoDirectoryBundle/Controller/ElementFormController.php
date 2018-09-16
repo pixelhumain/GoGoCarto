@@ -262,12 +262,12 @@ class ElementFormController extends GoGoController
 				$em->flush();       		
 			}
 			
-			// Redirect to directory with success message
-			$elementShowOnMapUrl = $realElement->getShowUrlFromController($this);	
+			$elementToUse = $editMode ? $realElement : $element;
+			$elementShowOnMapUrl = $elementToUse->getShowUrlFromController($this);	
 
 			$noticeText = 'Merci de votre aide ! ';
 			if ($editMode) $noticeText .= 'Les modifications ont bien été prises en compte !';
-			else $noticeText .=  ucwords($configService->getConfig()->getElementDisplayNameDefinite()) . " a bien été ajouté :)";
+			else $noticeText .= ucwords($configService->getConfig()->getElementDisplayNameDefinite()) . " a bien été ajouté :)";
 
 			if ($element->isPending())
 			{
@@ -336,8 +336,7 @@ class ElementFormController extends GoGoController
 
 		// a form with just a submit button
 		$checkDuplicatesForm = $this->get('form.factory')->createNamedBuilder('duplicates', 'form')->getForm();	
-
-		if ($checkDuplicatesForm->handleRequest($request)->isValid()) 
+		if ($request->getMethod() == "POST")
 		{
 			// if user say that it's not a duplicate, we go back to add action with checkDuplicate to true
 			return $this->redirectToRoute('biopen_element_add', array('checkDuplicate' => true));
