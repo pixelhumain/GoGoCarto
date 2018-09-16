@@ -3,29 +3,29 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # SAAS Config
-    use_as_saas: true
-    base_url: saas.localhost
+    use_as_saas: false
+
+    # URL config
+    base_url: saas.localhost # my-site.com
+    base_path: ~ # on localhost its probably something like /GoGoCarto/web/app_dev.php
     
     # EMAIL SERVER
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
-
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1 
+    mailer_user: ~
+    mailer_password: ~
+    
     # CONTACT EMAIL (displayed on error messages)
-    contact_email: ~
-
+    contact_email: "contact@localhost.fr"
+    
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
-    csrf_protection: true
-
-    # OAUTH CONF (not mandatory)
-    oauth_communs_id: ~
-    oauth_communs_secret: ~
-    oauth_google_id: ~
-    oauth_google_secret: ~
-    oauth_facebook_id: ~
-    oauth_facebook_secret: ~
-
-    # SERVER HOST (used when sending newsletters)
-    router.request_context.host: localhost/GoGoCarto/app_dev.php
+    csrf_protection: false # active csrf protection on production servers
+    
+    # OAUTH CONF
+    oauth_communs_id: "disabled"
+    oauth_communs_secret: "disabled"
+    oauth_google_id: "disabled"
+    oauth_google_secret: "disabled"
+    oauth_facebook_id: "disabled"
+    oauth_facebook_secret: "disabled"
