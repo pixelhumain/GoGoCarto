@@ -32,6 +32,7 @@ php7.0 \
 php7.0-cli \
 php7.0-curl \
 php7.0-dev \
+php7.0-gd \
 php7.0-bcmath \
 php7.0-mongodb \
 php7.0-mbstring \
@@ -73,12 +74,14 @@ sudo -u $WEB_USR npm install
 
 # php deps and symphony stuff
 sudo -u $WEB_USR echo "parameters:
+  use_as_saas: true
+  base_url: ${WEB_URL}
+  base_path: ''
   mailer_transport: smtp
   mailer_host: 127.0.0.1
   mailer_user: null
   mailer_password: null
   secret: lijd676jf5657fe56Hyjlkdz
-  router.request_context.host: ${WEB_URL}
   csrf_protection: true
   oauth_communs_id: communsIds
   oauth_communs_secret: communsSecret
