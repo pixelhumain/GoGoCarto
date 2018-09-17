@@ -90,14 +90,14 @@ class AbstractFile
     return $fileUrl;
   }
 
-  public function calculateFilePath($suffix = '')
+  public function calculateFilePath($suffix = '', $extension = '')
   {
     $uploadDirHelper = new UploadDirectoryNamer();    
     $filePath = $uploadDirHelper->getDirectoryPathFromKey($this->vichUploadFileKey) .'/' . $this->fileName;
     if ($suffix) {
       return preg_replace(
         '/(\.jpe?g|\.png)$/',
-        '-'.$suffix.'$1',
+        '-'.$suffix.($extension ? '.'.$extension : '$1'),
         $filePath
       );
     } else {

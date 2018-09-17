@@ -14,7 +14,7 @@ class ImageResizer
             $w = 512;
             $h = 512;
             $srcImage = $document->calculateFilePath();
-            $destImage = preg_replace('/(\.jpe?g|\.png)$/', '-'.$w.'x'.$h.'$1', $srcImage);
+            $destImage = preg_replace('/(\.jpe?g|\.png)$/', '-'.$w.'x'.$h.'.png', $srcImage);
             $image = InterventionImage::make($srcImage)->fit($w, $h)->save($destImage);
         }
     }
