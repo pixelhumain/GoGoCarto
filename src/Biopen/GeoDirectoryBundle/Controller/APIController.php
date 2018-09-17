@@ -221,16 +221,18 @@ class APIController extends GoGoController
 
     $responseArray = array(
       "name" => $config->getAppName(),
-      "short_name" =>  str_split($config->getAppName(), 9),
+      "short_name" =>  str_split($config->getAppName(), 9)[0],
       "lang" => "fr",
       "start_url" => "/annuaire#/carte/autour-de-moi",
       "display" => "standalone",
       "theme_color" => $config->getPrimaryColor(),
       "background_color" => $config->getBackgroundColor(),
       "icons" => [
+        [
             "src" => $imgUrl,
             "sizes" => $imageData['COMPUTED']['Width'].'x'.$imageData['COMPUTED']['Height'],
             "type" => $imageData['MimeType']
+        ]
       ]
     );
     $response = new Response(json_encode($responseArray));  
