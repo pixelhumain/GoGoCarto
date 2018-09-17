@@ -48,11 +48,11 @@
             },
             menu:
             {
-                width: {{ config.map.width ? config.map.width : 'undefined' }},
-                smallWidthStyle: {{ config.map.smallWidthStyle ? 'true' : 'false' }},
-                showOnePanePerMainOption: {{ config.map.showOnePanePerMainOption ? 'true' : 'false' }},
-                showCheckboxForMainFilterPane: {{ config.map.showCheckboxForMainFilterPane  ? 'true' : 'false'}},
-                showCheckboxForSubFilterPane: {{ config.map.showCheckboxForSubFilterPane ? 'true' : 'false' }}
+                width: {{ config.map and config.map.width ? config.map.width : 'undefined' }},
+                smallWidthStyle: {{ config.map and config.map.smallWidthStyle ? 'true' : 'false' }},
+                showOnePanePerMainOption: {{ config.map and config.map.showOnePanePerMainOption ? 'true' : 'false' }},
+                showCheckboxForMainFilterPane: {{ config.map and config.map.showCheckboxForMainFilterPane  ? 'true' : 'false'}},
+                showCheckboxForSubFilterPane: {{ config.map and config.map.showCheckboxForSubFilterPane ? 'true' : 'false' }}
             },
             features:
             {
