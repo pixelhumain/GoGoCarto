@@ -212,8 +212,8 @@ class APIController extends GoGoController
     $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
     $img = $config->getFavicon() ? $config->getFavicon() : $config->getLogo();
     if ($img) {
-      $imgUrl = $img->calculateFilePath('512x512');
-      $imageData = InterventionImage::make($imgUrl)->exif();
+      $imgUrl = $img->getImageUrl('512x512');
+      $imageData = InterventionImage::make($img->calculateFilePath('512x512'))->exif();
     } else {
       $imgUrl = $this->getRequest()->getUriForPath('/assets/img/default-icon.png');
       $imageData = InterventionImage::make($imgUrl)->exif();
