@@ -212,25 +212,27 @@ class APIController extends GoGoController
     $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
     $img = $config->getFavicon() ? $config->getFavicon() : $config->getLogo();
     if ($img) {
-      $imgUrl = $img->getImageUrl('512x512');
-      $imageData = InterventionImage::make($img->calculateFilePath())->exif();
+      $imgUrl = $img->getImageUrl('512x512', 'png');
+      $imageData = InterventionImage::make($img->calculateFilePath('512x512', 'png'));
     } else {
       $imgUrl = $this->getRequest()->getUriForPath('/assets/img/default-icon.png');
-      $imageData = InterventionImage::make($imgUrl)->exif();
+      $imageData = InterventionImage::make($imgUrl);
     }
 
     $responseArray = array(
       "name" => $config->getAppName(),
-      "short_name" =>  str_split($config->getAppName(), 9),
+      "short_name" =>  str_split($config->getAppName(), 9)[0],
       "lang" => "fr",
       "start_url" => "/annuaire#/carte/autour-de-moi",
       "display" => "standalone",
       "theme_color" => $config->getPrimaryColor(),
       "background_color" => $config->getBackgroundColor(),
       "icons" => [
+        [
             "src" => $imgUrl,
-            "sizes" => $imageData['COMPUTED']['Width'].'x'.$imageData['COMPUTED']['Height'],
-            "type" => $imageData['MimeType']
+            "sizes" => $imageData->height().'x'.$imageData->width(),
+            "type" => $imageData->mime()
+        ]
       ]
     );
     $response = new Response(json_encode($responseArray));  
