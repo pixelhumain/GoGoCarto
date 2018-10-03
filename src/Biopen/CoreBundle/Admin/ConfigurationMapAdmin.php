@@ -71,12 +71,20 @@ class ConfigurationMapAdmin extends AbstractAdmin
                 ->end()
             ->end()                  
             ->tab('Menu')
-                ->add('map.width', null, array('label' => "Largueur du menu", 'required' => false))
-                ->add('map.smallWidthStyle', 'checkbox', array('required' => false))
-                ->add('map.showOnePanePerMainOption', 'checkbox', array('required' => false))
-                ->add('map.showCheckboxForMainFilterPane', 'checkbox', array('required' => false))
-                ->add('map.showCheckboxForSubFilterPane', 'checkbox', array('required' => false))
+                ->with('Menu')
+                    ->add('menu.width', 'number', array('label' => "Largueur du menu", 'required' => false))
+                    ->add('menu.smallWidthStyle', 'checkbox', array('required' => false))
+                    ->add('menu.showOnePanePerMainOption', 'checkbox', array('required' => false))
+                    ->add('menu.showCheckboxForMainFilterPane', 'checkbox', array('required' => false))
+                    ->add('menu.showCheckboxForSubFilterPane', 'checkbox', array('required' => false))
+                ->end()
             ->end()
-        ;            
+            ->tab('Infobar')
+                ->with('Infobar')
+                    ->add('infobar.width', 'number', array('label' => "Largeur de la barre d'info", 'required' => false))
+                    ->add('infobar.activate', 'checkbox', array('required' => false))
+                    ->add('infobar.BodyTemplate', 'checkbox', array('required' => false))
+                ->end()
+            ->end();            
     }
 }

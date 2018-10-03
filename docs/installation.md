@@ -10,7 +10,7 @@ Feel free to add some more informations if you solve installation issues !
 Requirements
 ------------
 
-1. Php
+1. Php (Sur Linux : php7.2-curl)
 2. [Composer](https://getcomposer.org/download/) 
 3. [Nodejs](https://nodejs.org/en/download/)
 4. [Git](https://git-scm.com/)

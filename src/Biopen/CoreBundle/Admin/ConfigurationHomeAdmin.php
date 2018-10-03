@@ -39,8 +39,8 @@ class ConfigurationHomeAdmin extends AbstractAdmin
             ->add('activateHomePage', null, array('label' => "Activer la page d'accueil", 'required' => false))
             ->add('backgroundImage', 'sonata_type_model', array_replace($imagesOptions,['label' => 'Image de fond (le nom du fichier ne doit pas contenir d\'espaces ou de caractères spéciaux']))
             ->add('home.displayCategoriesToPick', 'checkbox', array('label' => "Afficher les catégories principales selectionnables pour la recherche", 'required' => false))
-            ->add('home.addElementHintText', null, array('label' => "Texte au dessus du bouton \"Ajouter un élément\"", 'required' => false))
-            ->add('home.seeMoreButtonText', null, array('label' => "Texte pour inviter à scroller (si des bandeaux de la page d'accueil existent)", 'required' => false))
+            ->add('home.addElementHintText', 'text', array('label' => "Texte au dessus du bouton \"Ajouter un élément\"", 'required' => false))
+            ->add('home.seeMoreButtonText', 'text', array('label' => "Texte pour inviter à scroller (si des bandeaux de la page d'accueil existent)", 'required' => false))
         ;
     }
 }

@@ -51,10 +51,15 @@ class RegistrationFormHandler
         if ('POST' === $this->request->getMethod()) {
             $form->handleRequest($this->request);
             $user = $form->getData();
+            
+            $usersSameEmail = $this->userManager->findUserByEmail($user->getEmail());
+            $alreadyUsedEmail = $usersSameEmail === null ? false : count($usersSameEmail) > 1;
 
-            $alreadyUsedEmail    = count($this->userManager->findUserByEmail($user->getEmail())) > 0;
-            $alreadyUsedUserName = count($this->userManager->findUserByUsername($user->getUsername())) > 0;
+            $userSameName   = $this->userManager->findUserByUsername($user->getUsername());
+            array $alreadyUsedUserName() = $userSameName === null ? false : count($userSameName);
+
             $locoationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
+
             $geocodeError = false;
             if ($user->getLocation()) {
                 try
