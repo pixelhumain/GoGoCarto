@@ -64,7 +64,7 @@ class OptionAdmin extends AbstractAdmin
          ->add('useColorForMarker', null, array('required' => false, 'label' => "Utiliser la couleur de l'option pour le marqueur")) 
       ->end() 
       ->with('Afficher l\'option', array('class' => 'col-xs-12 col-md-6', 'box_class' => 'box'))  
-         ->add('displayInMenu', null, array('required' => false, 'label' => "Dans le manu"))  
+         ->add('displayInMenu', null, array('required' => false, 'label' => "Dans le menu"))  
          ->add('displayInInfoBar', null, array('required' => false, 'label' => "Dans la fiche détail"))  
          ->add('displayInForm', null, array('required' => false, 'label' => "Dans le formulaire")) 
       ->end() 

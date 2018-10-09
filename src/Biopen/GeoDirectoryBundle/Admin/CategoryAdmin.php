@@ -62,7 +62,7 @@ class CategoryAdmin extends AbstractAdmin
          ->add('enableDescription', null, array('required' => false, 'label' => "Activer la description des options (l'utilisateur pourra renseigner un texte pour décrire chaque option)")) 		
 		->end()
       ->with('Afficher la catégorie', array('class' => 'col-xs-12', 'box_class' => 'box'))  
-         ->add('displayInMenu', null, array('required' => false, 'label' => "Dans le manu"))  
+         ->add('displayInMenu', null, array('required' => false, 'label' => "Dans le menu"))  
          ->add('displayInInfoBar', null, array('required' => false, 'label' => "Dans la fiche détail"))  
          ->add('displayInForm', null, array('required' => false, 'label' => "Dans le formulaire")) 
       ->end() 
