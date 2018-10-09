@@ -83,9 +83,9 @@ hwi_oauth:
                 lastname: family_name
                 email: email
             class:          'HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GenericOAuth2ResourceOwner'
-            access_token_url: https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/token
-            authorization_url: https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/auth
-            infos_url:         https://login.lescommuns.org:8443/auth/realms/master/protocol/openid-connect/userinfo
+            access_token_url: https://login.lescommuns.org/auth/realms/master/protocol/openid-connect/token
+            authorization_url: https://login.lescommuns.org/auth/realms/master/protocol/openid-connect/auth
+            infos_url:         https://login.lescommuns.org/auth/realms/master/protocol/openid-connect/userinfo
             client_id:      "%oauth_communs_id%"
             client_secret:  "%oauth_communs_secret%"
             scope:          "email profile openid"
