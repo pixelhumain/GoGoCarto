@@ -264,6 +264,9 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $elementFormGeocodingHelp;
 
+    /** @MongoDB\Field(type="string") */
+    protected $elementFormFieldsJson;
+
 
 
     // ----------------------------
@@ -420,6 +423,11 @@ class Configuration
     public function getDefaultBounds()
     {
         return [ [$this->defaultNorthEastBoundsLat, $this->defaultNorthEastBoundsLng], [$this->defaultSouthWestBoundsLat, $this->defaultSouthWestBoundsLng] ];
+    }
+
+    public function getElementFormFields()
+    {
+        return json_decode($this->getElementFormFieldsJson());
     }
 
     /**
@@ -2548,5 +2556,27 @@ class Configuration
     public function getMap()
     {
         return $this->map;
+    }
+
+    /**
+     * Set elementFormFieldsJson
+     *
+     * @param string $elementFormFieldsJson
+     * @return $this
+     */
+    public function setElementFormFieldsJson($elementFormFieldsJson)
+    {
+        $this->elementFormFieldsJson = $elementFormFieldsJson;
+        return $this;
+    }
+
+    /**
+     * Get elementFormFieldsJson
+     *
+     * @return string $elementFormFieldsJson
+     */
+    public function getElementFormFieldsJson()
+    {
+        return $this->elementFormFieldsJson;
     }
 }

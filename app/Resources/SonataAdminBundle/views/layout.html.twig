@@ -34,7 +34,7 @@
         .bs-callout-warning { border-left-color: #f39c12; }
 
         .btn i { margin-right: 6px; }
-        .btn i + i { margin-left: -4px; }
+        .btn i + i { margin-left: -4px; }        
     </style>
     
 
@@ -44,6 +44,8 @@
     {{ parent() }}
 
     <script src="{{ asset('bundles/xmoncolorpickertype/js/jscolor.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/form-builder.min.js') }}" type="text/javascript"></script>
+
 
     {# CKEDITOR FORMATTER #}
     <script src="//cdn.ckeditor.com/4.7.3/full/ckeditor.js"></script>
@@ -69,6 +71,11 @@
         }
       })
     };
+
+    
+    
+    var formBuilder;
+    var formBuilderInitialized = false;
 
     window.SONATA_CONFIG.CONFIRM_EXIT = false;
     </script>

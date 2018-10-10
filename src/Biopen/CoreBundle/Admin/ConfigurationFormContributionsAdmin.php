@@ -28,6 +28,9 @@ class ConfigurationFormContributionsAdmin extends AbstractAdmin
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
             ->tab('Formulaire dajout')  
+                ->with('Champs', array('class' => 'col-md-12'))
+                    ->add('elementFormFieldsJson', 'hidden', array('data' => 'formbuilder')) 
+                ->end()
                 ->with('Contenus', array('class' => 'col-md-12'))                    
                     ->add('elementFormIntroText', 'textarea'  , 
                         array('required' => false,

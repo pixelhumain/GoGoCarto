@@ -352,6 +352,15 @@ class Element
     private $lockUntil = 0;
 
     /**
+     * @var string
+     *
+     * If element has been imported, this is the Id of the element in the previous database
+     *
+     * @MongoDB\Field(type="hash")
+     */
+    private $fields;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -1670,5 +1679,27 @@ class Element
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Set fields
+     *
+     * @param hash $fields
+     * @return $this
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+        return $this;
+    }
+
+    /**
+     * Get fields
+     *
+     * @return hash $fields
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 }

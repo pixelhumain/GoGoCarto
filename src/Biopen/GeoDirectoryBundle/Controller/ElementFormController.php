@@ -252,6 +252,11 @@ class ElementFormController extends GoGoController
 			  }  
 			}  
 
+			$fields = [];
+      $fields['test'] = "toto";
+      $fields['lala'] = 42;
+      $element->setFields($fields);     
+
 			$em->persist($element);
 			$em->flush(); 
 

@@ -9,10 +9,6 @@
  */
 jQuery(document).ready(function()
 {	
-	// ---------------
-	// INITIALISATIONS
-	// ---------------
-
   // TIMEPICKERS
   $('.timepicker').each(function(e) {
     var start_time;

@@ -23,6 +23,7 @@
   
   <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajouter " ~ config.elementDisplayNameIndefinite }}</h1> 
 
+  
   {% include "@BiopenGeoDirectory/element-form/form.html.twig" with {'editMode': editMode } %}
 
 {% endblock %}
@@ -31,17 +32,13 @@
 
   <script src="{{ asset('js/element-form.js?ver=' ~ version) }}"></script> 
 
-  {#} {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-	 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCaptcha&render=explicit"
-	        async defer>
-	  </script>
-	{% endif %} #}
-
   <script>
 	  var editMode = false;		  
 	  {% if editMode %} editMode = true; {% endif %}
-    var defaultTileLayer = "{{ config.defaultTileLayer.url }}"
+    var defaultTileLayer = "{{ config.defaultTileLayer.url }}";    
 	  initMap();
+
+    console.log({{ config.getElementFormFieldsJson|raw }});
   </script>
   
 {% endblock %}
