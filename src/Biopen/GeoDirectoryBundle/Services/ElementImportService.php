@@ -94,7 +94,7 @@ class ElementImportService
     $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $qb->remove()->field('source')->references($externalSource)->getQuery()->execute();
 
-    return $this->import($data, $externalSource, false, false);    
+    return $this->import($data, $externalSource, false, true);    
   }
 
 	public function import($data, 
