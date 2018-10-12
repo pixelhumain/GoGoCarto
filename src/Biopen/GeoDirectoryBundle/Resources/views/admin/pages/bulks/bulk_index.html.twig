@@ -4,7 +4,10 @@
 
 {% block page_content %}
 
-  <div><a class="btn btn-primary" href={{ path('biopen_bulk_actions_detect_duplicates') }}>Détecter les doublon</a></div>
+  <div>
+    <a class="btn btn-primary" href={{ path('biopen_bulk_actions_detect_duplicates') }}>Détecter les doublons</a>
+    <a class="btn btn-primary" href={{ path('biopen_duplicates_index') }}>Gérer les doublons détectés</a>
+  </div>
   <div><a class="btn btn-danger" href={{ path('biopen_bulk_actions_delete_element_reported') }}>Supprimer les éléments reportés comme n'existant plus</a></div>
   </br>
   <div><a class="btn btn-default" href={{ path('biopen_bulk_actions_update_json') }}>
