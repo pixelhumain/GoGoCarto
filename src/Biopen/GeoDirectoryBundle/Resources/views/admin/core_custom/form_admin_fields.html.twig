@@ -1,92 +1,21 @@
 {% extends 'SonataDoctrineMongoDBAdminBundle:Form:form_admin_fields.html.twig' %}
 
 {% block sonata_admin_mongo_collection %}
-    {% include '@BiopenAdmin/core_custom/edit_mongo_collection.html.twig' %}
+    {% include '@BiopenAdmin/core_custom/custom-fields/edit_mongo_collection.html.twig' %}
 {% endblock %}
 
+{# 
+  Here we can create custom fields renderer in the Admin 
+  An easy way to achieve custom field is to use a dedicate class like
+  ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-builder'])) 
+#}
 {% block form_widget_simple %}
-    {% set type = type|default('text') %}
-    {% if type == 'file' %}
-      <input type="file" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" class="filestyle" data-classButton="btn btn-primary" data-input="false" data-classIcon="icon-plus" data-buttonText="{{ form.vars.label }}"/>
-      {# the following code works great, except when creating new file, then an error in thrwn during the template render #}
-      {% set file = form.vars.sonata_admin.admin.subject is defined ? form.vars.sonata_admin.admin.subject : null %}
-      {% if file %}
-        {% set imagePath = file.fileUrl is defined ? file.fileUrl : file.externalImageUrl is defined ? file.externalImageUrl : null %}
-        {% if imagePath %}
-            <img src="{{ imagePath }}" class="thumbnail"/>
-        {% endif %}
-      {% endif %}
-
-      <style>
-        .thumbnail {     
-          width: 100px;
-          display: inline-block; 
-          margin-right: 10px;
-        }
-      </style>
+    {# File #}
+    {% if type|default('null') == 'file' %}
+      {% include '@BiopenAdmin/core_custom/custom-fields/file.html.twig' %}
+    {# Form Builder #}
     {% elseif attr.class == "gogo-form-builder" %}
-      <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"/>
-      <div id="form-builder-container"></div>
-      {% set formData = form.vars.sonata_admin.admin.subject.elementFormFieldsJson|default('[]') %}
-      <style>
-        #form-builder-container .checkbox label, #form-builder-container .radio label { padding-left: 30px !important; }
-        .taxonomy-field .field-actions .del-button, .taxonomy-field .field-actions .copy-button,
-        .address-field .field-actions .del-button, .address-field .field-actions .copy-button,
-        .title-field .field-actions .del-button, .title-field .field-actions .copy-button,
-        .openhours-field .field-actions .copy-button
-        { display: none !important; }
-
-        .openhours-field .frm-holder .form-group { display:none !important; }
-        .openhours-field .frm-holder .required-wrap, .openhours-field .frm-holder .access-wrap { display:block !important; }
-        .address-field .name-wrap, .address-field .access-wrap, .address-field .required-wrap
-        .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap
-        .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap
-        { display: none !important; }
-        .title-field .required-asterisk, .address-field .required-asterisk, .taxonomy-field .required-asterisk
-        { display: inline !important; }
-        .paragraph-field .subtype-wrap, .header-field .subtype-wrap { display: none !important; }
-      </style>
-      <script>
-        if (!formBuilderInitialized) {
-          formBuilderInitialized = true;
-          jQuery(function($) {
-            var fbEditor = document.getElementById('form-builder-container');
-
-            var fields = [
-              { label: 'Titre de la fiche (obligatoire)', name: "title", required: true, attrs: { type: 'title' }, icon: '*' },
-              { label: 'Catégories (obligatoire)', name: "taxonomy", attrs: { type: 'taxonomy' }, icon: '*' },
-              { label: 'Adresse (obligatoire)', name: "address", attrs: { type: 'address' }, icon: '*' },
-              { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: ' ' }                 
-            ];
-            var templates = {
-              title: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><i> Ce champ est indispensable</i>' }; },
-              address: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><i> Ce champ est indispensable</i>' }; },
-              taxonomy: function(fieldData) { return { field: '<select id="' + fieldData.name + '"><option>Choisissez une catégorie principale</option></select><i> Ce champ est indispensable</i>' }; },
-              openhours: function(fieldData) { return { field: 'Bloc contenant un selecteur d\'horaires' }; },
-            };
-
-            var formBuilder = $(fbEditor).formBuilder({
-              showActionButtons: false,
-              dataType: "json",
-              fields: fields,
-              templates: templates,
-              i18n: { 
-                locale: 'fr-FR',
-                location: '{{ asset("assets/js/") }}'
-              },              
-              disableFields: ['hidden', 'file', 'button', 'autocomplete', 'title', 'taxonomy', 'address'],
-              controlOrder: ['text', 'textarea', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
-              disabledAttrs: ['className', 'inline'],
-              formData: '{{ formData|raw }}',
-              roles: { 1: "Administrateur" }
-            });
-
-            setInterval(function() {
-              $('#{{ form.vars.id }}').val(JSON.stringify(formBuilder.actions.getData()));
-            }, 300);
-          });
-        }        
-      </script>
+      {% include '@BiopenAdmin/core_custom/custom-fields/form-builder.html.twig' %}
     {% else %}      
       {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
       {{ parent() }}

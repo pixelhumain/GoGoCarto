@@ -1,0 +1,17 @@
+<input type="file" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" class="filestyle" data-classButton="btn btn-primary" data-input="false" data-classIcon="icon-plus" data-buttonText="{{ form.vars.label }}"/>
+{# the following code works great, except when creating new file, then an error in thrwn during the template render #}
+{% set file = form.vars.sonata_admin.admin.subject is defined ? form.vars.sonata_admin.admin.subject : null %}
+{% if file %}
+  {% set imagePath = file.fileUrl is defined ? file.fileUrl : file.externalImageUrl is defined ? file.externalImageUrl : null %}
+  {% if imagePath %}
+      <img src="{{ imagePath }}" class="thumbnail"/>
+  {% endif %}
+{% endif %}
+
+<style>
+  .thumbnail {     
+    width: 100px;
+    display: inline-block; 
+    margin-right: 10px;
+  }
+</style>
