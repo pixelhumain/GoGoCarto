@@ -6,7 +6,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Biopen\CoreBundle\Document\ConfImage;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
-use Biopen\CoreBundle\Document\Configuration\ConfigurationMap;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationMenu;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar;
 
 
 /**
@@ -185,8 +186,11 @@ class Configuration
     // --------- MAP -----------
     // -------------------------
 
-    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationMap") */
-    protected $map;
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationMenu") */
+    protected $menu;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar") */
+    protected $infobar;
 
     /** @MongoDB\ReferenceOne(targetDocument="Biopen\CoreBundle\Document\TileLayer") */
     protected $defaultTileLayer;    
@@ -406,7 +410,23 @@ class Configuration
         $this->directModerationFeature = new InteractionConfiguration();
 
         $this->user = new ConfigurationUser();
-        $this->map = new ConfigurationMap();
+        $this->menu = new ConfigurationMenu();
+        $this->infobar = new ConfigurationInfobar();
+        
+        /*
+        listMode
+        searchPlace
+        searchGeolocate
+                        directions: {},
+                layers: {},
+                mapdefaultview: {}
+        avec model FeatureConfiguration
+        
+                        saveViewportInCookies : true,
+                saveTileLayerInCookies : true,
+
+        */
+
     }
 
 
@@ -2322,6 +2342,7 @@ class Configuration
      */
     public function getHome()
     {
+        if(!$this->home) $this->home = new ConfigurationHome(); 
         return $this->home;
     }
 
@@ -2537,25 +2558,49 @@ class Configuration
     }
 
     /**
-     * Set map
+     * Set menu
      *
-     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map
+     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationMenu $menu
      * @return $this
      */
-    public function setMap(\Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map)
+    public function setMenu(\Biopen\CoreBundle\Document\Configuration\ConfigurationMenu $menu)
     {
-        $this->map = $map;
+        $this->menu = $menu;
         return $this;
     }
 
     /**
-     * Get map
+     * Get menu
      *
-     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationMap $map
+     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationMenu $menu
      */
-    public function getMap()
+    public function getMenu()
     {
-        return $this->map;
+        if(!$this->menu) $this->menu = new ConfigurationMenu();
+        return $this->menu;
+    }
+
+    /**
+     * Set infobar
+     *
+     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar $infobar
+     * @return $this
+     */
+    public function setInfobar(\Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar $infobar)
+    {
+        $this->infobar = $infobar;
+        return $this;
+    }
+
+    /**
+     * Get infobar
+     *
+     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar $infobar
+     */
+    public function getInfobar()
+    {
+        if(!$this->infobar) $this->infobar = new ConfigurationInfobar();
+        return $this->infobar;
     }
 
     /**

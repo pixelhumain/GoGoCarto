@@ -5,7 +5,7 @@ namespace Biopen\CoreBundle\Document\Configuration;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /** @MongoDB\EmbeddedDocument */
-class ConfigurationMap
+class ConfigurationMenu
 {
     /** @MongoDB\Field(type="int") */
     protected $width = null;
