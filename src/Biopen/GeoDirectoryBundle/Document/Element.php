@@ -564,10 +564,7 @@ class Element
         if ($this->getTelephone()) $privateJson .= '"telephone": "' . $this->getTelephone() . '",';
         // email
         if ($this->getEmail())
-            if ($this->isPending() || $this->status == ElementStatus::ModifiedPendingVersion)
-                $privateJson .= '"email": "' . $this->getEmail(). '"';
-            else
-                $privateJson .= '"email": ' . ($this->getEmail() ? '"hidden"' : 'null');
+            $privateJson .= '"email": "' . $this->getEmail(). '"';
         $privateJson = rtrim($privateJson, ',');
         $privateJson .= '}';
         $this->setPrivateJson($privateJson);

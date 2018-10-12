@@ -10,12 +10,8 @@ class ConfigurationInfobar
     /** @MongoDB\Field(type="int") */
     protected $width = null;
 
-    /** @MongoDB\Field(type="bool") */
-    protected $activate = true;
-
-    /** @MongoDB\Field(type="int") */
+    /** @MongoDB\Field(type="string") */
     protected $bodyTemplate = null;
-
 
 
     /**
@@ -41,31 +37,9 @@ class ConfigurationInfobar
     }
 
     /**
-     * Set activate
-     *
-     * @param bool $activate
-     * @return $this
-     */
-    public function setActivate($activate)
-    {
-        $this->activate = $activate;
-        return $this;
-    }
-
-    /**
-     * Get activate
-     *
-     * @return bool $activate
-     */
-    public function getActivate()
-    {
-        return $this->activate;
-    }
-
-    /**
      * Set bodyTemplate
      *
-     * @param int $bodyTemplate
+     * @param string $bodyTemplate
      * @return $this
      */
     public function setBodyTemplate($bodyTemplate)
@@ -77,7 +51,7 @@ class ConfigurationInfobar
     /**
      * Get bodyTemplate
      *
-     * @return int $bodyTemplate
+     * @return string $bodyTemplate
      */
     public function getBodyTemplate()
     {

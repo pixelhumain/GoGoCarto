@@ -24,7 +24,7 @@
           margin-right: 10px;
         }
       </style>
-    {% elseif data == "formbuilder" %}
+    {% elseif attr.class == "gogo-form-builder" %}
       <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}"/>
       <div id="form-builder-container"></div>
       {% set formData = form.vars.sonata_admin.admin.subject.elementFormFieldsJson|default('[]') %}

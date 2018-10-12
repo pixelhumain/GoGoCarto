@@ -54,7 +54,13 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setPendingFeature(   new FeatureConfiguration(true, false, true, true, true));
     $configuration->setSendMailFeature(   new InteractionConfiguration(true, false, true, true, true, true));
     $configuration->setCustomPopupFeature(   new FeatureConfiguration());
-    $configuration->setStampFeature(   new FeatureConfiguration());    
+    $configuration->setStampFeature(   new FeatureConfiguration(true, false, true, true, true));    
+    $configuration->setSearchPlaceFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setSearchGeolocateFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setLayersFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setMapDefaultViewFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setListModeFeature(     new FeatureConfiguration(true, true,  true, true, true));
+    $configuration->setSearchElementsFeature(     new FeatureConfiguration(true, true,  true, true, true));
 
     $configuration->setAddFeature(       new InteractionConfiguration(true, true,  false, true, true, true));
     $configuration->setEditFeature(      new InteractionConfiguration(true, true,  false, true, true, true));

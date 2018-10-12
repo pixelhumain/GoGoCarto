@@ -48,18 +48,18 @@
             },
             menu:
             {
-                width: {{ config.map and config.map.width ? config.map.width : 'undefined' }},
-                smallWidthStyle: {{ config.map and config.map.smallWidthStyle ? 'true' : 'false' }},
-                showOnePanePerMainOption: {{ config.map and config.map.showOnePanePerMainOption ? 'true' : 'false' }},
-                showCheckboxForMainFilterPane: {{ config.map and config.map.showCheckboxForMainFilterPane  ? 'true' : 'false'}},
-                showCheckboxForSubFilterPane: {{ config.map and config.map.showCheckboxForSubFilterPane ? 'true' : 'false' }}
+                width: {{ config.menu.width ? config.menu.width : 'undefined' }},
+                smallWidthStyle: {{ config.menu.smallWidthStyle ? 'true' : 'false' }},
+                showOnePanePerMainOption: {{ config.menu.showOnePanePerMainOption ? 'true' : 'false' }},
+                showCheckboxForMainFilterPane: {{ config.menu.showCheckboxForMainFilterPane  ? 'true' : 'false'}},
+                showCheckboxForSubFilterPane: {{ config.menu.showCheckboxForSubFilterPane ? 'true' : 'false' }}
             },
             features:
             {
-                listMode: {},
-                searchPlace: { },
-                searchElements:   { url: "{{ path('biopen_api_elements_from_text') }}" },
-                searchGeolocate: {},
+                listMode: {{ this.getConfigFrom(config.listModeFeature) }},
+                searchPlace: {{ this.getConfigFrom(config.searchPlaceFeature) }},
+                searchElements: {{ this.getConfigFrom(config.searchElementsFeature, path('biopen_api_elements_from_text')) }},  
+                searchGeolocate: {{ this.getConfigFrom(config.searchGeolocateFeature) }},
                 share:    {{ this.getConfigFrom(config.shareFeature,  path('biopen_report_error_for_element')) }},
                 report:   {{ this.getConfigFrom(config.reportFeature, path('biopen_report_error_for_element')) }},
                 favorite: {{ this.getConfigFrom(config.favoriteFeature) }},
@@ -68,6 +68,10 @@
                 directModeration:  {{ this.getConfigFrom(config.directModerationFeature) }},
                 moderation:  {{ this.getConfigFrom(config.directModerationFeature, path('biopen_resolve_reports_element')) }},
                 elementHistory: {{ this.getConfigFrom(config.directModerationFeature) }},
+                directions: {{ this.getConfigFrom(config.directionsFeature) }},
+                layers: {{ this.getConfigFrom(config.layersFeature) }},
+                mapdefaultview: {{ this.getConfigFrom(config.mapDefaultViewFeature) }},
+                
 
                 // overide roles so even if edit is just allowed to user or admin, an anonymous will see
                 // the edit button in the element info menu
@@ -94,18 +98,22 @@
                             "id": config.customPopupId 
                         } } 
                     ) }},  
-                directions: {},
-                layers: {},
-                mapdefaultview: {}
+                
             },
-            
+            infobar:
+            {
+                width: {{ config.infobar.width ? config.menu.width : 'undefined' }},
+                bodyTemplate: {
+                    content: {{ config.infobar.bodyTemplate ?: 'undefined' }}
+                }
+            },
             map:
             {
                 defaultBounds: {{ config.getDefaultBounds | json_encode | raw }},
                 defaultTileLayer: "{{ config.defaultTileLayer.name }}",
                 tileLayers : {{ tileLayers | json_encode | raw }},
-                saveViewportInCookies : true,
-                saveTileLayerInCookies : true,
+                saveViewportInCookies : {{ config.saveViewportInCookies ? 'true' : 'false' }},
+                saveTileLayerInCookies : {{ config.saveTileLayerInCookies ? 'true' : 'false' }},
             },
             colors:
             {

@@ -143,6 +143,24 @@ class Configuration
     /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
     protected $customPopupFeature;
 
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $listModeFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $searchPlaceFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $searchGeolocateFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $searchElementsFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $layersFeature;
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\FeatureConfiguration") */
+    protected $mapDefaultViewFeature;
+
 
     // ---------------------------------
     // --------- CONTRIBUTIONS ---------
@@ -206,6 +224,15 @@ class Configuration
 
      /** @MongoDB\Field(type="float") */
     protected $defaultSouthWestBoundsLng;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $saveViewportInCookies = true;
+
+    /** @MongoDB\Field(type="bool") */
+    protected $saveTileLayerInCookies = true;
+    
+
+    
 
     // -------------------------
     // ------ MAP POPUP --------
@@ -399,7 +426,12 @@ class Configuration
         $this->reportFeature = new FeatureConfiguration(); 
         $this->stampFeature = new FeatureConfiguration();
         $this->pendingFeature = new FeatureConfiguration();
-        $this->customPopupFeature = new FeatureConfiguration();
+        $this->listModeFeature = new FeatureConfiguration();
+        $this->searchPlaceFeature = new FeatureConfiguration();
+        $this->searchElementsFeature = new FeatureConfiguration();
+        $this->searchGeolocateFeature = new FeatureConfiguration();
+        $this->layersFeature = new FeatureConfiguration();
+        $this->mapDefaultViewFeature = new FeatureConfiguration();
 
         $this->sendMailFeature = new InteractionConfiguration();
         
@@ -412,23 +444,7 @@ class Configuration
         $this->user = new ConfigurationUser();
         $this->menu = new ConfigurationMenu();
         $this->infobar = new ConfigurationInfobar();
-        
-        /*
-        listMode
-        searchPlace
-        searchGeolocate
-                        directions: {},
-                layers: {},
-                mapdefaultview: {}
-        avec model FeatureConfiguration
-        
-                        saveViewportInCookies : true,
-                saveTileLayerInCookies : true,
-
-        */
-
     }
-
 
     /**
      * Get id
@@ -2623,5 +2639,181 @@ class Configuration
     public function getElementFormFieldsJson()
     {
         return $this->elementFormFieldsJson;
+    }
+
+    /**
+     * Set listModeFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $listModeFeature
+     * @return $this
+     */
+    public function setListModeFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $listModeFeature)
+    {
+        $this->listModeFeature = $listModeFeature;
+        return $this;
+    }
+
+    /**
+     * Get listModeFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $listModeFeature
+     */
+    public function getListModeFeature()
+    {
+        return $this->listModeFeature;
+    }
+
+    /**
+     * Set searchPlaceFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $searchPlaceFeature
+     * @return $this
+     */
+    public function setSearchPlaceFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $searchPlaceFeature)
+    {
+        $this->searchPlaceFeature = $searchPlaceFeature;
+        return $this;
+    }
+
+    /**
+     * Get searchPlaceFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $searchPlaceFeature
+     */
+    public function getSearchPlaceFeature()
+    {
+        return $this->searchPlaceFeature;
+    }
+
+    /**
+     * Set searchGeolocateFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $searchGeolocateFeature
+     * @return $this
+     */
+    public function setSearchGeolocateFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $searchGeolocateFeature)
+    {
+        $this->searchGeolocateFeature = $searchGeolocateFeature;
+        return $this;
+    }
+
+    /**
+     * Get searchGeolocateFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $searchGeolocateFeature
+     */
+    public function getSearchGeolocateFeature()
+    {
+        return $this->searchGeolocateFeature;
+    }
+
+    /**
+     * Set layersFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $layersFeature
+     * @return $this
+     */
+    public function setLayersFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $layersFeature)
+    {
+        $this->layersFeature = $layersFeature;
+        return $this;
+    }
+
+    /**
+     * Get layersFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $layersFeature
+     */
+    public function getLayersFeature()
+    {
+        return $this->layersFeature;
+    }
+
+    /**
+     * Set mapDefaultViewFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $mapDefaultViewFeature
+     * @return $this
+     */
+    public function setMapDefaultViewFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $mapDefaultViewFeature)
+    {
+        $this->mapDefaultViewFeature = $mapDefaultViewFeature;
+        return $this;
+    }
+
+    /**
+     * Get mapDefaultViewFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $mapDefaultViewFeature
+     */
+    public function getMapDefaultViewFeature()
+    {
+        return $this->mapDefaultViewFeature;
+    }
+
+    /**
+     * Set saveViewportInCookies
+     *
+     * @param bool $saveViewportInCookies
+     * @return $this
+     */
+    public function setSaveViewportInCookies($saveViewportInCookies)
+    {
+        $this->saveViewportInCookies = $saveViewportInCookies;
+        return $this;
+    }
+
+    /**
+     * Get saveViewportInCookies
+     *
+     * @return bool $saveViewportInCookies
+     */
+    public function getSaveViewportInCookies()
+    {
+        return $this->saveViewportInCookies;
+    }
+
+    /**
+     * Set saveTileLayerInCookies
+     *
+     * @param bool $saveTileLayerInCookies
+     * @return $this
+     */
+    public function setSaveTileLayerInCookies($saveTileLayerInCookies)
+    {
+        $this->saveTileLayerInCookies = $saveTileLayerInCookies;
+        return $this;
+    }
+
+    /**
+     * Get saveTileLayerInCookies
+     *
+     * @return bool $saveTileLayerInCookies
+     */
+    public function getSaveTileLayerInCookies()
+    {
+        return $this->saveTileLayerInCookies;
+    }
+
+    /**
+     * Set searchElementsFeature
+     *
+     * @param Biopen\CoreBundle\Document\FeatureConfiguration $searchElementsFeature
+     * @return $this
+     */
+    public function setSearchElementsFeature(\Biopen\CoreBundle\Document\FeatureConfiguration $searchElementsFeature)
+    {
+        $this->searchElementsFeature = $searchElementsFeature;
+        return $this;
+    }
+
+    /**
+     * Get searchElementsFeature
+     *
+     * @return Biopen\CoreBundle\Document\FeatureConfiguration $searchElementsFeature
+     */
+    public function getSearchElementsFeature()
+    {
+        return $this->searchElementsFeature;
     }
 }
