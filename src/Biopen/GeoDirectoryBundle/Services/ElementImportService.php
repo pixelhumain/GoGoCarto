@@ -75,10 +75,14 @@ class ElementImportService
 			if (array_key_exists('address', $row)) 
 			{
 				$address = $row['address'];
-				if (array_key_exists('streetAddress', $address))   $data[$key]['streetAddress']   = $address['streetAddress'];
-				if (array_key_exists('addressLocality', $address)) $data[$key]['addressLocality'] = $address['addressLocality'];
-				if (array_key_exists('postalCode', $address))      $data[$key]['postalCode']      = $address['postalCode'];
-				if (array_key_exists('addressCountry', $address))  $data[$key]['addressCountry']  = $address['addressCountry'];
+
+				if (gettype($address) == "string") $data[$key]['streetAddress'] = $address;
+				else {
+					if (array_key_exists('streetAddress', $address))   $data[$key]['streetAddress']   = $address['streetAddress'];
+					if (array_key_exists('addressLocality', $address)) $data[$key]['addressLocality'] = $address['addressLocality'];
+					if (array_key_exists('postalCode', $address))      $data[$key]['postalCode']      = $address['postalCode'];
+					if (array_key_exists('addressCountry', $address))  $data[$key]['addressCountry']  = $address['addressCountry'];
+				}
 				unset($data[$key]['address']);
 			}
 		}
@@ -87,11 +91,10 @@ class ElementImportService
 		$externalSource->setLastRefresh(time());
     $externalSource->updateNextRefreshDate();    
     $this->em->flush();
-
     $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $qb->remove()->field('source')->references($externalSource)->getQuery()->execute();
 
-    return $this->import($data, $externalSource);    
+    return $this->import($data, $externalSource, false, true);    
   }
 
 	public function import($data, 
@@ -119,13 +122,14 @@ class ElementImportService
 		// processing each data
 		foreach($data as $element) 
 		{
-			$this->createElementFromArray($element, $source);
+			$this->createElementFromArray($element, $source, $geocodeIfNecessary);
 
 			// Each 20 users persisted we flush everything
 			if (($i % $batchSize) === 0)
 			{
 			   $this->em->flush();
 			   $this->em->clear();
+			   $this->em->persist($source);
 			}
 			$i++;
 		}
@@ -137,7 +141,7 @@ class ElementImportService
 		return count($data);
 	}
 
-	private function createElementFromArray($row, $source)
+	private function createElementFromArray($row, $source, $geocodeIfNecessary)
 	{
 		$this->currentRow = $row;
 		$new_element = new Element();
@@ -194,8 +198,8 @@ class ElementImportService
 
 	private function fixsOntology($data)
   {
-    $keysTable = ['lat' => 'latitude', 'long' => 'longitude', 'lng' => 'longitude',
-  								'title' => 'name', 'categories' => 'taxonomy', 'sourceKey' => 'source'];
+    $keysTable = ['lat' => 'latitude', 'long' => 'longitude', 'lng' => 'longitude', 'phone' => 'telephone',
+  								'title' => 'name', 'categories' => 'taxonomy', 'sourceKey' => 'source', 'abstract' => 'description'];
 
     foreach ($data as $key => $row) {  
       foreach ($keysTable as $search => $replace) {
