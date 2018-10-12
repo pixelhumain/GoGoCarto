@@ -3,6 +3,10 @@
 GoGoCarto 
 =========
 
+Contact
+--------
+You can contact us on the channel GoGoCarto at https://chat.lescommuns.org/channel/gogocarto
+
 Overview
 --------
 
@@ -10,10 +14,8 @@ GoGoCarto is a full reusable application to create collaborative cartographic di
 
 The software have been developped for the project ["Près de chez Nous"](https://presdecheznous.fr), consisting on referencing food/education/health/... alternatives in France.
 
-GoGoCarto is highly configurable, and almost ready to be reused by anyone to create its own map, with its own data, categories, moderation rules, configuration etc...
+GoGoCarto is highly configurable, and ready to be reused by anyone to create its own map, with its own data, categories, moderation rules, configuration etc...
 There is a whole back office to manage data, contents, configuration
-
-For more information, please contact us on the channel GoGoCarto at https://chat.lescommuns.org/channel/gogocarto
 
 ![Dashboard](docs/images/21.png "Dashboard")
 
