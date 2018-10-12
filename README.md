@@ -27,7 +27,7 @@ GoGoCarto & GoGoCartoJs
 The GoGoCarto project is divided into two separate projects. 
 
 - GoGoCarto repo take care of backend stuff, the form to add new elements, the backoffice, and additonnals pages sucha as homepage
-- [GoGoCartoJs](https://pixelhumain.github.io/GoGoCartoJs) an autonomous javascript library responsible for data vizualisation (map, list, categories, search...). [See the online full documentation](https://pixelhumain.github.io/GoGoCartoJs)
+- [GoGoCartoJs](https://github.com/pixelhumain/GoGoCartoJs) an autonomous javascript library responsible for data vizualisation (map, list, categories, search...). [See the online full documentation](https://pixelhumain.github.io/GoGoCartoJs)
 
 Stack
 -----
