@@ -3,24 +3,6 @@
 <div id="form-builder-container"></div>
 
 {% set formData = form.vars.sonata_admin.admin.subject.elementFormFieldsJson|default('[]') %}
-<style>
-  #form-builder-container .checkbox label, #form-builder-container .radio label { padding-left: 30px !important; }
-  .taxonomy-field .field-actions .del-button, .taxonomy-field .field-actions .copy-button,
-  .address-field .field-actions .del-button, .address-field .field-actions .copy-button,
-  .title-field .field-actions .del-button, .title-field .field-actions .copy-button,
-  .openhours-field .field-actions .copy-button
-  { display: none !important; }
-
-  .openhours-field .frm-holder .form-group { display:none !important; }
-  .openhours-field .frm-holder .required-wrap, .openhours-field .frm-holder .access-wrap { display:block !important; }
-  .address-field .name-wrap, .address-field .access-wrap, .address-field .required-wrap
-  .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap
-  .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap
-  { display: none !important; }
-  .title-field .required-asterisk, .address-field .required-asterisk, .taxonomy-field .required-asterisk
-  { display: inline !important; }
-  .paragraph-field .subtype-wrap, .header-field .subtype-wrap { display: none !important; }
-</style>
 <script>
   if (!formBuilderInitialized) {
     formBuilderInitialized = true;
@@ -31,13 +13,37 @@
         { label: 'Titre de la fiche (obligatoire)', name: "title", required: true, attrs: { type: 'title' }, icon: '*' },
         { label: 'Catégories (obligatoire)', name: "taxonomy", attrs: { type: 'taxonomy' }, icon: '*' },
         { label: 'Adresse (obligatoire)', name: "address", attrs: { type: 'address' }, icon: '*' },
-        { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: ' ' }                 
+        { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: ' ' },
+        { label: 'Séparateur de section', name: "separator", attrs: { type: 'separator' }, icon: '⚊' }                     
       ];
       var templates = {
-        title: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><i> Ce champ est indispensable</i>' }; },
-        address: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><i> Ce champ est indispensable</i>' }; },
-        taxonomy: function(fieldData) { return { field: '<select id="' + fieldData.name + '"><option>Choisissez une catégorie principale</option></select><i> Ce champ est indispensable</i>' }; },
+        title: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><span class="mandatory"> Ce champ est indispensable</span>' }; },
+        address: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><span class="mandatory"> Ce champ est indispensable</span>' }; },
+        taxonomy: function(fieldData) { return { field: '<select id="' + fieldData.name + '"><option>Choisissez une catégorie principale</option></select><span class="mandatory"> Ce champ est indispensable</span>' }; },
         openhours: function(fieldData) { return { field: 'Bloc contenant un selecteur d\'horaires' }; },
+        separator: function(fieldData) { return { field: '<hr>' }; },
+      };
+
+      iconAttr = { label: 'Icone', placeholder: 'gogo-icon-description, gogo-icon-phone ...'  }
+
+      var typeUserAttrs = {
+        text: { 
+          icon: iconAttr, 
+          separator: { label: '' }, // separate important attrs from tohers
+          subtype: { label: 'Type', options: {
+              'text': 'Texte',
+              'phone': 'Téléphone',
+              'email': 'Courriel',
+              'url': 'Url'
+            },
+          }, 
+        },
+        textarea: { icon: iconAttr },
+        title: { 
+          maxlength: { label: "Longueur Max."}, 
+          icon: iconAttr, 
+        },
+        address: { icon: iconAttr }
       };
 
       var formBuilder = $(fbEditor).formBuilder({
@@ -51,9 +57,10 @@
         },              
         disableFields: ['hidden', 'file', 'button', 'autocomplete', 'title', 'taxonomy', 'address'],
         controlOrder: ['text', 'textarea', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
-        disabledAttrs: ['className', 'inline'],
+        disabledAttrs: ['className', 'inline', 'toggle', 'description'],
         formData: '{{ formData|raw }}',
-        roles: { 1: "Administrateur" }
+        roles: { 1: "Administrateur" },
+        typeUserAttrs: typeUserAttrs
       });
 
       setInterval(function() {
@@ -62,3 +69,51 @@
     });
   }        
 </script>
+
+<style>  
+  /* disable actions for particular fields */
+  .taxonomy-field .field-actions .del-button, .taxonomy-field .field-actions .copy-button,
+  .address-field .field-actions .del-button, .address-field .field-actions .copy-button,
+  .title-field .field-actions .del-button, .title-field .field-actions .copy-button,
+  .openhours-field .field-actions .copy-button
+  { display: none !important; }
+  .separator-field label, .separator-field .copy-button, .separator-field .toggle-form { display: none !important; }
+
+  /* disable attributes for particular fields */
+  .openhours-field .frm-holder .form-group { display:none !important; }
+  .openhours-field .frm-holder .required-wrap, .openhours-field .frm-holder .access-wrap { display:block !important; }
+  .address-field .name-wrap, .address-field .access-wrap, .address-field .required-wrap,
+  .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap,
+  .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap
+  { display: none !important; }  
+  .textarea-field .subtype-wrap { display: none !important; }  
+  .paragraph-field .subtype-wrap, .header-field .subtype-wrap { display: none !important; }
+  
+  /* specific fields styling */
+  .title-field .required-asterisk, .address-field .required-asterisk, .taxonomy-field .required-asterisk
+  { display: inline !important; }
+  .separator-wrap label, .separator-wrap .input-wrap { display: none !important; }
+  .available-roles { display: none !important; }
+
+  /* Order of the field attributes */
+  .form-wrap.form-builder .frmb .form-elements { display: flex; flex-direction: column; }
+  .form-wrap.form-builder .frmb .form-field .form-group { order: 100; }
+  .required-wrap { order: 0 !important; }
+  .name-wrap { order: 1 !important; }
+  .label-wrap { order: 2 !important; }
+  .subtype-wrap { order: 3 !important; }
+  .separator-wrap { 
+    order: 50 !important; 
+    margin-top: 10px;
+    border-top: 1px dashed grey;
+    padding-top: 10px;
+  }
+  .access-wrap { order: 110 !important; }  
+
+  /* Styling */
+  .address-field, .taxonomy-field, .title-field {  background-color: whitesmoke !important; }
+  #form-builder-container .checkbox label, #form-builder-container .radio label { padding-left: 30px !important; }
+  .mandatory { color: #693232; font-style: italic; float: right; }
+  #form-builder-container { padding-top: 20px; }
+  label { font-weight: normal; }
+</style>

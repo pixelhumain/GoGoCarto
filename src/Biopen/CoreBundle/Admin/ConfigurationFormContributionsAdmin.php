@@ -28,7 +28,7 @@ class ConfigurationFormContributionsAdmin extends AbstractAdmin
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
             ->tab('Formulaire dajout')  
-                ->with('Champs', array('class' => 'col-md-12'))
+                ->with('Configuration du formulaire', array('description' => "Texte d'aide à rédiger"))
                     ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-builder'])) 
                 ->end()
                 ->with('Contenus', array('class' => 'col-md-12'))                    
