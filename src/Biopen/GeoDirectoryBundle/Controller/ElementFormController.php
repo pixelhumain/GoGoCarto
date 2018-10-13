@@ -311,7 +311,7 @@ class ElementFormController extends GoGoController
 		}	
 
  		$mainCategories = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findRootCategories();
- 		
+
 		return $this->render('@BiopenGeoDirectory/element-form/element-form.html.twig', 
 					array(
 						'editMode' => $editMode,

@@ -1,0 +1,39 @@
+<div class="input-field col s12">
+  {# ICON #}
+  {% set icon = field.icon|default(null) %}
+  {% if not icon %}
+    {% if field.subtype is defined %}
+      {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : "gogo-icon-description" %}
+    {% else %}
+      {% set icon = "gogo-icon-description"  %}
+    {% endif %}
+  {% endif %}
+
+  {% set errorMsg = "" %}
+  {% if field.subtype is defined and field.subtype == "email" %}
+    {% set errorMsg = "Veuillez renseigner une adresse email valide" %}
+  {% elseif field.maxlength is defined %}
+    {% set errorMsg = "Oups, ce texte est un peu long !" %}
+  {% endif %}
+
+  {% set inputClass = field.required|default(false) ? "required validate" : "validate"%}
+
+  <i class="material-icons {{ icon }} prefix"></i>
+  {% if field.type == "textarea" %}
+    {% set inputClass = inputClass ~ " materialize-textarea" %}
+    <textarea
+  {% else %}
+    <input type="{{ field.subtype|default('text') }}"  
+  {% endif %}
+     name="biopen_elementbundle_element[{{ field.name }}]" id="input-{{ field.name }}" class="{{ inputClass }}"
+      {% if field.value is defined %} value="{{ field.value }}"{% endif %} 
+      {% if field.placeholder is defined %} placeholder="{{ field.placeholder }}"{% endif %} 
+      {% if field.maxlength is defined %} length="{{ field.maxlength }}"{% endif %}  
+  {% if field.type == "textarea" %}
+    ></textarea>
+  {% else %}
+    />
+  {% endif %}
+
+  <label for="input-{{ field.name }}" data-error="{{ errorMsg }}" class="gogo-form-label">{{ field.label }}</label>
+</div>

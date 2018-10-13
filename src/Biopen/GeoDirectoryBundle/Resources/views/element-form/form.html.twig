@@ -1,24 +1,15 @@
-
 {{ form_start(form, {'id': 'formElement'}) }}   
 
 <div id="element-form-content">
-
-	{% include "@BiopenGeoDirectory/element-form/form-custom-fields.html.twig" %}	
-
-	{% include "@BiopenGeoDirectory/element-form/form-partials/categories.html.twig" %}	
-
-	{% include "@BiopenGeoDirectory/element-form/form-partials/generals-info.html.twig" %}	
-
-	{% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
+	<section>
+		{% include "@BiopenGeoDirectory/element-form/form-custom-fields.html.twig" %}	
+	</section>
 
 	{% include "@BiopenGeoDirectory/element-form/form-partials/validate-and-send.html.twig" %}
 
-	{{ form_rest(form) }}
-
-{{ form_end(form) }}
+</form>
 
 {% block modals %}
-
 	<!-- Pop up alert message-->
 	<div id="popup" class="modal">
 	<div class="modal-content">
@@ -29,7 +20,6 @@
 		<span class="modal-action modal-close waves-effect waves-teal btn-flat">OK</span>
 	</div>
 	</div>
-
 {% endblock %}
 
 

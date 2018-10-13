@@ -1,7 +1,4 @@
-<!-- SECTION HORAIRES -->
-<section id="openHours" class="">
-	<h2 id="titre-open-hourss">Horaires <span class="optional">(optionnel)</span></h2>
-	<div class="row ">
+<div class="row ">
 	
 	{% set dayKey = 0 %}
 	{% set frenchDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
@@ -105,14 +102,4 @@
 		{% set dayKey = dayKey + 1 %}
 		
 	{% endfor %}
-
-	<div class="input-field col s12">
-		<i class="material-icons prefix gogo-icon-description"></i>
-	  	{{ form_widget(form.openHoursMoreInfos, {'id': 'input-open-hours-more-infos',
-  								          'attr': {'class': 'validate',
-  											   	'placeholder':"Des précisions pour les horaires si nécessaire"   }}) }}
-	</div>
-
 </div>
-</section>
-<div class="divider"></div>

@@ -1,0 +1,30 @@
+<!-- Input adresse element -->
+<div class="input-field col s12" id="input-address-field">
+  <i class="material-icons gogo-icon-marker-symbol prefix"></i> 
+  {{ form_widget(form.fullAddress, {'id': 'input-address', 'value': element.getFormatedAddress(),
+                  'attr': {'class': 'validate required'  }}) }}
+  <label for="input-address" class="gogo-form-label">Adresse complète</label>
+  <div class="btn-geolocalize btn waves-effect waves-light">Localiser</div>
+  {% if config.elementFormGeocodingHelp %}
+    <div class="btn-geolocalize-help btn btn-neutral waves-effect waves-light" onclick="$('.geolocalize-help-text').toggle();">Aide ?</div>   
+    <div class="geolocalize-help-text">
+        {{ config.elementFormGeocodingHelp|raw}}
+        <span class="btn-close gogo-icon-clear" onclick="$(this).parent().slideUp(200);";></span>
+    </div>
+  {% endif %}
+</div>  
+
+<!-- HIDDEN input for geolocalization -->
+{{ form_widget(form.geo.latitude, {'id': 'input-latitude'}) }}  
+{{ form_widget(form.geo.longitude, {'id': 'input-longitude'}) }}  
+{{ form_widget(form.address.postalCode, {'id': 'input-postal-code'}) }}           
+{{ form_widget(form.address.addressLocality, {'id': 'input-city'}) }}  
+{{ form_widget(form.address.streetAddress, {'id': 'input-streetAddress'}) }} 
+{{ form_widget(form.address.addressCountry, {'id': 'input-country'}) }}
+{{ form_widget(form.address.customFormatedAddress, {'id': 'input-custom-formated-address'}) }}       
+
+<!-- Map -->
+<div class="map-container col s12" style="position:relative">
+  <div id="address-preview-map"></div>  
+  {% include '@BiopenGeoDirectory/directory/components/spinner-loader.html.twig' with {'id': 'geocode-spinner-loader' }%}
+</div>

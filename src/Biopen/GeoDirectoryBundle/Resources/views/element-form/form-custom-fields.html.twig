@@ -1,50 +1,36 @@
-{% import _self as forms %}
-<section id="custom-fields">
-  {% for field in config.getElementFormFields %}
-    {{ forms.create_field(field) }}
-  {% endfor %}
-</section>
-
-{% macro create_field(field) %}   
-    {# TEXT #}
-    {% if field.type == "text" %}
-      <div class="input-field col s12">
-        {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : "gogo-icon-description" %}
-        {% set errorMsg = field.subtype == "email" ? "Veuillez renseigner une adresse email valide" : field.maxLength is defined ? "Oups, ce texte est un peu long !" : "" %}
-        <i class="material-icons {{ icon }} prefix"></i>
-        <input type="{{ field.subtype }}" name="{{ field.name }}" id="input-{{ field.name }}" class="validate"
-          {% if field.value is defined %} value="{{ field.value }}"{% endif %} 
-          {% if field.placeholder is defined %} placeholder="{{ field.placeholder }}"{% endif %} 
-          {% if field.maxlength is defined %} length="{{ field.maxlength }}"{% endif %}  />
-        <label for="input-{{ field.name }}" data-error="{{ errorMsg }}" class="gogo-form-label">{{ field.label }}</label>
-      </div>
-    {# TEXTAREA #}
-    {% elseif field.type == "textarea" %}
-      <div class="input-field col s12">
-        <i class="material-icons gogo-icon-description prefix"></i>
-        <textarea id="input-description" name="biopen_elementbundle_element[description]" class="required validate materialize-textarea" length="250"></textarea>
-        <label for="input-description" data-error="Oups, ce texte est un peu long ! Donne des précisions dans le champs suivant ;)" class="gogo-form-label">{{ field.label }}</label>
-      </div>
-    {# TEXTAREA #}
-    {% elseif field.type == "select" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "header" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "paragraph" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "checkbox-group" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "radio-group" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "number" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "email" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "telephone" %}
-    {# TEXTAREA #}
-    {% elseif field.type == "radio-group" %}
-    
-    {% else %}
-      <div>{{ field.type }}</div>
-    {% endif %}
-{% endmacro %}
+{% for field in config.getElementFormFields %}
+  {# TEXT #}
+  {% if field.type == "text" or field.type == "title" or field.type == "textarea" %}
+    {% include '@BiopenGeoDirectory/element-form/form-partials/text.html.twig' %}      
+  {# SELECT #}
+  {% elseif field.type == "select" %}
+  {# HEADER #}
+  {% elseif field.type == "header" %}
+    <h2>{{ field.label }}</h2>
+  {# PARAGRAPH #}
+  {% elseif field.type == "paragraph" %}
+    <p>{{ field.label }}</p>
+  {# CHEKCBOX #}
+  {% elseif field.type == "checkbox-group" %}
+  {# RADIO #}
+  {% elseif field.type == "radio-group" %}
+  {# NUMBER #}
+  {% elseif field.type == "number" %}
+  {# TAXONOMY #}
+  {% elseif field.type == "taxonomy" %}
+    {% include '@BiopenGeoDirectory/element-form/form-partials/taxonomy.html.twig' %}
+  {# OPENHOURS #}
+  {% elseif field.type == "openhours" %}
+    {% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
+  {# ADDRESS #}
+  {% elseif field.type == "address" %}
+    {% include '@BiopenGeoDirectory/element-form/form-partials/address.html.twig' %}
+  {# SEPARATOR #}
+  {% elseif field.type == "separator" %}
+    </section>
+    <div class="divider"></div>
+    <section>
+  {% else %}
+    <div>{{ field.type }}</div>
+  {% endif %}
+{% endfor %}

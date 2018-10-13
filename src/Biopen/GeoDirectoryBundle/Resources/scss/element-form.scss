@@ -29,6 +29,9 @@
     }
   }
 
+  .character-counter { margin-top: -10px; }
+  textarea ~ .character-counter { margin-top: -15px; }
+
   .invalid-required {
     @extend .invalid;
   }
@@ -161,20 +164,6 @@
     margin-bottom: .5rem;
     font-style: italic;
     text-align: center;
-  }
-
-  #captcha { margin-top: 1rem;}
-  #captcha > div 
-  {
-      margin: 0 auto;
-      margin-bottom: 1rem;
-  }
-
-  #captcha-error-message
-  {
-    display:none;
-    text-align: center;
-    margin: .5rem 0;
   }
       
 
