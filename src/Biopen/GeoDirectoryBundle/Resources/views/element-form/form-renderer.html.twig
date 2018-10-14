@@ -1,0 +1,38 @@
+{% for field in config.getElementFormFields %}
+  <div class="field-container field-{{field.type}}" id="{{ field.name|default('unknown-name') }}">
+    {# STANDARD INPUT #}
+    {% if field.type == "text" or field.type == "title" or field.type == "textarea" or field.type == "date" or field.type == "number" %}
+      {% include '@BiopenGeoDirectory/element-form/form-partials/text.html.twig' %}      
+    {# SELECT #}
+    {% elseif field.type == "select" %}
+       {% include '@BiopenGeoDirectory/element-form/form-partials/select.html.twig' %}
+    {# HEADER #}
+    {% elseif field.type == "header" %}
+      <h2>{{ field.label }}</h2>
+    {# PARAGRAPH #}
+    {% elseif field.type == "paragraph" %}
+      <p>{{ field.label }}</p>
+    {# CHEKCBOX / RADIO #}
+    {% elseif field.type == "checkbox" %}
+      {% include '@BiopenGeoDirectory/element-form/form-partials/checkbox.html.twig' %}
+    {% elseif field.type == "checkbox-group" or field.type == "radio-group" %}
+      {% include '@BiopenGeoDirectory/element-form/form-partials/checkbox-radio-group.html.twig' %}
+    {# TAXONOMY #}
+    {% elseif field.type == "taxonomy" %}
+      {% include '@BiopenGeoDirectory/element-form/form-partials/taxonomy.html.twig' %}
+    {# OPENHOURS #}
+    {% elseif field.type == "openhours" %}
+      {% include "@BiopenGeoDirectory/element-form/form-partials/open-hours.html.twig" %}
+    {# ADDRESS #}
+    {% elseif field.type == "address" %}
+      {% include '@BiopenGeoDirectory/element-form/form-partials/address.html.twig' %}
+    {% endif %}
+  </div>
+
+  {# SEPARATOR #}
+  {% if field.type == "separator" %}
+    </section>
+    <div class="divider"></div>
+    <section>
+  {% endif %}
+{% endfor %}

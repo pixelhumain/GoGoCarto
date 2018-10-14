@@ -3,27 +3,39 @@
   {% set icon = field.icon|default(null) %}
   {% if not icon %}
     {% if field.subtype is defined %}
-      {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : "gogo-icon-description" %}
+      {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : field.subtype == "url" ? "gogo-icon-internet" : "gogo-icon-description" %}
     {% else %}
       {% set icon = "gogo-icon-description"  %}
     {% endif %}
   {% endif %}
 
-  {% set errorMsg = "" %}
-  {% if field.subtype is defined and field.subtype == "email" %}
-    {% set errorMsg = "Veuillez renseigner une adresse email valide" %}
-  {% elseif field.maxlength is defined %}
-    {% set errorMsg = "Oups, ce texte est un peu long !" %}
+  {# ERROR MESSAGE #}
+  {% set errorMsg = fields.errorMsg|default(null) %}
+  {% if not errorMsg %}
+    {% if field.subtype is defined and field.subtype == "email" %}
+      {% set errorMsg = "Veuillez renseigner une adresse email valide" %}
+    {% elseif field.subtype is defined and field.subtype == "number" %}
+      {% set errorMsg = "Ceci n'est pas un nombre !" %}
+    {% elseif field.maxlength is defined %}
+      {% set errorMsg = "Oups, ce texte est un peu long !" %}
+    {% endif %}
   {% endif %}
 
+  {# CLASS #}
   {% set inputClass = field.required|default(false) ? "required validate" : "validate"%}
+  {% if field.type == "date" %}
+    {% set inputClass = inputClass ~ " datepicker" %}
+  {% endif %}
+
+  {# TYPE #}
+  {% set inputType = field.subtype is defined ? field.subtype : field.type == "number" ? "number" : "text" %}
 
   <i class="material-icons {{ icon }} prefix"></i>
   {% if field.type == "textarea" %}
     {% set inputClass = inputClass ~ " materialize-textarea" %}
     <textarea
   {% else %}
-    <input type="{{ field.subtype|default('text') }}"  
+    <input type="{{ inputType }}"  
   {% endif %}
      name="biopen_elementbundle_element[{{ field.name }}]" id="input-{{ field.name }}" class="{{ inputClass }}"
       {% if field.value is defined %} value="{{ field.value }}"{% endif %} 
@@ -35,5 +47,22 @@
     />
   {% endif %}
 
-  <label for="input-{{ field.name }}" data-error="{{ errorMsg }}" class="gogo-form-label">{{ field.label }}</label>
+  <label for="input-{{ field.name }}" data-error="{{ errorMsg|default('') }}" class="gogo-form-label">{{ field.label }}</label>
+
+  {% if field.type == "date" %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+      // See documentation for all options https://uxsolutions.github.io/bootstrap-datepicker
+      $("#input-{{ field.name }}").datepicker({
+        format: "dd/mm/yyyy",
+        maxViewMode: 2,
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "fr",
+        orientation: "bottom left"
+      });
+    });
+  </script>
+  {% endif %}
 </div>
+

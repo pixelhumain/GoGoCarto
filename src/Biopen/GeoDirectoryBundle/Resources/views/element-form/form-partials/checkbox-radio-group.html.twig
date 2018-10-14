@@ -1,0 +1,14 @@
+<div class="checkbox-radio-group">
+  {% set optionType = field.type == "checkbox-group" ? "checkbox" : "radio" %}
+  {% set optionClass = field.style is defined and field.style == "filled" ? "filled-in" : "" %}
+  
+  {% if field.label %}<div class="checkbox-radio-group-label">{{ field.label }}</div>{% endif %}
+  
+  {% for option in field.values %}
+  <div class="checkbox-container"> 
+    {% set optionId = field.name ~ '-' ~ option.value %}
+    <input name="{{ field.name }}" type="{{ optionType }}" id="{{ optionId }}" class="{{ optionClass }}"/>
+    <label for="{{ optionId }}">{{ option.label }}</label>
+  </div>
+  {% endfor %}
+</div>

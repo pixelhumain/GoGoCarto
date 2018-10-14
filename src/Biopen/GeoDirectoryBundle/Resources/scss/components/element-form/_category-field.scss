@@ -48,23 +48,13 @@
   	border-left: 1px dotted #c3c3c3;  	
 
   	&:first-child { margin-top: 1rem; }
-	}
+	}	
 
 	.category-field-select
 	{
 		@include flex(initial);	
 		@include order(0);
-		margin: 0;	
-
-    .select-dropdown li
-    {
-	    &.disabled 
-	    {
-			    text-transform: uppercase;
-			    font-size: .8rem;
-			    font-weight: bold;
-			}
-		}
+		margin: 0;    
 
 		.caret 
 		{ 

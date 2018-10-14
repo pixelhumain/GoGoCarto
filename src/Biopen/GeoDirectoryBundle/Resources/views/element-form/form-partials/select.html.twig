@@ -1,0 +1,29 @@
+<div class="input-field" style="margin-bottom:30px;">
+  
+  {% if field.icon is defined %}
+    <i class="material-icons {{ field.icon }} prefix"></i>
+  {% endif %}
+
+  <select name={{ field.name }} {% if field.multiple is defined %}multiple{% endif %}>
+    {% if field.placeholder is defined %}
+      <option value="" disabled selected>{{ field.placeholder }}</option>
+    {% endif %}
+
+    {% for option in field.values %}    
+      <option value="{{ option.value }}" 
+        {% if option.selected is defined and not field.placeholder is defined%}selected{% endif %}>
+        {{ option.label }}
+      </option>
+    {% endfor %}
+  </select>
+  
+  {% if field.label is defined and field.label != "undefined" %}
+    <label>{{ field.label }}</label>
+  {% endif %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+      $('select[name={{ field.name }}]').material_select();
+    });
+  </script>
+</div>

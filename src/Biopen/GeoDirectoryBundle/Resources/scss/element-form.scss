@@ -1,7 +1,7 @@
 @import '../../../CoreBundle/Resources/scss/partials/base';
 
 @import 'vendors/timepicki';
-//@import 'vendors/leaflet';
+@import 'vendors/bootstrap-datepicker3';
 
 .gogo-load-css 
 {
@@ -28,6 +28,27 @@
       font-style: italic;
     }
   }
+
+  .select-dropdown li
+  {
+    &.disabled 
+    {
+      text-transform: uppercase;
+      font-size: .8rem;
+      font-weight: bold;
+    }
+  }
+
+  .input-field .prefix~.select-wrapper {
+    margin-left: 3rem;
+    width: calc(100% - 3rem);
+  }
+  
+  .checkbox-radio-group {
+    margin-bottom: 30px;
+    .checkbox-radio-group-label { font-weight: bold; margin-bottom: 15px; }
+  }  
+  .checkbox-container { margin-bottom: 10px; }
 
   .character-counter { margin-top: -10px; }
   textarea ~ .character-counter { margin-top: -15px; }

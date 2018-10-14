@@ -13,8 +13,9 @@
         { label: 'Titre de la fiche (obligatoire)', name: "title", required: true, attrs: { type: 'title' }, icon: '*' },
         { label: 'Catégories (obligatoire)', name: "taxonomy", attrs: { type: 'taxonomy' }, icon: '*' },
         { label: 'Adresse (obligatoire)', name: "address", attrs: { type: 'address' }, icon: '*' },
-        { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: ' ' },
-        { label: 'Séparateur de section', name: "separator", attrs: { type: 'separator' }, icon: '⚊' }                     
+        { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: '⌚' },
+        { label: 'Séparateur de section', name: "separator", attrs: { type: 'separator' }, icon: '⚊' },
+        { label: 'Case à cocher', name: "checkbox", attrs: { type: 'checkbox' }, icon: '☑' },                   
       ];
       var templates = {
         title: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><span class="mandatory"> Ce champ est indispensable</span>' }; },
@@ -22,10 +23,11 @@
         taxonomy: function(fieldData) { return { field: '<select id="' + fieldData.name + '"><option>Choisissez une catégorie principale</option></select><span class="mandatory"> Ce champ est indispensable</span>' }; },
         openhours: function(fieldData) { return { field: 'Bloc contenant un selecteur d\'horaires' }; },
         separator: function(fieldData) { return { field: '<hr>' }; },
+        checkbox: function(fieldData) { return { field: '<input id="' + fieldData.name + '" type="checkbox"/>' }; },
       };
 
-      iconAttr = { label: 'Icone', placeholder: 'gogo-icon-description, gogo-icon-phone ...'  }
-
+      var iconAttr = { label: 'Icone', placeholder: 'gogo-icon-description, gogo-icon-phone ...'  }
+      var errorMsgAttrs = { label: "Msg. Erreur", placeholder: "Oups ce texte est un peu long ! // Veuillez renseigner une adresse email valide // ..." }
       var typeUserAttrs = {
         text: { 
           icon: iconAttr, 
@@ -37,13 +39,26 @@
               'url': 'Url'
             },
           }, 
+          errorMsg: errorMsgAttrs
         },
-        textarea: { icon: iconAttr },
+        textarea: { 
+          icon: iconAttr,
+          errorMsg: errorMsgAttrs,
+          separator: { label: '' }, // separate important attrs from others
+        },
         title: { 
           maxlength: { label: "Longueur Max."}, 
           icon: iconAttr, 
+          errorMsg: errorMsgAttrs,
+          separator: { label: '' }, // separate important attrs from others
         },
-        address: { icon: iconAttr }
+        address: { icon: iconAttr },
+        'checkbox-group': { 
+          style: { label: 'Style', options: {
+            'normal': 'Normal',
+            'filled': 'Plein',
+          } } 
+        }
       };
 
       var formBuilder = $(fbEditor).formBuilder({
@@ -56,8 +71,8 @@
           location: '{{ asset("assets/js/") }}'
         },              
         disableFields: ['hidden', 'file', 'button', 'autocomplete', 'title', 'taxonomy', 'address'],
-        controlOrder: ['text', 'textarea', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
-        disabledAttrs: ['className', 'inline', 'toggle', 'description'],
+        controlOrder: ['text', 'textarea', 'checkbox', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
+        disabledAttrs: ['className', 'inline', 'toggle', 'description', 'other', 'multiple'],
         formData: '{{ formData|raw }}',
         roles: { 1: "Administrateur" },
         typeUserAttrs: typeUserAttrs
@@ -83,11 +98,13 @@
   .openhours-field .frm-holder .form-group { display:none !important; }
   .openhours-field .frm-holder .required-wrap, .openhours-field .frm-holder .access-wrap { display:block !important; }
   .address-field .name-wrap, .address-field .access-wrap, .address-field .required-wrap,
-  .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap,
-  .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap
+  .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap, .taxonomy-field .placeholder-wrap, .taxonomy-field .value-wrap,
+  .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap,
+  .textarea-field .subtype-wrap, .checkbox-field .field-options, .checkbox-field .required-wrap,
+  .paragraph-field .subtype-wrap, .header-field .subtype-wrap
   { display: none !important; }  
-  .textarea-field .subtype-wrap { display: none !important; }  
-  .paragraph-field .subtype-wrap, .header-field .subtype-wrap { display: none !important; }
+   { display: none !important; }  
+   { display: none !important; }
   
   /* specific fields styling */
   .title-field .required-asterisk, .address-field .required-asterisk, .taxonomy-field .required-asterisk
@@ -115,5 +132,6 @@
   #form-builder-container .checkbox label, #form-builder-container .radio label { padding-left: 30px !important; }
   .mandatory { color: #693232; font-style: italic; float: right; }
   #form-builder-container { padding-top: 20px; }
+  .checkbox-field input[type="checkbox"] { float: left; margin-right: 10px; }
   label { font-weight: normal; }
 </style>
