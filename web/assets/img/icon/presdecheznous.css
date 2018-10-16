@@ -39,293 +39,335 @@
 }
 
 .icon-fruits:before {
-  content: "\63";
-}
-.icon-marche:before {
-  content: "\65";
-}
-.icon-pain:before {
-  content: "\66";
-}
-.icon-viande:before {
-  content: "\68";
-}
-.icon-legumes:before {
-  content: "\6e";
-}
-.icon-poisson:before {
-  content: "\71";
-}
-.icon-laitier:before {
-  content: "\72";
-}
-.icon-plantes:before {
-  content: "\67";
-}
-.icon-autre:before {
-  content: "\6b";
-}
-.icon-miel:before {
-  content: "\6c";
-}
-.icon-transformes:before {
-  content: "\6d";
-}
-.icon-boissons:before {
-  content: "\6f";
-}
-.icon-oeufs:before {
-  content: "\78";
-}
-.icon-huile:before {
-  content: "\79";
-}
-.icon-marker:before {
-  content: "\41";
-}
-.icon-paper-plane:before {
-  content: "\21";
-}
-.icon-legumineuses:before {
   content: "\61";
 }
-.icon-epicerie:before {
-  content: "\2a";
-}
-.icon-bike:before {
+.icon-marche:before {
   content: "\62";
 }
-.icon-boat:before {
-  content: "\43";
+.icon-pain:before {
+  content: "\63";
 }
-.icon-car:before {
-  content: "\44";
-}
-.icon-clothe:before {
-  content: "\e004";
-}
-.icon-leaf-1:before {
-  content: "\e008";
-}
-.icon-camping:before {
-  content: "\e022";
-}
-.icon-partner-3:before {
-  content: "\e026";
-}
-.icon-001-scissors-1:before {
-  content: "\e000";
-}
-.icon-echange-1:before {
-  content: "\e028";
-}
-.icon-conf:before {
-  content: "\e02d";
-}
-.icon-atelier-1:before {
-  content: "\e02f";
-}
-.icon-formation-2:before {
-  content: "\e034";
-}
-.icon-skate:before {
-  content: "\36";
-}
-.icon-moto:before {
-  content: "\e030";
-}
-.icon-mobilite-2:before {
-  content: "\37";
-}
-.icon-cafe:before {
-  content: "\2f";
-}
-.icon-materiaux:before {
-  content: "\2c";
-}
-.icon-seeds:before {
-  content: "\7d";
-}
-.icon-plants-1:before {
-  content: "\e02a";
-}
-.icon-charpentier:before {
-  content: "\e02c";
-}
-.icon-renouvelable-1:before {
-  content: "\e035";
-}
-.icon-electricite:before {
-  content: "\e037";
-}
-.icon-school:before {
-  content: "\e038";
-}
-.icon-architecte:before {
-  content: "\e039";
-}
-.icon-maconnerie:before {
-  content: "\e03a";
-}
-.icon-ressourcerie:before {
-  content: "\e03b";
-}
-.icon-co2-1:before {
-  content: "\e03d";
-}
-.icon-jaridnier:before {
-  content: "\e03e";
-}
-.icon-design:before {
-  content: "\e040";
-}
-.icon-temperature-1:before {
-  content: "\e041";
-}
-.icon-paper:before {
-  content: "\e04d";
-}
-.icon-park:before {
-  content: "\e04e";
-}
-.icon-photo:before {
-  content: "\e04f";
-}
-.icon-musique:before {
-  content: "\e050";
-}
-.icon-theatre:before {
-  content: "\e051";
-}
-.icon-cinema:before {
-  content: "\e052";
-}
-.icon-restaurant:before {
-  content: "\57";
-}
-.icon-ferme-1:before {
-  content: "\2b";
-}
-.icon-hotel-1:before {
-  content: "\3f";
-}
-.icon-gite:before {
-  content: "\5b";
-}
-.icon-voyage-1:before {
-  content: "\5c";
-}
-.icon-beaute:before {
-  content: "\3a";
-}
-.icon-pharmacie-1:before {
-  content: "\5e";
-}
-.icon-cosmetique:before {
-  content: "\7b";
-}
-.icon-decoration-2:before {
-  content: "\e02b";
-}
-.icon-accessoire-2:before {
-  content: "\e033";
-}
-.icon-vetement-4:before {
-  content: "\e044";
-}
-.icon-accessoire-4:before {
-  content: "\e045";
-}
-.icon-friperie-1:before {
-  content: "\e047";
-}
-.icon-case:before {
-  content: "\50";
-}
-.icon-coffee:before {
-  content: "\51";
-}
-.icon-tags:before {
-  content: "\53";
-}
-.icon-euro:before {
-  content: "\55";
-}
-.icon-paw:before {
-  content: "\58";
-}
-.icon-education-1:before {
-  content: "\31";
-}
-.icon-construction:before {
-  content: "\42";
-}
-.icon-ruche:before {
-  content: "\47";
-}
-.icon-expo:before {
-  content: "\46";
-}
-.icon-home:before {
+.icon-viande:before {
   content: "\64";
 }
-.icon-angle-right:before {
-  content: "\70";
+.icon-legumes:before {
+  content: "\65";
 }
-.icon-recycle:before {
+.icon-poisson:before {
+  content: "\66";
+}
+.icon-laitier:before {
+  content: "\67";
+}
+.icon-plantes:before {
+  content: "\68";
+}
+.icon-autre:before {
   content: "\69";
 }
-.icon-tool:before {
+.icon-miel:before {
   content: "\6a";
 }
-.icon-icon-chalet:before {
+.icon-transformes:before {
+  content: "\6b";
+}
+.icon-boissons:before {
+  content: "\6c";
+}
+.icon-oeufs:before {
+  content: "\6d";
+}
+.icon-huile:before {
+  content: "\6e";
+}
+.icon-marker:before {
+  content: "\6f";
+}
+.icon-paper-plane:before {
+  content: "\70";
+}
+.icon-legumineuses:before {
+  content: "\71";
+}
+.icon-epicerie:before {
+  content: "\72";
+}
+.icon-bike:before {
   content: "\73";
 }
-.icon-distrib:before {
+.icon-boat:before {
   content: "\74";
 }
-.icon-palette:before {
+.icon-car:before {
   content: "\75";
 }
-.icon-008-paint-board-and-brush:before {
+.icon-clothe:before {
   content: "\76";
 }
-.icon-005-artist-tools:before {
+.icon-leaf-1:before {
   content: "\77";
 }
-.icon-food-5:before {
+.icon-camping:before {
+  content: "\78";
+}
+.icon-partner-3:before {
+  content: "\79";
+}
+.icon-001-scissors-1:before {
   content: "\7a";
 }
-.icon-back-in-time:before {
+.icon-echange-1:before {
+  content: "\41";
+}
+.icon-conf:before {
+  content: "\42";
+}
+.icon-atelier-1:before {
+  content: "\43";
+}
+.icon-formation-2:before {
+  content: "\44";
+}
+.icon-skate:before {
   content: "\45";
 }
-.icon-hourglass:before {
+.icon-moto:before {
+  content: "\46";
+}
+.icon-mobilite-2:before {
+  content: "\47";
+}
+.icon-cafe:before {
   content: "\48";
 }
-.icon-database:before {
+.icon-materiaux:before {
   content: "\49";
 }
-.icon-archive:before {
+.icon-seeds:before {
   content: "\4a";
 }
-.icon-steam:before {
+.icon-plants-1:before {
   content: "\4b";
 }
-.icon-qq:before {
+.icon-charpentier:before {
   content: "\4c";
 }
-.icon-057-flash:before {
+.icon-renouvelable-1:before {
   content: "\4d";
 }
-.icon-cogs:before {
+.icon-electricite:before {
   content: "\4e";
 }
-.icon-linux:before {
+.icon-school:before {
   content: "\4f";
 }
-.icon-users:before {
+.icon-architecte:before {
+  content: "\50";
+}
+.icon-maconnerie:before {
+  content: "\51";
+}
+.icon-ressourcerie:before {
   content: "\52";
 }
-.icon-user-plus:before {
+.icon-co2-1:before {
+  content: "\53";
+}
+.icon-jaridnier:before {
   content: "\54";
+}
+.icon-design:before {
+  content: "\55";
+}
+.icon-temperature-1:before {
+  content: "\56";
+}
+.icon-paper:before {
+  content: "\57";
+}
+.icon-park:before {
+  content: "\58";
+}
+.icon-photo:before {
+  content: "\59";
+}
+.icon-musique:before {
+  content: "\5a";
+}
+.icon-theatre:before {
+  content: "\30";
+}
+.icon-cinema:before {
+  content: "\31";
+}
+.icon-restaurant:before {
+  content: "\32";
+}
+.icon-ferme-1:before {
+  content: "\33";
+}
+.icon-hotel-1:before {
+  content: "\34";
+}
+.icon-gite:before {
+  content: "\35";
+}
+.icon-voyage-1:before {
+  content: "\36";
+}
+.icon-beaute:before {
+  content: "\37";
+}
+.icon-pharmacie-1:before {
+  content: "\38";
+}
+.icon-cosmetique:before {
+  content: "\39";
+}
+.icon-decoration-2:before {
+  content: "\21";
+}
+.icon-accessoire-2:before {
+  content: "\22";
+}
+.icon-vetement-4:before {
+  content: "\23";
+}
+.icon-accessoire-4:before {
+  content: "\24";
+}
+.icon-friperie-1:before {
+  content: "\25";
+}
+.icon-case:before {
+  content: "\26";
+}
+.icon-coffee:before {
+  content: "\27";
+}
+.icon-tags:before {
+  content: "\28";
+}
+.icon-euro:before {
+  content: "\29";
+}
+.icon-paw:before {
+  content: "\2a";
+}
+.icon-education-1:before {
+  content: "\2b";
+}
+.icon-construction:before {
+  content: "\2c";
+}
+.icon-ruche:before {
+  content: "\2d";
+}
+.icon-expo:before {
+  content: "\2e";
+}
+.icon-home:before {
+  content: "\2f";
+}
+.icon-angle-right:before {
+  content: "\3a";
+}
+.icon-recycle:before {
+  content: "\3b";
+}
+.icon-tool:before {
+  content: "\3c";
+}
+.icon-chalet:before {
+  content: "\3d";
+}
+.icon-distrib:before {
+  content: "\3e";
+}
+.icon-palette:before {
+  content: "\3f";
+}
+.icon-activits-culturelles:before {
+  content: "\5b";
+}
+.icon-fablab-3:before {
+  content: "\7b";
+}
+.icon-informatique-1:before {
+  content: "\5c";
+}
+.icon-fablab-1:before {
+  content: "\e008";
+}
+.icon-monnaie-locale:before {
+  content: "\e009";
+}
+.icon-fablab2:before {
+  content: "\e00b";
+}
+.icon-solidarit:before {
+  content: "\e00c";
+}
+.icon-coopratives:before {
+  content: "\e00f";
+}
+.icon-lieu-collaboratif:before {
+  content: "\e010";
+}
+.icon-mobilier:before {
+  content: "\e012";
+}
+.icon-coworking-1:before {
+  content: "\e014";
+}
+.icon-troc-1:before {
+  content: "\e015";
+}
+.icon-troc-2:before {
+  content: "\e017";
+}
+.icon-vivre-ensemble:before {
+  content: "\e019";
+}
+.icon-repair-caf-2:before {
+  content: "\e01a";
+}
+.icon-bote-livredons:before {
+  content: "\e01c";
+}
+.icon-informatique-4:before {
+  content: "\e01e";
+}
+.icon-informatique-3:before {
+  content: "\e021";
+}
+.icon-ateliers-1:before {
+  content: "\e022";
+}
+.icon-repair-caf:before {
+  content: "\40";
+}
+.icon-collectif-citoyen-1:before {
+  content: "\5f";
+}
+.icon-apple:before {
+  content: "\7d";
+}
+.icon-001-support:before {
+  content: "\60";
+}
+.icon-003-hand:before {
+  content: "\e001";
+}
+.icon-004-protest:before {
+  content: "\e002";
+}
+.icon-002-support-1:before {
+  content: "\e000";
+}
+.icon-meeting-2:before {
+  content: "\e006";
+}
+.icon-democratie-1:before {
+  content: "\e005";
 }
