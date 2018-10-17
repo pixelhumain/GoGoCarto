@@ -4,7 +4,7 @@
     <i class="material-icons {{ field.icon }} prefix"></i>
   {% endif %}
 
-  <select name={{ field.name }} {% if field.multiple is defined %}multiple{% endif %}>
+  <select name="data[{{ field.name }}]" {% if field.multiple is defined %}multiple{% endif %}>
     {% if field.placeholder is defined %}
       <option value="" disabled selected>{{ field.placeholder }}</option>
     {% endif %}

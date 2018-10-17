@@ -14,6 +14,8 @@
   {% if not errorMsg %}
     {% if field.subtype is defined and field.subtype == "email" %}
       {% set errorMsg = "Veuillez renseigner une adresse email valide" %}
+    {% elseif field.subtype is defined and field.subtype == "url" %}
+      {% set errorMsg = "Veuillez renseigner une url du type http://..." %}
     {% elseif field.subtype is defined and field.subtype == "number" %}
       {% set errorMsg = "Ceci n'est pas un nombre !" %}
     {% elseif field.maxlength is defined %}
@@ -27,8 +29,15 @@
     {% set inputClass = inputClass ~ " datepicker" %}
   {% endif %}
 
+  {# NAME #}
+  {% set baseName = field.type == "title" ? "biopen_elementbundle_element" : "data" %}
+
   {# TYPE #}
   {% set inputType = field.subtype is defined ? field.subtype : field.type == "number" ? "number" : "text" %}
+
+  {# VALUE #}
+  {% set inputValue = field.type == "title" ? element.name : element.data[field.name] is defined ? element.data[field.name] : null %}
+  {% if not inputValue and field.value is defined %}{% set inputValue = field.value %}{% endif %}
 
   <i class="material-icons {{ icon }} prefix"></i>
   {% if field.type == "textarea" %}
@@ -37,10 +46,10 @@
   {% else %}
     <input type="{{ inputType }}"  
   {% endif %}
-     name="biopen_elementbundle_element[{{ field.name }}]" id="input-{{ field.name }}" class="{{ inputClass }}"
-      {% if field.value is defined %} value="{{ field.value }}"{% endif %} 
+     name="{{ baseName }}[{{ field.name }}]" id="input-{{ field.name }}" class="{{ inputClass }}"
+      {% if inputValue %} value="{{ inputValue }}"{% endif %} 
       {% if field.placeholder is defined %} placeholder="{{ field.placeholder }}"{% endif %} 
-      {% if field.maxlength is defined %} length="{{ field.maxlength }}"{% endif %}  
+      {% if field.maxlength is defined %} length="{{ field.maxlength }}"{% endif %}
   {% if field.type == "textarea" %}
     ></textarea>
   {% else %}

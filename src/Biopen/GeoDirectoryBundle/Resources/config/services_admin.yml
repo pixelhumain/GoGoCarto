@@ -5,12 +5,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Éléments }  
 
-    admin.element_url:
-        class: Biopen\GeoDirectoryBundle\Admin\ElementUrlAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementUrl, '' ]
-        tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide" }
-
     admin.element_image:
         class: Biopen\CoreBundle\Admin\ImageAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\ElementImage, '' ]

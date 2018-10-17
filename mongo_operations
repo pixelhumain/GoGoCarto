@@ -96,3 +96,7 @@ db.Element.deleteMany({'createdAt': { $gte: ISODate("2018-06-11T00:00:00.000Z")}
 db.Category.updateMany( { } , { $rename: { 'isMainNode': 'isRootCategory' } } )
 db.Category.updateMany( { } , { $rename: { 'displayCategoryName': 'displayInMenu' } } )
 db.Option.updateMany({}, { $unset: { displayOption: "" } })
+
+
+# Convert static data to new customizable fields
+db.Element.updateMany( { } , { $rename: { 'website': 'data.website', 'telephone':'data.telephone', 'commitment':'data.commitment', 'description':'data.description', 'descriptionMore':'data.descriptionMore', 'openHoursMoreInfos':'data.openHoursMoreInfos', 'urls':'data.urls' } } )

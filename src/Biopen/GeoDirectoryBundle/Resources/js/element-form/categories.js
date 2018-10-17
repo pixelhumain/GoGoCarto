@@ -59,7 +59,7 @@ jQuery(document).ready(function()
 		var select = categorySelect.find('input.select-dropdown');
 
 		if (optionField.siblings('.option-field:visible').length + increment === 0)
-			select.val("Choississez " + categorySelect.attr('data-picking-text'));
+			select.val("Choisissez " + categorySelect.attr('data-picking-text'));
 		else
 			select.val("Ajoutez " + categorySelect.attr('data-picking-text'));
 	}

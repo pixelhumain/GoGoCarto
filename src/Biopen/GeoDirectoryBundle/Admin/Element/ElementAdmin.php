@@ -13,6 +13,6 @@ class ElementAdmin extends ElementAdminShowEdit
 {
 	public function getExportFields()
    {
-      return array('id', 'name', 'optionsString', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality', 'description', 'descriptionMore', 'commitment', 'website');
+      return array('id', 'name', 'optionsString', 'geo.latitude', 'geo.longitude', 'address.postalCode', 'address.streetAddress','address.addressLocality');
    } 
 }

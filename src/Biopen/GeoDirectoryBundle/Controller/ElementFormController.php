@@ -250,12 +250,7 @@ class ElementFormController extends GoGoController
 			  {            
 			     $elementActionService->createPending($element, $editMode, $userEmail);
 			  }  
-			}  
-
-			$fields = [];
-      $fields['test'] = "toto";
-      $fields['lala'] = 42;
-      $element->setFields($fields);     
+			}    
 
 			$em->persist($element);
 			$em->flush(); 

@@ -23,17 +23,9 @@ class ElementAdminShowEdit extends ElementAdminList
 	{
 	  $formMapper
 	  ->with('Informations générales', array())
-		  ->add('name', 'text')	
-			->add('description', 'textarea')
-      ->add('descriptionMore', 'textarea', array('label' => 'Précisions', 'required' => false))
-      ->add('commitment', 'textarea', array('required' => false)) 
-			->add('telephone', 'text', array('required' => false)) 
-			->add('website', 'text', array('required' => false)) 
-			->add('email', 'text', array('required' => false))
-			->add('openHoursMoreInfos', 'text', array('required' => false)) 
+		  ->add('name', 'text')	 
+      ->add('email', 'text', array('required' => false))      
       ->add('userOwnerEmail', 'text', array('required' => false))
-      ->add('urls', 'sonata_type_collection', array('by_reference' => true, 'type_options' => array('delete' => true)), 
-         array('edit' => 'inline', 'inline' => 'table'))
       ->add('images', 'sonata_type_collection', array('by_reference' => true, 'type_options' => array('delete' => true)), 
          array('edit' => 'inline', 'inline' => 'table'))
       ->add('stamps', 'sonata_type_model', array(
@@ -59,10 +51,8 @@ class ElementAdminShowEdit extends ElementAdminList
     else
     {
       $show->with('Status', array('class' => 'col-md-6 col-sm-12'))
-         ->add('status', 'choice', [
-                 'choices'=> $this->statusChoices,
-                 ])
-       ->end(); 
+         ->add('status', 'choice', [ 'choices'=> $this->statusChoices ])
+      ->end(); 
     }
 
     if ($this->subject->getModerationState() != 0)
@@ -79,14 +69,12 @@ class ElementAdminShowEdit extends ElementAdminList
     }    
     
     $show
-
        ->with('Catégorisation', array('class' => 'col-md-6 col-sm-12'))
 	       ->add('optionValues', null, [
 		      	'template' => '@BiopenAdmin/partials/show_option_values.html.twig', 
 		      	'choices' => $this->optionList,
 		      	'label' => 'Catégories'
 		      ])
-         // ->add('optionsString')
        ->end()
 
        ->with('Localisation', array('class' => 'col-md-6 col-sm-12'))
@@ -99,9 +87,12 @@ class ElementAdminShowEdit extends ElementAdminList
 	      ->add('geo.longitude')
        ->end()   
 
+       ->with('Champs personnalisés', array('class' => 'col-md-6 col-sm-12'))
+        ->add('data',  null, array('template' => '@BiopenAdmin/partials/show_element_data.html.twig')) 
+       ->end()
+
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
-        ->add('urls', null,   array('template' => '@BiopenAdmin/partials/show_element_urls.html.twig'))
         ->add('images', null, array('template' => '@BiopenAdmin/partials/show_element_images.html.twig'))
         ->add('randomHash')
         ->add('sourceKey', null, array('label' => 'Source'))
@@ -113,11 +104,12 @@ class ElementAdminShowEdit extends ElementAdminList
         ->add('contributions', null, array('template' => '@BiopenAdmin/partials/show_contributions.html.twig'))
       ->end(); 
 
-    $show->with('JSON', array('class' => 'col-md-12'))         
-          ->add('compactJson')
-          ->add('baseJson')
-          ->add('privateJson')
-          ->add('adminJson')
-         ->end();
+    $show
+      ->with('JSON', array('class' => 'col-md-12'))         
+        ->add('compactJson')
+        ->add('baseJson')
+        ->add('privateJson')
+        ->add('adminJson')
+      ->end();
 	}
 }

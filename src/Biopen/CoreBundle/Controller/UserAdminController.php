@@ -18,14 +18,14 @@ class UserAdminController extends Controller
       $request = $this->get('request')->request;      
 
       $mails = [];
-      $elementWithoutEmail = 0;
+      $usersWithoutEmail = 0;
          
       try {
-         foreach ($selectedModels as $element) 
+         foreach ($selectedModels as $user) 
          {
-            $mail = $element->getEmail();
+            $mail = $user->getEmail();
             if ($mail) $mails[] = $mail;
-            else $elementWithoutEmail++;           
+            else $usersWithoutEmail++;           
          }
       } catch (\Exception $e) {
          $this->addFlash('sonata_flash_error', 'ERROR : ' . $e->getMessage());
@@ -46,8 +46,8 @@ class UserAdminController extends Controller
             $this->addFlash('sonata_flash_error',$result['message']);
       } 
       
-      if ($elementWithoutEmail > 0)
-         $this->addFlash('sonata_flash_error', $elementWithoutEmail . " mails n'ont pas pu être envoyé car aucune adresse n'était renseignée");
+      if ($usersWithoutEmail > 0)
+         $this->addFlash('sonata_flash_error', $usersWithoutEmail . " mails n'ont pas pu être envoyé car aucune adresse mail n'était renseignée");
 
       if ($nbreModelsToProceed >= 5000)
       {

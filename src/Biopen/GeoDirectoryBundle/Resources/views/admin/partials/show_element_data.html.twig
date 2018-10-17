@@ -1,0 +1,12 @@
+<div class="box-body table-responsive no-padding">
+  <table class="table"> 
+  <tbody>
+    {% for key, data in value %}
+      <tr class="sonata-ba-view-container">
+        <th>{{ key }}</th>
+        <td>{{ data }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+</div>

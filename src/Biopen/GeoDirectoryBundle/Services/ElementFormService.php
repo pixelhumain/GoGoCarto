@@ -28,9 +28,10 @@ class ElementFormService
 
     public function handleFormSubmission($element, $request, $editMode, $userEmail, $isAllowedDirectModeration, $originalElement, $em)
     {
-        $this->updateOptionsValues($element, $request);
+        $request = $request->request;
 
-        $this->updateWebsiteUrl($element);
+        $this->updateOptionsValues($element, $request);
+        $this->updateCustomData($element, $request);
 
         $isMinorModif = $editMode ? $this->isMinorModification($element, $originalElement, $em) : false;
         // calculate this before calling "updateOwner" because we want to check the old value of userOwnerEmail
@@ -49,7 +50,7 @@ class ElementFormService
 
     private function isPendingModification($editMode, $isAllowedDirectModeration, $request)
     {
-        return $editMode && (!$isAllowedDirectModeration || $request->request->get('dont-validate'));
+        return $editMode && (!$isAllowedDirectModeration || $request->get('dont-validate'));
     }  
 
     // when user only make a minor modification, we don't want to go through moderation
@@ -62,7 +63,7 @@ class ElementFormService
         $attributesChanged = array_keys($changeset);
                         
         $sameOptionValues = $element->getOptionIds() == $originalElement->getOptionIds();
-        $nonImportantAttributes = ['geo', 'openHours', 'openHoursMoreInfos'];
+        $nonImportantAttributes = ['geo', 'openHours'];
         foreach ($attributesChanged as $index => $attribute) {
            if ($attribute == 'optionValues' && $sameOptionValues || strpos($attribute, 'Json') !== false || in_array($attribute, $nonImportantAttributes)) {
               unset($attributesChanged[$index]);
@@ -73,7 +74,7 @@ class ElementFormService
 
     private function updateOptionsValues($element, $request)
     {
-        $optionValuesString = $request->request->get('options-values');
+        $optionValuesString = $request->get('options-values');
 
         $optionValues = json_decode($optionValuesString, true);
 
@@ -87,6 +88,15 @@ class ElementFormService
             $new_optionValue->setDescription($optionValue['description']);
             $element->addOptionValue($new_optionValue);
         }
+    }
+
+    private function updateCustomData($element, $request)
+    {
+        $data = $request->get('data');
+        // TODO check the different field to process the data
+        // Need to save first email found in Element::email
+        // $this->updateWebsiteUrl($element);
+        $element->setData($data);
     }
 
     private function updateWebsiteUrl($element)
@@ -105,7 +115,7 @@ class ElementFormService
 
     private function updateOwner($element, $request, $userEmail)
     {
-        if ($request->request->get('owning')) $element->setUserOwnerEmail($userEmail);
+        if ($request->get('owning')) $element->setUserOwnerEmail($userEmail);
         else $element->setUserOwnerEmail(null);
     }    
 }

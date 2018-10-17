@@ -145,52 +145,6 @@ class Element
      * @MongoDB\EmbedOne(targetDocument="Biopen\GeoDirectoryBundle\Document\PostalAddress") 
      */
     private $address;
-
-     /**
-     * @var string
-     *
-     * Commitment
-     *
-     * @MongoDB\Field(type="string")
-     */
-    public $commitment;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string", nullable=false)
-     */
-    public $description;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string", nullable=false)
-     */
-    private $descriptionMore;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     */
-    private $telephone;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     */
-    private $email;
-
-    /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     */
-    private $website;
-
-    /**
-     * Urls, like  website, socials, videos etc
-     * 
-     * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementUrl") 
-     */
-    private $urls;
     
     /**
      * @var \stdClass
@@ -207,6 +161,12 @@ class Element
      */
     private $optionsString;
 
+    /** 
+     * @var string 
+     * @MongoDB\Field(type="string") 
+     */ 
+    private $email; 
+
     /**
      * @var \stdClass
      *
@@ -217,20 +177,20 @@ class Element
     private $openHours;
 
     /**
-     * @var string
-     *
-     * A string for giving mor openHours infos, or for importing non structured open hours
-     *
-     * @MongoDB\Field(type="string", nullable=true)
-     */
-    private $openHoursMoreInfos = '';
-
-    /**
      * Images, photos, logos, linked to an element
      * 
      * @MongoDB\EmbedMany(targetDocument="Biopen\GeoDirectoryBundle\Document\ElementImage") 
      */
-    private $images;    
+    private $images;   
+
+    /**
+     * @var string
+     *
+     * All the custom attributes belonging to the Element
+     *
+     * @MongoDB\Field(type="hash")
+     */
+    private $data; 
 
     /**
      * @var string
@@ -240,7 +200,7 @@ class Element
      *
      * @MongoDB\Field(type="string")
      */
-    public $sourceKey = 'PDCN';
+    public $sourceKey = '';
 
     /**
      * The source from where the element has been imported or created
@@ -349,16 +309,7 @@ class Element
      * so noone else make action on the same element 
      * @MongoDB\Field(type="int")
      */
-    private $lockUntil = 0;
-
-    /**
-     * @var string
-     *
-     * If element has been imported, this is the Id of the element in the previous database
-     *
-     * @MongoDB\Field(type="hash")
-     */
-    private $fields;
+    private $lockUntil = 0;    
 
     /**
      * Constructor
@@ -436,6 +387,17 @@ class Element
         return $this->getOptionValues()->count();
     }
 
+    public function getSortedOptionsValues()
+    {
+        $sortedOptionsValues = [];
+        if ($this->optionValues)
+        {
+            $sortedOptionsValues = is_array($this->optionValues) ? $this->optionValues : $this->optionValues->toArray();
+            usort( $sortedOptionsValues , function ($a, $b) { return $a->getIndex() - $b->getIndex(); });
+        } 
+        return $sortedOptionsValues;
+    }
+
     public function getNonDuplicatesIds()
     {
         $result = [];
@@ -504,22 +466,13 @@ class Element
 
         // -------------------- FULL JSON ----------------
         $baseJson = json_encode($this);
-        $baseJson = substr($baseJson , 0, -1);
+        $baseJson = substr($baseJson , 0, -1); // remove last '}'
 
-        if ($this->address)            $baseJson .= ', "address":'           . $this->address->toJson();
-        if ($this->descriptionMore)    $baseJson .= ', "descriptionMore":'   . json_encode($this->descriptionMore);
-        if ($this->website)            $baseJson .= ', "website":'           . json_encode($this->website);     
-        if ($this->openHours)          $baseJson .= ', "openHours": '        . $this->openHours->toJson(); 
-        if ($this->openHoursMoreInfos) $baseJson .= ', "openHoursMoreInfos":'. json_encode($this->openHoursMoreInfos);  
-
-        if ($this->optionValues)
-        {
-            $sortedOptionsValues = is_array($this->optionValues) ? $this->optionValues : $this->optionValues->toArray();
-            usort( $sortedOptionsValues , function ($a, $b) { return $a->getIndex() - $b->getIndex(); });
-        } else { $sortedOptionsValues = []; }
-
+        if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson();   
+        if ($this->openHours) $baseJson .= ', "openHours": ' . $this->openHours->toJson(); 
+        
+        $sortedOptionsValues = $this->getSortedOptionsValues();
         $optValuesLength = count($sortedOptionsValues);
-
         // OPTIONS VALUES IDS
         $baseJson .= ', "categories": [';
         if ($sortedOptionsValues)
@@ -533,7 +486,6 @@ class Element
   
         $baseJson .= $this->encodeArrayObjectToJson("stamps", $this->stamps);
         $baseJson .= $this->encodeArrayObjectToJson("images", $this->images);
-        $baseJson .= $this->encodeArrayObjectToJson("urls",   $this->urls);
 
         $baseJson = rtrim($baseJson, ','); 
 
@@ -552,19 +504,14 @@ class Element
         }
         $baseJson .= '}';
 
-        $this->setBaseJson($baseJson); 
-        
+        $this->setBaseJson($baseJson);
+
 
         // -------------------- PRIVATE -------------------------
         $privateJson = '{';        
         // status
         $privateJson .= '"status": ' . $this->getStatus() . ',';
         $privateJson .= '"moderationState": ' . $this->getModerationState() . ',';
-        // tel
-        if ($this->getTelephone()) $privateJson .= '"telephone": "' . $this->getTelephone() . '",';
-        // email
-        if ($this->getEmail())
-            $privateJson .= '"email": "' . $this->getEmail(). '"';
         $privateJson = rtrim($privateJson, ',');
         $privateJson .= '}';
         $this->setPrivateJson($privateJson);
@@ -709,16 +656,10 @@ class Element
     public function reset()
     {             
         $this->name = null;
-        $this->description = null;
-        $this->descriptionMore = null;
         $this->address = null;
-        $this->commitment = '';
-        $this->telephone = null;
-        $this->email = null;
-        $this->website = null;
         $this->resetOptionsValues();
         $this->openHours = null;
-        $this->openHoursMoreInfos = null;
+        $this->data = null;
     }
 
     /**
@@ -781,73 +722,6 @@ class Element
         return $this->name;
     }
 
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string $description
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return $this
-     */
-    public function setDescriptionMore($description)
-    {
-        $this->descriptionMore = $description;
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string $description
-     */
-    public function getDescriptionMore()
-    {
-        return $this->descriptionMore;
-    }
-
-    /**
-     * Set categories
-     *
-     * @param object_id $categories
-     * @return $this
-     */
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
-        return $this;
-    }
-
-    /**
-     * Get categories
-     *
-     * @return object_id $categories
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
     /**
      * Set openHours
      *
@@ -869,51 +743,6 @@ class Element
     {
         return $this->openHours;
     }
-
-    /**
-     * Set openHoursMoreInfos
-     *
-     * @param string $openHoursMoreInfos
-     * @return $this
-     */
-    public function setOpenHoursMoreInfos($openHoursMoreInfos)
-    {
-        $this->openHoursMoreInfos = $openHoursMoreInfos;
-        return $this;
-    }
-
-    /**
-     * Get openHoursMoreInfos
-     *
-     * @return string $openHoursMoreInfos
-     */
-    public function getOpenHoursMoreInfos()
-    {
-        return $this->openHoursMoreInfos;
-    }
-
-    /**
-     * Set validationCode
-     *
-     * @param string $validationCode
-     * @return $this
-     */
-    public function setValidationCode($validationCode)
-    {
-        $this->validationCode = $validationCode;
-        return $this;
-    }
-
-    /**
-     * Get validationCode
-     *
-     * @return string $validationCode
-     */
-    public function getValidationCode()
-    {
-        return $this->validationCode;
-    }
-
 
     /**
      * Add optionValue
@@ -950,7 +779,6 @@ class Element
         $this->optionValues = $optionValues;
         return $this;
     }
-
 
     /**
      * Get status
@@ -1066,29 +894,6 @@ class Element
     {
         return $this->createdAt;
     }
-
-    /**
-     * Set created
-     *
-     * @param date $created
-     * @return $this
-     */
-    public function setCommitment($commitment)
-    {
-        $this->commitment = $commitment;
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return date $created
-     */
-    public function getCommitment()
-    {
-        return $this->commitment;
-    }
-    
 
     /**
      * Set updated
@@ -1276,72 +1081,6 @@ class Element
     }
 
     /**
-     * Set telephone
-     *
-     * @param string $telephone
-     * @return $this
-     */
-    public function setTelephone($telephone)
-    {
-        $this->telephone = $telephone;
-        return $this;
-    }
-
-    /**
-     * Get telephone
-     *
-     * @return string $telephone
-     */
-    public function getTelephone()
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return $this
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string $email
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set website
-     *
-     * @param string $website
-     * @return $this
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return string $website
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    /**
      * Set adminJson
      *
      * @param string $adminJson
@@ -1484,36 +1223,6 @@ class Element
     public function getPrivateJson()
     {
         return $this->privateJson;
-    }
-
-    /**
-     * Add url
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
-     */
-    public function addUrl($url)
-    {
-        $this->urls[] = $url;
-    }
-
-    /**
-     * Remove url
-     *
-     * @param Biopen\GeoDirectoryBundle\Document\ElementUrl $url
-     */
-    public function removeUrl($url)
-    {
-        $this->urls->removeElement($url);
-    }
-
-    /**
-     * Get urls
-     *
-     * @return \Doctrine\Common\Collections\Collection $urls
-     */
-    public function getUrls()
-    {
-        return $this->urls;
     }
 
     /**
@@ -1679,24 +1388,46 @@ class Element
     }
 
     /**
-     * Set fields
+     * Set data
      *
-     * @param hash $fields
+     * @param hash $data
      * @return $this
      */
-    public function setFields($fields)
+    public function setData($data)
     {
-        $this->fields = $fields;
+        $this->data = $data;
         return $this;
     }
 
     /**
-     * Get fields
+     * Get data
      *
-     * @return hash $fields
+     * @return hash $data
      */
-    public function getFields()
+    public function getData()
     {
-        return $this->fields;
+        return $this->data;
     }
+
+        /** 
+     * Set email 
+     * 
+     * @param string $email 
+     * @return $this 
+     */ 
+    public function setEmail($email) 
+    { 
+        $this->email = $email; 
+        return $this; 
+    } 
+ 
+    /** 
+     * Get email 
+     * 
+     * @return string $email 
+     */ 
+    public function getEmail() 
+    { 
+        return $this->email; 
+    } 
 }
