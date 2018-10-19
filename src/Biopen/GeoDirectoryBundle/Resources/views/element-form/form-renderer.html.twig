@@ -1,5 +1,10 @@
 {% for field in config.getElementFormFields %}
-  <div class="field-container field-{{field.type}}" id="{{ field.name|default('unknown-name') }}">
+
+  {% if field.name is defined %}
+    {% set elementValue = element.data[field.name] is defined ? element.data[field.name] : null %}
+  {% endif %}
+
+  <div class="field-container field-{{field.type}}" id="field-{{ field.name|default('unknown-name') }}">
     {# STANDARD INPUT #}
     {% if field.type == "text" or field.type == "title" or field.type == "textarea" or field.type == "date" or field.type == "number" %}
       {% include '@BiopenGeoDirectory/element-form/form-partials/text.html.twig' %}     

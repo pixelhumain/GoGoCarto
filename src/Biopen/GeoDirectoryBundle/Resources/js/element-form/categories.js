@@ -7,8 +7,6 @@
 var index = 1;
 jQuery(document).ready(function()
 {	
-	$('.category-select').material_select();
-
 	$(".category-select").change(function()
 	{ 
 		if (!$(this).val()) return;

@@ -23,7 +23,7 @@
         taxonomy: function(fieldData) { return { field: '<select id="' + fieldData.name + '"><option>Choisissez une catégorie principale</option></select><span class="mandatory"> Ce champ est indispensable</span>' }; },
         openhours: function(fieldData) { return { field: 'Bloc contenant un selecteur d\'horaires' }; },
         separator: function(fieldData) { return { field: '<hr>' }; },
-        checkbox: function(fieldData) { return { field: '<input id="' + fieldData.name + '" type="checkbox"/>' }; },
+        checkbox: function(fieldData) { return { field: '<input id="' + fieldData.name + '"' + (fieldData.defaultvalue == "yes" ? 'checked="checked"' : '') + ' type="checkbox"/>' }; },
       };
 
       var iconAttr = { label: 'Icone', placeholder: 'gogo-icon-description, gogo-icon-phone ...'  }
@@ -55,9 +55,15 @@
         },
         address: { icon: iconAttr },
         'checkbox-group': { 
-          style: { label: 'Style', options: {
+          style: { label: 'Style des cases', options: {
             'normal': 'Normal',
             'filled': 'Plein',
+          } } 
+        },
+        checkbox: {
+          defaultvalue: { label: 'Valeur initiale', options: {            
+            'no': 'Non cochée',
+            'yes': 'Cochée',
           } } 
         }
       };

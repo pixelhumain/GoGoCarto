@@ -300,9 +300,6 @@
   .checkbox-container  [type="checkbox"] + label
   {
     padding-left: 42px;
-    &:before {
-      left: 4px;
-    }
   }
 
   #precisions

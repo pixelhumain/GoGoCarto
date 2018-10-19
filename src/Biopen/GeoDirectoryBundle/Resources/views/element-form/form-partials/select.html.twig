@@ -1,5 +1,4 @@
 <div class="input-field" style="margin-bottom:30px;">
-  
   {% if field.icon is defined %}
     <i class="material-icons {{ field.icon }} prefix"></i>
   {% endif %}
@@ -11,7 +10,7 @@
 
     {% for option in field.values %}    
       <option value="{{ option.value }}" 
-        {% if option.selected is defined and not field.placeholder is defined%}selected{% endif %}>
+        {% if elementValue == option.value or not elementValue and option.selected is defined and not field.placeholder is defined %}selected{% endif %}>
         {{ option.label }}
       </option>
     {% endfor %}

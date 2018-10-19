@@ -1,13 +1,15 @@
 <div class="checkbox-radio-group">
   {% set optionType = field.type == "checkbox-group" ? "checkbox" : "radio" %}
   {% set optionClass = field.style is defined and field.style == "filled" ? "filled-in" : "" %}
+  {% set elementValue = elementValue ? elementValue : [] %}
   
-  {% if field.label %}<div class="checkbox-radio-group-label">{{ field.label }}</div>{% endif %}
-  
+  {% if field.label %}<div class="checkbox-radio-group-label">{{ field.label }}</div>{% endif %}  
+
   {% for option in field.values %}
   <div class="checkbox-container"> 
     {% set optionId = field.name ~ '-' ~ option.value %}
-    <input name="data[{{ field.name }}]" type="{{ optionType }}" id="{{ optionId }}" class="{{ optionClass }}"/>
+    <input name="data[{{ field.name }}][]" type="{{ optionType }}" id="{{ optionId }}" value="{{option.value}}" class="{{ optionClass }}"
+            {% if option.value in elementValue or not elementValue and option.selected is defined %}checked="checked"{% endif %}/>
     <label for="{{ optionId }}">{{ option.label }}</label>
   </div>
   {% endfor %}

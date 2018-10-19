@@ -9,6 +9,8 @@
  */
 jQuery(document).ready(function()
 {	
+  $('select').material_select();
+
   // TIMEPICKERS
   $('.timepicker').each(function(e) {
     var start_time;
@@ -23,7 +25,6 @@ jQuery(document).ready(function()
     $(this).timepicki({start_time: start_time, increase_direction:"up", show_meridian:false, step_size_minutes:15,min_hour_value:0, max_hour_value:23, overflow_minutes:true}); 
   });
 
-  // TOOLTIPS
 	$('.tooltipped').tooltip();
 
 	// ---------------
