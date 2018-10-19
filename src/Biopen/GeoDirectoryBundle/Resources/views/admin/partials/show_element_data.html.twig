@@ -4,7 +4,15 @@
     {% for key, data in value %}
       <tr class="sonata-ba-view-container">
         <th>{{ key }}</th>
-        <td>{{ data }}</td>
+        <td>
+          {% if data is iterable %}
+            {% for subkey, subdata in data %}
+              {{ subkey }} : {{ subdata }}<br/>
+            {% endfor %}
+          {% else %}
+            {{ data }}
+          {% endif %}
+        </td>
       </tr>
     {% endfor %}
   </tbody>
