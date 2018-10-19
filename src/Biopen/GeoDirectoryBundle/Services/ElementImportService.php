@@ -30,6 +30,7 @@ class ElementImportService
 	protected $parentCategoryToCreateMissingOptions;
 	protected $missingOptionDefaultAttributesForCreate;
 	
+	protected $coreFields = ['id', 'name', 'taxonomy', 'streetAddress', 'addressLocality', 'postalCode', 'addressCountry', 'email', 'latitude', 'longitude', 'images', 'owner', 'source'];
 	/**
     * Constructor
     */
@@ -136,9 +137,9 @@ class ElementImportService
 
 		// Flushing and clear data on queue
 		$this->em->flush();
-		$this->em->clear();	  
+		$this->em->clear();	 
 
-		return count($data);
+		return count($element);
 	}
 
 	private function createElementFromArray($row, $source, $geocodeIfNecessary)
@@ -150,19 +151,12 @@ class ElementImportService
 
 		$address = new PostalAddress($row['streetAddress'], $row['addressLocality'], $row['postalCode'], $row["addressCountry"]);
 		$new_element->setAddress($address);
-		$new_element->setCommitment($row['commitment']);   
-		$new_element->setDescription($row['description']);
-		$new_element->setDescriptionMore($row['descriptionMore']);
-
-		if (strlen($row['telephone']) >= 9) $new_element->setTelephone($row['telephone']);
-
-		if ($row['website'] != 'http://' && $row['website'] != "https://") $new_element->setWebsite($row['website']);
 
 		$new_element->setEmail($row['email']);
-		$new_element->setOpenHoursMoreInfos($row['openHoursString']);
 		$new_element->setSourceKey(strlen($row['source']) > 0 ? $row['source'] : $source->getName());
-		$new_element->setSource($source);      
-		if (array_key_exists('publisher', $row)) $new_element->setUserOwnerEmail($row['publisher']);
+		$new_element->setSource($source);
+
+		if (array_key_exists('owner', $row)) $new_element->setUserOwnerEmail($row['owner']);
 		
 		$lat = 0;$lng = 0;
 
@@ -188,18 +182,17 @@ class ElementImportService
 		if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 		$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 
-		$this->createUrls($new_element, $row);
 		$this->createImages($new_element, $row);
-		$this->createCategories($new_element, $row);
-		$this->elementActionService->import($new_element); 			
+		$this->saveCustomFields($new_element, $row);
+		$this->elementActionService->import($new_element);				
 
 		$this->em->persist($new_element);
 	}
 
 	private function fixsOntology($data)
   {
-    $keysTable = ['lat' => 'latitude', 'long' => 'longitude', 'lng' => 'longitude', 'phone' => 'telephone',
-  								'title' => 'name', 'categories' => 'taxonomy', 'sourceKey' => 'source', 'abstract' => 'description'];
+    $keysTable = ['lat' => 'latitude', 'long' => 'longitude', 'lon' => 'longitude', 'lng' => 'longitude',
+  								'title' => 'name', 'nom' => 'name', 'categories' => 'taxonomy'];
 
     foreach ($data as $key => $row) {  
       foreach ($keysTable as $search => $replace) {
@@ -214,17 +207,24 @@ class ElementImportService
   }
 
 	private function addMissingFieldsToData($data) 
-	{
-		$fields = ['id', 'name', 'streetAddress', 'addressLocality', 'postalCode', 'addressCountry', 'description', 'descriptionMore', 'commitment',
-			'telephone', 'website', 'email', 'openHoursString', 'source', 'latitude', 'longitude', 'images'];
-		
+	{		
 		foreach ($data as $key => $row) {
-			$missingFields = array_diff($fields, array_keys($row));
+			$missingFields = array_diff($this->coreFields, array_keys($row));
 			foreach ($missingFields as $missingField) {
 				$data[$key][$missingField] = "";
 			}
 		}
 		return $data;
+	}
+
+	private function saveCustomFields($element, $raw_data)
+	{
+		$customFields = array_diff(array_keys($raw_data), $this->coreFields);
+		$customData = [];
+		foreach ($customFields as $customField) {
+			$customData[$customField] = $raw_data[$customField];
+		}
+		$element->setData($customData);
 	}
 
 	private function createOptionsMappingTable($options = null)
@@ -264,24 +264,6 @@ class ElementImportService
 				$element->addImage($elementImage);
 			}					
 		}		
-	}
-
-	private function createUrls($element, $row)
-	{
-		$keys = array_keys($row);
-		$url_keys = array_filter($keys, function($key) { return $this->startsWith($key, 'url_'); });
-		if (count($url_keys) == 0) return;
-
-		foreach ($url_keys as $key) 
-		{
-			if ($row[$key])
-			{
-				$elementUrl = new ElementUrl();
-				$elementUrl->setValue($row[$key]);
-				$elementUrl->setKey(str_replace('url_', '', $key));
-				$element->addUrl($elementUrl);
-			}				
-		}
 	}
 
 	function startsWith($haystack, $needle)
