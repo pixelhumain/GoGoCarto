@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
@@ -22,6 +23,11 @@ class GoGoAbstractCommand extends ContainerAwareCommand
    {
       $odm = $this->getContainer()->get('doctrine_mongodb.odm.default_document_manager');
       $odm->getConfiguration()->setDefaultDB($input->getArgument('dbname'));
+
+      // create dummy user, as some code called from command will maybe need the current user informations
+      $token = new AnonymousToken('admin', 'admin', ['ROLE_ADMIN']);      
+      $this->getContainer()->get('security.token_storage')->setToken($token);
+
       $this->gogoExecute($odm, $input, $output);
    }
 
