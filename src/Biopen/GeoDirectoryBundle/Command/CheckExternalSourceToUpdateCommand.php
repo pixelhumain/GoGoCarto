@@ -32,7 +32,8 @@ class CheckExternalSourceToUpdateCommand extends GoGoAbstractCommand
 
       foreach ($sourcesToUpdate as $key => $source)
       { 
-        $importService->importJson($source);
+        $dataToImport = $importService->importJson($source);
+        $importService($dataToImport, $source);
         $output->writeln('Updating source : ' . $source->getName());
       }      
     }

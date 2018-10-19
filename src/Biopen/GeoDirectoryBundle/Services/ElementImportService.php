@@ -95,7 +95,7 @@ class ElementImportService
     $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $qb->remove()->field('source')->references($externalSource)->getQuery()->execute();
 
-    return $this->import($data, $externalSource, false, true);    
+    return $data;
   }
 
 	public function import($data, 
@@ -139,7 +139,7 @@ class ElementImportService
 		$this->em->flush();
 		$this->em->clear();	 
 
-		return count($element);
+		return $size;
 	}
 
 	private function createElementFromArray($row, $source, $geocodeIfNecessary)

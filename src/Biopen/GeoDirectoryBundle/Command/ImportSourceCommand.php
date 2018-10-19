@@ -24,9 +24,11 @@ class ImportSourceCommand extends GoGoAbstractCommand
     {
       $source = $em->getRepository('BiopenGeoDirectoryBundle:SourceExternal')->find(1);
       $output->writeln('Updating source ' . $source->getName() . ' for project ' . $input->getArgument('dbname') . ' begins...');
+      $output->writeln('Downloading the data...');
       $importService = $this->getContainer()->get('biopen.element_import');
-
-      $count = $importService->importJson($source);
+      $dataToImport = $importService->importJson($source);
+      $output->writeln('Data downloaded. ' . count($dataToImport) . ' elements to import...');  
+      $count = $importService($dataToImport, $source);
       $output->writeln('Updating source completed : ' . $count . ' elements successfully imported');  
     }
 }

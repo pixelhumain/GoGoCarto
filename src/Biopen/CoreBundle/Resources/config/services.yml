@@ -28,3 +28,15 @@ services:
     class: Biopen\CoreBundle\EventListener\ImageResizer
     tags:
         - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+
+  biopen.async.factory:
+    class: Biopen\CoreBundle\Services\AsyncServiceFactory
+    arguments:
+        - '@filesystem'
+        - '%kernel.root_dir%'
+        - 'bin/console'
+        - null
+
+  biopen.async:
+    class: Biopen\CoreBundle\Services\AsyncService
+    factory: 'biopen.async.factory:createAsyncService'

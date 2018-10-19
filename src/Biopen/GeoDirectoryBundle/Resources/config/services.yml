@@ -46,6 +46,7 @@ services:
         class: Biopen\GeoDirectoryBundle\Services\ConvertCsvToArrayService
 
     biopen.element_import:
+       public: true
        class: Biopen\GeoDirectoryBundle\Services\ElementImportService
        arguments: 
           - "@doctrine.odm.mongoDB.document_manager"
