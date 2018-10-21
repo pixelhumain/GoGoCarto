@@ -57,6 +57,7 @@ class ElementType extends AbstractType
   {
     $builder
       ->add('name', TextType::class, array('required' => false))
+      ->add('email', TextType::class, array('required' => false))
       ->add('fullAddress', TextType::class, array('mapped' => false))
       ->add('address', PostalAddressType::class)
       ->add('geo', CoordinatesType::class)

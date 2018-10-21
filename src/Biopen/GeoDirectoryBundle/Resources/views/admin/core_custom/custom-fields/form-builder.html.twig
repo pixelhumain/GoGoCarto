@@ -10,12 +10,13 @@
       var fbEditor = document.getElementById('form-builder-container');
 
       var fields = [
-        { label: 'Titre de la fiche (obligatoire)', name: "title", required: true, attrs: { type: 'title' }, icon: '*' },
+        { label: 'Titre de la fiche (obligatoire)', name: "title", attrs: { type: 'title' }, icon: '*' },
         { label: 'Catégories (obligatoire)', name: "taxonomy", attrs: { type: 'taxonomy' }, icon: '*' },
         { label: 'Adresse (obligatoire)', name: "address", attrs: { type: 'address' }, icon: '*' },
         { label: 'Horaires d\'ouvertures', name: "openhours", attrs: { type: 'openhours' }, icon: '⌚' },
         { label: 'Séparateur de section', name: "separator", attrs: { type: 'separator' }, icon: '⚊' },
-        { label: 'Case à cocher', name: "checkbox", attrs: { type: 'checkbox' }, icon: '☑' },                   
+        { label: 'Case à cocher', name: "checkbox", attrs: { type: 'checkbox' }, icon: '☑' },  
+        { label: 'Email principal', name: "email", attrs: { type: 'email' }, icon: '@' },                  
       ];
       var templates = {
         title: function(fieldData) { return { field: '<input id="' + fieldData.name + '"><span class="mandatory"> Ce champ est indispensable</span>' }; },
@@ -24,6 +25,7 @@
         openhours: function(fieldData) { return { field: 'Bloc contenant un selecteur d\'horaires' }; },
         separator: function(fieldData) { return { field: '<hr>' }; },
         checkbox: function(fieldData) { return { field: '<input id="' + fieldData.name + '"' + (fieldData.defaultvalue == "yes" ? 'checked="checked"' : '') + ' type="checkbox"/>' }; },
+        email: function(fieldData) { return { field: '<input id="' + fieldData.name + '"' + ' type="email"/><span class="mandatory"> Ce champ est conseillé</span>' }; },
       };
 
       var iconAttr = { label: 'Icone', placeholder: 'gogo-icon-description, gogo-icon-phone ...'  }
@@ -46,6 +48,7 @@
           errorMsg: errorMsgAttrs,
           separator: { label: '' }, // separate important attrs from others
         },
+        select: { icon: iconAttr, errorMsg: errorMsgAttrs },
         number: { icon: iconAttr, errorMsg: errorMsgAttrs },
         title: { 
           maxlength: { label: "Longueur Max."}, 
@@ -58,13 +61,18 @@
           style: { label: 'Style des cases', options: {
             'normal': 'Normal',
             'filled': 'Plein',
-          } } 
+          }, errorMsg: errorMsgAttrs } 
         },
         checkbox: {
           defaultvalue: { label: 'Valeur initiale', options: {            
             'no': 'Non cochée',
             'yes': 'Cochée',
-          } } 
+          }, errorMsg: errorMsgAttrs } 
+        },
+        email: {
+          icon: iconAttr, 
+          errorMsg: errorMsgAttrs,
+          separator: { label: '' }, // separate important attrs from others
         }
       };
 
@@ -78,7 +86,7 @@
           location: '{{ asset("assets/js/") }}'
         },              
         disableFields: ['hidden', 'file', 'button', 'autocomplete', 'title', 'taxonomy', 'address'],
-        controlOrder: ['text', 'textarea', 'checkbox', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
+        controlOrder: ['text', 'email', 'textarea', 'checkbox', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
         disabledAttrs: ['className', 'inline', 'toggle', 'description', 'other', 'multiple'],
         formData: '{{ formData|raw }}',
         roles: { 1: "Administrateur" },
@@ -88,6 +96,10 @@
       setInterval(function() {
         $('#{{ form.vars.id }}').val(JSON.stringify(formBuilder.actions.getData()));
       }, 300);
+
+      $('input[name="access"]').change(function() {
+        $(this).find('input[name="roles[]"]').prop('checked', $(this).is(':checked'));
+      });
     });
   }        
 </script>
@@ -97,7 +109,7 @@
   .taxonomy-field .field-actions .del-button, .taxonomy-field .field-actions .copy-button,
   .address-field .field-actions .del-button, .address-field .field-actions .copy-button,
   .title-field .field-actions .del-button, .title-field .field-actions .copy-button,
-  .openhours-field .field-actions .copy-button
+  .openhours-field .field-actions .copy-button, .email-field .copy-button
   { display: none !important; }
   .separator-field label, .separator-field .copy-button, .separator-field .toggle-form { display: none !important; }
 
@@ -108,7 +120,8 @@
   .taxonomy-field .name-wrap, .taxonomy-field .access-wrap, .taxonomy-field .required-wrap, .taxonomy-field .placeholder-wrap, .taxonomy-field .value-wrap,
   .title-field .name-wrap, .title-field .access-wrap, .title-field .required-wrap,
   .textarea-field .subtype-wrap, .checkbox-field .field-options, .checkbox-field .required-wrap,
-  .paragraph-field .subtype-wrap, .header-field .subtype-wrap
+  .paragraph-field .subtype-wrap, .header-field .subtype-wrap,
+  .email-field .name-wrap
   { display: none !important; }  
    { display: none !important; }  
    { display: none !important; }
@@ -135,7 +148,7 @@
   .access-wrap { order: 110 !important; }  
 
   /* Styling */
-  .address-field, .taxonomy-field, .title-field {  background-color: whitesmoke !important; }
+  .address-field, .taxonomy-field, .title-field, .email-field {  background-color: whitesmoke !important; }
   #form-builder-container .checkbox label, #form-builder-container .radio label { padding-left: 30px !important; }
   .mandatory { color: #693232; font-style: italic; float: right; }
   #form-builder-container { padding-top: 20px; }

@@ -25,6 +25,10 @@ function checkAndSend(submitOption)
 		}
 		checkRequiredFields();
 	});
+	$('.checkbox-radio-group.invalid-required input, .select-input select').change(function()
+	{
+		checkRequiredFields();
+	});
 
 	checkAddressGeolocalisation();
 
@@ -127,14 +131,20 @@ function checkRequiredFields()
 	$('.required').each(function ()
 	{ 
 		if ($(this).hasClass('required-only-add') && editMode) return;
+
+		var valuePresent = false;
+		if ($(this).hasClass('checkbox-radio-group')) valuePresent = ($(this).find('input:checked').length > 0);
+		else if ($(this).hasClass('select-input')) valuePresent = ($(this).find('option:selected:not(:disabled)').length > 0);
+		else valuePresent = $(this).val();
 		
-		if(!$(this).val()) 
+		if(!valuePresent) 
 		{
 			$(this).addClass('invalid invalid-required');	
 		}
 		else
 		{
 			$(this).removeClass('invalid-required');
+			if ($(this).hasClass('select-input')) $(this).closest('.input-field').removeClass('error');
 		}
 	});
 }

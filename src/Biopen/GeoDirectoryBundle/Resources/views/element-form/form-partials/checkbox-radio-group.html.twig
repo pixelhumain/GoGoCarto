@@ -1,9 +1,12 @@
-<div class="checkbox-radio-group">
+<div class="checkbox-radio-group {{ field.required|default(false) ? 'required' : '' }}">
   {% set optionType = field.type == "checkbox-group" ? "checkbox" : "radio" %}
   {% set optionClass = field.style is defined and field.style == "filled" ? "filled-in" : "" %}
   {% set elementValue = elementValue ? elementValue : [] %}
   
-  {% if field.label %}<div class="checkbox-radio-group-label">{{ field.label }}</div>{% endif %}  
+  {% set errorMsg = fields.errorMsg|default('Veuillez choisir au moins une option') %}
+  <div class="label-container">
+    {% if field.label %}<label class="checkbox-radio-group-label">{{ field.label }}{% if field.required|default(false) %}<span class="mandatory-asterisk"></span>{% endif %}<span class="error">{{ errorMsg }}</span></label>{% endif %}    
+  </div>
 
   {% for option in field.values %}
   <div class="checkbox-container"> 

@@ -1,4 +1,4 @@
-<div class="input-field" style="margin-bottom:30px;">
+<div class="input-field select-input {{ field.required|default(false) ? 'required' : '' }}">
   {% if field.icon is defined %}
     <i class="material-icons {{ field.icon }} prefix"></i>
   {% endif %}
@@ -10,14 +10,14 @@
 
     {% for option in field.values %}    
       <option value="{{ option.value }}" 
-        {% if elementValue == option.value or not elementValue and option.selected is defined and not field.placeholder is defined %}selected{% endif %}>
-        {{ option.label }}
-      </option>
+        {% if elementValue == option.value or not elementValue and option.selected is defined and not field.placeholder is defined %}selected{% endif %}>{{ option.label }}</option>
     {% endfor %}
   </select>
   
+  {% set errorMsg = fields.errorMsg|default('Veuillez choisir une option') %}
+
   {% if field.label is defined and field.label != "undefined" %}
-    <label>{{ field.label }}</label>
+    <label>{{ field.label }}{% if field.required|default(false) %}<span class="mandatory-asterisk"></span>{% endif %}<span class="error">{{ errorMsg }}</span></label>
   {% endif %}
 
   <script>

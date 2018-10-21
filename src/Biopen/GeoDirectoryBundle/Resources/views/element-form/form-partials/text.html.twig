@@ -2,10 +2,20 @@
   {# ICON #}
   {% set icon = field.icon|default(null) %}
   {% if not icon %}
-    {% if field.subtype is defined %}
-      {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : field.subtype == "url" ? "gogo-icon-internet" : "gogo-icon-description" %}
-    {% else %}
-      {% set icon = "gogo-icon-description"  %}
+    {% if field.type == "text" %}
+      {% if field.subtype is defined %}
+        {% set icon = field.subtype == "email" ? "gogo-icon-mail" : field.subtype == "tel" ? "gogo-icon-phone" : field.subtype == "url" ? "gogo-icon-internet" : "gogo-icon-description" %}
+      {% else %}
+        {% set icon = "gogo-icon-description"  %}
+      {% endif %}
+    {% elseif field.type == "date" %}
+      {% set icon = 'gogo-icon-date' %}
+    {% elseif field.type == "number" %}
+      {% set icon = 'gogo-icon-number' %}
+    {% elseif field.type == "email" %}
+      {% set icon = 'gogo-icon-mail' %}
+      {% elseif field.type == "textarea" %}
+      {% set icon = 'gogo-icon-description' %}
     {% endif %}
   {% endif %}
 
@@ -16,7 +26,7 @@
       {% set errorMsg = "Veuillez renseigner une adresse email valide" %}
     {% elseif field.subtype is defined and field.subtype == "url" %}
       {% set errorMsg = "Veuillez renseigner une url du type http://..." %}
-    {% elseif field.subtype is defined and field.subtype == "number" %}
+    {% elseif field.type == "number" %}
       {% set errorMsg = "Ceci n'est pas un nombre !" %}
     {% elseif field.maxlength is defined %}
       {% set errorMsg = "Oups, ce texte est un peu long !" %}
@@ -30,23 +40,30 @@
   {% endif %}
 
   {# NAME #}
-  {% set baseName = field.type == "title" ? "biopen_elementbundle_element" : "data" %}
-
+  {% set baseName = field.type == "title" or field.type == "email" ? "biopen_elementbundle_element" : "data" %}
+  {% set fieldName = field.type == "email" ? 'email' : field.name %}
   {# TYPE #}
   {% set inputType = field.subtype is defined ? field.subtype : field.type == "number" ? "number" : "text" %}
 
   {# VALUE #}
-  {% set inputValue = field.type == "title" ? element.name : element.data[field.name] is defined ? element.data[field.name] : null %}
+  {% set inputValue = element.data[field.name] is defined ? element.data[field.name] : null %}
+  {% if field.type == "title" %}{% set inputValue = element.name %}{% endif %}
+  {% if field.type == "email" %}{% set inputValue = element.email %}{% endif %}
   {% if not inputValue and field.value is defined %}{% set inputValue = field.value %}{% endif %}
 
-  <i class="material-icons {{ icon }} prefix"></i>
+  {# ICON #}
+  {% if icon %}
+    <i class="material-icons {{ icon }} prefix"></i>
+  {% endif %}
+
+  {# INPUT #}
   {% if field.type == "textarea" %}
     {% set inputClass = inputClass ~ " materialize-textarea" %}
     <textarea
   {% else %}
     <input type="{{ inputType }}"  
   {% endif %}
-     name="{{ baseName }}[{{ field.name }}]" id="input-{{ field.name }}" class="{{ inputClass }}"
+     name="{{ baseName }}[{{fieldName}}]" id="input-{{ field.name }}" class="{{ inputClass }}"
       {% if inputValue %} value="{{ inputValue }}"{% endif %} 
       {% if field.placeholder is defined %} placeholder="{{ field.placeholder }}"{% endif %} 
       {% if field.maxlength is defined %} length="{{ field.maxlength }}"{% endif %}
@@ -56,7 +73,8 @@
     />
   {% endif %}
 
-  <label for="input-{{ field.name }}" data-error="{{ errorMsg|default('') }}" class="gogo-form-label">{{ field.label }}</label>
+  {# LABEL #}
+  <label for="input-{{ field.name }}" data-error="{{ errorMsg|default('') }}" class="gogo-form-label">{{ field.label }}{% if field.required|default(false) %}<span class="mandatory-asterisk"></span>{% endif %}</label>
 
   {% if field.type == "date" %}
   <script>

@@ -1,4 +1,6 @@
 <div class="checkbox-container">     
-  <input type="checkbox" name="data[{{ field.name }}]" id="{{ field.name }}" {% if elementValue or not elementValue and field.values[0].selected is defined %}checked="checked"{% endif %}/>
+  <input type="checkbox" name="data[{{ field.name }}]" id="{{ field.name }}" 
+          {% if field.required|default(false) %}class="required"{% endif %}
+          {% if elementValue or not elementValue and field.values[0].selected is defined %}checked="checked"{% endif %}/>
   <label for="{{ field.name }}" >{{ field.label }}</label>
 </div>

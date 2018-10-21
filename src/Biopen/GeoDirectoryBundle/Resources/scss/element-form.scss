@@ -31,7 +31,7 @@
 
   .select-dropdown li
   {
-    &.disabled 
+    &.disabled
     {
       text-transform: uppercase;
       font-size: .8rem;
@@ -39,14 +39,34 @@
     }
   }
 
+  .select-wrapper + label {
+    color: inherit;
+    font-weight: bold;
+  }
+  .mandatory-asterisk:after {
+    content: "*";
+    margin-left: 5px;
+    color: $error-color;
+    position: absolute;
+    top: 1px;
+    font-size: .9rem;
+  }
+
+  .field-checkbox { margin-bottom: 20px; }
+
   .input-field .prefix~.select-wrapper {
     margin-left: 3rem;
     width: calc(100% - 3rem);
   }
   
   .checkbox-radio-group {
-    margin-bottom: 30px;
-    .checkbox-radio-group-label { font-weight: bold; margin-bottom: 15px; }
+    margin-bottom: 25px;
+    .checkbox-radio-group-label { font-weight: bold; font-size: .9rem; position: relative; }
+    .label-container { margin-bottom: 15px; }
+    
+    &.invalid-required {
+      label .error { display: inline-block; }
+    }
   }  
   .checkbox-container { margin-bottom: 10px; }
 
@@ -55,6 +75,22 @@
 
   .invalid-required {
     @extend .invalid;
+  }
+
+  label .error {
+    display:none;
+    color: $error-color;
+    margin-left: 10px;
+  }
+
+  .input-field.select-input { margin-bottom:25px; }
+
+  .input-field.error.select-input.invalid-required {
+    label .error { display: inline-block; }
+    input { 
+      border-bottom: 1px solid $error-color !important;
+      box-shadow: 0 1px 0 0 $error-color !important;
+    }
   }
 
   i.prefix.invalid {

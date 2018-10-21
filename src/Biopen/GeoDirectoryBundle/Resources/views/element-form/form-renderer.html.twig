@@ -1,12 +1,14 @@
+{% spaceless %}
 {% for field in config.getElementFormFields %}
 
   {% if field.name is defined %}
     {% set elementValue = element.data[field.name] is defined ? element.data[field.name] : null %}
   {% endif %}
 
-  <div class="field-container field-{{field.type}}" id="field-{{ field.name|default('unknown-name') }}">
+  <div class="field-container field-{{field.type}}" id="field-{{ field.name|default('unknown-name') }}" 
+        {% if field.access is defined and not is_granted("ROLE_ADMIN") %}style="display:none"{% endif %}>
     {# STANDARD INPUT #}
-    {% if field.type == "text" or field.type == "title" or field.type == "textarea" or field.type == "date" or field.type == "number" %}
+    {% if field.type == "text" or field.type == "title" or field.type == "textarea" or field.type == "date" or field.type == "number" or field.type == "email"%}
       {% include '@BiopenGeoDirectory/element-form/form-partials/text.html.twig' %}     
     {# SELECT #}
     {% elseif field.type == "select" %}
@@ -41,3 +43,4 @@
     <section>
   {% endif %}
 {% endfor %}
+{% endspaceless %}
