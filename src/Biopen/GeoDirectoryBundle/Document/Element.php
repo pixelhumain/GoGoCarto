@@ -483,6 +483,10 @@ class Element
         }
         $baseJson = rtrim($baseJson, ',');
         $baseJson .= '],';
+
+        foreach ($this->getData() as $key => $value) {
+            $baseJson .= '"'. $key .'": ' . json_encode($value) . ',';
+        }
   
         $baseJson .= $this->encodeArrayObjectToJson("stamps", $this->stamps);
         $baseJson .= $this->encodeArrayObjectToJson("images", $this->images);
