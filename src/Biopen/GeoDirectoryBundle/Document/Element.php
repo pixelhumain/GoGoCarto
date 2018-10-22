@@ -471,6 +471,9 @@ class Element
         if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson();   
         if ($this->openHours) $baseJson .= ', "openHours": ' . $this->openHours->toJson(); 
         
+        $baseJson .= ', "createdAt":"'    . date_format($this->createdAt,"d/m/Y") . '"';
+        $baseJson .= ', "updatedAt":"'    . date_format($this->updatedAt,"d/m/Y") . '"';
+
         $sortedOptionsValues = $this->getSortedOptionsValues();
         $optValuesLength = count($sortedOptionsValues);
         // OPTIONS VALUES IDS
