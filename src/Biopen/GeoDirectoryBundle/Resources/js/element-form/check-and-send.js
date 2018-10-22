@@ -144,7 +144,7 @@ function checkRequiredFields()
 		else
 		{
 			$(this).removeClass('invalid-required');
-			if ($(this).hasClass('select-input')) $(this).closest('.input-field').removeClass('error');
+			if ($(this).hasClass('select-input')) $(this).removeClass('invalid').removeClass('error');
 		}
 	});
 }
