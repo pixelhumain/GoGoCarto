@@ -93,7 +93,7 @@ class ElementFormService
     private function updateCustomData($element, $request)
     {
         $data = $request->get('data');
-        if ($element->getData()) $data = array_merge($data, $element->getData()); // keeping also old data
+        if ($element->getData()) $data = array_merge($element->getData(), $data); // keeping also old data
         // TODO check the different field to process the data
         // Need to save first email found in Element::email
         // $this->updateWebsiteUrl($element);

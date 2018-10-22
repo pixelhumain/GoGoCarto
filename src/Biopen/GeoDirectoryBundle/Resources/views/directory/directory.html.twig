@@ -104,7 +104,7 @@
             {
                 width: {{ config.infobar.width ? config.menu.width : 'undefined' }},
                 bodyTemplate: {
-                    content: {{ config.infobar.bodyTemplate ?: 'undefined' }}
+                    content: {{ config.infobar.bodyTemplate ? config.infobar.bodyTemplate | json_encode | raw : 'undefined' }}
                 }
             },
             map:
