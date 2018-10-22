@@ -41,6 +41,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Import } 
 
+    admin.source_external:
+        class: Biopen\GeoDirectoryBundle\Admin\SourceExternalAdmin
+        arguments: [~, Biopen\GeoDirectoryBundle\Document\SourceExternal, 'BiopenGeoDirectoryBundle:Admin/SourceExternalAdmin' ]
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Import dynamique }
+
     admin.stamps:
         class: Biopen\GeoDirectoryBundle\Admin\StampAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Stamp, '' ]
@@ -51,11 +57,7 @@ services:
         class: Biopen\GeoDirectoryBundle\Admin\SourceAdmin
         arguments: [~, Biopen\GeoDirectoryBundle\Document\Source, '' ]
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Source }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Hide", label: Source }
 
-    admin.source_external:
-        class: Biopen\GeoDirectoryBundle\Admin\SourceExternalAdmin
-        arguments: [~, Biopen\GeoDirectoryBundle\Document\SourceExternal, 'BiopenGeoDirectoryBundle:Admin/SourceExternalAdmin' ]
-        tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "data", label: Source Externe }
+    
 

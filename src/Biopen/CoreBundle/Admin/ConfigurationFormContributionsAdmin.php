@@ -31,7 +31,7 @@ class ConfigurationFormContributionsAdmin extends AbstractAdmin
                 ->with('Configuration du formulaire', array('description' => "Texte d'aide à rédiger"))
                     ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-builder'])) 
                 ->end()
-                ->with('Contenus', array('class' => 'col-md-12'))                    
+                ->with('Autres textes et options', array('class' => 'col-md-12'))                    
                     ->add('elementFormIntroText', 'textarea'  , 
                         array('required' => false,
                               'label' => "Texte d'introduction qui apparait en haut du formulaire"))
