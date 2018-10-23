@@ -190,7 +190,7 @@ class Element
      *
      * @MongoDB\Field(type="hash")
      */
-    private $data; 
+    private $data = []; 
 
     /**
      * @var string
@@ -468,11 +468,12 @@ class Element
         $baseJson = json_encode($this);
         $baseJson = substr($baseJson , 0, -1); // remove last '}'
 
-        if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson();   
+        if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson(); 
+        if ($this->address)   $baseJson .= ', "email":'    . json_encode($this->email);  
         if ($this->openHours) $baseJson .= ', "openHours": ' . $this->openHours->toJson(); 
         
         $baseJson .= ', "createdAt":"'    . date_format($this->createdAt,"d/m/Y") . '"';
-        $baseJson .= ', "updatedAt":"'    . date_format($this->updatedAt,"d/m/Y") . '"';
+        $baseJson .= ', "updatedAt":"'    . date_format($this->updatedAt ? $this->updatedAt : $this->createdAt,"d/m/Y") . '"';
 
         $sortedOptionsValues = $this->getSortedOptionsValues();
         $optValuesLength = count($sortedOptionsValues);
