@@ -12,3 +12,9 @@ services:
     jms_serializer.expression_evaluator:
         class: 'JMS\Serializer\Expression\ExpressionEvaluator'
         arguments : ['@jms_serializer.expression_language']
+
+    app.twig_extension:
+        class: Application\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }
