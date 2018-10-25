@@ -11,6 +11,9 @@ class ConfigurationInfobar
     protected $width = null;
 
     /** @MongoDB\Field(type="string") */
+    protected $headerTemplate = null;
+
+    /** @MongoDB\Field(type="string") */
     protected $bodyTemplate = null;
 
 
@@ -56,5 +59,27 @@ class ConfigurationInfobar
     public function getBodyTemplate()
     {
         return $this->bodyTemplate;
+    }
+
+    /**
+     * Set headerTemplate
+     *
+     * @param string $headerTemplate
+     * @return $this
+     */
+    public function setHeaderTemplate($headerTemplate)
+    {
+        $this->headerTemplate = $headerTemplate;
+        return $this;
+    }
+
+    /**
+     * Get headerTemplate
+     *
+     * @return string $headerTemplate
+     */
+    public function getHeaderTemplate()
+    {
+        return $this->headerTemplate;
     }
 }

@@ -103,6 +103,9 @@
             infobar:
             {
                 width: {{ config.infobar.width ? config.menu.width : 'undefined' }},
+                headerTemplate: {
+                    content: {{ config.infobar.headerTemplate ? config.infobar.headerTemplate | json_encode | raw : 'undefined' }}
+                },
                 bodyTemplate: {
                     content: {{ config.infobar.bodyTemplate ? config.infobar.bodyTemplate | json_encode | raw : 'undefined' }}
                 }
