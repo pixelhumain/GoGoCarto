@@ -1,0 +1,77 @@
+{# put this hidden input otherwise the elementFomFieldJson is overwritten with blank string #}
+<input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" />
+
+<h3>Liste des champs disponibles</h3>
+{% set fields = value|json_decode %}
+
+{% set filterFromType = {
+  'taxonomy': 'taxonomy',
+  'email': 'email',
+  'checkbox': '',
+  'checkbox-group': 'tags',
+  'radio-group': '',
+  'select': '',
+  'date': '',
+  'number': '',
+  'title': 'text',
+  'text': 'text',
+  'textarea': 'textarea',
+  'address': 'taxonomy',
+  'openhours': 'openhours',
+  'separator': 'separator',
+  'header': 'header'
+}
+%}
+<table style="width:100%;margin-bottom: 20px;">
+  <tr>
+    <th>Nom du champ</th>
+    <th>Type</th>
+    <th>Label dans le formulaire</th>
+    <th>Exemple de filtre à utiliser</th>
+  </tr>  
+
+  {% for field in fields %}    
+    {% set gogoFilter = filterFromType[field.type] %}
+    {% if field.type == 'text' %}{% set gogoFilter = field.subtype %}{% endif %}
+    {% set gogoFilter = gogoFilter ? ('|gogo_' ~ gogoFilter) : '' %}
+    
+    {% if field.type == "header" %}
+      {% set fieldTag = '## ' ~ field.label %}
+    {% elseif field.type == "separator" %}
+      {% set fieldTag = '________________________________' %}
+    {% else %}
+      {% set fieldTag = '{{ ' ~ field.name ~ gogoFilter ~ ' }}' %}
+    {% endif %}    
+    
+    <tr {% if field.type in ["separator", "header"] %}style="display:none"{% endif %}>
+      <td>{{ field.name is defined ? field.name : '' }}</td>
+      <td>{{ field.type|capitalize }}</td>
+      <td>{{ field.label }}</td>        
+      <td class="value">{{ fieldTag }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<h2>
+  Contenu de la fiche détail
+  <span class="btn btn-sm btn-primary" id="generate-body-template" onclick="generateBodyTemplate()">Générer automatiquement le contenu de la fiche détail</span>
+</h2>
+
+<style>
+  td, th {
+    padding: 5px;
+    border: 1px solid #dadada;
+  }
+  th { background-color: #f1f1f1; }
+  #generate-body-template { float: right; }
+</style>
+
+<script>
+  function generateBodyTemplate() {
+    var template = ""
+    $('td.value').each(function() {
+      template += $(this).text() + '\n';
+    })
+    $('textarea.body-template').text(template);
+  }
+</script>

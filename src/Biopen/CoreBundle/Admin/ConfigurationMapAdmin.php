@@ -99,10 +99,13 @@ class ConfigurationMapAdmin extends AbstractAdmin
             ->end()
             ->tab('Fiche détail')
                 ->with("Contenu de la Fiche détail (panneau qui s'affiche lors d'un click sur un marker)",
-                        ["description" => ""])
+                        ["description" => "Vous pouvez utiliser <a href='https://guides.github.com/features/mastering-markdown/#syntax'>la syntaxe mardown</a> et <a href='https://mozilla.github.io/nunjucks/'>la syntaxe nunjucks (pour des utilisations avancée)</a>
+                        <p>Pour afficher la valeur d'un champ de votre formulaire (voir liste des champs ci-arpès) utilisez une double accolades <b>{{ nom_de_mon_champ }}</b>. Vous pouvez également choisir de formatter votre champ avec un filtre en utilisant le symbole <b>|</b> suivi du nom du filtre. Par example, pour afficher un champ en majuscule on pourra faire <b>{{ nom_de_mon_champ|upper }}</b>. Des filtres spéciaux pour gogocarto ont été créés, ils permettent d'afficher simplement certains type de champ. Par example, pour un champ de description longue, on pourra utiliser <b>{{ nom_de_mon_champ_description_longue|gogo_textarea(truncate = 300) }}</b>. Cela coupera la description aux environs de 300 caractères et affichera un petit bouton pour afficher la description entière.<p>
+                        <p>Consultez la liste des <a href='https://mozilla.github.io/nunjucks/templating.html#builtin-filters'>filtres nunjucks ici</a>. La liste des filtres de gogocarto n'est pas encore documentée</p>"])
+                    ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-fields'])) 
                     ->add('infobar.bodyTemplate', 'textarea', array(
                         'required' => false,
-                        'attr' => ['rows' => '20'],
+                        'attr' => ['rows' => '20', 'class' => 'body-template'],
                         'label_attr'=> ['style'=> 'display:none']
                     ))
                     ->add('infobar.width', 'number', array('label' => "Largeur de la fiche détail", 'required' => false))    

@@ -21,7 +21,7 @@ use Knp\Menu\ItemInterface;
 class OptionAdmin extends AbstractAdmin
 {
    protected $baseRouteName = 'admin_biopen_geodirectory_option';
-	protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
+protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
 
    public function createQuery($context = 'list')
 	{

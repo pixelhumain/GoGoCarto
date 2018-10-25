@@ -95,7 +95,7 @@
 
       setInterval(function() {
         $('.fld-name').each(function() { 
-          $(this).val($(this).val().replace(/[^a-z^A-Z^_]/g, '_'));
+          $(this).val($(this).val().replace(/[^a-z^A-Z^_^0-9]/g, '_'));
         });
         $('#{{ form.vars.id }}').val(JSON.stringify(formBuilder.actions.getData()));
       }, 300);

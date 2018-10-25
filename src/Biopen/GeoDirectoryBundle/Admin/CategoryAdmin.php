@@ -20,7 +20,7 @@ use Knp\Menu\ItemInterface;
 
 class CategoryAdmin extends AbstractAdmin
 {
-   protected $baseRouteName = 'admin_biopen_geodirectory_category';
+  protected $baseRouteName = 'admin_biopen_geodirectory_category';
 	protected $baseRoutePattern = 'admin_biopen_geodirectory_category';
 
    public function createQuery($context = 'list')

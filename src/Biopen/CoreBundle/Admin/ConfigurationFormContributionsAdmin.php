@@ -28,7 +28,10 @@ class ConfigurationFormContributionsAdmin extends AbstractAdmin
         $featureFormTypeOption = ['edit' => 'inline'];
         $formMapper
             ->tab('Formulaire dajout')  
-                ->with('Configuration du formulaire', array('description' => "Texte d'aide à rédiger"))
+                ->with('Configuration du formulaire', array('description' => "Choisissez ici quels champs constituent un élement de votre base de donnée. 
+                    <li>Choisissez bien l'attribut <b>Nom (unique)</b>, avec une valeur compréhensible.</li>
+                    <li>Certains champs sont obligatoires (categories, titre, adresse). </li>
+                    <li>Le champ <b>Email principal</b> sera utilisé pour envoyer des emails à l'élément référencé, pour lui indiquer qu'il a bien été ajouté sur le site, qu'il a été supprimé etc.. C'est donc un champ conseillé si vous souhaitez mettre en place ce genre de communications.</li>"))
                     ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-builder'])) 
                 ->end()
                 ->with('Autres textes et options', array('class' => 'col-md-12'))                    
