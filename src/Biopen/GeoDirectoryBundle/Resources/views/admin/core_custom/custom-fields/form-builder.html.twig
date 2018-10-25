@@ -88,7 +88,7 @@
         disableFields: ['hidden', 'file', 'button', 'autocomplete', 'title', 'taxonomy', 'address'],
         controlOrder: ['text', 'email', 'textarea', 'checkbox', 'checkbox-group', 'radio-group', 'select', 'date', 'number'],
         disabledAttrs: ['className', 'inline', 'toggle', 'description', 'other', 'multiple'],
-        formData: '{{ formData|raw }}',
+        formData: {{ formData|json_encode|raw }},
         roles: { 1: "Administrateur" },
         typeUserAttrs: typeUserAttrs
       });
