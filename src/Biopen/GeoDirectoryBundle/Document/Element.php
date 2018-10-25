@@ -473,7 +473,9 @@ class Element
         if ($this->openHours) $baseJson .= ', "openHours": ' . $this->openHours->toJson(); 
         
         $baseJson .= ', "createdAt":"'    . date_format($this->createdAt,"d/m/Y") . '"';
-        $baseJson .= ', "updatedAt":"'    . date_format($this->updatedAt ? $this->updatedAt : $this->createdAt,"d/m/Y") . '"';
+        $updatedAt = $this->updatedAt ? $this->updatedAt : $this->createdAt;
+        $updatedAtFormated = gettype($updatedAt) == "integer" ? date("d/m/Y", $updatedAt) : date_format($updatedAt,"d/m/Y");
+        $baseJson .= ', "updatedAt":"'    . $updatedAtFormated . '"';
 
         $sortedOptionsValues = $this->getSortedOptionsValues();
         $optValuesLength = count($sortedOptionsValues);

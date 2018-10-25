@@ -27,6 +27,12 @@ jQuery(document).ready(function()
 
 	$('.tooltipped').tooltip();
 
+  // fix problem on textarea initialisation
+  $('.materialize-textarea').each(function() {
+    $(this).val($(this).attr('value'));
+    $(this).trigger('autoresize');
+  });
+
 	// ---------------
 	// LISTENERS
 	// ---------------

@@ -16,7 +16,7 @@
   'title': 'text',
   'text': 'text',
   'textarea': 'textarea',
-  'address': 'taxonomy',
+  'address': 'text',
   'openhours': 'openhours',
   'separator': 'separator',
   'header': 'header'
@@ -34,17 +34,23 @@
     {% set gogoFilter = filterFromType[field.type] %}
     {% if field.type == 'text' %}{% set gogoFilter = field.subtype %}{% endif %}
     {% set gogoFilter = gogoFilter ? ('|gogo_' ~ gogoFilter) : '' %}
+
+    {% set fieldName = field.name is defined ? field.name : '' %}
+    {% if field.type == 'address' %}{% set fieldName = "address" %}{% endif %}
+    {% if field.type == 'openhours' %}{% set fieldName = "formatedOpenHours" %}{% endif %}
     
     {% if field.type == "header" %}
       {% set fieldTag = '## ' ~ field.label %}
     {% elseif field.type == "separator" %}
       {% set fieldTag = '________________________________' %}
     {% else %}
-      {% set fieldTag = '{{ ' ~ field.name ~ gogoFilter ~ ' }}' %}
-    {% endif %}    
+      {% set fieldTag = '{{ ' ~ fieldName ~ gogoFilter ~ ' }}' %}
+    {% endif %}  
+
+    
     
     <tr {% if field.type in ["separator", "header"] %}style="display:none"{% endif %}>
-      <td>{{ field.name is defined ? field.name : '' }}</td>
+      <td>{{ fieldName }}</td>
       <td>{{ field.type|capitalize }}</td>
       <td>{{ field.label }}</td>        
       <td class="value">{{ fieldTag }}</td>
