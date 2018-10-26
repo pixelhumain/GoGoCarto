@@ -26,20 +26,29 @@ class ConfigurationMapAdmin extends AbstractAdmin
         $mailStyle = array('class' => 'col-md-12 col-lg-6');
         $featureFormOption = ['delete' => false, 'required'=> false, 'label_attr'=> ['style'=> 'display:none']];
         $featureFormTypeOption = ['edit' => 'inline'];
+        $container = $this->getConfigurationPool()->getContainer(); 
+        $em = $container->get('doctrine_mongodb')->getManager();
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+
         $formMapper
             ->tab('Paramètres de la carte')  
-                ->with('Map', array('class' => 'col-md-6'))
+                ->with('Map')
                     ->add('defaultTileLayer', 'sonata_type_model', array(
                             'class'=> 'Biopen\CoreBundle\Document\TileLayer', 
                             'required' => true, 
                             'choices_as_values' => true,
-                            'label' => 'Fond de carte par défaut'))
-                    ->add('defaultNorthEastBoundsLat')
-                    ->add('defaultNorthEastBoundsLng')
-                    ->add('defaultSouthWestBoundsLat')
-                    ->add('defaultSouthWestBoundsLng')
+                            'label' => 'Fond de carte par défaut (enregistez pour voir apparaitre le fond délectionné sur la carte ci-dessous)'))
+                    ->add('defaultViewPicker', 'hidden', array('mapped' => false, 'attr' => [
+                                                        'class' => 'gogo-viewport-picker', 
+                                                        'data-title-layer' => $config->getDefaultTileLayer()->getUrl(),
+                                                        'data-default-bounds' => json_encode($config->getDefaultBounds())
+                                                    ]))
+                    ->add('defaultNorthEastBoundsLat', 'hidden', ['attr' => ['class' => 'bounds NELat']])
+                    ->add('defaultNorthEastBoundsLng', 'hidden', ['attr' => ['class' => 'bounds NELng']])
+                    ->add('defaultSouthWestBoundsLat', 'hidden', ['attr' => ['class' => 'bounds SWLat']])
+                    ->add('defaultSouthWestBoundsLng', 'hidden', ['attr' => ['class' => 'bounds SWLng']])
                 ->end()
-                ->with('Cookies', array('class' => 'col-md-6'))
+                ->with('Cookies')
                     ->add('saveViewportInCookies', 'checkbox', array('label' => "Sauvegarder la position courante de la carte dans les cookies", 'required' => false))
                     ->add('saveTileLayerInCookies', 'checkbox', array('label' => "Sauvegarder le choix du fond de carte dans les cookies", 'required' => false))
                 ->end()

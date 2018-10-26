@@ -18,6 +18,8 @@
       {% include '@BiopenAdmin/core_custom/custom-fields/form-builder.html.twig' %}
     {% elseif attr.class == "gogo-form-fields" %}
       {% include '@BiopenAdmin/partials/show_element_form_fields.html.twig' %}
+    {% elseif attr.class == "gogo-viewport-picker" %}
+      {% include '@BiopenAdmin/core_custom/custom-fields/viewport-picker.html.twig' %}
     {% else %}      
       {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
       {{ parent() }}

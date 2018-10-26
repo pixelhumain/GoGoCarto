@@ -1,0 +1,59 @@
+<label>Vue par défault de la carte (dessinez un rectangle sur la carte)</label>
+<div id="map-bounds-select"></div>
+
+<script>
+  jQuery(document).ready(function() {
+
+
+    map = L.map('map-bounds-select', {editable: true});
+    L.tileLayer("{{ form.vars.attr['data-title-layer'] }}").addTo(map);
+    map.fitBounds({{ form.vars.attr['data-default-bounds'] | raw }});
+
+    // Start drawing rectangle
+    map.editTools.startRectangle();
+
+    shades = new L.LeafletShades();
+    shades.addTo(map); 
+
+    shades.on('shades:bounds-changed', function(event) {
+      bounds = event.bounds;
+      console.log("bounds changed");
+      var digits = 5;
+      
+      $('.bounds.SWLat').val(L.Util.formatNum(bounds.getSouthWest().lat, digits));
+      $('.bounds.SWLng').val(L.Util.formatNum(bounds.getSouthWest().lng, digits));
+      $('.bounds.NELat').val(L.Util.formatNum(bounds.getNorthEast().lat, digits));
+      $('.bounds.NELng').val(L.Util.formatNum(bounds.getNorthEast().lng, digits));
+    });
+  });
+</script>
+<style>
+  .leaflet-areaselect-shade {
+    position: absolute;
+    background: rgba(0,0,0,0.4);
+    z-index: 400;
+  }
+
+  .leaflet-interactive.leaflet-path-draggable {
+    fill: transparent !important;
+  }
+
+  #map-bounds-select {
+    height: 400px;
+    margin-top: 1.5rem;
+    border-radius: 2px;
+    z-index: 500;
+  }
+
+  a.leaflet-control-zoom-in {
+      font-size: 18px !important;
+      color: #3d3d3d;
+  }
+
+  a.leaflet-control-zoom-out {
+      font-size: 25px! important;
+      font-weight: normal;
+      color: #3d3d3d;
+      text-indent: 0;
+  }
+</style>
