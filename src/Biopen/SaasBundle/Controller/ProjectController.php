@@ -52,7 +52,6 @@ class ProjectController extends AbstractSaasController
 
         if ($projectForm->handleRequest($request)->isValid())
         {
-            // "/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)/"
             $odm = $this->get('doctrine_mongodb')->getManager();
             $odm->persist($project);  
 
@@ -144,7 +143,9 @@ class ProjectController extends AbstractSaasController
             $user->setRoles(array('ROLE_SUPER_ADMIN','ROLE_ADMIN', 'ROLE_SONATA_ADMIN'));
             $userManager->updateUser($user, true);  
 
-            $this->get('session')->getFlashBag()->add('success', 'Administrateur créé !');
+            $this->get('session')->getFlashBag()->add('success', "<b>Bienvenue dans votre espace Administrateur !</b></br>
+                L'aventure commence tout juste pour vous, il vous faut maintenant commencer à configurer votre site :)</br>
+                Commencez par la <b>Configuration</b> dans le menu de gauche. Plusieurs pages sont disponibles (attention la plupart ont des onglets!). La documentation manque encore, alors si vous avez des questions rendez vous sur <a target='_blank' href='https://chat.lescommuns.org/channel/gogocarto'>le chat #gogocarto</a> !");
             $response = $this->redirectToRoute('sonata_admin_dashboard');                      
 
             $this->authenticateUser($user, $response);
