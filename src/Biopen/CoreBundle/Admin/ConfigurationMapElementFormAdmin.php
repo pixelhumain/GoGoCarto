@@ -41,7 +41,7 @@ class ConfigurationMapElementFormAdmin extends AbstractAdmin
                     'attr' => ['rows' => '20', 'class' => 'body-template'],
                     'label' => 'Corps de la fiche (body)'
                 ))
-                ->add('infobar.width', 'number', array('label' => "Largeur de la fiche détail", 'required' => false))    
+                ->add('infobar.width', 'number', array('label' => "Largeur de la fiche détail (en pixels, par défaut : 540)", 'required' => false))    
             ->end()
             ->with("Masquer l'email de contact en la remplacant par un bouton \"Envoyer un email\"", 
                     ["description" => "<i>Cela permet par exemple d'éviter que des personnes récupèrent tous les emails pour des fin commerciales</i>"])
