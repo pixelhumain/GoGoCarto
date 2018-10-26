@@ -8,7 +8,7 @@ use Biopen\CoreBundle\Document\ConfImage;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationMenu;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar;
-
+use Biopen\CoreBundle\Document\Configuration\ConfigurationApi;
 
 /**
  * Main Configuration
@@ -403,6 +403,13 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $customDashboard = '';
 
+    // -------------------------
+    // --------- API -----------
+    // ------------------------- 
+
+    /** @MongoDB\EmbedOne(targetDocument="Biopen\CoreBundle\Document\Configuration\ConfigurationApi") */
+    protected $api;
+
     
     public function __toString() 
     {
@@ -444,6 +451,7 @@ class Configuration
         $this->user = new ConfigurationUser();
         $this->menu = new ConfigurationMenu();
         $this->infobar = new ConfigurationInfobar();
+        $this->api = new ConfigurationApi();
     }
 
     /**
@@ -2815,5 +2823,28 @@ class Configuration
     public function getSearchElementsFeature()
     {
         return $this->searchElementsFeature;
+    }
+
+    /**
+     * Set api
+     *
+     * @param Biopen\CoreBundle\Document\Configuration\ConfigurationApi $api
+     * @return $this
+     */
+    public function setApi(\Biopen\CoreBundle\Document\Configuration\ConfigurationApi $api)
+    {
+        $this->api = $api;
+        return $this;
+    }
+
+    /**
+     * Get api
+     *
+     * @return Biopen\CoreBundle\Document\Configuration\ConfigurationApi $api
+     */
+    public function getApi()
+    {
+        if(!$this->api) $this->api = new ConfigurationApi();
+        return $this->api;
     }
 }

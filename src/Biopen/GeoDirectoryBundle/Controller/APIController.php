@@ -48,24 +48,34 @@ class APIController extends GoGoController
     $token = $request->get('token');
     $ontology = $request->get('ontology') ? strtolower($request->get('ontology')) : "gogofull";
     $fullRepresentation =  $jsonLdRequest || $ontology != "gogocompact";
-    $elementId = $id ? $id : $request->get('id');       
-    
+    $elementId = $id ? $id : $request->get('id');     
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+    $protectWithToken = $config->getApi()->getProtectPublicApiWithToken();
+    $apiUiUrl = $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
     // allow ajax request from same host
-    if ($request->isXmlHttpRequest() && $this->requestFromSameHost($request))
+    if ($request->isXmlHttpRequest())
     {
       $isAdmin = $this->isUserAdmin();
-      $includeContact = true;
+      $includePrivateFields = true;
     }
-    else if ($token) // otherwise API is protected by user token 
+    else if (!$protectWithToken || $token) // otherwise API is protected by user token 
     {
-      $user = $em->getRepository('BiopenCoreBundle:User')->findOneByToken($token);
-      if (!$user) return new Response("The token you provided does not correspond to any existing user. Please visit " . $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL)); 
+      if ($protectWithToken)
+      {
+        $user = $em->getRepository('BiopenCoreBundle:User')->findOneByToken($token);
+        if (!$user) {
+          $response = "The token you provided does not correspond to any existing user. Please visit " . $apiUiUrl; 
+          return $this->createResponse($response, $config);
+        }
+      }
       $isAdmin = false;
-      $includeContact = false;
+      $includePrivateFields = false;
     } 
     else
     {      
-      return new Response("You need to provide a token to access to this API. Please visit " . $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL)); 
+      $response = "You need to provide a token to access to this API. Please visit " . $apiUiUrl; 
+      return $this->createResponse($response, $config);
     }    
 
     $elementRepo = $em->getRepository('BiopenGeoDirectoryBundle:Element');   
@@ -73,7 +83,7 @@ class APIController extends GoGoController
     if ($elementId) 
     {
       $element = $elementRepo->findOneBy(array('id' => $elementId));
-      $elementsJson = $element->getJson($includeContact, $isAdmin);
+      $elementsJson = $element->getJson($includePrivateFields, $isAdmin);
     }
     else 
     {
@@ -92,7 +102,7 @@ class APIController extends GoGoController
       {
         $elementsFromDB = $elementRepo->findAllPublics($fullRepresentation, $isAdmin, $request);
       }  
-      $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin, $includeContact);        
+      $elementsJson = $this->encodeElementArrayToJsonArray($elementsFromDB, $fullRepresentation, $isAdmin, $includePrivateFields);        
     }   
 
     if ($jsonLdRequest)
@@ -114,10 +124,8 @@ class APIController extends GoGoController
     // $responseSize = strlen($elementsJson);
     // $date = date('d/m/Y'); 
     
-    $result = new Response($responseJson);    
-    $result->headers->set('Content-Type', 'application/json');
-    return $result;
-  }  
+    return $this->createResponse($responseJson, $config);
+  }    
 
   public function getTaxonomyAction(Request $request, $id = null, $_format = 'json')
   {
@@ -138,7 +146,6 @@ class APIController extends GoGoController
     {
       $dataJson = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy')->findTaxonomyJson($jsonLdRequest);
     }    
-    
 
     if ($jsonLdRequest)
       $responseJson = '{
@@ -148,9 +155,8 @@ class APIController extends GoGoController
     else
       $responseJson = $dataJson;
 
-    $response = new Response($responseJson);  
-    $response->headers->set('Content-Type', 'application/json');
-    return $response;
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+    return $this->createResponse($responseJson, $config);
   }
 
   private function isJsonLdRequest($request, $_format)
@@ -158,10 +164,13 @@ class APIController extends GoGoController
     return $_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json';
   }
 
-  private function requestFromSameHost($request)
+  private function createResponse($text, $config)
   {
-    if (!(isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER']))) return false;
-    return strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) == strtolower($_SERVER['HTTP_HOST']);
+    $response = new Response($text);
+    if ($config->getApi()->getInternalApiAuthorizedDomains())
+      $response->headers->set('Access-Control-Allow-Origin', $config->getApi()->getInternalApiAuthorizedDomains());
+    $response->headers->set('Content-Type', 'application/json');
+    return $response;
   }
 
   public function getElementsFromTextAction(Request $request)
@@ -172,42 +181,43 @@ class APIController extends GoGoController
       
       $isAdmin = $this->isUserAdmin();
 
-      $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')
-      ->findElementsWithText($request->get('text'), true, $isAdmin);
-
-      // $elements = array_filter($elements, function($value) {
-      //   return (float) $value['score'] >= 0;
-      // });
+      $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findElementsWithText($request->get('text'), true, $isAdmin);
 
       $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin, true);
       $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
       
-      $response = new Response($responseJson);  
-      $response->headers->set('Content-Type', 'application/json');
-      return $response;
+      $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+      return $this->createResponse($responseJson, $config);
     }
-    else 
-    {
-      return new Response("Access to the API is restricted and not allowed via the browser");
-    }
+    else { return new Response("Access to the API is restricted and not allowed via the browser"); }
   }
 
   public function apiUiAction()
   {        
     $em = $this->get('doctrine_mongodb')->getManager();
-    $options = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+    $protectPublicApiWithToken = $config->getApi()->getProtectPublicApiWithToken();
 
-    $user = $this->get('security.context')->getToken()->getUser();
-    if (!$user->getToken()) 
-    {
-      $user->createToken();
-      $em->flush();
+    $securityContext = $this->get('security.context');
+    $userLoggued = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED');
+
+    if ($protectPublicApiWithToken && !$userLoggued) {
+      $this->getRequest()->getSession()->set('_security.main.target_path', 'api');
+      return $this->redirectToRoute('fos_user_security_login');
     }
 
+    if ($protectPublicApiWithToken)
+    {
+      $user = $securityContext->getToken()->getUser();
+      if (!$user->getToken()) { $user->createToken(); $em->flush(); }
+    }
+
+    $options = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
     return $this->render('BiopenGeoDirectoryBundle:api:api-ui.html.twig', array('options' => $options));        
   }
 
-  public function getManifestAction() {
+  public function getManifestAction() 
+  {
     $em = $this->get('doctrine_mongodb')->getManager();
     $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
     $img = $config->getFavicon() ? $config->getFavicon() : $config->getLogo();
@@ -229,9 +239,9 @@ class APIController extends GoGoController
       "background_color" => $config->getBackgroundColor(),
       "icons" => [
         [
-            "src" => $imgUrl,
-            "sizes" => $imageData->height().'x'.$imageData->width(),
-            "type" => $imageData->mime()
+          "src" => $imgUrl,
+          "sizes" => $imageData->height().'x'.$imageData->width(),
+          "type" => $imageData->mime()
         ]
       ]
     );
@@ -249,11 +259,10 @@ class APIController extends GoGoController
       $isAdmin = $user && $user->isAdmin();
       return $isAdmin;
     }
-    return false;
-    
+    return false;    
   }
 
-  private function encodeElementArrayToJsonArray($array, $fullRepresentation, $isAdmin = false, $includeContact = false)
+  private function encodeElementArrayToJsonArray($array, $fullRepresentation, $isAdmin = false, $includePrivateFields = false)
   {
     $elementsJson = '['; 
     foreach ($array as $key => $value) 
@@ -261,7 +270,7 @@ class APIController extends GoGoController
       if ($fullRepresentation == 'true') 
       {
         $elementJson = $value['baseJson']; 
-        if ($includeContact && $value['privateJson'] != '{}') {
+        if ($includePrivateFields && $value['privateJson'] != '{}') {
           $elementJson = substr($elementJson , 0, -1) . ',' . substr($value['privateJson'],1);
         }
         if ($isAdmin && $value['adminJson'] != '{}') {

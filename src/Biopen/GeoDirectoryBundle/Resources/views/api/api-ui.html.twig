@@ -76,7 +76,7 @@
     var defaultBounds = {{ config.getDefaultBounds | json_encode | raw }}
 
     var apiUrlBase = "{{ url('biopen_api_elements_index') }}";
-    var userToken = "{{ app.user.token }}";
+    var userToken = "{{ config.api.protectPublicApiWithToken ? app.user.token : null }}";
   </script>
 {% endblock %}  
 

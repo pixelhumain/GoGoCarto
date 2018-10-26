@@ -62,6 +62,12 @@ class ConfigurationAdmin extends AbstractAdmin
                 ->with("Entrez du code du code HTML (iframe par exemple) qui sera affichée sur la page d'accueil de l'interface admin")
                     ->add('customDashboard', 'textarea', array('label' => 'Custom HTML code', 'attr' => ['rows' => '15'], 'required' => false)) 
                 ->end()
+            ->end()
+            ->tab('API')
+                ->with("Configurer les API (Utilisateurs avancés)")
+                    ->add('api.protectPublicApiWithToken', 'checkbox', array('label' => "Protéger l'api publique avec des jetons utilisateurs (i.e. besoin de créer un compte pour utiliser l'api publique)", 'required' => false)) 
+                    ->add('api.internalApiAuthorizedDomains', 'text', array('label' => "Liste des domaines externe qui utiliseront l'API interne. Mettez * si vous voulez que n'importe quel domaine puisse y avoir accès. Cette option est nécessaire si vous voulez afficher vos données avec GoGoCartoJs mais sur un autre serveur.", 'required' => false)) 
+                ->end()
             ->end();
     }
 }

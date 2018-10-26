@@ -465,21 +465,23 @@ class Element
         if (!$this->geo) { return; }
 
         // -------------------- FULL JSON ----------------
+        
+        // BASIC FIELDS
         $baseJson = json_encode($this);
         $baseJson = substr($baseJson , 0, -1); // remove last '}'
-
-        if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson(); 
-        if ($this->address)   $baseJson .= ', "email":'    . json_encode($this->email);  
+        if ($this->address)   $baseJson .= ', "address":'    . $this->address->toJson();         
         if ($this->openHours) $baseJson .= ', "openHours": ' . $this->openHours->toJson(); 
         
+        // CREATED AT, UPDATED AT
         $baseJson .= ', "createdAt":"'    . date_format($this->createdAt,"d/m/Y") . '"';
         $updatedAt = $this->updatedAt ? $this->updatedAt : $this->createdAt;
         $updatedAtFormated = gettype($updatedAt) == "integer" ? date("d/m/Y", $updatedAt) : date_format($updatedAt,"d/m/Y");
         $baseJson .= ', "updatedAt":"'    . $updatedAtFormated . '"';
 
+        // OPTIONS VALUES (= TAXONOMY)
         $sortedOptionsValues = $this->getSortedOptionsValues();
         $optValuesLength = count($sortedOptionsValues);
-        // OPTIONS VALUES IDS
+        // Options values ids
         $baseJson .= ', "categories": [';
         if ($sortedOptionsValues)
         {            
@@ -489,17 +491,7 @@ class Element
         }
         $baseJson = rtrim($baseJson, ',');
         $baseJson .= '],';
-
-        foreach ($this->getData() as $key => $value) {
-            $baseJson .= '"'. $key .'": ' . json_encode($value) . ',';
-        }
-  
-        $baseJson .= $this->encodeArrayObjectToJson("stamps", $this->stamps);
-        $baseJson .= $this->encodeArrayObjectToJson("images", $this->images);
-
-        $baseJson = rtrim($baseJson, ','); 
-
-        // OPTIONS VALUES WITH DESCRIPTIONS        
+        // Options values with descriptionO      
         $optionDescriptionsJson = [];
         if ($sortedOptionsValues)
         {            
@@ -507,8 +499,19 @@ class Element
                 if ($sortedOptionsValues[$i]->getDescription()) $optionDescriptionsJson[] =  $sortedOptionsValues[$i]->toJson();
             }
         }
-        if (count($optionDescriptionsJson)) $baseJson .= ', "categoriesDescriptions": [' . implode(",", $optionDescriptionsJson) . ']';
+        if (count($optionDescriptionsJson)) $baseJson .= '"categoriesDescriptions": [' . implode(",", $optionDescriptionsJson) . '],';
 
+        // CUSTOM DATA
+        foreach ($this->getData() as $key => $value) {
+            $baseJson .= '"'. $key .'": ' . json_encode($value) . ',';
+        }
+        
+        // SPECIFIC DATA
+        $baseJson .= $this->encodeArrayObjectToJson("stamps", $this->stamps);
+        $baseJson .= $this->encodeArrayObjectToJson("images", $this->images);
+        $baseJson = rtrim($baseJson, ',');         
+
+        // MODIFIED ELEMENT (for pending modification)
         if ($this->getModifiedElement()) {
             $baseJson .= ', "modifiedElement": ' . $this->getModifiedElement()->getJson(true, false);
         }
@@ -517,17 +520,18 @@ class Element
         $this->setBaseJson($baseJson);
 
 
-        // -------------------- PRIVATE -------------------------
+        // -------------------- PRIVATE JSON -------------------------
         $privateJson = '{';        
         // status
         $privateJson .= '"status": ' . $this->getStatus() . ',';
+        if ($this->email) $privateJson .= '"email":' . json_encode($this->email) . ',';
         $privateJson .= '"moderationState": ' . $this->getModerationState() . ',';
         $privateJson = rtrim($privateJson, ',');
         $privateJson .= '}';
         $this->setPrivateJson($privateJson);
 
 
-        // -------------------- REPORTS & CONTRIBUTIONS -------------------------
+        // ---------------- ADMIN JSON = REPORTS & CONTRIBUTIONS ---------------------
         $adminJson = '{';
         if ($this->status != ElementStatus::ModifiedPendingVersion)
         {
@@ -540,7 +544,8 @@ class Element
             $adminJson = rtrim($adminJson, ',');
         }
         $adminJson .= '}';
-        $this->setAdminJson($adminJson);         
+        $this->setAdminJson($adminJson);    
+
 
         // -------------------- COMPACT JSON ----------------
         $compactJson = '["'.$this->id . '",' . json_encode($this->name) . ',';
@@ -561,12 +566,12 @@ class Element
         $this->setCompactJson($compactJson);
     }
 
-    public function getJson($includeContact, $isAdmin)
+    public function getJson($includePrivateJson, $includeAdminJson)
     {
         $result = $this->baseJson;
-        if ($includeContact && $this->privateJson && $this->privateJson != '{}')
+        if ($includePrivateJson && $this->privateJson && $this->privateJson != '{}')
            $result = substr($result , 0, -1) . ',' . substr($this->privateJson,1);
-        if ($isAdmin && $this->adminJson && $this->adminJson != '{}')
+        if ($includeAdminJson && $this->adminJson && $this->adminJson != '{}')
            $result = substr($result , 0, -1) . ',' . substr($this->adminJson,1);
         return $result;
     }

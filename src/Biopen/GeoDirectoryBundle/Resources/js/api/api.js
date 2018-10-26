@@ -60,7 +60,7 @@ if ($('#page-content.api').length > 0)
     if ($('#use-limit').is(':checked') && $('#limit-input').val() > 0) params.limit = $('#limit-input').val();
     if ($('#use-categories').is(':checked') && $('.select-categories').val()) params.categories = $('.select-categories').val();
     if ($('#use-bounds').is(':checked') && bounds) params.bounds = bounds;  
-    params.token = userToken;
+    if (userToken) params.token = userToken;
 
     url += '.' + $('input[name=format]:checked').data('value');
     var encodedParams = encodeQueryData(params);
