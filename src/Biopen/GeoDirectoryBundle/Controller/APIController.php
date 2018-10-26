@@ -53,13 +53,12 @@ class APIController extends GoGoController
     $protectWithToken = $config->getApi()->getProtectPublicApiWithToken();
     $apiUiUrl = $this->generateUrl('biopen_api_ui', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
-    // allow ajax request from same host
-    if ($request->isXmlHttpRequest())
+    if ($request->isMethod('POST')) // this kind of call is restricted with cross domain headers
     {
       $isAdmin = $this->isUserAdmin();
       $includePrivateFields = true;
     }
-    elseif (!$protectWithToken || $token) // otherwise API is protected by user token 
+    elseif (!$protectWithToken || $token) // otherwise API can be protected by user token 
     {
       if ($protectWithToken)
       {
