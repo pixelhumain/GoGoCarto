@@ -23,11 +23,17 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Formulaire / Contributions }
 
+    admin.map_element_form_config:
+        class: Biopen\CoreBundle\Admin\ConfigurationMapElementFormAdmin
+        arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: La fiche détail }    
+
     admin.style_config:
         class: Biopen\CoreBundle\Admin\ConfigurationStyleAdmin
         arguments: [~, Biopen\CoreBundle\Document\Configuration, 'BiopenCoreBundle:ConfigurationAdmin']
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Style }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Configuration", label: Style / Couleurs }
 
     admin.mail_config:
         class: Biopen\CoreBundle\Admin\ConfigurationMailAdmin

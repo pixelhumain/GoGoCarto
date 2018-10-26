@@ -32,7 +32,7 @@ class ConfigurationMapAdmin extends AbstractAdmin
 
         $formMapper
             ->tab('Paramètres de la carte')  
-                ->with('Map')
+                ->with('La carte')
                     ->add('defaultTileLayer', 'sonata_type_model', array(
                             'class'=> 'Biopen\CoreBundle\Document\TileLayer', 
                             'required' => true, 
@@ -50,7 +50,7 @@ class ConfigurationMapAdmin extends AbstractAdmin
                 ->end()
                 ->with('Cookies')
                     ->add('saveViewportInCookies', 'checkbox', array('label' => "Sauvegarder la position courante de la carte dans les cookies", 'required' => false))
-                    ->add('saveTileLayerInCookies', 'checkbox', array('label' => "Sauvegarder le choix du fond de carte dans les cookies", 'required' => false))
+                    ->add('saveTileLayerInCookies', 'checkbox', array('label' => "Sauvegarder le choix du fond de carte par l'utilisateur dans les cookies", 'required' => false))
                 ->end()
             ->end()
             ->tab('Fonctionalités')  
@@ -106,27 +106,6 @@ class ConfigurationMapAdmin extends AbstractAdmin
                     ->add('menu.showCheckboxForSubFilterPane', 'checkbox', array('label' => "Afficher les checkbox dans les sous peanneux (valable uniquement si \"afficher un sous menu pour chaque option principale\" est coché)", 'required' => false))
                 ->end()
             ->end()
-            ->tab('Fiche détail')
-                ->with("Contenu de la Fiche détail (panneau qui s'affiche lors d'un click sur un marker)",
-                        ["description" => "Vous pouvez utiliser <a href='https://guides.github.com/features/mastering-markdown/#syntax'>la syntaxe mardown</a> et <a href='https://mozilla.github.io/nunjucks/'>la syntaxe nunjucks (pour des utilisations avancée)</a>
-                        <p>Pour afficher la valeur d'un champ de votre formulaire (voir liste des champs ci-arpès) utilisez une double accolades <b>{{ nom_de_mon_champ }}</b>. Vous pouvez également choisir de formatter votre champ avec un filtre en utilisant le symbole <b>|</b> suivi du nom du filtre. Par example, pour afficher un champ en majuscule on pourra faire <b>{{ nom_de_mon_champ|upper }}</b>. Des filtres spéciaux pour gogocarto ont été créés, ils permettent d'afficher simplement certains type de champ. Par example, pour un champ de description longue, on pourra utiliser <b>{{ nom_de_mon_champ_description_longue|gogo_textarea(truncate = 300) }}</b>. Cela coupera la description aux environs de 300 caractères et affichera un petit bouton pour afficher la description entière.<p>
-                        <p>Consultez la liste des <a href='https://mozilla.github.io/nunjucks/templating.html#builtin-filters'>filtres nunjucks ici</a>. La liste des filtres de gogocarto n'est pas encore documentée</p>"])
-                    ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-fields'])) 
-                    ->add('infobar.headerTemplate', 'textarea', array(
-                        'required' => false,
-                        'attr' => ['rows' => '3', 'class' => 'header-template'],
-                        'label' => 'En tête de la fiche (header)'
-                    ))
-                    ->add('infobar.bodyTemplate', 'textarea', array(
-                        'required' => false,
-                        'attr' => ['rows' => '20', 'class' => 'body-template'],
-                        'label' => 'Corps de la fiche (body)'
-                    ))
-                    ->add('infobar.width', 'number', array('label' => "Largeur de la fiche détail", 'required' => false))    
-                ->end()
-                ->with("Masquer l'email de contact en la remplacant par un bouton \"Envoyer un email\"", 
-                        ["description" => "<i>Cela permet par exemple d'éviter que des personnes récupèrent tous les emails pour des fin commerciales</i>"])
-                    ->add('sendMailFeature','sonata_type_admin', $featureFormOption)->end()      
-            ->end();            
+        ;           
     }
 }
