@@ -2,7 +2,7 @@
 
 namespace Biopen\CoreBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Biopen\SaasBundle\Command\GoGoAbstractCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,12 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class CallServiceCommand
  * @package Krlove\AsyncServiceCallBundle\Command
  */
-class CallServiceCommand extends ContainerAwareCommand
+class CallServiceCommand extends GoGoAbstractCommand
 {
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function gogoConfigure()
     {
         $this
             ->setName('krlove:service:call')
@@ -31,14 +31,14 @@ class CallServiceCommand extends ContainerAwareCommand
     /**
      * @inheritdoc
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function gogoExecute($em, InputInterface $input, OutputInterface $output)
     {
         $logger = $this->getContainer()->get('logger');
 
         try {
             $serviceId = $input->getArgument('service');
             $service = $this->getContainer()->get($serviceId);
-
+            $logger->error("execute command");
             $method = $input->getArgument('method');
             if (!method_exists($service, $method)) {
                 throw new InvalidArgumentException(

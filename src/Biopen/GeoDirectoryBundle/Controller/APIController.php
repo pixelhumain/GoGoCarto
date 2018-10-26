@@ -59,7 +59,7 @@ class APIController extends GoGoController
       $isAdmin = $this->isUserAdmin();
       $includePrivateFields = true;
     }
-    else if (!$protectWithToken || $token) // otherwise API is protected by user token 
+    elseif (!$protectWithToken || $token) // otherwise API is protected by user token 
     {
       if ($protectWithToken)
       {

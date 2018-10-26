@@ -58,7 +58,7 @@ class ElementImportService
 												 $import->getParentCategoryToCreateOptions());
   }
 
-  public function importJson($externalSource)
+  public function importJson($externalSource, $onlyGetData = false)
   {
   	$json = file_get_contents($externalSource->getUrl());
     $data = json_decode($json, true);
@@ -88,14 +88,12 @@ class ElementImportService
 			}
 		}
 
-		$this->em->persist($externalSource);
-		$externalSource->setLastRefresh(time());
-    $externalSource->updateNextRefreshDate();    
-    $this->em->flush();
     $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
     $qb->remove()->field('source')->references($externalSource)->getQuery()->execute();
 
-    return $data;
+    if ($onlyGetData) return $data;
+
+    return $this->import($data, $externalSource);
   }
 
 	public function import($data, 
@@ -125,7 +123,6 @@ class ElementImportService
 		{
 			$this->createElementFromArray($element, $source, $geocodeIfNecessary);
 
-			// Each 20 users persisted we flush everything
 			if (($i % $batchSize) === 0)
 			{
 			   $this->em->flush();
@@ -134,6 +131,12 @@ class ElementImportService
 			}
 			$i++;
 		}
+
+		if (get_class($source) == "Biopen\GeoDirectoryBundle\Document\SourceExternal") 
+		{
+			$source->setLastRefresh(time());
+	    $source->updateNextRefreshDate(); 
+		}			   
 
 		// Flushing and clear data on queue
 		$this->em->flush();
