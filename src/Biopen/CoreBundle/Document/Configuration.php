@@ -2667,6 +2667,7 @@ class Configuration
      */
     public function getListModeFeature()
     {
+        if(!$this->listModeFeature) $this->listModeFeature = new FeatureConfiguration();
         return $this->listModeFeature;
     }
 
@@ -2689,6 +2690,7 @@ class Configuration
      */
     public function getSearchPlaceFeature()
     {
+        if(!$this->searchPlaceFeature) $this->searchPlaceFeature = new FeatureConfiguration();
         return $this->searchPlaceFeature;
     }
 
@@ -2711,6 +2713,7 @@ class Configuration
      */
     public function getSearchGeolocateFeature()
     {
+        if(!$this->searchGeolocateFeature) $this->searchGeolocateFeature = new FeatureConfiguration();
         return $this->searchGeolocateFeature;
     }
 
@@ -2733,6 +2736,7 @@ class Configuration
      */
     public function getLayersFeature()
     {
+        if(!$this->layersFeature) $this->layersFeature = new FeatureConfiguration();
         return $this->layersFeature;
     }
 
@@ -2755,6 +2759,7 @@ class Configuration
      */
     public function getMapDefaultViewFeature()
     {
+        if(!$this->mapDefaultViewFeature) $this->mapDefaultViewFeature = new FeatureConfiguration();
         return $this->mapDefaultViewFeature;
     }
 
@@ -2821,6 +2826,7 @@ class Configuration
      */
     public function getSearchElementsFeature()
     {
+        if(!$this->searchElementsFeature) $this->searchElementsFeature = new FeatureConfiguration();
         return $this->searchElementsFeature;
     }
 
