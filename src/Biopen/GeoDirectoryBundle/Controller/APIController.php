@@ -174,21 +174,17 @@ class APIController extends GoGoController
 
   public function getElementsFromTextAction(Request $request)
   {
-    if($request->isXmlHttpRequest())
-    {
-      $em = $this->get('doctrine_mongodb')->getManager();
-      
-      $isAdmin = $this->isUserAdmin();
+    $em = $this->get('doctrine_mongodb')->getManager();
+    
+    $isAdmin = $this->isUserAdmin();
 
-      $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findElementsWithText($request->get('text'), true, $isAdmin);
+    $elements = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findElementsWithText($request->get('text'), true, $isAdmin);
 
-      $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin, true);
-      $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
-      
-      $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
-      return $this->createResponse($responseJson, $config);
-    }
-    else { return new Response("Access to the API is restricted and not allowed via the browser"); }
+    $elementsJson = $this->encodeElementArrayToJsonArray($elements, true, $isAdmin, true);
+    $responseJson = '{ "data":'. $elementsJson . ', "ontology" : "gogofull"}';
+    
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+    return $this->createResponse($responseJson, $config);
   }
 
   public function apiUiAction()
