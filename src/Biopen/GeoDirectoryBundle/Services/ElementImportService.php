@@ -93,7 +93,7 @@ class ElementImportService
 
     if ($onlyGetData) return $data;
 
-    return $this->import($data, $externalSource, false, true);
+    return $this->import($data, $externalSource, true, true);
   }
 
 	public function import($data, 
@@ -163,13 +163,8 @@ class ElementImportService
 		
 		$lat = 0;$lng = 0;
 
-		if (strlen($row['latitude']) > 2 && strlen($row['longitude']) > 2)
+		if (strlen($row['latitude']) == 0 || strlen($row['longitude']) == 0 || $row['latitude'] == 'null' || $row['latitude'] == null)
 		{
-			$lat = $row['latitude'];
-			$lng = $row['longitude'];
-		}
-		else
-		{	      
 			if ($geocodeIfNecessary)
 			{
 				try 
@@ -180,6 +175,11 @@ class ElementImportService
 			   }
 			   catch (\Exception $error) { }    
 			}
+		}
+		else
+		{	      
+			$lat = $row['latitude'];
+			$lng = $row['longitude'];
 		} 
 
 		if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
