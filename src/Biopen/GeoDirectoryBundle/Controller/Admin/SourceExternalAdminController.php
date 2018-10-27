@@ -29,7 +29,7 @@ class SourceExternalAdminController extends Controller
         //     }
         //     else
         //     {
-        //         $result = $this->get('biopen.element_import')->import($dataToImport, $object);
+        //         $result = $this->get('biopen.element_import')->import($dataToImport, $object, false, true);
         //         if ($result === null) 
         //             $this->addFlash('sonata_flash_error', "Un erreur s'est produite lors du chargement du fichier Json. Vérifiez que le fichier est bien valide");
         //         else {

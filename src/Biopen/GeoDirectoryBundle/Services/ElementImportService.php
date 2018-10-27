@@ -93,7 +93,7 @@ class ElementImportService
 
     if ($onlyGetData) return $data;
 
-    return $this->import($data, $externalSource);
+    return $this->import($data, $externalSource, false, true);
   }
 
 	public function import($data, 
@@ -185,6 +185,7 @@ class ElementImportService
 		if ($lat == 0 || $lng == 0) $new_element->setModerationState(ModerationState::GeolocError);
 		$new_element->setGeo(new Coordinates((float)$lat, (float)$lng));
 
+		$this->createCategories($new_element, $row);
 		$this->createImages($new_element, $row);
 		$this->saveCustomFields($new_element, $row);
 		$this->elementActionService->import($new_element);				
