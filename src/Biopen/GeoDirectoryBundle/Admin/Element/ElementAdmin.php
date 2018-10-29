@@ -26,9 +26,10 @@ class ElementAdmin extends ElementAdminShowEdit
       'categories' => 'optionsString', 
       'latitude' => 'geo.latitude', 
       'longitude' => 'geo.longitude', 
-      'address.streetAddress' => 'address.streetAddress',
-      'address.addressLocality' => 'address.addressLocality', 
-      'address.postalCode' => 'address.postalCode'
+      'streetAddress' => 'address.streetAddress',
+      'addressLocality' => 'address.addressLocality', 
+      'postalCode' => 'address.postalCode',
+      'addressCountry' => 'address.addressCountry'
     ];
     $customFields = [];
     foreach ($config->getElementFormFields() as $key => $field) {

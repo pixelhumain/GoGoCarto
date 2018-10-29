@@ -156,8 +156,9 @@ class ElementImportService
 		$new_element->setAddress($address);
 
 		$new_element->setEmail($row['email']);
-		$new_element->setSourceKey(strlen($row['source']) > 0 ? $row['source'] : $source->getName());
-		$new_element->setSource($source);
+		$defaultSourceName = $source ? $source->getName() : 'Inconnu';
+		$new_element->setSourceKey(strlen($row['source']) > 0 ? $row['source'] : $defaultSourceName);
+		if ($source) $new_element->setSource($source);
 
 		if (array_key_exists('owner', $row)) $new_element->setUserOwnerEmail($row['owner']);
 		
