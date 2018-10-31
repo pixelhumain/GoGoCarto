@@ -61,9 +61,5 @@ class GoGoMainCommand extends ContainerAwareCommand
          $input = new ArrayInput($arguments);
          $returnCode = $command->run($input, $output);      
       }
-      else 
-      {
-         $logger->debug('Nothing to execute');
-      }
    }
 }
