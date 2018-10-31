@@ -32,8 +32,7 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
 
-    $textSearch = "" . $element->getName() . " -bio";
-    $qb->addOr($qb->expr()->text($textSearch)->language('fr'));
+    $qb->addOr($qb->expr()->text($textSearch));
     if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail()));  
 
     $qb->limit($maxResults) 
@@ -84,7 +83,7 @@ class ElementRepository extends DocumentRepository
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    $qb->text($text)->language('fr')->sortMeta('score', 'textScore');
+    $qb->text($text)->sortMeta('score', 'textScore');
     
     $this->filterVisibles($qb);
 
