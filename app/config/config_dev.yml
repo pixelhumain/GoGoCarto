@@ -19,16 +19,22 @@ bazinga_geocoder:
     fake_ip:    123.345.643.133
 
 monolog:
+    channels: ['commands']
     handlers:
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-            channels: [!event]
+            channels: ['!event']
+        command:
+            type: stream
+            path: "%kernel.logs_dir%/commands.log"
+            level: debug
+            channels: commands
         console:
             type:   console
             bubble: false
-            channels: [!event, !doctrine]
+            channels: ['!event', '!doctrine']
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:

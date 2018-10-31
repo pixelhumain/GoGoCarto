@@ -23,5 +23,10 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+        command:
+            type: stream
+            path: "%kernel.logs_dir%/commands.log"
+            level: info
+            channels: commands
         console:
             type:  console

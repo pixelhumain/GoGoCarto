@@ -12,9 +12,6 @@ use Biopen\SaasBundle\Command\GoGoAbstractCommand;
 
 class CheckExternalSourceToUpdateCommand extends GoGoAbstractCommand
 {
-    protected $logger;
-    protected $output;
-
     protected function gogoConfigure()
     {
        $this
@@ -24,8 +21,6 @@ class CheckExternalSourceToUpdateCommand extends GoGoAbstractCommand
 
     protected function gogoExecute($em, InputInterface $input, OutputInterface $output)
     {
-      $this->logger = $this->getContainer()->get('logger');
-      $this->output = $output;
       $qb = $em->createQueryBuilder('BiopenGeoDirectoryBundle:SourceExternal');
       
       $sourcesToUpdate = $qb->field('refreshFrequencyInDays')->gt(0)               
@@ -40,11 +35,5 @@ class CheckExternalSourceToUpdateCommand extends GoGoAbstractCommand
         $this->log('Updating source : ' . $source->getName());
         $dataToImport = $importService->importJson($source);        
       }      
-    }
-
-    private function log($message)
-    {
-      $this->logger->info($message);
-      $this->output->writeln($message);
     }
 }

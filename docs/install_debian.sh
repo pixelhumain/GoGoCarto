@@ -148,11 +148,14 @@ php bin/console doctrine:mongodb:fixtures:load ;
 
 chmod -R 777 var/;
 
-# adding crontab task
-line="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkvote"
-line2="@hourly php /var/www/html/GoGoCarto/bin/console --env=prod app:users:sendNewsletter"
-line3="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkExternalSourceToUpdate"
 # TODO add crontab automatically
+# for Normal instance
+# line="@daily php $WEB_DIR/GoGoCarto/bin/console --env=prod app:elements:checkvote"
+# line2="@hourly php $WEB_DIR/GoGoCarto/bin/console --env=prod app:users:sendNewsletter"
+# line3="@daily php $WEB_DIR/GoGoCarto/bin/console --env=prod app:elements:checkExternalSourceToUpdate"
+# for SAAS instance
+# * * * * * php $WEB_DIR/GoGoCarto/bin/console --env=prod app:main-command"
+# 
 # (crontab -l; echo "$line" ) | crontab -u userhere -
 
 # services au démarrage

@@ -12,6 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class GoGoAbstractCommand extends ContainerAwareCommand
 {
+   protected $logger;
+   protected $output;
+
    protected function configure()
    {
       $this->setName('app:abstract:command');
@@ -23,6 +26,9 @@ class GoGoAbstractCommand extends ContainerAwareCommand
    {
       $odm = $this->getContainer()->get('doctrine_mongodb.odm.default_document_manager');
       $odm->getConfiguration()->setDefaultDB($input->getArgument('dbname'));
+      
+      $this->logger = $this->getContainer()->get('monolog.logger.commands');
+      $this->output = $output;
 
       // create dummy user, as some code called from command will maybe need the current user informations
       $token = new AnonymousToken('admin', 'admin', ['ROLE_ADMIN']);      
@@ -34,4 +40,16 @@ class GoGoAbstractCommand extends ContainerAwareCommand
    protected function gogoExecute($odm, InputInterface $input, OutputInterface $output) {}
 
    protected function gogoConfigure() {}
+
+   protected function log($message)
+   {
+      $this->logger->info($message);
+      $this->output->writeln($message);
+   }
+
+   protected function error($message)
+   {
+      $this->logger->error($message);
+      $this->output->writeln('ERROR ' . $message);
+   }
 }

@@ -240,13 +240,5 @@ ln -s /etc/nginx/sites-available/${WEB_URL} /etc/nginx/sites-enabled/${WEB_URL}
 nginx -t
 service nginx reload
 
-# adding crontab task
-#line="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkvote"
-#line2="@hourly php /var/www/html/GoGoCarto/bin/console --env=prod app:users:sendNewsletter"
-#line3="@daily php /var/www/html/GoGoCarto/bin/console --env=prod app:elements:checkExternalSourceToUpdate"
-# TODO : add crontab automatically
-# (crontab -l; echo "$line" ) | crontab -u userhere -
-
-# services au démarrage (pas necessaire avec debian 9)
-# service mongod enable
-# service mongod start
+# TODO add crontab automatically
+# See install_debian.sh
