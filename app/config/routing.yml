@@ -79,6 +79,6 @@ _sonata_admin:
     prefix: /admin
 
 other:
-    path: /{anything}
-    defaults: { _controller: BiopenCoreBundle:Core:home }
+    path: /{arg1}/{arg2}/{arg3}/{arg4}/{arg5}/{arg6}
+    defaults: { _controller: BiopenCoreBundle:Core:home, arg1: '', arg2: '', arg3: '', arg4: '', arg5: '', arg6: '' }
 
