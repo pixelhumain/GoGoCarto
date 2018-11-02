@@ -118,6 +118,14 @@ class ElementImportService
 		$data = $this->fixsOntology($data);
 		$data = $this->addMissingFieldsToData($data);
 
+		if (get_class($source) == "Biopen\GeoDirectoryBundle\Document\SourceExternal") 
+		{
+			$source->setLastRefresh(time());
+	    $source->updateNextRefreshDate(); 	    
+			$this->em->persist($source);
+			$this->em->flush();
+		}		
+
 		// processing each data
 		foreach($data as $element) 
 		{
@@ -130,12 +138,6 @@ class ElementImportService
 			   $this->em->persist($source);
 			}
 			$i++;
-		}
-
-		if (get_class($source) == "Biopen\GeoDirectoryBundle\Document\SourceExternal") 
-		{
-			$source->setLastRefresh(time());
-	    $source->updateNextRefreshDate(); 
 		}			   
 
 		// Flushing and clear data on queue
