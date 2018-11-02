@@ -18,6 +18,10 @@ biopen_mail_send_test_automated:
     path: /test-emails/automated/send/{mailType}
     defaults: { _controller: BiopenCoreBundle:MailTest:sentTestAutomated }
 
-biopen_api:
-    resource: "@BiopenCoreBundle/Resources/config/routing_user.yml"
+biopen_user:
+    resource: "@BiopenCoreBundle/Resources/config/routing-user.yml"
     prefix:   /user
+
+biopen_core_api:
+    resource: "@BiopenCoreBundle/Resources/config/routing-api.yml"
+    prefix:   /api

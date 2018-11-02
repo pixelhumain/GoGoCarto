@@ -1,0 +1,10 @@
+biopen_api_ui:
+    path: /
+    defaults: { _controller: BiopenCoreBundle:API:apiUi }
+
+biopen_api_manifest:
+    path:     /manifest.{_format}
+    defaults: { _controller: BiopenCoreBundle:API:getManifest, _format: json }
+    requirements:
+        methods: GET
+        _format: json

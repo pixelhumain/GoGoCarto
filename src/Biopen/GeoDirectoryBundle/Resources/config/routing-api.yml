@@ -1,7 +1,3 @@
-biopen_api_ui:
-    path: /
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:apiUi }
-
 biopen_api_taxonomy_show:
     path:     /taxonomy/{id}.{_format}
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomy, id: null, _format: json }
@@ -45,11 +41,3 @@ biopen_api_elements_index:
         _format: json|jsonld
     options:
         expose: true
-
-biopen_api_manifest:
-    path:     /manifest.{_format}
-    defaults: { _controller: BiopenGeoDirectoryBundle:API:getManifest, _format: json }
-    requirements:
-        methods: GET
-        _format: json
-
