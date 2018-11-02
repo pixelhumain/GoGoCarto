@@ -2,18 +2,11 @@
 
 @import 'home';
 
-html 
-{
-  background-color: #345451;
-}
-
 body
 {
   height: auto;
   min-height: 100%;
   @include flexbox();
-  font-family: 'Cabin';
-  color: #345451;
 }
 
 #page-container
@@ -22,10 +15,10 @@ body
 
   #page-content
   {
-    position:relative;
+    position: relative;
     margin-top: 0;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
     width:100%;   
     padding: 0rem; 
 
@@ -42,14 +35,7 @@ body
       padding: 2rem;
       border-radius: 5px;
       margin-bottom: 2rem;
-    }    
-
-    h1 { 
-      font-family: 'Carter One';
-      text-align: center;
-      color: #F57B56;
-    }
-    
+    }        
   }
 }
 

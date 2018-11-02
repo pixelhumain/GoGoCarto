@@ -5,16 +5,33 @@
 
 {% block body %}
   <section class="title">
-    <h1>Bienvenue dans la ferme de carto !</h1>
-    <a href="{{ path('biopen_saas_new_project') }}"><button class="btn">Créer un projet</button></a>
+    <h1>GoGoCarto, créez des cartes à GoGo !</h1>
+    <a href="{{ path('biopen_saas_new_project') }}"><button class="btn new-project">Créer un projet</button></a>
   </section>
 
-  <section>
-  <h2>Liste des projets déjà créés</h2>
-    <ul>
-      {% for project in projects %}
-        <li class="project-item"><a href={{ project.homeUrl }} target="_blank">{{ project.name|capitalize}}</a></li>
+  <section class="projects">
+    <h2>Liste des projets déjà créés</h2>
+    <div class="project-list">
+      {% for row in projects|batch(3) %}
+        <div class="row">
+          {% for project in row %}
+          <div class="project-container col s12 m4">
+            <div class="project-item waves-effect waves-block waves-light z-depth-1" onclick="window.open('{{ project.homeUrl }}', '_blank');">
+              {% if project.imageUrl %}
+                <img class="project-logo" src="https://picsum.photos/400/200">
+              {% else %}
+                <div class="project-logo empty"></div>
+              {% endif %}
+              
+              <div class="project-content">              
+                <div class="name">{{ project.name|capitalize }}</div>
+                <div class="data-size gogo-bg-primary">{{ project.dataSize }}<span class="icon gogo-icon-marker-symbol"></span></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       {% endfor %}
-    </ul>
-  </section>>
+    </div>
+  </section>
 {% endblock %}
