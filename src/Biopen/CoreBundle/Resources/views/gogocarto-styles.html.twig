@@ -2,6 +2,13 @@
   {# --------------------#}
   {#     GENERAL         #}
   {# ------------------- #}
+
+  {% import _self as self %}
+  {{ self.createcolor('neutral-dark', config.neutralDarkColor) }}
+  {{ self.createcolor('neutral', config.neutralColor) }}
+  {{ self.createcolor('primary', config.primaryColor) }}
+  {{ self.createcolor('secondary', config.secondaryColor) }}  
+  {{ self.createcolor('background', config.backgroundColor) }}
   
   html{
     line-height: 1.5;
@@ -160,4 +167,16 @@
   {# ----------- #}
 
   .gogo-load-css ul li.title { background-color: {{ config.neutralColor }}; }
+  
 </style>
+
+{% macro createcolor(name, value) %}
+  .gogo-{{ name }} { color: {{ value }}; }
+  .gogo-h-{{ name }}:hover { color: {{ value }} !important; }
+  .gogo-h-{{ name }}.hover { color: {{ value }} !important; }
+  .gogo-bg-{{ name }} { background-color: {{ value }} !important; }
+  .gogo-h-bg-{{ name }}:hover { background-color: {{ value }} !important; }
+  .gogo-border-{{ name }} { border-color: {{ value }}; }
+  .gogo-h-border-{{ name }}:hover { border-color: {{ value }} !important; }
+{% endmacro %}
+
