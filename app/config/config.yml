@@ -19,6 +19,8 @@ imports:
 parameters:
     locale: fr
     mongodb_server: "mongodb://localhost:27017"
+    router.request_context.host: '%base_url%'
+    router.request_context.base_url: '%base_path%'
 
 framework:
     #esi:             ~

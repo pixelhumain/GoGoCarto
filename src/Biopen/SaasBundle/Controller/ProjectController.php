@@ -107,8 +107,10 @@ class ProjectController extends AbstractSaasController
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');
             return $this->redirect($url);
         }
+
+        $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
         
-        return $this->render('@BiopenSaasBundle/projects/create.html.twig', ['form' => $projectForm->createView()]);
+        return $this->render('@BiopenSaasBundle/projects/create.html.twig', ['form' => $projectForm->createView(), 'config' => $config]);
     }
     
     public function homeAction()
@@ -118,12 +120,15 @@ class ProjectController extends AbstractSaasController
         $odm = $this->get('doctrine_mongodb')->getManager();
         $repository = $odm->getRepository('BiopenSaasBundle:Project');
 
-        $projects = $repository->findAll();
+        $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+
+        $projects = $repository->findBy([], ['id' => 'DESC']);
+
         foreach ($projects as $project) {
             $project->setHomeUrl($this->generateUrlForProject($project));
         }
 
-        return $this->render('@BiopenSaasBundle/home.html.twig', array('projects' => $projects));        
+        return $this->render('@BiopenSaasBundle/home.html.twig', array('projects' => $projects, 'config' => $config));        
     }  
 
     public function initializeAction(Request $request)  
