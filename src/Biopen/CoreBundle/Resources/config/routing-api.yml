@@ -8,3 +8,10 @@ biopen_api_manifest:
     requirements:
         methods: GET
         _format: json
+
+biopen_api_project_info:
+    path:     /project-info.{_format}
+    defaults: { _controller: BiopenCoreBundle:API:getProjectInfo, _format: json }
+    requirements:
+        methods: GET
+        _format: json

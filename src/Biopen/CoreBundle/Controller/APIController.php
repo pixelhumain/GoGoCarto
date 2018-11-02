@@ -65,4 +65,23 @@ class APIController extends GoGoController
     $response->headers->set('Content-Type', 'application/json');
     return $response;
   }
+
+  public function getProjectInfoAction() 
+  {
+    $em = $this->get('doctrine_mongodb')->getManager();
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+    $img = $config->getSocialShareImage() ? $config->getSocialShareImage() : $config->getLogo();
+    $imageUrl = $img ? $img->getImageUrl() : null;
+    $dataSize = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findVisibles(true);
+
+    $responseArray = array(
+      "name" => $config->getAppName(),
+      "imageUrl" =>  $imageUrl,
+      "description" => $config->getAppBaseline(),
+      "dataSize" => $dataSize
+    );
+    $response = new Response(json_encode($responseArray));  
+    $response->headers->set('Content-Type', 'application/json');
+    return $response;
+  }
 }
