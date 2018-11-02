@@ -1,0 +1,54 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block sonata_tab_content %}
+  {% set has_tab = ((admin.formtabs|length == 1 and admin.formtabs|keys[0] != 'default') or admin.formtabs|length > 1 ) %}
+
+  <div class="col-md-12">
+      {% if has_tab %}
+          <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs" role="tablist">
+                  {% for name, form_tab in admin.formtabs %}
+                      <li{% if loop.index == 1 %} class="first"{% endif %}><a href="#tab_{{ loop.index }}" data-toggle="tab"><i class="fa fa-exclamation-circle has-errors hide" aria-hidden="true"></i> {{ name|trans({}, form_tab.translation_domain ?: admin.translationDomain) }}</a></li>
+                  {% endfor %}
+              </ul>
+              <div class="tab-content">
+                  {% for code, form_tab in admin.formtabs %}
+                      <div class="tab-pane fade{% if loop.first %} in active{% endif %}" id="tab_{{ loop.index }}">
+                          <div class="box-body  container-fluid">
+                              <div class="sonata-ba-collapsed-fields">
+                                  {% if form_tab.description != false %}
+                                      <p>{{ form_tab.description|raw }}</p>
+                                  {% endif %}
+
+                                  {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab) }}
+                              </div>
+                          </div>
+                      </div>
+                  {% endfor %}
+              </div>
+          </div>
+      {% else %}
+          {{ form_helper.render_groups(admin, form, admin.formtabs['default'].groups, has_tab) }}
+      {% endif %}
+  </div>
+
+  <script>
+    $(document).ready(function() {
+
+      $('.nav-tabs li a').click(function() { 
+        var newHash = $(this).attr('href');
+        window.location.hash = newHash; 
+        var url = $('form').attr('action');
+        $('form').attr('action', url.split('#')[0] + newHash);
+      });
+
+      var hash = window.location.hash;
+      if (hash) {
+        $('a[href=' + hash + ']').click();
+      } else {
+        $('li.first').addClass('active');
+      }
+      
+    });
+  </script>
+{% endblock %}
