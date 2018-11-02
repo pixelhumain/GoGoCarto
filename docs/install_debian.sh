@@ -155,7 +155,7 @@ chmod -R 777 var/;
 # line3="@daily php $WEB_DIR/GoGoCarto/bin/console --env=prod app:elements:checkExternalSourceToUpdate"
 # for SAAS instance
 # * * * * * php $WEB_DIR/GoGoCarto/bin/console --env=prod app:main-command"
-# 
+# @daily php $WEB_DIR/GoGoCarto/bin/console --env=prod app:saas:update-projects-info"
 # (crontab -l; echo "$line" ) | crontab -u userhere -
 
 # services au démarrage

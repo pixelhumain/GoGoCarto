@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /*
-* For SAAS Instance, this command in executing every minute, and check if there is a command to execute
+* For SAAS Instance, this command is executed every minute, and check if there is a command to execute
 * for a particular instance. This permit to not run all the commands as the same time
 */
 class GoGoMainCommand extends ContainerAwareCommand
@@ -59,7 +59,8 @@ class GoGoMainCommand extends ContainerAwareCommand
          );
 
          $input = new ArrayInput($arguments);
-         $returnCode = $command->run($input, $output);      
+         try { $command->run($input, $output); }
+         catch (\Exception $e) { $logger->error($e->getMessage()); }    
       }
    }
 }
