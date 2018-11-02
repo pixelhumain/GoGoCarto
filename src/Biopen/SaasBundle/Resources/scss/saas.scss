@@ -21,6 +21,12 @@ body
     margin-right: auto;
     width:100%;   
     padding: 0rem; 
+    background-color: transparent;
+
+    h1 {
+      text-align: center;
+      margin-bottom: 35px;
+    }
 
     @media screen and (min-width: 900px)
     {

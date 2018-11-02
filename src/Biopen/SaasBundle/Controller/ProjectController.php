@@ -49,10 +49,10 @@ class ProjectController extends AbstractSaasController
             ->add('name', null, array('required' => true))
             ->add('domainName', null, array('required' => true))
             ->getForm();
+        $odm = $this->get('doctrine_mongodb')->getManager();
 
         if ($projectForm->handleRequest($request)->isValid())
-        {
-            $odm = $this->get('doctrine_mongodb')->getManager();
+        {            
             $odm->persist($project);  
 
             // initialize commands
@@ -158,7 +158,8 @@ class ProjectController extends AbstractSaasController
             return $response;
         }
 
-        return $this->render('@BiopenSaasBundle/projects/initialize.html.twig', ['form' => $form->createView()]);
+        $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+        return $this->render('@BiopenSaasBundle/projects/initialize.html.twig', ['form' => $form->createView(), 'config' => $config]);
     }
 
     protected function authenticateUser(UserInterface $user, Response $response)
