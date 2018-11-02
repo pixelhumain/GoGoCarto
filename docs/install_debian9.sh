@@ -66,7 +66,10 @@ cd $WEB_DIR
 #chmod 777 /var/lib/mongodb
 #chmod 777 /var/log/mongodb
 #setfacl -R -m -m u:`whoami`:rwX var/cache var/logs
-chmod 777 $WEB_DIR/var
+chmod 777 -R $WEB_DIR/var
+
+mkdir -p $WEB_DIR/web/uploads
+chmod 777 -R $WEB_DIR/web/uploads
 
 # npm stuff
 npm install gulp -g
@@ -83,12 +86,12 @@ sudo -u $WEB_USR echo "parameters:
   mailer_password: null
   secret: lijd676jf5657fe56Hyjlkdz
   csrf_protection: true
-  oauth_communs_id: communsIds
-  oauth_communs_secret: communsSecret
-  oauth_google_id: googleId
-  oauth_google_secret: googleSecret
-  oauth_facebook_id: facebookId
-  oauth_facebook_secret: facebookSecret
+  oauth_communs_id: disabled
+  oauth_communs_secret: disabled
+  oauth_google_id: disabled
+  oauth_google_secret: disabled
+  oauth_facebook_id: disabled
+  oauth_facebook_secret: disabled
 " > app/config/parameters.yml
 chown -R $WEB_USR:$WEB_GRP $WEB_DIR/app/config/parameters.yml
 sudo -u $WEB_USR composer config "platform.ext-mongo" "1.6.16" && sudo -u $WEB_USR composer require alcaeus/mongo-php-adapter
