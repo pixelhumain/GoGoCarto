@@ -52,7 +52,8 @@
         "hwi/oauth-bundle": "^0.5.3",
         "ob/highcharts-bundle": "^1.6",
         "vich/uploader-bundle": "^1.4",
-        "intervention/image": "^2.4"
+        "intervention/image": "^2.4",
+        "alcaeus/mongo-php-adapter": "^1.1"
 
     },
     "require-dev": {
@@ -85,7 +86,8 @@
     },
     "config": {
         "platform": {
-            "php": "5.6.25"
+            "php": "5.6.25",
+            "ext-mongo": "1.6.16"
         }
     },
     "extra": {
