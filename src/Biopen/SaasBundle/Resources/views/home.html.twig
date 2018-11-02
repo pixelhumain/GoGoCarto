@@ -18,7 +18,7 @@
           <div class="project-container col s12 m4">
             <div class="project-item waves-effect waves-block waves-light z-depth-1" onclick="window.open('{{ project.homeUrl }}', '_blank');">
               {% if project.imageUrl %}
-                <img class="project-logo" src="https://picsum.photos/400/200">
+                <img class="project-logo" src="{{ project.imageUrl }}">
               {% else %}
                 <div class="project-logo empty"></div>
               {% endif %}

@@ -10,7 +10,7 @@ class ImageResizer
     public function postPersist(\Doctrine\ODM\MongoDB\Event\LifecycleEventArgs $args)
     {
         $document = $args->getDocument();
-        if ($document instanceof ConfImage) {
+        if ($document instanceof ConfImage && !$document->isExternalFile()) {
             $w = 512;
             $h = 512;
             $srcImage = $document->calculateFilePath();
