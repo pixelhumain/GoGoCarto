@@ -32,7 +32,7 @@ class ElementRepository extends DocumentRepository
     $radius = $distance / 110;
     $status = $includeDeleted ? ElementStatus::Duplicate : ElementStatus::PendingModification;
 
-    $qb->addOr($qb->expr()->text($textSearch));
+    $qb->addOr($qb->expr()->text($element->getName()));
     if ($element->getEmail()) $qb->addOr($qb->expr()->field('email')->equals($element->getEmail()));  
 
     $qb->limit($maxResults) 
