@@ -31,12 +31,12 @@ class NewsletterCommand extends GoGoAbstractCommand
       foreach ($users as $key => $user)
       { 
          $nreElements = $newsletterService->sendTo($user);
-         $output->writeln('  -> User : ' . $user->getDisplayName() . ', location : ' . $user->getLocation() . ' / ' . $user->getNewsletterRange() . ' km -> Nre Elements : ' .  $nreElements);
+         // $this->log('  -> User : ' . $user->getDisplayName() . ', location : ' . $user->getLocation() . ' / ' . $user->getNewsletterRange() . ' km -> Nre Elements : ' .  $nreElements);
          $em->persist($user);
       }
 
       $em->flush();
 
-      $output->writeln('Nombre newsletter envoyées : ' . $nbrUsers);
+      $this->log('Nombre newsletter envoyées : ' . $nbrUsers);
     }
 }

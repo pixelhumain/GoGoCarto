@@ -67,7 +67,7 @@ class MailTestController extends Controller
         $element = $em->getRepository('BiopenCoreBundle:User')->findOneByEnabled(true);
         $element->setLocation('bordeaux');
         $element->setGeo(new Coordinates(44.876,-0.512));
-        $options = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findBy([], null, 3); 
+        $options = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findBy([], null, 30); 
      }
      else
      {

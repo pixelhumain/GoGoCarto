@@ -3,7 +3,7 @@
             padding: 30px 45px">
   <div class="header" style="background-color : {{ config.contentBackgroundColor }};
               max-width: 700px;              
-              color: {{ config.neutralDarkColor }};
+              color: {{ config.textColor }};
               margin: 0 auto;
               border-radius: 5px;
               font-weight: normal;
@@ -17,18 +17,25 @@
                 border-radius: 5px 5px 0 0;
                 background-color: {{ config.headerColor }};">
         <a href="{{ homeUrl }}">
-          <img src="{{ absolute_url(asset('assets/img/logo.png')) }}" alt="{{ config.appName }}" title="{{ config.appName }}"
-                 style="max-height: 100px;    
-                        color: white;
-                        font-family: sans-serif;
-                        max-width: 100%;" /></a>
-        <div style="color:{{ config.neutralSoftColor }};
+          {% if config.logo and config.logo.imageUrl %}
+            <img src="{{ config.logo.imageUrl }}" alt="{{ config.appName }}" title="{{ config.appName }}"
+                   style="max-height: 100px;    
+                          color: white;
+                          font-family: sans-serif;
+                          max-width: 100%;" />
+          {% else %}
+            <h1>{{ config.appName }}</h1>
+          {% endif %}
+        </a>
+        {% if config.appBaseline %}
+          <div style="color:{{ config.neutralSoftColor }};
                     text-transform: uppercase;
                     font-size: 15px;
                     font-weight: bold;
                     line-height: 30px;
                     font-family: sans-serif;
                     ">{{ config.appBaseline }}</br></div>
+        {% endif %}
     </div>
     <div class="content" style="padding:20px 25px;">
       {{ content | raw }}

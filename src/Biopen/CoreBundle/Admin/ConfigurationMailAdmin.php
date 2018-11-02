@@ -76,7 +76,7 @@ class ConfigurationMailAdmin extends AbstractAdmin
                 ->with("Informations concernant lanewsletter", array('box_class' => 'box box-danger', 
                     'description' => "Ce mail est envoyé automatiquement aux utilisateurs y ayant souscrit. Il donne la liste des derniers éléments ajoutés dans une zone
                     géographique determinée</br></br>
-                    <b>Il est obligaoire d'inclue la variable</b> {{ newElements }} qui sera remplacée par la liste des nouveaux élements</br></br>
+                    <b>Il est nécessaire d'inclure la variable <u>{{ newElements }}</u> et/ou <u>{{ pendingElements }}</u></b> qui seront respectivement remplacées par la liste des nouveaux élements et des nouveaux élements en attente de validation</br></br>
                     Il est possible d'inclure les variables suivantes dans les messages (en conservant les '{{}}' ) : </br>
                     <li>{{ user }} le nom ou l'adresse mail du contributeur</li>
                     <li>{{ homeUrl }} l'adresse de la page d'accueil du site</li>

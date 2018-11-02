@@ -29,7 +29,7 @@ class MailService
 
        $this->baseUrl = 'http://';
        if ($sass) $this->baseUrl .= $this->config->getDbName() . '.';
-       $this->baseUrl .= $baseUrl . $basePath;
+       $this->baseUrl .= $baseUrl;
 	}
 
     public function sendMail($to, $subject, $content, $from = null, $toBCC = null)
@@ -200,15 +200,23 @@ class MailService
 
     private function replaceNewElementsList($string, $elements, $user)
     {
-        $elementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
-            array('elements' => $elements, 'config' => $this->config, 'baseUrl' => $this->baseUrl)
+        $pendingElements = array_filter($elements, function($el) { return $el->isPending(); });
+        $newElements     = array_filter($elements, function($el) { return !$el->isPending(); });
+
+        $pendingElementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
+            array('elements' => $pendingElements, 'config' => $this->config, 'baseUrl' => $this->baseUrl)
+        );
+
+        $newElementsHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-new-elements.html.twig',
+            array('elements' => $newElements, 'config' => $this->config, 'baseUrl' => $this->baseUrl)
         );
 
         $showOnMapBtnHtml = $this->twig->render('@BiopenCoreBundle/emails/newsletter-show-on-map-button.html.twig',
             array('config' => $this->config, 'user' => $user, 'directoryUrl' => $this->generateRoute('biopen_directory'))
         );
-
-        $string = preg_replace('/({{((?:\s)+)?newElements((?:\s)+)?}})/i', $elementsHtml, $string);
+        
+        $string = preg_replace('/({{((?:\s)+)?pendingElements((?:\s)+)?}})/i', $pendingElementsHtml, $string);
+        $string = preg_replace('/({{((?:\s)+)?newElements((?:\s)+)?}})/i', $newElementsHtml, $string);        
         $string = preg_replace('/({{((?:\s)+)?showOnMapBtn((?:\s)+)?}})/i', $showOnMapBtnHtml, $string);
 
         return $string;

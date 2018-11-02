@@ -1,5 +1,5 @@
 <table style="width:100%">
-  {% for element in elements %}
+  {% for element in elements|slice(0,19) %}
     
     <tr style="">
       <td style="text-align: left;
@@ -35,10 +35,13 @@
                           text-transform: uppercase;
                           letter-spacing: 1px;
                           border: none;
-                          background-color: {{ config.secondaryColor }};">Voir !</button>
+                          background-color: {{ config.secondaryColor }};">{{ element.isPending ? 'Voter !' : 'Voir' }}</button>
         </a>
 
       </td>
     </tr>
   {% endfor %}
 </table>
+{% if elements|length > 20 %}
+<p style="margin-top: 20px;font-weight: bold;">... Et {{ elements|length - 20 }} autres à décrouvrir sur le site !</p>
+{% endif %}
