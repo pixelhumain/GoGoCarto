@@ -14,6 +14,7 @@ imports:
 #        query_cache_driver: apc
 
 monolog:
+    channels: ['commands']
     handlers:
         main:
             type:         fingers_crossed
