@@ -70,7 +70,7 @@ class ElementAdminAbstract extends AbstractAdmin
     $this->optionList = $repo->createQueryBuilder()->hydrate(false)->getQuery()->execute()->toArray();
 
     foreach ($this->optionList as $key => $value) {
-      $this->optionsChoices[$key] = $value['name'];
+      $this->optionsChoices[$key] = array_key_exists('name', $value) ? $value['name'] : 'Nom inconnu';
     }
   }	
 }
