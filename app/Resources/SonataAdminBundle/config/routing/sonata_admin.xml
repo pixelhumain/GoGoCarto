@@ -13,7 +13,6 @@
     </route>
     <route id="sonata_admin_append_form_element" path="/core/append-form-field-element">
         <default key="_controller">sonata.admin.controller.admin:appendFormFieldElementAction</default>
-        <requirement key="_scheme">http</requirement>
     </route>
     <route id="sonata_admin_short_object_information" path="/core/get-short-object-description.{_format}">
         <default key="_controller">sonata.admin.controller.admin:getShortObjectDescriptionAction</default>
