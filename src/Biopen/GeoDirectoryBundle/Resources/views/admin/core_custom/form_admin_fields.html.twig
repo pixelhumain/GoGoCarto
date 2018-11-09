@@ -10,18 +10,19 @@
   ->add('elementFormFieldsJson', 'hidden', array('attr' => ['class' => 'gogo-form-builder'])) 
 #}
 {% block form_widget_simple %}
+    {% set attr_class = attr.class|default('') %}
     {# File #}
     {% if type|default('null') == 'file' %}
       {% include '@BiopenAdmin/core_custom/custom-fields/file.html.twig' %}
     {# Form Builder #}
-    {% elseif attr.class == "gogo-form-builder" %}
+    {% elseif attr_class == "gogo-form-builder" %}
       {% include '@BiopenAdmin/core_custom/custom-fields/form-builder.html.twig' %}
-    {% elseif attr.class == "gogo-form-fields" %}
+    {% elseif attr_class == "gogo-form-fields" %}
       {% include '@BiopenAdmin/partials/show_element_form_fields.html.twig' %}
-    {% elseif attr.class == "gogo-viewport-picker" %}
+    {% elseif attr_class == "gogo-viewport-picker" %}
       {% include '@BiopenAdmin/core_custom/custom-fields/viewport-picker.html.twig' %}
     {% else %}      
-      {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+      {% set attr = attr|merge({'class': attr_class ~ ' form-control'}) %}
       {{ parent() }}
     {% endif %}    
 {% endblock form_widget_simple %}

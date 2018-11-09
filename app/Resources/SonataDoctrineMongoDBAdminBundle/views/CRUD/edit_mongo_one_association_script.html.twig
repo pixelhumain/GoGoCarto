@@ -41,8 +41,7 @@ This code manage the one-to-many association field popup
             } + sonata_admin.field_description.getOption('link_parameters', {})) }}";
 
         // picking right protocol
-        if (env == "prod")
-            var url = url.replace('http', window.location.protocol.replace(':','')).replace('ss','s');  
+        var url = url.replace('http', window.location.protocol.replace(':','')).replace('ss','s');  
         
         // the ajax post
         jQuery(form).ajaxSubmit({
