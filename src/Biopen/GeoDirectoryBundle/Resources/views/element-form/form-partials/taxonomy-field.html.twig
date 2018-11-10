@@ -70,7 +70,7 @@
         {% if option.displayChildrenInForm %}
     	  	<div class="subcategories-wrapper ">
     		    {% for subkey, subcategory in option.subcategories %}
-    					{% include '@BiopenGeoDirectory/element-form/form-partials/category-field.html.twig' with {'category': subcategory, 'parentDepth': categoryDepth } %}
+    					{% include '@BiopenGeoDirectory/element-form/form-partials/taxonomy-field.html.twig' with {'category': subcategory, 'parentDepth': categoryDepth } %}
     				{% endfor %} 
     			</div>
         {% endif %}
