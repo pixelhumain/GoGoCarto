@@ -5,6 +5,6 @@
 
 systemctl stop mongod
 rm -R var/cache/*
-chmod 777 -R var/cache/
+chmod 777 -R var/
 systemctl start mongod
 
