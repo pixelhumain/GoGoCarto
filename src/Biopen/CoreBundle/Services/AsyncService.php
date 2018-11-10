@@ -56,7 +56,7 @@ class AsyncService
             $commandline .= ' ' . $arg;
         }
         $commandline .= ' ' . $dbname;
-        $commandline .= ' > /dev/null 2>/dev/null &';
+        $commandline .= ' ';
         return $this->runProcess($commandline);
     }
 
@@ -88,6 +88,14 @@ class AsyncService
     {
         $process = new Process($commandline);
         $process->start();
+
+        $process->wait(function ($type, $buffer) {
+            if (Process::ERR === $type) {
+                dump('ERR > '.$buffer);
+            } else {
+                dump('OUT > '.$buffer);
+            }
+        });
 
         return $process->getPid();
     }
