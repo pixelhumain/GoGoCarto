@@ -4,7 +4,7 @@
     {% if admin.id(object) is not null %}
         {{ "title_edit"|trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
     {% else %}
-        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }}        
     {% endif %}
 {% endblock %}
 
@@ -36,6 +36,16 @@
             content: "/\00a0";
         }
     </style>
+{% endblock %}
+
+{% block form %}
+    {# If Create, don't display sub options and sub categories creation #}
+    {% if admin.id(object) is null %}
+        <style>
+            .sub-categories-container, .sub-options-container { display: none; }
+        </style>
+    {% endif %}
+    {{ parent() }}
 {% endblock %}
 
 
