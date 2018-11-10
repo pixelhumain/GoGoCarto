@@ -99,7 +99,7 @@ class ElementImportService
 	public function import($data, 
 												 $source,
 												 $geocodeIfNecessary = false,
-												 $createMissingOptions = false,
+												 $createMissingOptions = true,
 												 $parentCategoryToCreateOptions = null)
 	{		
 		$this->createOptionsMappingTable();
