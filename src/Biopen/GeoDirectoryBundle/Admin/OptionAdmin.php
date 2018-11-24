@@ -45,7 +45,7 @@ protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
 	  ->with('Paramètres principaux', array('class' => 'col-xs-12 col-md-6'))
 		  	->add('name', null, array('required' => true, 'label' => 'Nom'))
 		  	->add('color', 'text', array('required' => false, 'label' => 'Couleur', 'attr' => ['class' => 'gogo-color-picker']))            
-         ->add('icon', null, array('required' => false, 'label' => 'Icone'))            		  	
+         ->add('icon', null, array('required' => false, 'label' => 'Icone', 'attr' => ['class' => 'gogo-icon-picker']))            		  	
 		    ->add('parent', 'sonata_type_model', array(
             'class'=> 'Biopen\GeoDirectoryBundle\Document\Category', 
             'required' => false, 

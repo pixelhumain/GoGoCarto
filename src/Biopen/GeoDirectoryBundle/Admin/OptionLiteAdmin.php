@@ -29,9 +29,9 @@ class OptionLiteAdmin extends AbstractAdmin
 		  	->add('name', null, array('required' => true,'label' => 'Nom'))		  	
 		  	->add('index', null, array('required' => false, 'label' => 'Position'))
 		  	->add('color', 'text', array('required' => false, 'label' => 'Couleur', 'attr' => ['class' => 'gogo-color-picker']))		  	
-		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))
+		  	->add('icon', null, array('required' => false, 'label' => 'Icone', 'attr' => ['class' => 'gogo-icon-picker']))
 		  	->add('useIconForMarker', null, array('required' => false, 'label' => "Icone  pour le marqueur"))		
 		  	->add('useColorForMarker', null, array('required' => false, 'label' => "Couleur pour le marqueur"))
-			->add('_link', 'text', array('required' => false, 'mapped' => false, 'label' => 'admin_biopen_geodirectory_option_edit')); 
+				->add('_link', 'text', array('required' => false, 'mapped' => false, 'label' => 'admin_biopen_geodirectory_option_edit')); 
 	}
 }

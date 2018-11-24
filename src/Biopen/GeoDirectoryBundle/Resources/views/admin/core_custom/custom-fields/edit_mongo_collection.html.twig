@@ -35,7 +35,7 @@
                                         {% set elementId = nested_group_field.children['name'].parent.vars.data.id %}
                                         {% set path = nested_field.vars.label %}
                                         {% if elementId %}
-                                            <a href="{{ path(path, {id: elementId}) }}" class="btn btn-sm btn-default"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <a href="{{ path(path, {id: elementId}) }}" class="btn btn-sm btn-default"> <i class="fa fa-pencil fa-pencil-alt" aria-hidden="true"></i></a>
                                         {% endif %}
                                     {% elseif sonata_admin.field_description.associationadmin.formfielddescriptions[field_name] is defined %}
                                         {{ form_widget(nested_field) }}
