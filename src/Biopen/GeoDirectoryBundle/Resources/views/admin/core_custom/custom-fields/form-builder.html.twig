@@ -2,6 +2,8 @@
 {# container where the form bulder will be rendered #}
 <div id="form-builder-container"></div>
 
+<script src="{{ asset('assets/js/form-builder.min.js') }}" type="text/javascript"></script>
+
 {% set formData = form.vars.sonata_admin.admin.subject.elementFormFieldsJson|default('[]') %}
 <script>
   if (!formBuilderInitialized) {
