@@ -79,6 +79,7 @@ class ProjectController extends AbstractSaasController
 
             $mainCategory = new Category();
             $mainCategory->setName('Catégories Principales');
+            $mainCategory->setPickingOptionText('Une catégorie principale');
             $projectOdm->persist($mainCategory);
 
             $mains = array(
