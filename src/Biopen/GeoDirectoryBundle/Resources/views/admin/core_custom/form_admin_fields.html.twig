@@ -21,6 +21,8 @@
       {% include '@BiopenAdmin/partials/show_element_form_fields.html.twig' %}
     {% elseif attr_class == "gogo-viewport-picker" %}
       {% include '@BiopenAdmin/core_custom/custom-fields/viewport-picker.html.twig' %}
+    {% elseif attr_class == "gogo-color-picker" %}
+      {% include '@BiopenAdmin/core_custom/custom-fields/color-picker.html.twig' %}
     {% else %}      
       {% set attr = attr|merge({'class': attr_class ~ ' form-control'}) %}
       {{ parent() }}

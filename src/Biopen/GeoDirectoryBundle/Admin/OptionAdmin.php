@@ -44,7 +44,7 @@ protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
 	  $formMapper
 	  ->with('Paramètres principaux', array('class' => 'col-xs-12 col-md-6'))
 		  	->add('name', null, array('required' => true, 'label' => 'Nom'))
-		  	->add('color', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur'))            
+		  	->add('color', 'text', array('required' => false, 'label' => 'Couleur', 'attr' => ['class' => 'gogo-color-picker']))            
          ->add('icon', null, array('required' => false, 'label' => 'Icone'))            		  	
 		    ->add('parent', 'sonata_type_model', array(
             'class'=> 'Biopen\GeoDirectoryBundle\Document\Category', 
@@ -55,7 +55,7 @@ protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
 		->end()
 		->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6', 'box_class' => 'box'))	
          ->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)'))         
-			->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))	
+			->add('softColor', 'text', array('required' => false, 'label' => 'Couleur adoucie', 'attr' => ['class' => 'gogo-color-picker']))	
 			->add('textHelper', null, array('required' => false, 'label' => "Message d'aide pour décrire rapidement l'option"))		 
 		  	->add('index', null, array('required' => false, 'label' => 'Position (pour classer les options)'))
          ->add('showExpanded', null, array('required' => false, 'label' => 'En position intiale afficher les sous catégories de cette option'))

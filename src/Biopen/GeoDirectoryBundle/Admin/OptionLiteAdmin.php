@@ -28,8 +28,7 @@ class OptionLiteAdmin extends AbstractAdmin
 	  $formMapper
 		  	->add('name', null, array('required' => true,'label' => 'Nom'))		  	
 		  	->add('index', null, array('required' => false, 'label' => 'Position'))
-		  	->add('color', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur'))		
-		  	->add('softColor', 'xmon_color_picker', array('required' => false, 'label' => 'Couleur adoucie'))		  	
+		  	->add('color', 'text', array('required' => false, 'label' => 'Couleur', 'attr' => ['class' => 'gogo-color-picker']))		  	
 		  	->add('icon', null, array('required' => false, 'label' => 'Icone'))
 		  	->add('useIconForMarker', null, array('required' => false, 'label' => "Icone  pour le marqueur"))		
 		  	->add('useColorForMarker', null, array('required' => false, 'label' => "Couleur pour le marqueur"))

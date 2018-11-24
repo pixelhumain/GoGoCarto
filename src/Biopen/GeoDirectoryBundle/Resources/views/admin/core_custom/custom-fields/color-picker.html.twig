@@ -1,0 +1,75 @@
+<div class="input-container">
+    <input type='text' id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" class="form-control gogo-color-picker" />
+</div>
+
+<script src="{{ asset('assets/js/spectrum.min.js') }}" type="text/javascript"></script>
+<link rel="stylesheet" href="{{ asset('assets/js/spectrum.css') }}" />
+
+<script>
+  jQuery(document).ready(function() {
+
+    var palette = [            
+        ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+        ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+        ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+        ["#cc0000","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+        ["#990000","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+        ["#660000","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"],
+        ["#000000","#444444","#5b5b5b","#999999","#bcbcbc","#eeeeee","#f3f6f4","#ffffff"],
+        ["#cb3626","#7e3200","#bD720e","#1e8065","#009a9C","#00537e","#8e36a5","#ab0061"],
+        ["#f44336","#744700","#ce7e00","#8fce00","#2986cc","#16537e","#6a329f","#c90076"]            
+    ];
+
+    var paletteFlat = [];
+    for(var i = 0; i < palette.length; i++) {
+        paletteFlat = paletteFlat.concat(palette[i]);
+    }
+
+    var currentColors = [];
+    $('.gogo-color-picker').each(function() {
+        var color = $(this).val().toLowerCase();
+        if (color && (currentColors.indexOf(color) == -1) && (paletteFlat.indexOf(color) == -1)) currentColors.push(color);
+    });
+    if (currentColors.length > 0) palette.push(currentColors);
+
+    $("#{{ form.vars.id }}").spectrum({
+        showPalette: true,
+        showAlpha: true,
+        showInitial: true,
+        preferredFormat: "hex",
+        showInput: true,
+        color: '{{ form.vars.value }}',
+        change: function(tinycolor) { 
+            updateInputWithColor("{{ form.vars.id }}", tinycolor);
+            $("#{{ form.vars.id }}").val(tinycolor.getAlpha() == 1 ? tinycolor.toHexString() : tinycolor.toRgbString());
+        },
+        palette: palette
+    });
+        
+    $("#{{ form.vars.id }}").click(function() { 
+        $("#{{ form.vars.id }}").spectrum("show"); 
+        return false;
+    });
+    {% if form.vars.value %}
+        var tinycolor = window.tinycolor('{{ form.vars.value }}');
+        updateInputWithColor("{{ form.vars.id }}", tinycolor);
+    {% endif %}
+    $("#{{ form.vars.id }}").parent().css("background-image", "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)");
+
+    function updateInputWithColor(inputId, tinycolor) {
+        var textColor = tinycolor.isDark() ? 'white' : 'black';
+        $("#" + inputId).css('background-color', tinycolor.toString()).css('color', textColor);
+    }    
+  });
+</script>
+
+<style>
+    #{{ form.vars.id }} { display: block !important }
+    .sp-replacer {     
+        float: left;
+        width: 0;
+        border: none; 
+        background: none;
+    }
+    .sp-preview, .sp-dd { display: none; }
+</style>
