@@ -118,28 +118,46 @@
                 saveViewportInCookies : {{ config.saveViewportInCookies ? 'true' : 'false' }},
                 saveTileLayerInCookies : {{ config.saveTileLayerInCookies ? 'true' : 'false' }},
             },
+            theme: '{{ config.theme }}',
             colors:
-            {
-                neutralDark: '{{ config.neutralDarkColor }}' ,
-                neutralDarkTransparent: '{{ config.neutralDarkTransparentColor }}',
-                neutralSoftDark: '{{ config.neutralSoftDarkColor }}',
-                neutral: '{{ config.neutralColor }}',
-                neutralLight: '{{ config.neutralLightColor }}',
-                secondary: '{{ config.primaryColor }}',
-                primary: '{{ config.secondaryColor }}',
-                background: '{{ config.backgroundColor }}',
+            {               
+                text: '{{ config.textColor }}',
+                primary: '{{ config.primaryColor }}'
 
-                textColor: '{{ config.neutralDarkColor }}',
-                searchBar: '{{ config.searchBarColor }}',
-                disableColor: '{{ config.disableColor }}',
-                listTitle: '{{ config.listTitleColor }}',
-                listTitleBackBtn: '{{ config.listTitleBackBtnColor }}',
-                listTitleBackground: '{{ config.listTitleBackgroundColor }}',
+                // Optional colors
+                {% if config.secondaryColor %}, secondary: '{{ config.secondaryColor }}'{% endif %} 
+                {% if config.backgroundColor %}, background: '{{ config.backgroundColor }}'{% endif %}            
+                {% if config.searchBarColor %}, searchBar: '{{ config.searchBarColor }}'{% endif %}
+                {% if config.disableColor %}, disabled: '{{ config.disableColor }}'{% endif %}
+                {% if config.pendingColor %}, pending: '{{ config.pendingColor }}'{% endif %}
+                {% if config.contentBackgroundColor %}, contentBackground: '{{ config.contentBackgroundColor }}'{% endif %}
+                {% if config.textDarkColor %}, textDark: '{{ config.textDarkColor }}'{% endif %}
+                {% if config.textDarkSoftColor %}, textDarkSoft: '{{ config.textDarkSoftColor }}'{% endif %}
+                {% if config.textLightColor %}, textLight: '{{ config.textLightColor }}'{% endif %}    
+                {% if config.textLightSoftColor %}, textLightSoft: '{{ config.textLightSoftColor }}'{% endif %}        
+                {% if config.interactiveSectionColor %}, interactiveSection: '{{ config.interactiveSectionColor }}'{% endif %}
 
+                // Non implemented colors
+                // infoBarHeader: undefined, // by default auto colored with main option color
+                // infoBarMenu: undefined,   // by default auto colored with main option color
+                
+                // contentBackgroundElementBody: undefined, // by default calculated from contentBackground
+                // menuOptionHover: undefined, // by default calculated from contentBackground
+                // lineBorder: undefined, // by default calculated from contentBackground
+                
+                // mapControlsBgd: undefined,
+                // mapControls: undefined,  
+                // mapListBtn: undefined,
+                
+            },
+            fonts: {
                 mainFont: '{{ config.mainFont }}',
                 titleFont: '{{ config.titleFont }}',
-                taxonomyMainTitleFont: '{{ config.taxonomyMainTitleFont }}',  
-            }     
+            },
+            images:
+            {
+                buttonOpenMenu:  "{{ config.favicon ? config.favicon.imageUrl : config.logo ? config.logo.imageUrl : null }}"   
+            }  
         }); 
     });   
 

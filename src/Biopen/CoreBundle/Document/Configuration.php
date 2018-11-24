@@ -314,7 +314,10 @@ class Configuration
     // --------- STYLE ---------
     // -------------------------
 
-    // MAIN COLORS & FONTS
+    /** @MongoDB\Field(type="string") */
+    protected $theme; 
+
+    // FONTS
 
     /** @MongoDB\Field(type="string") */
     protected $mainFont;
@@ -322,62 +325,47 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $titleFont;
 
-    /** @MongoDB\Field(type="string") */
-    protected $neutralDarkColor;  
+    // COLORS BASIC
 
     /** @MongoDB\Field(type="string") */
-    protected $neutralSoftDarkColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $neutralColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $neutralSoftColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $neutralLightColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $secondaryColor;
+    protected $textColor;    
 
     /** @MongoDB\Field(type="string") */
     protected $primaryColor;
 
     /** @MongoDB\Field(type="string") */
+    protected $secondaryColor;
+
+    /** @MongoDB\Field(type="string") */
     protected $backgroundColor;
+
+    // COLORS INTERMEDIAITE
+
+    /** @MongoDB\Field(type="string") */
+    protected $textDarkColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $textDarkSoftColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $textLightColor;
+
+    /** @MongoDB\Field(type="string") */
+    protected $textLightSoftColor;
 
     /** @MongoDB\Field(type="string") */
     protected $contentBackgroundColor;
 
     /** @MongoDB\Field(type="string") */
-    protected $textColor;
-    
-
-    // CUSTOM COLORS & FONTS
-
-    /** @MongoDB\Field(type="string") */
     protected $headerColor;
+
+    // COLORS ADVANCED    
 
     /** @MongoDB\Field(type="string") */
     protected $searchBarColor;
 
     /** @MongoDB\Field(type="string") */
     protected $disableColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $neutralDarkTransparentColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $listTitleColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $listTitleBackBtnColor;
-
-    /** @MongoDB\Field(type="string") */
-    protected $listTitleBackgroundColor; 
-
-    /** @MongoDB\Field(type="string") */
-    protected $taxonomyMainTitleFont; 
 
     /** @MongoDB\Field(type="string") */
     protected $pendingColor; 
@@ -938,52 +926,6 @@ class Configuration
     }
 
     /**
-     * Set darkColor
-     *
-     * @param string $darkColor
-     * @return $this
-     */
-    public function setDarkColor($darkColor)
-    {
-        if (strlen($darkColor) == 6) $darkColor = '#' . $darkColor;
-        $this->darkColor = $darkColor;
-        return $this;
-    }
-
-    /**
-     * Get darkColor
-     *
-     * @return string $darkColor
-     */
-    public function getDarkColor()
-    {
-        return $this->darkColor;
-    }
-
-    /**
-     * Set lightColor
-     *
-     * @param string $lightColor
-     * @return $this
-     */
-    public function setLightColor($lightColor)
-    {
-        if (strlen($lightColor) == 6) $lightColor = '#' . $lightColor;
-        $this->lightColor = $lightColor;
-        return $this;
-    }
-
-    /**
-     * Get lightColor
-     *
-     * @return string $lightColor
-     */
-    public function getLightColor()
-    {
-        return $this->lightColor;
-    }
-
-    /**
      * Set collaborativeModerationFeature
      *
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModerationFeature
@@ -1072,52 +1014,6 @@ class Configuration
     }
 
     /**
-     * Set neutralDarkColor
-     *
-     * @param string $neutralDarkColor
-     * @return $this
-     */
-    public function setNeutralDarkColor($neutralDarkColor)
-    {
-        if (strlen($neutralDarkColor) == 6) $neutralDarkColor = '#' . $neutralDarkColor;
-        $this->neutralDarkColor = $neutralDarkColor;
-        return $this;
-    }
-
-    /**
-     * Get neutralDarkColor
-     *
-     * @return string $neutralDarkColor
-     */
-    public function getNeutralDarkColor()
-    {
-        return $this->neutralDarkColor;
-    }
-
-    /**
-     * Set neutralSoftDarkColor
-     *
-     * @param string $neutralSoftDarkColor
-     * @return $this
-     */
-    public function setNeutralSoftDarkColor($neutralSoftDarkColor)
-    {
-        if (strlen($neutralSoftDarkColor) == 6) $neutralSoftDarkColor = '#' . $neutralSoftDarkColor;
-        $this->neutralSoftDarkColor = $neutralSoftDarkColor;
-        return $this;
-    }
-
-    /**
-     * Get neutralSoftDarkColor
-     *
-     * @return string $neutralSoftDarkColor
-     */
-    public function getNeutralSoftDarkColor()
-    {
-        return $this->neutralSoftDarkColor;
-    }
-
-    /**
      * Set neutralColor
      *
      * @param string $neutralColor
@@ -1141,29 +1037,6 @@ class Configuration
     }
 
     /**
-     * Set neutralLightColor
-     *
-     * @param string $neutralLightColor
-     * @return $this
-     */
-    public function setNeutralLightColor($neutralLightColor)
-    {
-        if (strlen($neutralLightColor) == 6) $neutralLightColor = '#' . $neutralLightColor;
-        $this->neutralLightColor = $neutralLightColor;
-        return $this;
-    }
-
-    /**
-     * Get neutralLightColor
-     *
-     * @return string $neutralLightColor
-     */
-    public function getNeutralLightColor()
-    {
-        return $this->neutralLightColor;
-    }
-
-    /**
      * Set backgroundColor
      *
      * @param string $backgroundColor
@@ -1184,122 +1057,6 @@ class Configuration
     public function getBackgroundColor()
     {
         return $this->backgroundColor;
-    }
-  
-
-    /**
-     * Set neutralDarkTransparentColor
-     *
-     * @param string $neutralDarkTransparentColor
-     * @return $this
-     */
-    public function setNeutralDarkTransparentColor($neutralDarkTransparentColor)
-    {
-        if (strlen($neutralDarkTransparentColor) == 6) $neutralDarkTransparentColor = '#' . $neutralDarkTransparentColor;
-        $this->neutralDarkTransparentColor = $neutralDarkTransparentColor;
-        return $this;
-    }
-
-    /**
-     * Get neutralDarkTransparentColor
-     *
-     * @return string $neutralDarkTransparentColor
-     */
-    public function getNeutralDarkTransparentColor()
-    {
-        return $this->neutralDarkTransparentColor;
-    }
-
-    /**
-     * Set listTitleColor
-     *
-     * @param string $listTitleColor
-     * @return $this
-     */
-    public function setListTitleColor($listTitleColor)
-    {
-        if (strlen($listTitleColor) == 6) $listTitleColor = '#' . $listTitleColor;
-        $this->listTitleColor = $listTitleColor;
-        return $this;
-    }
-
-    /**
-     * Get listTitleColor
-     *
-     * @return string $listTitleColor
-     */
-    public function getListTitleColor()
-    {
-        return $this->listTitleColor;
-    }
-
-    /**
-     * Set listTitleBackBtnColor
-     *
-     * @param string $listTitleBackBtnColor
-     * @return $this
-     */
-    public function setListTitleBackBtnColor($listTitleBackBtnColor)
-    {
-        if (strlen($listTitleBackBtnColor) == 6) $listTitleBackBtnColor = '#' . $listTitleBackBtnColor;
-        $this->listTitleBackBtnColor = $listTitleBackBtnColor;
-        return $this;
-    }
-
-    /**
-     * Get listTitleBackBtnColor
-     *
-     * @return string $listTitleBackBtnColor
-     */
-    public function getListTitleBackBtnColor()
-    {
-        return $this->listTitleBackBtnColor;
-    }
-
-    /**
-     * Set listTitleBackgroundColor
-     *
-     * @param string $listTitleBackgroundColor
-     * @return $this
-     */
-    public function setListTitleBackgroundColor($listTitleBackgroundColor)
-    {
-        if (strlen($listTitleBackgroundColor) == 6) $listTitleBackgroundColor = '#' . $listTitleBackgroundColor;
-        $this->listTitleBackgroundColor = $listTitleBackgroundColor;
-        return $this;
-    }
-
-    /**
-     * Get listTitleBackgroundColor
-     *
-     * @return string $listTitleBackgroundColor
-     */
-    public function getListTitleBackgroundColor()
-    {
-        return $this->listTitleBackgroundColor;
-    }
-
-    /**
-     * Set taxonomyMainTitleFont
-     *
-     * @param string $taxonomyMainTitleFont
-     * @return $this
-     */
-    public function setTaxonomyMainTitleFont($taxonomyMainTitleFont)
-    {
-        if (strlen($taxonomyMainTitleFont) == 6) $taxonomyMainTitleFont = '#' . $taxonomyMainTitleFont;
-        $this->taxonomyMainTitleFont = $taxonomyMainTitleFont;
-        return $this;
-    }
-
-    /**
-     * Get taxonomyMainTitleFont
-     *
-     * @return string $taxonomyMainTitleFont
-     */
-    public function getTaxonomyMainTitleFont()
-    {
-        return $this->taxonomyMainTitleFont;
     }
 
     /**
@@ -1460,29 +1217,6 @@ class Configuration
     public function getInteractiveSectionColor()
     {
         return $this->interactiveSectionColor;
-    }
-
-    /**
-     * Set neutralSoftColor
-     *
-     * @param string $neutralSoftColor
-     * @return $this
-     */
-    public function setNeutralSoftColor($neutralSoftColor)
-    {
-        if (strlen($neutralSoftColor) == 6) $neutralSoftColor = '#' . $neutralSoftColor;
-        $this->neutralSoftColor = $neutralSoftColor;
-        return $this;
-    }
-
-    /**
-     * Get neutralSoftColor
-     *
-     * @return string $neutralSoftColor
-     */
-    public function getNeutralSoftColor()
-    {
-        return $this->neutralSoftColor;
     }
 
     /**
@@ -2851,5 +2585,115 @@ class Configuration
     {
         if(!$this->api) $this->api = new ConfigurationApi();
         return $this->api;
+    }
+
+    /**
+     * Set theme
+     *
+     * @param string $theme
+     * @return $this
+     */
+    public function setTheme($theme)
+    {
+        $this->theme = $theme;
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string $theme
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
+
+    /**
+     * Set textDarkColor
+     *
+     * @param string $textDarkColor
+     * @return $this
+     */
+    public function setTextDarkColor($textDarkColor)
+    {
+        $this->textDarkColor = $textDarkColor;
+        return $this;
+    }
+
+    /**
+     * Get textDarkColor
+     *
+     * @return string $textDarkColor
+     */
+    public function getTextDarkColor()
+    {
+        return $this->textDarkColor;
+    }
+
+    /**
+     * Set textDarkSoftColor
+     *
+     * @param string $textDarkSoftColor
+     * @return $this
+     */
+    public function setTextDarkSoftColor($textDarkSoftColor)
+    {
+        $this->textDarkSoftColor = $textDarkSoftColor;
+        return $this;
+    }
+
+    /**
+     * Get textDarkSoftColor
+     *
+     * @return string $textDarkSoftColor
+     */
+    public function getTextDarkSoftColor()
+    {
+        return $this->textDarkSoftColor;
+    }
+
+    /**
+     * Set textLightColor
+     *
+     * @param string $textLightColor
+     * @return $this
+     */
+    public function setTextLightColor($textLightColor)
+    {
+        $this->textLightColor = $textLightColor;
+        return $this;
+    }
+
+    /**
+     * Get textLightColor
+     *
+     * @return string $textLightColor
+     */
+    public function getTextLightColor()
+    {
+        return $this->textLightColor;
+    }
+
+    /**
+     * Set textLightSoftColor
+     *
+     * @param string $textLightSoftColor
+     * @return $this
+     */
+    public function setTextLightSoftColor($textLightSoftColor)
+    {
+        $this->textLightSoftColor = $textLightSoftColor;
+        return $this;
+    }
+
+    /**
+     * Get textLightSoftColor
+     *
+     * @return string $textLightSoftColor
+     */
+    public function getTextLightSoftColor()
+    {
+        return $this->textLightSoftColor;
     }
 }

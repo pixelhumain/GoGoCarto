@@ -81,57 +81,23 @@ class LoadConfiguration implements FixtureInterface
     $configuration->setElementFormFieldsJson("[{\"type\":\"taxonomy\",\"label\":\"Choisissez la ou les catégories par ordre d importance\",\"name\":\"taxonomy\"},{\"type\":\"separator\",\"label\":\"Séparateur de section\",\"name\":\"separator-1539422234804\"},{\"type\":\"header\",\"subtype\":\"h1\",\"label\":\"Informations\"},{\"type\":\"title\",\"required\":true,\"label\":\"Titre de la fiche\",\"name\":\"name\",\"maxlength\":\"80\",\"icon\":\"gogo-icon-account-circle\"},{\"type\":\"text\",\"required\":true,\"label\":\"Description courte\",\"name\":\"description\",\"maxlength\":\"250\",\"subtype\":\"text\"},{\"type\":\"textarea\",\"label\":\"Description longue\",\"name\":\"descriptionMore\",\"subtype\":\"textarea\",\"maxlength\":\"600\"},{\"type\":\"address\",\"label\":\"Adresse complète\",\"name\":\"address\",\"icon\":\"gogo-icon-marker-symbol\"},{\"type\":\"separator\",\"label\":\"Séparateur de section\",\"name\":\"separator-1539423917238\"},{\"type\":\"header\",\"subtype\":\"h1\",\"label\":\"Contact (optionnel)\"},{\"type\":\"text\",\"subtype\":\"tel\",\"label\":\"Téléphone\",\"name\":\"telephone\"},{\"type\":\"email\",\"subtype\":\"email\",\"label\":\"Mail\",\"name\":\"email\"},{\"type\":\"text\",\"subtype\":\"url\",\"label\":\"Site web\",\"name\":\"website\"},{\"type\":\"separator\",\"label\":\"Séparateur de section\",\"name\":\"separator-1539424058076\"},{\"type\":\"header\",\"subtype\":\"h1\",\"label\":\"Horaires (optionnel)\"},{\"type\":\"openhours\",\"label\":\"Horaires d ouvertures\",\"name\":\"openhours\"}]");
     $configuration->setElementFormGeocodingHelp("Ne mettez pas de ponctuation, les noms tout en majuscules ne sont pas reconnus non plus. Si la localisation ne fonctionne pas (il arrive que certaines adresses ne soient pas reconnues), entrez le nom de la ville/le village le plus proche, cliquez sur « Localiser », puis placer le point de localisation manuellement. Re-rentrez l’adresse complète dans la barre et passez à la suite du formulaire sans re-cliquer sur « localiser ».");
 
-    $neutralDark = '#345451' ;
-    $neutralDarkTransparent = '#345451' ;
-    $neutralSoftDark = '#345451' ;
-    $neutral = '#467471' ;
-    $neutralSoft = '#467471' ;
-    $neutralLight = '#95C5C2' ;
-    $primary = '#F57B56' ;
-    $primarySoft = '#F57B56';
-    $pendingColor = '#5B5B5B';
-    $secondary = '#97C5C2' ;
-    $background = '#F4F4F4' ;
+    $textColor = '#495057';
+    $primary = '#64d29b';
+    $background = '#f4f4f4';    
 
-    $textColor = '#477572' ;
-    $disableColor = '#C2C9D4' ;
-    $listTitle = '#345451' ;
-    $listTitleBackBtn = '#FFFFFF';
-    $listTitleBackground = '#F4F4F4' ;
-
-    $mainFont = 'Cabin' ;
-    $titleFont = 'Carter One' ;
-    $taxonomyMainTitleFont = $titleFont ; 
+    $mainFont = 'Cabin';
+    $titleFont = 'Carter One';
 
     // IMPORT
     $configuration->setFontImport('<link href="https://fonts.googleapis.com/css?family=Cabin:400,700|Carter+One" rel="stylesheet">');
-    $configuration->setIconImport('<script src="https://use.fontawesome.com/3b93bc3463.js"></script>');
+    $configuration->setIconImport('<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">');
 
     // STYLE
     $configuration->setMainFont($mainFont);
     $configuration->setTitleFont($titleFont);
-    $configuration->setNeutralDarkColor($neutralDark); 
-    $configuration->setNeutralSoftDarkColor($neutralSoftDark);
-    $configuration->setNeutralColor($neutral);
-    $configuration->setNeutralSoftColor($neutralSoft);
-    $configuration->setNeutralLightColor($neutralLight);
-    $configuration->setSecondaryColor($secondary);
+    $configuration->setTextColor($textColor);
     $configuration->setPrimaryColor($primary);
     $configuration->setBackgroundColor($background);
-    $configuration->setContentBackgroundColor('white'); // #fafafa
-    $configuration->setTextColor($textColor);
-
-    // CUSTOM COLORS & FONTS
-    $configuration->setHeaderColor($neutralDark);
-    $configuration->setSearchBarColor($neutral);
-    $configuration->setDisableColor($disableColor);
-    $configuration->setNeutralDarkTransparentColor($neutralDarkTransparent);
-    $configuration->setListTitleColor($listTitle);
-    $configuration->setListTitleBackBtnColor($listTitleBackBtn);
-    $configuration->setListTitleBackgroundColor($listTitleBackground); 
-    $configuration->setTaxonomyMainTitleFont($taxonomyMainTitleFont); 
-    $configuration->setPendingColor($pendingColor);
-    $configuration->setInteractiveSectionColor($primarySoft); 
     $configuration->setCustomCSS('');
     
     $manager->persist($configuration);  
