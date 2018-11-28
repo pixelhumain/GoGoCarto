@@ -11,8 +11,6 @@
 
   label.gogo-form-label { 
 
-    background-color: white;
-
     &.active { 
       font-weight: bold;
       .more { display: none; }
@@ -45,8 +43,7 @@
   }
   .mandatory-asterisk:after {
     content: "*";
-    margin-left: 5px;
-    color: $error-color;
+    margin-left: 5px;    
     position: absolute;
     top: 1px;
     font-size: .9rem;
@@ -79,7 +76,6 @@
 
   label .error {
     display:none;
-    color: $error-color;
     margin-left: 10px;
   }
 
@@ -87,14 +83,6 @@
 
   .input-field.error.select-input.invalid-required {
     label .error { display: inline-block; }
-    input { 
-      border-bottom: 1px solid $error-color !important;
-      box-shadow: 0 1px 0 0 $error-color !important;
-    }
-  }
-
-  i.prefix.invalid {
-    color: $error-color !important;
   }
 
   .invalid + label:after, .invalid:focus + label:after {
@@ -107,15 +95,6 @@
   i.material-icons {
       top: 4px;
       &.openhours-icons { line-height: 3.2rem; }
-  }
-
-  .input-field.error .prefix
-  {
-    color: $error-color !important;
-  }
-  .input-field.error textarea:not(:focus)
-  {
-    border-color: $error-color;
   }
 
   .invalid-required + label.gogo-form-label {
@@ -143,17 +122,12 @@
       position: absolute;
       width: 600px;
       top: 3.5rem;
-      color: $error-color;
       font-weight:bold;
       left: 3rem;
       font-size: .8rem;
       font-style: normal;
     }
   }    
-
-  h1, h2, label {
-    &.error { color: $error-color; }
-  }
 
   @media #{$small-only} {
     h2 { text-align: left}
@@ -185,7 +159,6 @@
   #element-form-title
   {
     padding-top: 2rem;
-    background-color: #fafafa;
     margin-bottom: 5px !important;
     @media screen and (min-width: 600px) { margin-bottom: -10px !important; }
   }
@@ -195,44 +168,13 @@
     margin-bottom: 2rem;
   }
 
-  #section_element
-  {
-    margin-bottom: 0px;
-    height: 8rem;
-  }
-
-  #section_products
-  {
-    .dropdown-content
-    {
-      max-height: 350px;
-    }
-
-    input[type="checkbox"].readonly  + label:before
-    {
-        border-right: 2px solid #aaa;
-        border-bottom: 2px solid #aaa;
-    }
-  }
-
   .logged-info
   {
     margin-top: 1rem;
     margin-bottom: .5rem;
     font-style: italic;
     text-align: center;
-  }
-      
-
-  .rc-anchor
-  {
-    @include box-shadow-1(none);
-  }
-
-  .rc-anchor-light
-  {
-    border: none !important;
-  }
+  }      
 
   // ---------------------------------------
   //             MAP
@@ -377,11 +319,6 @@
   .open-hours-container
   {
     padding: .2rem 0 .6rem .5rem;
-  }
-
-  .open-hours-container.impair
-  {
-    background-color: #EFEFEF;
   }
 
   .timepicker_1, .timepicker_2, .timepicker_3, .timepicker_4

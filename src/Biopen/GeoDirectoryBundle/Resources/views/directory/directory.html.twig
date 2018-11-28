@@ -122,20 +122,20 @@
             colors:
             {               
                 text: '{{ config.textColor }}',
-                primary: '{{ config.primaryColor }}'
+                primary: '{{ config.primaryColor }}',
 
                 // Optional colors
-                {% if config.secondaryColor %}, secondary: '{{ config.secondaryColor }}'{% endif %} 
-                {% if config.backgroundColor %}, background: '{{ config.backgroundColor }}'{% endif %}            
-                {% if config.searchBarColor %}, searchBar: '{{ config.searchBarColor }}'{% endif %}
-                {% if config.disableColor %}, disabled: '{{ config.disableColor }}'{% endif %}
-                {% if config.pendingColor %}, pending: '{{ config.pendingColor }}'{% endif %}
-                {% if config.contentBackgroundColor %}, contentBackground: '{{ config.contentBackgroundColor }}'{% endif %}
-                {% if config.textDarkColor %}, textDark: '{{ config.textDarkColor }}'{% endif %}
-                {% if config.textDarkSoftColor %}, textDarkSoft: '{{ config.textDarkSoftColor }}'{% endif %}
-                {% if config.textLightColor %}, textLight: '{{ config.textLightColor }}'{% endif %}    
-                {% if config.textLightSoftColor %}, textLightSoft: '{{ config.textLightSoftColor }}'{% endif %}        
-                {% if config.interactiveSectionColor %}, interactiveSection: '{{ config.interactiveSectionColor }}'{% endif %}
+                secondary: '{{ config.secondaryColor }}',
+                background: '{{ config.backgroundColor }}',    
+                searchBar: '{{ config.searchBarColor }}',
+                disabled: '{{ config.disableColor }}',
+                pending: '{{ config.pendingColor }}',
+                contentBackground: '{{ config.contentBackgroundColor }}',
+                textDark: '{{ config.textDarkColor }}',
+                textDarkSoft: '{{ config.textDarkSoftColor }}',
+                textLight: '{{ config.textLightColor }}',   
+                textLightSoft: '{{ config.textLightSoftColor }}',       
+                interactiveSection: '{{ config.interactiveSectionColor }}'
 
                 // Non implemented colors
                 // infoBarHeader: undefined, // by default auto colored with main option color

@@ -39,7 +39,6 @@
     display: none;
     height: 100%;
     left: 0;
-    background-color: white;
     top: 3rem;
   }
 
@@ -50,22 +49,18 @@
 
     a { 
       color: inherit; 
-      &:not(:last-child) { li { border-bottom: 1px solid #d0d0d0; } }
       @media (min-width : 901px) {
         &:last-child { li { border-radius: 0 0 5px 5px; } }
       }
     }
 
     li {
-
-      background-color: white;
       line-height: 3rem;
       height: 3rem;
       padding: 0 20px 0 13px;
       overflow: hidden;   
 
       &.title {
-        color: white;
         font-size: 1.1rem;
         font-weight: bold;
         @media (min-width : 901px) { border-radius: 5px 5px 0 0; }        
@@ -76,7 +71,6 @@
 
       &:hover:not(.title) {
         cursor: pointer;
-        background-color: #eee;
         @include transition(all .3s);
       }  
 

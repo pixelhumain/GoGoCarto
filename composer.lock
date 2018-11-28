@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e6a11151ff6b897003d5cf64ba13b1a",
+    "content-hash": "59ee94d6340718dbcb00a7f3ebbfa98c",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -3057,6 +3057,65 @@
             "time": "2017-12-27T14:37:46+00:00"
         },
         {
+            "name": "ozdemirburak/iris",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ozdemirburak/iris.git",
+                "reference": "a100a217eb7fa7975069f02a0f9e1625610f2f00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ozdemirburak/iris/zipball/a100a217eb7fa7975069f02a0f9e1625610f2f00",
+                "reference": "a100a217eb7fa7975069f02a0f9e1625610f2f00",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.6|~7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.0|~6.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OzdemirBurak\\Iris\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Burak Özdemir",
+                    "email": "mail@burakozdemir.co.uk",
+                    "homepage": "https://burakozdemir.co.uk"
+                }
+            ],
+            "description": "PHP library for color manipulation and conversion.",
+            "homepage": "https://github.com/ozdemirburak/iris",
+            "keywords": [
+                "color",
+                "conversion",
+                "hex",
+                "hsl",
+                "hsla",
+                "hsv",
+                "manipulation",
+                "rgb",
+                "rgba",
+                "transformation"
+            ],
+            "time": "2018-10-07T23:02:25+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v2.0.17",
             "source": {
@@ -5784,56 +5843,6 @@
             "time": "2014-01-20T22:35:06+00:00"
         },
         {
-            "name": "xmon/color-picker-type-bundle",
-            "version": "v1.0.5",
-            "target-dir": "Xmon/ColorPickerTypeBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xmon/ColorPickerTypeBundle.git",
-                "reference": "2aeff956fa3708ad4071d112b63185ef1546e098"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/xmon/ColorPickerTypeBundle/zipball/2aeff956fa3708ad4071d112b63185ef1546e098",
-                "reference": "2aeff956fa3708ad4071d112b63185ef1546e098",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4",
-                "symfony/assetic-bundle": "*",
-                "symfony/framework-bundle": "^2.1 || ^3.0"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Xmon\\ColorPickerTypeBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Juanjo García",
-                    "email": "juanjogarcia@eag.pm",
-                    "homepage": "http://eag.pm",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The ColorPickerTypeBundle extends Symfony2 form types, creates a new ColorPicker form type, to display a javascript color picker.",
-            "homepage": "https://github.com/xmon/ColorPickerTypeBundle",
-            "keywords": [
-                "Symfony2",
-                "bundle",
-                "color-picker",
-                "form-type",
-                "jscolor",
-                "sonata-admin"
-            ],
-            "time": "2017-04-09T14:42:02+00:00"
-        },
-        {
             "name": "zendframework/zend-diactoros",
             "version": "1.8.6",
             "source": {
@@ -6060,6 +6069,56 @@
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
             "time": "2018-09-19T20:34:51+00:00"
+        },
+        {
+            "name": "xmon/color-picker-type-bundle",
+            "version": "v1.0.5",
+            "target-dir": "Xmon/ColorPickerTypeBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xmon/ColorPickerTypeBundle.git",
+                "reference": "2aeff956fa3708ad4071d112b63185ef1546e098"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xmon/ColorPickerTypeBundle/zipball/2aeff956fa3708ad4071d112b63185ef1546e098",
+                "reference": "2aeff956fa3708ad4071d112b63185ef1546e098",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/assetic-bundle": "*",
+                "symfony/framework-bundle": "^2.1 || ^3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Xmon\\ColorPickerTypeBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juanjo García",
+                    "email": "juanjogarcia@eag.pm",
+                    "homepage": "http://eag.pm",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The ColorPickerTypeBundle extends Symfony2 form types, creates a new ColorPicker form type, to display a javascript color picker.",
+            "homepage": "https://github.com/xmon/ColorPickerTypeBundle",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "color-picker",
+                "form-type",
+                "jscolor",
+                "sonata-admin"
+            ],
+            "time": "2017-04-09T14:42:02+00:00"
         }
     ],
     "aliases": [],

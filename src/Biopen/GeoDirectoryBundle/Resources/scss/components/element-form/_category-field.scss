@@ -16,13 +16,10 @@
 
 	&.error
 	{
-		.select-wrapper { background-color: $error-color !important; }
-
 		&:before
 		{
 			width: 100%;
-			content: "Veuillez sélectionner au moins une option";
-			color: $error-color;
+			content: "Veuillez sélectionner au moins une option";			
 		}
 	}
 	
@@ -69,7 +66,6 @@
 		{
 		  padding-left: 1rem;
 		  @include border-radius(3px);
-	    @include box-shadow-1(0px 4px 5px 0px rgba(144, 144, 144, 0.34));
 	    @include transition(background-color .2s);
 
 			input.select-dropdown

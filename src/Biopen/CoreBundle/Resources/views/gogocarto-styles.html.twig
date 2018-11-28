@@ -3,10 +3,23 @@
   {#     GENERAL         #}
   {# ------------------- #}
 
+  {% set text = config.getTextContentColor %}
+  {% set textSoft = config.getTextSoftContentColor %}
+  {% set primary = config.primaryColor %}
+  {% set secondary = config.secondaryColor %}
+  {% set background = config.backgroundColor %}
+  {% set header = config.headerColor %}
+  {% set headerText = config.headerTextColor %}
+  {% set headerTextHover = config.headerHoverColor %}
+  {% set contentBgd = config.contentBackgroundColor %}
+  {% set contentBgdSoft = config.contentBackgroundSoftColor %}  
+  {% set disable = config.disableColor %}
+  {% set error = config.errorColor %}
+
   {% import _self as self %}
-  {{ self.createcolor('primary', config.primaryColor) }}
-  {{ self.createcolor('secondary', config.secondaryColor) }}  
-  {{ self.createcolor('background', config.backgroundColor) }}
+  {{ self.createcolor('primary', primary) }}
+  {{ self.createcolor('secondary', secondary) }}  
+  {{ self.createcolor('background', background) }}
   
   html{
     line-height: 1.5;
@@ -25,46 +38,57 @@
    box-sizing: inherit;
   }
 
-  body, html { background-color: {{ config.backgroundColor }}; color: {{ config.textColor }}; font-family: {{ config.mainFont }}; }
+  body, html { background-color: {{ background }}; color: {{ text }}; font-family: {{ config.mainFont }}; }
 
   .gogo-load-css h1, .gogo-load-css h2 { font-family: {{ config.titleFont }}; }
 
-  .gogo-load-css .btn { background-color: {{ config.primaryColor }}; color: white; }
-  .gogo-load-css .btn:hover { background-color: {{ config.primaryColor }}; }
-  .gogo-load-css .btn:focus { background-color: {{ config.primaryColor }}; }
+  #page-content.with-section section { background-color: {{ contentBgd }}; }
 
-  .gogo-load-css .btn.btn-secondary { background-color: {{ config.secondaryColor }}; }
-  .gogo-load-css .btn.btn-secondary:hover { background-color: {{ config.secondaryColor }}; }
+  .gogo-load-css .btn { background-color: {{ primary }}; color: {{ contentBgd }} }
+  .gogo-load-css .btn:hover { background-color: {{ primary }}; }
+  .gogo-load-css .btn:focus { background-color: {{ primary }}; }
 
-  .gogo-load-css .btn.btn-neutral { background-color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css .btn.btn-neutral:hover { background-color: {{ config.textDarkSoftColor }}; }
+  .gogo-load-css .btn.btn-secondary { background-color: {{ secondary }}; }
+  .gogo-load-css .btn.btn-secondary:hover { background-color: {{ secondary }}; }
 
-  .gogo-load-css .modal.page-modal { background-color: {{ config.textColor }} !important; }  
+  .gogo-load-css .btn.btn-neutral { background-color: {{ textSoft }}; }
+  .gogo-load-css .btn.btn-neutral:hover { background-color: {{ textSoft }}; }
+
+  .gogo-load-css a { color: {{ primary }}; }
+  .gogo-load-css .modal.page-modal { background-color: {{ text }} !important; }  
   
-  .gogo-load-css .neutral-color { color: {{ config.textDarkSoftColor }}; }  
+  .gogo-load-css .neutral-color { color: {{ textSoft }}; }  
 
-  .gogo-load-css #page-content { background-color : {{ config.contentBackgroundColor }}; }
+  .gogo-load-css #page-content { background-color : {{ contentBgd }}; }
 
-  .gogo-load-css #section-credits { background-color: {{ config.headerColor }}; color: {{ config.textDarkSoftColor }}; }  
+  .gogo-load-css .flash-message a:hover { color: {{ primary }}; }
+  .gogo-load-css #page-content.directory .flash-messages-container .flash-message { background-color: {{ secondary }}; }
 
-  .gogo-load-css .flash-message a:hover { color: {{ config.primaryColor }}; }
-  .gogo-load-css #page-content.directory .flash-messages-container .flash-message { background-color: {{ config.secondaryColor }}; }
+  .gogo-load-css .wysiwyg-content a { color: {{ secondary }}; }
+  .gogo-load-css .wysiwyg-content.background-dark  a { color: {{ primary }}; }
 
-  .gogo-load-css .wysiwyg-content a { color: {{ config.secondaryColor }}; }
-  .gogo-load-css .wysiwyg-content.background-dark  a { color: {{ config.primaryColor }}; }
+  .gogo-load-css #page-content.contributor-login .login-section .oauth-section .oauth-btn.instance-login { color: {{ primary }}; }
 
-  .gogo-load-css #page-content.contributor-login .login-section .oauth-section .oauth-btn.instance-login { color: {{ config.primaryColor }}; }
+  .gogo-load-css #section-credits { background-color: {{ header }}; color: {{ headerText }}; }  
+  .gogo-load-css #section-credits strong { color: {{ headerText }}; }  
+  {% if header == "white" or header == "#ffffff" %}.gogo-load-css #section-credits { border-top: 1px solid #eaeaea; }{% endif %}
+
 
   {# --------------------#}
   {#      HEADER         #}
   {# ------------------- #}
 
-  .gogo-load-css #menu { background-color: {{ config.headerColor }}; color: white; }
-  .gogo-load-css #menu .dropdown-content { background-color: {{ config.headerColor }}; }
-  .gogo-load-css #menu .menu-item:hover { color: {{ config.primaryColor }}; background-color: transparent; }
-  .gogo-load-css #menu .menu-item:hover .arrow-after { border-color: {{ config.primaryColor }} transparent transparent transparent; }
-  .gogo-load-css #menu-home .small-logo .header-icon { background-color: {{ config.secondaryColor }}; }
+  .gogo-load-css #menu { background-color: {{ header }}; color: {{ headerText }}; }
+  .gogo-load-css #menu .dropdown-content { background-color: {{ header }}; }
+  .gogo-load-css #menu .menu-item:hover { color: {{ headerTextHover }}; background-color: transparent; }
+  .gogo-load-css #menu .menu-item .arrow-after { border-color: {{ headerText }} transparent transparent transparent; }
+  .gogo-load-css #menu .menu-item:hover .arrow-after { border-color: {{ headerTextHover }} transparent transparent transparent; }
+  .gogo-load-css header #menu ul#listUserActions li:hover .about-title-item { color: {{ headerTextHover }}; }
+  .gogo-load-css #menu-home .small-logo .header-icon { background-color: {{ headerTextHover }}; } 
   .gogo-load-css #menu-home { font-family: {{ config.titleFont }}; }
+  {% if header == "white" or header == "#ffffff" %}.gogo-load-css #menu { border-bottom: 1px solid #eaeaea; }{% endif %}
+  
+
 
   {# --------------------#}
   {#      DIRECTORY      #}
@@ -76,94 +100,150 @@
   {# --------------------#}
   {#     ELEMENT FORM    #}
   {# ------------------- #}
+  
+  {# Main #}
+  #element-form-title { background-color: {{ contentBgd }}; }  
+  .gogo-load-css #page-content.element-form section { background-color: {{ contentBgd }}; }  
 
-  .gogo-load-css #page-content.element-form section { background-color: {{ config.contentBackgroundColor }}; }  
+  {# Taxonomy field #}
+  .gogo-load-css .option-field .option-field-delete i:hover { color: {{ primary }} !important; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper .select-dropdown { color: {{ contentBgd }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper { background-color: {{ primary }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ secondary }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-2 { background-color: {{ textSoft }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-3 { background-color: {{ textSoft }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-4 { background-color: {{ textSoft }}; }
 
-  .gogo-load-css .option-field .option-field-delete i:hover { color: {{ config.primaryColor }} !important; }
+  .gogo-load-css .option-field-name .icon.depth-0 { color: {{ primary }}; }
+  .gogo-load-css .option-field-name .icon.depth-1 { color: {{ secondary }}; }
+  .gogo-load-css .option-field-name .icon.depth-2 { color: {{ textSoft }}; }
+  .gogo-load-css .option-field-name .icon.depth-3 { color: {{ textSoft }}; }
+  .gogo-load-css .option-field-name .icon.depth-4 { color: {{ textSoft }}; }
 
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper { background-color: {{ config.primaryColor }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ config.secondaryColor }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-2 { background-color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-3 { background-color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-4 { background-color: {{ config.textDarkSoftColor }}; }
+  .category-field.error:before { color: {{ error }}; }
+  .category-field.error .select-wrapper { background-color: {{ error }} !important; }
+  .gogo-load-css #element-form-content .option-field.inline { background-color:  {{ textSoft }}; }
 
-  .gogo-load-css .option-field-name .icon.depth-0 { color: {{ config.primaryColor }}; }
-  .gogo-load-css .option-field-name .icon.depth-1 { color: {{ config.secondaryColor }}; }
-  .gogo-load-css .option-field-name .icon.depth-2 { color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css .option-field-name .icon.depth-3 { color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css .option-field-name .icon.depth-4 { color: {{ config.textDarkSoftColor }}; }
-
-  .gogo-load-css #element-form-content .option-field.inline { background-color:  {{ config.textDarkSoftColor }}; }
-
-  .gogo-load-css .dropdown-content li>span { color: {{ config.textDarkSoftColor }}; }
+  .gogo-load-css .dropdown-content { background-color: {{ contentBgd }}; }
+  .gogo-load-css .dropdown-content { background-color: {{ contentBgdSoft }}; }
+  .gogo-load-css .dropdown-content li>span { color: {{ textSoft }}; }
 
   .gogo-load-css .main-options-container label.main-option-radio-label:after
   {
-    border: 2px solid {{ config.primaryColor }};
-    background-color: {{ config.primaryColor }};
+    border: 2px solid {{ primary }};
+    background-color: {{ primary }};
   }
   .gogo-load-css .main-options-container label.main-option-radio-label:before 
   {
-    border: 2px solid {{ config.textDarkSoftColor }};
+    border: 2px solid {{ textSoft }};
   }  
 
-  .gogo-load-css label { color: {{ config.textDarkSoftColor }}; }
-
-  /*  INPUT border COLOR   */
+  {# Input #}  
   .gogo-load-css input:focus:not(.invalid):not([readonly]):not([type=submit]), .gogo-load-css textarea:focus:not(.invalid):not([readonly]) {
-    border-color: {{ config.textDarkSoftColor }} !important;
-    box-shadow: 0 1px 0 0 {{ config.textDarkSoftColor }} !important;
+    border-color: {{ textSoft }} !important;
+    box-shadow: 0 1px 0 0 {{ textSoft }} !important;
   }
-  
-  .gogo-load-css .search-bar-with-options-container .search-bar-container.search-bar { border: none !important; }
-
+  .gogo-load-css input.invalid:not([readonly]):not([type=submit]), .gogo-load-css textarea.invalid:not([readonly]) {
+    border-color: {{ error }} !important;
+    box-shadow: 0 1px 0 0 {{ error }} !important;
+  }
   .gogo-load-css input:not(:focus):not(.invalid):not([type=submit]), .gogo-load-css textarea:not(:focus):not(.invalid) {
-    border-bottom: 1px solid  #747d8a !important;
+    border-bottom: 1px solid {{ disable }} !important;
     box-shadow: none !important;
   }
 
-  /*  LABEL COLOR   */
-  .gogo-load-css input:focus:not(.invalid) + label.gogo-form-label, .gogo-load-css textarea:focus:not(.invalid) + label.gogo-form-label
-  {
-    color: {{ config.textColor }} !important;
+  {# Input Label #}  
+  .gogo-load-css label { color: {{ textSoft }}; } 
+  .gogo-load-css label.gogo-form-label { color: {{ disable }} !important }
+  .gogo-load-css input:focus:not(.invalid) + label.gogo-form-label, .gogo-load-css textarea:focus:not(.invalid) + label.gogo-form-label { color: {{ text }} !important; }
+  .gogo-load-css input.invalid + label.gogo-form-label, .gogo-load-css textarea.invalid + label.gogo-form-label { color: {{ error }} !important; }
+  .gogo-load-css input[type=date].invalid+label:after, .gogo-load-css input[type=date]:focus.invalid+label:after, .gogo-load-css input[type=datetime-local].invalid+label:after, .gogo-load-css input[type=datetime-local]:focus.invalid+label:after, .gogo-load-css input[type=email].invalid+label:after, .gogo-load-css input[type=email]:focus.invalid+label:after, .gogo-load-css input[type=number].invalid+label:after, .gogo-load-css input[type=number]:focus.invalid+label:after, .gogo-load-css input[type=password].invalid+label:after, .gogo-load-css input[type=password]:focus.invalid+label:after, .gogo-load-css input[type=search].invalid+label:after, .gogo-load-css input[type=search]:focus.invalid+label:after, .gogo-load-css input[type=tel].invalid+label:after, .gogo-load-css input[type=tel]:focus.invalid+label:after, .gogo-load-css input[type=text].invalid+label:after, .gogo-load-css input[type=text]:focus.invalid+label:after, .gogo-load-css input[type=time].invalid+label:after, .gogo-load-css input[type=time]:focus.invalid+label:after, .gogo-load-css input[type=url].invalid+label:after, .gogo-load-css input[type=url]:focus.invalid+label:after, .gogo-load-css textarea.materialize-textarea.invalid+label:after, .gogo-load-css textarea.materialize-textarea:focus.invalid+label:after {
+    color: {{ error }} !important;
   }
 
-  .gogo-load-css label.gogo-form-label {
-    color: #797979 !important;
-  }
   .gogo-load-css label.gogo-form-label.active {
-    color: {{ config.textDarkSoftColor }} !important;
+    color: {{ textSoft }} !important;
+  }  
+
+  {# Input Icon #}  
+  .gogo-load-css .input-field i.prefix { color: {{ disable }}; }
+  .gogo-load-css .input-field i.prefix.active { color: {{ textSoft }}; }
+  .gogo-load-css .input-field i.prefix.valid { color: {{ textSoft }}; }
+  .gogo-load-css .input-field i.prefix.invalid { color: {{ error }}; }
+
+  {# Checkbox #}
+  .gogo-load-css [type=checkbox]+label:before { border-color: {{ disable }}; }
+  .gogo-load-css [type=checkbox]:checked+label:before {
+    border-right-color: {{ primary }};
+    border-bottom-color: {{ primary }};
   }
 
+  {# Address #}
   .gogo-load-css .geolocalize-help-text {
-    background-color: {{ config.backgroundColor }};
-    color: {{ config.textColor }};
+    background-color: {{ contentBgdSoft }};
+    color: {{ text }};
   }
-
   .gogo-load-css .geolocalize-help-text .btn-close {
-    color: {{ config.textColor }};
+    color: {{ text }};
   }
 
-  /*  ICON COLOR   */
-  .gogo-load-css .input-field i.prefix { color: #707680; } 
+  {# Open Hours #}
+  .gogo-load-css .gogo-icon-icon-copy-hours, .gogo-load-css .gogo-icon-add-circle, .gogo-load-css .gogo-icon-clear { color: {{ textSoft }}; }
+  .gogo-icon-icon-copy-hours:hover, .gogo-icon-add-circle:hover, .gogo-load-css .gogo-icon-clear:hover { color: {{ primary }}; }
+  .gogo-load-css .timepicker_wrap {
+    background-color: {{ contentBgd }};
+    color: {{ text }};
+  }
+  .gogo-load-css .timepicker_wrap .time, .gogo-load-css .timepicker_wrap .mins, .gogo-load-css .timepicker_wrap .meridian { color: {{ text }}; }
+  .gogo-load-css .timepicker_wrap .prev, .gogo-load-css .timepicker_wrap .next {
+    background-color: {{ textSoft }};
+    color: {{ contentBgd }};
+    border: none;
+  }
+  .gogo-load-css .open-hours-container.impair { background-color: {{ contentBgdSoft }}; }
 
-  .gogo-load-css .input-field i.prefix.active { color: #707680 ; }
+  {# Error #}
+  .mandatory-asterisk:after, label .error, .input-field.error .prefix, 
+  .gogo-load-css #input-address-field.error:after, #input-address-field.error #input-address:after, h1.error, h2.error, label.error 
+   { color: {{ error }} !important; }
+  .input-field.error.select-input.invalid-required input {
+    border-bottom: 1px solid {{ error }} !important;
+    box-shadow: 0 1px 0 0 {{ error }} !important;
+  }
+  .input-field.error textarea:not(:focus) { border-color: {{ error }}; }
+  #page-content.contributor-login .input-field.error .prefix { color: {{ error }}; }
+  
 
-  .gogo-load-css .input-field i.prefix.valid { color: {{ config.textDarkSoftColor }}; }
 
   {# ----------- #}
   {#     HOME    #}
   {# ----------- #}
   
   .gogo-load-css section.bottom-section { padding: 0; }
-  .gogo-load-css #search-geolocalize { color: {{ config.textDarkSoftColor }}; }
-  .gogo-load-css section#home-main-container { background-color : {{ config.contentBackgroundColor }}; }
+  .gogo-load-css #search-geolocalize { color: {{ textSoft }}; }
+  .gogo-load-css section#home-main-container { background-color: {{ contentBgd }}; }
+  .gogo-load-css section#home-main-container h1 { color: {{ primary }}; }
+  .gogo-load-css .search-bar-with-options-container .search-bar-container.search-bar { border: none !important; }
 
   {# ----------- #}
   {#     USER    #}
   {# ----------- #}
 
-  .gogo-load-css ul li.title { background-color: {{ config.textDarkSoftColor }}; }
+  .gogo-load-css .menu-user ul li { background-color: {{ contentBgd }}; }
+  .gogo-load-css .menu-user ul li.title { background-color: {{ textSoft }}; color: {{ contentBgd }}; }
+  .gogo-load-css .menu-user ul li:hover:not(.title) { background-color: {{ contentBgdSoft }}; }
+  .gogo-load-css .menu-user ul a:not(:last-child) li {
+    border-bottom: 1px solid {{ contentBgdSoft }};
+  }
+  .gogo-load-css #page-content.user-contributions thead { 
+    background-color: {{ contentBgdSoft }}; 
+    border-top: 1px solid #d0d0d0;
+  }
+
+  
+
+  #page-content.contributor-login .email-already-in-use { color: {{ error }}; }  
+  form.biopen_user_profile .error ul li, form.fos_user_registration_register .error ul li { color: {{ error }}; }
   
 </style>
 

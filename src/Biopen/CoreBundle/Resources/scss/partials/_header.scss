@@ -31,7 +31,6 @@ header
 	    line-height: 3rem;
 	    margin-right: 0;
 
-	    color: #EE6E73;
 			.small-logo { 
 				display: inline-block; 
 				height: 100%;
@@ -65,7 +64,6 @@ header
 
 	    @media screen and (min-width: 900px)
 			{
-				color: white;
 				.small-logo { display: none; }
 				.large-logo { display: inline-block; }			
 			}
@@ -224,8 +222,6 @@ header
 			display: inline-block;
 	    
 	    border: solid 5px;
-	    border-color: #eaeaea transparent transparent transparent;
-
   	 	margin-left: 5px;
     	margin-bottom: -3px;
     	margin-right: 0px;
@@ -297,7 +293,7 @@ header
 		    text-align: center;
 		    color: inherit;
 		    @media screen and (min-width: 700px) { text-align: left; }
-		    &:hover { color: white; background-color: transparent; }
+		    &:hover { background-color: transparent; }
 			}  
 
 			.item-divider
