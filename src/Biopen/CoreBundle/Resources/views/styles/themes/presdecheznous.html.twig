@@ -2,6 +2,7 @@
   {# --------------------#}
   {#     GENERAL         #}
   {# ------------------- #}  
+
   .gogo-load-css .btn
   {
     font-weight: bold;
@@ -15,35 +16,35 @@
 
   .gogo-load-css #page-content { box-shadow: none !important; border-radius: 5px; }
 
-  .gogo-load-css h1, .gogo-load-css h2 { color: {{ config.neutralColor }}; }
+  .gogo-load-css h1, .gogo-load-css h2 { color: {{ textSoft }}; }
 
   .gogo-load-css .modal.page-modal h1 { color: white !important; }
-  .gogo-load-css .modal.page-modal .btn {  color: {{ config.neutralDarkColor }}; }   
+  .gogo-load-css .modal.page-modal .btn {  color: {{ text }}; }   
 
-  .gogo-load-css #menu #btn-login, #submit-login, .btn.btn-primary, .modal .btn { background-color: {{ config.primaryColor }}; }
-  .gogo-load-css #menu #btn-login:hover, #submit-login:hover, .btn.btn-primary:hover, .modal .btn:hover { background-color: {{ config.primaryColor }}; }
-  .gogo-load-css #menu #btn-login:focus, #submit-login:focus, .btn.btn-primary:focus, .modal .btn:focus { background-color: {{ config.primaryColor }}; }
+  .gogo-load-css #menu #btn-login, #submit-login, .btn.btn-primary, .modal .btn { background-color: {{ primary }}; }
+  .gogo-load-css #menu #btn-login:hover, #submit-login:hover, .btn.btn-primary:hover, .modal .btn:hover { background-color: {{ primary }}; }
+  .gogo-load-css #menu #btn-login:focus, #submit-login:focus, .btn.btn-primary:focus, .modal .btn:focus { background-color: {{ primary }}; }
 
-  .gogo-load-css #page-content.contributor-login .login-section .oauth-section .oauth-btn.instance-login { color: {{ config.secondaryColor }}; }
+  .gogo-load-css #page-content.contributor-login .login-section .oauth-section .oauth-btn.instance-login { color: {{ secondary }}; }
 
   {# --------------------#}
   {#     DIRECTORY       #}
-  {# ------------------- #}
-  .gogo-load-css #page-content.directory .flash-messages-container .flash-message { background: none; background-color: {{ config.secondaryColor }} !important;}
-
-  .gogo-load-css #menu-home .small-logo .header-icon {  background-color: {{ config.neutralColor }} };
+  {# ------------------- #}  
+  .gogo-load-css #page-content.directory .flash-messages-container .flash-message { background: none; background-color: {{ secondary }} !important; }
+  .gogo-load-css #menu-home .small-logo .header-icon {  background-color: {{ textSoft }} };
+  
 
   {# --------------------#}
   {#     ELEMENT FORM    #}
   {# ------------------- #}
 
-  .gogo-load-css .option-field .option-field-delete i:hover { color: {{ config.secondaryColor }} !important; }
+  .gogo-load-css .option-field .option-field-delete i:hover { color: {{ secondary }} !important; }
 
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper { background-color: {{ config.secondaryColor }}; box-shadow: none; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ config.primaryColor }}; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper { background-color: {{ secondary }}; box-shadow: none; }
+  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ primary }}; }
 
-  .gogo-load-css .option-field-name .icon.depth-0 { color: {{ config.secondaryColor }}; }
-  .gogo-load-css .option-field-name .icon.depth-1 { color: {{ config.primaryColor }}; }	
+  .gogo-load-css .option-field-name .icon.depth-0 { color: {{ secondary }}; }
+  .gogo-load-css .option-field-name .icon.depth-1 { color: {{ primary }}; }	
 	
   .gogo-load-css #element-form-submit-btn { width: 100%; }
   
@@ -53,7 +54,6 @@
   { 
     width: 16px;
     height: 16px;
-    border: 2px solid #49576d;
     border-radius: 3px;
     margin-top: 4px;
   }  
@@ -63,10 +63,6 @@
     height: 16px;
     margin-top: 6px;
     border-radius: 0;
-    border-top: 2px solid transparent;
-    border-left: 2px solid transparent;
-    border-right: 2px solid #49576d;
-    border-bottom: 2px solid #49576d;
   }  
   .gogo-load-css #page-content.element-form #element-form-title
   {
@@ -84,16 +80,19 @@
   .gogo-load-css #page-content.element-form .open-hours-container
   {
     padding: .2rem 0 .2rem .5rem;
-    background-color: #f4f4f4 !important;
+    background-color: {{ contentBgdSoft }} !important;
     margin-bottom: 8px;
     border-radius: 5px;
     position: relative;
   }
-  .gogo-load-css .open-hours-container .day-col,.open-hours-container .copy-hours-col, .open-hours-container .new-slot-col, .open-hours-container .clear-slot-col{ color: white !important; z-index:2; }
+  .gogo-load-css .open-hours-container .day-col,.open-hours-container .copy-hours-col, .open-hours-container .new-slot-col, .open-hours-container .clear-slot-col{ color: {{ contentBgd }} !important; z-index:2; }
+  .gogo-load-css .gogo-icon-icon-copy-hours, .gogo-load-css .gogo-icon-add-circle, .gogo-load-css .gogo-icon-clear { color: {{ contentBgdSoft }}; }
+  .gogo-icon-icon-copy-hours:hover, .gogo-icon-add-circle:hover, .gogo-load-css .gogo-icon-clear:hover { color: {{ contentBgd }}; }
+  .gogo-load-css i.material-icons.openhours-icons { line-height: 2.8rem; }
   .gogo-load-css .second-line-slot:before
   {
     content: "";
-    background-color: #6b7e9b;
+    background-color: {{ textSoft }};
     position: absolute;
     width: 8.33%;
     min-height: 3rem;
@@ -103,10 +102,10 @@
   .gogo-load-css #page-content.element-form .open-hours-container:before
   {
     content: "";
-    background-color: #6b7e9b;
+    background-color: {{ textSoft }};
     position: absolute;
     width: 25%;
-    height: 3rem;
+    height: 100%;
     top: 0;
     left: 0;
     border-radius: 5px 0 0 5px;
@@ -114,32 +113,31 @@
   .gogo-load-css #page-content.element-form .open-hours-container:after
   {
     content: "";
-    background-color: #6b7e9b;
+    background-color: {{ textSoft }};
     position: absolute;
     width: 8.33%;
-    height: 3rem;
+    height: 100%;
     top: 0;
     right: 0;
     border-radius: 0 5px 5px 0;
   }
-  .gogo-load-css #page-content.element-form .open-hours-container .btn-flat { color: white !important; }
 
   .gogo-load-css .flash-message
   {
     background-color: transparent !important;    
     font-weight: bold;
     padding-bottom: 1.5rem;
-    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-image: linear-gradient(to right, {{ textSoft }} 33%, rgba(255,255,255,0) 0%);
     background-position: bottom;
     background-size: 6px 2px;
     background-repeat: repeat-x;
     margin-bottom: .5rem;
-    color: {{ config.neutralColor }};
+    color: {{ textSoft }};
   }
 
   .gogo-load-css .flash-message.success
   {
-    background-color: #bdc900 !important;
+    background-color: {{ primary }} !important;
     background: none;
     border-radius: 5px;
     padding: .8rem;
@@ -148,7 +146,7 @@
   
   .gogo-load-css .flash-message.success a:not(.validation-process)
   {
-    color: #354254;
+    color: {{ text }};
     text-transform: uppercase;
     font-size: .9rem;
   }
@@ -157,11 +155,11 @@
   {    
     text-decoration: none;
     cursor: help;
-    color: {{ config.secondaryColor }};
+    color: {{ secondary }};
   }
 
-  .gogo-load-css .flash-message a, #label-agree a { color: {{ config.secondaryColor }}; text-decoration: underline; }
-  .gogo-load-css .flash-message a:hover, #label-agree a:hover { color: #a02973 !important; }
+  .gogo-load-css .flash-message a, #label-agree a { color: {{ secondary }}; text-decoration: underline; }
+  /*.gogo-load-css .flash-message a:hover, #label-agree a:hover { color: #a02973 !important; }*/
 
   .gogo-load-css #page-container .flash-messages-container:last-child { margin-bottom: 1rem; }
   
@@ -184,14 +182,21 @@
   {#        HOME         #}
   {# ------------------- #}
 
-  .gogo-load-css #home-main-wrapper { background-color: {{ config.primaryColor }} !important; }
+  /*.gogo-load-css #home-main-wrapper { background-color: {{ primary }} !important; }*/
 
-  .gogo-load-css section#home-main-container #search-geolocalize { right: 13.8rem; }
+  .gogo-load-css section#home-main-container #search-geolocalize { right: 13.2rem; }
+
+  .gogo-load-css section#home-main-container h1 { 
+    text-shadow: none;
+    position: relative;
+    top: 0 !important; 
+
+  }
 
   @media screen and (max-width: 600px)
   {
     .gogo-load-css #home-main-wrapper { background-color: white !important; }
-    .gogo-load-css #bottom-more-info { color: {{ config.neutralColor }} !important; }
+    .gogo-load-css #bottom-more-info { color: {{ textSoft }} !important; }
 
     .gogo-load-css section#home-main-container { box-shadow: none !important; }
     .gogo-load-css #home-main-wrapper #bottom-more-info:before { background-color: transparent !important; }
@@ -200,10 +205,9 @@
     .gogo-load-css #show-directory-menu-button { display:none; }
     .gogo-load-css .show-as-list-button { left: 15px !important; }
   }
-  .gogo-load-css #bottom-more-info .text { font-family: Lobster; text-transform: none; font-weight: normal; }
+  .gogo-load-css #bottom-more-info .text { font-family: {{ config.titleFont }}; text-transform: none; font-weight: normal; }
   @media screen and (min-width: 600px) { 
-    .gogo-load-css #bottom-more-info .text { font-size: 1.3rem; } 
-    .gogo-load-css.home header #menu { background-color: transparent; }
+    .gogo-load-css #bottom-more-info .text { font-size: 1.3rem; }    
   }
   @media screen and (min-width: 1200px) { .gogo-load-css #bottom-more-info .text { font-size: 1.4rem; } }
   @media screen and (max-height: 450px) { body { background-image: none !important; } }
@@ -219,7 +223,7 @@
     content: "";
     position: absolute;
     top: 100%;
-    background-color: white;
+    background-color: {{ contentBgd }};
     border-radius: 50% 50% 0 0;
     height: 100px;
     width: 100%;
@@ -231,54 +235,40 @@
     content: "";
     position: absolute;
     top: 100%;
-    background-color: {{ config.primaryColor }};
+    background-color: {{ homeBgd }};
     height: 100px;
     width: 100%;
     left: 0;
     right: 0;
   }
   .gogo-load-css section#home-main-container .category-field-select .select-wrapper { max-width: 100%; }
-  .gogo-load-css #home-main-container { background-color: white !important; box-shadow: 0 0 14px 0px #6b7e9b; font-size: 1.1rem; color: {{ config.neutralColor }};}
+  .gogo-load-css #home-main-container { font-size: 1.1rem; }
   .gogo-load-css #home-main-wrapper label { color: inherit !important; font-weight: bold; font-size: inherit; }
   .gogo-load-css #home-main-wrapper h2 { text-transform: uppercase; font-weight: bold; font-size: 1.1rem !important; margin-top: 0 !important; line-height: 3.5rem; }
   .gogo-load-css #home-main-wrapper .btn { width: 100%; }
   @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .btn { font-size: 1rem !important; width: 350px !important; padding: 4px 3rem; height: auto;} }
   @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .contribution-text { font-weight: bold; font-size: 1.2rem !important;} }
   .gogo-load-css #home-main-wrapper .divider {
-    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-image: linear-gradient(to right, {{ textSoft }} 33%, rgba(255,255,255,0) 0%);
     background-position: bottom;
     background-size: 6px 2px;
     background-repeat: repeat-x;    
     height: 2px;
     background-color: transparent;
-    border: none;
+    border: none !important;
     display: block;
   }
-  .gogo-load-css section#home-main-container .category-field-select .select-wrapper {  background-color: #6b7e9b; max-width: 500px; border-radius: 5px;}
+  .gogo-load-css section#home-main-container .category-field-select .select-wrapper {  background-color: {{ textSoft }}; max-width: 500px; border-radius: 5px;}
   @media screen and (min-width: 700px) { .gogo-load-css #home-main-wrapper .divider { margin: 0 3rem; } }
-  .gogo-load-css #home-main-wrapper #search-bar { text-transform: uppercase; font-weight: bold; color: {{ config.neutralDarkColor }} !important;}
-  {% set placeholderColor = config.neutralDarkColor ~ '!important' %}
-  .gogo-load-css #home-main-wrapper #search-bar::-webkit-input-placeholder { color: {{ placeholderColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar::-moz-placeholder { color: {{ placeholderColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar:-ms-input-placeholder { color: {{ placeholderColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar:-moz-placeholder { color: {{ placeholderColor }}; }
-
-  .gogo-load-css #home-main-wrapper #search-bar::selection { background-color: {{ config.secondaryColor }} !important; }
-  .gogo-load-css #home-main-wrapper #search-bar::-moz-selection { background-color: {{ config.secondaryColor }} !important; }
-      
-  {% set placeholderFocusColor = '#959aa0' ~ '!important' %}
-  .gogo-load-css #home-main-wrapper #search-bar:focus { box-shadow: -1px 3px 6px 0px rgba(101, 101, 101, 0.45) !important;}
-  .gogo-load-css #home-main-wrapper #search-bar:focus::-webkit-input-placeholder { color: {{ placeholderFocusColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar:focus::-moz-placeholder { color: {{ placeholderFocusColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar:focus:-ms-input-placeholder { color: {{ placeholderFocusColor }}; }
-  .gogo-load-css #home-main-wrapper #search-bar:focus:-moz-placeholder { color: {{ placeholderFocusColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar { text-transform: uppercase; font-weight: bold;}
+  
 
   .gogo-load-css #home-main-wrapper #search-bar-icon {
     right: 0;
     left: auto !important;
     padding: 0 1.8rem 0 2.8rem;
-    background-color: {{ config.secondaryColor }};
-    color: white !important;
+    background-color: {{ primary }};
+    color: {{ contentBgd }} !important;
     height: 3rem;
     line-height: 3rem !important;
     border-radius: 0 10px 10px 0;
@@ -287,6 +277,7 @@
     content: "Rechercher";
     text-transform: uppercase;
     font-weight: bold;
+    color: {{ contentBgd }};
     font-size: 1.1rem;
     margin-left: 10px;
   }
@@ -302,7 +293,7 @@
       line-height: 2.8rem;
       height: 2.6rem;
       width: auto !important;
-      background-color: {{ config.primaryColor }};
+      background-color: {{ secondary }};
     }
     .gogo-load-css #home-main-container #search-bar {
       text-align: left !important;
@@ -314,47 +305,35 @@
   .gogo-load-css #home-main-wrapper .divider { margin: 0; }
   .gogo-load-css #home-main-wrapper #search-bar-container { width: 100% !important; }
   
-  
-  .gogo-load-css #home-main-wrapper .contribution-text { display:none; }
   .gogo-load-css section.bottom-section .content
   {    
-    background-image: linear-gradient(to right, #6b7e9b 33%, rgba(255,255,255,0) 0%);
+    background-image: linear-gradient(to right, {{ textSoft }} 33%, rgba(255,255,255,0) 0%);
     background-position: bottom;
     background-size: 6px 2px;
     background-repeat: repeat-x;    
-    color: {{ config.neutralColor }};
+    color: {{ textSoft }};
   }
   @media screen and (min-width: 900px) { .gogo-load-css section.bottom-section .content { padding: 3rem 5rem 4rem 5rem; } }
   
-  .gogo-load-css section.bottom-section h2 { font-family: 'Lobster';letter-spacing: -.5px;font-size: 2.5rem !important; line-height:2.5rem; }
+  .gogo-load-css section.bottom-section h2 { font-family: '{{ config.titleFont }}';letter-spacing: -.5px;font-size: 2.5rem !important; line-height:2.5rem; }
   @media screen and (min-width: 900px) { .gogo-load-css section.bottom-section h2 { font-size: 3.5rem !important;  line-height: 3rem;} }
   
   .gogo-load-css section.bottom-section:last-child .content { background: none; }
   .gogo-load-css section.bottom-section:first-child .content {padding-top: 5rem; }
-  .gogo-load-css #section-credits { text-transform: uppercase; color: {{ config.neutralColor }}; font-size: 1.4rem; letter-spacing: 1.5px; }
-  .gogo-load-css #section-credits strong { color: {{ config.neutralSoftColor }}; }
-
-
-
+  .gogo-load-css #section-credits { text-transform: uppercase; color: {{ textSoft }}; font-size: 1.4rem; letter-spacing: 1.5px; }
+  .gogo-load-css #section-credits strong { color: {{ textSoft }}; }
 
 
   {# --------------------#}
   {#        HEADER       #}
   {# ------------------- #}
 
-  .gogo-load-css #menu { color: #a9b2c1; }
   .gogo-load-css #menu .menu-item
   {
     font-weight: bold;    
     text-transform: uppercase;
     font-size: .85rem !important; 
   }
-  .gogo-load-css #menu .menu-item .arrow-after { border-color: #a9b2c1 transparent transparent transparent !important; }
-  .gogo-load-css #menu .menu-item:hover { color: {{ config.neutralLightColor }}; }
-  .gogo-load-css #menu .menu-item:hover .arrow-after { border-color:  {{ config.neutralLightColor }} transparent transparent transparent !important; }	
-  .gogo-load-css #menu #btn-login {  color: {{ config.neutralDarkColor }}; }
-  .gogo-load-css #menu #btn-logout { background-color: transparent; color: white;}
-  .gogo-load-css #menu #btn-logout .arrow-after { border-color: white transparent transparent transparent !important;}
 
 
 
@@ -371,9 +350,9 @@
   .gogo-load-css #page-content.partners .partner-logo { max-width: 300px; margin-top: 2rem;}
   .gogo-load-css #page-content.partners .partner-title.with-logo { display:none; }
   .gogo-load-css #page-content.partners .partner-title { text-align: center !important; }
-  .gogo-load-css #page-content.partners .partner-description { text-align: justify; margin-bottom: 1.7rem; color: {{ config.neutralColor }};}
+  .gogo-load-css #page-content.partners .partner-description { text-align: justify; margin-bottom: 1.7rem; color: {{ textSoft }};}
   .gogo-load-css #page-content.partners .partner-url {
-    background-color: #bdc900;
+    background-color: {{ primary }};
     color: white;
     padding: .4rem 1rem;
     font-weight: bold;

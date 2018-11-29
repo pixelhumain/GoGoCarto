@@ -49,6 +49,7 @@ class ConfigurationStyleAdmin extends AbstractAdmin
                     ->add('headerHoverColor', 'text', array('label' => 'Couleur texte survol header (=primary par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))
                     ->add('secondaryColor', 'text', array('label' => 'Couleur Secondaire (=primaire par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))      
                     ->add('contentBackgroundColor', 'text', array('label' => 'Couleur arrière plan du contenu (=blanc par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
+                    ->add('homeBackgroundColor', 'text', array('label' => "Couleur arrière plan de la page d'accueil (=blanc par défault)", 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
                     ->add('searchBarColor', 'text', array('label' => 'Couleur bar de recherche (=primaire par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))
                     ->add('interactiveSectionColor', 'text', array('label' => 'Couleur section pour voter dans la fiche détail (=primaire par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))                        
                 ->end()
@@ -59,7 +60,7 @@ class ConfigurationStyleAdmin extends AbstractAdmin
                     ->add('textLightSoftColor', 'text', array('label' => 'Couleur text clair adoucie (=adoucie automatiquement par défault)', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
                     ->add('errorColor', 'text', array('label' => "Couleur d'erreur", 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
                     ->add('disableColor', 'text', array('label' => 'Couleur désactivé', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
-                    ->add('pendingColor', 'text', array('label' => 'Couleur pending', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
+                    ->add('pendingColor', 'text', array('label' => 'Couleur en attente de validation', 'attr' => ['class' => 'gogo-color-picker'], 'required' => false))  
                                          
                 ->end()
             ->end()

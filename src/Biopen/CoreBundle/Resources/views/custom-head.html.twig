@@ -33,9 +33,6 @@
 {# custom CSS written from configuration admin #}
 <style>{{ config.customCSS | raw }}</style>
 
-{# custom css written on a file, so it can use the config variable #}
-{% include '@RootDir/assets/' ~ config.appSlug ~ '-styles.html.twig' ignore missing %}  
-
 {# the icons as SVG font #}
 {{ config.iconImport | raw }}
 

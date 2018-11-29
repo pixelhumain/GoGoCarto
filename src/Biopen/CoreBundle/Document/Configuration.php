@@ -341,6 +341,9 @@ class Configuration
     /** @MongoDB\Field(type="string") */
     protected $backgroundColor;
 
+    /** @MongoDB\Field(type="string") */
+    protected $homeBackgroundColor;
+
     // COLORS INTERMEDIAITE
 
     /** @MongoDB\Field(type="string") */
@@ -1115,7 +1118,7 @@ class Configuration
      */
     public function getHeaderColor()
     {
-        return $this->headerColor ? $this->headerColor : $this->getTextDarkColor();
+        return $this->headerColor ? $this->headerColor : ($this->theme == "transiscope" ? "white" : $this->getTextDarkColor());
     }
 
     /**
@@ -1159,7 +1162,7 @@ class Configuration
      */
     public function getSearchBarColor()
     {
-        return $this->searchBarColor ? $this->searchBarColor : $this->primaryColor;
+        return $this->searchBarColor ? $this->searchBarColor : ($this->theme == "transiscope" ? $this->getTextDarkColor() : $this->primaryColor);
     }
 
     /**
@@ -1235,8 +1238,12 @@ class Configuration
      */
     public function getContentBackgroundSoftColor()
     {
-        $color = $this->getColor($this->getContentBackgroundColor());
-        return $color->isDark() ? $color->lighten(10) : $color->darken(10);
+        $content = $this->getColor($this->getContentBackgroundColor());
+        $background = $this->getColor($this->getBackgroundColor());
+        if ($content->isDark())
+            return $background->isDark() ? $background : $content->lighten(10);
+        else
+            return $background->isLight() ? $background : $content->darken(10);
     }
 
     /**
@@ -2786,5 +2793,27 @@ class Configuration
     {
         $contentBgd = $this->getColor($this->getContentBackgroundColor());
         return $contentBgd->isDark() ? $this->getContentBackgroundColor() : $this->getTextDarkColor();
+    }
+
+    /**
+     * Set homeBackgroundColor
+     *
+     * @param string $homeBackgroundColor
+     * @return $this
+     */
+    public function setHomeBackgroundColor($homeBackgroundColor)
+    {
+        $this->homeBackgroundColor = $homeBackgroundColor;
+        return $this;
+    }
+
+    /**
+     * Get homeBackgroundColor
+     *
+     * @return string $homeBackgroundColor
+     */
+    public function getHomeBackgroundColor()
+    {
+        return $this->homeBackgroundColor ? $this->homeBackgroundColor : $this->getBackgroundColor();
     }
 }

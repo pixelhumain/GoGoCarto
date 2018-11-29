@@ -338,7 +338,6 @@
 
   .add-time-slot-button:hover, .redo-time-slot-button:hover, .clear-time-slot-button:hover
   {
-    color: $secondary-color;
     @include transition(color 0.5s);
   }
   .redo-time-slot-button { line-height: 3rem; }

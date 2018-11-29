@@ -8,6 +8,7 @@
   {% set primary = config.primaryColor %}
   {% set secondary = config.secondaryColor %}
   {% set background = config.backgroundColor %}
+  {% set homeBgd = config.homeBackgroundColor %}
   {% set header = config.headerColor %}
   {% set headerText = config.headerTextColor %}
   {% set headerTextHover = config.headerHoverColor %}
@@ -106,136 +107,13 @@
   {#      DIRECTORY      #}
   {# ------------------- #}
 
-  .gogo-load-css #gogo-controls-mobile.map { padding-right: 15px; }
-
-
-  {# --------------------#}
-  {#     ELEMENT FORM    #}
-  {# ------------------- #}
-  
-  {# Main #}
-  #element-form-title { background-color: {{ contentBgd }}; }  
-  .gogo-load-css #page-content.element-form section { background-color: {{ contentBgd }}; }  
-
-  {# Taxonomy field #}
-  .gogo-load-css .option-field .option-field-delete i:hover { color: {{ primary }} !important; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper .select-dropdown { color: {{ contentBgd }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper { background-color: {{ primary }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-1 { background-color: {{ secondary }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-2 { background-color: {{ textSoft }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-3 { background-color: {{ textSoft }}; }
-  .gogo-load-css #element-form-content .category-field-select .select-wrapper.depth-4 { background-color: {{ textSoft }}; }
-
-  .gogo-load-css .option-field-name .icon.depth-0 { color: {{ primary }}; }
-  .gogo-load-css .option-field-name .icon.depth-1 { color: {{ secondary }}; }
-  .gogo-load-css .option-field-name .icon.depth-2 { color: {{ textSoft }}; }
-  .gogo-load-css .option-field-name .icon.depth-3 { color: {{ textSoft }}; }
-  .gogo-load-css .option-field-name .icon.depth-4 { color: {{ textSoft }}; }
-
-  .category-field.error:before { color: {{ error }}; }
-  .category-field.error .select-wrapper { background-color: {{ error }} !important; }
-  .gogo-load-css #element-form-content .option-field.inline { background-color:  {{ textSoft }}; }
-
-  .gogo-load-css .dropdown-content { background-color: {{ contentBgd }}; }
-  .gogo-load-css .dropdown-content { background-color: {{ contentBgdSoft }}; }
-  .gogo-load-css .dropdown-content li>span { color: {{ textSoft }}; }
-
-  .gogo-load-css .main-options-container label.main-option-radio-label:after
-  {
-    border: 2px solid {{ primary }};
-    background-color: {{ primary }};
-  }
-  .gogo-load-css .main-options-container label.main-option-radio-label:before 
-  {
-    border: 2px solid {{ textSoft }};
-  }  
-
-  {# Input #}  
-  .gogo-load-css input:focus:not(.invalid):not([readonly]):not([type=submit]), .gogo-load-css textarea:focus:not(.invalid):not([readonly]) {
-    border-color: {{ textSoft }} !important;
-    box-shadow: 0 1px 0 0 {{ textSoft }} !important;
-  }
-  .gogo-load-css input.invalid:not([readonly]):not([type=submit]), .gogo-load-css textarea.invalid:not([readonly]) {
-    border-color: {{ error }} !important;
-    box-shadow: 0 1px 0 0 {{ error }} !important;
-  }
-  .gogo-load-css input:not(:focus):not(.invalid):not([type=submit]), .gogo-load-css textarea:not(:focus):not(.invalid) {
-    border-bottom: 1px solid {{ disable }} !important;
-    box-shadow: none !important;
-  }
-
-  {# Input Label #}  
-  .gogo-load-css label { color: {{ textSoft }}; } 
-  .gogo-load-css label.gogo-form-label { color: {{ disable }} !important }
-  .gogo-load-css input:focus:not(.invalid) + label.gogo-form-label, .gogo-load-css textarea:focus:not(.invalid) + label.gogo-form-label { color: {{ text }} !important; }
-  .gogo-load-css input.invalid + label.gogo-form-label, .gogo-load-css textarea.invalid + label.gogo-form-label { color: {{ error }} !important; }
-  .gogo-load-css input[type=date].invalid+label:after, .gogo-load-css input[type=date]:focus.invalid+label:after, .gogo-load-css input[type=datetime-local].invalid+label:after, .gogo-load-css input[type=datetime-local]:focus.invalid+label:after, .gogo-load-css input[type=email].invalid+label:after, .gogo-load-css input[type=email]:focus.invalid+label:after, .gogo-load-css input[type=number].invalid+label:after, .gogo-load-css input[type=number]:focus.invalid+label:after, .gogo-load-css input[type=password].invalid+label:after, .gogo-load-css input[type=password]:focus.invalid+label:after, .gogo-load-css input[type=search].invalid+label:after, .gogo-load-css input[type=search]:focus.invalid+label:after, .gogo-load-css input[type=tel].invalid+label:after, .gogo-load-css input[type=tel]:focus.invalid+label:after, .gogo-load-css input[type=text].invalid+label:after, .gogo-load-css input[type=text]:focus.invalid+label:after, .gogo-load-css input[type=time].invalid+label:after, .gogo-load-css input[type=time]:focus.invalid+label:after, .gogo-load-css input[type=url].invalid+label:after, .gogo-load-css input[type=url]:focus.invalid+label:after, .gogo-load-css textarea.materialize-textarea.invalid+label:after, .gogo-load-css textarea.materialize-textarea:focus.invalid+label:after {
-    color: {{ error }} !important;
-  }
-
-  .gogo-load-css label.gogo-form-label.active {
-    color: {{ textSoft }} !important;
-  }  
-
-  {# Input Icon #}  
-  .gogo-load-css .input-field i.prefix { color: {{ disable }}; }
-  .gogo-load-css .input-field i.prefix.active { color: {{ textSoft }}; }
-  .gogo-load-css .input-field i.prefix.valid { color: {{ textSoft }}; }
-  .gogo-load-css .input-field i.prefix.invalid { color: {{ error }}; }
-
-  {# Checkbox #}
-  .gogo-load-css [type=checkbox]+label:before { border-color: {{ disable }}; }
-  .gogo-load-css [type=checkbox]:checked+label:before {
-    border-right-color: {{ primary }};
-    border-bottom-color: {{ primary }};
-  }
-
-  .gogo-load-css [type=radio]:checked+label:after {
-    border: 2px solid {{ primary }};
-    background-color: {{ primary }};
-  }
-
-  {# Address #}
-  .gogo-load-css .geolocalize-help-text {
-    background-color: {{ contentBgdSoft }};
-    color: {{ text }};
-  }
-  .gogo-load-css .geolocalize-help-text .btn-close {
-    color: {{ text }};
-  }
-
-  {# Open Hours #}
-  .gogo-load-css .gogo-icon-icon-copy-hours, .gogo-load-css .gogo-icon-add-circle, .gogo-load-css .gogo-icon-clear { color: {{ textSoft }}; }
-  .gogo-icon-icon-copy-hours:hover, .gogo-icon-add-circle:hover, .gogo-load-css .gogo-icon-clear:hover { color: {{ primary }}; }
-  .gogo-load-css .timepicker_wrap {
-    background-color: {{ contentBgd }};
-    color: {{ text }};
-  }
-  .gogo-load-css .timepicker_wrap .time, .gogo-load-css .timepicker_wrap .mins, .gogo-load-css .timepicker_wrap .meridian { color: {{ text }}; }
-  .gogo-load-css .timepicker_wrap .prev, .gogo-load-css .timepicker_wrap .next {
-    background-color: {{ textSoft }};
-    color: {{ contentBgd }};
-    border: none;
-  }
-  .gogo-load-css .open-hours-container.impair { background-color: {{ contentBgdSoft }}; }
-
-  {# Error #}
-  .mandatory-asterisk:after, label .error, .input-field.error .prefix, 
-  .gogo-load-css #input-address-field.error:after, #input-address-field.error #input-address:after, h1.error, h2.error, label.error 
-   { color: {{ error }} !important; }
-  .input-field.error.select-input.invalid-required input {
-    border-bottom: 1px solid {{ error }} !important;
-    box-shadow: 0 1px 0 0 {{ error }} !important;
-  }
-  .input-field.error textarea:not(:focus) { border-color: {{ error }}; }
-  #page-content.contributor-login .input-field.error .prefix { color: {{ error }}; }
-  
-
+  .gogo-load-css #gogo-controls-mobile.map { padding-right: 15px; } 
+  .gogo-load-css .show-directory-menu-button img { display: none; }
 
   {# ----------- #}
   {#     HOME    #}
   {# ----------- #}
-  
+  .gogo-load-css #home-main-wrapper { background-color: {{ homeBgd }}; }
   .gogo-load-css section.bottom-section { padding: 0; }
   .gogo-load-css #search-geolocalize { color: {{ textSoft }}; }
   .gogo-load-css section#home-main-container { background-color: {{ contentBgd }}; }
@@ -244,6 +122,25 @@
   #bottom-more-info { background-color: {{ header }}; color: {{ headerText }} }
   #bottom-more-info:hover { color: {{ headerTextHover }} }
   .wrappers-container { color: {{ text }}; background-color: {{ contentBgd }}; }
+  #home-main-wrapper #search-bar { background-color: {{ contentBgdSoft }}; color: {{ text }} !important; }
+  .gogo-load-css #home-main-wrapper #search-bar-icon { color: {{ textSoft }}; }
+  .gogo-load-css #home-main-wrapper #search-bar-icon:hover { color: {{ primary }}; }
+
+  {% set placeholderColor = textSoft ~ '!important' %}
+  .gogo-load-css #home-main-wrapper #search-bar::-webkit-input-placeholder { color: {{ placeholderColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar::-moz-placeholder { color: {{ placeholderColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar:-ms-input-placeholder { color: {{ placeholderColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar:-moz-placeholder { color: {{ placeholderColor }}; }
+
+  .gogo-load-css #home-main-wrapper #search-bar::selection { background-color: {{ secondary }} !important; }
+  .gogo-load-css #home-main-wrapper #search-bar::-moz-selection { background-color: {{ secondary }} !important; }
+      
+  {% set placeholderFocusColor = disable ~ '!important' %}
+  /*.gogo-load-css #home-main-wrapper #search-bar:focus { box-shadow: 4px 3px 6px 0px {{ primary }} !important;}*/
+  .gogo-load-css #home-main-wrapper #search-bar:focus::-webkit-input-placeholder { color: {{ placeholderFocusColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar:focus::-moz-placeholder { color: {{ placeholderFocusColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar:focus:-ms-input-placeholder { color: {{ placeholderFocusColor }}; }
+  .gogo-load-css #home-main-wrapper #search-bar:focus:-moz-placeholder { color: {{ placeholderFocusColor }}; }
 
   {# ----------- #}
   {#     USER    #}
@@ -258,9 +155,7 @@
   .gogo-load-css #page-content.user-contributions thead { 
     background-color: {{ contentBgdSoft }}; 
     border-top: 1px solid #d0d0d0;
-  }
-
-  
+  }  
 
   #page-content.contributor-login .email-already-in-use { color: {{ error }}; }  
   form.biopen_user_profile .error ul li, form.fos_user_registration_register .error ul li { color: {{ error }}; }
@@ -276,4 +171,8 @@
   .gogo-border-{{ name }} { border-color: {{ value }}; }
   .gogo-h-border-{{ name }}:hover { border-color: {{ value }} !important; }
 {% endmacro %}
+
+{% include "@BiopenCoreBundle/styles/form.html.twig" %}
+{% include '@BiopenCoreBundle/styles/themes/' ~ config.theme ~ '.html.twig' ignore missing %}   
+
 

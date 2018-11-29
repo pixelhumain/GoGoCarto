@@ -218,12 +218,10 @@ body
   	{
   		text-align: center;
   		padding: 0 .5rem 0 .5rem;
-  		border: 3px solid #BDBDBD;
   		box-shadow: none !important;
   		@include border-radius(10px);
   		width: 100%;	    
       border: none !important;
-      background-color: #ececec;
       color:black;
       height: 2.5rem;	  
       @media #{$medium-and-up}
@@ -234,34 +232,7 @@ body
       &.invalid
       {
       	border: 3px solid $error-color;
-      }
-
-      &::-webkit-input-placeholder { 
-  			color: dimgrey;
-  		}
-  		&::-moz-placeholder { 
-  			color: dimgrey;
-  		}
-  		&:-ms-input-placeholder { 
-  			color: dimgrey;
-  		}
-  		&:-moz-placeholder { 
-  			color: dimgrey;
-  		}
-
-  		&::selection {
-  	  		background: $secondary-color; 
-  	  		color: white;
-  		}
-  		&::-moz-selection {
-  	  		background: $secondary-color; 
-  	  		color: white;
-  		}
-
-      &:focus
-      {
-      	border-color: #6B6B6B;
-      }    
+      }  
   	}
 
   	#search-bar-icon 
@@ -270,17 +241,12 @@ body
       position: absolute;
       left: 1.2rem;
 
-      &:hover
-      {
-      	color: $secondary-color;
-      	cursor: pointer;
-      }
+      &:hover { cursor: pointer; }
 
       cursor: default;
       position: absolute;
       line-height: 3.4rem;
       font-size: 1.4rem;
-      color: dimgrey;
   	}
 
     #search-geolocalize
@@ -360,14 +326,11 @@ body
 
   		.select-wrapper 
   		{
-  			background-color: #676565;
   	    max-width: 400px;
   	    margin-bottom: 1rem;
   	    margin: 0 auto;
   	    margin-bottom: 1rem;
   	    margin-top: -.5rem;
-  			&:hover { background-color: lighten(#676565,5%) }
-  		  &.secondary-color { background-color:  $secondary-color; &:hover { background-color: $secondary-color-light } }
 
   		  padding-left: 1rem;
   		  @include border-radius(3px);
