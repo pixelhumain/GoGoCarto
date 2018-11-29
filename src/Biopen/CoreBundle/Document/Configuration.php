@@ -470,6 +470,14 @@ class Configuration
         if (strpos($colorString, '#') !== false) return new Hex($colorString);
         else return new Rgba($colorString);
     }
+    public function getDefaultColor($colorName)
+    {
+        $method = "getDefault" . ucfirst($colorName);
+        if (method_exists($this, $method)) 
+            return $this->$method();
+        else 
+            return null;
+    }
 
     public function getDefaultBounds()
     {
@@ -480,6 +488,134 @@ class Configuration
     {
         return json_decode($this->getElementFormFieldsJson());
     }
+
+
+    /* --------------------------------------- */
+    /*              DEFAULT COLORS
+    /* ---------------------------------------- */
+
+        public function getDefaultSecondaryColor()
+    {
+        return $this->secondaryColor ? $this->secondaryColor : $this->primaryColor;
+    }
+
+    public function getDefaultBackgroundColor()
+    {
+        return $this->backgroundColor ? $this->backgroundColor : "#ffffff";
+    }
+
+    public function getDefaultHeaderColor()
+    {
+        return $this->headerColor ? $this->headerColor : ($this->theme == "transiscope" ? "#ffffff" : $this->getDefaultTextDarkColor());
+    }
+
+    public function getDefaultDisableColor()
+    {
+        return $this->disableColor ? $this->disableColor : "#a6a6a6";
+    }
+
+    public function getDefaultSearchBarColor()
+    {
+        return $this->searchBarColor ? $this->searchBarColor : ($this->theme == "transiscope" ? $this->getDefaultTextDarkColor() : $this->primaryColor);
+    }
+
+    public function getDefaultPendingColor()
+    {
+        return $this->pendingColor ? $this->pendingColor : "#555555";
+    }
+
+    public function getDefaultInteractiveSectionColor()
+    {
+        return $this->interactiveSectionColor ? $this->interactiveSectionColor : $this->primaryColor;
+    }
+
+    public function getDefaultContentBackgroundColor()
+    {
+        return $this->contentBackgroundColor ? $this->contentBackgroundColor : "#ffffff";
+    }
+
+    public function getDefaultContentBackgroundSoftColor()
+    {
+        $content = $this->getColor($this->getDefaultContentBackgroundColor());
+        $background = $this->getColor($this->getDefaultBackgroundColor());
+        if ($content->isDark())
+            return $background->isDark() ? $background : $content->lighten(10);
+        else
+            return $background->isLight() ? $background : $content->darken(10);
+    }
+
+    public function getDefaultTextDarkColor()
+    {
+        if ($this->textDarkColor) return $this->textDarkColor;
+        $textColor = $this->getColor($this->textColor);
+        return $textColor->isDark() ? $this->textColor : "#272727";
+    }
+
+    public function getDefaultTextDarkSoftColor()
+    {
+        if ($this->textDarkSoftColor) return $this->textDarkSoftColor;
+        $color = $this->getColor($this->getDefaultTextDarkColor());
+        return $color->lighten(15)->__toString();
+    }
+
+    public function getDefaultTextLightColor()
+    {
+        if ($this->textLightColor) return $this->textLightColor;
+        $textColor = $this->getColor($this->textColor);
+        return $textColor->isLight() ? $this->textColor : "#ffffff";
+    }
+
+    public function getDefaultTextLightSoftColor()
+    {
+        if ($this->textLightSoftColor) return $this->textLightSoftColor;
+        $color = $this->getColor($this->getDefaultTextLightColor());
+        return $color->darken(15)->__toString();
+    }
+
+    public function getDefaultHeaderTextColor()
+    {
+        if ($this->headerTextColor) return $this->headerTextColor;
+        $headerBgd = $this->getColor($this->getDefaultHeaderColor());
+        return $headerBgd->isLight() ? $this->getDefaultTextDarkColor() : $this->getDefaultTextLightColor();
+    }
+
+    public function getDefaultHeaderHoverColor()
+    {
+        return $this->headerHoverColor ? $this->headerHoverColor : $this->primaryColor;
+    }
+
+    public function getDefaultTextContentColor()
+    {
+        $contentBgd = $this->getColor($this->getDefaultContentBackgroundColor());
+        return $contentBgd->isLight() ? $this->getDefaultTextDarkColor() : $this->getDefaultTextLightColor();
+    }
+
+    public function getDefaultTextSoftContentColor()
+    {
+        $contentBgd = $this->getColor($this->getDefaultContentBackgroundColor());
+        return $contentBgd->isLight() ? $this->getDefaultTextDarkSoftColor() : $this->getDefaultTextLightSoftColor();
+    }
+
+    public function getDefaultErrorColor()
+    {
+        return $this->errorColor ? $this->errorColor : "#B90303";
+    }
+
+    public function getDefaultModalBackgroundColor()
+    {
+        $contentBgd = $this->getColor($this->getDefaultContentBackgroundColor());
+        return $contentBgd->isDark() ? $this->getDefaultContentBackgroundColor() : $this->getDefaultTextDarkColor();
+    }
+
+    public function getDefaultHomeBackgroundColor()
+    {
+        return $this->homeBackgroundColor ? $this->homeBackgroundColor : $this->getDefaultBackgroundColor();
+    }
+
+    /* --------------------------------------- */
+    /*             END DEFAULT COLORS
+    /* ---------------------------------------- */
+    
 
     /**
      * Set favoriteFeature
@@ -936,16 +1072,6 @@ class Configuration
     }
 
     /**
-     * Get secondaryColor
-     *
-     * @return string $secondaryColor
-     */
-    public function getSecondaryColor()
-    {
-        return $this->secondaryColor ? $this->secondaryColor : $this->primaryColor;
-    }
-
-    /**
      * Set collaborativeModerationFeature
      *
      * @param Biopen\CoreBundle\Document\FeatureConfiguration $collaborativeModerationFeature
@@ -1034,28 +1160,6 @@ class Configuration
     }
 
     /**
-     * Set backgroundColor
-     *
-     * @param string $backgroundColor
-     * @return $this
-     */
-    public function setBackgroundColor($backgroundColor)
-    {
-        $this->backgroundColor = $backgroundColor;
-        return $this;
-    }
-
-    /**
-     * Get backgroundColor
-     *
-     * @return string $backgroundColor
-     */
-    public function getBackgroundColor()
-    {
-        return $this->backgroundColor ? $this->backgroundColor : "white";
-    }
-
-    /**
      * Set customCSS
      *
      * @param string $customCSS
@@ -1075,175 +1179,6 @@ class Configuration
     public function getCustomCSS()
     {
         return $this->customCSS;
-    }
-
-    /**
-     * Set textColor
-     *
-     * @param string $textColor
-     * @return $this
-     */
-    public function setTextColor($textColor)
-    {
-        $this->textColor = $textColor;
-        return $this;
-    }
-
-    /**
-     * Get textColor
-     *
-     * @return string $textColor
-     */
-    public function getTextColor()
-    {
-        return $this->textColor;
-    }
-
-    /**
-     * Set headerColor
-     *
-     * @param string $headerColor
-     * @return $this
-     */
-    public function setHeaderColor($headerColor)
-    {
-        $this->headerColor = $headerColor;
-        return $this;
-    }
-
-    /**
-     * Get headerColor
-     *
-     * @return string $headerColor
-     */
-    public function getHeaderColor()
-    {
-        return $this->headerColor ? $this->headerColor : ($this->theme == "transiscope" ? "white" : $this->getTextDarkColor());
-    }
-
-    /**
-     * Set disableColor
-     *
-     * @param string $disableColor
-     * @return $this
-     */
-    public function setDisableColor($disableColor)
-    {
-        $this->disableColor = $disableColor;
-        return $this;
-    }
-
-    /**
-     * Get disableColor
-     *
-     * @return string $disableColor
-     */
-    public function getDisableColor()
-    {
-        return $this->disableColor ? $this->disableColor : "#a6a6a6";
-    }
-
-    /**
-     * Set searchBarColor
-     *
-     * @param string $searchBarColor
-     * @return $this
-     */
-    public function setSearchBarColor($searchBarColor)
-    {
-        $this->searchBarColor = $searchBarColor;
-        return $this;
-    }
-
-    /**
-     * Get searchBarColor
-     *
-     * @return string $searchBarColor
-     */
-    public function getSearchBarColor()
-    {
-        return $this->searchBarColor ? $this->searchBarColor : ($this->theme == "transiscope" ? $this->getTextDarkColor() : $this->primaryColor);
-    }
-
-    /**
-     * Set pendingColor
-     *
-     * @param string $pendingColor
-     * @return $this
-     */
-    public function setPendingColor($pendingColor)
-    {
-        $this->pendingColor = $pendingColor;
-        return $this;
-    }
-
-    /**
-     * Get pendingColor
-     *
-     * @return string $pendingColor
-     */
-    public function getPendingColor()
-    {
-        return $this->pendingColor ? $this->pendingColor : "#555555";
-    }
-
-    /**
-     * Set interactiveSectionColor
-     *
-     * @param string $interactiveSectionColor
-     * @return $this
-     */
-    public function setInteractiveSectionColor($interactiveSectionColor)
-    {
-        $this->interactiveSectionColor = $interactiveSectionColor;
-        return $this;
-    }
-
-    /**
-     * Get interactiveSectionColor
-     *
-     * @return string $interactiveSectionColor
-     */
-    public function getInteractiveSectionColor()
-    {
-        return $this->interactiveSectionColor ? $this->interactiveSectionColor : $this->primaryColor;
-    }
-
-    /**
-     * Set contentBackgroundColor
-     *
-     * @param string $contentBackgroundColor
-     * @return $this
-     */
-    public function setContentBackgroundColor($contentBackgroundColor)
-    {
-        $this->contentBackgroundColor = $contentBackgroundColor;
-        return $this;
-    }
-
-    /**
-     * Get contentBackgroundColor
-     *
-     * @return string $contentBackgroundColor
-     */
-    public function getContentBackgroundColor()
-    {
-        return $this->contentBackgroundColor ? $this->contentBackgroundColor : "white";
-    }
-
-    /**
-     * Get contentBackgroundColor
-     *
-     * @return string $contentBackgroundColor
-     */
-    public function getContentBackgroundSoftColor()
-    {
-        $content = $this->getColor($this->getContentBackgroundColor());
-        $background = $this->getColor($this->getBackgroundColor());
-        if ($content->isDark())
-            return $background->isDark() ? $background : $content->lighten(10);
-        else
-            return $background->isLight() ? $background : $content->darken(10);
     }
 
     /**
@@ -2611,188 +2546,61 @@ class Configuration
     public function getTheme()
     {
         return $this->theme;
-    }
+    }     
+    
 
     /**
-     * Set textDarkColor
+     * Set textColor
      *
-     * @param string $textDarkColor
+     * @param string $textColor
      * @return $this
      */
-    public function setTextDarkColor($textDarkColor)
+    public function setTextColor($textColor)
     {
-        $this->textDarkColor = $textDarkColor;
+        $this->textColor = $textColor;
         return $this;
     }
 
     /**
-     * Get textDarkColor
+     * Get textColor
      *
-     * @return string $textDarkColor
+     * @return string $textColor
      */
-    public function getTextDarkColor()
+    public function getTextColor()
     {
-        if ($this->textDarkColor) return $this->textDarkColor;
-        $textColor = $this->getColor($this->textColor);
-        return $textColor->isDark() ? $textColor : "#272727";
+        return $this->textColor;
     }
 
     /**
-     * Set textDarkSoftColor
+     * Get secondaryColor
      *
-     * @param string $textDarkSoftColor
+     * @return string $secondaryColor
+     */
+    public function getSecondaryColor()
+    {
+        return $this->secondaryColor;
+    }
+
+    /**
+     * Set backgroundColor
+     *
+     * @param string $backgroundColor
      * @return $this
      */
-    public function setTextDarkSoftColor($textDarkSoftColor)
+    public function setBackgroundColor($backgroundColor)
     {
-        $this->textDarkSoftColor = $textDarkSoftColor;
+        $this->backgroundColor = $backgroundColor;
         return $this;
     }
 
     /**
-     * Get textDarkSoftColor
+     * Get backgroundColor
      *
-     * @return string $textDarkSoftColor
+     * @return string $backgroundColor
      */
-    public function getTextDarkSoftColor()
+    public function getBackgroundColor()
     {
-        if ($this->textDarkSoftColor) return $this->textDarkSoftColor;
-        $color = $this->getColor($this->getTextDarkColor());
-        return $color->lighten(15);
-    }
-
-    /**
-     * Set textLightColor
-     *
-     * @param string $textLightColor
-     * @return $this
-     */
-    public function setTextLightColor($textLightColor)
-    {
-        $this->textLightColor = $textLightColor;
-        return $this;
-    }
-
-    /**
-     * Get textLightColor
-     *
-     * @return string $textLightColor
-     */
-    public function getTextLightColor()
-    {
-        if ($this->textLightColor) return $this->textLightColor;
-        $textColor = $this->getColor($this->textColor);
-        return $textColor->isLight() ? $textColor : "white";
-    }
-
-    /**
-     * Set textLightSoftColor
-     *
-     * @param string $textLightSoftColor
-     * @return $this
-     */
-    public function setTextLightSoftColor($textLightSoftColor)
-    {
-        $this->textLightSoftColor = $textLightSoftColor;
-        return $this;
-    }
-
-    /**
-     * Get textLightSoftColor
-     *
-     * @return string $textLightSoftColor
-     */
-    public function getTextLightSoftColor()
-    {
-        if ($this->textLightSoftColor) return $this->textLightSoftColor;
-        $color = $this->getColor($this->getTextLightColor());
-        return $color->darken(15);
-    }
-
-    /**
-     * Set headerTextColor
-     *
-     * @param string $headerTextColor
-     * @return $this
-     */
-    public function setHeaderTextColor($headerTextColor)
-    {
-        $this->headerTextColor = $headerTextColor;
-        return $this;
-    }
-
-    /**
-     * Get headerTextColor
-     *
-     * @return string $headerTextColor
-     */
-    public function getHeaderTextColor()
-    {
-        if ($this->headerTextColor) return $this->headerTextColor;
-        $headerBgd = $this->getColor($this->getHeaderColor());
-        return $headerBgd->isLight() ? $this->getTextDarkColor() : $this->getTextLightColor();
-    }
-
-    /**
-     * Set headerHoverColor
-     *
-     * @param string $headerHoverColor
-     * @return $this
-     */
-    public function setHeaderHoverColor($headerHoverColor)
-    {
-        $this->headerHoverColor = $headerHoverColor;
-        return $this;
-    }
-
-    /**
-     * Get headerHoverColor
-     *
-     * @return string $headerHoverColor
-     */
-    public function getHeaderHoverColor()
-    {
-        return $this->headerHoverColor ? $this->headerHoverColor : $this->primaryColor;
-    }
-
-    public function getTextContentColor()
-    {
-        $contentBgd = $this->getColor($this->getContentBackgroundColor());
-        return $contentBgd->isLight() ? $this->getTextDarkColor() : $this->getTextLightColor();
-    }
-
-    public function getTextSoftContentColor()
-    {
-        $contentBgd = $this->getColor($this->getContentBackgroundColor());
-        return $contentBgd->isLight() ? $this->getTextDarkSoftColor() : $this->getTextLightSoftColor();
-    }
-
-    /**
-     * Set errorColor
-     *
-     * @param string $errorColor
-     * @return $this
-     */
-    public function setErrorColor($errorColor)
-    {
-        $this->errorColor = $errorColor;
-        return $this;
-    }
-
-    /**
-     * Get errorColor
-     *
-     * @return string $errorColor
-     */
-    public function getErrorColor()
-    {
-        return $this->errorColor ? $this->errorColor : "#B90303";
-    }
-
-    public function getModalBackgroundColor()
-    {
-        $contentBgd = $this->getColor($this->getContentBackgroundColor());
-        return $contentBgd->isDark() ? $this->getContentBackgroundColor() : $this->getTextDarkColor();
+        return $this->backgroundColor;
     }
 
     /**
@@ -2814,6 +2622,292 @@ class Configuration
      */
     public function getHomeBackgroundColor()
     {
-        return $this->homeBackgroundColor ? $this->homeBackgroundColor : $this->getBackgroundColor();
+        return $this->homeBackgroundColor;
+    }
+
+    /**
+     * Set textDarkColor
+     *
+     * @param string $textDarkColor
+     * @return $this
+     */
+    public function setTextDarkColor($textDarkColor)
+    {
+        $this->textDarkColor = $textDarkColor;
+        return $this;
+    }
+
+    /**
+     * Get textDarkColor
+     *
+     * @return string $textDarkColor
+     */
+    public function getTextDarkColor()
+    {
+        return $this->textDarkColor;
+    }
+
+    /**
+     * Set textDarkSoftColor
+     *
+     * @param string $textDarkSoftColor
+     * @return $this
+     */
+    public function setTextDarkSoftColor($textDarkSoftColor)
+    {
+        $this->textDarkSoftColor = $textDarkSoftColor;
+        return $this;
+    }
+
+    /**
+     * Get textDarkSoftColor
+     *
+     * @return string $textDarkSoftColor
+     */
+    public function getTextDarkSoftColor()
+    {
+        return $this->textDarkSoftColor;
+    }
+
+    /**
+     * Set textLightColor
+     *
+     * @param string $textLightColor
+     * @return $this
+     */
+    public function setTextLightColor($textLightColor)
+    {
+        $this->textLightColor = $textLightColor;
+        return $this;
+    }
+
+    /**
+     * Get textLightColor
+     *
+     * @return string $textLightColor
+     */
+    public function getTextLightColor()
+    {
+        return $this->textLightColor;
+    }
+
+    /**
+     * Set textLightSoftColor
+     *
+     * @param string $textLightSoftColor
+     * @return $this
+     */
+    public function setTextLightSoftColor($textLightSoftColor)
+    {
+        $this->textLightSoftColor = $textLightSoftColor;
+        return $this;
+    }
+
+    /**
+     * Get textLightSoftColor
+     *
+     * @return string $textLightSoftColor
+     */
+    public function getTextLightSoftColor()
+    {
+        return $this->textLightSoftColor;
+    }
+
+    /**
+     * Set contentBackgroundColor
+     *
+     * @param string $contentBackgroundColor
+     * @return $this
+     */
+    public function setContentBackgroundColor($contentBackgroundColor)
+    {
+        $this->contentBackgroundColor = $contentBackgroundColor;
+        return $this;
+    }
+
+    /**
+     * Get contentBackgroundColor
+     *
+     * @return string $contentBackgroundColor
+     */
+    public function getContentBackgroundColor()
+    {
+        return $this->contentBackgroundColor;
+    }
+
+    /**
+     * Set headerColor
+     *
+     * @param string $headerColor
+     * @return $this
+     */
+    public function setHeaderColor($headerColor)
+    {
+        $this->headerColor = $headerColor;
+        return $this;
+    }
+
+    /**
+     * Get headerColor
+     *
+     * @return string $headerColor
+     */
+    public function getHeaderColor()
+    {
+        return $this->headerColor;
+    }
+
+    /**
+     * Set headerTextColor
+     *
+     * @param string $headerTextColor
+     * @return $this
+     */
+    public function setHeaderTextColor($headerTextColor)
+    {
+        $this->headerTextColor = $headerTextColor;
+        return $this;
+    }
+
+    /**
+     * Get headerTextColor
+     *
+     * @return string $headerTextColor
+     */
+    public function getHeaderTextColor()
+    {
+        return $this->headerTextColor;
+    }
+
+    /**
+     * Set headerHoverColor
+     *
+     * @param string $headerHoverColor
+     * @return $this
+     */
+    public function setHeaderHoverColor($headerHoverColor)
+    {
+        $this->headerHoverColor = $headerHoverColor;
+        return $this;
+    }
+
+    /**
+     * Get headerHoverColor
+     *
+     * @return string $headerHoverColor
+     */
+    public function getHeaderHoverColor()
+    {
+        return $this->headerHoverColor;
+    }
+
+    /**
+     * Set searchBarColor
+     *
+     * @param string $searchBarColor
+     * @return $this
+     */
+    public function setSearchBarColor($searchBarColor)
+    {
+        $this->searchBarColor = $searchBarColor;
+        return $this;
+    }
+
+    /**
+     * Get searchBarColor
+     *
+     * @return string $searchBarColor
+     */
+    public function getSearchBarColor()
+    {
+        return $this->searchBarColor;
+    }
+
+    /**
+     * Set disableColor
+     *
+     * @param string $disableColor
+     * @return $this
+     */
+    public function setDisableColor($disableColor)
+    {
+        $this->disableColor = $disableColor;
+        return $this;
+    }
+
+    /**
+     * Get disableColor
+     *
+     * @return string $disableColor
+     */
+    public function getDisableColor()
+    {
+        return $this->disableColor;
+    }
+
+    /**
+     * Set errorColor
+     *
+     * @param string $errorColor
+     * @return $this
+     */
+    public function setErrorColor($errorColor)
+    {
+        $this->errorColor = $errorColor;
+        return $this;
+    }
+
+    /**
+     * Get errorColor
+     *
+     * @return string $errorColor
+     */
+    public function getErrorColor()
+    {
+        return $this->errorColor;
+    }
+
+    /**
+     * Set pendingColor
+     *
+     * @param string $pendingColor
+     * @return $this
+     */
+    public function setPendingColor($pendingColor)
+    {
+        $this->pendingColor = $pendingColor;
+        return $this;
+    }
+
+    /**
+     * Get pendingColor
+     *
+     * @return string $pendingColor
+     */
+    public function getPendingColor()
+    {
+        return $this->pendingColor;
+    }
+
+    /**
+     * Set interactiveSectionColor
+     *
+     * @param string $interactiveSectionColor
+     * @return $this
+     */
+    public function setInteractiveSectionColor($interactiveSectionColor)
+    {
+        $this->interactiveSectionColor = $interactiveSectionColor;
+        return $this;
+    }
+
+    /**
+     * Get interactiveSectionColor
+     *
+     * @return string $interactiveSectionColor
+     */
+    public function getInteractiveSectionColor()
+    {
+        return $this->interactiveSectionColor;
     }
 }

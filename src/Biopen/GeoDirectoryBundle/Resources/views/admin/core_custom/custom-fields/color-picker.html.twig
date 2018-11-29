@@ -1,5 +1,12 @@
 <div class="input-container">
-    <input type='text' id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" class="form-control gogo-color-picker" />
+    {% set object = form.vars.sonata_admin.admin.subject %}
+    {% if object.getDefaultColor is defined %}
+        {% set defaultColor = object.getDefaultColor(form.vars.name) %}
+        {% if defaultColor and not form.vars.value %}
+            <div class="default-color" style="background-color: {{ defaultColor }}"></div>
+        {% endif %}
+    {% endif %}
+    <input type='text' id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" placeholder="Cliquez pour choisir une couleur" value="{{ form.vars.value }}" class="form-control gogo-color-picker" />
 </div>
 
 <script src="{{ asset('assets/js/spectrum.min.js') }}" type="text/javascript"></script>
@@ -72,4 +79,14 @@
         background: none;
     }
     .sp-preview, .sp-dd { display: none; }
+
+    .default-color {
+        height: 34px;
+        position: absolute;
+        width: 40px;
+        border: 1px solid #ccd6de;
+        border-right: 0;
+    }
+    .default-color ~ input { margin-left: 40px; width: calc(100% - 40px); }
+
 </style>

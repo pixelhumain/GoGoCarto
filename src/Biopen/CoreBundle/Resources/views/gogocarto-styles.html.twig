@@ -3,19 +3,19 @@
   {#     GENERAL         #}
   {# ------------------- #}
 
-  {% set text = config.getTextContentColor %}
-  {% set textSoft = config.getTextSoftContentColor %}
+  {% set text = config.defaultTextContentColor %}
+  {% set textSoft = config.defaultTextSoftContentColor %}
   {% set primary = config.primaryColor %}
-  {% set secondary = config.secondaryColor %}
-  {% set background = config.backgroundColor %}
-  {% set homeBgd = config.homeBackgroundColor %}
-  {% set header = config.headerColor %}
-  {% set headerText = config.headerTextColor %}
-  {% set headerTextHover = config.headerHoverColor %}
-  {% set contentBgd = config.contentBackgroundColor %}
-  {% set contentBgdSoft = config.contentBackgroundSoftColor %}  
-  {% set disable = config.disableColor %}
-  {% set error = config.errorColor %}
+  {% set secondary = config.defaultSecondaryColor %}
+  {% set background = config.defaultBackgroundColor %}
+  {% set homeBgd = config.defaultHomeBackgroundColor %}
+  {% set header = config.defaultHeaderColor %}
+  {% set headerText = config.defaultHeaderTextColor %}
+  {% set headerTextHover = config.defaultHeaderHoverColor %}
+  {% set contentBgd = config.defaultContentBackgroundColor %}
+  {% set contentBgdSoft = config.defaultContentBackgroundSoftColor %}  
+  {% set disable = config.defaultDisableColor %}
+  {% set error = config.defaultErrorColor %}
 
   {% import _self as self %}
   {{ self.createcolor('primary', primary) }}
@@ -95,11 +95,11 @@
   {# ------------------- #}
   .gogo-load-css .modal.page-modal { background-color: transparent !important; }
   .gogo-load-css .modal.page-modal .modal-content.page-modal-content {
-    background-color: {{ config.getModalBackgroundColor }};
-    color: {{ config.getTextLightColor }};
+    background-color: {{ config.getDefaultModalBackgroundColor }};
+    color: {{ config.getDefaultTextLightColor }};
   }
   .gogo-load-css .modal.page-modal .btn {
-    color: {{ config.getModalBackgroundColor }};
+    color: {{ config.getDefaultModalBackgroundColor }};
   }
   
 
