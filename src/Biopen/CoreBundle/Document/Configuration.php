@@ -2781,4 +2781,10 @@ class Configuration
     {
         return $this->errorColor ? $this->errorColor : "#B90303";
     }
+
+    public function getModalBackgroundColor()
+    {
+        $contentBgd = $this->getColor($this->getContentBackgroundColor());
+        return $contentBgd->isDark() ? $this->getContentBackgroundColor() : $this->getTextDarkColor();
+    }
 }

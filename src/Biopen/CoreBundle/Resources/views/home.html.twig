@@ -89,8 +89,8 @@
 
 <div class="wrappers-container">
 {% for wrapper in listWrappers %}
-	<section class="bottom-section valign-wrapper" style="background-color: #{{wrapper.backgroundColor}}">
-	    <div class="content valign" style="color: #{{wrapper.textColor}}">
+	<section class="bottom-section valign-wrapper" style="background-color: {{wrapper.backgroundColor}}">
+	    <div class="content valign" style="color: {{wrapper.textColor}}">
 	    	<h2 >{{wrapper.title | raw}}</h2>
 	    	<p class="wysiwyg-content">{{ wrapper.content | raw }} {{ wrapper.rawContent | raw}}</p>
         </div>

@@ -83,12 +83,24 @@
   .gogo-load-css #menu .menu-item:hover { color: {{ headerTextHover }}; background-color: transparent; }
   .gogo-load-css #menu .menu-item .arrow-after { border-color: {{ headerText }} transparent transparent transparent; }
   .gogo-load-css #menu .menu-item:hover .arrow-after { border-color: {{ headerTextHover }} transparent transparent transparent; }
-  .gogo-load-css header #menu ul#listUserActions li:hover .about-title-item { color: {{ headerTextHover }}; }
+  .gogo-load-css #menu ul.dropdown-content li:hover a { color: {{ headerTextHover }} !important; }
   .gogo-load-css #menu-home .small-logo .header-icon { background-color: {{ headerTextHover }}; } 
   .gogo-load-css #menu-home { font-family: {{ config.titleFont }}; }
   {% if header == "white" or header == "#ffffff" %}.gogo-load-css #menu { border-bottom: 1px solid #eaeaea; }{% endif %}
-  
+  .gogo-load-css header #menu .dropdown-content .item-divider { background-color: {{ headerText }}; opacity: .2; }
 
+  {# --------------------#}
+  {#      MODALS         #}
+  {# ------------------- #}
+  .gogo-load-css .modal.page-modal { background-color: transparent !important; }
+  .gogo-load-css .modal.page-modal .modal-content.page-modal-content {
+    background-color: {{ config.getModalBackgroundColor }};
+    color: {{ config.getTextLightColor }};
+  }
+  .gogo-load-css .modal.page-modal .btn {
+    color: {{ config.getModalBackgroundColor }};
+  }
+  
 
   {# --------------------#}
   {#      DIRECTORY      #}
@@ -178,6 +190,11 @@
     border-bottom-color: {{ primary }};
   }
 
+  .gogo-load-css [type=radio]:checked+label:after {
+    border: 2px solid {{ primary }};
+    background-color: {{ primary }};
+  }
+
   {# Address #}
   .gogo-load-css .geolocalize-help-text {
     background-color: {{ contentBgdSoft }};
@@ -224,6 +241,9 @@
   .gogo-load-css section#home-main-container { background-color: {{ contentBgd }}; }
   .gogo-load-css section#home-main-container h1 { color: {{ primary }}; }
   .gogo-load-css .search-bar-with-options-container .search-bar-container.search-bar { border: none !important; }
+  #bottom-more-info { background-color: {{ header }}; color: {{ headerText }} }
+  #bottom-more-info:hover { color: {{ headerTextHover }} }
+  .wrappers-container { color: {{ text }}; background-color: {{ contentBgd }}; }
 
   {# ----------- #}
   {#     USER    #}

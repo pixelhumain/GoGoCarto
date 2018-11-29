@@ -47,21 +47,18 @@ body
   	#bottom-more-info
   	{
   		position: absolute;
-      color: white;
   		left: -2rem;
   		right: 0;
   		bottom: 0;
   		line-height: 3.5rem;
       font-size: .9rem;
       letter-spacing: 1px;
-      background-color: #525252;
       //border-bottom: 1px solid #4a4a4a;
       @media #{$medium-and-up} { font-size: 1.1rem; } 
 
       &:hover
       {
       	cursor: pointer;
-      	background-color: #676565;
       }
 
       .text { padding: 0 1rem; margin-left: 1.5rem; @media #{$medium-and-up} { padding: 0 10rem; } }

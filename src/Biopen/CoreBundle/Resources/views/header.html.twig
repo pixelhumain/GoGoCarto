@@ -63,7 +63,7 @@
         </div>
         <ul id='listAbout' class='dropdown-content'>    	
           {% for about in listAbouts %}
-          	<li class="item-divider"></li>
+          	{% if not loop.first %}<li class="item-divider"></li>{% endif %}
             <li class="name"><a class="about-title-item" id='modal{{about.id}}' onclick="$('#popup-{{about.id}}').openModal()">{{about.name}}</a></li>
         	{% endfor %}            
         </ul>

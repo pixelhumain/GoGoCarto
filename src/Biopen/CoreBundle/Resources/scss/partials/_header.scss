@@ -164,9 +164,10 @@ header
 				padding: 0 .5rem !important;
 
 				font-size: inherit ;
-				//@include transition(all 0.4s);
+				
 			}
 
+			@include transition(all .2s);
 			padding: 0 .75rem !important;				
 
 			@media only screen and (min-width : 701px)
@@ -184,10 +185,7 @@ header
 				margin-right: 2rem;
 			}
 
-			&:hover
-			{
-				cursor: pointer;
-			}			
+			&:hover { cursor: pointer; }		
 
 			a 
 			{ 
@@ -281,11 +279,11 @@ header
 			margin-right:2rem;			
 
 			li { color: inherit !important; }
-
 			li:hover { background-color: transparent;}
+			li a { @include transition(all .2s); }	
 
 	    @media screen and (max-width: 500px) { margin-top: 2.5rem; }
-	    @media only screen and (min-width : 701px) { margin-top: 3.4rem;width: auto !important; }
+	    @media only screen and (min-width : 701px) { margin-top: 3.5rem;width: auto !important; }
 			
 			.about-title-item 
 			{
@@ -293,14 +291,12 @@ header
 		    text-align: center;
 		    color: inherit;
 		    @media screen and (min-width: 700px) { text-align: left; }
-		    &:hover { background-color: transparent; }
 			}  
 
 			.item-divider
 			{
 				height: 1px;
 		    overflow: hidden;
-		    background-color: #717171;
 			}			
 		}			
 	}
