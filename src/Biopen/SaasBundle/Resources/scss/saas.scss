@@ -36,12 +36,28 @@ body
     }
 
     section {
+      position: relative;
       text-align: center;
       background-color: white;
       padding: 2rem;
       border-radius: 5px;
       margin-bottom: 2rem;
-    }        
+    }  
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+
+      .overlay-content {
+        position: absolute;
+        top: 40%; left: 0; right: 0;
+        text-align: center;
+
+        .message { margin-bottom: 2.5rem; }
+      }
+      
+    }
   }
 }
 

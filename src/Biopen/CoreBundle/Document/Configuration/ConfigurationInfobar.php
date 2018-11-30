@@ -8,13 +8,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ConfigurationInfobar
 {
     /** @MongoDB\Field(type="int") */
-    protected $width = null;
+    public $width = null;
 
     /** @MongoDB\Field(type="string") */
-    protected $headerTemplate = null;
+    public $headerTemplate = null;
 
     /** @MongoDB\Field(type="string") */
-    protected $bodyTemplate = null;
+    public $bodyTemplate = null;
 
 
     /**

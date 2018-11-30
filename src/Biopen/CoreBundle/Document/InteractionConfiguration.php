@@ -10,7 +10,7 @@ use Biopen\CoreBundle\Document\FeatureConfiguration;
 class InteractionConfiguration extends FeatureConfiguration
 {
     /** @MongoDB\Field(type="bool") */
-    private $allow_role_anonymous_with_mail;
+    public $allow_role_anonymous_with_mail;
 
     public function __construct($active = false, $iframe = false, $anon = false, $anonMail = false, $user = false, $admin = false)
     {
@@ -48,6 +48,7 @@ class InteractionConfiguration extends FeatureConfiguration
         $this->allow_role_anonymous_with_mail = $allowRoleAnonymousWithMail;
         return $this;
     }
+    public function setAllow_role_anonymous_with_mail($value) { return $this->setAllowRoleAnonymousWithMail($value); }
 
     /**
      * Get allowRoleAnonymousWithMail

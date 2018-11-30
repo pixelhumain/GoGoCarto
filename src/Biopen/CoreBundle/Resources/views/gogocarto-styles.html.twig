@@ -159,6 +159,23 @@
 
   #page-content.contributor-login .email-already-in-use { color: {{ error }}; }  
   form.biopen_user_profile .error ul li, form.fos_user_registration_register .error ul li { color: {{ error }}; }
+
+  {# ------------------ #}
+  {#  SAAS / PROJECT    #}
+  {# ------------------ #}
+
+  .project-create ul li {
+    text-align: left;
+    color: {{ error }};
+    padding-left: 3.5rem;
+  }
+
+  .project-create .overlay { background-color: {{ text }}; opacity: .9; }
+  .project-create .overlay .message { color: {{ contentBgd }}; }
+
+  .gogo-load-css .spinner-layer {
+    border-color: {{ primary }} !important;
+  }
   
 </style>
 

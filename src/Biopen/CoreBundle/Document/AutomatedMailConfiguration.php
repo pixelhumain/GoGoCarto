@@ -9,13 +9,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class AutomatedMailConfiguration
 {
    /** @MongoDB\Field(type="bool") */
-   private $active;
+   public $active;
 
    /** @MongoDB\Field(type="string") */
-   private $subject;
+   public $subject;
 
    /** @MongoDB\Field(type="string") */
-   private $content;
+   public $content;
 
    public function __construct($active = false, $subject = '', $content = '')
    {

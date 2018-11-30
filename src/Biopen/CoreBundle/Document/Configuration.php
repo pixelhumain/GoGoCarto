@@ -9,6 +9,7 @@ use Biopen\CoreBundle\Document\Configuration\ConfigurationUser;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationMenu;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationInfobar;
 use Biopen\CoreBundle\Document\Configuration\ConfigurationApi;
+use Biopen\CoreBundle\Document\Configuration\ConfigurationHome;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Rgba;
 
@@ -17,7 +18,7 @@ use OzdemirBurak\Iris\Color\Rgba;
  *
  * @MongoDB\Document(repositoryClass="Biopen\CoreBundle\Repository\ConfigurationRepository")
  */
-class Configuration
+class Configuration implements \JsonSerializable
 {
     /** @MongoDB\Id(strategy="INCREMENT") */
     private $id;
@@ -453,6 +454,12 @@ class Configuration
         $this->menu = new ConfigurationMenu();
         $this->infobar = new ConfigurationInfobar();
         $this->api = new ConfigurationApi();
+        $this->home = new ConfigurationHome();
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 
     /**

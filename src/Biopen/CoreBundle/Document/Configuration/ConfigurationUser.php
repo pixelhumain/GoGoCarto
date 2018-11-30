@@ -8,22 +8,22 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ConfigurationUser
 {
     /** @MongoDB\Field(type="bool") */
-    protected $enableRegistration = true;
+    public $enableRegistration = true;
 
     /** @MongoDB\Field(type="bool") */
-    protected $sendConfirmationEmail = true;
+    public $sendConfirmationEmail = true;
 
     /** @MongoDB\Field(type="bool") */
-    protected $loginWithLesCommuns = false;
+    public $loginWithLesCommuns = false;
 
     /** @MongoDB\Field(type="bool") */
-    protected $loginWithMonPrintemps = false;
+    public $loginWithMonPrintemps = false;
 
     /** @MongoDB\Field(type="bool") */
-    protected $loginWithGoogle = false;
+    public $loginWithGoogle = false;
 
     /** @MongoDB\Field(type="bool") */
-    protected $loginWithFacebook = false;
+    public $loginWithFacebook = false;
 
     /**
      * Set enableRegistration

@@ -8,13 +8,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ConfigurationHome
 {
     /** @MongoDB\Field(type="bool") */
-    protected $displayCategoriesToPick;
+    public $displayCategoriesToPick;
 
     /** @MongoDB\Field(type="string") */
-    protected $addElementHintText;
+    public $addElementHintText;
 
     /** @MongoDB\Field(type="string") */
-    protected $seeMoreButtonText;
+    public $seeMoreButtonText;
 
     /**
      * Set displayCategoriesToPick

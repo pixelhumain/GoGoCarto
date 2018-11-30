@@ -14,3 +14,9 @@ biopen_api_project_info:
     defaults: { _controller: BiopenCoreBundle:API:getProjectInfo }
     requirements:
         methods: GET
+
+biopen_api_configuration:
+    path:     /configuration.json
+    defaults: { _controller: BiopenCoreBundle:API:getConfiguration }
+    requirements:
+        methods: GET

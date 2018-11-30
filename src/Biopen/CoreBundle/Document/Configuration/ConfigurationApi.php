@@ -8,10 +8,10 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ConfigurationApi
 {
     /** @MongoDB\Field(type="string") */
-    protected $internalApiAuthorizedDomains = null;
+    public $internalApiAuthorizedDomains = null;
 
     /** @MongoDB\Field(type="bool") */
-    protected $protectPublicApiWithToken = true;
+    public $protectPublicApiWithToken = true;
 
     /**
      * Set internalApiAuthorizedDomains

@@ -9,19 +9,19 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class FeatureConfiguration
 {
     /** @MongoDB\Field(type="bool") */
-    private $active;
+    public $active;
 
     /** @MongoDB\Field(type="bool") */
-    private $activeInIframe;
+    public $activeInIframe;
 
     /** @MongoDB\Field(type="bool") */
-    private $allow_role_anonymous;
+    public $allow_role_anonymous;
 
     /** @MongoDB\Field(type="bool") */
-    private $allow_role_user;
+    public $allow_role_user;
 
     /** @MongoDB\Field(type="bool") */
-    private $allow_role_admin;
+    public $allow_role_admin;
 
     public function __construct($active = false, $iframe = false, $anon = false, $user = false, $admin = false)
     {
@@ -109,6 +109,7 @@ class FeatureConfiguration
         $this->allow_role_anonymous = $allowRoleAnonymous;
         return $this;
     }
+    public function setAllow_role_anonymous($value) { return $this->setAllowRoleAnonymous($value); }
 
     /**
      * Get allowRoleAnonymous
@@ -131,6 +132,7 @@ class FeatureConfiguration
         $this->allow_role_user = $allowRoleUser;
         return $this;
     }
+    public function setAllow_role_user($value) { return $this->setAllowRoleUser($value); }
 
     /**
      * Get allowRoleUser
@@ -153,6 +155,7 @@ class FeatureConfiguration
         $this->allow_role_admin = $allowRoleAdmin;
         return $this;
     }
+    public function setAllow_role_admin($value) { return $this->setAllowRoleAdmin($value); }
 
     /**
      * Get allowRoleAdmin

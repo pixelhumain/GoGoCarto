@@ -8,19 +8,19 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class ConfigurationMenu
 {
     /** @MongoDB\Field(type="int") */
-    protected $width = null;
+    public $width = null;
 
     /** @MongoDB\Field(type="bool") */
-    protected $smallWidthStyle = false;
+    public $smallWidthStyle = false;
 
     /** @MongoDB\Field(type="bool") */
-    protected $showOnePanePerMainOption = false;
+    public $showOnePanePerMainOption = false;
 
     /** @MongoDB\Field(type="bool") */
-    protected $showCheckboxForMainFilterPane = true;
+    public $showCheckboxForMainFilterPane = true;
 
     /** @MongoDB\Field(type="bool") */
-    protected $showCheckboxForSubFilterPane = true;
+    public $showCheckboxForSubFilterPane = true;
 
     /**
      * Set width

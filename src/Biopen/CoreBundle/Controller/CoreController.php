@@ -23,8 +23,7 @@ class CoreController extends GoGoController
         if (!$config->getActivateHomePage()) return $this->redirectToRoute('biopen_directory');
         
         // Get Wrapper List        
-        $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')
-        ->findAllOrderedByPosition();
+        $listWrappers = $em->getRepository('BiopenCoreBundle:Wrapper')->findAllOrderedByPosition();
         $mainCategory = $em->getRepository('BiopenGeoDirectoryBundle:Category')->findOneByIsRootCategory(true);
         $mainOptions = $mainCategory ? $mainCategory->getOptions() : [];
 

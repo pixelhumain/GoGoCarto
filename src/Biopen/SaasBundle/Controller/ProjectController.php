@@ -53,7 +53,7 @@ class ProjectController extends AbstractSaasController
 
         if ($projectForm->handleRequest($request)->isValid())
         {            
-            $odm->persist($project);  
+            $odm->persist($project);          
 
             // initialize commands
             $commands = (new GoGoMainCommand())->scheduledCommands;
@@ -65,25 +65,30 @@ class ProjectController extends AbstractSaasController
 
                 $odm->persist($scheduledCommand);
             }
-
             $odm->flush();
 
+            // Switch to new project ODM
             $projectOdm = $this->getOdmForProject($project);
-
+            
+            // Clone the root configuration into the new project
+            // Due to conflicts between ODM, we get the Configuration froma Json API, and convert it to an object
+            $configUrl = 'http://' . $this->getParameter('base_url') . $this->generateUrl('biopen_api_configuration');
+            $rootConfigToCopy = json_decode(file_get_contents($configUrl));            
+            $rootConfigToCopy->appName = $project->getName();
+            $rootConfigToCopy->appBaseLine = "";
+            $rootConfigToCopy->dbName = $project->getDbName();    
+            // Duplicate configuration
             $confLoader = new LoadConfiguration();
-            $configuration = $confLoader->load($projectOdm, $this->container);
+            $configuration = $confLoader->load($projectOdm, $this->container, $rootConfigToCopy);
 
-            $configuration->setAppName($project->getName());
-            $configuration->setAppBaseline("");
-            $configuration->setDbName($project->getDbName());
-
+            // Generate basic categories
             $mainCategory = new Category();
             $mainCategory->setName('Catégories Principales');
             $mainCategory->setPickingOptionText('Une catégorie principale');
             $projectOdm->persist($mainCategory);
 
             $mains = array(
-                array('Option 1'  , 'fa fa-envira'     , '#98a100'),
+                array('Option 1'  , 'fa fa-recycle'     , '#98a100'),
                 array('Option 2'  , 'fa fa-home'       , '#7e3200')         
             );
 
@@ -96,13 +101,12 @@ class ProjectController extends AbstractSaasController
                 $new_main->setIsFixture(true);
                 $mainCategory->addOption($new_main);
             }
-
-            $projectOdm->flush();
             
             $taxonomy = new Taxonomy();
             $projectOdm->persist($taxonomy);
             
             $projectOdm->flush();
+
             $projectOdm->getSchemaManager()->updateIndexes();         
 
             $url = $this->generateUrlForProject($project, 'biopen_saas_initialize_project');

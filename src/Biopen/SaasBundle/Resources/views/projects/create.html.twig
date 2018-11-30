@@ -4,8 +4,7 @@
 
 {% block body %}
   <h1>Créer un projet</h1>
-  <section>
-    
+  <section class="project-create">    
 
     {{ form_start(form, {'id': 'project-form'}) }}   
 
@@ -18,7 +17,7 @@
         <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom du projet</label>
       </div>  
 
-      {{ form_errors(form.domainName) }}
+      {{ form_errors(form.domainName, {'class': 'form-error'}) }}
       <div class="input-field col s12">
         <i class="material-icons gogo-icon-internet prefix"></i>  
         {{ form_widget(form.domainName, {'id': 'input-domain', 
@@ -27,8 +26,14 @@
       </div> 
     </div>
     
-    <button class="btn" type="submit" onclick="slugifyDomain();">Créer</button>  
+    <button class="btn" type="submit" onclick="performSubmit();">Créer</button>  
     
+    <div class="overlay">
+      <div class="overlay-content">
+        <div class="message">Votre projet est en cours de création, veuillez patienter...</div>
+        {% include '@BiopenGeoDirectory/directory/components/spinner-loader.html.twig' with {'id': 'create-project-loader' }%}
+      </div>
+    </div>
 
     {{ form_rest(form) }}
 
@@ -43,6 +48,19 @@
       clearTimeout(timer);
       timer = setTimeout(function() { slugifyDomain(); }, 200);
     });
+
+    function performSubmit() {
+      console.log("submiting");
+      showWaitingMessage();
+      slugifyDomain();      
+      $('form').submit();
+    }
+
+    function showWaitingMessage() {
+      $("button[type=submit]").prop('disabled', true);
+      $('.overlay').show();
+      console.log("show overlay");
+    }
 
     function slugifyDomain() { $('#input-domain').val(slugify($('#input-domain').val())); }
 

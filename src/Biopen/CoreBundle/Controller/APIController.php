@@ -84,4 +84,20 @@ class APIController extends GoGoController
     $response->headers->set('Content-Type', 'application/json');
     return $response;
   }
+
+  public function getConfigurationAction() 
+  {
+    $odm = $this->get('doctrine_mongodb')->getManager();
+    $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+    $defaultTileLayer = $config->getDefaultTileLayer()->getName();
+    $config = json_decode(json_encode($config));
+
+    $tileLayers = $odm->getRepository('BiopenCoreBundle:TileLayer')->findAll();
+
+    $config->defaultTileLayer = $defaultTileLayer;
+    $config->tileLayers = $tileLayers;
+    $response = new Response(json_encode($config));  
+    $response->headers->set('Content-Type', 'application/json');
+    return $response;
+  }
 }
