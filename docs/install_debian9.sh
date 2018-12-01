@@ -19,7 +19,7 @@ BRANCH=master
 
 # Create user,folders and set permissions
 id -u $WEB_USR &>/dev/null || useradd -g $WEB_GRP $WEB_USR
-WEB_USR_HOME=(grep username /etc/passwd | cut -d ":" -f6)
+WEB_USR_HOME=`grep username /etc/passwd | cut -d ":" -f6`
 mkdir -p $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 
