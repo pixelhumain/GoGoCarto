@@ -2,7 +2,7 @@
 
 # launch as root or as sudoer user with `sudo ` before this script
 
-# /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATE BEFORE EXECUTION OF THE SCRIPT
+# /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATED BEFORE EXECUTION OF THE SCRIPT
 # TODO : automatiser la creation du certif wildcard
 # # gestion du certificat wildcard https par certbot
 # certbot certonly \
@@ -28,6 +28,8 @@ certbot \
 curl \
 build-essential \
 git \
+zip \
+unzip \
 php7.0-fpm \
 php7.0 \
 php7.0-cli \
@@ -37,6 +39,7 @@ php7.0-gd \
 php7.0-bcmath \
 php7.0-mongodb \
 php7.0-mbstring \
+php7.0-zip \
 nginx \
 git-core \
 mongodb \
