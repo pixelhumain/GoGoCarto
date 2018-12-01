@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# launch as root or as sudoer user with sudo before de script
+# launch as root or as sudoer user with `sudo ` before this script
 
 # /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATE BEFORE EXECUTION OF THE SCRIPT
 # TODO : automatiser la creation du certif wildcard
