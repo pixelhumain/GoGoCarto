@@ -18,6 +18,7 @@ WEB_DIR=/var/www/gogocarto
 WEB_USR=www-data
 WEB_GRP=www-data
 WEB_URL=gogocarto.fr
+BRANCH=master
 
 apt update -y ;
 apt dist-upgrade -y ;
@@ -58,7 +59,7 @@ if [ ! -d "$WEB_DIR" ]; then
   mkdir -p $WEB_DIR
 fi
 chown -R $WEB_USR:$WEB_GRP $WEB_DIR
-sudo -u $WEB_USR git clone -b production https://github.com/pixelhumain/GoGoCarto.git $WEB_DIR
+sudo -u $WEB_USR git clone -b $BRANCH https://github.com/pixelhumain/GoGoCarto.git $WEB_DIR
 cd $WEB_DIR
 
 # permissions
