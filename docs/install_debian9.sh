@@ -17,10 +17,11 @@ WEB_GRP=www-data
 WEB_URL=gogocarto.fr
 BRANCH=master
 
-# TODO make it more generic and not hardcoded for /var/www
-mkdir -p /var/www/.config /var/www/.npm /var/www/.composer
-chown -R $WEB_USR:$(id -gn $WEB_USR) /var/www/.config /var/www/.npm /var/www/.composer
-chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_DIR
+# Create user,folders and set permissions
+id -u $WEB_USR &>/dev/null || useradd -g $WEB_GRP $WEB_USR
+WEB_USR_HOME=(grep username /etc/passwd | cut -d ":" -f6)
+mkdir -p $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
+chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 
 apt update -y ;
 apt dist-upgrade -y ;
@@ -60,10 +61,6 @@ sudo apt-get install -y nodejs
 curl -L https://npmjs.org/install.sh | sudo sh
 
 # PULL CODE
-if [ ! -d "$WEB_DIR" ]; then
-  mkdir -p $WEB_DIR
-fi
-chown -R $WEB_USR:$WEB_GRP $WEB_DIR
 sudo -u $WEB_USR git clone -b $BRANCH https://github.com/pixelhumain/GoGoCarto.git $WEB_DIR
 cd $WEB_DIR
 
