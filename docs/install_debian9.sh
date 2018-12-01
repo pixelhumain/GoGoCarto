@@ -10,15 +10,17 @@
 # --manual --preferred-challenges dns \
 # -d *.${WEB_URL} -d ${WEB_URL}
 
-# TODO : had to manually create .npm, .config and .composer in the user home with good permissions
-#sudo chown -R $USER:$(id -gn $USER) /var/www/.config
-
 # settings you will have to adapt to your environment
 WEB_DIR=/var/www/gogocarto
 WEB_USR=www-data
 WEB_GRP=www-data
 WEB_URL=gogocarto.fr
 BRANCH=master
+
+# TODO make it more generic and not hardcoded for /var/www
+mkdir -p /var/www/.config /var/www/.npm /var/www/.composer
+chown -R $WEB_USR:$(id -gn $WEB_USR) /var/www/.config /var/www/.npm /var/www/.composer
+chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_DIR
 
 apt update -y ;
 apt dist-upgrade -y ;
