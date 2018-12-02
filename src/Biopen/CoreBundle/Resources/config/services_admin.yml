@@ -89,8 +89,6 @@ services:
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Contenus", label: Popups type "A propos" }
     
-    
-    
     admin.parter_image:
         class: Biopen\CoreBundle\Admin\ImageAdmin
         arguments: [~, Biopen\CoreBundle\Document\PartnerImage, '' ]

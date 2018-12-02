@@ -1,0 +1,6 @@
+services:
+  admin.project:
+    class: Biopen\SaasBundle\Admin\ProjectAdmin
+    arguments: [~, Biopen\SaasBundle\Document\Project, 'BiopenSaasBundle:ProjectAdmin']
+    tags:
+        - { name: sonata.admin, manager_type: doctrine_mongodb, group: "hide", label: Projets }  

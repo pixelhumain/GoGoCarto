@@ -119,12 +119,12 @@
     {# CUSTOM Menu #}
     <ul class="sidebar-menu">
         <li class="first treeview">            
-            <a href="{{ path('biopen_bulk_actions_index') }}"><i class="fa fa-bullhorn"></i><span>Actions de masse</span>{#<i class="fa pull-right fa-angle-left"></i>#}</a>                
-            {#<ul class="active treeview-menu menu_level_1">
-                <li class="first">
-                    <a href=""><i class="fa fa-angle-double-right" aria-hidden="true"></i>Onglets "A propos"</a>        
-                </li>
-            </ul>#}
+            <a href="{{ path('biopen_bulk_actions_index') }}"><i class="fa fa-bullhorn"></i><span>Actions de masse</span></a>            
         </li>
+        {% if use_as_saas and is_root_project() %}
+            <li>
+                <a href="{{ path('admin_biopen_saas_project_list') }}"><i class="fa fa-bullhorn"></i><span>Projets</span></a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

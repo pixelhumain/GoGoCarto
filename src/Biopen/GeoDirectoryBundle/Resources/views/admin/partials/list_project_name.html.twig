@@ -1,0 +1,8 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+{% spaceless %}
+  {% set url = 'http://' ~ object.domainName ~ '.' ~ base_url ~ base_path %}
+	<a href={{ url }} target="_blank">{{value|capitalize}}</a>
+{% endspaceless %}
+{% endblock %}

@@ -7,7 +7,7 @@ class SaasHelper
    private $ROOT_PROJECT_CODE = "gogocarto_default";
 
    // GoGoCarto can be use as a SAAS. in this case, each subdomain map a projet
-   // project1.gog.carto, project2.gogo.carto etc...
+   // project1.gogo.carto, project2.gogo.carto etc...
    // by default, the projet code is "gogocarto_default"
    public function getCurrentProjectCode()
    {
