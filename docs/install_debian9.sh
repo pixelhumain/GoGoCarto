@@ -15,11 +15,12 @@ WEB_DIR=/var/www/gogocarto
 WEB_USR=www-data
 WEB_GRP=www-data
 WEB_URL=gogocarto.fr
+CONTACT_EMAIL=contact@localhost.fr
 BRANCH=master
 
 # Create user,folders and set permissions
 id -u $WEB_USR &>/dev/null || useradd -g $WEB_GRP $WEB_USR
-WEB_USR_HOME=`grep username /etc/passwd | cut -d ":" -f6`
+WEB_USR_HOME=`grep ${WEB_USR} /etc/passwd | cut -d ":" -f6`
 mkdir -p $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 
@@ -40,7 +41,7 @@ php7.0-curl \
 php7.0-dev \
 php7.0-gd \
 php7.0-bcmath \
-php7.0-mongodb \
+php-mongodb \
 php7.0-mbstring \
 php7.0-zip \
 nginx \
@@ -65,14 +66,8 @@ sudo -u $WEB_USR git clone -b $BRANCH https://github.com/pixelhumain/GoGoCarto.g
 cd $WEB_DIR
 
 # permissions
-#chmod 777 /var/log/mongodb/mongod.log
-#chmod 777 /var/lib/mongodb
-#chmod 777 /var/log/mongodb
-#setfacl -R -m -m u:`whoami`:rwX var/cache var/logs
-chmod 777 -R $WEB_DIR/var
-
 mkdir -p $WEB_DIR/web/uploads
-chmod 777 -R $WEB_DIR/web/uploads
+chmod 777 -R $WEB_DIR/web/uploads $WEB_DIR/var
 
 # npm stuff
 npm install gulp -g
@@ -82,6 +77,7 @@ sudo -u $WEB_USR npm install
 sudo -u $WEB_USR echo "parameters:
   use_as_saas: true
   base_url: ${WEB_URL}
+  contact_email: ${CONTACT_EMAIL}
   base_path: ''
   mailer_transport: smtp
   mailer_host: 127.0.0.1
@@ -242,9 +238,8 @@ server {
     fastcgi_param  HTTPS off;
   }
 }" > /etc/nginx/sites-available/${WEB_URL}
-ln -s /etc/nginx/sites-available/${WEB_URL} /etc/nginx/sites-enabled/${WEB_URL}
-nginx -t
-service nginx reload
+ln -nsf /etc/nginx/sites-available/${WEB_URL} /etc/nginx/sites-enabled/${WEB_URL}
+nginx -t && service nginx reload
 
 # TODO add crontab automatically
 # See install_debian.sh
