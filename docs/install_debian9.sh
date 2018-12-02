@@ -6,7 +6,8 @@
 WEB_DIR=/var/www/gogocarto # Where the source code will be installed
 WEB_USR=www-data # Linux user for this app (if something else then www-data, you may have to change php-fpm default user)
 WEB_GRP=www-data # Linux user group for this app (if something else then www-data, you may have to change php-fpm default user)
-GIR_REPO=https://github.com/pixelhumain/GoGoCarto.git # git repository for GoGoCarto
+SSL_GENERATOR=selfsigned # SSL generator : certbot for production or on real internet dev, selfsigned for local dev
+GIT_REPO=https://github.com/pixelhumain/GoGoCarto.git # git repository for GoGoCarto
 GIT_BRANCH=master # git branch for GoGoCarto
 WEB_URL=gogocarto.local # main url for GoGoCarto
 CONTACT_EMAIL=contact@gogocarto.local # default email contact
@@ -57,17 +58,36 @@ git-core \
 mongodb \
 openssl \
 libsasl2-dev \
-libssl-dev;
-apt-get install python-certbot-nginx -t stretch-backports; #cerbot needs to have recent version to handle wildcards
+libssl-dev \
+ssl-cert;
 apt-get autoclean -y;
 
-# /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATED BEFORE EXECUTION OF THE SCRIPT
-# TODO : automatiser la creation du certif wildcard
-# # gestion du certificat wildcard https par certbot
-# certbot certonly \
-# --server https://acme-v02.api.letsencrypt.org/directory \
-# --manual --preferred-challenges dns \
-# -d *.${WEB_URL} -d ${WEB_URL}
+if [${SSL_GENERATOR} = certbot]
+then
+  sh -c 'echo "deb http://ftp.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/backports.list';
+  apt-get update;
+  apt-get install python-certbot-nginx -t stretch-backports; #cerbot needs to have recent version to handle wildcards
+  if [${USE_AS_SAAS} = true]
+  then
+    # generate wildcard certificate with certbot (ATTENTION!!!! NEEDS MANUAL DNS CHALLENGE)
+    certbot certonly \
+    --server https://acme-v02.api.letsencrypt.org/directory \
+    --manual --preferred-challenges dns \
+    --email ${CONTACT_EMAIL} --agree-tos \
+    -d *.${WEB_URL} -d ${WEB_URL};
+  else
+    # generate classic ssl certificate with certbot
+    certbot certonly --rsa-key-size 4096 --webroot -w /var/www/certbot/ --email ${CONTACT_EMAIL} --agree-tos -d ${WEB_URL};
+  fi
+  CERT_PATH=/etc/letsencrypt/live/${WEB_URL};
+else
+  CERT_PATH=${WEB_DIR};
+  cd ${WEB_DIR}; 
+  openssl req -x509 -out fullchain.pem -keyout privkey.pem \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth");
+fi
 
 # Install COMPOSER
 cd /usr/src
@@ -113,15 +133,15 @@ chown -R $WEB_USR:$WEB_GRP $WEB_DIR/app/config/parameters.yml
 sudo -u $WEB_USR composer config "platform.ext-mongo" "1.6.16" && sudo -u $WEB_USR composer require alcaeus/mongo-php-adapter
 sudo -u $WEB_USR composer install;
 
-sudo -u $WEB_USR php bin/console assets:install --symlink web  --no-interaction;
+sudo -u $WEB_USR php -d memory_limit=512M bin/console assets:install --symlink web  --no-interaction;
 
 sudo -u $WEB_USR gulp build ;
 sudo -u $WEB_USR gulp production ;
 
-sudo -u $WEB_USR php $WEB_DIR/bin/console doctrine:mongodb:schema:create  --no-interaction;
-sudo -u $WEB_USR php $WEB_DIR/bin/console doctrine:mongodb:generate:hydrators  --no-interaction;
-sudo -u $WEB_USR php $WEB_DIR/bin/console doctrine:mongodb:generate:proxies  --no-interaction;
-sudo -u $WEB_USR php $WEB_DIR/bin/console doctrine:mongodb:fixtures:load  --no-interaction;
+sudo -u $WEB_USR php -d memory_limit=512M $WEB_DIR/bin/console doctrine:mongodb:schema:create  --no-interaction;
+sudo -u $WEB_USR php -d memory_limit=512M $WEB_DIR/bin/console doctrine:mongodb:generate:hydrators  --no-interaction;
+sudo -u $WEB_USR php -d memory_limit=512M $WEB_DIR/bin/console doctrine:mongodb:generate:proxies  --no-interaction;
+sudo -u $WEB_USR php -d memory_limit=512M $WEB_DIR/bin/console doctrine:mongodb:fixtures:load  --no-interaction;
 
 
 echo "server {
@@ -164,8 +184,8 @@ server {
   root ${WEB_DIR}/web;
 
   # For example with certbot (you need a certificate to run https)
-  ssl_certificate      /etc/letsencrypt/live/${WEB_URL}/fullchain.pem;
-  ssl_certificate_key  /etc/letsencrypt/live/${WEB_URL}/privkey.pem;
+  ssl_certificate      ${CERT_PATH}/fullchain.pem;
+  ssl_certificate_key  ${CERT_PATH}/privkey.pem;
 
   # Security hardening (as of 11/02/2018)
   ssl_protocols TLSv1.2; # TLSv1.3, TLSv1.2 if nginx >= 1.13.0
@@ -256,7 +276,7 @@ server {
   }
 }" > /etc/nginx/sites-available/${WEB_URL}
 ln -nsf /etc/nginx/sites-available/${WEB_URL} /etc/nginx/sites-enabled/${WEB_URL}
-nginx -t && service nginx reload
+nginx -t && service nginx restart
 
 # TODO add crontab automatically
 # See install_debian.sh
