@@ -86,14 +86,26 @@ class ElementImportService
 				}
 				unset($data[$key]['address']);
 			}
-		}
-
-    $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-    $qb->remove()->field('source')->references($externalSource)->getQuery()->execute();
+		}    
 
     if ($onlyGetData) return $data;
 
-    return $this->import($data, $externalSource, true, true);
+    $elementImportedCount = $this->import($data, $externalSource, true, true);   
+    $this->em->persist($externalSource);
+
+    $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+    $qb->remove()
+    	 ->field('source')->references($externalSource)
+    	 ->field('status')->notEqual(ElementStatus::DynamicImportTemp)
+    	 ->getQuery()->execute();
+
+    $qb->updateMany()
+    	 ->field('status')->set(ElementStatus::DynamicImport)
+    	 ->field('source')->references($externalSource)
+    	 ->field('status')->equals(ElementStatus::DynamicImportTemp)
+    	 ->getQuery()->execute();
+
+    return $elementImportedCount;
   }
 
 	public function import($data, 
@@ -125,7 +137,6 @@ class ElementImportService
 			$this->em->persist($source);
 			$this->em->flush();
 		}		
-
 		// processing each data
 		foreach($data as $element) 
 		{
@@ -191,8 +202,8 @@ class ElementImportService
 		$this->createCategories($new_element, $row);
 		$this->createImages($new_element, $row);
 		$this->saveCustomFields($new_element, $row);
-		$this->elementActionService->import($new_element);				
-
+		$status = ($source && $source->isExternalsource()) ? ElementStatus::DynamicImportTemp : ElementStatus::AddedByAdmin;
+		$this->elementActionService->import($new_element, false, null, $status);		
 		$this->em->persist($new_element);
 	}
 
@@ -240,6 +251,7 @@ class ElementImportService
 
 		foreach($options as $option)
 		{		
+			
 			$ids = [
 				'id' => $option->getId(), 
 				'idAndParentsId' => $option->getIdAndParentOptionIds()

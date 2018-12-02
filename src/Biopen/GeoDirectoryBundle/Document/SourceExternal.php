@@ -38,6 +38,8 @@ class SourceExternal extends Source
      */
     private $nextRefresh = null;
 
+    public function isExternalsource() { return true; }
+
     public function updateNextRefreshDate() 
     {
         if ($this->getRefreshFrequencyInDays() == 0) $this->setNextRefresh(null);

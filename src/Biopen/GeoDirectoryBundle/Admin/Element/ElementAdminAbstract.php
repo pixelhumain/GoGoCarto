@@ -20,6 +20,7 @@ class ElementAdminAbstract extends AbstractAdmin
 {
 	protected $statusChoices = [
     '' => 'Inconnu',
+    '-7'=>"En cours d'importation",
     '-6'=>'Doublon supprimé',
 		'-4'=>'Supprimé', 
 		'-3'=>'Refusé (votes) ', 
@@ -32,6 +33,7 @@ class ElementAdminAbstract extends AbstractAdmin
 		'4' => 'Modifié par admin',
     '5' => 'Modifié par propriétaire',
     '6' => 'Modifié avec lien direct',
+    '7' => 'Source externe',
 	];
 
 	protected $moderationChoices = [

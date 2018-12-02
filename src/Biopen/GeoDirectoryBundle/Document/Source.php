@@ -25,6 +25,7 @@ class Source
 
     public function __toString() { return $this->name; }
 
+    public function isExternalsource() { return false; }
     /**
      * Get id
      *

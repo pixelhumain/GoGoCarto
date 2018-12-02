@@ -50,10 +50,11 @@ class ElementActionService
       $this->elementPendingService = $elementPendingService;
    }
 
-   public function import($element, $sendMail = false, $message = null)
+   public function import($element, $sendMail = false, $message = null, $status = null)
    {
-      $this->addContribution($element, $message, InteractType::Import, ElementStatus::AddedByAdmin);
-      $element->setStatus(ElementStatus::AddedByAdmin); 
+      if ($status === null) $status = ElementStatus::AddedByAdmin;
+      $this->addContribution($element, $message, InteractType::Import, $status);
+      $element->setStatus($status); 
       if($sendMail) $this->mailService->sendAutomatedMail('add', $element, $message);
       $element->updateTimestamp();
    }

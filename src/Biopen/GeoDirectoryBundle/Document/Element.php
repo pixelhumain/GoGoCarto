@@ -20,6 +20,7 @@ use Biopen\CoreBundle\Document\EmbeddedImage;
 
 abstract class ElementStatus
 {
+    const DynamicImportTemp = -7; // Temporary status used while importing  
     const Duplicate = -6;
     const ModifiedPendingVersion = -5;
     const Deleted = -4;
@@ -32,7 +33,8 @@ abstract class ElementStatus
     const AddedByAdmin = 3; 
     const ModifiedByAdmin = 4; 
     const ModifiedByOwner = 5; 
-    const ModifiedFromHash = 6;           
+    const ModifiedFromHash = 6; // in the emails we provide a link to edit the element with a hash validation
+    const DynamicImport = 7; // Element imported from an ExternalSource, they cannot be edited        
 }
 
 abstract class ModerationState
