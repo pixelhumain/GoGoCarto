@@ -5,7 +5,7 @@ Installation and Production Instructions
 
 Feel free to add some more informations if you solve installation issues !
 
-**There is a script for debian installation** named install_debian.sh in this docs directory ! The script is more appropriate for production server installation, but having a look to the script can probably help you for some steps.
+**There is a script for debian installation** named install_debian.sh in this docs directory ! After installation completed, go to http://localhost/GoGoCarto/web/app_dev.php/project/initialize to initialize your project
 
 Requirements
 ------------
@@ -76,13 +76,13 @@ doctrine:mongodb:generate:proxies
 doctrine:mongodb:fixtures:load
 ```
 
-The last command will generate a basic configuration, and two default users : "admin/admin" and "user/user"
+The last command will generate a basic configuration
 
 Then generate if necessary random point on the map :
 app:elements:generate 200
 
-Everthing is ready, enjoy :
-http://localhost/GoGoCarto/web/app_dev.php
+Now initialize your project with following route
+http://localhost/GoGoCarto/web/app_dev.php/project/initialize
 
 Production
 ----------
