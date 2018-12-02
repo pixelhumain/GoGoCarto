@@ -20,9 +20,10 @@
 {% block body_content %}	
 
  	{% if config.elementFormIntroText %}<div class="flash-message">{{ config.elementFormIntroText | raw }}</div>{% endif %}
+
+  {% if element.status == 7 %} <div class="flash-message warning">Cet élément a été importé dynamiquement, et pourra donc être écrasé sous peu par une nouvelle version. Il n'est pas très conseillé de l'éditer</div>{% endif %}
   
   <h1 id="element-form-title">{{ editMode ? 'Modification des données' : "Ajouter " ~ config.elementDisplayNameIndefinite }}</h1> 
-
   
   {% include "@BiopenGeoDirectory/element-form/form.html.twig" with {'editMode': editMode } %}
 
