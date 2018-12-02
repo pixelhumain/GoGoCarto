@@ -20,7 +20,7 @@
               {% if project.imageUrl %}
                 <img class="project-logo" src="{{ project.imageUrl }}">
               {% else %}
-                <div class="project-logo empty"></div>
+                <img class="project-logo default" src="{{ asset('assets/img/default-icon.png') }}">
               {% endif %}
               
               <div class="project-content">              
