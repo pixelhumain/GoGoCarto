@@ -1,22 +1,30 @@
 #!/bin/bash
 
-# launch as root or as sudoer user with `sudo ` before this script
+# Launch as root or as sudoer user with `sudo ` before this script
 
-# /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATED BEFORE EXECUTION OF THE SCRIPT
-# TODO : automatiser la creation du certif wildcard
-# # gestion du certificat wildcard https par certbot
-# certbot certonly \
-# --server https://acme-v02.api.letsencrypt.org/directory \
-# --manual --preferred-challenges dns \
-# -d *.${WEB_URL} -d ${WEB_URL}
+# Settings you will have to adapt to your environment
+WEB_DIR=/var/www/gogocarto # Where the source code will be installed
+WEB_USR=www-data # Linux user for this app (if something else then www-data, you may have to change php-fpm default user)
+WEB_GRP=www-data # Linux user group for this app (if something else then www-data, you may have to change php-fpm default user)
+GIR_REPO=https://github.com/pixelhumain/GoGoCarto.git # git repository for GoGoCarto
+GIT_BRANCH=master # git branch for GoGoCarto
+WEB_URL=gogocarto.local # main url for GoGoCarto
+CONTACT_EMAIL=contact@gogocarto.local # default email contact
+USE_AS_SAAS=true # true = allow to create a farm of map, false = single map
+BASE_PATH='' # base path on webserver
+SECRET=`head -c 32 /dev/random | base64` # randomly generated string
+MAILER_TRANSPORT=smtp # email transport protocol
+MAILER_HOST=127.0.0.1 # email server host
+MAILER_USER=null # email sender user
+MAILER_PASSWORD=null # email sender password
+CSRF_PROTECTION=true # CSRF protection for forms
+OAUTH_COMMUNS_ID=disabled # oauth id for https://login.lescommuns.org
+OAUTH_COMMUNS_SECRET=disabled # oauth secret for https://login.lescommuns.org
+OAUTH_GOOGLE_ID=disabled # oauth id for google
+OAUTH_GOOGLE_SECRET=disabled # oauth secret for google
+OAUTH_FACEBOOK_ID=disabled # oauth id for facebook
+OAUTH_FACEBOOK_SECRET=disabled # oauth secret for facebook
 
-# settings you will have to adapt to your environment
-WEB_DIR=/var/www/gogocarto
-WEB_USR=www-data
-WEB_GRP=www-data
-WEB_URL=gogocarto.fr
-CONTACT_EMAIL=contact@localhost.fr
-BRANCH=master
 
 # Create user,folders and set permissions
 id -u $WEB_USR &>/dev/null || useradd -g $WEB_GRP $WEB_USR
@@ -24,11 +32,11 @@ WEB_USR_HOME=`grep ${WEB_USR} /etc/passwd | cut -d ":" -f6`
 mkdir -p $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 chown -R $WEB_USR:$(id -gn $WEB_USR) $WEB_USR_HOME/.config $WEB_USR_HOME/.npm $WEB_USR_HOME/.composer $WEB_DIR
 
+# Install all usefull debian packages
 apt update -y ;
 apt dist-upgrade -y ;
 apt install -y \
 sudo \
-certbot \
 curl \
 build-essential \
 git \
@@ -50,22 +58,31 @@ mongodb \
 openssl \
 libsasl2-dev \
 libssl-dev;
+apt-get install python-certbot-nginx -t stretch-backports; #cerbot needs to have recent version to handle wildcards
 apt-get autoclean -y;
 
-#COMPOSER
+# /!\ ATTENTION /!\ THE WILDCARD CERTIFICATE MUST BE CREATED BEFORE EXECUTION OF THE SCRIPT
+# TODO : automatiser la creation du certif wildcard
+# # gestion du certificat wildcard https par certbot
+# certbot certonly \
+# --server https://acme-v02.api.letsencrypt.org/directory \
+# --manual --preferred-challenges dns \
+# -d *.${WEB_URL} -d ${WEB_URL}
+
+# Install COMPOSER
 cd /usr/src
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
-# NODEJS
+# Install NODEJS
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 curl -L https://npmjs.org/install.sh | sudo sh
 
-# PULL CODE
-sudo -u $WEB_USR git clone -b $BRANCH https://github.com/pixelhumain/GoGoCarto.git $WEB_DIR
+# Pull GoGoCarto Source code
+sudo -u $WEB_USR git clone -b $GIT_BRANCH $GIT_REPO $WEB_DIR
 cd $WEB_DIR
 
-# permissions
+# Set permissions in source directory
 mkdir -p $WEB_DIR/web/uploads
 chmod 777 -R $WEB_DIR/web/uploads $WEB_DIR/var
 
@@ -75,22 +92,22 @@ sudo -u $WEB_USR npm install
 
 # php deps and symphony stuff
 sudo -u $WEB_USR echo "parameters:
-  use_as_saas: true
+  use_as_saas: ${USE_AS_SAAS}
   base_url: ${WEB_URL}
   contact_email: ${CONTACT_EMAIL}
-  base_path: ''
-  mailer_transport: smtp
-  mailer_host: 127.0.0.1
-  mailer_user: null
-  mailer_password: null
-  secret: lijd676jf5657fe56Hyjlkdz
-  csrf_protection: true
-  oauth_communs_id: disabled
-  oauth_communs_secret: disabled
-  oauth_google_id: disabled
-  oauth_google_secret: disabled
-  oauth_facebook_id: disabled
-  oauth_facebook_secret: disabled
+  base_path: ${BASE_PATH}
+  mailer_transport: ${MAILER_TRANSPORT}
+  mailer_host: ${MAILER_HOST}
+  mailer_user: ${MAILER_USER}
+  mailer_password: ${MAILER_PASSWORD}
+  secret: ${SECRET}
+  csrf_protection: ${CSRF_PROTECTION}
+  oauth_communs_id: ${OAUTH_COMMUNS_ID}
+  oauth_communs_secret: ${OAUTH_COMMUNS_SECRET}
+  oauth_google_id: ${OAUTH_GOOGLE_ID}
+  oauth_google_secret: ${OAUTH_GOOGLE_SECRET}
+  oauth_facebook_id: ${OAUTH_FACEBOOK_ID}
+  oauth_facebook_secret: ${OAUTH_FACEBOOK_SECRET}
 " > app/config/parameters.yml
 chown -R $WEB_USR:$WEB_GRP $WEB_DIR/app/config/parameters.yml
 sudo -u $WEB_USR composer config "platform.ext-mongo" "1.6.16" && sudo -u $WEB_USR composer require alcaeus/mongo-php-adapter
