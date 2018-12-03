@@ -8,11 +8,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GoGoCartoJsService
 {
-  public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, $router)
+  public function __construct(DocumentManager $documentManager, SecurityContext $securityContext, $router, $session)
   {
     $this->odm = $documentManager;
     $this->securityContext = $securityContext;
     $this->router = $router;
+    $this->session = $session;
   }
 
   public function getConfig() 
@@ -31,7 +32,7 @@ class GoGoCartoJsService
     $roles = $user ? $user->getRoles() : [];
     $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
     $userGogocartoRole = [$userGogocartoRole];
-    $userEmail = $user ? $user->getEmail() : $this->getRequest()->getSession()->get('userEmail');
+    $userEmail = $user ? $user->getEmail() : $this->session->get('userEmail');
 
     $allowedStamps = [];
     if ($config->getStampFeature()->getActive())
