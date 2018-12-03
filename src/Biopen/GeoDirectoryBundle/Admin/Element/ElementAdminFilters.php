@@ -41,7 +41,7 @@ class ElementAdminFilters extends ElementAdminAbstract
                 'callback' => function($queryBuilder, $alias, $field, $value) {
                     if (!$value || !$value['value']) { return; }
 
-                    $queryBuilder->field('status')->gt(ElementStatus::PendingAdd);
+                    $queryBuilder->field('status')->gt(ElementStatus::PendingAdd)->notEqual(ElementStatus::DynamicImport);
                     return true;
                 },
                 'field_type' => 'checkbox'

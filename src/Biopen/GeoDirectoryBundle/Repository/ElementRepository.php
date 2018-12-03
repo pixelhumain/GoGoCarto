@@ -119,17 +119,18 @@ class ElementRepository extends DocumentRepository
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
-    $qb->field('status')->gt(ElementStatus::PendingAdd);
+    $qb->field('status')->gt(ElementStatus::PendingAdd)->field('status')->notEqual(ElementStatus::DynamicImport);
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();
   }
 
-  public function findVisibles($getCount = false)
+  public function findVisibles($getCount = false, $excludeImported = false)
   {
     $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
 
     $qb = $this->filterVisibles($qb);
+    if ($excludeImported) $qb->field('status')->notEqual(ElementStatus::DynamicImport);
     if ($getCount) $qb->count();
 
     return $qb->getQuery()->execute();

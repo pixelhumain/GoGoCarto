@@ -57,13 +57,13 @@
     			<!-- small box -->
 			    <div class="small-box bg-aqua">
 			        <div class="inner">
-			            <h3>{{ visiblesCount }}</h3>
-			            <p>Éléments visibles</p>
+			            <h3>{{ visibleNonImportedCount }} + {{ allVisibleCount - visibleNonImportedCount }}<span style="font-size:1.3rem">externes</span></h3>
+			            <p>Tous les éléments visibles</p>
 			        </div>
 			        <div class="icon">
 			            <i class="fa fa-users"></i>
 			        </div>
-			        <a href="{{ path('admin_biopen_geodirectory_element_list')}}?all" class="small-box-footer">
+			        <a href="{{ path('admin_biopen_geodirectory_element_list')}}?filters=reset" class="small-box-footer">
 			            Tout afficher <i class="fa fa-arrow-circle-right"></i>
 			        </a>
 			    </div>
