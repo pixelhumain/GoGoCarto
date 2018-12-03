@@ -488,7 +488,7 @@ class Element
         if ($sortedOptionsValues)
         {            
             for ($i=0; $i < $optValuesLength; $i++) { 
-                $baseJson .= '"' . $sortedOptionsValues[$i]->getOptionId() . '",';
+                $baseJson .= $sortedOptionsValues[$i]->getOptionId() . ',';
             }
         }
         $baseJson = rtrim($baseJson, ',');

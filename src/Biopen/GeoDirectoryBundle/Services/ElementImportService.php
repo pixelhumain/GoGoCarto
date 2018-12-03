@@ -259,7 +259,7 @@ class ElementImportService
 			$this->mappingTableIds[$this->slugify($option->getNameWithParent())] = $ids;
 			$this->mappingTableIds[$this->slugify($option->getName())] = $ids;
 			$this->mappingTableIds[strval($option->getId())] = $ids;
-			if ($option->getCustomId()) $this->mappingTableIds[$option->getCustomId()] = $ids;
+			if ($option->getCustomId()) $this->mappingTableIds[$this->slugify($option->getCustomId())] = $ids;
 		}
 	}
 
@@ -321,9 +321,9 @@ class ElementImportService
 	{
 		$optionValue = new OptionValue();
 		$optionValue->setOptionId($id);		
-	  	$optionValue->setIndex(0); 
-	  	$element->addOptionValue($optionValue);
-	  	return $id;
+	  $optionValue->setIndex(0); 
+	  $element->addOptionValue($optionValue);
+	  return $id;
 	}
 
 	private function createOption($name)

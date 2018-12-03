@@ -76,7 +76,7 @@ protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
       ->tab("Configuration avancée")
          ->with('Paramètres secondaires', array('class' => 'col-xs-12 col-md-6', 'box_class' => 'box'))  
             ->add('nameShort', null, array('required' => false, 'label' => 'Nom (version courte)')) 
-            ->add('customId', 'text', array('required' => false, 'label' => 'Id personnalisée'))                 
+            ->add('customId', 'text', array('required' => false, 'label' => "Id personnalisée, utilisée lors de l'import"))                 
             ->add('softColor', 'text', array('required' => false, 'label' => 'Couleur adoucie', 'attr' => ['class' => 'gogo-color-picker'])) 
             ->add('textHelper', null, array('required' => false, 'label' => "Message d'aide pour décrire rapidement l'option"))      
             ->add('url', null, array('required' => false, 'label' => "Url vers une page externe"))         

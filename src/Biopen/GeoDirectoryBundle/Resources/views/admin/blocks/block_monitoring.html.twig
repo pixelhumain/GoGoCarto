@@ -57,8 +57,12 @@
     			<!-- small box -->
 			    <div class="small-box bg-aqua">
 			        <div class="inner">
-			            <h3>{{ visibleNonImportedCount }} + {{ allVisibleCount - visibleNonImportedCount }}<span style="font-size:1.3rem">externes</span></h3>
-			            <p>Tous les éléments visibles</p>
+			        	{% set externalCount = allVisibleCount - visibleNonImportedCount %}
+		            <h3>
+		            	{{ visibleNonImportedCount }}
+		             	{% if externalCount > 0 %} + {{ externalCount}}<span style="font-size:1.3rem">externes</span>{% endif %}
+		            </h3>
+		            <p>Tous les éléments visibles</p>
 			        </div>
 			        <div class="icon">
 			            <i class="fa fa-users"></i>

@@ -12,10 +12,10 @@ class SourceExternalAdminController extends Controller
     {
         $object = $this->admin->getSubject();
 
-        // $this->get('biopen.async')->callCommand('app:elements:importSource', [$object->getName()]);
-        // $this->addFlash('sonata_flash_success', "Les éléments sont en cours d'importation. Cela peut prendre plusieurs minutes.");
+        $this->get('biopen.async')->callCommand('app:elements:importSource', [$object->getName()]);
+        $this->addFlash('sonata_flash_success', "Les éléments sont en cours d'importation. Cela peut prendre plusieurs minutes.");
 
-        $dataToImport = $this->get('biopen.element_import')->importJson($object);
+        // $dataToImport = $this->get('biopen.element_import')->importJson($object);
         // if ($dataToImport === null)
         // {
         //     $this->addFlash('sonata_flash_error', "Un erreur s'est produite lors du téléchargement ou de la lecture du fichier Json");
