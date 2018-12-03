@@ -24,6 +24,13 @@ class Option
     private $id;
 
     /**
+     * @var string
+     * @Exclude
+     * @MongoDB\Field(type="string")
+     */
+    private $customId;
+
+    /**
      * @var string   
      * @Groups({"semantic"})
      * @MongoDB\Field(type="string")
@@ -231,7 +238,7 @@ class Option
 
     public function getStringId()
     {
-        return strval($this->id);
+        return $this->customId ? $this->customId : strval($this->id);
     }
 
     public function setId() 
@@ -733,5 +740,27 @@ class Option
     public function getUnexpandable()
     {
         return $this->unexpandable;
+    }
+
+    /**
+     * Set customId
+     *
+     * @param string $customId
+     * @return $this
+     */
+    public function setCustomId($customId)
+    {
+        $this->customId = $customId;
+        return $this;
+    }
+
+    /**
+     * Get customId
+     *
+     * @return string $customId
+     */
+    public function getCustomId()
+    {
+        return $this->customId;
     }
 }

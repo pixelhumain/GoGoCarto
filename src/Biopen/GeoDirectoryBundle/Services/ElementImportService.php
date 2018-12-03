@@ -259,6 +259,7 @@ class ElementImportService
 			$this->mappingTableIds[$this->slugify($option->getNameWithParent())] = $ids;
 			$this->mappingTableIds[$this->slugify($option->getName())] = $ids;
 			$this->mappingTableIds[strval($option->getId())] = $ids;
+			if ($option->getCustomId()) $this->mappingTableIds[$option->getCustomId()] = $ids;
 		}
 	}
 
