@@ -69,8 +69,6 @@ twig:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
     form:
         resources:
-            - 'SonataCoreBundle:Form:colorpicker.html.twig'
-            - 'XmonColorPickerTypeBundle:Form:fields.html.twig'
             - 'SonataFormatterBundle:Form:formatter.html.twig'
             
 # Doctrine Configuration
