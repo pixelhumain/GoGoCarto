@@ -249,6 +249,11 @@ class Option
         return strval($this->id);
     }
 
+    public function getCustomStringId()
+    {
+        return $this->customId ?: strval($this->id);
+    }
+
     public function setId() 
     { 
         return $this; 

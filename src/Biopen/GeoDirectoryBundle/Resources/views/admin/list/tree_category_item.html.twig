@@ -16,7 +16,7 @@
       <li class="option-item">
 
       	<span class="option-item {{ option.subcategories|length ? 'expandable':'' }}">
-	      	{{ option.name|capitalize }}
+	      	{{ option.name }} <span style="margin-left: 10px; opacity: .6;">( {{ option.customStringId }} )</span>
 	      	{% if option.subcategories|length %}<span class="arrow-after"></span>{% endif %}
       	</span>
       	<span class="actions">
