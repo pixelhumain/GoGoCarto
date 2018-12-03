@@ -174,6 +174,8 @@ class ElementRepository extends DocumentRepository
       $qb->field('optionValues.optionId')->in($categoriesIds);
     }
 
+    if ($request->get('excludeExternal')) $qb->field('status')->notEqual(ElementStatus::DynamicImport); 
+
     $stampsIds = $request->get('stampsIds');    
     if ($stampsIds) {
       if (!is_array($stampsIds)) $stampsIds = explode(',' , $stampsIds);

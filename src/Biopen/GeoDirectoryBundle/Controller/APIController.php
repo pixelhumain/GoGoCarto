@@ -13,6 +13,7 @@ class APIController extends GoGoController
   /* Retrieve elements via API, allow params are
   * @id
   * @limit
+  * @excludeExternal -> exclude external sources in API
   * @bounds
   * @categories (ids)
   * @stamps (ids)

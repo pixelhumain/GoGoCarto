@@ -59,6 +59,7 @@ if ($('#page-content.api').length > 0)
 
     if ($('#use-limit').is(':checked') && $('#limit-input').val() > 0) params.limit = $('#limit-input').val();
     if ($('#use-categories').is(':checked') && $('.select-categories').val()) params.categories = $('.select-categories').val();
+    if (!$('#include-external').is(':checked')) params.excludeExternal = true;  
     if ($('#use-bounds').is(':checked') && bounds) params.bounds = bounds;  
     if (userToken) params.token = userToken;
 
