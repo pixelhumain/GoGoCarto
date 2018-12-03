@@ -90,6 +90,14 @@ class Option
     private $textHelper;
 
     /**
+     * @var string
+     * @Groups({"semantic"})
+     * @Exclude(if="object.getUrl() == ''")
+     * @MongoDB\Field(type="string")
+     */
+    private $url;
+
+    /**
      * @var bool
      * @Exclude(if="object.getUseIconForMarker() == true")
      * @MongoDB\Field(type="boolean")
@@ -762,5 +770,27 @@ class Option
     public function getCustomId()
     {
         return $this->customId;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string $url
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 }
