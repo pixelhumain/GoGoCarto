@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Biopen\CoreBundle\Controller\GoGoController;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Biopen\GeoDirectoryBundle\Services\GoGoCartoJsService;
 
 class APIController extends GoGoController
 {
@@ -204,6 +205,16 @@ class APIController extends GoGoController
 
     $elementsJson = rtrim($elementsJson,",") . ']'; 
     return $elementsJson;
+  }
+
+  public function getGoGoCartoJsConfigurationAction() 
+  {
+    $odm = $this->get('doctrine_mongodb')->getManager();
+    $config = $odm->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+
+    $gogocartoConf = $this->get('biopen.gogocartojs_service')->getConfig();
+
+    return $this->createResponse(json_encode($gogocartoConf), $config);
   }
 }
   

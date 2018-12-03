@@ -54,3 +54,8 @@ services:
           - '@bazinga_geocoder.geocoder'
           - "@biopen.element_action_service"
           - "@biopen.element_duplicates_service"
+
+    biopen.gogocartojs_service:
+       class: Biopen\GeoDirectoryBundle\Services\GoGoCartoJsService
+       arguments: [ "@doctrine.odm.mongoDB.document_manager", "@security.context", "@router" ]
+       scope: request

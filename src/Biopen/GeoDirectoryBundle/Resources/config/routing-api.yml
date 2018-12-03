@@ -41,3 +41,9 @@ biopen_api_elements_index:
         _format: json|jsonld
     options:
         expose: true
+
+biopen_api_gogocartojs_configuration:
+    path:     /gogocartojs-conf.json
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getGoGoCartoJsConfiguration }
+    requirements:
+        methods: GET

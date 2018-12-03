@@ -10,70 +10,17 @@
  * @Last Modified time: 2018-07-08 12:11:20
  */
  
-
 namespace Biopen\GeoDirectoryBundle\Controller;
 
 use Biopen\CoreBundle\Controller\GoGoController;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
-use Biopen\GeoDirectoryBundle\Document\Category;
-use Biopen\GeoDirectoryBundle\Document\Option;
-use Biopen\GeoDirectoryBundle\Document\Element;
-
-use Wantlet\ORM\Point;
 
 class DirectoryController extends GoGoController
 {
-    private $callnumber = 0;    
-
     public function renderAction(Request $request)
     {
-        $em = $this->get('doctrine_mongodb')->getManager();      
-
-        $taxonomyRep = $em->getRepository('BiopenGeoDirectoryBundle:Taxonomy');
-        $elementsRep = $em->getRepository('BiopenGeoDirectoryBundle:Element');
-
-        $tileLayers = $em->getRepository('BiopenCoreBundle:TileLayer')->findAll();
-        
-        $taxonomyJson = $taxonomyRep->findTaxonomyJson();
-
-        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
-
-        $securityContext = $this->container->get('security.context');
-        $user = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $securityContext->getToken()->getUser() : null;
-        
-        $roles = $user ? $user->getRoles() : [];
-        $userGogocartoRole = in_array('ROLE_ADMIN', $roles) ? 'admin' : (in_array('ROLE_USER', $roles) ? 'user' : 'anonymous');
-        $userGogocartoRole = [$userGogocartoRole];
-        $userEmail = $user ? $user->getEmail() : $this->getRequest()->getSession()->get('userEmail');
-
-        $allowedStamps = [];
-        if ($config->getStampFeature()->getActive())
-        {
-            $stamps = $user ? $user->getAllowedStamps()->toArray() : [];
-            foreach ($stamps as $stamp) {
-                $result = $elementsRep->findStampedWithId($stamp->getId());
-                $elementIds = [];
-                foreach ($result as $obj) $elementIds[] = $obj['_id'];
-                $stamp->setElementIds($elementIds);
-            }
-            $allowedStamps = $user ? $user->getAllowedStamps()->toArray() : [];
-        }            
-
-        return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', 
-                              array('taxonomyJson'          => $taxonomyJson, 
-                                    'userGogocartoRole'     => $userGogocartoRole,
-                                    'userEmail'             => $userEmail,
-                                    'user'                  => $user,
-                                    'allowedStamps'         => $allowedStamps,
-                                    'config'                => $config, 
-                                    'tileLayers'            => $tileLayers));
-    }
-  
+        $gogoConfig = $this->get('biopen.gogocartojs_service')->getConfig();
+        dump($gogoConfig);
+        return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', array('gogoConfig' => $gogoConfig));
+    }  
 }

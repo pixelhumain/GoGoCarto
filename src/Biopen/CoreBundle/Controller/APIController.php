@@ -5,6 +5,7 @@ namespace Biopen\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Biopen\CoreBundle\Controller\GoGoController;
 use Intervention\Image\ImageManagerStatic as InterventionImage;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class APIController extends GoGoController
 {
