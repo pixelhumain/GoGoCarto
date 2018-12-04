@@ -17,10 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DirectoryController extends GoGoController
 {
-    public function renderAction(Request $request)
-    {
-        $gogoConfig = $this->get('biopen.gogocartojs_service')->getConfig();
-        dump($gogoConfig);
-        return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', array('gogoConfig' => $gogoConfig));
-    }  
+  public function renderAction(Request $request)
+  {
+    $gogoConfig = $this->get('biopen.gogocartojs_service')->getConfig();
+    return $this->render('BiopenGeoDirectoryBundle:directory:directory.html.twig', array('gogoConfig' => $gogoConfig));
+  }  
 }
