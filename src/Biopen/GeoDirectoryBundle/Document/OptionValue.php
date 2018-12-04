@@ -19,7 +19,7 @@ class OptionValue
 
 	/**
 	* @Expose
-    * @MongoDB\Field(type="int")
+    * @MongoDB\Field(type="int") @MongoDB\Index
 	*/
 	public $optionId;
 

@@ -65,8 +65,7 @@ class ElementImage extends EmbeddedImage
  * @Vich\Uploadable
  * @MongoDB\Indexes({
  *   @MongoDB\Index(keys={"geo"="2d"}),
- *   @MongoDB\Index(keys={"name"="text"}),
- *   @MongoDB\Index(keys={"email"="asc"})
+ *   @MongoDB\Index(keys={"name"="text"})
  * })
  * 
  * 
@@ -77,13 +76,13 @@ class Element
     /**
      * @var int
      *  
-     * @MongoDB\Id(strategy="ALNUM") 
+     * @MongoDB\Id(strategy="ALNUM") @MongoDB\UniqueIndex
      */
     public $id;
 
     /** 
      * See ElementStatus
-     * @MongoDB\Field(type="int")
+     * @MongoDB\Field(type="int") @MongoDB\Index
      */
     private $status;
 
@@ -165,7 +164,7 @@ class Element
 
     /** 
      * @var string 
-     * @MongoDB\Field(type="string") 
+     * @MongoDB\Field(type="string") @MongoDB\Index
      */ 
     private $email; 
 
@@ -200,7 +199,7 @@ class Element
      * A key to clarify the source of the information, i.e. from wich organization/source the
      * element has been imported
      *
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="string") @MongoDB\Index
      */
     public $sourceKey = '';
 
@@ -216,7 +215,7 @@ class Element
      *
      * If element has been imported, this is the Id of the element in the previous database
      *
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="string") @MongoDB\Index
      */
     private $oldId;
 
@@ -284,7 +283,7 @@ class Element
     /**
      * @var date $createdAt
      *
-     * @MongoDB\Field(type="date")
+     * @MongoDB\Field(type="date") @MongoDB\Index
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
@@ -292,7 +291,7 @@ class Element
     /**
      * @var date $updatedAt
      *
-     * @MongoDB\Field(type="date")
+     * @MongoDB\Field(type="date") @MongoDB\Index
      */
     private $updatedAt;
 
