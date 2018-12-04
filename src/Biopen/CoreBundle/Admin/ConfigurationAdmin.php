@@ -65,9 +65,11 @@ class ConfigurationAdmin extends AbstractAdmin
             ->end()
             ->tab('API')
                 ->with("Configurer les API (Utilisateurs avancés)")
-                    ->add('api.protectPublicApiWithToken', 'checkbox', array('label' => "Protéger l'api publique avec des jetons utilisateurs (i.e. besoin de créer un compte pour utiliser l'api publique)", 'required' => false)) 
+                    ->add('api.protectPublicApiWithToken', 'checkbox', array('label' => "Protéger l'api publique pour récupérer les élément avec des jetons utilisateurs (i.e. besoin de créer un compte pour utiliser l'api publique)", 'required' => false)) 
                     ->add('api.internalApiAuthorizedDomains', 'text', array('label' => "Liste des domaines externe qui utiliseront l'API interne. Mettez * si vous voulez que n'importe quel domaine puisse y avoir accès. Cette option est nécessaire si vous voulez afficher vos données avec GoGoCartoJs mais sur un autre serveur.", 'required' => false)) 
                 ->end()
+                ->with("Liste des apis disponibles")
+                    ->add('apilist', 'text', array('mapped' => false, 'label' => false, 'required' => false, 'attr' => ['class' => 'gogo-api-list'])) 
             ->end();
     }
 }

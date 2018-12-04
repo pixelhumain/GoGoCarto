@@ -138,6 +138,22 @@ class APIController extends GoGoController
     return $this->createResponse($responseJson, $config);
   }
 
+  public function getTaxonomyMappingAction(Request $request, $id = null, $_format = 'json')
+  {
+    $em = $this->get('doctrine_mongodb')->getManager();
+    $options = $em->getRepository('BiopenGeoDirectoryBundle:Option')->findAll();
+    $result = [];
+    foreach ($options as $key => $option) {
+      $result[$option->getId()] = $option;
+    }
+
+    $serializer = $this->get('jms_serializer');
+    $responseJson = $serializer->serialize($result, 'json');
+
+    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();  
+    return $this->createResponse($responseJson, $config);
+  }
+
   private function isJsonLdRequest($request, $_format)
   {
     return $_format == 'jsonld' || $request->headers->get('Accept') == 'application/ld+json';

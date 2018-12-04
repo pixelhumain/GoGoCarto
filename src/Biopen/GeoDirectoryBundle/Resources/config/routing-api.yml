@@ -16,6 +16,13 @@ biopen_api_taxonomy:
     options:
         expose: true
 
+biopen_api_taxonomy_mapping:
+    path:     /taxonomy-mapping
+    defaults: { _controller: BiopenGeoDirectoryBundle:API:getTaxonomyMapping, id: null, _format: json }
+    requirements:
+        methods: GET
+        _format: json
+
 biopen_api_elements_from_text:
     path:     /elements/search
     defaults: { _controller: BiopenGeoDirectoryBundle:API:getElementsFromText }

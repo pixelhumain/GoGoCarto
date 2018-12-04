@@ -1,0 +1,53 @@
+{% import _self as self %}
+
+{% macro apiLink(name, url) %}
+  <tr class="sonata-ba-view-container">
+    <th style="width: 400px; max-width: 40%;">{{ name }}</th>
+    <td>
+      <a href="{{ url }}" target="_blank">{{ url }}</a>
+    </td>
+  </tr>
+{% endmacro %}
+
+<h5>Éléments</h5>
+<div class="box-body table-responsive no-padding table-box">
+  <table class="table"> 
+  <tbody>
+    {{ self.apiLink("Interface graphique pour construire une api", url('biopen_api_ui')) }}   
+    {{ self.apiLink("Rechercher un élement", url('biopen_api_elements_from_text', { 'text': 'votre_texte_de_recherche'})) }} 
+    {{ self.apiLink("Element unique (remplacer ID par le numéro de l'option)", url('biopen_api_element_get', { 'id': 'ID'})) }}
+  </tbody>
+  </table>
+</div>
+
+<h5>Taxonomie / Catégories</h5>
+<div class="box-body table-responsive no-padding table-box">
+  <table class="table"> 
+  <tbody>
+    {{ self.apiLink("Taxonomie", url('biopen_api_taxonomy')) }}
+    {{ self.apiLink("Taxonomie sémantique", url('biopen_api_taxonomy', { '_format': 'jsonld'})) }}
+    {{ self.apiLink("Option unique (remplacer ID par le numéro de l'option)", url('biopen_api_taxonomy_show', { 'id': 'ID'})) }}
+    {{ self.apiLink("Liste des options", url('biopen_element_import_available_options')) }}
+    {{ self.apiLink("Liste des options avec correspondance id", url('biopen_api_taxonomy_mapping')) }}
+  </tbody>
+  </table>
+</div>
+
+<h5>Configuration</h5>
+<div class="box-body table-responsive no-padding table-box">
+  <table class="table"> 
+  <tbody>
+    {{ self.apiLink("Informations générale sur cette carte", url('biopen_api_project_info')) }} 
+    {{ self.apiLink("GoGoCartoJs config", url('biopen_api_gogocartojs_configuration')) }} 
+    {{ self.apiLink("GoGoCarto config", url('biopen_api_configuration')) }}     
+  </tbody>
+  </table>
+</div>
+
+<style>
+.box-body.table-box {
+  margin-bottom: 30px;
+  border-top: 3px solid #e4e4e4;
+  border-radius: 4px;
+}
+</style>

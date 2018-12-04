@@ -25,6 +25,8 @@
       {% include '@BiopenAdmin/core_custom/custom-fields/color-picker.html.twig' %}
     {% elseif attr_class == "gogo-icon-picker" %}
       {% include '@BiopenAdmin/core_custom/custom-fields/icon-picker.html.twig' %}
+    {% elseif attr_class == "gogo-api-list" %}
+      {% include '@BiopenAdmin/core_custom/custom-fields/api-list.html.twig' %}
     {% else %}      
       {% set attr = attr|merge({'class': attr_class ~ ' form-control'}) %}
       {{ parent() }}
