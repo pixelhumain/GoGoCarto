@@ -169,7 +169,7 @@ class GoGoCartoJsService
       ],
       "images" =>
       [
-          "buttonOpenMenu" =>  $config->getFavicon() ? $config->getFavicon()->getImageUrl() : $config->getLogo() ? $config->getLogo()->getImageUrl() : null   
+          "buttonOpenMenu" =>  $config->getFavicon() ? $config->getFavicon()->getImageUrl() : ($config->getLogo() ? $config->getLogo()->getImageUrl() : null)   
       ],  
       "data" =>
       [
