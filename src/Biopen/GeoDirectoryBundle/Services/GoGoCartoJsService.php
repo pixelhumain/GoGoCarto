@@ -51,7 +51,7 @@ class GoGoCartoJsService
       [
           "userRoles" => $userGogocartoRole,
           "userEmail" => $userEmail ,                
-          "loginAction" => 'function() { $("#popup-login").openModal(); }'
+          "loginAction" => '$("#popup-login").openModal();'
       ],
       "text" =>
       [
