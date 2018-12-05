@@ -1,0 +1,11 @@
+{
+  "name": "ajardin/docker-symfony",
+  "description": "Docker environment that meets Symfony requirements",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexandre Jardin",
+      "email": "info@ajardin.fr"
+    }
+  ]
+}

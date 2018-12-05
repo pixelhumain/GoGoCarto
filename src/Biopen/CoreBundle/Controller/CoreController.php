@@ -11,13 +11,15 @@ class CoreController extends GoGoController
     public function homeAction($force = null)
     {
         $sassHelper = new SaasHelper();
-        if (!$force && $this->container->getParameter('use_as_saas') && $sassHelper->isRootProject()) return $this->redirectToRoute('biopen_saas_home');
+        if (!$force && $this->container->getParameter('use_as_saas') && $sassHelper->isRootProject()) {
+            return $this->redirectToRoute('biopen_saas_home');
+        }
 
         $em = $this->get('doctrine_mongodb')->getManager();
 
         $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
         if (!$config && $this->container->getParameter('use_as_saas')) {
-            $url = 'http://' . $this->container->getParameter('base_url') . $this->generateUrl('biopen_saas_home');
+            $url = $this->container->getParameter('base_protocol') . '://' . $this->container->getParameter('base_url') . $this->generateUrl('biopen_saas_home');
             return $this->redirect($url);
         } 
         if (!$config->getActivateHomePage()) return $this->redirectToRoute('biopen_directory');

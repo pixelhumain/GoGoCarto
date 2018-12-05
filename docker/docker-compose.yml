@@ -1,0 +1,71 @@
+version: "3.4"
+
+services:
+  blackfire:
+    image: blackfire/blackfire:latest
+    env_file: .env
+    depends_on:
+      - php
+
+  maildev:
+    image: djfarrelly/maildev:latest
+    env_file: .env
+    depends_on:
+      - php
+    ports:
+      - 1080:80
+
+  nginx:
+    build: nginx
+    env_file: .env
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - ${DOCKER_MOUNT_POINT}:/var/www/app:rw,delegated
+      # Custom configuration
+      - ./nginx/conf.d/custom.conf:/etc/nginx/conf.d/symfony.conf:ro
+    depends_on:
+      - php
+    tty: true
+
+  php:
+    build:
+      context: ./php
+      target: ${DOCKER_PHP_IMAGE}
+    env_file: .env
+    ports:
+      - 9000:9000
+    volumes:
+      - ${DOCKER_MOUNT_POINT}:/var/www/app:rw,delegated
+      # Avoid heavy I/O workloads on bind-mounted volumes
+#      - /var/www/html/var/cache
+#      - /var/www/html/var/logs
+#      - /var/www/html/var/sessions
+      # Custom configuration
+      - ./php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      # SSH keys
+      - ~/.ssh:/root/.ssh:ro
+    tty: true
+    
+  node:
+    build: node
+    env_file: .env
+    working_dir: /var/www/html
+    volumes:
+      - ${DOCKER_MOUNT_POINT}:/var/www/html:rw,delegated
+      - /var/www/html/node_modules
+    tty: true
+    
+
+  mongo:
+    image: mvertes/alpine-mongo
+    env_file: .env
+    ports:
+        - 27017:27017
+    volumes:
+        - mongo:/data/db
+    tty: true
+
+volumes:
+  mongo: {}

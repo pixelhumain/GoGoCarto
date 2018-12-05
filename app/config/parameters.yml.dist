@@ -6,6 +6,7 @@ parameters:
     use_as_saas: false
 
     # URL config
+    base_protocol: http # my-site.com
     base_url: saas.localhost # my-site.com
     base_path: ~ # on localhost its probably something like /GoGoCarto/web/app_dev.php
     

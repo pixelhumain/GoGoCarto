@@ -99,9 +99,9 @@ class RandomCreationService
 
 	      $new_element->setGeo(new Coordinates($lat, $lng));
 	      $new_element->setAddress(new PostalAddress($lipsum->words(rand(4,8)), $lipsum->words(rand(1,3))));       
-	      $new_element->setDescription($lipsum->words(rand(3,20)));
-	      $new_element->setTelephone('0678459586');
-	      $new_element->setWebsite('http://www.element-info.fr');
+	      //$new_element->setDescription($lipsum->words(rand(3,20)));
+	      //$new_element->setTelephone('0678459586');
+	      //$new_element->setWebsite('http://www.element-info.fr');
 	      $new_element->setEmail('element@bio.fr');
 	      $new_element->setStatus($this->randWithSet($statusSet));
          

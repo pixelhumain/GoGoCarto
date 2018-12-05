@@ -19,7 +19,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    mongodb_server: "mongodb://localhost:27017"
+    mongodb_server: "mongodb://mongo:27017"
     router.request_context.host: '%base_url%'
     router.request_context.base_url: '%base_path%'
 
