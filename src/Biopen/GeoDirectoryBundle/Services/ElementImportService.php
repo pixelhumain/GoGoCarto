@@ -91,19 +91,6 @@ class ElementImportService
     if ($onlyGetData) return $data;
 
     $elementImportedCount = $this->import($data, $externalSource, true, true);   
-    $this->em->persist($externalSource);
-
-    $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
-    $qb->remove()
-    	 ->field('source')->references($externalSource)
-    	 ->field('status')->notEqual(ElementStatus::DynamicImportTemp)
-    	 ->getQuery()->execute();
-
-    $qb->updateMany()
-    	 ->field('status')->set(ElementStatus::DynamicImport)
-    	 ->field('source')->references($externalSource)
-    	 ->field('status')->equals(ElementStatus::DynamicImportTemp)
-    	 ->getQuery()->execute();
 
     return $elementImportedCount;
   }
@@ -154,6 +141,23 @@ class ElementImportService
 		// Flushing and clear data on queue
 		$this->em->flush();
 		$this->em->clear();	 
+
+		if ($source->isExternalsource())
+		{
+			$this->em->persist($source);
+
+	    $qb = $this->em->createQueryBuilder('BiopenGeoDirectoryBundle:Element');
+	    $qb->remove()
+	    	 ->field('source')->references($source)
+	    	 ->field('status')->notEqual(ElementStatus::DynamicImportTemp)
+	    	 ->getQuery()->execute();
+
+	    $qb->updateMany()
+	    	 ->field('status')->set(ElementStatus::DynamicImport)
+	    	 ->field('source')->references($source)
+	    	 ->field('status')->equals(ElementStatus::DynamicImportTemp)
+	    	 ->getQuery()->execute();
+	  }
 
 		return $size;
 	}
