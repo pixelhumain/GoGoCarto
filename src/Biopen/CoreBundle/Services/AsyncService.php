@@ -56,7 +56,7 @@ class AsyncService
             $commandline .= ' ' . $arg;
         }
         $commandline .= ' ' . $dbname;
-        $commandline .= ' > /dev/null 2>/dev/null &';
+        $commandline .= ' > /tmp/command.log 2>/tmp/command.log &';
         return $this->runProcess($commandline);
     }
 
@@ -71,7 +71,7 @@ class AsyncService
         $arguments = escapeshellarg(base64_encode(serialize($arguments)));
 
         return sprintf(
-            '%s %s krlove:service:call %s %s --args=%s > /dev/null 2>/dev/null &',
+            '%s %s krlove:service:call %s %s --args=%s > /tmp/command.log 2>/tmp/command.log &',
             $this->phpPath,
             $this->consolePath,
             $service,
