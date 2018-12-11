@@ -162,10 +162,9 @@ class ElementInteractionController extends Controller
             $user = $securityContext->getToken()->getUser(); 
 
             $senderMail = $request->get('userEmail');
-            //if ($user && $user->isAdmin()) $senderMail = "contact@presdecheznous.fr"; // TODO replace by gogoconfig contactMail field
 
             // TODO make it configurable
-            $mailSubject = 'Message reçu depuis la plateforme "Près de Chez Nous"';
+            $mailSubject = 'Message reçu depuis la plateforme ' . $this->getParameter('instance_name');
             $mailContent = 
                 "<p>Bonjour <i>" . $element->getName() . '</i>,</p>
                 <p>Vous avez reçu un message de la part de <a href="mailto:' . $senderMail . '">' . $senderMail . "</a></br>

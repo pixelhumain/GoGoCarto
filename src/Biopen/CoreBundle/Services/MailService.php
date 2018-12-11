@@ -15,11 +15,13 @@ class MailService
     protected $router;
     protected $twig;
     protected $baseUrl;
+    protected $email;
+    protected $instanceName;
 
 	/**
 	* Constructor
 	*/
-	public function __construct(DocumentManager $documentManager, $mailer, $router, $twig, $baseUrl, $basePath, $sass)
+	public function __construct(DocumentManager $documentManager, $mailer, $router, $twig, $baseUrl, $basePath, $sass, $email, $instanceName)
 	{
 	   $this->em = $documentManager;
        $this->config = $this->em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
@@ -30,12 +32,13 @@ class MailService
        $this->baseUrl = 'http://';
        if ($sass) $this->baseUrl .= $this->config->getDbName() . '.';
        $this->baseUrl .= $baseUrl;
+       $this->email = $email;
+       $this->instanceName = $instanceName;
 	}
 
     public function sendMail($to, $subject, $content, $from = null, $toBCC = null)
     {
-        // TODO config an admin email for automated message
-        if (!$from) $from = array('nepasrepondre@presdecheznous.fr' => 'Près de chez Nous');
+        if (!$from) $from = array($this->email => $this->instanceName);
         try {
 
             $draftedContent = $this->draftTemplate($content);
@@ -50,7 +53,7 @@ class MailService
 
             if ($to) $message->setTo($to);
             if ($toBCC) $message->setBcc($toBCC);
-        
+            
             $this->mailer->send($message);
         }
         catch (\Swift_RfcComplianceException $e) {

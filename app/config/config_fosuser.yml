@@ -30,8 +30,8 @@ fos_user:
     service:
         mailer: fos_user.mailer.twig_swift
     from_email:
-        address:        nepasrepondre@presdecheznous.fr
-        sender_name:    Près de chez nous
+        address:        "%mailer_user%"
+        sender_name:    "%instance_name%"
 
     group:
         group_class:   Application\Sonata\UserBundle\Document\Group

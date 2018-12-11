@@ -17,6 +17,7 @@ parameters:
     
     # CONTACT EMAIL (displayed on error messages)
     contact_email: "contact@localhost.fr"
+    instance_name: "GoGoCarto"
     
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

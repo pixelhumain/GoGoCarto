@@ -47,12 +47,15 @@ class MailTestController extends Controller
 
       if ($draftResponse['success'])
       {
-         $mailContent = $mailService->sendMail($mail,$draftResponse['subject'], $draftResponse['content']); 
-         $request->getSession()->getFlashBag()->add('success', 'Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
+         $result = $mailService->sendMail($mail,$draftResponse['subject'], $draftResponse['content']);
+         if ($result['success'])
+          $request->getSession()->getFlashBag()->add('success', 'Le mail a bien été envoyé à ' . $mail . '</br>Si vous ne le voyez pas vérifiez dans vos SPAMs');
+         else
+          $request->getSession()->getFlashBag()->add('error', $result['message']);
       }
       else 
       {
-         $request->getSession()->getFlashBag()->add('error', 'Error : ' . $draftResponse['message']);
+         $request->getSession()->getFlashBag()->add('error', 'Erreur : ' . $draftResponse['message']);
       }
       return $this->redirectToRoute('biopen_mail_draft_automated', array('mailType' => $mailType));    
    }
