@@ -45,7 +45,7 @@ class ConfigurationMapElementFormAdmin extends AbstractAdmin
             ->end()
             ->with("Masquer l'email de contact en la remplacant par un bouton \"Envoyer un email\"", 
                     ["description" => "<i>Cela permet par exemple d'éviter que des personnes récupèrent tous les emails pour des fin commerciales</i>"])
-                ->add('sendMailFeature','sonata_type_admin', $featureFormOption)
+                ->add('sendMailFeature','sonata_type_admin', $featureFormOption, ['edit' => 'inline'])
             ->end()    
         ;            
     }
