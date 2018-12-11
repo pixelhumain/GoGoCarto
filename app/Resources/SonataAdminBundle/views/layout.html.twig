@@ -89,6 +89,18 @@
         }
       })
     };    
+
+    $(document).ready(function() {
+        checkCollaborativeVoteActivated();
+        $('.collaborative-feature .sonata-ba-field.sonata-ba-field-inline-natural > .form-group:first-child .icheckbox_square-blue .iCheck-helper').click(checkCollaborativeVoteActivated);
+    });
+
+    function checkCollaborativeVoteActivated() {
+        var collabActive = $('.collaborative-feature .sonata-ba-field.sonata-ba-field-inline-natural > .form-group:first-child .icheckbox_square-blue').hasClass('checked');
+        var opacity = collabActive ? '1' : '0.4';
+        console.log("collab pacitu", opacity);
+        $('.collaborative-moderation-box').css('opacity', opacity);
+    }
     
     var formBuilder;
     var formBuilderInitialized = false;

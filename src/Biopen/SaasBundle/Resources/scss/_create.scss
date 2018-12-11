@@ -1,0 +1,17 @@
+.project-create {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  // Symfony errors
+  .project-create ul li {
+    text-align: left;
+    padding-left: 3.5rem;
+  }
+
+  .contrib-config-section {
+    padding-left: 1.4rem;
+  }
+
+  .btn[type=submit] { margin-top: 1rem; }
+}

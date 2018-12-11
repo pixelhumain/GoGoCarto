@@ -7,9 +7,11 @@
   <section class="project-create">    
 
     {{ form_start(form, {'id': 'project-form'}) }}   
-
-    {{ form_errors(form.name) }}
+    
     <div class="row">
+      <h2>Nom du projet</h2>
+      {# NAME #}
+      {{ form_errors(form.name) }}
       <div class="input-field col s12">
         <i class="material-icons gogo-icon-description prefix"></i>  
         {{ form_widget(form.name, {'id': 'input-name', 
@@ -17,6 +19,7 @@
         <label for="input-name" class="gogo-form-label" data-error="Oups, ce nom est trop long !">Nom du projet</label>
       </div>  
 
+      {# DOMAIN #}
       {{ form_errors(form.domainName, {'class': 'form-error'}) }}
       <div class="input-field col s12">
         <i class="material-icons gogo-icon-internet prefix"></i>  
@@ -24,7 +27,26 @@
                                    'attr': {'class': 'validate required', 'length':'80'}}) }}
         <label for="input-domain" class="gogo-form-label" data-error="">Nom du domaine <i>( ****.{{ base_url }} )</i></label>
       </div> 
-    </div>
+
+      <div class="col s12 contrib-config-section">
+        {# CONTRIBUTION_CONFIG #}
+        <h2>Ouverture à la contribution publique</h2>
+        
+        {% set contribOptions = [
+            ['open', 'Ouvert', 'Tous les utilisateurs peuvent ajouter/modifier/supprimer librement'],
+            ['intermediate', 'Intermédiaire', 'Tous les utilisateurs peuvent contribuer, mais les contributions doivent être modérées par des administrateurs'],
+            ['closed', 'Fermé', 'Seuls les administrateurs peuvent contribuer'],
+            ['inherit', 'Défaut', 'Utiliser les paramètres par défaut de ' ~ base_url]
+          ]
+        %}
+        {% for option in contribOptions %}
+           <p>
+            <input name="contrib" type="radio" id="contribOption{{ loop.index }}" value="{{option[0]}}" />
+            <label class="contrib-option" for="contribOption{{ loop.index }}">{{ option[1] }} <span class="hint">- {{ option[2] }}</span></label>
+          </p>
+        {% endfor %}
+      </div>
+    </div>    
     
     <button class="btn" type="submit" onclick="performSubmit();">Créer</button>  
     

@@ -79,7 +79,7 @@ class ProjectController extends AbstractSaasController
             $rootConfigToCopy->dbName = $project->getDbName();    
             // Duplicate configuration
             $confLoader = new LoadConfiguration();
-            $configuration = $confLoader->load($projectOdm, $this->container, $rootConfigToCopy);
+            $configuration = $confLoader->load($projectOdm, $this->container, $rootConfigToCopy, $request->request->get('contrib'));
 
             // Generate basic categories
             $mainCategory = new Category();

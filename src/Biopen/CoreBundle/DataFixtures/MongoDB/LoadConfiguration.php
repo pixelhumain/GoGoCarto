@@ -18,7 +18,7 @@ use Biopen\CoreBundle\Document\TileLayer;
 
 class LoadConfiguration implements FixtureInterface
 {  
-   public function load(ObjectManager $manager, $container = null, $configToCopy = null)
+   public function load(ObjectManager $manager, $container = null, $configToCopy = null, $contribConfig = null)
    {  
       $configuration = new Configuration();   
       $tileLayersToCopy = null;
@@ -85,8 +85,7 @@ class LoadConfiguration implements FixtureInterface
          $configuration->setFavoriteFeature(  new FeatureConfiguration(true, false, true, true, true));
          $configuration->setShareFeature(    new FeatureConfiguration(true, true,  true, true, true));
          $configuration->setExportIframeFeature(   new FeatureConfiguration(true, false, true, true, true));
-         $configuration->setDirectionsFeature(new FeatureConfiguration(true, true,  true, true, true));   
-         $configuration->setReportFeature(   new FeatureConfiguration(true, false, true, true, false));   
+         $configuration->setDirectionsFeature(new FeatureConfiguration(true, true,  true, true, true));      
          $configuration->setPendingFeature(   new FeatureConfiguration(true, false, true, true, true));
          $configuration->setSendMailFeature(   new InteractionConfiguration(true, false, true, true, true, true));
          $configuration->setCustomPopupFeature(   new FeatureConfiguration());
@@ -97,12 +96,6 @@ class LoadConfiguration implements FixtureInterface
          $configuration->setMapDefaultViewFeature(    new FeatureConfiguration(true, true,  true, true, true));
          $configuration->setListModeFeature(    new FeatureConfiguration(true, true,  true, true, true));
          $configuration->setSearchElementsFeature(    new FeatureConfiguration(true, true,  true, true, true));
-
-         $configuration->setAddFeature(      new InteractionConfiguration(true, true,  false, true, true, true));
-         $configuration->setEditFeature(     new InteractionConfiguration(true, true,  false, true, true, true));
-         $configuration->setDeleteFeature(   new InteractionConfiguration(true, false, false, false, false, true));
-         $configuration->setCollaborativeModerationFeature(     new InteractionConfiguration(true, false, false, false, true, true));
-         $configuration->setDirectModerationFeature(          new InteractionConfiguration(true, false, false, false, false, true));
 
          // default bounds to France
          $configuration->setDefaultNorthEastBoundsLat(52);
@@ -126,6 +119,33 @@ class LoadConfiguration implements FixtureInterface
          $configuration->setBackgroundColor('#f4f4f4');
          $configuration->setTheme('default');
          $configuration->setCustomCSS('');
+      }
+
+      switch ($contribConfig) {
+         case 'open':
+            $configuration->setAddFeature(      new InteractionConfiguration(true, true,  true, true, true, true));
+            $configuration->setEditFeature(     new InteractionConfiguration(true, true,  true, true, true, true));
+            $configuration->setDeleteFeature(   new InteractionConfiguration(true, true, true, true, true, true));
+            $configuration->setCollaborativeModerationFeature(   new InteractionConfiguration(false, false, false, false, false, false));
+            $configuration->setDirectModerationFeature(          new InteractionConfiguration(true, true, true, true, true, true));
+            $configuration->setReportFeature(   new FeatureConfiguration(false, false, false, false, false));
+            break;
+         case 'intermediate':
+            $configuration->setAddFeature(      new InteractionConfiguration(true, true,  false, true, true, true));
+            $configuration->setEditFeature(     new InteractionConfiguration(true, true,  false, true, true, true));
+            $configuration->setDeleteFeature(   new InteractionConfiguration(true, false, false, false, false, true));
+            $configuration->setCollaborativeModerationFeature(   new InteractionConfiguration(true, false, false, false, true, true));
+            $configuration->setDirectModerationFeature(          new InteractionConfiguration(true, false, false, false, false, true));
+            $configuration->setReportFeature(   new FeatureConfiguration(true, false, true, true, false));
+            break;
+         case 'closed':
+            $configuration->setAddFeature(      new InteractionConfiguration(true, true,  false, false, false, true));
+            $configuration->setEditFeature(     new InteractionConfiguration(true, true,  false, false, false, true));
+            $configuration->setDeleteFeature(   new InteractionConfiguration(true, true,  false, false, false, true));
+            $configuration->setCollaborativeModerationFeature(   new InteractionConfiguration(false, false, false, false, false, false));
+            $configuration->setDirectModerationFeature(          new InteractionConfiguration(true, false, false, false, false, true));
+            $configuration->setReportFeature(   new FeatureConfiguration(false, false, false, false, false));
+            break;
       }
 
       $defaultTileLayerName = $configToCopy ? $configToCopy->defaultTileLayer : null;
