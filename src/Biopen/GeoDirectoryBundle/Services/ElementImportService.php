@@ -269,7 +269,9 @@ class ElementImportService
 
 	private function createImages($element, $row)
 	{
-		if (strlen($row['images']) > 0) $images = explode(',', $row['images']);
+		$images_raw = $row['images'];
+		if (is_string($images_raw) && strlen($images_raw) > 0) $images = explode(',', $row['images']);
+		else if (is_array($images_raw)) $images = $images_raw;
 		else
 		{
 			$keys = array_keys($row);
