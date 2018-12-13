@@ -283,7 +283,7 @@ class ElementImportService
 
 		foreach($images as $imageUrl)
 		{
-			if (strlen($imageUrl) > 5)
+			if (is_string($imageUrl) && strlen($imageUrl) > 5)
 			{
 				$elementImage = new ElementImage();
 				$elementImage->setExternalImageUrl($imageUrl);
