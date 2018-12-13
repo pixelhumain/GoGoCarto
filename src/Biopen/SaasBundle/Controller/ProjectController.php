@@ -102,6 +102,7 @@ class ProjectController extends AbstractSaasController
                 $mainCategory->addOption($new_main);
             }
             
+            $projectOdm->flush();
             $taxonomy = new Taxonomy();
             $projectOdm->persist($taxonomy);
             

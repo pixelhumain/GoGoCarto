@@ -15,7 +15,9 @@ class SourceExternalAdminController extends Controller
         $this->get('biopen.async')->callCommand('app:elements:importSource', [$object->getName()]);
         $this->addFlash('sonata_flash_success', "Les éléments sont en cours d'importation. Cela peut prendre plusieurs minutes.");
 
-        // $dataToImport = $this->get('biopen.element_import')->importJson($object);
+        // $dataToImport = $this->get('biopen.element_import')->importJson($object);        
+        // $this->addFlash('sonata_flash_success', "Les éléments ont été importés avec succès"); 
+        
         // if ($dataToImport === null)
         // {
         //     $this->addFlash('sonata_flash_error', "Un erreur s'est produite lors du téléchargement ou de la lecture du fichier Json");
