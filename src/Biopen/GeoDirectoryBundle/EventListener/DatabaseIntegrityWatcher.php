@@ -34,7 +34,7 @@ class DatabaseIntegrityWatcher
 	        $optionValue = array_values($optionValueToBeRemoved)[0];
 	        $element->removeOptionValue($optionValue);
 
-	        if ((++$i % 20) == 0) {
+	        if ((++$i % 50) == 0) {
 	          $dm->flush();
 	          $dm->clear();
 	        }

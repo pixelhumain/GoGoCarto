@@ -64,7 +64,7 @@ protected $baseRoutePattern = 'admin_biopen_geodirectory_option';
             ->add('displayInForm', null, array('required' => false, 'label' => "Dans le formulaire")) 
          ->end()   
          ->with('Sous catégories', array('class' => 'col-xs-12 sub-categories-container'))	
-            ->add('subcategories', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), 
+            ->add('subcategories', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => false)), 
                array(
                'edit' => 'inline',
                'inline' => 'table',

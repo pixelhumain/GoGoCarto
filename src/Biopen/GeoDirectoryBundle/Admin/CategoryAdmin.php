@@ -67,7 +67,7 @@ class CategoryAdmin extends AbstractAdmin
          ->add('displayInForm', null, array('required' => false, 'label' => "Dans le formulaire")) 
       ->end() 
 		->with('Options', array('class' => 'col-xs-12 sub-options-container'))	
-			->add('options', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => true)), array(
+			->add('options', 'sonata_type_collection', array('by_reference' => false, 'type_options' => array('delete' => false)), array(
                 'edit' => 'inline',
                 'inline' => 'table',
                 'admin_code'    => 'admin.option.lite',
