@@ -29,6 +29,12 @@ services:
     tags:
         - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
 
+  biopen.config_listener:
+    class: Biopen\CoreBundle\EventListener\ConfigurationListener
+    tags:
+        - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }
+    arguments: [ "@biopen.async" ]
+
   biopen.async.factory:
     class: Biopen\CoreBundle\Services\AsyncServiceFactory
     arguments:

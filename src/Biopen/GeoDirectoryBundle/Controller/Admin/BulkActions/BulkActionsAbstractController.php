@@ -23,8 +23,6 @@ class BulkActionsAbstractController extends Controller
 
     protected function elementsBulkAction($functionToExecute, $request)
     {
-        $batchSize = 50;
-        
         $elementsLeft = null;
         $elementLeftCount = 0;
         $isStillElementsToProceed = false;
@@ -60,7 +58,7 @@ class BulkActionsAbstractController extends Controller
            $view = $this->$functionToExecute($element);  
            if ($view) $renderedViews[] = $view;
 
-           if ((++$i % 20) == 0) {
+           if ((++$i % 50) == 0) {
                 $em->flush();
                 $em->clear();
             }

@@ -31,6 +31,10 @@ class ConfigurationAdmin extends AbstractAdmin
         $mailStyle = array('class' => 'col-md-12 col-lg-6');
         $featureFormOption = ['delete' => false, 'required'=> false, 'label_attr'=> ['style'=> 'display:none']];
         $featureFormTypeOption = ['edit' => 'inline'];
+
+        $dm = $this->getConfigurationPool()->getContainer()->get('doctrine_mongodb');
+        $apiProperties = $dm->getRepository('BiopenGeoDirectoryBundle:Element')->findAllCustomProperties();
+
         $formMapper
             ->tab('Principal')
                 ->with('Le site', array('class' => 'col-md-6'))
@@ -67,6 +71,8 @@ class ConfigurationAdmin extends AbstractAdmin
                 ->with("Configurer les API (Utilisateurs avancés)")
                     ->add('api.protectPublicApiWithToken', 'checkbox', array('label' => "Protéger l'api publique pour récupérer les élément avec des jetons utilisateurs (i.e. besoin de créer un compte pour utiliser l'api publique)", 'required' => false)) 
                     ->add('api.internalApiAuthorizedDomains', 'text', array('label' => "Liste des domaines externe qui utiliseront l'API interne. Mettez * si vous voulez que n'importe quel domaine puisse y avoir accès. Cette option est nécessaire si vous voulez afficher vos données avec GoGoCartoJs mais sur un autre serveur.", 'required' => false)) 
+                    ->add('api.publicApiPrivateProperties', 'choice', array("choices" => $apiProperties, 'label' => "Liste des champs que vous ne voulez pas partager dans l'api publique", 'required' => false, 'multiple' => true))
+
                 ->end()
                 ->with("Liste des apis disponibles")
                     ->add('apilist', 'text', array('mapped' => false, 'label' => false, 'required' => false, 'attr' => ['class' => 'gogo-api-list'])) 

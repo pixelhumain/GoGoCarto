@@ -13,6 +13,12 @@ class ConfigurationApi
     /** @MongoDB\Field(type="bool") */
     public $protectPublicApiWithToken = true;
 
+    /** 
+     * List of the custom properties we don't want to share in the public API
+     * @MongoDB\Field(type="collection") 
+     */
+    public $publicApiPrivateProperties = [];
+
     /**
      * Set internalApiAuthorizedDomains
      *
@@ -55,5 +61,27 @@ class ConfigurationApi
     public function getProtectPublicApiWithToken()
     {
         return $this->protectPublicApiWithToken;
+    }
+
+    /**
+     * Set publicApiPrivateProperties
+     *
+     * @param collection $publicApiPrivateProperties
+     * @return $this
+     */
+    public function setPublicApiPrivateProperties($publicApiPrivateProperties)
+    {
+        $this->publicApiPrivateProperties = $publicApiPrivateProperties;
+        return $this;
+    }
+
+    /**
+     * Get publicApiPrivateProperties
+     *
+     * @return collection $publicApiPrivateProperties
+     */
+    public function getPublicApiPrivateProperties()
+    {
+        return $this->publicApiPrivateProperties;
     }
 }

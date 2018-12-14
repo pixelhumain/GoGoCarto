@@ -196,6 +196,15 @@ class Element
     /**
      * @var string
      *
+     * All the custom attributes belonging to the Element that we want to keep private (not available in public api)
+     *
+     * @MongoDB\Field(type="hash")
+     */
+    private $privateData = []; 
+
+    /**
+     * @var string
+     *
      * A key to clarify the source of the information, i.e. from wich organization/source the
      * element has been imported
      *
@@ -527,6 +536,10 @@ class Element
         $privateJson .= '"status": ' . $this->getStatus() . ',';
         if ($this->email) $privateJson .= '"email":' . json_encode($this->email) . ',';
         $privateJson .= '"moderationState": ' . $this->getModerationState() . ',';
+        // CUSTOM PRIVATE DATA
+        foreach ($this->getPrivateData() as $key => $value) {
+            $privateJson .= '"'. $key .'": ' . json_encode($value) . ',';
+        }
         $privateJson = rtrim($privateJson, ',');
         $privateJson .= '}';
         $this->setPrivateJson($privateJson);
@@ -676,6 +689,7 @@ class Element
         $this->resetOptionsValues();
         $this->openHours = null;
         $this->data = null;
+        $this->privateData = null;
     }
 
     /**
@@ -1423,6 +1437,28 @@ class Element
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set data
+     *
+     * @param hash $data
+     * @return $this
+     */
+    public function setPrivateData($data)
+    {
+        $this->privateData = $data;
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return hash $data
+     */
+    public function getPrivateData()
+    {
+        return $this->privateData;
     }
 
         /** 

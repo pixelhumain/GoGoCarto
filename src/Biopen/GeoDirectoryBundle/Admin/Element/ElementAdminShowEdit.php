@@ -91,6 +91,10 @@ class ElementAdminShowEdit extends ElementAdminList
         ->add('data',  null, array('template' => '@BiopenAdmin/partials/show_element_data.html.twig')) 
        ->end()
 
+       ->with('Champs personnalisés privés', array('class' => 'col-md-6 col-sm-12'))
+        ->add('privateData',  null, array('template' => '@BiopenAdmin/partials/show_element_data.html.twig')) 
+       ->end()
+
        ->with('Autre infos', array('class' => 'col-md-6 col-sm-12'))
        	->add('id')
         ->add('images', null, array('template' => '@BiopenAdmin/partials/show_element_images.html.twig'))

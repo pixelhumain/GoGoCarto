@@ -251,6 +251,45 @@ class ElementRepository extends DocumentRepository
     $qb->field('modifiedElement')->references($element);
     return $qb->getQuery()->getSingleResult();
   }
+
+  public function findDataCustomProperties()
+  {
+    return array_merge($this->findPublicCustomProperties(), $this->findPrivateCustomProperties());
+  }
+
+  public function findPublicCustomProperties()
+  {
+    return $this->findProperties('this.data');
+  }
+
+  public function findPrivateCustomProperties()
+  {
+    return $this->findProperties('this.privateData');
+  }
+
+  private function findProperties($rootPath = 'this')
+  {
+    $qb = $this->createQueryBuilder('BiopenGeoDirectoryBundle:Element')
+      ->map('function() { for (var key in ' . $rootPath . ') { emit(key, null); } }')
+      ->reduce('function(k, vals) { return null; }');
+    return array_map(function($array) { return $array['_id']; }, $qb->getQuery()->execute()->toArray());
+  }
+
+  public function findAllCustomProperties($onlyPublic = false)
+  {
+    $dataProperties = $onlyPublic ? $this->findPublicCustomProperties() : $this->findDataCustomProperties();        
+    $allProperties = [];
+    foreach ($dataProperties as $prop) {
+        $allProperties[$prop] = $prop;
+    }
+
+    $config = $this->getDocumentManager()->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();          
+    foreach ($config->getElementFormFields() as $key => $field) {
+      if (property_exists($field, 'name') && !in_array($field->type, ['separator', 'address', 'title', 'email', 'taxonomy', 'openhours', 'header'])) 
+        $allProperties[$field->name] = $field->name;
+    }
+    return $allProperties;
+  }
 }
 
 

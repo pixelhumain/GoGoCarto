@@ -19,7 +19,6 @@ class ElementAdmin extends ElementAdminShowEdit
   {
     $container = $this->getConfigurationPool()->getContainer(); 
     $em = $container->get('doctrine_mongodb')->getManager();
-    $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
     $basicFields = [
       'id' => 'id', 
       'name' => 'name', 
@@ -31,10 +30,10 @@ class ElementAdmin extends ElementAdminShowEdit
       'postalCode' => 'address.postalCode',
       'addressCountry' => 'address.addressCountry'
     ];
+    $publicProperties = $em->getRepository('BiopenGeoDirectoryBundle:Element')->findAllCustomProperties($onlypublic = true);
     $customFields = [];
-    foreach ($config->getElementFormFields() as $key => $field) {
-      if (property_exists($field, 'name') && !in_array($field->type, ['separator', 'address', 'title', 'email', 'taxonomy', 'openhours', 'header'])) 
-        $customFields[$field->name] = 'data';
+    foreach ($publicProperties as $key => $prop) {
+      $customFields[$prop] = 'data';
     }
     return array_merge($basicFields, $customFields);
   } 
