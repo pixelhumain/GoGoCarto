@@ -2,7 +2,7 @@
 {% for field in config.getElementFormFields %}
 
   {% if field.name is defined %}
-    {% set elementValue = element.data[field.name] is defined ? element.data[field.name] : null %}
+    {% set elementValue = element.data[field.name] is defined ? element.data[field.name] : element.privateData[field.name] is defined ? element.privateData[field.name] : null %}
   {% endif %}
 
   <div class="field-container field-{{field.type}}" id="field-{{ field.name|default('unknown-name') }}" 

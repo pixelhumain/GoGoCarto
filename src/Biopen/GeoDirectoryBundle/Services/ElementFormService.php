@@ -31,7 +31,7 @@ class ElementFormService
         $request = $request->request;
 
         $this->updateOptionsValues($element, $request);
-        $this->updateCustomData($element, $request);
+        $this->updateCustomData($element, $request, $em);
 
         $isMinorModif = $editMode ? $this->isMinorModification($element, $originalElement, $em) : false;
         // calculate this before calling "updateOwner" because we want to check the old value of userOwnerEmail
@@ -90,11 +90,25 @@ class ElementFormService
         }
     }
 
-    private function updateCustomData($element, $request)
+    private function updateCustomData($element, $request, $em)
     {
+        $config = $em->getRepository('BiopenCoreBundle:Configuration')->findConfiguration();
+        $privateProp = $config->getApi()->getPublicApiPrivateProperties();
+        
         $data = $request->get('data');
+        $privateData = [];
+        foreach ($privateProp as $key => $prop) {
+            if (array_key_exists($prop, $data)) {
+                $privateData[$prop] = $data[$prop];
+                unset($data[$prop]);
+            }
+        }
+
         if ($element->getData()) $data = array_merge($element->getData(), $data); // keeping also old data
         $element->setData($data);
+        
+        if ($element->getPrivateData()) $privateData = array_merge($element->getPrivateData(), $privateData); // keeping also old data
+        $element->setPrivateData($privateData);
     }
 
     private function updateWebsiteUrl($element)

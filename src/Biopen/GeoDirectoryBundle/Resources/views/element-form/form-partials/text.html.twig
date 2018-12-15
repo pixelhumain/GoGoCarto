@@ -47,7 +47,7 @@
 
   {# VALUE #}
 
-  {% set inputValue = element.data[field.name] is defined ? element.data[field.name] : null %}
+  {% set inputValue = elementValue %}
   {% if field.type == "title" %}{% set inputValue = element.name %}{% endif %}
   {% if field.type == "email" %}{% set inputValue = element.email %}{% endif %}
 
