@@ -78,6 +78,6 @@
     $('td.value').each(function() {
       template += $(this).text() + '\n';
     })
-    $('textarea.body-template').text(template);
+    $('textarea[data-id="body-template"]').text(template).change();
   }
 </script>

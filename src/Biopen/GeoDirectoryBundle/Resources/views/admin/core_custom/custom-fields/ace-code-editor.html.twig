@@ -1,0 +1,32 @@
+{% set format = attr.format|default('javascript') %}
+{% set height = attr.height|default('400') %}
+
+
+
+<textarea id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" data-id="{{ attr['data-id']|default('') }}">{{ form.vars.value }}</textarea>
+<pre id="editor{{ form.vars.id }}" class="ace-editor" style="height: {{ height }}px;"></pre>
+
+<script src="{{ asset('assets/js/ace/ace.js') }}"></script>
+{% if format != 'javascript' %}
+    <script src="{{ asset('assets/js/ace/mode-' ~ format ~ '.js') }}"></script>
+{% endif %}
+<script src="{{ asset('assets/js/ace/theme-monokai.js') }}"></script>
+
+<script>
+    var editor{{ form.vars.id }} = ace.edit("editor{{ form.vars.id }}", {
+        mode: "ace/mode/{{ format }}",
+        theme: "ace/theme/monokai",
+        showPrintMargin: false
+    });
+
+    var textarea{{ form.vars.id }} = $('#{{ form.vars.id }}').hide();
+    textarea{{ form.vars.id }}.change(function() {
+        editor{{ form.vars.id }}.getSession().setValue(textarea{{ form.vars.id }}.val());
+    })
+    editor{{ form.vars.id }}.getSession().setValue(textarea{{ form.vars.id }}.val());
+    editor{{ form.vars.id }}.getSession().on('change', function(){
+      textarea{{ form.vars.id }}.val(editor{{ form.vars.id }}.getSession().getValue());
+    });
+</script>
+
+
