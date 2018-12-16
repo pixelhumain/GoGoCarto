@@ -56,7 +56,7 @@ class RegistrationFormHandler
             $alreadyUsedEmail = $usersSameEmail === null ? false : count($usersSameEmail) > 1;
 
             $userSameName   = $this->userManager->findUserByUsername($user->getUsername());
-            array $alreadyUsedUserName() = $userSameName === null ? false : count($userSameName);
+            $alreadyUsedUserName = $userSameName === null ? false : count($userSameName);
 
             $locoationSetToReceiveNewsletter = $user->getNewsletterFrequency() > 0 && !$user->getLocation();
 
